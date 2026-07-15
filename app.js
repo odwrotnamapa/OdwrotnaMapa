@@ -41,10 +41,39 @@
         buildings: "Budynek"
       },
       legendNote: "Legenda oparta na stylu Liberty OpenFreeMap. Wygląd symboli i kolorów może różnić się w zależności od wybranego motywu mapy.",
+      about: "O projekcie",
+      closeAbout: "Zamknij sekcję O projekcie",
+      aboutIntro: "Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.",
+      aboutVersion: "Wersja",
+      aboutData: "Dane mapowe",
+      aboutStyle: "Styl mapy",
+      aboutEngine: "Silnik",
       searching: "Wyszukiwanie…", noResults: "Nie znaleziono miejsca.",
       searchError: "Nie udało się wyszukać miejsca.",
       locating: "Ustalanie lokalizacji…",
-      locationError: "Nie udało się odczytać lokalizacji."
+      locationError: "Nie udało się odczytać lokalizacji.",
+      route: "Wyznacz trasę",
+      closeRoute: "Zamknij planer trasy",
+      routeTitle: "Trasa",
+      routeFrom: "Punkt A",
+      routeTo: "Punkt B",
+      routeFromPlaceholder: "Miejsce początkowe",
+      routeToPlaceholder: "Cel podróży",
+      routeSwap: "Zamień punkty",
+      routeSubmit: "Wyznacz trasę",
+      routeClear: "Wyczyść",
+      routeDistance: "Dystans",
+      routeDuration: "Czas",
+      routeNote: "Trasa jest obliczana na podstawie danych OpenStreetMap.",
+      routeMode: "Sposób podróży",
+      routeModes: {
+        auto: "Samochód",
+        bicycle: "Rower",
+        pedestrian: "Pieszo"
+      },
+      routeSearching: "Wyszukiwanie punktów i obliczanie trasy…",
+      routePointNotFound: "Nie znaleziono jednego z podanych punktów.",
+      routeError: "Nie udało się wyznaczyć trasy."
     },
     en: {
       title: "Odwrotna Mapa - mapa z południem u góry",
@@ -82,10 +111,39 @@
         buildings: "Building"
       },
       legendNote: "Legend based on the OpenFreeMap Liberty style. The appearance of symbols and colours may vary depending on the selected map theme.",
+      about: "About",
+      closeAbout: "Close the About panel",
+      aboutIntro: "Most modern maps place north at the top, so it is easy to forget that this is not a law of nature, but a historical convention. Odwrotna Mapa encourages us to look at the world from a different perspective — quite literally — and reminds us that the way reality is represented significantly affects how we perceive it.",
+      aboutVersion: "Version",
+      aboutData: "Map data",
+      aboutStyle: "Map style",
+      aboutEngine: "Engine",
       searching: "Searching…", noResults: "No place found.",
       searchError: "The place search failed.",
       locating: "Finding your location…",
-      locationError: "Could not read your location."
+      locationError: "Could not read your location.",
+      route: "Plan a route",
+      closeRoute: "Close route planner",
+      routeTitle: "Route",
+      routeFrom: "Point A",
+      routeTo: "Point B",
+      routeFromPlaceholder: "Starting point",
+      routeToPlaceholder: "Destination",
+      routeSwap: "Swap points",
+      routeSubmit: "Plan route",
+      routeClear: "Clear",
+      routeDistance: "Distance",
+      routeDuration: "Time",
+      routeNote: "The route is calculated using OpenStreetMap data.",
+      routeMode: "Travel mode",
+      routeModes: {
+        auto: "Car",
+        bicycle: "Bicycle",
+        pedestrian: "Walking"
+      },
+      routeSearching: "Finding points and calculating the route…",
+      routePointNotFound: "One of the entered points could not be found.",
+      routeError: "The route could not be calculated."
     }
   };
 
@@ -99,7 +157,9 @@
     timer: null,
     originalPaint: new Map(),
     originalTextFields: new Map(),
-    originalFillPatterns: new Map()
+    originalFillPatterns: new Map(),
+    routeMarkers: [],
+    routeCoordinates: null
   };
 
   const el = {
@@ -111,6 +171,34 @@
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
     legendClose: $("legend-close"),
+    aboutButton: $("about-button"),
+    aboutPanel: $("about-panel"),
+    aboutClose: $("about-close"),
+    aboutTitle: $("about-title"),
+    aboutIntro: $("about-intro"),
+    aboutVersionLabel: $("about-version-label"),
+    aboutDataLabel: $("about-data-label"),
+    aboutStyleLabel: $("about-style-label"),
+    aboutEngineLabel: $("about-engine-label"),
+    routeButton: $("route-button"),
+    routePanel: $("route-panel"),
+    routeClose: $("route-close"),
+    routeForm: $("route-form"),
+    routeFrom: $("route-from"),
+    routeTo: $("route-to"),
+    routeFromLabel: $("route-from-label"),
+    routeToLabel: $("route-to-label"),
+    routeSwap: $("route-swap"),
+    routeSubmit: $("route-submit"),
+    routeClear: $("route-clear"),
+    routeTitle: $("route-title"),
+    routeSummary: $("route-summary"),
+    routeDistance: $("route-distance"),
+    routeDuration: $("route-duration"),
+    routeDistanceLabel: $("route-distance-label"),
+    routeDurationLabel: $("route-duration-label"),
+    routeNote: $("route-note"),
+    routeModeLabel: $("route-mode-label"),
     legendTitle: $("legend-title"),
     legendNote: $("legend-note"),
     status: $("status"),
@@ -155,6 +243,7 @@
 
   map.on("load", () => {
     ensureSatellite();
+    ensureRouteLayers();
     cacheOriginalPaint();
     applyTheme(state.theme);
     applyLanguageAfterStartup();
@@ -183,10 +272,35 @@
   el.locateButton.addEventListener("click", locate);
   el.legendButton.addEventListener("click", toggleLegend);
   el.legendClose.addEventListener("click", closeLegend);
+  el.aboutButton.addEventListener("click", toggleAbout);
+  el.aboutClose.addEventListener("click", closeAbout);
+  el.routeButton.addEventListener("click", toggleRoute);
+  el.routeClose.addEventListener("click", closeRoute);
+  el.routeSwap.addEventListener("click", swapRoutePoints);
+  el.routeClear.addEventListener("click", clearRoute);
+  el.routeForm.addEventListener("submit", planRoute);
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeLegend();
+    if (event.key === "Escape") {
+      closeLegend();
+      closeAbout();
+      closeRoute();
+    }
   });
   el.searchForm.addEventListener("submit", search);
+
+  function setAboutParagraph(element, content) {
+    const parts = content.split("Odwrotna Mapa");
+    element.replaceChildren();
+
+    parts.forEach((part, index) => {
+      if (index > 0) {
+        const strong = document.createElement("strong");
+        strong.textContent = "Odwrotna Mapa";
+        element.appendChild(strong);
+      }
+      element.appendChild(document.createTextNode(part));
+    });
+  }
 
   function updateUI() {
     const t = text[state.language];
@@ -201,6 +315,34 @@
     el.legendTitle.textContent = t.legend;
     el.legendClose.setAttribute("aria-label", t.closeLegend);
     el.legendNote.textContent = t.legendNote;
+    el.aboutButton.title = t.about;
+    el.aboutButton.setAttribute("aria-label", t.about);
+    el.aboutTitle.textContent = t.about;
+    el.aboutClose.setAttribute("aria-label", t.closeAbout);
+    setAboutParagraph(el.aboutIntro, t.aboutIntro);
+    el.aboutVersionLabel.textContent = t.aboutVersion;
+    el.aboutDataLabel.textContent = t.aboutData;
+    el.aboutStyleLabel.textContent = t.aboutStyle;
+    el.aboutEngineLabel.textContent = t.aboutEngine;
+    el.routeButton.title = t.route;
+    el.routeButton.setAttribute("aria-label", t.route);
+    el.routeTitle.textContent = t.routeTitle;
+    el.routeClose.setAttribute("aria-label", t.closeRoute);
+    el.routeFromLabel.textContent = t.routeFrom;
+    el.routeToLabel.textContent = t.routeTo;
+    el.routeFrom.placeholder = t.routeFromPlaceholder;
+    el.routeTo.placeholder = t.routeToPlaceholder;
+    el.routeSwap.title = t.routeSwap;
+    el.routeSwap.setAttribute("aria-label", t.routeSwap);
+    el.routeSubmit.textContent = t.routeSubmit;
+    el.routeClear.textContent = t.routeClear;
+    el.routeDistanceLabel.textContent = t.routeDistance;
+    el.routeDurationLabel.textContent = t.routeDuration;
+    el.routeNote.textContent = t.routeNote;
+    el.routeModeLabel.textContent = t.routeMode;
+    for (const modeLabel of document.querySelectorAll("[data-route-mode-label]")) {
+      modeLabel.textContent = t.routeModes[modeLabel.dataset.routeModeLabel];
+    }
     for (const item of document.querySelectorAll("[data-legend]")) {
       item.textContent = t.legendItems[item.dataset.legend];
     }
@@ -264,6 +406,11 @@
     const layers = map.getStyle().layers || [];
 
     for (const layer of layers) {
+      if (isRouteLayer(layer.id)) {
+        setVisibility(layer, Boolean(state.routeCoordinates));
+        continue;
+      }
+
       if (layer.id === CONFIG.satellite.layerId) {
         map.setLayoutProperty(
           layer.id,
@@ -496,8 +643,351 @@
     }
   }
 
+  function isRouteLayer(layerId) {
+    return [
+      CONFIG.routing.casingLayerId,
+      CONFIG.routing.lineLayerId
+    ].includes(layerId);
+  }
+
+  function toggleRoute() {
+    const shouldOpen = el.routePanel.hidden;
+    closeLegend();
+    closeAbout();
+    el.routePanel.hidden = !shouldOpen;
+    el.routeButton.setAttribute("aria-expanded", String(shouldOpen));
+  }
+
+  function closeRoute() {
+    if (el.routePanel.hidden) return;
+    el.routePanel.hidden = true;
+    el.routeButton.setAttribute("aria-expanded", "false");
+  }
+
+  function swapRoutePoints() {
+    const value = el.routeFrom.value;
+    el.routeFrom.value = el.routeTo.value;
+    el.routeTo.value = value;
+  }
+
+  async function planRoute(event) {
+    event.preventDefault();
+    const fromQuery = el.routeFrom.value.trim();
+    const toQuery = el.routeTo.value.trim();
+    if (!fromQuery || !toQuery) return;
+
+    show(text[state.language].routeSearching, 0);
+    el.routeSubmit.disabled = true;
+
+    try {
+      const [from, to] = await Promise.all([
+        geocodeRoutePoint(fromQuery),
+        geocodeRoutePoint(toQuery)
+      ]);
+
+      if (!from || !to) {
+        show(text[state.language].routePointNotFound);
+        return;
+      }
+
+      const route = await fetchRoute(from, to);
+      drawRoute(route.geometry, from, to, getSelectedRouteMode());
+      updateRouteSummary(route.distance, route.duration);
+      hide();
+    } catch (error) {
+      console.error(error);
+      show(text[state.language].routeError);
+    } finally {
+      el.routeSubmit.disabled = false;
+    }
+  }
+
+  async function geocodeRoutePoint(query) {
+    const url = new URL(CONFIG.search.endpoint);
+    url.searchParams.set("q", query);
+    url.searchParams.set("format", "jsonv2");
+    url.searchParams.set("limit", "1");
+    url.searchParams.set("accept-language", state.language);
+
+    const response = await fetch(url, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Nominatim HTTP ${response.status}`);
+
+    const results = await response.json();
+    if (!results.length) return null;
+
+    return {
+      lon: Number(results[0].lon),
+      lat: Number(results[0].lat),
+      label: results[0].display_name
+    };
+  }
+
+  async function fetchRoute(from, to) {
+    const mode = getSelectedRouteMode();
+    const language = state.language === "pl" ? "pl-PL" : "en-US";
+
+    const payload = {
+      locations: [
+        { lat: from.lat, lon: from.lon, type: "break" },
+        { lat: to.lat, lon: to.lon, type: "break" }
+      ],
+      costing: mode,
+      units: "kilometers",
+      language
+    };
+
+    const response = await fetch(CONFIG.routing.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "X-Client-Id": CONFIG.routing.clientId
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Valhalla HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    const trip = result.trip;
+    if (!trip?.legs?.length) {
+      throw new Error(result.error || "No route");
+    }
+
+    const coordinates = [];
+    for (const leg of trip.legs) {
+      const decoded = decodePolyline6(leg.shape);
+      if (coordinates.length && decoded.length) decoded.shift();
+      coordinates.push(...decoded);
+    }
+
+    return {
+      geometry: {
+        type: "LineString",
+        coordinates
+      },
+      distance: Number(trip.summary?.length || 0) * 1000,
+      duration: Number(trip.summary?.time || 0)
+    };
+  }
+
+  function getSelectedRouteMode() {
+    return document.querySelector(
+      'input[name="route-mode"]:checked'
+    )?.value || "auto";
+  }
+
+  function decodePolyline6(encoded) {
+    let index = 0;
+    let latitude = 0;
+    let longitude = 0;
+    const coordinates = [];
+
+    while (index < encoded.length) {
+      const latitudeResult = decodePolylineValue(encoded, index);
+      index = latitudeResult.index;
+      latitude += latitudeResult.value;
+
+      const longitudeResult = decodePolylineValue(encoded, index);
+      index = longitudeResult.index;
+      longitude += longitudeResult.value;
+
+      coordinates.push([
+        longitude / 1e6,
+        latitude / 1e6
+      ]);
+    }
+
+    return coordinates;
+  }
+
+  function decodePolylineValue(encoded, startIndex) {
+    let result = 0;
+    let shift = 0;
+    let index = startIndex;
+    let byte;
+
+    do {
+      byte = encoded.charCodeAt(index++) - 63;
+      result |= (byte & 0x1f) << shift;
+      shift += 5;
+    } while (byte >= 0x20 && index < encoded.length);
+
+    return {
+      index,
+      value: (result & 1) ? ~(result >> 1) : (result >> 1)
+    };
+  }
+
+  function ensureRouteLayers() {
+    if (!map.getSource(CONFIG.routing.sourceId)) {
+      map.addSource(CONFIG.routing.sourceId, {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: { type: "LineString", coordinates: [] }
+        }
+      });
+    }
+
+    if (!map.getLayer(CONFIG.routing.casingLayerId)) {
+      map.addLayer({
+        id: CONFIG.routing.casingLayerId,
+        type: "line",
+        source: CONFIG.routing.sourceId,
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+          visibility: "none"
+        },
+        paint: {
+          "line-color": "#ffffff",
+          "line-width": 9,
+          "line-opacity": 0.92
+        }
+      });
+    }
+
+    if (!map.getLayer(CONFIG.routing.lineLayerId)) {
+      map.addLayer({
+        id: CONFIG.routing.lineLayerId,
+        type: "line",
+        source: CONFIG.routing.sourceId,
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+          visibility: "none"
+        },
+        paint: {
+          "line-color": "#2563eb",
+          "line-width": 5.5,
+          "line-opacity": 0.96
+        }
+      });
+    }
+  }
+
+  function drawRoute(geometry, from, to, mode) {
+    ensureRouteLayers();
+    state.routeCoordinates = geometry.coordinates;
+
+    map.getSource(CONFIG.routing.sourceId).setData({
+      type: "Feature",
+      properties: {},
+      geometry
+    });
+
+    map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "visible");
+    map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "visible");
+
+    const routeColors = {
+      auto: "#2563eb",
+      bicycle: "#16a34a",
+      pedestrian: "#ea580c"
+    };
+    map.setPaintProperty(
+      CONFIG.routing.lineLayerId,
+      "line-color",
+      routeColors[mode] || routeColors.auto
+    );
+
+    for (const marker of state.routeMarkers) marker.remove();
+    state.routeMarkers = [
+      new maplibregl.Marker({ color: "#16a34a" })
+        .setLngLat([from.lon, from.lat])
+        .setPopup(new maplibregl.Popup().setText(from.label))
+        .addTo(map),
+      new maplibregl.Marker({ color: "#dc2626" })
+        .setLngLat([to.lon, to.lat])
+        .setPopup(new maplibregl.Popup().setText(to.label))
+        .addTo(map)
+    ];
+
+    const bounds = geometry.coordinates.reduce(
+      (current, coordinate) => current.extend(coordinate),
+      new maplibregl.LngLatBounds(
+        geometry.coordinates[0],
+        geometry.coordinates[0]
+      )
+    );
+
+    map.fitBounds(bounds, {
+      padding: { top: 105, right: 45, bottom: 55, left: 45 },
+      bearing: 180,
+      duration: 900
+    });
+  }
+
+  function updateRouteSummary(distanceMeters, durationSeconds) {
+    el.routeDistance.textContent = formatDistance(distanceMeters);
+    el.routeDuration.textContent = formatDuration(durationSeconds);
+    el.routeSummary.hidden = false;
+  }
+
+  function formatDistance(meters) {
+    if (meters < 1000) return `${Math.round(meters)} m`;
+    return `${(meters / 1000).toLocaleString(state.language, {
+      maximumFractionDigits: 1
+    })} km`;
+  }
+
+  function formatDuration(seconds) {
+    const minutes = Math.round(seconds / 60);
+    if (minutes < 60) return `${minutes} min`;
+
+    const hours = Math.floor(minutes / 60);
+    const rest = minutes % 60;
+    return rest ? `${hours} h ${rest} min` : `${hours} h`;
+  }
+
+  function clearRoute() {
+    state.routeCoordinates = null;
+    el.routeSummary.hidden = true;
+    el.routeDistance.textContent = "—";
+    el.routeDuration.textContent = "—";
+
+    if (map.getSource(CONFIG.routing.sourceId)) {
+      map.getSource(CONFIG.routing.sourceId).setData({
+        type: "Feature",
+        properties: {},
+        geometry: { type: "LineString", coordinates: [] }
+      });
+    }
+
+    if (map.getLayer(CONFIG.routing.casingLayerId)) {
+      map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "none");
+    }
+    if (map.getLayer(CONFIG.routing.lineLayerId)) {
+      map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "none");
+    }
+
+    for (const marker of state.routeMarkers) marker.remove();
+    state.routeMarkers = [];
+  }
+
+  function toggleAbout() {
+    const shouldOpen = el.aboutPanel.hidden;
+    closeLegend();
+    closeRoute();
+    el.aboutPanel.hidden = !shouldOpen;
+    el.aboutButton.setAttribute("aria-expanded", String(shouldOpen));
+  }
+
+  function closeAbout() {
+    if (el.aboutPanel.hidden) return;
+    el.aboutPanel.hidden = true;
+    el.aboutButton.setAttribute("aria-expanded", "false");
+  }
+
   function toggleLegend() {
     const shouldOpen = el.legendPanel.hidden;
+    closeAbout();
+    closeRoute();
     el.legendPanel.hidden = !shouldOpen;
     el.legendButton.setAttribute("aria-expanded", String(shouldOpen));
   }

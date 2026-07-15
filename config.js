@@ -16,6 +16,14 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     tileSize: 256,
     attribution: "Tiles © Esri"
   },
+  routing: {
+    endpoint: "https://valhalla1.openstreetmap.de/route",
+    sourceId: "odwrotnamapa-route",
+    casingLayerId: "odwrotnamapa-route-casing",
+    lineLayerId: "odwrotnamapa-route-line",
+    clientId: "odwrotnamapa.github.io"
+  },
+
   search: {
     endpoint: "https://nominatim.openstreetmap.org/search",
     limit: 5

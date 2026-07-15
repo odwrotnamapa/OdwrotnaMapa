@@ -30,6 +30,15 @@
         <input id="search-input" type="search" autocomplete="off"
                placeholder="Szukaj miejsca…" aria-label="Szukaj miejsca">
         <button type="submit" id="search-button">Szukaj</button>
+        <button id="route-button" class="icon-button svg-icon-button" type="button"
+                title="Wyznacz trasę" aria-label="Wyznacz trasę"
+                aria-expanded="false" aria-controls="route-panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="6" cy="18" r="2.2"/>
+            <circle cx="18" cy="6" r="2.2"/>
+            <path d="M7.8 17c3.2-1.1 1.8-5.5 5-6.6 1.5-.5 2.7.1 3.7-2.1"/>
+          </svg>
+        </button>
       </form>
 
       <div class="toolbar-actions">
@@ -53,7 +62,17 @@
                 title="Moja lokalizacja" aria-label="Moja lokalizacja">◎</button>
         <button id="legend-button" class="icon-button" type="button"
                 title="Legenda" aria-label="Legenda"
-                aria-expanded="false" aria-controls="legend-panel">i</button>
+                aria-expanded="false" aria-controls="legend-panel">i</button><button id="about-button" class="icon-button svg-icon-button" type="button"
+                title="O projekcie" aria-label="O projekcie"
+                aria-expanded="false" aria-controls="about-panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3.5h7l3 3V20.5H7z"/>
+            <path d="M14 3.5v4h4"/>
+            <path d="M9.5 11h5"/>
+            <path d="M9.5 14h5"/>
+            <path d="M9.5 17h3.5"/>
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -115,7 +134,112 @@
       </p>
     </aside>
 
-<div id="status" class="status" role="status" aria-live="polite" hidden></div>
+
+    
+    <aside id="route-panel" class="legend-panel route-panel"
+           aria-labelledby="route-title" hidden>
+      <div class="legend-header">
+        <h2 id="route-title">Trasa</h2>
+        <button id="route-close" class="legend-close" type="button"
+                aria-label="Zamknij planer trasy">×</button>
+      </div>
+
+      <form id="route-form" class="route-form">
+
+        <fieldset class="route-modes">
+          <legend id="route-mode-label">Sposób podróży</legend>
+
+          <label title="Samochód"><input type="radio" name="route-mode" value="auto" checked><span class="route-mode-emoji" aria-hidden="true">🚗</span></label>
+
+          <label title="Rower"><input type="radio" name="route-mode" value="bicycle"><span class="route-mode-emoji" aria-hidden="true">🚲</span></label>
+
+          <label title="Pieszo"><input type="radio" name="route-mode" value="pedestrian"><span class="route-mode-emoji" aria-hidden="true">🚶</span></label>
+        </fieldset>
+
+        <div class="route-points">
+          <label class="route-point route-point-from">
+            <span id="route-from-label">Punkt A</span>
+            <input id="route-from" type="search" autocomplete="off"
+                   placeholder="Miejsce początkowe" required>
+          </label>
+
+          <button id="route-swap" class="route-swap" type="button"
+                  title="Zamień punkty" aria-label="Zamień punkty">⇅</button>
+
+          <label class="route-point route-point-to">
+            <span id="route-to-label">Punkt B</span>
+            <input id="route-to" type="search" autocomplete="off"
+                   placeholder="Cel podróży" required>
+          </label>
+        </div>
+
+        <div class="route-actions">
+          <button id="route-submit" class="route-primary" type="submit">
+            Wyznacz trasę
+          </button>
+          <button id="route-clear" class="route-secondary" type="button">
+            Wyczyść
+          </button>
+        </div>
+      </form>
+
+      <div id="route-summary" class="route-summary" hidden>
+        <div>
+          <strong id="route-distance">—</strong>
+          <span id="route-distance-label">Dystans</span>
+        </div>
+        <div>
+          <strong id="route-duration">—</strong>
+          <span id="route-duration-label">Czas</span>
+        </div>
+      </div>
+
+      <p id="route-note" class="route-note">
+        Trasa jest obliczana na podstawie danych OpenStreetMap.
+      </p>
+    </aside>
+
+
+    <aside id="about-panel" class="legend-panel about-panel"
+           aria-labelledby="about-title" hidden>
+      <div class="legend-header">
+        <h2 id="about-title">O projekcie</h2>
+        <button id="about-close" class="legend-close" type="button"
+                aria-label="Zamknij sekcję O projekcie">×</button>
+      </div>
+
+      <div class="about-content">
+<p id="about-intro">
+          Większość współczesnych map przedstawia północ na górze, więc łatwo
+          zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja.
+          <strong>Odwrotna Mapa</strong> zachęca do spojrzenia na świat z innej
+          perspektywy — i to dosłownie — oraz przypomina, że sposób
+          przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.
+        </p>
+      </div>
+
+      <dl class="about-meta">
+        <div>
+          <dt id="about-version-label">Wersja</dt>
+          <dd>v0.2</dd>
+        </div>
+        <div>
+          <dt id="about-data-label">Dane mapowe</dt>
+          <dd>© OpenStreetMap contributors</dd>
+        </div>
+        <div>
+          <dt id="about-style-label">Styl mapy</dt>
+          <dd>OpenFreeMap Liberty</dd>
+        </div>
+        <div>
+          <dt id="about-engine-label">Silnik</dt>
+          <dd>MapLibre GL JS</dd>
+        </div>
+      </dl>
+    </aside>
+
+
+    <div id="status" class="status" role="status" aria-live="polite" hidden></div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>

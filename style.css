@@ -578,3 +578,366 @@ body.ui-dark .legend-symbol.osm-buildings {
   font-weight: 700;
   font-size: 1.15rem;
 }
+
+
+.svg-icon-button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.svg-icon-button svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.about-panel {
+  width: min(390px, calc(100vw - 24px));
+}
+
+.about-content {
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.62;
+}
+
+.about-content p {
+  margin: 0 0 14px;
+}
+
+.about-content h3 {
+  margin: 20px 0 9px;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+
+.about-meta {
+  display: grid;
+  gap: 11px;
+  margin: 18px 0 0;
+  padding: 15px 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.about-meta div {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 12px;
+}
+
+.about-meta dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.about-meta dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 480px) {
+  .about-panel {
+    width: calc(100vw - 16px);
+  }
+
+  .about-meta div {
+    grid-template-columns: 100px 1fr;
+  }
+}
+
+
+.route-panel {
+  width: min(390px, calc(100vw - 24px));
+}
+
+.route-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 8px;
+  align-items: end;
+}
+
+.route-form label {
+  display: grid;
+  gap: 6px;
+  grid-column: 1;
+}
+
+.route-form label span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.route-form input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0 11px;
+  background: rgba(127, 127, 127, 0.07);
+  color: var(--text);
+  outline: none;
+}
+
+.route-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.route-swap {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.route-swap:hover,
+.route-secondary:hover {
+  background: rgba(127, 127, 127, 0.11);
+}
+
+.route-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: 3px;
+}
+
+.route-primary,
+.route-secondary {
+  min-height: 40px;
+  border-radius: 10px;
+  padding: 0 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.route-primary {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.route-secondary {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.route-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.route-summary > div {
+  display: grid;
+  gap: 3px;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: rgba(127, 127, 127, 0.07);
+}
+
+.route-summary strong {
+  font-size: 1.03rem;
+}
+
+.route-summary span {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.route-note {
+  margin: 13px 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 480px) {
+  .route-panel {
+    width: calc(100vw - 16px);
+  }
+}
+
+
+.search #route-button {
+  min-width: 44px;
+  border-left: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.search #route-button:hover {
+  background: rgba(127, 127, 127, 0.12);
+}
+
+
+.route-modes {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin: 0 0 3px;
+  padding: 0;
+  border: 0;
+}
+
+.route-modes legend {
+  grid-column: 1 / -1;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.route-modes label {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(127, 127, 127, 0.06);
+  color: var(--text);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.route-modes input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.route-modes label:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.route-modes label:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 370px) {
+  .route-modes label {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1px;
+    padding: 5px 3px;
+  }
+}
+
+
+/* Kompaktowy wybór środka transportu */
+.route-modes{
+  display:flex !important;
+  gap:8px;
+  align-items:center;
+}
+
+.route-modes legend{
+  width:100%;
+  flex-basis:100%;
+}
+
+.route-modes label{
+  flex:1;
+  display:flex !important;
+  justify-content:center;
+  align-items:center;
+  min-height:42px;
+  padding:0;
+}
+
+.route-mode-emoji{
+  font-size:1.3rem;
+  line-height:1;
+}
+
+
+/* Pola A/B z przyciskiem zamiany po prawej, wyśrodkowanym między nimi */
+.route-form {
+  display: block;
+}
+
+.route-points {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 40px;
+  grid-template-rows: auto auto;
+  gap: 10px 9px;
+  align-items: center;
+}
+
+.route-point {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.route-point-from {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.route-point-to {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.route-swap {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  justify-self: center;
+  width: 36px;
+  height: 36px;
+  margin-top: 12px;
+}
+
+.route-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.route-primary {
+  width: 100%;
+}
+
+@media (max-width: 360px) {
+  .route-points {
+    grid-template-columns: minmax(0, 1fr) 36px;
+    gap: 9px 6px;
+  }
+
+  .route-swap {
+    width: 34px;
+    height: 34px;
+  }
+}
