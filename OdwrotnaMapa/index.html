@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Odwrotna Mapa.">
+  <title>Odwrotna Mapa - mapa z południem u góry</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <div id="map" aria-label="Interaktywna mapa"></div>
+
+    <section id="fatal-error" class="fatal-error" hidden>
+      <h1>Nie udało się uruchomić mapy</h1>
+      <p id="fatal-error-text"></p>
+      <p>Sprawdź połączenie z internetem i uruchom stronę przez HTTPS albo lokalny serwer.</p>
+    </section>
+
+    <header class="toolbar" aria-label="Sterowanie mapą">
+      <a class="brand" href="#" aria-label="Odwrotna Mapa">
+        <img class="brand-logo" src="assets/logo.svg" alt="">
+        <strong>Odwrotna Mapa</strong>
+      </a>
+
+      <form id="search-form" class="search" role="search">
+        <input id="search-input" type="search" autocomplete="off"
+               placeholder="Szukaj miejsca…" aria-label="Szukaj miejsca">
+        <button id="search-clear" class="search-clear" type="button"
+                title="Wyczyść wyszukiwanie"
+                aria-label="Wyczyść wyszukiwanie" hidden>×</button>
+        <button type="submit" id="search-button">Szukaj</button>
+        <button id="route-button" class="icon-button svg-icon-button" type="button"
+                title="Wyznacz trasę" aria-label="Wyznacz trasę"
+                aria-expanded="false" aria-controls="route-panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="6" cy="18" r="2.2"/>
+            <circle cx="18" cy="6" r="2.2"/>
+            <path d="M7.8 17c3.2-1.1 1.8-5.5 5-6.6 1.5-.5 2.7.1 3.7-2.1"/>
+          </svg>
+        </button>
+      </form>
+
+      <div class="toolbar-actions">
+        <label class="select-wrap">
+          <span class="sr-only" id="theme-label">Styl mapy</span>
+          <select id="theme-select" aria-labelledby="theme-label">
+            <option value="light">Jasna</option>
+            <option value="dark">Ciemna</option>
+            <option value="satellite">Satelitarna</option>
+          </select>
+        </label>
+
+        <label class="select-wrap">
+          <span class="sr-only" id="language-label">Język</span>
+          <select id="language-select" aria-labelledby="language-label">
+            <option value="pl" title="Polski">🇵🇱</option>
+            <option value="en" title="English">🇬🇧</option>
+            <option value="de" title="Deutsch">🇩🇪</option>
+            <option value="cs" title="Čeština">🇨🇿</option>
+            <option value="sk" title="Slovenčina">🇸🇰</option>
+            <option value="uk" title="Українська">🇺🇦</option>
+            <option value="lt" title="Lietuvių">🇱🇹</option>
+            <option value="be" title="Беларуская">🇧🇾</option>
+            <option value="ru" title="Русский">🇷🇺</option>
+          </select>
+        </label>
+        <button id="locate-button" class="icon-button" type="button"
+                title="Moja lokalizacja" aria-label="Moja lokalizacja">◎</button>
+        <button id="legend-button" class="icon-button" type="button"
+                title="Legenda" aria-label="Legenda"
+                aria-expanded="false" aria-controls="legend-panel">i</button><button id="about-button" class="icon-button svg-icon-button" type="button"
+                title="O projekcie" aria-label="O projekcie"
+                aria-expanded="false" aria-controls="about-panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3.5h7l3 3V20.5H7z"/>
+            <path d="M14 3.5v4h4"/>
+            <path d="M9.5 11h5"/>
+            <path d="M9.5 14h5"/>
+            <path d="M9.5 17h3.5"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <aside id="legend-panel" class="legend-panel" aria-labelledby="legend-title" hidden>
+      <div class="legend-header">
+        <h2 id="legend-title">Legenda</h2>
+        <button id="legend-close" class="legend-close" type="button"
+                aria-label="Zamknij legendę">×</button>
+      </div>
+
+      <section class="legend-section">
+        <h3 data-legend-section="boundaries">Granice</h3>
+        <ul class="legend-list">
+          <li><span class="legend-symbol liberty-boundary-country"></span><span data-legend="countryBorder">Granica państwa</span></li>
+          <li><span class="legend-symbol liberty-boundary-admin"></span><span data-legend="adminBorder">Granica administracyjna</span></li>
+          <li><span class="legend-symbol liberty-boundary-disputed"></span><span data-legend="disputedBorder">Granica sporna</span></li>
+        </ul>
+      </section>
+
+      <section class="legend-section">
+        <h3 data-legend-section="roads">Drogi</h3>
+        <ul class="legend-list">
+          <li><span class="legend-symbol liberty-motorway"></span><span data-legend="motorway">Autostrada</span></li>
+          <li><span class="legend-symbol liberty-primary"></span><span data-legend="primaryRoad">Droga główna</span></li>
+          <li><span class="legend-symbol liberty-secondary"></span><span data-legend="secondaryRoad">Droga drugorzędna</span></li>
+          <li><span class="legend-symbol liberty-minor"></span><span data-legend="minorRoad">Droga lokalna</span></li>
+          <li><span class="legend-symbol liberty-path"></span><span data-legend="path">Ścieżka / droga piesza</span></li>
+        </ul>
+      </section>
+
+      <section class="legend-section">
+        <h3 data-legend-section="transport">Transport</h3>
+        <ul class="legend-list">
+          <li><span class="legend-symbol liberty-rail"></span><span data-legend="railway">Linia kolejowa</span></li>
+          <li><span class="legend-symbol liberty-runway"></span><span data-legend="runway">Pas startowy</span></li>
+          <li><span class="legend-symbol liberty-taxiway"></span><span data-legend="taxiway">Droga kołowania</span></li>
+        </ul>
+      </section>
+
+      <section class="legend-section">
+        <h3 data-legend-section="land">Teren</h3>
+        <ul class="legend-list">
+          <li><span class="legend-symbol liberty-water"></span><span data-legend="water">Woda</span></li>
+          <li><span class="legend-symbol liberty-park"></span><span data-legend="park">Park</span></li>
+          <li><span class="legend-symbol liberty-wood"></span><span data-legend="forest">Las</span></li>
+          <li><span class="legend-symbol liberty-grass"></span><span data-legend="grass">Teren trawiasty</span></li>
+          <li><span class="legend-symbol liberty-wetland"></span><span data-legend="wetland">Teren podmokły</span></li>
+          <li><span class="legend-symbol liberty-sand"></span><span data-legend="sand">Piasek</span></li>
+          <li><span class="legend-symbol liberty-residential"></span><span data-legend="residential">Obszar mieszkalny</span></li>
+          <li><span class="legend-symbol liberty-cemetery"></span><span data-legend="cemetery">Cmentarz</span></li>
+          <li><span class="legend-symbol liberty-hospital"></span><span data-legend="hospital">Szpital</span></li>
+          <li><span class="legend-symbol liberty-school"></span><span data-legend="school">Szkoła</span></li>
+          <li><span class="legend-symbol liberty-building"></span><span data-legend="buildings">Budynek</span></li>
+        </ul>
+      </section>
+
+      <p id="legend-note" class="legend-note">
+        Legenda oparta na stylu Liberty OpenFreeMap. Wygląd symboli i kolorów może różnić się w zależności od wybranego motywu mapy.
+      </p>
+    </aside>
+
+
+    
+    <aside id="route-panel" class="legend-panel route-panel"
+           aria-labelledby="route-title" hidden>
+      <button id="route-sheet-handle" class="route-sheet-handle" type="button"
+              aria-label="Zmień wysokość panelu trasy">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header">
+        <h2 id="route-title">Trasa</h2>
+        <button id="route-close" class="legend-close" type="button"
+                aria-label="Zamknij planer trasy">×</button>
+      </div>
+
+
+      <p id="route-click-hint" class="route-click-hint">
+        Kliknij na mapie, aby wybrać punkt początkowy.
+      </p>
+
+      <form id="route-form" class="route-form">
+
+        <fieldset class="route-modes">
+          <legend id="route-mode-label">Sposób podróży</legend>
+
+          <label title="Samochód"><input type="radio" name="route-mode" value="auto" checked><span class="route-mode-emoji" aria-hidden="true">🚗</span></label>
+
+          <label title="Rower"><input type="radio" name="route-mode" value="bicycle"><span class="route-mode-emoji" aria-hidden="true">🚲</span></label>
+
+          <label title="Pieszo"><input type="radio" name="route-mode" value="pedestrian"><span class="route-mode-emoji" aria-hidden="true">🚶</span></label>
+        </fieldset>
+
+        <div class="route-points">
+          <label class="route-point route-point-from">
+            <span id="route-from-label">Punkt A</span>
+            <input id="route-from" type="search" autocomplete="off"
+                     placeholder="Miejsce początkowe" required>
+          </label>
+
+          <button id="route-swap" class="route-swap" type="button"
+                  title="Zamień punkty" aria-label="Zamień punkty">⇅</button>
+
+          <label class="route-point route-point-to">
+            <span id="route-to-label">Punkt B</span>
+            <input id="route-to" type="search" autocomplete="off"
+                     placeholder="Cel podróży" required>
+          </label>
+        </div>
+
+        <div class="route-actions">
+          <button id="route-submit" class="route-primary" type="submit">
+            Wyznacz trasę
+          </button>
+          <button id="route-clear" class="route-secondary" type="button">
+            Wyczyść
+          </button>
+        </div>
+      </form>
+
+      <div id="route-summary" class="route-summary" hidden>
+        <div>
+          <strong id="route-distance">—</strong>
+          <span id="route-distance-label">Dystans</span>
+        </div>
+        <div>
+          <strong id="route-duration">—</strong>
+          <span id="route-duration-label">Czas</span>
+        </div>
+        <div>
+          <strong id="route-arrival">—</strong>
+          <span id="route-arrival-label">Przyjazd</span>
+        </div>
+      </div>
+
+      <button id="route-share" class="route-share" type="button" hidden>
+        Udostępnij trasę
+      </button>
+
+
+      <p id="route-waypoint-note" class="route-waypoint-note" hidden>
+        Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.
+      </p>
+
+      <section id="route-directions" class="route-directions" hidden>
+        <div class="route-directions-header">
+          <h3 id="route-directions-title">Wskazówki</h3>
+          <span id="route-directions-count"></span>
+        </div>
+        <ol id="route-directions-list" class="route-directions-list"></ol>
+      </section>
+
+      <p id="route-note" class="route-note">
+        Trasa jest obliczana na podstawie danych OpenStreetMap.
+      </p>
+    </aside>
+
+
+    <aside id="about-panel" class="legend-panel about-panel"
+           aria-labelledby="about-title" hidden>
+      <div class="legend-header">
+        <h2 id="about-title">O projekcie</h2>
+        <button id="about-close" class="legend-close" type="button"
+                aria-label="Zamknij sekcję O projekcie">×</button>
+      </div>
+
+      <div class="about-content">
+        <p id="about-intro">
+          Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć,
+          że nie jest to prawo natury, lecz historyczna konwencja.
+          <strong>Odwrotna Mapa</strong> zachęca do spojrzenia na świat z innej perspektywy
+          — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości
+          znacząco wpływa na to, jak ją postrzegamy.
+        </p>
+      </div>
+
+      <dl class="about-meta">
+        <div>
+          <dt id="about-version-label">Wersja</dt>
+          <dd>v0.2</dd>
+        </div>
+        <div>
+          <dt id="about-data-label">Dane mapowe</dt>
+          <dd>© OpenStreetMap contributors</dd>
+        </div>
+        <div>
+          <dt id="about-style-label">Styl mapy</dt>
+          <dd>OpenFreeMap Liberty</dd>
+        </div>
+        <div>
+          <dt id="about-engine-label">Silnik</dt>
+          <dd>MapLibre GL JS</dd>
+        </div>
+      </dl>
+    </aside>
+
+
+    <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
+
+    <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
