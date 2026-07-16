@@ -342,6 +342,8 @@
     themeSelect: $("theme-select"),
     languageSelect: $("language-select"),
     languageCurrentFlag: $("language-current-flag"),
+    languageMenuButton: $("language-menu-button"),
+    languageMenuList: $("language-menu-list"),
     locateButton: $("locate-button"),
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
@@ -461,6 +463,48 @@
     applyLanguage(state.language);
   });
 
+  el.languageMenuButton.addEventListener("click", event => {
+    event.stopPropagation();
+
+    const shouldOpen = el.languageMenuList.hidden;
+    el.languageMenuList.hidden = !shouldOpen;
+    el.languageMenuButton.setAttribute(
+      "aria-expanded",
+      String(shouldOpen)
+    );
+  });
+
+  for (const option of el.languageMenuList.querySelectorAll(
+    "[data-language]"
+  )) {
+    option.addEventListener("click", () => {
+      const language = option.dataset.language;
+      if (!language || !text[language]) return;
+
+      el.languageSelect.value = language;
+      el.languageSelect.dispatchEvent(
+        new Event("change", { bubbles: true })
+      );
+
+      el.languageMenuList.hidden = true;
+      el.languageMenuButton.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  document.addEventListener("pointerdown", event => {
+    if (!event.target.closest(".language-menu")) {
+      el.languageMenuList.hidden = true;
+      el.languageMenuButton.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      el.languageMenuList.hidden = true;
+      el.languageMenuButton.setAttribute("aria-expanded", "false");
+    }
+  });
+
   el.locateButton.addEventListener("click", locate);
   el.legendButton.addEventListener("click", toggleLegend);
   el.legendClose.addEventListener("click", closeLegend);
@@ -518,8 +562,17 @@
 
   function updateLanguageFlag() {
     if (!el.languageCurrentFlag) return;
+
     el.languageCurrentFlag.textContent =
       LANGUAGE_FLAGS[state.language] || "🌐";
+
+    for (const option of el.languageMenuList?.querySelectorAll(
+      "[data-language]"
+    ) || []) {
+      const selected = option.dataset.language === state.language;
+      option.classList.toggle("is-selected", selected);
+      option.setAttribute("aria-selected", String(selected));
+    }
   }
 
   function updateUI() {

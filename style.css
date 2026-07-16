@@ -1890,40 +1890,87 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 
-/* Stabilny przełącznik języka na telefonach */
-.language-select-wrap {
+
+
+/* Własne menu języków — stabilne na komputerach i telefonach */
+.language-menu {
   position: relative;
+  display: flex;
   align-items: stretch;
 }
 
-.language-current-flag {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 12px;
+.language-menu-button {
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 24px;
-  font-size: 1.15rem;
-  line-height: 1;
-  pointer-events: none;
-  transform: translateY(-50%);
-}
-
-#language-select {
-  position: relative;
-  z-index: 2;
   width: 52px;
   min-width: 52px;
-  padding-inline: 10px 22px;
-  color: transparent;
-  caret-color: transparent;
-  font-size: 1rem;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
 }
 
-/* Po rozwinięciu systemowego menu opcje zachowują normalny kolor. */
-#language-select option {
-  color: initial;
-  background: initial;
+.language-menu-button:hover,
+.language-menu-button:focus-visible,
+.language-menu-button[aria-expanded="true"] {
+  background: rgba(127, 127, 127, 0.1);
+}
+
+.language-menu-list {
+  position: absolute;
+  z-index: 1200;
+  top: calc(100% + 7px);
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 42px);
+  gap: 5px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.language-menu-list[hidden] {
+  display: none;
+}
+
+.language-menu-list button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.language-menu-list button:hover,
+.language-menu-list button:focus-visible,
+.language-menu-list button.is-selected {
+  background: rgba(127, 127, 127, 0.13);
+}
+
+.language-menu-list button.is-selected {
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+@media (max-width: 600px) {
+  .language-menu-button {
+    min-height: 40px;
+  }
+
+  .language-menu-list {
+    position: fixed;
+    top: auto;
+    right: 10px;
+    bottom: 70px;
+  }
 }
