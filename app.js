@@ -2469,7 +2469,7 @@
 
   function renderDepartures(departures, ui) {
     const t = text[state.language];
-    const compactLimit = 4;
+    const compactLimit = 2;
     const visibleDepartures = departures.slice(
       0,
       CONFIG.transit.limit
