@@ -21,6 +21,8 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     sourceId: "odwrotnamapa-route",
     casingLayerId: "odwrotnamapa-route-casing",
     lineLayerId: "odwrotnamapa-route-line",
+    highlightSourceId: "odwrotnamapa-route-highlight",
+    highlightLayerId: "odwrotnamapa-route-highlight-line",
     clientId: "odwrotnamapa.github.io"
   },
 

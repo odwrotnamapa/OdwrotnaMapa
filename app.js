@@ -78,7 +78,16 @@
       routePickA: "Kliknij na mapie, aby wybrać punkt początkowy.",
       routePickB: "Kliknij na mapie, aby wybrać punkt docelowy.",
       routePickMoveB: "Kliknij na mapie, aby zmienić punkt docelowy.",
-      routeReverseError: "Nie udało się odczytać nazwy wybranego miejsca."
+      routeReverseError: "Nie udało się odczytać nazwy wybranego miejsca.",
+      routeDirections: "Wskazówki",
+      routeSteps: "kroków",
+      routeArrival: "Przyjazd",
+      routeShare: "Udostępnij trasę",
+      routeShared: "Link do trasy został skopiowany.",
+      routeShareError: "Nie udało się udostępnić trasy.",
+      routeWaypointNote: "Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.",
+      routeRoundaboutExit: exit => `Na rondzie wybierz ${exit}. zjazd.`,
+      routeWaypoint: number => `Punkt ${number}`
     },
     en: {
       title: "Odwrotna Mapa - mapa z południem u góry",
@@ -153,7 +162,16 @@
       routePickA: "Click the map to choose the starting point.",
       routePickB: "Click the map to choose the destination.",
       routePickMoveB: "Click the map to move the destination.",
-      routeReverseError: "The selected place name could not be read."
+      routeReverseError: "The selected place name could not be read.",
+      routeDirections: "Directions",
+      routeSteps: "steps",
+      routeArrival: "Arrival",
+      routeShare: "Share route",
+      routeShared: "The route link was copied.",
+      routeShareError: "The route could not be shared.",
+      routeWaypointNote: "Click the route line to add a waypoint. You can drag the point.",
+      routeRoundaboutExit: exit => `At the roundabout, take exit ${exit}.`,
+      routeWaypoint: number => `Waypoint ${number}`
     }
   };
 
@@ -173,7 +191,11 @@
     routePointA: null,
     routePointB: null,
     routeClickStage: "a",
-    routeClickBusy: false
+    routeClickBusy: false,
+    routeManeuvers: [],
+    routeWaypoints: [],
+    routeWaypointMarkers: [],
+    selectedManeuverIndex: null
   };
 
   const el = {
@@ -212,9 +234,17 @@
     routeDuration: $("route-duration"),
     routeDistanceLabel: $("route-distance-label"),
     routeDurationLabel: $("route-duration-label"),
+    routeArrival: $("route-arrival"),
+    routeArrivalLabel: $("route-arrival-label"),
+    routeShare: $("route-share"),
+    routeWaypointNote: $("route-waypoint-note"),
     routeNote: $("route-note"),
     routeModeLabel: $("route-mode-label"),
     routeClickHint: $("route-click-hint"),
+    routeDirections: $("route-directions"),
+    routeDirectionsTitle: $("route-directions-title"),
+    routeDirectionsCount: $("route-directions-count"),
+    routeDirectionsList: $("route-directions-list"),
     legendTitle: $("legend-title"),
     legendNote: $("legend-note"),
     status: $("status"),
@@ -263,6 +293,7 @@
     cacheOriginalPaint();
     applyTheme(state.theme);
     applyLanguageAfterStartup();
+    loadSharedRouteFromUrl();
   });
 
   map.on("moveend", saveView);
@@ -296,6 +327,10 @@
   el.routeSwap.addEventListener("click", swapRoutePoints);
   el.routeClear.addEventListener("click", clearRoute);
   el.routeForm.addEventListener("submit", planRoute);
+  el.routeShare.addEventListener("click", shareRoute);
+  for (const modeInput of document.querySelectorAll('input[name="route-mode"]')) {
+    modeInput.addEventListener("change", handleRouteModeChange);
+  }
   initializeRouteBottomSheet();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -343,8 +378,12 @@
     el.routeClear.textContent = t.routeClear;
     el.routeDistanceLabel.textContent = t.routeDistance;
     el.routeDurationLabel.textContent = t.routeDuration;
+    el.routeArrivalLabel.textContent = t.routeArrival;
+    el.routeShare.textContent = t.routeShare;
+    el.routeWaypointNote.textContent = t.routeWaypointNote;
     el.routeNote.textContent = t.routeNote;
     updateRouteClickHint();
+    el.routeDirectionsTitle.textContent = t.routeDirections;
     el.routeModeLabel.textContent = t.routeMode;
     for (const modeLabel of document.querySelectorAll("[data-route-mode-label]")) {
       modeLabel.textContent = t.routeModes[modeLabel.dataset.routeModeLabel];
@@ -413,7 +452,13 @@
 
     for (const layer of layers) {
       if (isRouteLayer(layer.id)) {
-        setVisibility(layer, Boolean(state.routeCoordinates));
+        const isHighlight = layer.id === CONFIG.routing.highlightLayerId;
+        setVisibility(
+          layer,
+          isHighlight
+            ? state.selectedManeuverIndex !== null
+            : Boolean(state.routeCoordinates)
+        );
         continue;
       }
 
@@ -652,7 +697,8 @@
   function isRouteLayer(layerId) {
     return [
       CONFIG.routing.casingLayerId,
-      CONFIG.routing.lineLayerId
+      CONFIG.routing.lineLayerId,
+      CONFIG.routing.highlightLayerId
     ].includes(layerId);
   }
 
@@ -869,6 +915,11 @@
   async function handleRouteMapClick(event) {
     if (el.routePanel.hidden || state.routeClickBusy) return;
 
+    if (state.routeCoordinates && isClickOnRoute(event.point)) {
+      addRouteWaypoint(event.lngLat);
+      return;
+    }
+
     state.routeClickBusy = true;
     const point = {
       lon: event.lngLat.lng,
@@ -921,6 +972,7 @@
         getSelectedRouteMode()
       );
       updateRouteSummary(route.distance, route.duration);
+      renderRouteDirections(route.maneuvers);
       hide();
     } catch (error) {
       console.error(error);
@@ -1041,6 +1093,7 @@
       drawRoute(route.geometry, from, to, getSelectedRouteMode());
       updateRouteClickHint();
       updateRouteSummary(route.distance, route.duration);
+      renderRouteDirections(route.maneuvers);
       hide();
     } catch (error) {
       console.error(error);
@@ -1079,6 +1132,11 @@
     const payload = {
       locations: [
         { lat: from.lat, lon: from.lon, type: "break" },
+        ...state.routeWaypoints.map(point => ({
+          lat: point.lat,
+          lon: point.lon,
+          type: "break"
+        })),
         { lat: to.lat, lon: to.lon, type: "break" }
       ],
       costing: mode,
@@ -1107,8 +1165,45 @@
     }
 
     const coordinates = [];
+    const maneuvers = [];
+
     for (const leg of trip.legs) {
       const decoded = decodePolyline6(leg.shape);
+
+      for (const maneuver of leg.maneuvers || []) {
+        const coordinate =
+          decoded[maneuver.begin_shape_index] ||
+          decoded[0] ||
+          null;
+
+        const beginIndex = Number(maneuver.begin_shape_index || 0);
+        const endIndex = Number(
+          maneuver.end_shape_index ?? maneuver.begin_shape_index ?? 0
+        );
+        const roundaboutExit = Number(
+          maneuver.roundabout_exit_count ||
+          maneuver.roundabout_exit_number ||
+          0
+        );
+
+        maneuvers.push({
+          instruction:
+            maneuver.instruction ||
+            maneuver.verbal_pre_transition_instruction ||
+            "",
+          streetNames: maneuver.street_names || [],
+          length: Number(maneuver.length || 0) * 1000,
+          time: Number(maneuver.time || 0),
+          type: Number(maneuver.type),
+          roundaboutExit,
+          coordinate,
+          segment: decoded.slice(
+            Math.max(0, beginIndex),
+            Math.max(beginIndex + 2, endIndex + 1)
+          )
+        });
+      }
+
       if (coordinates.length && decoded.length) decoded.shift();
       coordinates.push(...decoded);
     }
@@ -1119,7 +1214,8 @@
         coordinates
       },
       distance: Number(trip.summary?.length || 0) * 1000,
-      duration: Number(trip.summary?.time || 0)
+      duration: Number(trip.summary?.time || 0),
+      maneuvers
     };
   }
 
@@ -1183,6 +1279,17 @@
       });
     }
 
+    if (!map.getSource(CONFIG.routing.highlightSourceId)) {
+      map.addSource(CONFIG.routing.highlightSourceId, {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: { type: "LineString", coordinates: [] }
+        }
+      });
+    }
+
     if (!map.getLayer(CONFIG.routing.casingLayerId)) {
       map.addLayer({
         id: CONFIG.routing.casingLayerId,
@@ -1218,11 +1325,30 @@
         }
       });
     }
+
+    if (!map.getLayer(CONFIG.routing.highlightLayerId)) {
+      map.addLayer({
+        id: CONFIG.routing.highlightLayerId,
+        type: "line",
+        source: CONFIG.routing.highlightSourceId,
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+          visibility: "none"
+        },
+        paint: {
+          "line-color": "#facc15",
+          "line-width": 8,
+          "line-opacity": 0.95
+        }
+      });
+    }
   }
 
   function drawRoute(geometry, from, to, mode) {
     ensureRouteLayers();
     state.routeCoordinates = geometry.coordinates;
+    clearManeuverHighlight();
 
     map.getSource(CONFIG.routing.sourceId).setData({
       type: "Feature",
@@ -1247,6 +1373,7 @@
     state.routePointA = from;
     state.routePointB = to;
     refreshRouteMarkers();
+    refreshWaypointMarkers();
 
     const bounds = geometry.coordinates.reduce(
       (current, coordinate) => current.extend(coordinate),
@@ -1263,10 +1390,359 @@
     });
   }
 
+  function renderRouteDirections(maneuvers) {
+    clearRouteDirections();
+
+    if (!Array.isArray(maneuvers) || !maneuvers.length) return;
+
+    const fragment = document.createDocumentFragment();
+
+    maneuvers.forEach((maneuver, index) => {
+      const item = document.createElement("li");
+      item.className = "route-direction";
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "route-direction-button";
+
+      const icon = document.createElement("span");
+      icon.className = "route-direction-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = getManeuverIcon(maneuver.type, index, maneuvers.length);
+
+      const copy = document.createElement("span");
+      copy.className = "route-direction-copy";
+
+      const instruction = document.createElement("span");
+      instruction.className = "route-direction-instruction";
+      instruction.textContent =
+        maneuver.roundaboutExit > 0
+          ? text[state.language].routeRoundaboutExit(maneuver.roundaboutExit)
+          : maneuver.instruction;
+
+      copy.appendChild(instruction);
+
+      if (maneuver.streetNames?.length) {
+        const street = document.createElement("span");
+        street.className = "route-direction-street";
+        street.textContent = maneuver.streetNames.join(", ");
+        copy.appendChild(street);
+      }
+
+      const distance = document.createElement("span");
+      distance.className = "route-direction-distance";
+      distance.textContent = formatDistance(maneuver.length);
+
+      button.append(icon, copy, distance);
+
+      if (maneuver.coordinate) {
+        button.addEventListener("click", () => {
+          selectManeuver(index, button);
+          map.easeTo({
+            center: maneuver.coordinate,
+            zoom: Math.max(map.getZoom(), 15),
+            bearing: 180,
+            duration: 650
+          });
+        });
+      } else {
+        button.disabled = true;
+      }
+
+      item.appendChild(button);
+      fragment.appendChild(item);
+    });
+
+    state.routeManeuvers = maneuvers;
+    state.selectedManeuverIndex = null;
+    el.routeDirectionsList.appendChild(fragment);
+    el.routeDirectionsCount.textContent =
+      `${maneuvers.length} ${text[state.language].routeSteps}`;
+    el.routeDirections.hidden = false;
+  }
+
+  function clearRouteDirections() {
+    if (!el.routeDirectionsList) return;
+    el.routeDirectionsList.replaceChildren();
+    state.routeManeuvers = [];
+    state.selectedManeuverIndex = null;
+    el.routeDirectionsCount.textContent = "";
+    el.routeDirections.hidden = true;
+  }
+
+  function getManeuverIcon(type, index, total) {
+    if (index === 0) return "A";
+    if (index === total - 1) return "B";
+
+    const icons = {
+      1: "↑",   // start
+      2: "→",   // start right
+      3: "←",   // start left
+      4: "✓",   // destination
+      5: "✓",   // destination right
+      6: "✓",   // destination left
+      7: "↑",   // continue
+      8: "↗",   // slight right
+      9: "→",   // right
+      10: "↘",  // sharp right
+      11: "↩",  // u-turn right
+      12: "↪",  // u-turn left
+      13: "↙",  // sharp left
+      14: "←",  // left
+      15: "↖",  // slight left
+      16: "↑",  // ramp straight
+      17: "↗",  // ramp right
+      18: "↖",  // ramp left
+      19: "→",  // exit right
+      20: "←",  // exit left
+      21: "↑",  // stay straight
+      22: "↗",  // stay right
+      23: "↖",  // stay left
+      24: "⇄",  // merge
+      25: "⟳",  // roundabout enter
+      26: "⟳",  // roundabout exit
+      27: "⛴",  // ferry enter
+      28: "⛴",  // ferry exit
+      29: "↑",  // transit
+      30: "↗",
+      31: "↖",
+      32: "↗",
+      33: "↖",
+      34: "↗",
+      35: "↖",
+      36: "⟳",
+      37: "⟳"
+    };
+
+    return icons[type] || "•";
+  }
+
+  function handleRouteModeChange() {
+    if (state.routePointA && state.routePointB) {
+      calculateRouteFromStoredPoints();
+      return;
+    }
+
+    if (el.routeFrom.value.trim() && el.routeTo.value.trim()) {
+      el.routeForm.requestSubmit();
+    }
+  }
+
+  function selectManeuver(index, button) {
+    for (const current of el.routeDirectionsList.querySelectorAll(
+      ".route-direction-button"
+    )) {
+      current.classList.remove("is-selected");
+    }
+
+    button.classList.add("is-selected");
+    state.selectedManeuverIndex = index;
+
+    const maneuver = state.routeManeuvers[index];
+    const segment = maneuver?.segment || [];
+
+    if (segment.length < 2) {
+      clearManeuverHighlight();
+      return;
+    }
+
+    map.getSource(CONFIG.routing.highlightSourceId).setData({
+      type: "Feature",
+      properties: {},
+      geometry: { type: "LineString", coordinates: segment }
+    });
+    map.setLayoutProperty(
+      CONFIG.routing.highlightLayerId,
+      "visibility",
+      "visible"
+    );
+  }
+
+  function clearManeuverHighlight() {
+    state.selectedManeuverIndex = null;
+
+    if (map.getSource(CONFIG.routing.highlightSourceId)) {
+      map.getSource(CONFIG.routing.highlightSourceId).setData({
+        type: "Feature",
+        properties: {},
+        geometry: { type: "LineString", coordinates: [] }
+      });
+    }
+    if (map.getLayer(CONFIG.routing.highlightLayerId)) {
+      map.setLayoutProperty(
+        CONFIG.routing.highlightLayerId,
+        "visibility",
+        "none"
+      );
+    }
+  }
+
+  function isClickOnRoute(point) {
+    if (!map.getLayer(CONFIG.routing.lineLayerId)) return false;
+
+    const tolerance = 8;
+    const box = [
+      [point.x - tolerance, point.y - tolerance],
+      [point.x + tolerance, point.y + tolerance]
+    ];
+
+    return map.queryRenderedFeatures(box, {
+      layers: [
+        CONFIG.routing.casingLayerId,
+        CONFIG.routing.lineLayerId
+      ]
+    }).length > 0;
+  }
+
+  function addRouteWaypoint(lngLat) {
+    const waypoint = {
+      lon: lngLat.lng,
+      lat: lngLat.lat,
+      label: formatCoordinates(lngLat.lng, lngLat.lat)
+    };
+
+    state.routeWaypoints.push(waypoint);
+    refreshWaypointMarkers();
+    calculateRouteFromStoredPoints();
+  }
+
+  function refreshWaypointMarkers() {
+    clearWaypointMarkers();
+
+    state.routeWaypoints.forEach((point, index) => {
+      const element = document.createElement("div");
+      element.className = "route-waypoint-marker";
+      element.textContent = String(index + 1);
+      element.title = text[state.language].routeWaypoint(index + 1);
+
+      const marker = new maplibregl.Marker({
+        element,
+        draggable: true,
+        anchor: "center"
+      })
+        .setLngLat([point.lon, point.lat])
+        .addTo(map);
+
+      marker.on("dragend", () => {
+        const position = marker.getLngLat();
+        state.routeWaypoints[index] = {
+          ...state.routeWaypoints[index],
+          lon: position.lng,
+          lat: position.lat,
+          label: formatCoordinates(position.lng, position.lat)
+        };
+        calculateRouteFromStoredPoints();
+      });
+
+      state.routeWaypointMarkers.push(marker);
+    });
+  }
+
+  function clearWaypointMarkers() {
+    for (const marker of state.routeWaypointMarkers) {
+      marker.remove();
+    }
+    state.routeWaypointMarkers = [];
+  }
+
+  async function shareRoute() {
+    if (!state.routePointA || !state.routePointB) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set(
+      "a",
+      `${state.routePointA.lat},${state.routePointA.lon}`
+    );
+    url.searchParams.set(
+      "b",
+      `${state.routePointB.lat},${state.routePointB.lon}`
+    );
+    url.searchParams.set("mode", getSelectedRouteMode());
+
+    if (state.routeWaypoints.length) {
+      url.searchParams.set(
+        "via",
+        state.routeWaypoints
+          .map(point => `${point.lat},${point.lon}`)
+          .join(";")
+      );
+    } else {
+      url.searchParams.delete("via");
+    }
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: document.title,
+          url: url.toString()
+        });
+      } else {
+        await navigator.clipboard.writeText(url.toString());
+        show(text[state.language].routeShared);
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        console.error(error);
+        show(text[state.language].routeShareError);
+      }
+    }
+  }
+
+  async function loadSharedRouteFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const a = parseSharedPoint(params.get("a"));
+    const b = parseSharedPoint(params.get("b"));
+    if (!a || !b) return;
+
+    const mode = params.get("mode");
+    const modeInput = document.querySelector(
+      `input[name="route-mode"][value="${mode}"]`
+    );
+    if (modeInput) modeInput.checked = true;
+
+    state.routePointA = a;
+    state.routePointB = b;
+    state.routeClickStage = "move-b";
+    el.routeFrom.value = a.label;
+    el.routeTo.value = b.label;
+
+    const via = params.get("via");
+    state.routeWaypoints = via
+      ? via.split(";").map(parseSharedPoint).filter(Boolean)
+      : [];
+
+    refreshRouteMarkers();
+    refreshWaypointMarkers();
+    await calculateRouteFromStoredPoints();
+  }
+
+  function parseSharedPoint(value) {
+    if (!value) return null;
+    const [latText, lonText] = value.split(",");
+    const lat = Number(latText);
+    const lon = Number(lonText);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+
+    return {
+      lat,
+      lon,
+      label: formatCoordinates(lon, lat)
+    };
+  }
+
   function updateRouteSummary(distanceMeters, durationSeconds) {
     el.routeDistance.textContent = formatDistance(distanceMeters);
     el.routeDuration.textContent = formatDuration(durationSeconds);
+
+    const arrival = new Date(Date.now() + durationSeconds * 1000);
+    el.routeArrival.textContent = arrival.toLocaleTimeString(
+      state.language === "pl" ? "pl-PL" : "en-US",
+      { hour: "2-digit", minute: "2-digit" }
+    );
+
     el.routeSummary.hidden = false;
+    el.routeShare.hidden = false;
+    el.routeWaypointNote.hidden = false;
   }
 
   function formatDistance(meters) {
@@ -1293,6 +1769,13 @@
     el.routeSummary.hidden = true;
     el.routeDistance.textContent = "—";
     el.routeDuration.textContent = "—";
+    el.routeArrival.textContent = "—";
+    el.routeShare.hidden = true;
+    el.routeWaypointNote.hidden = true;
+    state.routeWaypoints = [];
+    clearWaypointMarkers();
+    clearManeuverHighlight();
+    clearRouteDirections();
 
     if (map.getSource(CONFIG.routing.sourceId)) {
       map.getSource(CONFIG.routing.sourceId).setData({

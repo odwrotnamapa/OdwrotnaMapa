@@ -201,7 +201,28 @@
           <strong id="route-duration">—</strong>
           <span id="route-duration-label">Czas</span>
         </div>
+        <div>
+          <strong id="route-arrival">—</strong>
+          <span id="route-arrival-label">Przyjazd</span>
+        </div>
       </div>
+
+      <button id="route-share" class="route-share" type="button" hidden>
+        Udostępnij trasę
+      </button>
+
+
+      <p id="route-waypoint-note" class="route-waypoint-note" hidden>
+        Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.
+      </p>
+
+      <section id="route-directions" class="route-directions" hidden>
+        <div class="route-directions-header">
+          <h3 id="route-directions-title">Wskazówki</h3>
+          <span id="route-directions-count"></span>
+        </div>
+        <ol id="route-directions-list" class="route-directions-list"></ol>
+      </section>
 
       <p id="route-note" class="route-note">
         Trasa jest obliczana na podstawie danych OpenStreetMap.
