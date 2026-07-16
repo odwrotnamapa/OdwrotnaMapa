@@ -87,7 +87,12 @@
       routeShareError: "Nie udało się udostępnić trasy.",
       routeWaypointNote: "Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.",
       routeRoundaboutExit: exit => `Na rondzie wybierz ${exit}. zjazd.`,
-      routeWaypoint: number => `Punkt ${number}`
+      routeWaypoint: number => `Punkt ${number}`,
+      autocompleteNoResults: "Brak wyników",
+      autocompleteLoading: "Szukam…",
+      autocompleteError: "Nie udało się pobrać podpowiedzi.",
+      autocompleteCorrected: name => `Poprawiono nazwę na: ${name}`,
+      clearSearch: "Wyczyść wyszukiwanie"
     },
     en: {
       title: "Odwrotna Mapa - mapa z południem u góry",
@@ -171,7 +176,12 @@
       routeShareError: "The route could not be shared.",
       routeWaypointNote: "Click the route line to add a waypoint. You can drag the point.",
       routeRoundaboutExit: exit => `At the roundabout, take exit ${exit}.`,
-      routeWaypoint: number => `Waypoint ${number}`
+      routeWaypoint: number => `Waypoint ${number}`,
+      autocompleteNoResults: "No results",
+      autocompleteLoading: "Searching…",
+      autocompleteError: "Suggestions could not be loaded.",
+      autocompleteCorrected: name => `Corrected to: ${name}`,
+      clearSearch: "Clear search"
     }
   };
 
@@ -201,6 +211,8 @@
   const el = {
     searchForm: $("search-form"),
     searchInput: $("search-input"),
+    searchClear: $("search-clear"),
+    autocompleteFloating: $("autocomplete-floating"),
     searchButton: $("search-button"),
     themeSelect: $("theme-select"),
     languageSelect: $("language-select"),    locateButton: $("locate-button"),
@@ -332,6 +344,7 @@
     modeInput.addEventListener("change", handleRouteModeChange);
   }
   initializeRouteBottomSheet();
+  initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       closeLegend();
@@ -340,6 +353,8 @@
     }
   });
   el.searchForm.addEventListener("submit", search);
+  el.searchInput.addEventListener("input", updateSearchClearButton);
+  el.searchClear.addEventListener("click", clearMainSearch);
 
   function updateUI() {
     const t = text[state.language];
@@ -702,6 +717,629 @@
     ].includes(layerId);
   }
 
+  function initializeAutocomplete() {
+    const floatingList = el.autocompleteFloating;
+    let activeInput = null;
+    let activeSelect = null;
+    let debounceTimer = null;
+    let abortController = null;
+    let results = [];
+    let activeIndex = -1;
+
+    const controllers = [
+      {
+        input: el.searchInput,
+        onSelect: result => {
+          el.searchInput.value = getPreferredPlaceLabel(result);
+          updateSearchClearButton();
+          el.searchForm.requestSubmit();
+        }
+      },
+      {
+        input: el.routeFrom,
+        onSelect: result => {
+          const point = resultToRoutePoint(result);
+          state.routePointA = point;
+          el.routeFrom.value = point.label;
+          setRouteMarker("a", point);
+          state.routeClickStage = state.routePointB ? "move-b" : "b";
+          updateRouteClickHint();
+
+          if (state.routePointB) {
+            calculateRouteFromStoredPoints();
+          }
+        }
+      },
+      {
+        input: el.routeTo,
+        onSelect: result => {
+          const point = resultToRoutePoint(result);
+          state.routePointB = point;
+          el.routeTo.value = point.label;
+          setRouteMarker("b", point);
+          state.routeClickStage = "move-b";
+          updateRouteClickHint();
+
+          if (state.routePointA) {
+            calculateRouteFromStoredPoints();
+          }
+        }
+      }
+    ];
+
+    const hide = () => {
+      floatingList.hidden = true;
+      floatingList.replaceChildren();
+      activeInput = null;
+      activeSelect = null;
+      results = [];
+      activeIndex = -1;
+    };
+
+    const positionList = () => {
+      if (!activeInput || floatingList.hidden) return;
+
+      const rect = activeInput.getBoundingClientRect();
+      const viewportPadding = 8;
+      const width = Math.max(rect.width, 240);
+      const maxWidth = window.innerWidth - viewportPadding * 2;
+
+      floatingList.style.width = `${Math.min(width, maxWidth)}px`;
+      floatingList.style.left = `${Math.max(
+        viewportPadding,
+        Math.min(rect.left, window.innerWidth - Math.min(width, maxWidth) - viewportPadding)
+      )}px`;
+      floatingList.style.top = `${Math.min(
+        rect.bottom + 5,
+        window.innerHeight - 200
+      )}px`;
+    };
+
+    const showMessage = message => {
+      floatingList.replaceChildren();
+
+      const item = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "autocomplete-option";
+      button.disabled = true;
+      button.textContent = message;
+
+      item.appendChild(button);
+      floatingList.appendChild(item);
+      floatingList.hidden = false;
+      positionList();
+    };
+
+    const render = items => {
+      floatingList.replaceChildren();
+      results = items;
+      activeIndex = -1;
+
+      if (!items.length) {
+        showMessage(text[state.language].autocompleteNoResults);
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      items.forEach(result => {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "autocomplete-option";
+
+        const title = document.createElement("strong");
+        title.textContent = getPreferredPlaceLabel(result);
+
+        const details = document.createElement("span");
+        details.textContent = result.display_name || "";
+
+        button.append(title, details);
+        button.addEventListener("pointerdown", event => {
+          event.preventDefault();
+        });
+        button.addEventListener("click", () => {
+          activeSelect?.(result);
+          hide();
+        });
+
+        item.appendChild(button);
+        fragment.appendChild(item);
+      });
+
+      floatingList.appendChild(fragment);
+      floatingList.hidden = false;
+      positionList();
+    };
+
+    const fetchSuggestions = async query => {
+      abortController?.abort();
+      abortController = new AbortController();
+
+      showMessage(text[state.language].autocompleteLoading);
+
+      try {
+        const correctedLocalQuery = state.language === "pl"
+          ? correctPolishCityQuery(query)
+          : query;
+
+        const items = await findPlacesWithFallback(
+          correctedLocalQuery,
+          6,
+          abortController.signal
+        );
+
+        if (
+          activeInput &&
+          activeInput.value.trim() === query &&
+          correctedLocalQuery !== query
+        ) {
+          activeInput.value = correctedLocalQuery;
+          show(
+            text[state.language].autocompleteCorrected(
+              correctedLocalQuery
+            ),
+            2200
+          );
+        } else if (
+          activeInput &&
+          activeInput.value.trim() === query &&
+          maybeAutocorrectPlaceInput(activeInput, query, items)
+        ) {
+          show(
+            text[state.language].autocompleteCorrected(
+              getPrimaryPlaceName(items[0])
+            ),
+            2200
+          );
+        }
+
+        render(items);
+      } catch (error) {
+        if (error.name === "AbortError") return;
+        console.error(error);
+        showMessage(text[state.language].autocompleteError);
+      }
+    };
+
+    const setActive = index => {
+      const buttons = [...floatingList.querySelectorAll(
+        ".autocomplete-option:not(:disabled)"
+      )];
+      if (!buttons.length) return;
+
+      activeIndex = (index + buttons.length) % buttons.length;
+      buttons.forEach((button, currentIndex) => {
+        button.classList.toggle("is-active", currentIndex === activeIndex);
+      });
+      buttons[activeIndex].scrollIntoView({ block: "nearest" });
+    };
+
+    for (const controller of controllers) {
+      const { input, onSelect } = controller;
+
+      input.addEventListener("input", () => {
+        const query = input.value.trim();
+        clearTimeout(debounceTimer);
+
+        activeInput = input;
+        activeSelect = onSelect;
+
+        if (query.length < 2) {
+          hide();
+          return;
+        }
+
+        debounceTimer = setTimeout(() => {
+          fetchSuggestions(query);
+        }, 350);
+      });
+
+      input.addEventListener("focus", () => {
+        activeInput = input;
+        activeSelect = onSelect;
+        if (results.length && !floatingList.hidden) positionList();
+      });
+
+      input.addEventListener("keydown", event => {
+        if (floatingList.hidden) return;
+
+        const buttons = [...floatingList.querySelectorAll(
+          ".autocomplete-option:not(:disabled)"
+        )];
+
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          setActive(activeIndex + 1);
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          setActive(activeIndex - 1);
+        } else if (event.key === "Enter" && activeIndex >= 0) {
+          event.preventDefault();
+          buttons[activeIndex]?.click();
+        } else if (event.key === "Escape") {
+          hide();
+        }
+      });
+    }
+
+    document.addEventListener("pointerdown", event => {
+      if (
+        event.target !== activeInput &&
+        !floatingList.contains(event.target)
+      ) {
+        hide();
+      }
+    });
+
+    window.addEventListener("resize", positionList);
+    window.addEventListener("scroll", positionList, true);
+
+    window.addEventListener("beforeunload", () => {
+      clearTimeout(debounceTimer);
+      abortController?.abort();
+    });
+  }
+
+  function hideAllAutocomplete() {
+    if (!el.autocompleteFloating) return;
+    el.autocompleteFloating.hidden = true;
+    el.autocompleteFloating.replaceChildren();
+  }
+
+  const POLISH_CITY_NAMES = [
+    "Warszawa", "Kraków", "Łódź", "Wrocław", "Poznań", "Gdańsk",
+    "Szczecin", "Bydgoszcz", "Lublin", "Białystok", "Katowice", "Gdynia",
+    "Częstochowa", "Radom", "Toruń", "Sosnowiec", "Rzeszów", "Kielce",
+    "Gliwice", "Olsztyn", "Bielsko-Biała", "Zabrze", "Bytom", "Zielona Góra",
+    "Rybnik", "Ruda Śląska", "Opole", "Tychy", "Gorzów Wielkopolski",
+    "Dąbrowa Górnicza", "Elbląg", "Płock", "Wałbrzych", "Włocławek",
+    "Tarnów", "Chorzów", "Koszalin", "Kalisz", "Legnica", "Grudziądz",
+    "Słupsk", "Jaworzno", "Jastrzębie-Zdrój", "Nowy Sącz", "Jelenia Góra",
+    "Siedlce", "Konin", "Piotrków Trybunalski", "Inowrocław", "Lubin",
+    "Ostrów Wielkopolski", "Suwałki", "Gniezno", "Przemyśl", "Stargard",
+    "Zamość", "Chełm", "Leszno", "Łomża", "Ełk", "Tomaszów Mazowiecki",
+    "Bełchatów", "Mielec", "Tczew", "Świdnica", "Biała Podlaska",
+    "Będzin", "Zgierz", "Pabianice", "Racibórz", "Pruszków", "Kołobrzeg",
+    "Wejherowo", "Sopot", "Zakopane"
+  ];
+
+  function correctPolishCityQuery(query) {
+    const normalizedQuery = normalizeSearchText(query);
+
+    if (
+      normalizedQuery.length < 4 ||
+      normalizedQuery.includes(" ") ||
+      /\d/.test(normalizedQuery)
+    ) {
+      return query;
+    }
+
+    let bestCity = null;
+    let bestDistance = Infinity;
+
+    for (const city of POLISH_CITY_NAMES) {
+      const normalizedCity = normalizeSearchText(city);
+      const distance = damerauLevenshtein(
+        normalizedQuery,
+        normalizedCity
+      );
+
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestCity = city;
+      }
+    }
+
+    if (!bestCity) return query;
+
+    const cityLength = normalizeSearchText(bestCity).length;
+    const maximumDistance =
+      cityLength <= 5 ? 1 :
+      cityLength <= 8 ? 2 :
+      3;
+
+    const firstLetterMatches =
+      normalizedQuery[0] === normalizeSearchText(bestCity)[0];
+
+    return (
+      firstLetterMatches &&
+      bestDistance > 0 &&
+      bestDistance <= maximumDistance
+    )
+      ? bestCity
+      : query;
+  }
+
+  async function findPlacesWithFallback(query, limit = 6, signal) {
+    const correctedQuery = state.language === "pl"
+      ? correctPolishCityQuery(query)
+      : query;
+
+    let photonResults = [];
+
+    try {
+      photonResults = await fetchPhotonPlaces(
+        correctedQuery,
+        limit,
+        signal
+      );
+    } catch (error) {
+      if (error.name === "AbortError") throw error;
+      console.warn("Photon search failed, using Nominatim fallback.", error);
+    }
+
+    if (photonResults.length) return photonResults;
+    return fetchNominatimPlaces(correctedQuery, limit, signal);
+  }
+
+  async function fetchPhotonPlaces(query, limit, signal) {
+    const url = new URL(CONFIG.search.fuzzyEndpoint);
+    url.searchParams.set("q", query);
+    url.searchParams.set("limit", String(limit));
+    url.searchParams.set("lang", state.language);
+
+    const response = await fetch(url, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) {
+      throw new Error(`Photon HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    return (data.features || [])
+      .map(normalizePhotonFeature)
+      .filter(Boolean);
+  }
+
+  async function fetchNominatimPlaces(query, limit, signal) {
+    const url = new URL(CONFIG.search.endpoint);
+    url.searchParams.set("q", query);
+    url.searchParams.set("format", "jsonv2");
+    url.searchParams.set("limit", String(limit));
+    url.searchParams.set("addressdetails", "1");
+    url.searchParams.set("accept-language", state.language);
+
+    const response = await fetch(url, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) {
+      throw new Error(`Nominatim HTTP ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  function normalizePhotonFeature(feature) {
+    const properties = feature?.properties || {};
+    const coordinates = feature?.geometry?.coordinates || [];
+    const lon = Number(coordinates[0]);
+    const lat = Number(coordinates[1]);
+
+    if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
+
+    const type = String(properties.type || "").toLowerCase();
+    const name =
+      properties.name ||
+      properties.city ||
+      properties.town ||
+      properties.village ||
+      properties.locality ||
+      "";
+
+    const address = {
+      state: properties.state,
+      county: properties.county,
+      country: properties.country,
+      postcode: properties.postcode,
+      road: properties.street
+    };
+
+    if (type === "city") address.city = name;
+    else if (type === "town") address.town = name;
+    else if (type === "village") address.village = name;
+    else if (type === "hamlet") address.hamlet = name;
+    else if (type === "municipality") address.municipality = name;
+    else if (type === "district" || type === "locality") address.suburb = name;
+    else if (properties.city) address.city = properties.city;
+    else if (properties.town) address.town = properties.town;
+    else if (properties.village) address.village = properties.village;
+
+    const displayParts = [
+      name,
+      properties.city && properties.city !== name
+        ? properties.city
+        : null,
+      properties.state,
+      properties.country
+    ].filter(Boolean);
+
+    return {
+      lon,
+      lat,
+      name,
+      display_name: [...new Set(displayParts)].join(", "),
+      address,
+      _provider: "photon",
+      _placeType: type
+    };
+  }
+
+  function maybeAutocorrectPlaceInput(input, query, items) {
+    if (!items.length || query.length < 4) return false;
+
+    const best = items[0];
+    if (!isSettlementResult(best)) return false;
+
+    const candidate = getPrimaryPlaceName(best);
+    if (!candidate) return false;
+
+    const queryNormalized = normalizeSearchText(query);
+    const candidateNormalized = normalizeSearchText(candidate);
+
+    if (
+      !queryNormalized ||
+      !candidateNormalized ||
+      queryNormalized === candidateNormalized
+    ) {
+      return false;
+    }
+
+    // Autokorekta nazw miejsc, a nie całych rozbudowanych adresów.
+    if (queryNormalized.split(" ").length > 2) return false;
+
+    const distance = damerauLevenshtein(
+      queryNormalized,
+      candidateNormalized
+    );
+    const longest = Math.max(
+      queryNormalized.length,
+      candidateNormalized.length
+    );
+    const maximumDistance =
+      longest <= 4 ? 1 :
+      longest <= 8 ? 2 :
+      3;
+
+    const sameBeginning =
+      queryNormalized[0] === candidateNormalized[0];
+
+    if (
+      sameBeginning &&
+      distance > 0 &&
+      distance <= maximumDistance &&
+      distance / longest <= 0.34
+    ) {
+      input.value = candidate;
+      return true;
+    }
+
+    return false;
+  }
+
+  function isSettlementResult(result) {
+    const type = String(result._placeType || "").toLowerCase();
+    const address = result.address || {};
+
+    return [
+      "city",
+      "town",
+      "village",
+      "hamlet",
+      "municipality",
+      "locality",
+      "district"
+    ].includes(type) || Boolean(
+      address.city ||
+      address.town ||
+      address.village ||
+      address.hamlet ||
+      address.municipality
+    );
+  }
+
+  function getPrimaryPlaceName(result) {
+    const address = result.address || {};
+
+    return (
+      address.city ||
+      address.town ||
+      address.village ||
+      address.municipality ||
+      address.hamlet ||
+      address.suburb ||
+      result.name ||
+      ""
+    );
+  }
+
+  function normalizeSearchText(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+
+  function damerauLevenshtein(left, right) {
+    const rows = left.length + 1;
+    const columns = right.length + 1;
+    const matrix = Array.from(
+      { length: rows },
+      () => Array(columns).fill(0)
+    );
+
+    for (let row = 0; row < rows; row++) matrix[row][0] = row;
+    for (let column = 0; column < columns; column++) {
+      matrix[0][column] = column;
+    }
+
+    for (let row = 1; row < rows; row++) {
+      for (let column = 1; column < columns; column++) {
+        const cost =
+          left[row - 1] === right[column - 1] ? 0 : 1;
+
+        matrix[row][column] = Math.min(
+          matrix[row - 1][column] + 1,
+          matrix[row][column - 1] + 1,
+          matrix[row - 1][column - 1] + cost
+        );
+
+        if (
+          row > 1 &&
+          column > 1 &&
+          left[row - 1] === right[column - 2] &&
+          left[row - 2] === right[column - 1]
+        ) {
+          matrix[row][column] = Math.min(
+            matrix[row][column],
+            matrix[row - 2][column - 2] + cost
+          );
+        }
+      }
+    }
+
+    return matrix[left.length][right.length];
+  }
+
+  function getPreferredPlaceLabel(result) {
+    const address = result.address || {};
+    const primary =
+      address.city ||
+      address.town ||
+      address.village ||
+      address.municipality ||
+      address.hamlet ||
+      address.suburb ||
+      address.road ||
+      result.name;
+
+    if (primary) {
+      const secondary =
+        address.state ||
+        address.county ||
+        address.country;
+
+      return secondary && secondary !== primary
+        ? `${primary}, ${secondary}`
+        : primary;
+    }
+
+    return result.display_name || "";
+  }
+
+  function resultToRoutePoint(result) {
+    return {
+      lon: Number(result.lon),
+      lat: Number(result.lat),
+      label: getPreferredPlaceLabel(result)
+    };
+  }
+
   function initializeRouteBottomSheet() {
     if (!el.routeSheetHandle || !el.routePanel) return;
 
@@ -886,6 +1524,8 @@
 
   function closeRoute() {
     if (el.routePanel.hidden) return;
+    clearRoute();
+    hideAllAutocomplete();
     el.routePanel.hidden = true;
     el.routeButton.setAttribute("aria-expanded", "false");
     document.body.classList.remove("map-picking-route");
@@ -1041,11 +1681,43 @@
         isA ? "A" : "B",
         isA ? "route-a" : "route-b"
       ),
-      anchor: "bottom"
+      anchor: "bottom",
+      draggable: true
     })
       .setLngLat([point.lon, point.lat])
       .setPopup(new maplibregl.Popup().setText(point.label))
       .addTo(map);
+
+    marker.on("dragend", async () => {
+      const position = marker.getLngLat();
+      const updatedPoint = {
+        lon: position.lng,
+        lat: position.lat,
+        label: formatCoordinates(position.lng, position.lat)
+      };
+
+      try {
+        updatedPoint.label = await reverseGeocodeRoutePoint(updatedPoint);
+      } catch (error) {
+        console.error(error);
+      }
+
+      if (isA) {
+        state.routePointA = updatedPoint;
+        el.routeFrom.value = updatedPoint.label;
+      } else {
+        state.routePointB = updatedPoint;
+        el.routeTo.value = updatedPoint.label;
+      }
+
+      marker.setPopup(
+        new maplibregl.Popup().setText(updatedPoint.label)
+      );
+
+      if (state.routePointA && state.routePointB) {
+        await calculateRouteFromStoredPoints();
+      }
+    });
 
     state.routeMarkers[key] = marker;
   }
@@ -1087,6 +1759,8 @@
 
       state.routePointA = from;
       state.routePointB = to;
+      el.routeFrom.value = from.label;
+      el.routeTo.value = to.label;
       state.routeClickStage = "move-b";
 
       const route = await fetchRoute(from, to);
@@ -1104,24 +1778,13 @@
   }
 
   async function geocodeRoutePoint(query) {
-    const url = new URL(CONFIG.search.endpoint);
-    url.searchParams.set("q", query);
-    url.searchParams.set("format", "jsonv2");
-    url.searchParams.set("limit", "1");
-    url.searchParams.set("accept-language", state.language);
-
-    const response = await fetch(url, {
-      headers: { "Accept": "application/json" }
-    });
-    if (!response.ok) throw new Error(`Nominatim HTTP ${response.status}`);
-
-    const results = await response.json();
+    const results = await findPlacesWithFallback(query, 1);
     if (!results.length) return null;
 
     return {
       lon: Number(results[0].lon),
       lat: Number(results[0].lat),
-      label: results[0].display_name
+      label: getPreferredPlaceLabel(results[0])
     };
   }
 
@@ -1766,6 +2429,9 @@
     state.routePointA = null;
     state.routePointB = null;
     state.routeClickStage = "a";
+    el.routeFrom.value = "";
+    el.routeTo.value = "";
+    hideAllAutocomplete();
     el.routeSummary.hidden = true;
     el.routeDistance.textContent = "—";
     el.routeDuration.textContent = "—";
@@ -1825,6 +2491,18 @@
     el.legendButton.setAttribute("aria-expanded", "false");
   }
 
+  function updateSearchClearButton() {
+    if (!el.searchClear) return;
+    el.searchClear.hidden = !el.searchInput.value.trim();
+  }
+
+  function clearMainSearch() {
+    el.searchInput.value = "";
+    hideAllAutocomplete();
+    updateSearchClearButton();
+    el.searchInput.focus();
+  }
+
   async function search(event) {
     event.preventDefault();
     const q = el.searchInput.value.trim();
@@ -1832,21 +2510,25 @@
     show(text[state.language].searching, 0);
 
     try {
-      const url = new URL(CONFIG.search.endpoint);
-      url.searchParams.set("q", q);
-      url.searchParams.set("format", "jsonv2");
-      url.searchParams.set("limit", String(CONFIG.search.limit));
-      url.searchParams.set("accept-language", state.language);
-
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const results = await response.json();
+      const results = await findPlacesWithFallback(
+        q,
+        CONFIG.search.limit
+      );
       if (!results.length) return show(text[state.language].noResults);
 
       const result = results[0];
+      const correctedName = getPrimaryPlaceName(result);
+      if (correctedName) {
+        el.searchInput.value = correctedName;
+        updateSearchClearButton();
+      }
+
       const point = [Number(result.lon), Number(result.lat)];
       map.flyTo({ center: point, zoom: 12, bearing: 180 });
-      new maplibregl.Popup().setLngLat(point).setText(result.display_name).addTo(map);
+      new maplibregl.Popup()
+        .setLngLat(point)
+        .setText(result.display_name || getPreferredPlaceLabel(result))
+        .addTo(map);
       hide();
     } catch (error) {
       console.error(error);

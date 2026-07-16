@@ -29,6 +29,9 @@
       <form id="search-form" class="search" role="search">
         <input id="search-input" type="search" autocomplete="off"
                placeholder="Szukaj miejsca…" aria-label="Szukaj miejsca">
+        <button id="search-clear" class="search-clear" type="button"
+                title="Wyczyść wyszukiwanie"
+                aria-label="Wyczyść wyszukiwanie" hidden>×</button>
         <button type="submit" id="search-button">Szukaj</button>
         <button id="route-button" class="icon-button svg-icon-button" type="button"
                 title="Wyznacz trasę" aria-label="Wyznacz trasę"
@@ -169,7 +172,7 @@
           <label class="route-point route-point-from">
             <span id="route-from-label">Punkt A</span>
             <input id="route-from" type="search" autocomplete="off"
-                   placeholder="Miejsce początkowe" required>
+                     placeholder="Miejsce początkowe" required>
           </label>
 
           <button id="route-swap" class="route-swap" type="button"
@@ -178,7 +181,7 @@
           <label class="route-point route-point-to">
             <span id="route-to-label">Punkt B</span>
             <input id="route-to" type="search" autocomplete="off"
-                   placeholder="Cel podróży" required>
+                     placeholder="Cel podróży" required>
           </label>
         </div>
 
@@ -268,6 +271,8 @@
       </dl>
     </aside>
 
+
+    <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
 
     <div id="status" class="status" role="status" aria-live="polite" hidden></div>
   </main>

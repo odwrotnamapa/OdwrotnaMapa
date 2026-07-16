@@ -1350,3 +1350,119 @@ body.ui-dark .legend-symbol.osm-buildings {
     font-size: .9rem;
   }
 }
+
+
+
+
+.autocomplete-list {
+  position: fixed;
+  z-index: 1000;
+  max-height: 260px;
+  margin: 0;
+  padding: 5px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  list-style: none;
+}
+
+.autocomplete-list[hidden] {
+  display: none;
+}
+
+.autocomplete-floating {
+  min-width: 220px;
+}
+
+.autocomplete-option {
+  width: 100%;
+  border: 0;
+  border-radius: 9px;
+  padding: 9px 10px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.autocomplete-option:hover,
+.autocomplete-option:focus-visible,
+.autocomplete-option.is-active {
+  background: rgba(127, 127, 127, 0.12);
+}
+
+.autocomplete-option strong {
+  display: block;
+  overflow: hidden;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.autocomplete-option span {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .autocomplete-list {
+    max-height: 190px;
+  }
+}
+
+
+.search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 28px;
+  margin: 0 8px 0 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-1px);
+  flex: 0 0 auto;
+}
+
+.search-clear:hover,
+.search-clear:focus-visible {
+  background: transparent;
+  color: var(--text);
+}
+
+.search-clear[hidden] {
+  display: none;
+}
+
+.route-letter-marker {
+  cursor: grab;
+}
+
+.route-letter-marker:active {
+  cursor: grabbing;
+}
+
+
+/* Usuń separator przed przyciskiem czyszczenia */
+.search-clear::before{
+  content:none !important;
+}
+
+.search > .search-clear{
+  border-left:none !important;
+  box-shadow:none !important;
+}
