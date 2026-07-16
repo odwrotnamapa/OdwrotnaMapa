@@ -54,56 +54,13 @@
           </select>
         </label>
 
-        <div class="language-menu">
+        <label class="select-wrap">
           <span class="sr-only" id="language-label">Język</span>
-
-          <button id="language-menu-button"
-                  class="language-menu-button"
-                  type="button"
-                  aria-labelledby="language-label"
-                  aria-haspopup="listbox"
-                  aria-expanded="false">
-            <span id="language-current-flag" aria-hidden="true">🇵🇱</span>
-          </button>
-
-          <div id="language-menu-list"
-               class="language-menu-list"
-               role="listbox"
-               aria-labelledby="language-label"
-               hidden>
-            <button type="button" role="option" data-language="pl"
-                    aria-label="Polski" title="Polski">🇵🇱</button>
-            <button type="button" role="option" data-language="en"
-                    aria-label="English" title="English">🇬🇧</button>
-            <button type="button" role="option" data-language="de"
-                    aria-label="Deutsch" title="Deutsch">🇩🇪</button>
-            <button type="button" role="option" data-language="cs"
-                    aria-label="Čeština" title="Čeština">🇨🇿</button>
-            <button type="button" role="option" data-language="sk"
-                    aria-label="Slovenčina" title="Slovenčina">🇸🇰</button>
-            <button type="button" role="option" data-language="uk"
-                    aria-label="Українська" title="Українська">🇺🇦</button>
-            <button type="button" role="option" data-language="lt"
-                    aria-label="Lietuvių" title="Lietuvių">🇱🇹</button>
-            <button type="button" role="option" data-language="be"
-                    aria-label="Беларуская" title="Беларуская">🇧🇾</button>
-            <button type="button" role="option" data-language="ru"
-                    aria-label="Русский" title="Русский">🇷🇺</button>
-          </div>
-
-          <select id="language-select" class="sr-only"
-                  aria-labelledby="language-label" tabindex="-1">
-            <option value="pl">Polski</option>
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-            <option value="cs">Čeština</option>
-            <option value="sk">Slovenčina</option>
-            <option value="uk">Українська</option>
-            <option value="lt">Lietuvių</option>
-            <option value="be">Беларуская</option>
-            <option value="ru">Русский</option>
+          <select id="language-select" aria-labelledby="language-label">
+            <option value="pl">PL</option>
+            <option value="en">EN</option>
           </select>
-        </div>
+        </label>
         <button id="locate-button" class="icon-button" type="button"
                 title="Moja lokalizacja" aria-label="Moja lokalizacja">◎</button>
         <button id="legend-button" class="icon-button" type="button"

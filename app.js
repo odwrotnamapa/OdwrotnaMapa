@@ -122,7 +122,7 @@
       departuresShowLess: "Pokaż mniej"
     },
     en: {
-      title: "Odwrotna Mapa – map with south at the top",
+      title: "Odwrotna Mapa - mapa z południem u góry",
       search: "Search for a place…", button: "Search",
       styles: { light: "Light", dark: "Dark", satellite: "Satellite" },
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
@@ -239,79 +239,10 @@
     }
   };
 
-
-  function mergeTranslation(base, override) {
-    const result = {};
-
-    for (const [key, value] of Object.entries(base)) {
-      if (
-        value &&
-        typeof value === "object" &&
-        !Array.isArray(value)
-      ) {
-        result[key] = mergeTranslation(value, {});
-      } else {
-        // Funkcje i wartości proste można przypisać bez klonowania.
-        result[key] = value;
-      }
-    }
-
-    for (const [key, value] of Object.entries(override)) {
-      if (
-        value &&
-        typeof value === "object" &&
-        !Array.isArray(value) &&
-        result[key] &&
-        typeof result[key] === "object" &&
-        !Array.isArray(result[key])
-      ) {
-        result[key] = mergeTranslation(result[key], value);
-      } else {
-        result[key] = value;
-      }
-    }
-
-    return result;
-  }
-
-  text.de = mergeTranslation(text.en, {"title":"Odwrotna Mapa – Karte mit Süden oben","search":"Ort oder Adresse suchen…","button":"Suchen","styles":{"light":"Hell","dark":"Dunkel","satellite":"Satellit"},"locate":"Mein Standort","legend":"Legende","closeLegend":"Legende schließen","legendSections":{"boundaries":"Grenzen","roads":"Straßen","transport":"Verkehr","land":"Flächen"},"about":"Über das Projekt","closeAbout":"Projektinfo schließen","aboutIntro":"Die meisten modernen Karten zeigen Norden oben. Das ist kein Naturgesetz, sondern eine historische Konvention. Odwrotna Mapa lädt dazu ein, die Welt aus einer anderen Perspektive zu betrachten – im wörtlichen Sinne – und erinnert daran, dass Darstellungsweisen unsere Wahrnehmung der Wirklichkeit beeinflussen.","aboutVersion":"Version","aboutData":"Kartendaten","aboutStyle":"Kartenstil","aboutEngine":"Engine","searching":"Suche…","noResults":"Kein Ort gefunden.","searchError":"Die Suche ist fehlgeschlagen.","locating":"Standort wird ermittelt…","locationError":"Standort konnte nicht ermittelt werden.","route":"Route planen","closeRoute":"Routenplaner schließen","resizeRoutePanel":"Höhe des Routenfensters ändern","routeTitle":"Route","routeFrom":"Punkt A","routeTo":"Punkt B","routeFromPlaceholder":"Startpunkt","routeToPlaceholder":"Ziel","routeSwap":"Punkte tauschen","routeSubmit":"Route planen","routeClear":"Löschen","routeDistance":"Entfernung","routeDuration":"Zeit","routeNote":"Die Route wird anhand von OpenStreetMap-Daten berechnet.","routeMode":"Verkehrsmittel","routeModes":{"auto":"Auto","bicycle":"Fahrrad","pedestrian":"Zu Fuß"},"routeSearching":"Punkte werden gesucht und Route berechnet…","routePointNotFound":"Einer der Punkte wurde nicht gefunden.","routeError":"Route konnte nicht berechnet werden.","routePickA":"Auf die Karte klicken, um den Startpunkt zu wählen.","routePickB":"Auf die Karte klicken, um das Ziel zu wählen.","routePickMoveB":"Auf die Karte klicken, um das Ziel zu verschieben.","routeDirections":"Wegbeschreibung","routeSteps":"Schritte","routeArrival":"Ankunft","routeShare":"Route teilen","routeShared":"Routenlink wurde kopiert.","routeShareError":"Route konnte nicht geteilt werden.","autocompleteNoResults":"Keine Ergebnisse","autocompleteLoading":"Suche…","autocompleteError":"Vorschläge konnten nicht geladen werden.","clearSearch":"Suche löschen","searchHistory":"Letzte Suchen","clearSearchHistory":"Verlauf löschen","placeLoading":"Ortsinformationen werden geladen…","placeUnknown":"Ausgewählter Ort","placeType":"Typ","placeCoordinates":"Koordinaten","placeSetA":"Als Punkt A setzen","placeSetB":"Als Punkt B setzen","placeCopy":"Kopieren","placeCopied":"Ortsinformationen kopiert.","placeAddressCopied":"Adresse kopiert.","placeCoordinatesCopied":"Koordinaten kopiert.","placePhoneCopied":"Telefonnummer kopiert.","placeShare":"Teilen","placeOpenOsm":"In OpenStreetMap öffnen","placeError":"Ortsinformationen konnten nicht geladen werden.","departuresTitle":"Nächste Abfahrten","departuresLoading":"Fahrplan wird geladen…","departuresEmpty":"Für diese Haltestelle ist kein Fahrplan verfügbar.","departuresError":"Fahrplan konnte nicht geladen werden.","departuresScheduled":"planmäßig","departuresCancelled":"fällt aus","departuresNow":"jetzt","departuresSources":"Datenquellen","departuresShowMore":"Mehr anzeigen","departuresShowLess":"Weniger anzeigen"});
-  text.de.routeRoundaboutExit = exit => `${exit}`;
-  text.de.routeWaypoint = number => `${number}`;
-  text.de.autocompleteCorrected = name => `${name}`;
-  text.de.departuresMinutes = minutes => `${minutes} min`;
-  text.cs = mergeTranslation(text.en, {"title":"Odwrotna Mapa – mapa s jihem nahoře","search":"Hledat místo nebo adresu…","button":"Hledat","styles":{"light":"Světlý","dark":"Tmavý","satellite":"Satelitní"},"locate":"Moje poloha","legend":"Legenda","closeLegend":"Zavřít legendu","legendSections":{"boundaries":"Hranice","roads":"Silnice","transport":"Doprava","land":"Plochy"},"about":"O projektu","closeAbout":"Zavřít sekci O projektu","aboutIntro":"Většina současných map zobrazuje sever nahoře. Není to přírodní zákon, ale historická konvence. Odwrotna Mapa vybízí podívat se na svět z jiné perspektivy – doslova – a připomíná, že způsob zobrazení reality ovlivňuje naše vnímání.","aboutVersion":"Verze","aboutData":"Mapová data","aboutStyle":"Styl mapy","aboutEngine":"Jádro","searching":"Hledání…","noResults":"Místo nebylo nalezeno.","searchError":"Místo se nepodařilo vyhledat.","locating":"Zjišťování polohy…","locationError":"Polohu se nepodařilo zjistit.","route":"Naplánovat trasu","closeRoute":"Zavřít plánovač trasy","resizeRoutePanel":"Změnit výšku panelu trasy","routeTitle":"Trasa","routeFrom":"Bod A","routeTo":"Bod B","routeFromPlaceholder":"Výchozí místo","routeToPlaceholder":"Cíl","routeSwap":"Prohodit body","routeSubmit":"Naplánovat trasu","routeClear":"Vymazat","routeDistance":"Vzdálenost","routeDuration":"Čas","routeNote":"Trasa je vypočítána z dat OpenStreetMap.","routeMode":"Způsob dopravy","routeModes":{"auto":"Auto","bicycle":"Kolo","pedestrian":"Pěšky"},"routeSearching":"Hledání bodů a výpočet trasy…","routePointNotFound":"Jeden ze zadaných bodů nebyl nalezen.","routeError":"Trasu se nepodařilo vypočítat.","routePickA":"Kliknutím na mapu vyberte výchozí bod.","routePickB":"Kliknutím na mapu vyberte cíl.","routePickMoveB":"Kliknutím na mapu změňte cíl.","routeDirections":"Pokyny","routeSteps":"kroků","routeArrival":"Příjezd","routeShare":"Sdílet trasu","routeShared":"Odkaz na trasu byl zkopírován.","routeShareError":"Trasu se nepodařilo sdílet.","autocompleteNoResults":"Žádné výsledky","autocompleteLoading":"Hledání…","autocompleteError":"Návrhy se nepodařilo načíst.","clearSearch":"Vymazat hledání","searchHistory":"Nedávná hledání","clearSearchHistory":"Vymazat historii","placeLoading":"Načítání informací o místě…","placeUnknown":"Vybrané místo","placeType":"Typ","placeCoordinates":"Souřadnice","placeSetA":"Nastavit jako bod A","placeSetB":"Nastavit jako bod B","placeCopy":"Kopírovat","placeCopied":"Informace o místě byly zkopírovány.","placeAddressCopied":"Adresa byla zkopírována.","placeCoordinatesCopied":"Souřadnice byly zkopírovány.","placePhoneCopied":"Telefonní číslo bylo zkopírováno.","placeShare":"Sdílet","placeOpenOsm":"Otevřít v OpenStreetMap","placeError":"Informace o místě se nepodařilo načíst.","departuresTitle":"Nejbližší odjezdy","departuresLoading":"Načítání jízdního řádu…","departuresEmpty":"Pro tuto zastávku není jízdní řád k dispozici.","departuresError":"Jízdní řád se nepodařilo načíst.","departuresScheduled":"podle jízdního řádu","departuresCancelled":"zrušeno","departuresNow":"nyní","departuresSources":"Zdroje dat","departuresShowMore":"Zobrazit více","departuresShowLess":"Zobrazit méně"});
-  text.cs.routeRoundaboutExit = exit => `${exit}`;
-  text.cs.routeWaypoint = number => `${number}`;
-  text.cs.autocompleteCorrected = name => `${name}`;
-  text.cs.departuresMinutes = minutes => `${minutes} min`;
-  text.sk = mergeTranslation(text.en, {"title":"Odwrotna Mapa – mapa s juhom hore","search":"Hľadať miesto alebo adresu…","button":"Hľadať","styles":{"light":"Svetlá","dark":"Tmavá","satellite":"Satelitná"},"locate":"Moja poloha","legend":"Legenda","closeLegend":"Zavrieť legendu","legendSections":{"boundaries":"Hranice","roads":"Cesty","transport":"Doprava","land":"Plochy"},"about":"O projekte","closeAbout":"Zavrieť sekciu O projekte","aboutIntro":"Väčšina moderných máp zobrazuje sever hore. Nie je to prírodný zákon, ale historická konvencia. Odwrotna Mapa nabáda pozrieť sa na svet z inej perspektívy – doslova – a pripomína, že spôsob zobrazenia reality ovplyvňuje naše vnímanie.","aboutVersion":"Verzia","aboutData":"Mapové údaje","aboutStyle":"Štýl mapy","aboutEngine":"Jadro","searching":"Hľadanie…","noResults":"Miesto sa nenašlo.","searchError":"Miesto sa nepodarilo vyhľadať.","locating":"Zisťovanie polohy…","locationError":"Polohu sa nepodarilo zistiť.","route":"Naplánovať trasu","closeRoute":"Zavrieť plánovač trasy","resizeRoutePanel":"Zmeniť výšku panela trasy","routeTitle":"Trasa","routeFrom":"Bod A","routeTo":"Bod B","routeFromPlaceholder":"Východiskové miesto","routeToPlaceholder":"Cieľ","routeSwap":"Vymeniť body","routeSubmit":"Naplánovať trasu","routeClear":"Vymazať","routeDistance":"Vzdialenosť","routeDuration":"Čas","routeNote":"Trasa sa počíta z údajov OpenStreetMap.","routeMode":"Spôsob dopravy","routeModes":{"auto":"Auto","bicycle":"Bicykel","pedestrian":"Pešo"},"routeSearching":"Hľadanie bodov a výpočet trasy…","routePointNotFound":"Jeden zo zadaných bodov sa nenašiel.","routeError":"Trasu sa nepodarilo vypočítať.","routePickA":"Kliknutím na mapu vyberte východiskový bod.","routePickB":"Kliknutím na mapu vyberte cieľ.","routePickMoveB":"Kliknutím na mapu zmeňte cieľ.","routeDirections":"Pokyny","routeSteps":"krokov","routeArrival":"Príchod","routeShare":"Zdieľať trasu","routeShared":"Odkaz na trasu bol skopírovaný.","routeShareError":"Trasu sa nepodarilo zdieľať.","autocompleteNoResults":"Žiadne výsledky","autocompleteLoading":"Hľadanie…","autocompleteError":"Návrhy sa nepodarilo načítať.","clearSearch":"Vymazať vyhľadávanie","searchHistory":"Nedávne vyhľadávania","clearSearchHistory":"Vymazať históriu","placeLoading":"Načítavanie informácií o mieste…","placeUnknown":"Vybrané miesto","placeType":"Typ","placeCoordinates":"Súradnice","placeSetA":"Nastaviť ako bod A","placeSetB":"Nastaviť ako bod B","placeCopy":"Kopírovať","placeCopied":"Informácie o mieste boli skopírované.","placeAddressCopied":"Adresa bola skopírovaná.","placeCoordinatesCopied":"Súradnice boli skopírované.","placePhoneCopied":"Telefónne číslo bolo skopírované.","placeShare":"Zdieľať","placeOpenOsm":"Otvoriť v OpenStreetMap","placeError":"Informácie o mieste sa nepodarilo načítať.","departuresTitle":"Najbližšie odchody","departuresLoading":"Načítavanie cestovného poriadku…","departuresEmpty":"Pre túto zastávku nie je dostupný cestovný poriadok.","departuresError":"Cestovný poriadok sa nepodarilo načítať.","departuresScheduled":"podľa cestovného poriadku","departuresCancelled":"zrušené","departuresNow":"teraz","departuresSources":"Zdroje údajov","departuresShowMore":"Zobraziť viac","departuresShowLess":"Zobraziť menej"});
-  text.sk.routeRoundaboutExit = exit => `${exit}`;
-  text.sk.routeWaypoint = number => `${number}`;
-  text.sk.autocompleteCorrected = name => `${name}`;
-  text.sk.departuresMinutes = minutes => `${minutes} min`;
-  text.uk = mergeTranslation(text.en, {"title":"Odwrotna Mapa — карта з півднем угорі","search":"Пошук місця або адреси…","button":"Шукати","styles":{"light":"Світла","dark":"Темна","satellite":"Супутникова"},"locate":"Моє місцезнаходження","legend":"Легенда","closeLegend":"Закрити легенду","legendSections":{"boundaries":"Кордони","roads":"Дороги","transport":"Транспорт","land":"Місцевість"},"about":"Про проєкт","closeAbout":"Закрити розділ Про проєкт","aboutIntro":"Більшість сучасних карт показують північ угорі. Це не закон природи, а історична умовність. Odwrotna Mapa пропонує поглянути на світ з іншої перспективи — буквально — і нагадує, що спосіб зображення реальності впливає на наше сприйняття.","aboutVersion":"Версія","aboutData":"Картографічні дані","aboutStyle":"Стиль карти","aboutEngine":"Рушій","searching":"Пошук…","noResults":"Місце не знайдено.","searchError":"Не вдалося виконати пошук.","locating":"Визначення місцезнаходження…","locationError":"Не вдалося визначити місцезнаходження.","route":"Прокласти маршрут","closeRoute":"Закрити планувальник маршруту","resizeRoutePanel":"Змінити висоту панелі маршруту","routeTitle":"Маршрут","routeFrom":"Точка A","routeTo":"Точка B","routeFromPlaceholder":"Початкова точка","routeToPlaceholder":"Пункт призначення","routeSwap":"Поміняти точки","routeSubmit":"Прокласти маршрут","routeClear":"Очистити","routeDistance":"Відстань","routeDuration":"Час","routeNote":"Маршрут обчислюється за даними OpenStreetMap.","routeMode":"Спосіб пересування","routeModes":{"auto":"Автомобіль","bicycle":"Велосипед","pedestrian":"Пішки"},"routeSearching":"Пошук точок і обчислення маршруту…","routePointNotFound":"Одну з указаних точок не знайдено.","routeError":"Не вдалося обчислити маршрут.","routePickA":"Натисніть на карту, щоб вибрати початкову точку.","routePickB":"Натисніть на карту, щоб вибрати пункт призначення.","routePickMoveB":"Натисніть на карту, щоб змінити пункт призначення.","routeDirections":"Вказівки","routeSteps":"кроків","routeArrival":"Прибуття","routeShare":"Поділитися маршрутом","routeShared":"Посилання на маршрут скопійовано.","routeShareError":"Не вдалося поділитися маршрутом.","autocompleteNoResults":"Немає результатів","autocompleteLoading":"Пошук…","autocompleteError":"Не вдалося завантажити підказки.","clearSearch":"Очистити пошук","searchHistory":"Останні пошуки","clearSearchHistory":"Очистити історію","placeLoading":"Завантаження інформації про місце…","placeUnknown":"Вибране місце","placeType":"Тип","placeCoordinates":"Координати","placeSetA":"Встановити як точку A","placeSetB":"Встановити як точку B","placeCopy":"Копіювати","placeCopied":"Інформацію про місце скопійовано.","placeAddressCopied":"Адресу скопійовано.","placeCoordinatesCopied":"Координати скопійовано.","placePhoneCopied":"Номер телефону скопійовано.","placeShare":"Поділитися","placeOpenOsm":"Відкрити в OpenStreetMap","placeError":"Не вдалося завантажити інформацію про місце.","departuresTitle":"Найближчі відправлення","departuresLoading":"Завантаження розкладу…","departuresEmpty":"Для цієї зупинки розклад недоступний.","departuresError":"Не вдалося завантажити розклад.","departuresScheduled":"за розкладом","departuresCancelled":"скасовано","departuresNow":"зараз","departuresSources":"Джерела даних","departuresShowMore":"Показати більше","departuresShowLess":"Показати менше"});
-  text.uk.routeRoundaboutExit = exit => `${exit}`;
-  text.uk.routeWaypoint = number => `${number}`;
-  text.uk.autocompleteCorrected = name => `${name}`;
-  text.uk.departuresMinutes = minutes => `${minutes} min`;
-  text.lt = mergeTranslation(text.en, {"title":"Odwrotna Mapa – žemėlapis su pietumis viršuje","search":"Ieškoti vietos arba adreso…","button":"Ieškoti","styles":{"light":"Šviesus","dark":"Tamsus","satellite":"Palydovinis"},"locate":"Mano vieta","legend":"Legenda","closeLegend":"Uždaryti legendą","legendSections":{"boundaries":"Ribos","roads":"Keliai","transport":"Transportas","land":"Vietovė"},"about":"Apie projektą","closeAbout":"Uždaryti skiltį Apie projektą","aboutIntro":"Dauguma šiuolaikinių žemėlapių šiaurę rodo viršuje. Tai nėra gamtos dėsnis, o istorinė konvencija. Odwrotna Mapa kviečia pažvelgti į pasaulį iš kitos perspektyvos – tiesiogine prasme – ir primena, kad tikrovės vaizdavimas veikia mūsų suvokimą.","aboutVersion":"Versija","aboutData":"Žemėlapio duomenys","aboutStyle":"Žemėlapio stilius","aboutEngine":"Variklis","searching":"Ieškoma…","noResults":"Vieta nerasta.","searchError":"Nepavyko atlikti paieškos.","locating":"Nustatoma vieta…","locationError":"Nepavyko nustatyti vietos.","route":"Planuoti maršrutą","closeRoute":"Uždaryti maršruto planuoklę","resizeRoutePanel":"Keisti maršruto skydelio aukštį","routeTitle":"Maršrutas","routeFrom":"Taškas A","routeTo":"Taškas B","routeFromPlaceholder":"Pradžios vieta","routeToPlaceholder":"Kelionės tikslas","routeSwap":"Sukeisti taškus","routeSubmit":"Planuoti maršrutą","routeClear":"Išvalyti","routeDistance":"Atstumas","routeDuration":"Laikas","routeNote":"Maršrutas skaičiuojamas pagal OpenStreetMap duomenis.","routeMode":"Keliavimo būdas","routeModes":{"auto":"Automobiliu","bicycle":"Dviračiu","pedestrian":"Pėsčiomis"},"routeSearching":"Ieškomi taškai ir skaičiuojamas maršrutas…","routePointNotFound":"Vienas iš nurodytų taškų nerastas.","routeError":"Nepavyko apskaičiuoti maršruto.","routePickA":"Spustelėkite žemėlapį ir pasirinkite pradžios tašką.","routePickB":"Spustelėkite žemėlapį ir pasirinkite kelionės tikslą.","routePickMoveB":"Spustelėkite žemėlapį ir pakeiskite kelionės tikslą.","routeDirections":"Nurodymai","routeSteps":"žingsnių","routeArrival":"Atvykimas","routeShare":"Bendrinti maršrutą","routeShared":"Maršruto nuoroda nukopijuota.","routeShareError":"Nepavyko bendrinti maršruto.","autocompleteNoResults":"Rezultatų nėra","autocompleteLoading":"Ieškoma…","autocompleteError":"Nepavyko įkelti pasiūlymų.","clearSearch":"Išvalyti paiešką","searchHistory":"Naujausios paieškos","clearSearchHistory":"Išvalyti istoriją","placeLoading":"Įkeliama vietos informacija…","placeUnknown":"Pasirinkta vieta","placeType":"Tipas","placeCoordinates":"Koordinatės","placeSetA":"Nustatyti kaip tašką A","placeSetB":"Nustatyti kaip tašką B","placeCopy":"Kopijuoti","placeCopied":"Vietos informacija nukopijuota.","placeAddressCopied":"Adresas nukopijuotas.","placeCoordinatesCopied":"Koordinatės nukopijuotos.","placePhoneCopied":"Telefono numeris nukopijuotas.","placeShare":"Bendrinti","placeOpenOsm":"Atidaryti OpenStreetMap","placeError":"Nepavyko įkelti vietos informacijos.","departuresTitle":"Artimiausi išvykimai","departuresLoading":"Įkeliamas tvarkaraštis…","departuresEmpty":"Šiai stotelei tvarkaraštis nepasiekiamas.","departuresError":"Nepavyko įkelti tvarkaraščio.","departuresScheduled":"pagal tvarkaraštį","departuresCancelled":"atšaukta","departuresNow":"dabar","departuresSources":"Duomenų šaltiniai","departuresShowMore":"Rodyti daugiau","departuresShowLess":"Rodyti mažiau"});
-  text.lt.routeRoundaboutExit = exit => `${exit}`;
-  text.lt.routeWaypoint = number => `${number}`;
-  text.lt.autocompleteCorrected = name => `${name}`;
-  text.lt.departuresMinutes = minutes => `${minutes} min`;
-  text.be = mergeTranslation(text.en, {"title":"Odwrotna Mapa — карта з поўднем уверсе","search":"Шукаць месца або адрас…","button":"Шукаць","styles":{"light":"Светлая","dark":"Цёмная","satellite":"Спадарожнікавая"},"locate":"Маё месцазнаходжанне","legend":"Легенда","closeLegend":"Закрыць легенду","legendSections":{"boundaries":"Межы","roads":"Дарогі","transport":"Транспарт","land":"Мясцовасць"},"about":"Пра праект","closeAbout":"Закрыць раздзел Пра праект","aboutIntro":"Большасць сучасных карт паказвае поўнач уверсе. Гэта не закон прыроды, а гістарычная ўмоўнасць. Odwrotna Mapa прапануе паглядзець на свет з іншай перспектывы — літаральна — і нагадвае, што спосаб адлюстравання рэальнасці ўплывае на наша ўспрыманне.","aboutVersion":"Версія","aboutData":"Картаграфічныя даныя","aboutStyle":"Стыль карты","aboutEngine":"Рухавік","searching":"Пошук…","noResults":"Месца не знойдзена.","searchError":"Не ўдалося выканаць пошук.","locating":"Вызначэнне месцазнаходжання…","locationError":"Не ўдалося вызначыць месцазнаходжанне.","route":"Пракласці маршрут","closeRoute":"Закрыць планавальнік маршруту","resizeRoutePanel":"Змяніць вышыню панэлі маршруту","routeTitle":"Маршрут","routeFrom":"Пункт A","routeTo":"Пункт B","routeFromPlaceholder":"Пачатковы пункт","routeToPlaceholder":"Пункт прызначэння","routeSwap":"Памяняць пункты","routeSubmit":"Пракласці маршрут","routeClear":"Ачысціць","routeDistance":"Адлегласць","routeDuration":"Час","routeNote":"Маршрут разлічваецца паводле даных OpenStreetMap.","routeMode":"Спосаб перамяшчэння","routeModes":{"auto":"Аўтамабіль","bicycle":"Ровар","pedestrian":"Пешшу"},"routeSearching":"Пошук пунктаў і разлік маршруту…","routePointNotFound":"Адзін з указаных пунктаў не знойдзены.","routeError":"Не ўдалося разлічыць маршрут.","routePickA":"Націсніце на карту, каб выбраць пачатковы пункт.","routePickB":"Націсніце на карту, каб выбраць пункт прызначэння.","routePickMoveB":"Націсніце на карту, каб змяніць пункт прызначэння.","routeDirections":"Указанні","routeSteps":"крокаў","routeArrival":"Прыбыццё","routeShare":"Падзяліцца маршрутам","routeShared":"Спасылка на маршрут скапіявана.","routeShareError":"Не ўдалося падзяліцца маршрутам.","autocompleteNoResults":"Няма вынікаў","autocompleteLoading":"Пошук…","autocompleteError":"Не ўдалося загрузіць падказкі.","clearSearch":"Ачысціць пошук","searchHistory":"Апошнія пошукі","clearSearchHistory":"Ачысціць гісторыю","placeLoading":"Загрузка інфармацыі пра месца…","placeUnknown":"Выбранае месца","placeType":"Тып","placeCoordinates":"Каардынаты","placeSetA":"Задаць як пункт A","placeSetB":"Задаць як пункт B","placeCopy":"Капіяваць","placeCopied":"Інфармацыя пра месца скапіявана.","placeAddressCopied":"Адрас скапіяваны.","placeCoordinatesCopied":"Каардынаты скапіяваны.","placePhoneCopied":"Нумар тэлефона скапіяваны.","placeShare":"Падзяліцца","placeOpenOsm":"Адкрыць у OpenStreetMap","placeError":"Не ўдалося загрузіць інфармацыю пра месца.","departuresTitle":"Бліжэйшыя адпраўленні","departuresLoading":"Загрузка раскладу…","departuresEmpty":"Для гэтага прыпынку расклад недаступны.","departuresError":"Не ўдалося загрузіць расклад.","departuresScheduled":"па раскладзе","departuresCancelled":"адменена","departuresNow":"зараз","departuresSources":"Крыніцы даных","departuresShowMore":"Паказаць больш","departuresShowLess":"Паказаць менш"});
-  text.be.routeRoundaboutExit = exit => `${exit}`;
-  text.be.routeWaypoint = number => `${number}`;
-  text.be.autocompleteCorrected = name => `${name}`;
-  text.be.departuresMinutes = minutes => `${minutes} min`;
-  text.ru = mergeTranslation(text.en, {"title":"Odwrotna Mapa — карта с югом вверху","search":"Искать место или адрес…","button":"Искать","styles":{"light":"Светлая","dark":"Тёмная","satellite":"Спутниковая"},"locate":"Моё местоположение","legend":"Легенда","closeLegend":"Закрыть легенду","legendSections":{"boundaries":"Границы","roads":"Дороги","transport":"Транспорт","land":"Местность"},"about":"О проекте","closeAbout":"Закрыть раздел О проекте","aboutIntro":"Большинство современных карт показывают север вверху. Это не закон природы, а историческая условность. Odwrotna Mapa предлагает взглянуть на мир с другой перспективы — буквально — и напоминает, что способ изображения реальности влияет на наше восприятие.","aboutVersion":"Версия","aboutData":"Картографические данные","aboutStyle":"Стиль карты","aboutEngine":"Движок","searching":"Поиск…","noResults":"Место не найдено.","searchError":"Не удалось выполнить поиск.","locating":"Определение местоположения…","locationError":"Не удалось определить местоположение.","route":"Построить маршрут","closeRoute":"Закрыть планировщик маршрута","resizeRoutePanel":"Изменить высоту панели маршрута","routeTitle":"Маршрут","routeFrom":"Точка A","routeTo":"Точка B","routeFromPlaceholder":"Начальная точка","routeToPlaceholder":"Пункт назначения","routeSwap":"Поменять точки","routeSubmit":"Построить маршрут","routeClear":"Очистить","routeDistance":"Расстояние","routeDuration":"Время","routeNote":"Маршрут рассчитывается по данным OpenStreetMap.","routeMode":"Способ передвижения","routeModes":{"auto":"Автомобиль","bicycle":"Велосипед","pedestrian":"Пешком"},"routeSearching":"Поиск точек и расчёт маршрута…","routePointNotFound":"Одна из указанных точек не найдена.","routeError":"Не удалось рассчитать маршрут.","routePickA":"Нажмите на карту, чтобы выбрать начальную точку.","routePickB":"Нажмите на карту, чтобы выбрать пункт назначения.","routePickMoveB":"Нажмите на карту, чтобы изменить пункт назначения.","routeDirections":"Указания","routeSteps":"шагов","routeArrival":"Прибытие","routeShare":"Поделиться маршрутом","routeShared":"Ссылка на маршрут скопирована.","routeShareError":"Не удалось поделиться маршрутом.","autocompleteNoResults":"Нет результатов","autocompleteLoading":"Поиск…","autocompleteError":"Не удалось загрузить подсказки.","clearSearch":"Очистить поиск","searchHistory":"Недавние поиски","clearSearchHistory":"Очистить историю","placeLoading":"Загрузка информации о месте…","placeUnknown":"Выбранное место","placeType":"Тип","placeCoordinates":"Координаты","placeSetA":"Установить как точку A","placeSetB":"Установить как точку B","placeCopy":"Копировать","placeCopied":"Информация о месте скопирована.","placeAddressCopied":"Адрес скопирован.","placeCoordinatesCopied":"Координаты скопированы.","placePhoneCopied":"Номер телефона скопирован.","placeShare":"Поделиться","placeOpenOsm":"Открыть в OpenStreetMap","placeError":"Не удалось загрузить информацию о месте.","departuresTitle":"Ближайшие отправления","departuresLoading":"Загрузка расписания…","departuresEmpty":"Для этой остановки расписание недоступно.","departuresError":"Не удалось загрузить расписание.","departuresScheduled":"по расписанию","departuresCancelled":"отменён","departuresNow":"сейчас","departuresSources":"Источники данных","departuresShowMore":"Показать больше","departuresShowLess":"Показать меньше"});
-  text.ru.routeRoundaboutExit = exit => `${exit}`;
-  text.ru.routeWaypoint = number => `${number}`;
-  text.ru.autocompleteCorrected = name => `${name}`;
-  text.ru.departuresMinutes = minutes => `${minutes} min`;
-
   const state = {
-    language: getInitialLanguage(),
+    language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, "pl"))
+      ? safeGet(CONFIG.storageKeys.language, "pl")
+      : "pl",
     theme: ["light", "dark", "satellite"].includes(safeGet(CONFIG.storageKeys.theme, "light"))
       ? safeGet(CONFIG.storageKeys.theme, "light")
       : "light",
@@ -340,11 +271,7 @@
     autocompleteFloating: $("autocomplete-floating"),
     searchButton: $("search-button"),
     themeSelect: $("theme-select"),
-    languageSelect: $("language-select"),
-    languageCurrentFlag: $("language-current-flag"),
-    languageMenuButton: $("language-menu-button"),
-    languageMenuList: $("language-menu-list"),
-    locateButton: $("locate-button"),
+    languageSelect: $("language-select"),    locateButton: $("locate-button"),
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
     legendClose: $("legend-close"),
@@ -442,7 +369,7 @@
   map.on("click", handleMapClick);
   map.on("contextmenu", event => {
     event.preventDefault();
-    closeActiveOverlay();
+    closePlacePopup();
   });
 
   el.themeSelect.value = state.theme;
@@ -463,48 +390,6 @@
     applyLanguage(state.language);
   });
 
-  el.languageMenuButton.addEventListener("click", event => {
-    event.stopPropagation();
-
-    const shouldOpen = el.languageMenuList.hidden;
-    el.languageMenuList.hidden = !shouldOpen;
-    el.languageMenuButton.setAttribute(
-      "aria-expanded",
-      String(shouldOpen)
-    );
-  });
-
-  for (const option of el.languageMenuList.querySelectorAll(
-    "[data-language]"
-  )) {
-    option.addEventListener("click", () => {
-      const language = option.dataset.language;
-      if (!language || !text[language]) return;
-
-      el.languageSelect.value = language;
-      el.languageSelect.dispatchEvent(
-        new Event("change", { bubbles: true })
-      );
-
-      el.languageMenuList.hidden = true;
-      el.languageMenuButton.setAttribute("aria-expanded", "false");
-    });
-  }
-
-  document.addEventListener("pointerdown", event => {
-    if (!event.target.closest(".language-menu")) {
-      el.languageMenuList.hidden = true;
-      el.languageMenuButton.setAttribute("aria-expanded", "false");
-    }
-  });
-
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-      el.languageMenuList.hidden = true;
-      el.languageMenuButton.setAttribute("aria-expanded", "false");
-    }
-  });
-
   el.locateButton.addEventListener("click", locate);
   el.legendButton.addEventListener("click", toggleLegend);
   el.legendClose.addEventListener("click", closeLegend);
@@ -521,22 +406,6 @@
   }
   initializeRouteBottomSheet();
   initializeAutocomplete();
-
-  for (const panel of [
-    el.routePanel,
-    el.legendPanel,
-    el.aboutPanel
-  ]) {
-    panel?.addEventListener("pointerdown", event => {
-      event.stopPropagation();
-    });
-    panel?.addEventListener("click", event => {
-      event.stopPropagation();
-    });
-    panel?.addEventListener("contextmenu", event => {
-      event.stopPropagation();
-    });
-  }
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       closeLegend();
@@ -548,36 +417,8 @@
   el.searchInput.addEventListener("input", updateSearchClearButton);
   el.searchClear.addEventListener("click", clearMainSearch);
 
-  const LANGUAGE_FLAGS = Object.freeze({
-    pl: "🇵🇱",
-    en: "🇬🇧",
-    de: "🇩🇪",
-    cs: "🇨🇿",
-    sk: "🇸🇰",
-    uk: "🇺🇦",
-    lt: "🇱🇹",
-    be: "🇧🇾",
-    ru: "🇷🇺"
-  });
-
-  function updateLanguageFlag() {
-    if (!el.languageCurrentFlag) return;
-
-    el.languageCurrentFlag.textContent =
-      LANGUAGE_FLAGS[state.language] || "🌐";
-
-    for (const option of el.languageMenuList?.querySelectorAll(
-      "[data-language]"
-    ) || []) {
-      const selected = option.dataset.language === state.language;
-      option.classList.toggle("is-selected", selected);
-      option.setAttribute("aria-selected", String(selected));
-    }
-  }
-
   function updateUI() {
     const t = text[state.language];
-    updateLanguageFlag();
     document.documentElement.lang = state.language;
     document.title = t.title;
     el.searchInput.placeholder = t.search;
@@ -877,7 +718,7 @@
       return;
     }
 
-    const preferred = `name:${language}`;
+    const preferred = language === "pl" ? "name:pl" : "name:en";
 
     for (const layer of map.getStyle().layers || []) {
       if (layer.type !== "symbol" || layer.layout?.["text-field"] === undefined) {
@@ -2223,35 +2064,16 @@
     updateRouteClickHint();
   }
 
-  function closeActiveOverlay() {
-    let closed = false;
-
-    if (state.placePopup) {
-      closePlacePopup();
-      closed = true;
-    }
-
-    if (!el.routePanel.hidden) {
-      closeRoute();
-      closed = true;
-    }
-
-    if (!el.legendPanel.hidden) {
-      closeLegend();
-      closed = true;
-    }
-
-    if (!el.aboutPanel.hidden) {
-      closeAbout();
-      closed = true;
-    }
-
-    return closed;
-  }
-
   async function handleMapClick(event) {
     if (!el.routePanel.hidden) {
       await handleRouteMapClick(event);
+      return;
+    }
+
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+    if (isTouchDevice && state.placePopup) {
+      closePlacePopup();
       return;
     }
 
@@ -4151,31 +3973,6 @@
   function readView() {
     try { return JSON.parse(localStorage.getItem(CONFIG.storageKeys.view)); }
     catch (_) { return null; }
-  }
-
-  function getInitialLanguage() {
-    const supported = ["pl", "en", "de", "cs", "sk", "uk", "lt", "be", "ru"];
-    const saved = safeGet(CONFIG.storageKeys.language, "");
-
-    if (supported.includes(saved)) {
-      return saved;
-    }
-
-    const browserLanguages = Array.isArray(navigator.languages)
-      ? navigator.languages
-      : [navigator.language];
-
-    for (const language of browserLanguages) {
-      const code = String(language || "")
-        .toLowerCase()
-        .split("-")[0];
-
-      if (supported.includes(code)) {
-        return code;
-      }
-    }
-
-    return "en";
   }
 
   function safeGet(key, fallback) {
