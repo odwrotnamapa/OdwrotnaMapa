@@ -2179,6 +2179,14 @@
   }
 
   async function handleMapClick(event) {
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+    // Wyjątek mobilny: stuknięcie mapy zamyka tylko kartę miejsca.
+    if (isTouchDevice && state.placePopup) {
+      closePlacePopup();
+      return;
+    }
+
     if (!el.routePanel.hidden) {
       await handleRouteMapClick(event);
       return;
