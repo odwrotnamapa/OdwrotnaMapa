@@ -96,7 +96,27 @@
       autocompleteCorrected: name => `Poprawiono nazwę na: ${name}`,
       clearSearch: "Wyczyść wyszukiwanie",
       searchHistory: "Ostatnie wyszukiwania",
+      exploreSearching: "Wyszukiwanie miejsc w pobliżu…",
+      exploreEmpty: "Nie znaleziono takich miejsc w widocznym obszarze.",
+      exploreFound: count => `Znaleziono ${count} miejsc. Kliknij znacznik, aby zobaczyć szczegóły.`,
+      exploreError: "Nie udało się wyszukać miejsc w pobliżu.",
+      discoverTitle: "Odkrywaj",
+      discoverClose: "Zamknij Odkrywaj",
+      discoverNote: "Wybierz kategorię, aby zobaczyć miejsca w aktualnym widoku mapy.",
+      discoverClear: "Wyczyść wyniki",
+      discoverSearching: "Wyszukiwanie w aktualnym widoku…",
+      discoverFound: count => `Znaleziono ${count} miejsc.`,
+      discoverEmpty: "Brak wyników w aktualnym widoku.",
+      discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
       clearSearchHistory: "Wyczyść historię",
+      menuTitle: "Menu",
+      menuTheme: "Wygląd mapy",
+      menuLocation: "Moja lokalizacja",
+      menuLanguage: "Język",
+      menuAbout: "O projekcie",
+      menuClose: "Zamknij menu",
+      clearMap: "Wyczyść mapę",
+      mapCleared: "Wyczyszczono elementy mapy.",
       placeLoading: "Pobieranie informacji o miejscu…",
       placeUnknown: "Wybrane miejsce",
       placeType: "Typ",
@@ -214,7 +234,27 @@
       autocompleteCorrected: name => `Corrected to: ${name}`,
       clearSearch: "Clear search",
       searchHistory: "Recent searches",
+      exploreSearching: "Searching for nearby places…",
+      exploreEmpty: "No matching places were found in this area.",
+      exploreFound: count => `Found ${count} places. Select a marker for details.`,
+      exploreError: "Nearby places could not be searched.",
+      discoverTitle: "Discover",
+      discoverClose: "Close Discover",
+      discoverNote: "Choose a category to see places in the current map view.",
+      discoverClear: "Clear results",
+      discoverSearching: "Searching the current map view…",
+      discoverFound: count => `Found ${count} places.`,
+      discoverEmpty: "No results in the current map view.",
+      discoverZooming: "Zooming in to the search area…",
       clearSearchHistory: "Clear history",
+      menuTitle: "Menu",
+      menuTheme: "Map style",
+      menuLocation: "My location",
+      menuLanguage: "Language",
+      menuAbout: "About",
+      menuClose: "Close menu",
+      clearMap: "Clear map",
+      mapCleared: "Map elements cleared.",
       placeLoading: "Loading place information…",
       placeUnknown: "Selected place",
       placeType: "Type",
@@ -265,7 +305,9 @@
     routeWaypointMarkers: [],
     selectedManeuverIndex: null,
     placePopup: null,
-    placeRequestController: null
+    placeRequestController: null,
+    exploreMarkers: [],
+    exploreRequestController: null
   };
 
   const el = {
@@ -279,6 +321,20 @@
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
     legendClose: $("legend-close"),
+    menuButton: $("menu-button"),
+    menuPanel: $("menu-panel"),
+    menuClose: $("menu-close"),
+    menuTitle: $("menu-title"),
+    menuLocationButton: $("menu-location-button"),
+    menuThemeSelect: $("menu-theme-select"),
+    menuThemeLabel: $("menu-theme-label"),
+    menuLanguageSelect: $("menu-language-select"),
+    clearMapButton: $("clear-map-button"),
+    menuAboutButton: $("menu-about-button"),
+    menuLocationLabel: $("menu-location-label"),
+    menuLanguageLabel: $("menu-language-label"),
+    clearMapLabel: $("clear-map-label"),
+    menuAboutLabel: $("menu-about-label"),
     aboutButton: $("about-button"),
     aboutPanel: $("about-panel"),
     aboutClose: $("about-close"),
@@ -289,6 +345,15 @@
     aboutStyleLabel: $("about-style-label"),
     aboutEngineLabel: $("about-engine-label"),
     routeButton: $("route-button"),
+    discoverButton: $("discover-button"),
+    discoverSheetHandle: $("discover-sheet-handle"),
+    discoverPanel: $("discover-panel"),
+    discoverClose: $("discover-close"),
+    discoverTitle: $("discover-title"),
+    discoverNote: $("discover-note"),
+    discoverCategories: $("discover-categories"),
+    discoverStatus: $("discover-status"),
+    discoverClear: $("discover-clear"),
     routePanel: $("route-panel"),
     routeSheetHandle: $("route-sheet-handle"),
     routeClose: $("route-close"),
@@ -373,113 +438,139 @@
   map.on("click", handleMapClick);
   map.on("contextmenu", event => {
     event.preventDefault();
-    closeOpenInterfacePanels();
+    closePlacePopup();
   });
 
   el.themeSelect.value = state.theme;
   el.languageSelect.value = state.language;
   updateUI();
 
-  el.themeSelect.addEventListener("change", e => {
+  el.themeSelect?.addEventListener("change", e => {
     state.theme = e.target.value;
     safeSet(CONFIG.storageKeys.theme, state.theme);
     applyTheme(state.theme);
     updateUI();
   });
 
-  el.languageSelect.addEventListener("change", e => {
+  el.languageSelect?.addEventListener("change", e => {
     state.language = e.target.value;
     safeSet(CONFIG.storageKeys.language, state.language);
     updateUI();
     applyLanguage(state.language);
   });
 
-  el.locateButton.addEventListener("click", locate);
-  el.legendButton.addEventListener("click", toggleLegend);
-  el.legendClose.addEventListener("click", closeLegend);
-  el.aboutButton.addEventListener("click", toggleAbout);
-  el.aboutClose.addEventListener("click", closeAbout);
-  el.routeButton.addEventListener("click", toggleRoute);
+  el.locateButton?.addEventListener("click", locate);
+  el.legendButton?.addEventListener("click", toggleLegend);
+  el.legendClose?.addEventListener("click", closeLegend);
 
-  for (const element of [
-    el.routeButton,
-    el.legendButton,
-    el.aboutButton,
-    el.routePanel,
-    el.legendPanel,
-    el.aboutPanel
-  ]) {
-    element.addEventListener("contextmenu", event => {
-      if (window.matchMedia("(pointer: coarse)").matches) return;
-      event.preventDefault();
-      closeOpenInterfacePanels();
+  el.menuButton?.addEventListener("click", toggleMenu);
+  el.menuClose?.addEventListener("click", closeMenu);
+  el.menuLocationButton?.addEventListener("click", locateFromMenu);
+  el.menuThemeSelect?.addEventListener("change", () => {
+    if (!el.themeSelect) return;
+    el.themeSelect.value = el.menuThemeSelect.value;
+    el.themeSelect.dispatchEvent(new Event("change"));
+  });
+  el.menuLanguageSelect?.addEventListener("change", () => {
+    if (!el.languageSelect) return;
+    el.languageSelect.value = el.menuLanguageSelect.value;
+    el.languageSelect.dispatchEvent(new Event("change"));
+  });
+  el.clearMapButton?.addEventListener("click", clearMapView);
+  el.menuAboutButton?.addEventListener("click", () => {
+    closeMenu();
+    toggleAbout();
+  });
+
+  el.aboutButton?.addEventListener("click", toggleAbout);
+  el.aboutClose?.addEventListener("click", closeAbout);
+  el.routeButton?.addEventListener("click", toggleRoute);
+  el.discoverButton?.addEventListener("click", toggleDiscover);
+  el.discoverClose?.addEventListener("click", closeDiscover);
+  el.discoverClear?.addEventListener("click", clearDiscoverResults);
+
+  for (const button of el.discoverCategories.querySelectorAll(
+    "[data-discover-category]"
+  )) {
+    button.addEventListener("click", () => {
+      runDiscoverCategory(button.dataset.discoverCategory, button);
     });
   }
-  el.routeClose.addEventListener("click", closeRoute);
-  el.routeSwap.addEventListener("click", swapRoutePoints);
-  el.routeClear.addEventListener("click", clearRoute);
-  el.routeForm.addEventListener("submit", planRoute);
-  el.routeShare.addEventListener("click", shareRoute);
+
+  el.routeClose?.addEventListener("click", closeRoute);
+  el.routeSwap?.addEventListener("click", swapRoutePoints);
+  el.routeClear?.addEventListener("click", clearRoute);
+  el.routeForm?.addEventListener("submit", planRoute);
+  el.routeShare?.addEventListener("click", shareRoute);
   for (const modeInput of document.querySelectorAll('input[name="route-mode"]')) {
     modeInput.addEventListener("change", handleRouteModeChange);
   }
   initializeRouteBottomSheet();
+  initializeDiscoverBottomSheet();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       closeLegend();
       closeAbout();
-      closeRoute();
+      closeDiscover();
+      closeMenu();
+      closeRoutePanel();
     }
   });
-  el.searchForm.addEventListener("submit", search);
-  el.searchInput.addEventListener("input", updateSearchClearButton);
-  el.searchClear.addEventListener("click", clearMainSearch);
+  el.searchForm?.addEventListener("submit", search);
+  el.searchInput?.addEventListener("input", updateSearchClearButton);
+  el.searchClear?.addEventListener("click", clearMainSearch);
 
   function updateUI() {
     const t = text[state.language];
     document.documentElement.lang = state.language;
     document.title = t.title;
-    el.searchInput.placeholder = t.search;
-    el.searchInput.setAttribute("aria-label", t.search);
-    el.searchButton.textContent = t.button;    el.locateButton.title = t.locate;
-    el.locateButton.setAttribute("aria-label", t.locate);
-    el.legendButton.title = t.legend;
-    el.legendButton.setAttribute("aria-label", t.legend);
-    el.legendTitle.textContent = t.legend;
-    el.legendClose.setAttribute("aria-label", t.closeLegend);
-    el.legendNote.textContent = t.legendNote;
-    el.aboutButton.title = t.about;
-    el.aboutButton.setAttribute("aria-label", t.about);
-    el.aboutTitle.textContent = t.about;
-    el.aboutClose.setAttribute("aria-label", t.closeAbout);
-    el.aboutIntro.textContent = t.aboutIntro;
-    el.aboutVersionLabel.textContent = t.aboutVersion;
-    el.aboutDataLabel.textContent = t.aboutData;
-    el.aboutStyleLabel.textContent = t.aboutStyle;
-    el.aboutEngineLabel.textContent = t.aboutEngine;
-    el.routeButton.title = t.route;
-    el.routeButton.setAttribute("aria-label", t.route);
-    el.routeTitle.textContent = t.routeTitle;
-    el.routeClose.setAttribute("aria-label", t.closeRoute);
-    el.routeSheetHandle.setAttribute("aria-label", t.resizeRoutePanel);
-    el.routeFromLabel.textContent = t.routeFrom;
-    el.routeToLabel.textContent = t.routeTo;
-    el.routeFrom.placeholder = t.routeFromPlaceholder;
-    el.routeTo.placeholder = t.routeToPlaceholder;
-    el.routeSwap.title = t.routeSwap;
-    el.routeSwap.setAttribute("aria-label", t.routeSwap);
-    el.routeSubmit.textContent = t.routeSubmit;
-    el.routeClear.textContent = t.routeClear;
-    el.routeDistanceLabel.textContent = t.routeDistance;
-    el.routeDurationLabel.textContent = t.routeDuration;
-    el.routeArrivalLabel.textContent = t.routeArrival;
-    el.routeShare.textContent = t.routeShare;
-    el.routeWaypointNote.textContent = t.routeWaypointNote;
-    el.routeNote.textContent = t.routeNote;
+    if (el.searchInput) el.searchInput.placeholder = t.search;
+    el.searchInput?.setAttribute("aria-label", t.search);
+    if (el.searchButton) el.searchButton.textContent = t.button;    if (el.locateButton) el.locateButton.title = t.locate;
+    el.locateButton?.setAttribute("aria-label", t.locate);
+    if (el.legendButton) el.legendButton.title = t.legend;
+    el.legendButton?.setAttribute("aria-label", t.legend);
+    if (el.legendTitle) el.legendTitle.textContent = t.legend;
+    el.legendClose?.setAttribute("aria-label", t.closeLegend);
+    if (el.legendNote) el.legendNote.textContent = t.legendNote;
+    if (el.aboutButton) el.aboutButton.title = t.about;
+    el.aboutButton?.setAttribute("aria-label", t.about);
+    if (el.aboutTitle) el.aboutTitle.textContent = t.about;
+    el.aboutClose?.setAttribute("aria-label", t.closeAbout);
+    if (el.aboutIntro) el.aboutIntro.textContent = t.aboutIntro;
+    if (el.aboutVersionLabel) el.aboutVersionLabel.textContent = t.aboutVersion;
+    if (el.aboutDataLabel) el.aboutDataLabel.textContent = t.aboutData;
+    if (el.aboutStyleLabel) el.aboutStyleLabel.textContent = t.aboutStyle;
+    if (el.aboutEngineLabel) el.aboutEngineLabel.textContent = t.aboutEngine;
+    if (el.routeButton) el.routeButton.title = t.route;
+    el.routeButton?.setAttribute("aria-label", t.route);
+    if (el.routeTitle) el.routeTitle.textContent = t.routeTitle;
+    if (el.discoverTitle) el.discoverTitle.textContent = t.discoverTitle;
+    if (el.discoverButton) el.discoverButton.title = t.discoverTitle;
+    el.discoverButton?.setAttribute("aria-label", t.discoverTitle);
+    el.discoverClose?.setAttribute("aria-label", t.discoverClose);
+    if (el.discoverNote) el.discoverNote.textContent = t.discoverNote;
+    if (el.discoverClear) el.discoverClear.textContent = t.discoverClear;
+    el.routeClose?.setAttribute("aria-label", t.closeRoute);
+    el.routeSheetHandle?.setAttribute("aria-label", t.resizeRoutePanel);
+    if (el.routeFromLabel) el.routeFromLabel.textContent = t.routeFrom;
+    if (el.routeToLabel) el.routeToLabel.textContent = t.routeTo;
+    if (el.routeFrom) el.routeFrom.placeholder = t.routeFromPlaceholder;
+    if (el.routeTo) el.routeTo.placeholder = t.routeToPlaceholder;
+    if (el.routeSwap) el.routeSwap.title = t.routeSwap;
+    el.routeSwap?.setAttribute("aria-label", t.routeSwap);
+    if (el.routeSubmit) el.routeSubmit.textContent = t.routeSubmit;
+    if (el.routeClear) el.routeClear.textContent = t.routeClear;
+    if (el.routeDistanceLabel) el.routeDistanceLabel.textContent = t.routeDistance;
+    if (el.routeDurationLabel) el.routeDurationLabel.textContent = t.routeDuration;
+    if (el.routeArrivalLabel) el.routeArrivalLabel.textContent = t.routeArrival;
+    if (el.routeShare) el.routeShare.textContent = t.routeShare;
+    if (el.routeWaypointNote) el.routeWaypointNote.textContent = t.routeWaypointNote;
+    if (el.routeNote) el.routeNote.textContent = t.routeNote;
     updateRouteClickHint();
-    el.routeDirectionsTitle.textContent = t.routeDirections;
-    el.routeModeLabel.textContent = t.routeMode;
+    if (el.routeDirectionsTitle) el.routeDirectionsTitle.textContent = t.routeDirections;
+    if (el.routeModeLabel) el.routeModeLabel.textContent = t.routeMode;
     for (const modeLabel of document.querySelectorAll("[data-route-mode-label]")) {
       const label = t.routeModes[modeLabel.dataset.routeModeLabel];
       modeLabel.title = label;
@@ -492,6 +583,9 @@
       section.textContent = t.legendSections[section.dataset.legendSection];
     }
     for (const option of el.themeSelect.options) {
+      option.textContent = t.styles[option.value];
+    }
+    for (const option of el.menuThemeSelect.options) {
       option.textContent = t.styles[option.value];
     }
     document.body.classList.toggle("ui-dark", state.theme === "dark");
@@ -879,7 +973,7 @@
             getSearchResultTitle(result) ||
             getPreferredPlaceLabel(result);
 
-          el.searchInput.value = label;
+          if (el.searchInput) el.searchInput.value = label;
           updateSearchClearButton();
           hideAllAutocomplete();
 
@@ -913,7 +1007,7 @@
         onSelect: result => {
           const point = resultToRoutePoint(result);
           state.routePointA = point;
-          el.routeFrom.value = point.label;
+          if (el.routeFrom) el.routeFrom.value = point.label;
           setRouteMarker("a", point);
           state.routeClickStage = state.routePointB ? "move-b" : "b";
           updateRouteClickHint();
@@ -928,7 +1022,7 @@
         onSelect: result => {
           const point = resultToRoutePoint(result);
           state.routePointB = point;
-          el.routeTo.value = point.label;
+          if (el.routeTo) el.routeTo.value = point.label;
           setRouteMarker("b", point);
           state.routeClickStage = "move-b";
           updateRouteClickHint();
@@ -1100,7 +1194,7 @@
         });
 
         button.addEventListener("click", () => {
-          el.searchInput.value = entry.label;
+          if (el.searchInput) el.searchInput.value = entry.label;
           updateSearchClearButton();
           hide();
 
@@ -1872,8 +1966,13 @@
     };
   }
 
-  function initializeRouteBottomSheet() {
-    if (!el.routeSheetHandle || !el.routePanel) return;
+  function initializeBottomSheet({
+    panel,
+    handle,
+    close,
+    cssVariable
+  }) {
+    if (!handle || !panel) return;
 
     const mobileQuery = window.matchMedia("(max-width: 600px)");
 
@@ -1888,11 +1987,14 @@
     const clampHeight = height => {
       const viewport = window.innerHeight;
       const maximum = Math.max(collapsedHeight, viewport - 8);
-      return Math.min(maximum, Math.max(collapsedHeight, height));
+      return Math.min(
+        maximum,
+        Math.max(collapsedHeight, height)
+      );
     };
 
     const updateCollapsedState = height => {
-      el.routePanel.classList.toggle(
+      panel.classList.toggle(
         "is-collapsed",
         height <= collapsedHeight + 8
       );
@@ -1904,15 +2006,11 @@
       const safeHeight = clampHeight(height);
 
       if (!animate) {
-        el.routePanel.classList.add("is-dragging");
+        panel.classList.add("is-dragging");
       }
 
-      el.routePanel.style.setProperty(
-        "--route-sheet-height",
-        `${safeHeight}px`
-      );
-      document.documentElement.style.setProperty(
-        "--route-sheet-height",
+      panel.style.setProperty(
+        cssVariable,
         `${safeHeight}px`
       );
 
@@ -1920,86 +2018,103 @@
 
       if (animate) {
         requestAnimationFrame(() => {
-          el.routePanel.classList.remove("is-dragging");
+          panel.classList.remove("is-dragging");
         });
       }
     };
 
     const setDefaultHeight = () => {
       if (!mobileQuery.matches) {
-        el.routePanel.style.removeProperty("--route-sheet-height");
-        document.documentElement.style.removeProperty(
-          "--route-sheet-height"
-        );
-        el.routePanel.classList.remove("is-collapsed");
+        panel.style.removeProperty(cssVariable);
+        panel.classList.remove("is-collapsed");
         return;
       }
 
-      const currentHeight = el.routePanel.getBoundingClientRect().height;
+      const currentHeight =
+        panel.getBoundingClientRect().height;
+
       if (currentHeight <= collapsedHeight + 2) {
         setHeight(window.innerHeight * 0.42);
       } else {
         setHeight(currentHeight, false);
-        el.routePanel.classList.remove("is-dragging");
+        panel.classList.remove("is-dragging");
       }
     };
 
-    el.routeSheetHandle.addEventListener("pointerdown", event => {
+    handle.addEventListener("pointerdown", event => {
       if (!mobileQuery.matches) return;
 
       dragging = true;
       movedDuringGesture = false;
       activePointerId = event.pointerId;
       startY = event.clientY;
-      startHeight = el.routePanel.getBoundingClientRect().height;
+      startHeight = panel.getBoundingClientRect().height;
 
-      el.routePanel.classList.add("is-dragging");
-      el.routeSheetHandle.setPointerCapture(event.pointerId);
+      panel.classList.add("is-dragging");
+      handle.setPointerCapture(event.pointerId);
       event.preventDefault();
     });
 
-    el.routeSheetHandle.addEventListener("pointermove", event => {
-      if (!dragging || event.pointerId !== activePointerId) return;
+    handle.addEventListener("pointermove", event => {
+      if (
+        !dragging ||
+        event.pointerId !== activePointerId
+      ) {
+        return;
+      }
 
       const delta = startY - event.clientY;
-      if (Math.abs(delta) > 4) movedDuringGesture = true;
+      if (Math.abs(delta) > 4) {
+        movedDuringGesture = true;
+      }
 
       setHeight(startHeight + delta, false);
       event.preventDefault();
     });
 
     const finishDrag = event => {
-      if (!dragging || event.pointerId !== activePointerId) return;
+      if (
+        !dragging ||
+        event.pointerId !== activePointerId
+      ) {
+        return;
+      }
 
       dragging = false;
       activePointerId = null;
 
       const viewport = window.innerHeight;
-      let currentHeight = el.routePanel.getBoundingClientRect().height;
+      let currentHeight =
+        panel.getBoundingClientRect().height;
 
-      // Tylko przy skrajnych położeniach panel domyka się automatycznie.
       if (currentHeight < 90) {
         currentHeight = collapsedHeight;
       } else if (currentHeight > viewport - 90) {
         currentHeight = viewport - 8;
       }
 
-      el.routePanel.classList.remove("is-dragging");
+      panel.classList.remove("is-dragging");
       setHeight(currentHeight, true);
 
       try {
-        el.routeSheetHandle.releasePointerCapture(event.pointerId);
+        handle.releasePointerCapture(event.pointerId);
       } catch (_) {}
     };
 
-    el.routeSheetHandle.addEventListener("pointerup", finishDrag);
-    el.routeSheetHandle.addEventListener("pointercancel", finishDrag);
+    handle.addEventListener("pointerup", finishDrag);
+    handle.addEventListener("pointercancel", finishDrag);
 
-    // Krótkie dotknięcie uchwytu przełącza: ukryty ↔ średni.
-    el.routeSheetHandle.addEventListener("click", () => {
-      if (!mobileQuery.matches || movedDuringGesture) return;
+    handle.addEventListener("click", () => {
+      if (
+        !mobileQuery.matches ||
+        movedDuringGesture
+      ) {
+        return;
+      }
 
-      const currentHeight = el.routePanel.getBoundingClientRect().height;
+      const currentHeight =
+        panel.getBoundingClientRect().height;
+
       if (currentHeight <= collapsedHeight + 8) {
         setHeight(window.innerHeight * 0.42);
       } else {
@@ -2007,34 +2122,71 @@
       }
     });
 
-    mobileQuery.addEventListener("change", setDefaultHeight);
-
-    window.addEventListener("resize", () => {
-      if (!mobileQuery.matches) return;
-
-      const currentHeight = el.routePanel.getBoundingClientRect().height;
-      setHeight(currentHeight, false);
-      el.routePanel.classList.remove("is-dragging");
-    });
+    mobileQuery.addEventListener?.(
+      "change",
+      setDefaultHeight
+    );
+    window.addEventListener("resize", setDefaultHeight);
 
     setDefaultHeight();
   }
 
-  function closeOpenInterfacePanels() {
-    closePlacePopup();
-    hideAllAutocomplete();
+  function initializeRouteBottomSheet() {
+    initializeBottomSheet({
+      panel: el.routePanel,
+      handle: el.routeSheetHandle,
+      close: closeRoute,
+      cssVariable: "--route-sheet-height"
+    });
+  }
+
+  function initializeDiscoverBottomSheet() {
+    initializeBottomSheet({
+      panel: el.discoverPanel,
+      handle: el.discoverSheetHandle,
+      close: closeDiscover,
+      cssVariable: "--discover-sheet-height"
+    });
+  }
+
+
+
+
+
+
+  function toggleDiscover() {
+    closeMenu();
+    const shouldOpen = el.discoverPanel.hidden;
+
     closeLegend();
     closeAbout();
+    closeDiscover();
     closeRoute();
+
+    el.discoverPanel.hidden = !shouldOpen;
+    el.discoverButton?.setAttribute(
+      "aria-expanded",
+      String(shouldOpen)
+    );
+  }
+
+  function closeDiscover() {
+    if (el.discoverPanel.hidden) return;
+
+    el.discoverPanel.hidden = true;
+    el.discoverButton?.setAttribute("aria-expanded", "false");
+    el.discoverButton.classList.remove("is-active");
   }
 
   function toggleRoute() {
+    closeMenu();
     const shouldOpen = el.routePanel.hidden;
+    closeDiscover();
     closePlacePopup();
     closeLegend();
     closeAbout();
     el.routePanel.hidden = !shouldOpen;
-    el.routeButton.setAttribute("aria-expanded", String(shouldOpen));
+    el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
 
     if (shouldOpen) {
       if (window.matchMedia("(max-width: 600px)").matches) {
@@ -2063,19 +2215,23 @@
     }
   }
 
-  function closeRoute() {
+  function closeRoutePanel() {
     if (el.routePanel.hidden) return;
-    clearRoute();
-    hideAllAutocomplete();
     el.routePanel.hidden = true;
-    el.routeButton.setAttribute("aria-expanded", "false");
+    el.routeButton?.setAttribute("aria-expanded","false");
+  }
+
+function closeRoute() {
+    if (el.routePanel.hidden) return;    hideAllAutocomplete();
+    el.routePanel.hidden = true;
+    el.routeButton?.setAttribute("aria-expanded", "false");
     document.body.classList.remove("map-picking-route");
   }
 
   function swapRoutePoints() {
     const value = el.routeFrom.value;
-    el.routeFrom.value = el.routeTo.value;
-    el.routeTo.value = value;
+    if (el.routeFrom) el.routeFrom.value = el.routeTo.value;
+    if (el.routeTo) el.routeTo.value = value;
 
     const point = state.routePointA;
     state.routePointA = state.routePointB;
@@ -2914,11 +3070,11 @@
 
     if (key === "a") {
       state.routePointA = point;
-      el.routeFrom.value = point.label;
+      if (el.routeFrom) el.routeFrom.value = point.label;
       setRouteMarker("a", point);
     } else {
       state.routePointB = point;
-      el.routeTo.value = point.label;
+      if (el.routeTo) el.routeTo.value = point.label;
       setRouteMarker("b", point);
     }
 
@@ -2983,7 +3139,7 @@
 
     if (state.routeClickStage === "a") {
       state.routePointA = point;
-      el.routeFrom.value = point.label;
+      if (el.routeFrom) el.routeFrom.value = point.label;
       setRouteMarker("a", point);
       state.routeClickStage = "b";
       updateRouteClickHint();
@@ -2992,7 +3148,7 @@
     }
 
     state.routePointB = point;
-    el.routeTo.value = point.label;
+    if (el.routeTo) el.routeTo.value = point.label;
     setRouteMarker("b", point);
     state.routeClickStage = "move-b";
     updateRouteClickHint();
@@ -3008,7 +3164,7 @@
     if (!state.routePointA || !state.routePointB) return;
 
     show(text[state.language].routeSearching, 0);
-    el.routeSubmit.disabled = true;
+    if (el.routeSubmit) el.routeSubmit.disabled = true;
 
     try {
       const route = await fetchRoute(state.routePointA, state.routePointB);
@@ -3025,7 +3181,7 @@
       console.error(error);
       show(text[state.language].routeError);
     } finally {
-      el.routeSubmit.disabled = false;
+      if (el.routeSubmit) el.routeSubmit.disabled = false;
     }
   }
 
@@ -3111,10 +3267,10 @@
 
       if (isA) {
         state.routePointA = updatedPoint;
-        el.routeFrom.value = updatedPoint.label;
+        if (el.routeFrom) el.routeFrom.value = updatedPoint.label;
       } else {
         state.routePointB = updatedPoint;
-        el.routeTo.value = updatedPoint.label;
+        if (el.routeTo) el.routeTo.value = updatedPoint.label;
       }
 
       marker.setPopup(
@@ -3151,7 +3307,7 @@
     if (!fromQuery || !toQuery) return;
 
     show(text[state.language].routeSearching, 0);
-    el.routeSubmit.disabled = true;
+    if (el.routeSubmit) el.routeSubmit.disabled = true;
 
     try {
       const [from, to] = await Promise.all([
@@ -3166,8 +3322,8 @@
 
       state.routePointA = from;
       state.routePointB = to;
-      el.routeFrom.value = from.label;
-      el.routeTo.value = to.label;
+      if (el.routeFrom) el.routeFrom.value = from.label;
+      if (el.routeTo) el.routeTo.value = to.label;
       state.routeClickStage = "move-b";
 
       const route = await fetchRoute(from, to);
@@ -3180,7 +3336,7 @@
       console.error(error);
       show(text[state.language].routeError);
     } finally {
-      el.routeSubmit.disabled = false;
+      if (el.routeSubmit) el.routeSubmit.disabled = false;
     }
   }
 
@@ -4056,8 +4212,8 @@
     state.routePointA = a;
     state.routePointB = b;
     state.routeClickStage = "move-b";
-    el.routeFrom.value = a.label;
-    el.routeTo.value = b.label;
+    if (el.routeFrom) el.routeFrom.value = a.label;
+    if (el.routeTo) el.routeTo.value = b.label;
 
     const via = params.get("via");
     state.routeWaypoints = via
@@ -4094,8 +4250,8 @@
     );
 
     el.routeSummary.hidden = false;
-    el.routeShare.hidden = false;
-    el.routeWaypointNote.hidden = false;
+    if (el.routeShare) el.routeShare.hidden = false;
+    if (el.routeWaypointNote) el.routeWaypointNote.hidden = false;
   }
 
   function formatDistance(meters) {
@@ -4119,15 +4275,15 @@
     state.routePointA = null;
     state.routePointB = null;
     state.routeClickStage = "a";
-    el.routeFrom.value = "";
-    el.routeTo.value = "";
+    if (el.routeFrom) el.routeFrom.value = "";
+    if (el.routeTo) el.routeTo.value = "";
     hideAllAutocomplete();
     el.routeSummary.hidden = true;
     el.routeDistance.textContent = "—";
     el.routeDuration.textContent = "—";
     el.routeArrival.textContent = "—";
-    el.routeShare.hidden = true;
-    el.routeWaypointNote.hidden = true;
+    if (el.routeShare) el.routeShare.hidden = true;
+    if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
     state.routeWaypoints = [];
     clearWaypointMarkers();
     clearManeuverHighlight();
@@ -4153,32 +4309,112 @@
     updateRouteClickHint();
   }
 
+  function toggleMenu() {
+    if (!el.menuPanel || !el.menuButton) return;
+
+    const shouldOpen = el.menuPanel.hidden;
+
+    if (shouldOpen) {
+      closeLegend();
+      closeRoutePanel();
+      closeDiscover();
+      closeAbout();
+    }
+
+    el.menuPanel.hidden = !shouldOpen;
+    el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
+  }
+
+  function closeMenu() {
+    if (el.menuPanel.hidden) return;
+    el.menuPanel.hidden = true;
+    el.menuButton?.setAttribute("aria-expanded", "false");
+  }
+
+  function locateFromMenu() {
+    if (!navigator.geolocation) {
+      show(
+        state.language === "pl"
+          ? "Twoja przeglądarka nie obsługuje lokalizacji."
+          : "Your browser does not support geolocation."
+      );
+      return;
+    }
+
+    show(
+      state.language === "pl"
+        ? "Pobieranie lokalizacji…"
+        : "Getting your location…",
+      0
+    );
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lon = position.coords.longitude;
+        const lat = position.coords.latitude;
+
+        map.flyTo({
+          center: [lon, lat],
+          zoom: Math.max(map.getZoom(), 15),
+          bearing: 180
+        });
+
+        hide();
+      },
+      error => {
+        console.error(error);
+        show(
+          state.language === "pl"
+            ? "Nie udało się pobrać lokalizacji."
+            : "Your location could not be retrieved."
+        );
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 30000
+      }
+    );
+  }
+
+  function clearMapView() {
+    clearRoute();
+    clearDiscoverResults();
+    closePlacePopup();
+    hideAllAutocomplete();
+    show(text[state.language].mapCleared);
+  }
+
   function toggleAbout() {
+    closeMenu();
     const shouldOpen = el.aboutPanel.hidden;
+    closeDiscover();
     closeLegend();
-    closeRoute();
+    closeRoutePanel();
     el.aboutPanel.hidden = !shouldOpen;
-    el.aboutButton.setAttribute("aria-expanded", String(shouldOpen));
+    el.aboutButton?.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function closeAbout() {
     if (el.aboutPanel.hidden) return;
     el.aboutPanel.hidden = true;
-    el.aboutButton.setAttribute("aria-expanded", "false");
+    el.aboutButton?.setAttribute("aria-expanded", "false");
   }
 
   function toggleLegend() {
+    closeMenu();
     const shouldOpen = el.legendPanel.hidden;
+    closeDiscover();
     closeAbout();
     closeRoute();
     el.legendPanel.hidden = !shouldOpen;
-    el.legendButton.setAttribute("aria-expanded", String(shouldOpen));
+    el.legendButton?.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function closeLegend() {
     if (el.legendPanel.hidden) return;
     el.legendPanel.hidden = true;
-    el.legendButton.setAttribute("aria-expanded", "false");
+    el.legendButton?.setAttribute("aria-expanded", "false");
   }
 
   function updateSearchClearButton() {
@@ -4187,11 +4423,304 @@
   }
 
   function clearMainSearch() {
-    el.searchInput.value = "";
+    if (el.searchInput) el.searchInput.value = "";
     hideAllAutocomplete();
     updateSearchClearButton();
     el.searchInput.focus();
     el.searchInput.dispatchEvent(new Event("focus"));
+  }
+
+  const DISCOVER_CATEGORIES = {
+    pizza: {
+      emoji: "🍕",
+      queries: ["pizza", "pizzeria"]
+    },
+    cafe: {
+      emoji: "☕",
+      queries: ["kawiarnia", "cafe"]
+    },
+    restaurant: {
+      emoji: "🍽",
+      queries: ["restauracja", "restaurant"]
+    },
+    bar: {
+      emoji: "🍺",
+      queries: ["bar", "pub"]
+    },
+    hotel: {
+      emoji: "🏨",
+      queries: ["hotel", "hostel"]
+    },
+    fuel: {
+      emoji: "⛽",
+      queries: ["stacja paliw", "fuel"]
+    },
+    museum: {
+      emoji: "🏛",
+      queries: ["muzeum", "museum"]
+    },
+    park: {
+      emoji: "🌳",
+      queries: ["park", "ogród"]
+    },
+    pharmacy: {
+      emoji: "💊",
+      queries: ["apteka", "pharmacy"]
+    },
+    hospital: {
+      emoji: "🏥",
+      queries: ["szpital", "hospital"]
+    },
+    bank: {
+      emoji: "🏦",
+      queries: ["bank", "bankomat"]
+    },
+    bus_stop: {
+      emoji: "🚏",
+      queries: ["przystanek autobusowy", "przystanek"]
+    },
+    shop: {
+      emoji: "🛒",
+      queries: ["supermarket", "sklep"]
+    },
+    beach: {
+      emoji: "🏖",
+      queries: ["plaża", "beach"]
+    }
+  };
+
+  async function runDiscoverCategory(categoryId, sourceButton) {
+    const category = DISCOVER_CATEGORIES[categoryId];
+    if (!category) return;
+
+    const t = text[state.language];
+
+    for (const button of el.discoverCategories.querySelectorAll(
+      "[data-discover-category]"
+    )) {
+      button.classList.toggle(
+        "is-active",
+        button === sourceButton
+      );
+    }
+
+    // Zbyt duże oddalenie daje zbyt ogólne wyniki.
+    if (map.getZoom() < 10) {
+      el.discoverStatus.hidden = false;
+      el.discoverStatus.textContent = t.discoverZooming;
+
+      map.easeTo({
+        center: map.getCenter(),
+        zoom: 12,
+        bearing: 180,
+        duration: 650
+      });
+
+      map.once("moveend", () => {
+        runDiscoverCategory(categoryId, sourceButton);
+      });
+      return;
+    }
+
+    clearDiscoverResults(false);
+
+    el.discoverStatus.hidden = false;
+    el.discoverStatus.textContent = t.discoverSearching;
+
+    state.exploreRequestController?.abort();
+    state.exploreRequestController = new AbortController();
+
+    try {
+      const places = await fetchDiscoverFromNominatim(
+        category,
+        state.exploreRequestController.signal
+      );
+
+      if (!places.length) {
+        el.discoverStatus.textContent = t.discoverEmpty;
+        return;
+      }
+
+      renderDiscoverResults(places, category);
+      el.discoverStatus.textContent =
+        t.discoverFound(places.length);
+      if (el.discoverClear) el.discoverClear.hidden = false;
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      console.error(error);
+      el.discoverStatus.textContent = t.exploreError;
+      if (el.discoverClear) el.discoverClear.hidden = true;
+    } finally {
+      state.exploreRequestController = null;
+    }
+  }
+
+  async function fetchDiscoverFromNominatim(category, signal) {
+    const bounds = map.getBounds();
+
+    // Nominatim expects: left, top, right, bottom.
+    const viewbox = [
+      bounds.getWest(),
+      bounds.getNorth(),
+      bounds.getEast(),
+      bounds.getSouth()
+    ].join(",");
+
+    const collected = [];
+    const seen = new Set();
+
+    for (const query of category.queries) {
+      const url = new URL(CONFIG.search.endpoint);
+      url.searchParams.set("q", query);
+      url.searchParams.set("format", "jsonv2");
+      url.searchParams.set("addressdetails", "1");
+      url.searchParams.set("extratags", "1");
+      url.searchParams.set("namedetails", "1");
+      url.searchParams.set("bounded", "1");
+      url.searchParams.set("viewbox", viewbox);
+      url.searchParams.set(
+        "limit",
+        String(Math.min(15, CONFIG.search.exploreLimit))
+      );
+      url.searchParams.set("accept-language", state.language);
+
+      const response = await fetch(url, {
+        signal,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Nominatim HTTP ${response.status}`);
+      }
+
+      const items = await response.json();
+
+      for (const item of items) {
+        const lat = Number(item.lat);
+        const lon = Number(item.lon);
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+          continue;
+        }
+
+        const key =
+          `${item.osm_type || ""}:${item.osm_id || ""}` ||
+          `${lat.toFixed(5)},${lon.toFixed(5)}`;
+
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        collected.push({
+          lat,
+          lon,
+          tags: {
+            name:
+              item.namedetails?.name ||
+              item.name ||
+              getSearchResultTitle(item) ||
+              item.display_name,
+            brand: item.extratags?.brand || ""
+          }
+        });
+
+        if (collected.length >= CONFIG.search.exploreLimit) {
+          return collected;
+        }
+      }
+    }
+
+    return collected;
+  }
+
+  function normalizeDiscoverElements(elements) {
+    const seen = new Set();
+    const results = [];
+
+    for (const element of elements) {
+      const lat = Number(
+        element.lat ?? element.center?.lat
+      );
+      const lon = Number(
+        element.lon ?? element.center?.lon
+      );
+
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        continue;
+      }
+
+      const key = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      results.push({
+        lat,
+        lon,
+        tags: element.tags || {}
+      });
+    }
+
+    return results;
+  }
+
+  function renderDiscoverResults(places, category) {
+    for (const place of places) {
+      const element = document.createElement("button");
+      element.type = "button";
+      element.className = "explore-marker";
+      element.textContent = category.emoji;
+      element.title =
+        place.tags.name ||
+        place.tags.brand ||
+        category.emoji;
+
+      const marker = new maplibregl.Marker({
+        element,
+        anchor: "center"
+      })
+        .setLngLat([place.lon, place.lat])
+        .addTo(map);
+
+      element.addEventListener("click", event => {
+        event.stopPropagation();
+        showPlaceInformation({
+          lngLat: new maplibregl.LngLat(
+            place.lon,
+            place.lat
+          )
+        });
+      });
+
+      state.exploreMarkers.push(marker);
+    }
+  }
+
+  function clearDiscoverResults(resetInterface = true) {
+    state.exploreRequestController?.abort();
+    state.exploreRequestController = null;
+
+    for (const marker of state.exploreMarkers) {
+      marker.remove();
+    }
+    state.exploreMarkers = [];
+
+    if (!resetInterface) return;
+
+    if (el.discoverStatus) {
+      el.discoverStatus.hidden = true;
+      el.discoverStatus.textContent = "";
+    }
+
+    if (el.discoverClear) {
+      if (el.discoverClear) el.discoverClear.hidden = true;
+    }
+
+    if (el.discoverCategories) {
+      for (const button of el.discoverCategories.querySelectorAll(
+        "[data-discover-category]"
+      )) {
+        button.classList.remove("is-active");
+      }
+    }
   }
 
   async function search(event) {
@@ -4210,7 +4739,7 @@
       const result = results[0];
       const correctedName = getPrimaryPlaceName(result);
       if (correctedName) {
-        el.searchInput.value = correctedName;
+        if (el.searchInput) el.searchInput.value = correctedName;
         updateSearchClearButton();
       }
       saveSearchHistoryEntry({

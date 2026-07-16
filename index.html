@@ -42,41 +42,35 @@
             <path d="M7.8 17c3.2-1.1 1.8-5.5 5-6.6 1.5-.5 2.7.1 3.7-2.1"/>
           </svg>
         </button>
+        <button id="discover-button" class="icon-button discover-button" type="button"
+                title="Odkrywaj" aria-label="Odkrywaj"
+                aria-expanded="false" aria-controls="discover-panel">
+          <span aria-hidden="true">📍</span>
+        </button>
       </form>
 
       <div class="toolbar-actions">
-        <label class="select-wrap">
-          <span class="sr-only" id="theme-label">Styl mapy</span>
-          <select id="theme-select" aria-labelledby="theme-label">
-            <option value="light">Jasna</option>
-            <option value="dark">Ciemna</option>
-            <option value="satellite">Satelitarna</option>
-          </select>
-        </label>
-
-        <label class="select-wrap">
-          <span class="sr-only" id="language-label">Język</span>
-          <select id="language-select" aria-labelledby="language-label">
-            <option value="pl">PL</option>
-            <option value="en">EN</option>
-          </select>
-        </label>
-        <button id="locate-button" class="icon-button" type="button"
-                title="Moja lokalizacja" aria-label="Moja lokalizacja">◎</button>
-        <button id="legend-button" class="icon-button" type="button"
-                title="Legenda" aria-label="Legenda"
-                aria-expanded="false" aria-controls="legend-panel">i</button><button id="about-button" class="icon-button svg-icon-button" type="button"
-                title="O projekcie" aria-label="O projekcie"
-                aria-expanded="false" aria-controls="about-panel">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 3.5h7l3 3V20.5H7z"/>
-            <path d="M14 3.5v4h4"/>
-            <path d="M9.5 11h5"/>
-            <path d="M9.5 14h5"/>
-            <path d="M9.5 17h3.5"/>
-          </svg>
-        </button>
+        <button id="menu-button" class="icon-button" type="button"
+                title="Menu" aria-label="Menu"
+                aria-expanded="false" aria-controls="menu-panel">☰</button>
       </div>
+    
+    <div class="legacy-hidden-controls" hidden>
+      <select id="theme-select">
+        <option value="light">Jasna</option>
+        <option value="dark">Ciemna</option>
+        <option value="satellite">Satelitarna</option>
+      </select>
+      <button id="locate-button" type="button">📍</button>
+      <label>
+        <select id="language-select">
+          <option value="pl">🇵🇱</option>
+          <option value="en">🇬🇧</option>
+        </select>
+      </label>
+      <button id="about-button" type="button">ⓘ</button>
+    </div>
+
     </header>
 
     <aside id="legend-panel" class="legend-panel" aria-labelledby="legend-title" hidden>
@@ -276,8 +270,101 @@
 
     <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
 
+    
+    <aside id="discover-panel" class="legend-panel discover-panel"
+           aria-labelledby="discover-title" hidden>
+      <button id="discover-sheet-handle"
+              class="discover-sheet-handle"
+              type="button"
+              aria-label="Zmień wysokość panelu Odkrywaj">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header">
+        <h2 id="discover-title">Odkrywaj</h2>
+        <button id="discover-close" class="legend-close" type="button"
+                aria-label="Zamknij Odkrywaj">×</button>
+      </div>
+
+      <p id="discover-note" class="discover-note">
+        Wybierz kategorię, aby zobaczyć miejsca w aktualnym widoku mapy.
+      </p>
+
+      <div id="discover-categories" class="discover-categories">
+        <button type="button" data-discover-category="pizza">🍕<span>Pizza</span></button>
+        <button type="button" data-discover-category="cafe">☕<span>Kawiarnie</span></button>
+        <button type="button" data-discover-category="restaurant">🍽<span>Restauracje</span></button>
+        <button type="button" data-discover-category="bar">🍺<span>Bary</span></button>
+        <button type="button" data-discover-category="hotel">🏨<span>Hotele</span></button>
+        <button type="button" data-discover-category="fuel">⛽<span>Paliwo</span></button>
+        <button type="button" data-discover-category="museum">🏛<span>Muzea</span></button>
+        <button type="button" data-discover-category="park">🌳<span>Parki</span></button>
+        <button type="button" data-discover-category="pharmacy">💊<span>Apteki</span></button>
+        <button type="button" data-discover-category="hospital">🏥<span>Szpitale</span></button>
+        <button type="button" data-discover-category="bank">🏦<span>Banki</span></button>
+        <button type="button" data-discover-category="bus_stop">🚏<span>Przystanki</span></button>
+        <button type="button" data-discover-category="shop">🛒<span>Sklepy</span></button>
+        <button type="button" data-discover-category="beach">🏖<span>Plaże</span></button>
+      </div>
+
+      <div id="discover-status" class="discover-status" hidden></div>
+
+      <button id="discover-clear" class="discover-clear" type="button" hidden>
+        Wyczyść wyniki
+      </button>
+    </aside>
+
+    <aside id="menu-panel" class="legend-panel menu-panel"
+           aria-labelledby="menu-title" hidden>
+      <div class="legend-header">
+        <h2 id="menu-title">Menu</h2>
+        <button id="menu-close" class="legend-close" type="button"
+                aria-label="Zamknij menu">×</button>
+      </div>
+
+      <div class="menu-actions">
+        <button id="menu-location-button" class="menu-action" type="button">
+          <span aria-hidden="true">📍</span>
+          <span id="menu-location-label">Moja lokalizacja</span>
+        </button>
+        <label class="menu-setting">
+          <span aria-hidden="true">🗺️</span>
+          <span id="menu-theme-label">Wygląd mapy</span>
+          <select id="menu-theme-select" aria-labelledby="menu-theme-label">
+            <option value="light">Jasna</option>
+            <option value="dark">Ciemna</option>
+            <option value="satellite">Satelitarna</option>
+          </select>
+        </label>
+
+
+        <label class="menu-setting">
+          <span aria-hidden="true">🌐</span>
+          <span id="menu-language-label">Język</span>
+          <select id="menu-language-select" aria-labelledby="menu-language-label">
+            <option value="pl">🇵🇱 Polski</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </label>
+
+        <button id="clear-map-button" class="menu-action" type="button">
+          <span aria-hidden="true">🧹</span>
+          <span id="clear-map-label">Wyczyść mapę</span>
+        </button>
+
+        <button id="menu-about-button" class="menu-action" type="button">
+          <span aria-hidden="true">ⓘ</span>
+          <span id="menu-about-label">O projekcie</span>
+        </button>
+      </div>
+    </aside>
+
+
     <div id="status" class="status" role="status" aria-live="polite" hidden></div>
   </main>
+
+  <div id="compatibility-controls" hidden>
+      <button id="legend-button" type="button" hidden></button>
+    </div>
 
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
   <script src="config.js"></script>

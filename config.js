@@ -38,6 +38,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     endpoint: "https://nominatim.openstreetmap.org/search",
     fuzzyEndpoint: "https://photon.komoot.io/api/",
     reverseEndpoint: "https://nominatim.openstreetmap.org/reverse",
+    exploreLimit: 25,
     limit: 5
   },
   storageKeys: {
