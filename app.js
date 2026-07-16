@@ -54,6 +54,7 @@
       locationError: "Nie udało się odczytać lokalizacji.",
       route: "Wyznacz trasę",
       closeRoute: "Zamknij planer trasy",
+      resizeRoutePanel: "Zmień wysokość panelu trasy",
       routeTitle: "Trasa",
       routeFrom: "Punkt A",
       routeTo: "Punkt B",
@@ -128,6 +129,7 @@
       locationError: "Could not read your location.",
       route: "Plan a route",
       closeRoute: "Close route planner",
+      resizeRoutePanel: "Resize route panel",
       routeTitle: "Route",
       routeFrom: "Point A",
       routeTo: "Point B",
@@ -194,6 +196,7 @@
     aboutEngineLabel: $("about-engine-label"),
     routeButton: $("route-button"),
     routePanel: $("route-panel"),
+    routeSheetHandle: $("route-sheet-handle"),
     routeClose: $("route-close"),
     routeForm: $("route-form"),
     routeFrom: $("route-from"),
@@ -293,6 +296,7 @@
   el.routeSwap.addEventListener("click", swapRoutePoints);
   el.routeClear.addEventListener("click", clearRoute);
   el.routeForm.addEventListener("submit", planRoute);
+  initializeRouteBottomSheet();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       closeLegend();
@@ -328,6 +332,7 @@
     el.routeButton.setAttribute("aria-label", t.route);
     el.routeTitle.textContent = t.routeTitle;
     el.routeClose.setAttribute("aria-label", t.closeRoute);
+    el.routeSheetHandle.setAttribute("aria-label", t.resizeRoutePanel);
     el.routeFromLabel.textContent = t.routeFrom;
     el.routeToLabel.textContent = t.routeTo;
     el.routeFrom.placeholder = t.routeFromPlaceholder;
@@ -651,6 +656,154 @@
     ].includes(layerId);
   }
 
+  function initializeRouteBottomSheet() {
+    if (!el.routeSheetHandle || !el.routePanel) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 600px)");
+
+    let dragging = false;
+    let startY = 0;
+    let startHeight = 0;
+    let activePointerId = null;
+    let movedDuringGesture = false;
+
+    const collapsedHeight = 48;
+
+    const clampHeight = height => {
+      const viewport = window.innerHeight;
+      const maximum = Math.max(collapsedHeight, viewport - 8);
+      return Math.min(maximum, Math.max(collapsedHeight, height));
+    };
+
+    const updateCollapsedState = height => {
+      el.routePanel.classList.toggle(
+        "is-collapsed",
+        height <= collapsedHeight + 8
+      );
+    };
+
+    const setHeight = (height, animate = true) => {
+      if (!mobileQuery.matches) return;
+
+      const safeHeight = clampHeight(height);
+
+      if (!animate) {
+        el.routePanel.classList.add("is-dragging");
+      }
+
+      el.routePanel.style.setProperty(
+        "--route-sheet-height",
+        `${safeHeight}px`
+      );
+      document.documentElement.style.setProperty(
+        "--route-sheet-height",
+        `${safeHeight}px`
+      );
+
+      updateCollapsedState(safeHeight);
+
+      if (animate) {
+        requestAnimationFrame(() => {
+          el.routePanel.classList.remove("is-dragging");
+        });
+      }
+    };
+
+    const setDefaultHeight = () => {
+      if (!mobileQuery.matches) {
+        el.routePanel.style.removeProperty("--route-sheet-height");
+        document.documentElement.style.removeProperty(
+          "--route-sheet-height"
+        );
+        el.routePanel.classList.remove("is-collapsed");
+        return;
+      }
+
+      const currentHeight = el.routePanel.getBoundingClientRect().height;
+      if (currentHeight <= collapsedHeight + 2) {
+        setHeight(window.innerHeight * 0.42);
+      } else {
+        setHeight(currentHeight, false);
+        el.routePanel.classList.remove("is-dragging");
+      }
+    };
+
+    el.routeSheetHandle.addEventListener("pointerdown", event => {
+      if (!mobileQuery.matches) return;
+
+      dragging = true;
+      movedDuringGesture = false;
+      activePointerId = event.pointerId;
+      startY = event.clientY;
+      startHeight = el.routePanel.getBoundingClientRect().height;
+
+      el.routePanel.classList.add("is-dragging");
+      el.routeSheetHandle.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    el.routeSheetHandle.addEventListener("pointermove", event => {
+      if (!dragging || event.pointerId !== activePointerId) return;
+
+      const delta = startY - event.clientY;
+      if (Math.abs(delta) > 4) movedDuringGesture = true;
+
+      setHeight(startHeight + delta, false);
+      event.preventDefault();
+    });
+
+    const finishDrag = event => {
+      if (!dragging || event.pointerId !== activePointerId) return;
+
+      dragging = false;
+      activePointerId = null;
+
+      const viewport = window.innerHeight;
+      let currentHeight = el.routePanel.getBoundingClientRect().height;
+
+      // Tylko przy skrajnych położeniach panel domyka się automatycznie.
+      if (currentHeight < 90) {
+        currentHeight = collapsedHeight;
+      } else if (currentHeight > viewport - 90) {
+        currentHeight = viewport - 8;
+      }
+
+      el.routePanel.classList.remove("is-dragging");
+      setHeight(currentHeight, true);
+
+      try {
+        el.routeSheetHandle.releasePointerCapture(event.pointerId);
+      } catch (_) {}
+    };
+
+    el.routeSheetHandle.addEventListener("pointerup", finishDrag);
+    el.routeSheetHandle.addEventListener("pointercancel", finishDrag);
+
+    // Krótkie dotknięcie uchwytu przełącza: ukryty ↔ średni.
+    el.routeSheetHandle.addEventListener("click", () => {
+      if (!mobileQuery.matches || movedDuringGesture) return;
+
+      const currentHeight = el.routePanel.getBoundingClientRect().height;
+      if (currentHeight <= collapsedHeight + 8) {
+        setHeight(window.innerHeight * 0.42);
+      } else {
+        setHeight(collapsedHeight);
+      }
+    });
+
+    mobileQuery.addEventListener("change", setDefaultHeight);
+
+    window.addEventListener("resize", () => {
+      if (!mobileQuery.matches) return;
+
+      const currentHeight = el.routePanel.getBoundingClientRect().height;
+      setHeight(currentHeight, false);
+      el.routePanel.classList.remove("is-dragging");
+    });
+
+    setDefaultHeight();
+  }
+
   function toggleRoute() {
     const shouldOpen = el.routePanel.hidden;
     closeLegend();
@@ -659,6 +812,22 @@
     el.routeButton.setAttribute("aria-expanded", String(shouldOpen));
 
     if (shouldOpen) {
+      if (window.matchMedia("(max-width: 600px)").matches) {
+        const currentHeight = el.routePanel.getBoundingClientRect().height;
+        if (currentHeight < 90) {
+          const height = window.innerHeight * 0.42;
+          el.routePanel.style.setProperty(
+            "--route-sheet-height",
+            `${height}px`
+          );
+          document.documentElement.style.setProperty(
+            "--route-sheet-height",
+            `${height}px`
+          );
+          el.routePanel.classList.remove("is-collapsed");
+        }
+      }
+
       state.routeClickStage = state.routePointA
         ? (state.routePointB ? "move-b" : "b")
         : "a";
