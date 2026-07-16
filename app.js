@@ -2070,6 +2070,13 @@
       return;
     }
 
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+    if (isTouchDevice && state.placePopup) {
+      closePlacePopup();
+      return;
+    }
+
     await showPlaceInformation(event);
   }
 
