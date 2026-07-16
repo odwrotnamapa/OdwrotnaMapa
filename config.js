@@ -16,6 +16,13 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     tileSize: 256,
     attribution: "Tiles © Esri"
   },
+  transit: {
+    departuresEndpoint: "https://api.transitous.org/api/v6/stoptimes",
+    sourcesUrl: "https://transitous.org/sources/",
+    radius: 180,
+    limit: 8
+  },
+
   routing: {
     endpoint: "https://valhalla1.openstreetmap.de/route",
     sourceId: "odwrotnamapa-route",

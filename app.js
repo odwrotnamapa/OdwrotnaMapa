@@ -94,7 +94,32 @@
       autocompleteCorrected: name => `Poprawiono nazwę na: ${name}`,
       clearSearch: "Wyczyść wyszukiwanie",
       searchHistory: "Ostatnie wyszukiwania",
-      clearSearchHistory: "Wyczyść historię"
+      clearSearchHistory: "Wyczyść historię",
+      placeLoading: "Pobieranie informacji o miejscu…",
+      placeUnknown: "Wybrane miejsce",
+      placeType: "Typ",
+      placeCoordinates: "Współrzędne",
+      placeSetA: "Ustaw jako Punkt A",
+      placeSetB: "Ustaw jako Punkt B",
+      placeCopy: "Kopiuj",
+      placeCopied: "Skopiowano informacje o miejscu.",
+      placeAddressCopied: "Skopiowano adres.",
+      placeCoordinatesCopied: "Skopiowano współrzędne.",
+      placePhoneCopied: "Skopiowano numer telefonu.",
+      placeShare: "Udostępnij",
+      placeOpenOsm: "Otwórz w OpenStreetMap",
+      placeError: "Nie udało się pobrać informacji o miejscu.",
+      departuresTitle: "Najbliższe odjazdy",
+      departuresLoading: "Pobieranie rozkładu…",
+      departuresEmpty: "Brak dostępnego rozkładu dla tego przystanku.",
+      departuresError: "Nie udało się pobrać rozkładu.",
+      departuresScheduled: "rozkładowo",
+      departuresCancelled: "odwołany",
+      departuresNow: "teraz",
+      departuresMinutes: minutes => `za ${minutes} min`,
+      departuresSources: "Źródła danych",
+      departuresShowMore: "Pokaż więcej",
+      departuresShowLess: "Pokaż mniej"
     },
     en: {
       title: "Odwrotna Mapa - mapa z południem u góry",
@@ -185,7 +210,32 @@
       autocompleteCorrected: name => `Corrected to: ${name}`,
       clearSearch: "Clear search",
       searchHistory: "Recent searches",
-      clearSearchHistory: "Clear history"
+      clearSearchHistory: "Clear history",
+      placeLoading: "Loading place information…",
+      placeUnknown: "Selected place",
+      placeType: "Type",
+      placeCoordinates: "Coordinates",
+      placeSetA: "Set as Point A",
+      placeSetB: "Set as Point B",
+      placeCopy: "Copy",
+      placeCopied: "Place information copied.",
+      placeAddressCopied: "Address copied.",
+      placeCoordinatesCopied: "Coordinates copied.",
+      placePhoneCopied: "Phone number copied.",
+      placeShare: "Share",
+      placeOpenOsm: "Open in OpenStreetMap",
+      placeError: "Place information could not be loaded.",
+      departuresTitle: "Next departures",
+      departuresLoading: "Loading timetable…",
+      departuresEmpty: "No timetable is available for this stop.",
+      departuresError: "The timetable could not be loaded.",
+      departuresScheduled: "scheduled",
+      departuresCancelled: "cancelled",
+      departuresNow: "now",
+      departuresMinutes: minutes => `in ${minutes} min`,
+      departuresSources: "Data sources",
+      departuresShowMore: "Show more",
+      departuresShowLess: "Show less"
     }
   };
 
@@ -209,7 +259,9 @@
     routeManeuvers: [],
     routeWaypoints: [],
     routeWaypointMarkers: [],
-    selectedManeuverIndex: null
+    selectedManeuverIndex: null,
+    placePopup: null,
+    placeRequestController: null
   };
 
   const el = {
@@ -310,10 +362,15 @@
     applyTheme(state.theme);
     applyLanguageAfterStartup();
     loadSharedRouteFromUrl();
+    loadSharedPlaceFromUrl();
   });
 
   map.on("moveend", saveView);
-  map.on("click", handleRouteMapClick);
+  map.on("click", handleMapClick);
+  map.on("contextmenu", event => {
+    event.preventDefault();
+    closePlacePopup();
+  });
 
   el.themeSelect.value = state.theme;
   el.languageSelect.value = state.language;
@@ -766,6 +823,24 @@
     localStorage.removeItem(CONFIG.storageKeys.searchHistory);
   }
 
+  function loadSharedPlaceFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const point = parseSharedPoint(params.get("place"));
+    if (!point) return;
+
+    map.flyTo({
+      center: [point.lon, point.lat],
+      zoom: 17,
+      bearing: 180
+    });
+
+    map.once("moveend", () => {
+      showPlaceInformation({
+        lngLat: new maplibregl.LngLat(point.lon, point.lat)
+      });
+    });
+  }
+
   function initializeAutocomplete() {
     const floatingList = el.autocompleteFloating;
     let activeInput = null;
@@ -1019,6 +1094,7 @@
         } else if (
           activeInput &&
           activeInput.value.trim() === query &&
+          !isAddressLikeQuery(query) &&
           maybeAutocorrectPlaceInput(activeInput, query, items)
         ) {
           show(
@@ -1157,7 +1233,8 @@
     if (
       normalizedQuery.length < 4 ||
       normalizedQuery.includes(" ") ||
-      /\d/.test(normalizedQuery)
+      /\d/.test(normalizedQuery) ||
+      isAddressLikeQuery(query)
     ) {
       return query;
     }
@@ -1203,6 +1280,25 @@
       ? correctPolishCityQuery(query)
       : query;
 
+    if (isAddressLikeQuery(correctedQuery)) {
+      try {
+        const nominatimResults = await fetchNominatimPlaces(
+          correctedQuery,
+          limit,
+          signal
+        );
+        if (nominatimResults.length) return nominatimResults;
+      } catch (error) {
+        if (error.name === "AbortError") throw error;
+        console.warn(
+          "Nominatim address search failed, using Photon fallback.",
+          error
+        );
+      }
+
+      return fetchPhotonPlaces(correctedQuery, limit, signal);
+    }
+
     let photonResults = [];
 
     try {
@@ -1246,6 +1342,7 @@
     url.searchParams.set("format", "jsonv2");
     url.searchParams.set("limit", String(limit));
     url.searchParams.set("addressdetails", "1");
+    url.searchParams.set("dedupe", "1");
     url.searchParams.set("accept-language", state.language);
 
     const response = await fetch(url, {
@@ -1281,7 +1378,13 @@
       county: properties.county,
       country: properties.country,
       postcode: properties.postcode,
-      road: properties.street
+      road:
+        properties.street ||
+        properties.road ||
+        properties.name,
+      house_number:
+        properties.housenumber ||
+        properties.house_number
     };
 
     if (type === "city") address.city = name;
@@ -1454,28 +1557,111 @@
 
   function getPreferredPlaceLabel(result) {
     const address = result.address || {};
-    const primary =
+
+    const city =
       address.city ||
       address.town ||
       address.village ||
       address.municipality ||
       address.hamlet ||
       address.suburb ||
-      address.road ||
-      result.name;
+      "";
 
-    if (primary) {
+    const road =
+      address.road ||
+      address.pedestrian ||
+      address.footway ||
+      address.cycleway ||
+      address.path ||
+      "";
+
+    const houseNumber =
+      address.house_number ||
+      address.housenumber ||
+      "";
+
+    if (road) {
+      const streetWithNumber = houseNumber
+        ? `${road} ${houseNumber}`
+        : road;
+
+      return city
+        ? `${city}, ${streetWithNumber}`
+        : streetWithNumber;
+    }
+
+    const place =
+      city ||
+      result.name ||
+      address.state ||
+      address.county ||
+      "";
+
+    if (place) {
       const secondary =
         address.state ||
         address.county ||
         address.country;
 
-      return secondary && secondary !== primary
-        ? `${primary}, ${secondary}`
-        : primary;
+      return secondary && secondary !== place
+        ? `${place}, ${secondary}`
+        : place;
     }
 
     return result.display_name || "";
+  }
+
+  function getPrimaryPlaceName(result) {
+    const address = result.address || {};
+
+    const road =
+      address.road ||
+      address.pedestrian ||
+      address.footway ||
+      address.cycleway ||
+      address.path ||
+      "";
+
+    const houseNumber =
+      address.house_number ||
+      address.housenumber ||
+      "";
+
+    const city =
+      address.city ||
+      address.town ||
+      address.village ||
+      address.municipality ||
+      address.hamlet ||
+      address.suburb ||
+      "";
+
+    if (road) {
+      const streetWithNumber = houseNumber
+        ? `${road} ${houseNumber}`
+        : road;
+
+      return city
+        ? `${city}, ${streetWithNumber}`
+        : streetWithNumber;
+    }
+
+    return (
+      city ||
+      result.name ||
+      result.display_name ||
+      ""
+    );
+  }
+
+  function isAddressLikeQuery(query) {
+    const normalized = normalizeSearchText(query);
+
+    return (
+      /\d/.test(normalized) ||
+      normalized.split(" ").length >= 3 ||
+      /\b(ul|ulica|aleja|al|plac|pl|rondo|osiedle|os)\b/.test(normalized)
+    );
   }
 
   function resultToRoutePoint(result) {
@@ -1636,6 +1822,7 @@
 
   function toggleRoute() {
     const shouldOpen = el.routePanel.hidden;
+    closePlacePopup();
     closeLegend();
     closeAbout();
     el.routePanel.hidden = !shouldOpen;
@@ -1696,6 +1883,865 @@
       ? (state.routePointB ? "move-b" : "b")
       : "a";
     updateRouteClickHint();
+  }
+
+  async function handleMapClick(event) {
+    if (!el.routePanel.hidden) {
+      await handleRouteMapClick(event);
+      return;
+    }
+
+    await showPlaceInformation(event);
+  }
+
+  function closePlacePopup() {
+    state.placeRequestController?.abort();
+    state.placeRequestController = null;
+
+    if (state.placePopup) {
+      const popup = state.placePopup;
+      state.placePopup = null;
+      popup.remove();
+    }
+  }
+
+  async function showPlaceInformation(event) {
+    closePlacePopup();
+    state.placeRequestController = new AbortController();
+
+    const t = text[state.language];
+    const loading = document.createElement("div");
+    loading.className = "place-card place-card-loading";
+    loading.textContent = t.placeLoading;
+
+    state.placePopup = new maplibregl.Popup({
+      closeButton: true,
+      closeOnClick: true,
+      maxWidth: "360px",
+      offset: 12
+    })
+      .setLngLat(event.lngLat)
+      .setDOMContent(loading)
+      .addTo(map);
+
+    state.placePopup.on("close", () => {
+      state.placeRequestController?.abort();
+      state.placeRequestController = null;
+      state.placePopup = null;
+    });
+
+    try {
+      const place = await fetchPlaceInformation(
+        event.lngLat.lng,
+        event.lngLat.lat,
+        state.placeRequestController.signal
+      );
+
+      if (!state.placePopup) return;
+      state.placePopup.setDOMContent(
+        createPlaceCard(place, event.lngLat)
+      );
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      console.error(error);
+
+      const failed = document.createElement("div");
+      failed.className = "place-card place-card-loading";
+      failed.textContent = t.placeError;
+      state.placePopup?.setDOMContent(failed);
+    }
+  }
+
+  async function fetchPlaceInformation(lon, lat, signal) {
+    const url = new URL(CONFIG.search.reverseEndpoint);
+    url.searchParams.set("lat", String(lat));
+    url.searchParams.set("lon", String(lon));
+    url.searchParams.set("format", "jsonv2");
+    url.searchParams.set("addressdetails", "1");
+    url.searchParams.set("extratags", "1");
+    url.searchParams.set("namedetails", "1");
+    url.searchParams.set("accept-language", state.language);
+    url.searchParams.set("zoom", "18");
+
+    const response = await fetch(url, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Nominatim reverse HTTP ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  function createPlaceCard(place, lngLat) {
+    const t = text[state.language];
+    const card = document.createElement("article");
+    card.className = "place-card";
+
+    const imageUrl = getPlaceImageUrl(place);
+    if (imageUrl) {
+      const image = document.createElement("img");
+      image.className = "place-card-image";
+      image.src = imageUrl;
+      image.alt = "";
+      image.loading = "lazy";
+      image.referrerPolicy = "no-referrer";
+      image.addEventListener("error", () => image.remove());
+      card.appendChild(image);
+    }
+
+    const headingRow = document.createElement("div");
+    headingRow.className = "place-card-heading";
+
+    const typeIcon = document.createElement("span");
+    typeIcon.className = "place-card-type-icon";
+    typeIcon.setAttribute("aria-hidden", "true");
+    typeIcon.textContent = getPlaceEmoji(place);
+
+    const headingCopy = document.createElement("div");
+    headingCopy.className = "place-card-heading-copy";
+
+    const heading = document.createElement("h3");
+    heading.className = "place-card-title";
+    heading.textContent = getPlaceTitle(place) || t.placeUnknown;
+
+    const type = document.createElement("p");
+    type.className = "place-card-type";
+    type.textContent = getPlaceTypeLabel(place);
+
+    headingCopy.appendChild(heading);
+    if (type.textContent) headingCopy.appendChild(type);
+    headingRow.append(typeIcon, headingCopy);
+    card.appendChild(headingRow);
+
+    const details = document.createElement("div");
+    details.className = "place-card-details";
+
+    const addressText = getPlaceAddress(place);
+    if (addressText) {
+      details.appendChild(
+        createInteractivePlaceRow(
+          "📍",
+          addressText,
+          () => copyValue(addressText, t.placeAddressCopied)
+        )
+      );
+    }
+
+    const coordinatesText = formatCoordinates(lngLat.lng, lngLat.lat);
+    details.appendChild(
+      createInteractivePlaceRow(
+        "🌍",
+        coordinatesText,
+        () => copyValue(coordinatesText, t.placeCoordinatesCopied)
+      )
+    );
+
+    const extra = place.extratags || {};
+    const phone = extra.phone || extra["contact:phone"] || "";
+    const website =
+      extra.website ||
+      extra["contact:website"] ||
+      extra.url ||
+      "";
+    const openingHours = extra.opening_hours || "";
+
+    if (openingHours) {
+      details.appendChild(
+        createStaticPlaceRow("🕒", openingHours)
+      );
+    }
+
+    if (phone) {
+      details.appendChild(
+        createPhonePlaceRow(phone)
+      );
+    }
+
+    if (website) {
+      details.appendChild(
+        createWebsitePlaceRow(website)
+      );
+    }
+
+    card.appendChild(details);
+
+    if (isTransitStopPlace(place)) {
+      const departures = createDeparturesSection();
+      card.appendChild(departures.section);
+      loadDeparturesForPlace(place, lngLat, departures);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "place-card-actions";
+
+    actions.append(
+      createPlaceAction("📍 " + t.placeSetA, () => {
+        setPlaceAsRoutePoint("a", place, lngLat);
+      }),
+      createPlaceAction("🏁 " + t.placeSetB, () => {
+        setPlaceAsRoutePoint("b", place, lngLat);
+      }),
+      createPlaceAction("🔗 " + t.placeShare, () => {
+        sharePlace(place, lngLat);
+      })
+    );
+
+    const osmLink = document.createElement("a");
+    osmLink.className = "place-card-action place-card-link";
+    osmLink.target = "_blank";
+    osmLink.rel = "noopener noreferrer";
+    osmLink.href = `https://www.openstreetmap.org/?mlat=${lngLat.lat}&mlon=${lngLat.lng}#map=18/${lngLat.lat}/${lngLat.lng}`;
+    osmLink.textContent = "🌍 OpenStreetMap";
+    actions.appendChild(osmLink);
+
+    card.appendChild(actions);
+    return card;
+  }
+
+  function createInteractivePlaceRow(iconText, valueText, onClick) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "place-card-row place-card-row-interactive";
+
+    const icon = document.createElement("span");
+    icon.className = "place-card-row-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = iconText;
+
+    const value = document.createElement("span");
+    value.className = "place-card-row-value";
+    value.textContent = valueText;
+
+    button.append(icon, value);
+    button.addEventListener("click", async () => {
+      await onClick();
+      flashPlaceRow(button, icon);
+    });
+
+    return button;
+  }
+
+  function createStaticPlaceRow(iconText, valueText) {
+    const row = document.createElement("div");
+    row.className = "place-card-row";
+
+    const icon = document.createElement("span");
+    icon.className = "place-card-row-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = iconText;
+
+    const value = document.createElement("span");
+    value.className = "place-card-row-value";
+    value.textContent = valueText;
+
+    row.append(icon, value);
+    return row;
+  }
+
+  function createPhonePlaceRow(phone) {
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+    if (isTouchDevice) {
+      const link = document.createElement("a");
+      link.className = "place-card-row place-card-row-interactive";
+      link.href = `tel:${phone.replace(/[^\d+]/g, "")}`;
+
+      const icon = document.createElement("span");
+      icon.className = "place-card-row-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = "☎";
+
+      const value = document.createElement("span");
+      value.className = "place-card-row-value";
+      value.textContent = phone;
+
+      link.append(icon, value);
+      return link;
+    }
+
+    return createInteractivePlaceRow(
+      "☎",
+      phone,
+      () => copyValue(phone, text[state.language].placePhoneCopied)
+    );
+  }
+
+  function createWebsitePlaceRow(website) {
+    const link = document.createElement("a");
+    link.className = "place-card-row place-card-row-interactive";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.href = normalizeWebsiteUrl(website);
+
+    const icon = document.createElement("span");
+    icon.className = "place-card-row-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = "🌐";
+
+    const value = document.createElement("span");
+    value.className = "place-card-row-value";
+    value.textContent = website.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+    link.append(icon, value);
+    return link;
+  }
+
+  function normalizeWebsiteUrl(value) {
+    return /^https?:\/\//i.test(value)
+      ? value
+      : `https://${value}`;
+  }
+
+  async function copyValue(value, successMessage) {
+    try {
+      await navigator.clipboard.writeText(value);
+      show(successMessage);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function flashPlaceRow(row, icon) {
+    const originalIcon = icon.textContent;
+    row.classList.add("is-copied");
+    icon.textContent = "✅";
+
+    window.setTimeout(() => {
+      row.classList.remove("is-copied");
+      icon.textContent = originalIcon;
+    }, 900);
+  }
+
+  function getPlaceTitle(place) {
+    const names = place.namedetails || {};
+    const address = place.address || {};
+
+    return (
+      names[`name:${state.language}`] ||
+      names.name ||
+      place.name ||
+      address.amenity ||
+      address.tourism ||
+      address.shop ||
+      address.leisure ||
+      address.building ||
+      address.road ||
+      address.city ||
+      address.town ||
+      address.village ||
+      ""
+    );
+  }
+
+  function getPlaceAddress(place) {
+    const address = place.address || {};
+    const road = address.road || address.pedestrian || "";
+    const number = address.house_number || "";
+    const city =
+      address.city ||
+      address.town ||
+      address.village ||
+      address.municipality ||
+      "";
+
+    const street = [road, number].filter(Boolean).join(" ");
+    const parts = [street, city, address.postcode, address.country]
+      .filter(Boolean);
+
+    return parts.length
+      ? [...new Set(parts)].join(", ")
+      : place.display_name || "";
+  }
+
+  function getPlaceTypeLabel(place) {
+    const extra = place.extratags || {};
+    const raw =
+      extra.cuisine ||
+      place.type ||
+      place.category ||
+      "";
+
+    return String(raw)
+      .replaceAll("_", " ")
+      .replace(/\b\w/g, letter => letter.toUpperCase());
+  }
+
+  function getPlaceEmoji(place) {
+    const raw = [
+      place.type,
+      place.category,
+      place.address?.amenity,
+      place.address?.tourism,
+      place.address?.shop,
+      place.extratags?.cuisine
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    const mapping = [
+      [/restaurant|food|cuisine/, "🍽"],
+      [/cafe|coffee/, "☕"],
+      [/bar|pub|biergarten/, "🍺"],
+      [/hotel|hostel|guest_house|motel/, "🏨"],
+      [/fuel|petrol|gas_station/, "⛽"],
+      [/museum|gallery/, "🏛"],
+      [/theatre|theater/, "🎭"],
+      [/cinema/, "🎬"],
+      [/supermarket|mall|shop|convenience/, "🛒"],
+      [/pharmacy/, "💊"],
+      [/hospital|clinic|doctors/, "🏥"],
+      [/school|college|university|kindergarten/, "🏫"],
+      [/bank|atm/, "🏦"],
+      [/park|garden|nature_reserve/, "🌳"],
+      [/church|cathedral|chapel|place_of_worship/, "⛪"],
+      [/station|railway|train/, "🚉"],
+      [/airport|aerodrome/, "✈"],
+      [/harbour|harbor|port|marina/, "⚓"],
+      [/bus_stop|bus_station/, "🚌"],
+      [/parking/, "🅿️"],
+      [/library/, "📚"],
+      [/police/, "👮"],
+      [/fire_station/, "🚒"],
+      [/post_office/, "📮"],
+      [/stadium|sports_centre|sports_center/, "🏟"],
+      [/monument|memorial|historic|castle/, "🏰"],
+      [/beach/, "🏖"]
+    ];
+
+    for (const [pattern, emoji] of mapping) {
+      if (pattern.test(raw)) return emoji;
+    }
+
+    return "📍";
+  }
+
+  function getPlaceImageUrl(place) {
+    const extra = place.extratags || {};
+    const image = extra.image || "";
+    const commons = extra.wikimedia_commons || "";
+
+    if (/^https?:\/\//i.test(image)) {
+      return image;
+    }
+
+    const commonsValue = commons.replace(/^File:/i, "").trim();
+    if (commonsValue) {
+      return `https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(commonsValue)}`;
+    }
+
+    return "";
+  }
+
+  function createPlaceAction(label, onClick) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "place-card-action";
+    button.textContent = label;
+    button.addEventListener("click", onClick);
+    return button;
+  }
+
+  function isTransitStopPlace(place) {
+    const address = place.address || {};
+    const extra = place.extratags || {};
+
+    const values = [
+      place.type,
+      place.category,
+      address.highway,
+      address.public_transport,
+      address.railway,
+      address.amenity,
+      extra.public_transport,
+      extra.highway,
+      extra.railway,
+      extra.bus,
+      extra.tram,
+      extra.train,
+      extra.subway
+    ]
+      .filter(Boolean)
+      .map(value => String(value).toLowerCase());
+
+    const joined = values.join(" ");
+
+    return [
+      "bus_stop",
+      "platform",
+      "stop_position",
+      "station",
+      "tram_stop",
+      "halt",
+      "subway_entrance",
+      "railway"
+    ].some(token => joined.includes(token));
+  }
+
+  function createDeparturesSection() {
+    const t = text[state.language];
+
+    const section = document.createElement("section");
+    section.className = "place-departures";
+
+    const header = document.createElement("div");
+    header.className = "place-departures-header";
+
+    const title = document.createElement("h4");
+    title.textContent = `🚌 ${t.departuresTitle}`;
+
+    header.appendChild(title);
+    section.appendChild(header);
+
+    const status = document.createElement("p");
+    status.className = "place-departures-status";
+    status.textContent = t.departuresLoading;
+    section.appendChild(status);
+
+    const list = document.createElement("ol");
+    list.className = "place-departures-list";
+    list.hidden = true;
+    section.appendChild(list);
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "place-departures-toggle";
+    toggle.textContent = t.departuresShowMore;
+    toggle.hidden = true;
+    section.appendChild(toggle);
+
+    const attribution = document.createElement("a");
+    attribution.className = "place-departures-source";
+    attribution.href = CONFIG.transit.sourcesUrl;
+    attribution.target = "_blank";
+    attribution.rel = "noopener noreferrer";
+    attribution.textContent = t.departuresSources;
+    attribution.hidden = true;
+    section.appendChild(attribution);
+
+    return { section, status, list, toggle, attribution };
+  }
+
+  async function loadDeparturesForPlace(place, lngLat, ui) {
+    const t = text[state.language];
+
+    try {
+      const url = new URL(CONFIG.transit.departuresEndpoint);
+      url.searchParams.set(
+        "center",
+        `${lngLat.lat},${lngLat.lng}`
+      );
+      url.searchParams.set("radius", String(CONFIG.transit.radius));
+      url.searchParams.set("exactRadius", "true");
+      url.searchParams.set("n", String(CONFIG.transit.limit));
+      url.searchParams.set("direction", "LATER");
+      url.searchParams.set("arriveBy", "false");
+      url.searchParams.set("language", state.language);
+      url.searchParams.set("withAlerts", "false");
+
+      const response = await fetch(url, {
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Transitous HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      const departures = Array.isArray(data.stopTimes)
+        ? data.stopTimes
+        : [];
+
+      if (!departures.length) {
+        ui.status.textContent = t.departuresEmpty;
+        return;
+      }
+
+      renderDepartures(departures, ui);
+    } catch (error) {
+      console.error(error);
+      ui.status.textContent = t.departuresError;
+    }
+  }
+
+  function renderDepartures(departures, ui) {
+    const t = text[state.language];
+    const compactLimit = 4;
+    const visibleDepartures = departures.slice(
+      0,
+      CONFIG.transit.limit
+    );
+
+    let expanded = false;
+
+    const draw = () => {
+      ui.list.replaceChildren();
+
+      const fragment = document.createDocumentFragment();
+      const items = expanded
+        ? visibleDepartures
+        : visibleDepartures.slice(0, compactLimit);
+
+      items.forEach(departure => {
+        const item = document.createElement("li");
+        item.className = "place-departure";
+
+        if (departure.cancelled || departure.tripCancelled) {
+          item.classList.add("is-cancelled");
+        }
+
+        const badge = document.createElement("span");
+        badge.className = "place-departure-line";
+
+        const routeName =
+          departure.routeShortName ||
+          departure.displayName ||
+          departure.tripShortName ||
+          getTransitModeEmoji(departure.mode);
+
+        badge.textContent = routeName;
+        applyTransitRouteColors(
+          badge,
+          departure.routeColor,
+          departure.routeTextColor
+        );
+
+        const copy = document.createElement("span");
+        copy.className = "place-departure-copy";
+
+        const direction = document.createElement("strong");
+        direction.className = "place-departure-direction";
+        direction.textContent =
+          departure.headsign ||
+          departure.tripTo?.name ||
+          departure.routeLongName ||
+          "—";
+
+        const timing = document.createElement("span");
+        timing.className = "place-departure-time";
+        timing.textContent = formatDepartureTiming(departure);
+
+        copy.append(direction, timing);
+        item.append(badge, copy);
+        fragment.appendChild(item);
+      });
+
+      ui.list.appendChild(fragment);
+      ui.list.classList.toggle("is-expanded", expanded);
+
+      if (visibleDepartures.length > compactLimit) {
+        ui.toggle.hidden = false;
+        ui.toggle.textContent = expanded
+          ? t.departuresShowLess
+          : t.departuresShowMore;
+        ui.toggle.setAttribute("aria-expanded", String(expanded));
+      } else {
+        ui.toggle.hidden = true;
+      }
+    };
+
+    ui.toggle.addEventListener("click", () => {
+      expanded = !expanded;
+      draw();
+
+      if (!expanded) {
+        ui.list.scrollTop = 0;
+      }
+    });
+
+    draw();
+
+    ui.status.hidden = true;
+    ui.list.hidden = false;
+    ui.attribution.hidden = false;
+  }
+
+  function formatDepartureTiming(departure) {
+    const t = text[state.language];
+    const place = departure.place || {};
+
+    const actualValue =
+      place.departure ||
+      place.arrival ||
+      place.scheduledDeparture ||
+      place.scheduledArrival;
+
+    const scheduledValue =
+      place.scheduledDeparture ||
+      place.scheduledArrival ||
+      actualValue;
+
+    const actual = new Date(actualValue);
+    const scheduled = new Date(scheduledValue);
+
+    if (Number.isNaN(actual.getTime())) {
+      return departure.cancelled || departure.tripCancelled
+        ? t.departuresCancelled
+        : t.departuresScheduled;
+    }
+
+    const clock = actual.toLocaleTimeString(
+      state.language === "pl" ? "pl-PL" : "en-US",
+      { hour: "2-digit", minute: "2-digit" }
+    );
+
+    const minutes = Math.max(
+      0,
+      Math.round((actual.getTime() - Date.now()) / 60000)
+    );
+
+    const relative =
+      minutes <= 0
+        ? t.departuresNow
+        : t.departuresMinutes(minutes);
+
+    if (departure.cancelled || departure.tripCancelled) {
+      return `${clock} · ${t.departuresCancelled}`;
+    }
+
+    let suffix = departure.realTime
+      ? ""
+      : ` · ${t.departuresScheduled}`;
+
+    if (
+      departure.realTime &&
+      !Number.isNaN(scheduled.getTime())
+    ) {
+      const delayMinutes = Math.round(
+        (actual.getTime() - scheduled.getTime()) / 60000
+      );
+
+      if (delayMinutes > 0) {
+        suffix = ` · +${delayMinutes} min`;
+      } else if (delayMinutes < 0) {
+        suffix = ` · ${delayMinutes} min`;
+      }
+    }
+
+    return `${clock} · ${relative}${suffix}`;
+  }
+
+  function getTransitModeEmoji(mode) {
+    const normalized = String(mode || "").toUpperCase();
+
+    if (normalized.includes("TRAM")) return "🚋";
+    if (
+      normalized.includes("RAIL") ||
+      normalized.includes("TRAIN") ||
+      normalized.includes("SUBURBAN")
+    ) return "🚆";
+    if (
+      normalized.includes("SUBWAY") ||
+      normalized.includes("METRO")
+    ) return "🚇";
+    if (normalized.includes("FERRY")) return "⛴";
+    if (normalized.includes("BUS")) return "🚌";
+    return "🚌";
+  }
+
+  function applyTransitRouteColors(element, background, foreground) {
+    const safeBackground = normalizeTransitColor(background);
+    const safeForeground = normalizeTransitColor(foreground);
+
+    if (safeBackground) {
+      element.style.backgroundColor = safeBackground;
+      element.style.borderColor = safeBackground;
+    }
+
+    if (safeForeground) {
+      element.style.color = safeForeground;
+    } else if (safeBackground) {
+      element.style.color = getReadableTextColor(safeBackground);
+    }
+  }
+
+  function normalizeTransitColor(value) {
+    if (!value) return "";
+
+    const color = String(value).trim();
+    if (/^#[0-9a-f]{6}$/i.test(color)) return color;
+    if (/^[0-9a-f]{6}$/i.test(color)) return `#${color}`;
+
+    return "";
+  }
+
+  function getReadableTextColor(hexColor) {
+    const value = hexColor.replace("#", "");
+    const red = parseInt(value.slice(0, 2), 16);
+    const green = parseInt(value.slice(2, 4), 16);
+    const blue = parseInt(value.slice(4, 6), 16);
+    const luminance =
+      (red * 299 + green * 587 + blue * 114) / 1000;
+
+    return luminance > 150 ? "#111827" : "#ffffff";
+  }
+
+  function pointFromPlace(place, lngLat) {
+    return {
+      lon: lngLat.lng,
+      lat: lngLat.lat,
+      label:
+        getPlaceAddress(place) ||
+        getPlaceTitle(place) ||
+        formatCoordinates(lngLat.lng, lngLat.lat)
+    };
+  }
+
+  function setPlaceAsRoutePoint(key, place, lngLat) {
+    const point = pointFromPlace(place, lngLat);
+
+    if (el.routePanel.hidden) {
+      toggleRoute();
+    }
+
+    if (key === "a") {
+      state.routePointA = point;
+      el.routeFrom.value = point.label;
+      setRouteMarker("a", point);
+    } else {
+      state.routePointB = point;
+      el.routeTo.value = point.label;
+      setRouteMarker("b", point);
+    }
+
+    state.routeClickStage = state.routePointA
+      ? (state.routePointB ? "move-b" : "b")
+      : "a";
+
+    updateRouteClickHint();
+    closePlacePopup();
+
+    if (state.routePointA && state.routePointB) {
+      calculateRouteFromStoredPoints();
+    }
+  }
+
+
+  async function sharePlace(place, lngLat) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
+
+    const shareData = {
+      title: getPlaceTitle(place) || document.title,
+      text: getPlaceAddress(place),
+      url: url.toString()
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(url.toString());
+        show(text[state.language].routeShared);
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        console.error(error);
+      }
+    }
   }
 
   async function handleRouteMapClick(event) {
