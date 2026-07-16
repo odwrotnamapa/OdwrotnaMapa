@@ -70,11 +70,13 @@
       routeModes: {
         auto: "Samochód",
         bicycle: "Rower",
-        pedestrian: "Pieszo"
+        pedestrian: "Pieszo",
+        transit: "Transport publiczny"
       },
       routeSearching: "Wyszukiwanie punktów i obliczanie trasy…",
       routePointNotFound: "Nie znaleziono jednego z podanych punktów.",
       routeError: "Nie udało się wyznaczyć trasy.",
+      transitRouteError: "Nie znaleziono połączenia transportem publicznym.",
       routePickA: "Kliknij na mapie, aby wybrać punkt początkowy.",
       routePickB: "Kliknij na mapie, aby wybrać punkt docelowy.",
       routePickMoveB: "Kliknij na mapie, aby zmienić punkt docelowy.",
@@ -186,11 +188,13 @@
       routeModes: {
         auto: "Car",
         bicycle: "Bicycle",
-        pedestrian: "Walking"
+        pedestrian: "Walking",
+        transit: "Public transport"
       },
       routeSearching: "Finding points and calculating the route…",
       routePointNotFound: "One of the entered points could not be found.",
       routeError: "The route could not be calculated.",
+      transitRouteError: "No public transport connection was found.",
       routePickA: "Click the map to choose the starting point.",
       routePickB: "Click the map to choose the destination.",
       routePickMoveB: "Click the map to move the destination.",
@@ -369,7 +373,7 @@
   map.on("click", handleMapClick);
   map.on("contextmenu", event => {
     event.preventDefault();
-    closePlacePopup();
+    closeOpenInterfacePanels();
   });
 
   el.themeSelect.value = state.theme;
@@ -396,6 +400,21 @@
   el.aboutButton.addEventListener("click", toggleAbout);
   el.aboutClose.addEventListener("click", closeAbout);
   el.routeButton.addEventListener("click", toggleRoute);
+
+  for (const element of [
+    el.routeButton,
+    el.legendButton,
+    el.aboutButton,
+    el.routePanel,
+    el.legendPanel,
+    el.aboutPanel
+  ]) {
+    element.addEventListener("contextmenu", event => {
+      if (window.matchMedia("(pointer: coarse)").matches) return;
+      event.preventDefault();
+      closeOpenInterfacePanels();
+    });
+  }
   el.routeClose.addEventListener("click", closeRoute);
   el.routeSwap.addEventListener("click", swapRoutePoints);
   el.routeClear.addEventListener("click", clearRoute);
@@ -462,7 +481,9 @@
     el.routeDirectionsTitle.textContent = t.routeDirections;
     el.routeModeLabel.textContent = t.routeMode;
     for (const modeLabel of document.querySelectorAll("[data-route-mode-label]")) {
-      modeLabel.textContent = t.routeModes[modeLabel.dataset.routeModeLabel];
+      const label = t.routeModes[modeLabel.dataset.routeModeLabel];
+      modeLabel.title = label;
+      modeLabel.setAttribute("aria-label", label);
     }
     for (const item of document.querySelectorAll("[data-legend]")) {
       item.textContent = t.legendItems[item.dataset.legend];
@@ -1999,6 +2020,14 @@
     setDefaultHeight();
   }
 
+  function closeOpenInterfacePanels() {
+    closePlacePopup();
+    hideAllAutocomplete();
+    closeLegend();
+    closeAbout();
+    closeRoute();
+  }
+
   function toggleRoute() {
     const shouldOpen = el.routePanel.hidden;
     closePlacePopup();
@@ -3166,8 +3195,291 @@
     };
   }
 
+  async function fetchTransitRoute(from, to) {
+    const url = new URL(CONFIG.transit.plannerEndpoint);
+    url.searchParams.set("fromPlace", `${from.lat},${from.lon}`);
+    url.searchParams.set("toPlace", `${to.lat},${to.lon}`);
+    url.searchParams.set("numItineraries", "3");
+    url.searchParams.set("language", state.language);
+    url.searchParams.set("arriveBy", "false");
+    url.searchParams.set("wheelchair", "false");
+
+    const response = await fetch(url, {
+      headers: { "Accept": "application/json" }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Transitous plan HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    const itineraries =
+      result.itineraries ||
+      result.plan?.itineraries ||
+      [];
+
+    const itinerary = itineraries[0];
+    if (!itinerary?.legs?.length) {
+      throw new Error(text[state.language].transitRouteError);
+    }
+
+    const coordinates = [];
+    const maneuvers = [];
+
+    itinerary.legs.forEach((leg, index) => {
+      const legCoordinates = getTransitLegCoordinates(leg);
+
+      if (coordinates.length && legCoordinates.length) {
+        const [firstLon, firstLat] = legCoordinates[0];
+        const [lastLon, lastLat] = coordinates[coordinates.length - 1];
+        if (
+          Math.abs(firstLon - lastLon) < 1e-7 &&
+          Math.abs(firstLat - lastLat) < 1e-7
+        ) {
+          legCoordinates.shift();
+        }
+      }
+      coordinates.push(...legCoordinates);
+
+      const fromCoordinate = getTransitPlaceCoordinate(leg.from);
+      const mode = String(leg.mode || "").toUpperCase();
+      const routeName =
+        leg.routeShortName ||
+        leg.route?.shortName ||
+        leg.tripShortName ||
+        "";
+      const destination =
+        leg.headsign ||
+        leg.to?.name ||
+        leg.routeLongName ||
+        "";
+
+      maneuvers.push({
+        instruction: getTransitLegInstruction(
+          mode,
+          routeName,
+          destination
+        ),
+        streetNames: [
+          leg.from?.name,
+          leg.to?.name
+        ].filter(Boolean),
+        length: Number(leg.distance || 0),
+        time: getTransitLegDurationSeconds(leg),
+        type: getTransitManeuverType(mode),
+        coordinate:
+          fromCoordinate ||
+          legCoordinates[0] ||
+          null,
+        segment: legCoordinates,
+        transitMode: mode,
+        routeName,
+        destination
+      });
+    });
+
+    if (coordinates.length < 2) {
+      const fallback = [
+        [from.lon, from.lat],
+        [to.lon, to.lat]
+      ];
+      coordinates.push(...fallback);
+    }
+
+    const startTime = parseTransitTime(
+      itinerary.startTime ||
+      itinerary.start_time
+    );
+    const endTime = parseTransitTime(
+      itinerary.endTime ||
+      itinerary.end_time
+    );
+
+    const duration =
+      Number(itinerary.duration || 0) ||
+      (
+        startTime && endTime
+          ? Math.max(0, (endTime - startTime) / 1000)
+          : maneuvers.reduce(
+              (sum, maneuver) => sum + maneuver.time,
+              0
+            )
+      );
+
+    const distance =
+      Number(itinerary.distance || 0) ||
+      maneuvers.reduce(
+        (sum, maneuver) => sum + maneuver.length,
+        0
+      );
+
+    return {
+      geometry: {
+        type: "LineString",
+        coordinates
+      },
+      distance,
+      duration,
+      maneuvers
+    };
+  }
+
+  function getTransitLegCoordinates(leg) {
+    const geometry =
+      leg.legGeometry ||
+      leg.geometry ||
+      {};
+
+    if (
+      geometry.type === "LineString" &&
+      Array.isArray(geometry.coordinates)
+    ) {
+      return geometry.coordinates.map(point => [
+        Number(point[0]),
+        Number(point[1])
+      ]);
+    }
+
+    if (Array.isArray(geometry.coordinates)) {
+      return geometry.coordinates.map(point => [
+        Number(point[0]),
+        Number(point[1])
+      ]);
+    }
+
+    const encoded =
+      geometry.points ||
+      leg.polyline ||
+      leg.encodedPolyline ||
+      "";
+
+    if (encoded) {
+      const precision =
+        Number(geometry.precision) === 6 ? 6 : 5;
+      return decodeEncodedPolyline(encoded, precision);
+    }
+
+    const from = getTransitPlaceCoordinate(leg.from);
+    const to = getTransitPlaceCoordinate(leg.to);
+    return [from, to].filter(Boolean);
+  }
+
+  function getTransitPlaceCoordinate(place) {
+    if (!place) return null;
+
+    const lon = Number(
+      place.lon ??
+      place.lng ??
+      place.longitude ??
+      place.location?.lon ??
+      place.location?.lng
+    );
+    const lat = Number(
+      place.lat ??
+      place.latitude ??
+      place.location?.lat
+    );
+
+    return Number.isFinite(lon) && Number.isFinite(lat)
+      ? [lon, lat]
+      : null;
+  }
+
+  function getTransitLegDurationSeconds(leg) {
+    const direct = Number(leg.duration || 0);
+    if (direct > 0) return direct;
+
+    const start = parseTransitTime(
+      leg.startTime ||
+      leg.start_time
+    );
+    const end = parseTransitTime(
+      leg.endTime ||
+      leg.end_time
+    );
+
+    return start && end
+      ? Math.max(0, (end - start) / 1000)
+      : 0;
+  }
+
+  function parseTransitTime(value) {
+    if (!value) return null;
+    if (typeof value === "number") {
+      return new Date(value < 1e12 ? value * 1000 : value);
+    }
+
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  function getTransitLegInstruction(mode, routeName, destination) {
+    const arrow = destination ? ` → ${destination}` : "";
+
+    if (mode.includes("WALK")) {
+      return state.language === "pl"
+        ? "Przejdź pieszo"
+        : "Walk";
+    }
+
+    if (mode.includes("BICYCLE")) {
+      return state.language === "pl"
+        ? "Przejedź rowerem"
+        : "Cycle";
+    }
+
+    const prefix =
+      mode.includes("TRAM") ? "🚋" :
+      mode.includes("SUBWAY") || mode.includes("METRO") ? "🚇" :
+      mode.includes("RAIL") || mode.includes("TRAIN") ? "🚆" :
+      mode.includes("FERRY") ? "⛴" :
+      "🚌";
+
+    return `${prefix}${routeName ? ` ${routeName}` : ""}${arrow}`;
+  }
+
+  function getTransitManeuverType(mode) {
+    if (mode.includes("WALK")) return 7;
+    if (mode.includes("BICYCLE")) return 7;
+    if (mode.includes("TRAM")) return 29;
+    if (mode.includes("SUBWAY") || mode.includes("METRO")) return 29;
+    if (mode.includes("RAIL") || mode.includes("TRAIN")) return 29;
+    if (mode.includes("FERRY")) return 27;
+    return 29;
+  }
+
+  function decodeEncodedPolyline(encoded, precision = 5) {
+    let index = 0;
+    let latitude = 0;
+    let longitude = 0;
+    const factor = 10 ** precision;
+    const coordinates = [];
+
+    while (index < encoded.length) {
+      const latitudeResult = decodePolylineValue(encoded, index);
+      index = latitudeResult.index;
+      latitude += latitudeResult.value;
+
+      const longitudeResult = decodePolylineValue(encoded, index);
+      index = longitudeResult.index;
+      longitude += longitudeResult.value;
+
+      coordinates.push([
+        longitude / factor,
+        latitude / factor
+      ]);
+    }
+
+    return coordinates;
+  }
+
   async function fetchRoute(from, to) {
     const mode = getSelectedRouteMode();
+
+    if (mode === "transit") {
+      return fetchTransitRoute(from, to);
+    }
+
     const language = state.language === "pl" ? "pl-PL" : "en-US";
 
     const payload = {
@@ -3360,7 +3672,7 @@
           visibility: "none"
         },
         paint: {
-          "line-color": "#2563eb",
+          "line-color": "#dc2626",
           "line-width": 5.5,
           "line-opacity": 0.96
         }
@@ -3401,7 +3713,7 @@
     map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "visible");
 
     const routeColors = {
-      auto: "#2563eb",
+      auto: "#dc2626",
       bicycle: "#16a34a",
       pedestrian: "#ea580c"
     };
