@@ -340,7 +340,9 @@
     autocompleteFloating: $("autocomplete-floating"),
     searchButton: $("search-button"),
     themeSelect: $("theme-select"),
-    languageSelect: $("language-select"),    locateButton: $("locate-button"),
+    languageSelect: $("language-select"),
+    languageCurrentFlag: $("language-current-flag"),
+    locateButton: $("locate-button"),
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
     legendClose: $("legend-close"),
@@ -502,8 +504,27 @@
   el.searchInput.addEventListener("input", updateSearchClearButton);
   el.searchClear.addEventListener("click", clearMainSearch);
 
+  const LANGUAGE_FLAGS = Object.freeze({
+    pl: "🇵🇱",
+    en: "🇬🇧",
+    de: "🇩🇪",
+    cs: "🇨🇿",
+    sk: "🇸🇰",
+    uk: "🇺🇦",
+    lt: "🇱🇹",
+    be: "🇧🇾",
+    ru: "🇷🇺"
+  });
+
+  function updateLanguageFlag() {
+    if (!el.languageCurrentFlag) return;
+    el.languageCurrentFlag.textContent =
+      LANGUAGE_FLAGS[state.language] || "🌐";
+  }
+
   function updateUI() {
     const t = text[state.language];
+    updateLanguageFlag();
     document.documentElement.lang = state.language;
     document.title = t.title;
     el.searchInput.placeholder = t.search;
@@ -2176,13 +2197,6 @@
   }
 
   async function handleMapClick(event) {
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-
-    // Na telefonie pierwsze stuknięcie w mapę zamyka aktywny panel.
-    if (isTouchDevice && closeActiveOverlay()) {
-      return;
-    }
-
     if (!el.routePanel.hidden) {
       await handleRouteMapClick(event);
       return;

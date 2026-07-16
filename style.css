@@ -1888,3 +1888,42 @@ body.ui-dark .legend-symbol.osm-buildings {
   font-size: 1.15rem;
   text-align: center;
 }
+
+
+/* Stabilny przełącznik języka na telefonach */
+.language-select-wrap {
+  position: relative;
+  align-items: stretch;
+}
+
+.language-current-flag {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 12px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 24px;
+  font-size: 1.15rem;
+  line-height: 1;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+#language-select {
+  position: relative;
+  z-index: 2;
+  width: 52px;
+  min-width: 52px;
+  padding-inline: 10px 22px;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 1rem;
+}
+
+/* Po rozwinięciu systemowego menu opcje zachowują normalny kolor. */
+#language-select option {
+  color: initial;
+  background: initial;
+}
