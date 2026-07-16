@@ -1008,3 +1008,99 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-modes label{
   min-height:60px !important;
 }
+
+
+/* Mobilny panel trasy jako kompaktowy bottom sheet */
+@media (max-width: 600px) {
+  .route-panel {
+    position: absolute;
+    top: auto !important;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto !important;
+    max-height: min(62vh, 520px) !important;
+    padding: 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 18px;
+  }
+
+  .route-panel .legend-header {
+    position: sticky;
+    top: -14px;
+    z-index: 2;
+    margin: -14px -14px 12px;
+    padding: 14px 14px 10px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+
+  .route-click-hint {
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .route-modes label {
+    min-height: 50px !important;
+  }
+
+  .route-mode-emoji {
+    font-size: 2.15rem !important;
+  }
+
+  .route-points {
+    gap: 8px 7px;
+  }
+
+  .route-form input {
+    min-height: 39px;
+  }
+
+  .route-actions {
+    margin-top: 10px;
+  }
+
+  .route-summary {
+    margin-top: 11px;
+  }
+
+  .route-note {
+    margin-top: 10px;
+  }
+
+  /* Zostaw widoczny fragment mapy nad panelem */
+  .maplibregl-ctrl-bottom-right {
+    bottom: calc(min(62vh, 520px) + 18px);
+  }
+
+  .maplibregl-ctrl-bottom-left {
+    bottom: calc(min(62vh, 520px) + 18px);
+  }
+}
+
+@media (max-width: 390px), (max-height: 700px) {
+  .route-panel {
+    max-height: 56vh !important;
+  }
+
+  .route-mode-emoji {
+    font-size: 2rem !important;
+  }
+
+  .route-modes label {
+    min-height: 46px !important;
+  }
+
+  .route-click-hint,
+  .route-note {
+    display: none;
+  }
+
+  .maplibregl-ctrl-bottom-right,
+  .maplibregl-ctrl-bottom-left {
+    bottom: calc(56vh + 18px);
+  }
+}
