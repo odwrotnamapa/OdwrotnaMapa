@@ -4262,3 +4262,49 @@ textarea {
     text-align: center !important;
   }
 }
+
+
+/* =========================================================
+   Desktop: aktywne Odkrywaj i Menu na czerwono
+   ========================================================= */
+@media (min-width: 601px) {
+  #discover-button.is-active,
+  #discover-button[aria-expanded="true"],
+  #menu-button.is-active,
+  #menu-button[aria-expanded="true"] {
+    background: var(--accent) !important;
+    background-color: var(--accent) !important;
+    color: #fff !important;
+  }
+
+  #discover-button.is-active:hover,
+  #discover-button[aria-expanded="true"]:hover,
+  #menu-button.is-active:hover,
+  #menu-button[aria-expanded="true"]:hover,
+  #discover-button.is-active:focus-visible,
+  #discover-button[aria-expanded="true"]:focus-visible,
+  #menu-button.is-active:focus-visible,
+  #menu-button[aria-expanded="true"]:focus-visible {
+    background:
+      color-mix(in srgb, var(--accent) 84%, #000) !important;
+    background-color:
+      color-mix(in srgb, var(--accent) 84%, #000) !important;
+    color: #fff !important;
+  }
+}
+
+
+/* =========================================================
+   Większe tarcze z numerami dróg
+   ========================================================= */
+.road-shield,
+.road-ref,
+[class*="road-shield"],
+[class*="road-ref"] {
+  min-width: 32px !important;
+  min-height: 23px !important;
+  padding: 3px 8px !important;
+  font-size: 0.86rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}

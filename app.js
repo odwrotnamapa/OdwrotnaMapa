@@ -831,6 +831,10 @@
 
     document.body.classList.toggle("ui-dark", theme === "dark");
     applyLanguage(state.language);
+
+    for (const layer of map.getStyle().layers || []) {
+      applyRoadReferenceColors(layer);
+    }
   }
 
   function restoreOriginalPaint(layer) {
@@ -990,6 +994,7 @@
         // oryginalne krótkie oznaczenia (np. A2, S7, 92), a nie nazwy ulic.
         if (isRoadReferenceLayer(layer)) {
           restoreOriginalTextField(layer.id);
+          applyRoadReferenceColors(layer);
           continue;
         }
 
@@ -1027,6 +1032,63 @@
     const original = state.originalTextFields.get(layerId);
     if (original !== undefined) {
       map.setLayoutProperty(layerId, "text-field", structuredClone(original));
+    }
+  }
+
+
+  function applyRoadReferenceColors(layer) {
+    if (!isRoadReferenceLayer(layer)) return;
+
+    const reference = [
+      "to-string",
+      [
+        "coalesce",
+        ["get", "ref"],
+        ["get", "route_ref"],
+        ["get", "network"],
+        ""
+      ]
+    ];
+
+    const firstCharacter = ["slice", reference, 0, 1];
+    const referenceLength = ["length", reference];
+    const numericReference = [
+      "!=",
+      ["to-number", reference, -1],
+      -1
+    ];
+
+    const shieldColor = [
+      "case",
+      ["==", firstCharacter, "A"], "#1677d2",
+      ["==", firstCharacter, "a"], "#1677d2",
+      ["==", firstCharacter, "E"], "#198754",
+      ["==", firstCharacter, "e"], "#198754",
+      ["==", firstCharacter, "S"], "#d62828",
+      ["==", firstCharacter, "s"], "#d62828",
+      ["all", numericReference, ["<=", referenceLength, 2]], "#d62828",
+      ["all", numericReference, ["==", referenceLength, 3]], "#f2c300",
+      ["all", numericReference, [">=", referenceLength, 4]], "#6b7280",
+      "#ffffff"
+    ];
+
+    const labelColor = [
+      "case",
+      ["all", numericReference, ["==", referenceLength, 3]], "#111111",
+      ["==", shieldColor, "#ffffff"], "#222222",
+      "#ffffff"
+    ];
+
+    try {
+      // Oryginalne sprite'y zasłaniałyby własne kolory, dlatego tarcza
+      // jest tworzona z tekstu i szerokiej kolorowej obwódki.
+      map.setPaintProperty(layer.id, "icon-opacity", 0);
+      map.setPaintProperty(layer.id, "text-color", labelColor);
+      map.setPaintProperty(layer.id, "text-halo-color", shieldColor);
+      map.setPaintProperty(layer.id, "text-halo-width", 5);
+      map.setPaintProperty(layer.id, "text-halo-blur", 0.35);
+    } catch (error) {
+      console.warn("Nie udało się pokolorować numerów dróg:", layer.id, error);
     }
   }
 
@@ -5493,8 +5555,12 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
   function closeMenu() {
     if (el.menuPanel.hidden) return;
+
     el.menuPanel.hidden = true;
+
     el.menuButton?.setAttribute("aria-expanded", "false");
+    el.menuButton?.classList.remove("is-active");
+
     el.mobileMenuButton?.setAttribute("aria-expanded", "false");
     el.mobileMenuButton?.classList.remove("is-active");
   }

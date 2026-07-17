@@ -502,6 +502,11 @@
          role="menu"
          aria-label="Opcje punktu na mapie"
          hidden>
+      <button type="button" role="menuitem" data-map-context-action="info">
+        <span aria-hidden="true">ℹ️</span>
+        <span data-map-context-label="info">Pokaż informacje</span>
+      </button>
+      <div class="map-context-separator" role="separator"></div>
       <button type="button" role="menuitem" data-map-context-action="route-a">
         <span aria-hidden="true">🅰️</span>
         <span data-map-context-label="route-a">Ustaw jako punkt A</span>
@@ -510,14 +515,9 @@
         <span aria-hidden="true">🅱️</span>
         <span data-map-context-label="route-b">Ustaw jako punkt B</span>
       </button>
-      <div class="map-context-separator" role="separator"></div>
       <button type="button" role="menuitem" data-map-context-action="copy">
         <span aria-hidden="true">📋</span>
         <span data-map-context-label="copy">Skopiuj współrzędne</span>
-      </button>
-      <button type="button" role="menuitem" data-map-context-action="info">
-        <span aria-hidden="true">ℹ️</span>
-        <span data-map-context-label="info">Pokaż informacje</span>
       </button>
       <button type="button" role="menuitem" data-map-context-action="favorite">
         <span aria-hidden="true">⭐</span>
