@@ -72,9 +72,22 @@
       }
 
       const existing = unique[existingIndex];
+
+      const existingIsNamedPoi =
+        existing.provider === "named-poi" ||
+        existing._exactLocalIdentity;
+
+      const newIsNamedPoi =
+        result.provider === "named-poi" ||
+        result._exactLocalIdentity;
+
       const preferNew =
-        result.provider === "nominatim" &&
-        existing.provider !== "nominatim";
+        newIsNamedPoi ||
+        (
+          !existingIsNamedPoi &&
+          result.provider === "nominatim" &&
+          existing.provider !== "nominatim"
+        );
 
       unique[existingIndex] = preferNew
         ? {
@@ -99,6 +112,14 @@
           }
         : {
             ...existing,
+            address: {
+              ...(result.address || {}),
+              ...(existing.address || {})
+            },
+            extratags: {
+              ...(result.extratags || {}),
+              ...(existing.extratags || {})
+            },
             providers: [
               ...new Set([
                 ...(existing.providers || [
@@ -231,7 +252,11 @@
     let rankingStarted = performance.now();
     let ranked = Ranker.rank(
       parsed,
-      merge(collected)
+      window.OMAP_TERYT
+        ? window.OMAP_TERYT.enrichAll(
+            merge(collected)
+          )
+        : merge(collected)
     );
     let rankingDuration =
       performance.now() - rankingStarted;
@@ -280,7 +305,11 @@
         rankingStarted = performance.now();
         ranked = Ranker.rank(
           parsed,
-          merge(collected)
+          window.OMAP_TERYT
+            ? window.OMAP_TERYT.enrichAll(
+                merge(collected)
+              )
+            : merge(collected)
         );
         rankingDuration +=
           performance.now() - rankingStarted;

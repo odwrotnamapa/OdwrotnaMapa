@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="pl">
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>OMapa — Search Engine 2.0 Lab</title>
@@ -16,6 +19,10 @@
     small { opacity: .7; }
     @media(max-width:700px){ .grid{grid-template-columns:1fr;} }
   </style>
+  <script>
+    window.OMAP_BUILD_ID = "20260717203448";
+    console.info("OMapa build", window.OMAP_BUILD_ID);
+  </script>
 </head>
 <body>
   <h1>Search Engine 2.2 — Ranking Lab</h1>
@@ -49,27 +56,32 @@
     </section>
   </div>
 
-  <script src="config.js"></script>
-  <script src="search-v2/lexicon/data-pl.js"></script>
-  <script src="search-v2/lexicon/loader.js"></script>
-  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
-  <script src="search-v2/location/resolver.js"></script>
-  <script src="search-v2/parser.js"></script>
+  <script src="config.js?v=20260717203448"></script>
+  <script src="search-v2/lexicon/data-pl.js?v=20260717203448"></script>
+  <script src="search-v2/lexicon/loader.js?v=20260717203448"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js?v=20260717203448"></script>
+  <script src="search-v2/location/resolver.js?v=20260717203448"></script>
+  <script src="search-v2/parser.js?v=20260717203448"></script>
 
-  <script src="search-v2/ranking/helpers.js"></script>
-  <script src="search-v2/ranking/name.js"></script>
-  <script src="search-v2/ranking/location.js"></script>
-  <script src="search-v2/ranking/category.js"></script>
-  <script src="search-v2/ranking/brand.js"></script>
-  <script src="search-v2/ranking/modifiers.js"></script>
-  <script src="search-v2/ranking/importance.js"></script>
-  <script src="search-v2/ranking/final-score.js"></script>
-  <script src="search-v2/ranker.js"></script>
-  <script src="search-v2/providers/local.js"></script>
-  <script src="search-v2/providers/nominatim.js"></script>
-  <script src="search-v2/providers/photon.js"></script>
-  <script src="search-v2/providers/manager.js"></script>
-  <script src="search-v2/engine.js"></script>
+  <script src="search-v2/ranking/helpers.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/name.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/location.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/category.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/brand.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/modifiers.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/importance.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/final-score.js?v=20260717203448"></script>
+  <script src="search-v2/ranker.js?v=20260717203448"></script>
+  <script src="search-v2/teryt/pl-teryt-index.js?v=20260717203448"></script>
+  <script src="search-v2/teryt/provider.js?v=20260717203448"></script>
+  <script src="search-v2/named-poi/pl-named-poi.js?v=named-poi-v1"></script>
+  <script src="search-v2/named-poi/provider.js?v=named-poi-v1"></script>
+
+  <script src="search-v2/providers/local.js?v=20260717203448"></script>
+  <script src="search-v2/providers/nominatim.js?v=20260717203448"></script>
+  <script src="search-v2/providers/photon.js?v=20260717203448"></script>
+  <script src="search-v2/providers/manager.js?v=20260717203448"></script>
+  <script src="search-v2/engine.js?v=20260717203448"></script>
   <script>
     const providerMode =
       document.querySelector("#provider-mode");

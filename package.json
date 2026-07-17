@@ -7,9 +7,19 @@
     "location:import:file": "node tools/update-location-db.cjs",
     "location:download": "node tools/update-location-db.cjs --download",
     "search:test": "node tools/test-search.cjs",
-    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs",
+    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs && node tools/test-teryt.cjs && node tools/test-categories.cjs && node tools/test-selected-place-flow.cjs && node tools/test-exact-name-localization-images.cjs && node tools/test-search-session.cjs && node tools/test-named-poi-index.cjs",
     "start": "node tools/start-local-server.cjs",
-    "dev": "node tools/start-local-server.cjs"
+    "dev": "node tools/start-local-server.cjs",
+    "teryt:import": "node tools/import-teryt.cjs",
+    "teryt:test": "node tools/test-teryt.cjs",
+    "categories:test": "node tools/test-categories.cjs",
+    "selected-place:test": "node tools/test-selected-place-flow.cjs",
+    "exact-localization-images:test": "node tools/test-exact-name-localization-images.cjs",
+    "search-session:test": "node tools/test-search-session.cjs",
+    "named-poi:import": "node tools/import-named-poi.cjs",
+    "named-poi:test": "node tools/test-named-poi-index.cjs",
+    "named-poi:fetch-wikidata": "node tools/fetch-wikidata-named-poi.cjs",
+    "named-poi:merge": "node tools/merge-named-poi.cjs"
   },
   "engines": {
     "node": ">=18"

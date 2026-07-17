@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="pl">
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>OMapa Search — raport wydania</title>
@@ -13,6 +16,10 @@
     td,th{padding:8px;border-bottom:1px solid #8885;text-align:left}
     @media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
   </style>
+  <script>
+    window.OMAP_BUILD_ID = "20260717203448";
+    console.info("OMapa build", window.OMAP_BUILD_ID);
+  </script>
 </head>
 <body>
   <h1>OMapa Search — Release Corpus</h1>
@@ -36,21 +43,21 @@
     <tbody id="failures"></tbody>
   </table>
 
-  <script src="search-v2/lexicon/data-pl.js"></script>
-  <script src="search-v2/lexicon/loader.js"></script>
-  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
-  <script src="search-v2/location/resolver.js"></script>
-  <script src="search-v2/parser.js"></script>
-  <script src="search-v2/ranking/helpers.js"></script>
-  <script src="search-v2/ranking/name.js"></script>
-  <script src="search-v2/ranking/location.js"></script>
-  <script src="search-v2/ranking/category.js"></script>
-  <script src="search-v2/ranking/brand.js"></script>
-  <script src="search-v2/ranking/modifiers.js"></script>
-  <script src="search-v2/ranking/importance.js"></script>
-  <script src="search-v2/ranking/final-score.js"></script>
-  <script src="search-v2/ranker.js"></script>
-  <script src="search-v2/tests/search-corpus.js"></script>
+  <script src="search-v2/lexicon/data-pl.js?v=20260717203448"></script>
+  <script src="search-v2/lexicon/loader.js?v=20260717203448"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js?v=20260717203448"></script>
+  <script src="search-v2/location/resolver.js?v=20260717203448"></script>
+  <script src="search-v2/parser.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/helpers.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/name.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/location.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/category.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/brand.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/modifiers.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/importance.js?v=20260717203448"></script>
+  <script src="search-v2/ranking/final-score.js?v=20260717203448"></script>
+  <script src="search-v2/ranker.js?v=20260717203448"></script>
+  <script src="search-v2/tests/search-corpus.js?v=20260717203448"></script>
   <script>
     (async()=>{
       const cases=OMAP_SEARCH_CORPUS.cases;

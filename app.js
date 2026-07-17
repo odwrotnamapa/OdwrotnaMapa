@@ -346,6 +346,7 @@
     selectedManeuverIndex: null,
     placePopup: null,
     placePanelLngLat: null,
+    selectedPlace: null,
     selectedPlaceMarker: null,
     contextPointMarker: null,
     userLocationMarker: null,
@@ -1193,7 +1194,15 @@
               result.display_name ||
               getPreferredPlaceLabel(result),
             lon,
-            lat
+            lat,
+            osm_type: result.osm_type,
+            osm_id: result.osm_id,
+            name: result.name,
+            type: result.type,
+            category: result.category,
+            class: result.class,
+            address: result.address,
+            extratags: result.extratags
           });
 
           map.flyTo({
@@ -1203,9 +1212,7 @@
           });
 
           map.once("moveend", () => {
-            showPlaceInformation({
-              lngLat: new maplibregl.LngLat(lon, lat)
-            });
+            showSelectedPlaceInformation(result);
           });
         }
       },
@@ -1287,6 +1294,17 @@
 
     const render = items => {
       floatingList.replaceChildren();
+
+      const query = activeInput?.value?.trim() || "";
+      const exact = selectExactNamedPlace(query, items);
+
+      if (exact) {
+        items = [
+          exact,
+          ...items.filter(item => item !== exact)
+        ];
+      }
+
       results = items;
       activeIndex = -1;
 
@@ -1412,9 +1430,13 @@
           });
 
           map.once("moveend", () => {
-            showPlaceInformation({
-              lngLat: new maplibregl.LngLat(entry.lon, entry.lat)
-            });
+            if (entry.osm_type && entry.osm_id) {
+              showSelectedPlaceInformation(entry);
+            } else {
+              showPlaceInformation({
+                lngLat: new maplibregl.LngLat(entry.lon, entry.lat)
+              });
+            }
           });
         });
 
@@ -2068,22 +2090,27 @@
     const street = [road, number].filter(Boolean).join(" ");
     const location = [street, city].filter(Boolean).join(", ");
 
-    return [type, location]
+    const voivodeship =
+      result.voivodeship ||
+      result.teryt?.voivodeship ||
+      address.state ||
+      "";
+
+    return [type, location, voivodeship]
       .filter(Boolean)
-      .filter((value, index, values) => values.indexOf(value) === index)
+      .filter((value, index, values) => {
+        const normalized = normalizeSearchText(value);
+        return values.findIndex(
+          candidate =>
+            normalizeSearchText(candidate) === normalized
+        ) === index;
+      })
       .join(" · ");
   }
 
   function getSearchResultTypeLabel(result) {
-    const raw =
-      result.type ||
-      result._placeType ||
-      result.category ||
-      "";
-
-    return String(raw)
-      .replaceAll("_", " ")
-      .replace(/\b\w/g, letter => letter.toUpperCase());
+    const category = getLocalizedCategory(result);
+    return `${category.icon} ${category.label}`;
   }
 
   function getSearchResultEmoji(result) {
@@ -2944,6 +2971,89 @@ function closeRoute() {
   }
 
 
+
+  function getLocalizedCategory(result) {
+    return window.OMAP_CATEGORY_LABELS
+      ? window.OMAP_CATEGORY_LABELS.resolve(result, state.language)
+      : {
+          label: String(
+            result?.type || result?.category || result?.class || "miejsce"
+          ).replaceAll("_", " "),
+          icon: "📍"
+        };
+  }
+
+  function getResultLngLat(result) {
+    const lng = Number(result?.lon ?? result?.center?.lon ?? result?.center?.lng);
+    const lat = Number(result?.lat ?? result?.center?.lat);
+    return Number.isFinite(lng) && Number.isFinite(lat)
+      ? new maplibregl.LngLat(lng, lat)
+      : null;
+  }
+
+  async function showSelectedPlaceInformation(result) {
+    const session =
+      window.OMAP_SEARCH_SESSION?.current?.();
+
+    if (
+      session &&
+      session.selectedPlace &&
+      result !== session.selectedPlace
+    ) {
+      result = session.selectedPlace;
+    }
+
+    const lngLat = getResultLngLat(result);
+    if (!result || !lngLat) return;
+
+    state.placeRequestController?.abort();
+    state.placeRequestController = null;
+    state.placePanelLngLat = lngLat;
+
+    const details = {
+      ...result,
+      name:
+        result.namedetails?.["name:pl"] ||
+        result.namedetails?.name ||
+        result.name ||
+        String(result.display_name || "").split(",")[0],
+      address: {
+        ...(result.address || {})
+      },
+      extratags: {
+        ...(result.extratags || {})
+      },
+      namedetails: {
+        ...(result.namedetails || {})
+      }
+    };
+
+    state.selectedPlace = details;
+
+    showSelectedPlaceMarker(lngLat);
+    openPlacePanel();
+    renderPlaceInformation(details, lngLat);
+  }
+
+  function renderPlaceInformation(place, lngLat) {
+    if (
+      !el.placePanel ||
+      el.placePanel.hidden ||
+      !el.placePanelContent
+    ) {
+      return;
+    }
+
+    el.placePanelContent.replaceChildren(
+      createPlaceCard(place, lngLat)
+    );
+
+    el.placePanel.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
   function createSelectedPlaceMarkerElement() {
     const element = document.createElement("div");
     element.className = "selected-place-marker";
@@ -3063,9 +3173,11 @@ function closeRoute() {
   }
 
   function closePlacePanel() {
+    window.OMAP_SEARCH_SESSION?.cancel?.();
     state.placeRequestController?.abort();
     state.placeRequestController = null;
     state.placePanelLngLat = null;
+    state.selectedPlace = null;
     state.placePopup = null;
     removeSelectedPlaceMarker();
 
@@ -3086,6 +3198,8 @@ function closeRoute() {
 
   // Wywoływana tylko dla świadomie wybranego miejsca.
   async function showPlaceInformation(event) {
+    window.OMAP_SEARCH_SESSION?.cancel?.();
+    state.selectedPlace = null;
     state.placeRequestController?.abort();
     state.placeRequestController = new AbortController();
     state.placePanelLngLat = event.lngLat;
@@ -3170,6 +3284,7 @@ function closeRoute() {
       image.src = imageUrl;
       image.alt = "";
       image.loading = "lazy";
+      image.decoding = "async";
       image.referrerPolicy = "no-referrer";
       image.addEventListener("error", () => image.remove());
       card.appendChild(image);
@@ -3233,7 +3348,12 @@ function closeRoute() {
 
     if (openingHours) {
       details.appendChild(
-        createStaticPlaceRow("🕒", openingHours)
+        createStaticPlaceRow(
+          "🕒",
+          state.language === "pl"
+            ? formatOpeningHoursPolish(openingHours)
+            : openingHours
+        )
       );
     }
 
@@ -3449,81 +3569,93 @@ function closeRoute() {
       : place.display_name || "";
   }
 
-  function getPlaceTypeLabel(place) {
-    const extra = place.extratags || {};
-    const raw =
-      extra.cuisine ||
-      place.type ||
-      place.category ||
-      "";
 
-    return String(raw)
-      .replaceAll("_", " ")
-      .replace(/\b\w/g, letter => letter.toUpperCase());
+  function formatOpeningHoursPolish(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+
+    if (/^24\/7$/i.test(raw)) return "całodobowo";
+
+    const days = {
+      Mo: "pon.",
+      Tu: "wt.",
+      We: "śr.",
+      Th: "czw.",
+      Fr: "pt.",
+      Sa: "sob.",
+      Su: "niedz.",
+      PH: "święta"
+    };
+
+    return raw
+      .split(";")
+      .map(part => part.trim())
+      .filter(Boolean)
+      .map(part =>
+        part
+          .replace(
+            /\b(Mo|Tu|We|Th|Fr|Sa|Su|PH)\b/g,
+            token => days[token] || token
+          )
+          .replace(/\boff\b/gi, "zamknięte")
+          .replace(/\bclosed\b/gi, "zamknięte")
+          .replace(/\bopen\b/gi, "otwarte")
+      )
+      .join("; ");
+  }
+
+  function getPlaceTypeLabel(place) {
+    if (window.OMAP_CATEGORY_LABELS) {
+      return window.OMAP_CATEGORY_LABELS.resolve(
+        place,
+        state.language
+      ).label;
+    }
+
+    return state.language === "pl"
+      ? "miejsce"
+      : String(
+          place?.type ||
+          place?.category ||
+          place?.class ||
+          "place"
+        ).replaceAll("_", " ");
   }
 
   function getPlaceEmoji(place) {
-    const raw = [
-      place.type,
-      place.category,
-      place.address?.amenity,
-      place.address?.tourism,
-      place.address?.shop,
-      place.extratags?.cuisine
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-    const mapping = [
-      [/restaurant|food|cuisine/, "🍽"],
-      [/cafe|coffee/, "☕"],
-      [/bar|pub|biergarten/, "🍺"],
-      [/hotel|hostel|guest_house|motel/, "🏨"],
-      [/fuel|petrol|gas_station/, "⛽"],
-      [/museum|gallery/, "🏛"],
-      [/theatre|theater/, "🎭"],
-      [/cinema/, "🎬"],
-      [/supermarket|mall|shop|convenience/, "🛒"],
-      [/pharmacy/, "💊"],
-      [/hospital|clinic|doctors/, "🏥"],
-      [/school|college|university|kindergarten/, "🏫"],
-      [/bank|atm/, "🏦"],
-      [/park|garden|nature_reserve/, "🌳"],
-      [/church|cathedral|chapel|place_of_worship/, "⛪"],
-      [/station|railway|train/, "🚉"],
-      [/airport|aerodrome/, "✈"],
-      [/harbour|harbor|port|marina/, "⚓"],
-      [/bus_stop|bus_station/, "🚌"],
-      [/parking/, "🅿️"],
-      [/library/, "📚"],
-      [/police/, "👮"],
-      [/fire_station/, "🚒"],
-      [/post_office/, "📮"],
-      [/stadium|sports_centre|sports_center/, "🏟"],
-      [/monument|memorial|historic|castle/, "🏰"],
-      [/beach/, "🏖"]
-    ];
-
-    for (const [pattern, emoji] of mapping) {
-      if (pattern.test(raw)) return emoji;
-    }
-
-    return "📍";
+    const category = getLocalizedCategory(place);
+    return category?.icon || "📍";
   }
 
   function getPlaceImageUrl(place) {
     const extra = place.extratags || {};
-    const image = extra.image || "";
-    const commons = extra.wikimedia_commons || "";
+    const candidates = [
+      extra.image,
+      extra["image:0"],
+      extra.wikimedia_commons,
+      place.image
+    ].filter(Boolean);
 
-    if (/^https?:\/\//i.test(image)) {
-      return image;
-    }
+    for (const candidate of candidates) {
+      const value = String(candidate).trim();
 
-    const commonsValue = commons.replace(/^File:/i, "").trim();
-    if (commonsValue) {
-      return `https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(commonsValue)}`;
+      if (/^https?:\/\//i.test(value)) {
+        return value
+          .replace(/^http:\/\//i, "https://");
+      }
+
+      const commonsFile = value
+        .replace(/^File:/i, "")
+        .replace(/^Category:/i, "")
+        .trim();
+
+      if (commonsFile) {
+        return (
+          "https://commons.wikimedia.org/wiki/" +
+          "Special:Redirect/file/" +
+          encodeURIComponent(commonsFile)
+        );
+      }
     }
 
     return "";
@@ -5946,11 +6078,41 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         });
 
         map.once("moveend", () => {
-          showPlaceInformation({
-            lngLat: new maplibregl.LngLat(
-              place.lon,
-              place.lat
-            )
+          showSelectedPlaceInformation({
+            place_id: `discover:${place.type || "node"}:${place.id || index}`,
+            osm_type: place.type || "",
+            osm_id: place.id || "",
+            lon: place.lon,
+            lat: place.lat,
+            name:
+              place.tags.name ||
+              place.tags.brand ||
+              `${category.emoji} ${index + 1}`,
+            display_name:
+              place.tags.name ||
+              place.tags.brand ||
+              "",
+            class:
+              place.tags.amenity
+                ? "amenity"
+                : place.tags.shop
+                  ? "shop"
+                  : place.tags.tourism
+                    ? "tourism"
+                    : "",
+            type:
+              place.tags.amenity ||
+              place.tags.shop ||
+              place.tags.tourism ||
+              place.tags.leisure ||
+              category.id ||
+              "",
+            address: {
+              road: place.tags["addr:street"] || "",
+              house_number: place.tags["addr:housenumber"] || "",
+              city: place.tags["addr:city"] || ""
+            },
+            extratags: { ...place.tags }
           });
         });
       };
@@ -6035,8 +6197,158 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     }
   }
 
+
+  function normalizeExactPlaceName(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+
+  function ownPlaceName(result) {
+    return (
+      result?.namedetails?.["name:pl"] ||
+      result?.namedetails?.name ||
+      result?.name ||
+      ""
+    );
+  }
+
+  function isShoppingCentreQuery(query) {
+    const normalized = normalizeExactPlaceName(query);
+    return /\b(galeria|centrum handlowe|shopping mall|shopping centre|shopping center)\b/.test(normalized);
+  }
+
+  function isShoppingCentreResult(result) {
+    const normalized = normalizeExactPlaceName([
+      result?.type,
+      result?.category,
+      result?.class,
+      result?.extratags?.shop,
+      result?.address?.shop
+    ].filter(Boolean).join(" "));
+
+    return (
+      /\bmall\b/.test(normalized) ||
+      /\bshopping centre\b/.test(normalized) ||
+      /\bshopping center\b/.test(normalized)
+    );
+  }
+
+  function isClearlyWrongNamedPlaceCandidate(result) {
+    const type = normalizeExactPlaceName(result?.type);
+    const category = normalizeExactPlaceName(result?.category);
+    const klass = normalizeExactPlaceName(result?.class);
+
+    return (
+      klass === "highway" ||
+      type === "road" ||
+      type === "residential" ||
+      type === "defibrillator" ||
+      category === "defibrillator" ||
+      type === "aed" ||
+      category === "aed"
+    );
+  }
+
+  function selectExactNamedPlace(query, results) {
+    const normalizedQuery = normalizeExactPlaceName(query);
+    const shoppingCentreIntent = isShoppingCentreQuery(query);
+
+    const candidates = (results || [])
+      .map(result => {
+        const normalizedName = normalizeExactPlaceName(
+          ownPlaceName(result)
+        );
+
+        let score = 0;
+
+        if (!normalizedName) score -= 1000;
+        if (normalizedName === normalizedQuery) score += 1000;
+        else if (normalizedName.startsWith(normalizedQuery)) score += 700;
+        else if (normalizedName.includes(normalizedQuery)) score += 500;
+
+        const queryTokens = normalizedQuery.split(" ").filter(Boolean);
+        const nameTokens = normalizedName.split(" ").filter(Boolean);
+        const matchingTokens = queryTokens.filter(token =>
+          nameTokens.includes(token)
+        );
+
+        if (
+          queryTokens.length &&
+          matchingTokens.length === queryTokens.length
+        ) {
+          score += 450;
+        } else {
+          score += matchingTokens.length * 60;
+        }
+
+        if (shoppingCentreIntent) {
+          if (isShoppingCentreResult(result)) score += 900;
+          else score -= 500;
+
+          if (result?.class === "shop" && !isShoppingCentreResult(result)) {
+            score -= 450;
+          }
+        }
+
+        if (isClearlyWrongNamedPlaceCandidate(result)) {
+          score -= 1200;
+        }
+
+        score += Number(result?._searchV2?.points || 0);
+
+        return { result, score, normalizedName };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    const winner = candidates[0];
+
+    if (!winner) return null;
+
+    if (
+      shoppingCentreIntent &&
+      (
+        winner.score < 500 ||
+        !isShoppingCentreResult(winner.result)
+      )
+    ) {
+      return null;
+    }
+
+    if (
+      winner.normalizedName !== normalizedQuery &&
+      winner.score < 650
+    ) {
+      return null;
+    }
+
+    return winner.result;
+  }
+
+  async function findExactNamedPlace(query, signal) {
+    const largerLimit = Math.max(
+      Number(CONFIG.search.limit || 8),
+      20
+    );
+
+    const results = await findPlacesWithFallback(
+      query,
+      largerLimit,
+      signal
+    );
+
+    return {
+      results,
+      selected: selectExactNamedPlace(query, results)
+    };
+  }
+
   async function search(event) {
     event.preventDefault();
+
     const q = el.searchInput.value.trim();
     if (!q) return;
 
@@ -6050,31 +6362,83 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       return;
     }
 
+    const session = window.OMAP_SEARCH_SESSION.begin(q);
+
     show(text[state.language].searching, 0);
 
     try {
       const results = await findPlacesWithFallback(
         q,
-        CONFIG.search.limit
+        Math.max(Number(CONFIG.search.limit || 8), 20),
+        session.signal
       );
-      if (!results.length) return show(text[state.language].noResults);
 
-      const result = results[0];
+      session.assertActive();
+      session.setCandidates(results);
+
+      if (!results.length) {
+        show(text[state.language].noResults);
+        return;
+      }
+
+      const selected =
+        typeof selectExactNamedPlace === "function"
+          ? (
+              selectExactNamedPlace(q, results) ||
+              (
+                typeof isShoppingCentreQuery === "function" &&
+                isShoppingCentreQuery(q)
+                  ? null
+                  : results[0]
+              )
+            )
+          : results[0];
+
+      if (!selected) {
+        show(text[state.language].noResults);
+        return;
+      }
+
+      const result = session.select(selected);
+
       const correctedName = getPrimaryPlaceName(result);
-      if (correctedName) {
-        if (el.searchInput) el.searchInput.value = correctedName;
+
+      if (correctedName && el.searchInput) {
+        el.searchInput.value = correctedName;
         updateSearchClearButton();
       }
+
       saveSearchHistoryEntry({
-        label: correctedName || getPreferredPlaceLabel(result),
-        displayName: result.display_name || getPreferredPlaceLabel(result),
+        label:
+          correctedName ||
+          getPreferredPlaceLabel(result),
+        displayName:
+          result.display_name ||
+          getPreferredPlaceLabel(result),
         lon: Number(result.lon),
-        lat: Number(result.lat)
+        lat: Number(result.lat),
+        osm_type: result.osm_type,
+        osm_id: result.osm_id,
+        name: result.name,
+        type: result.type,
+        category: result.category,
+        class: result.class,
+        address: result.address,
+        extratags: result.extratags
       });
 
-      const point = [Number(result.lon), Number(result.lat)];
+      const point = [
+        Number(result.lon),
+        Number(result.lat)
+      ];
+
       hideAllAutocomplete();
       hide();
+
+      session.assertActive();
+
+      // Panel otrzymuje zamrożony wynik sesji.
+      showSelectedPlaceInformation(result);
 
       map.flyTo({
         center: point,
@@ -6082,12 +6446,10 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         bearing: 180
       });
 
-      map.once("moveend", () => {
-        showPlaceInformation({
-          lngLat: new maplibregl.LngLat(point[0], point[1])
-        });
-      });
+      session.finish();
     } catch (error) {
+      if (error.name === "AbortError") return;
+
       console.error(error);
       show(text[state.language].searchError);
     }

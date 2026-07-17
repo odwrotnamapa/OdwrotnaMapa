@@ -25,6 +25,11 @@
     let points = 0;
     const reasons = [];
 
+    if (result._exactLocalIdentity) {
+      points += 5000;
+      reasons.push("dokładny wynik z Indeksu Nazw OMapy");
+    }
+
     const importance = Number(result.importance || 0);
 
     if (importance > 0) {

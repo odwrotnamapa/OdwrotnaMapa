@@ -3,6 +3,7 @@
 
   const providers = [
     window.OMAP_SEARCH_V2_PROVIDER_LOCAL,
+    window.OMAP_SEARCH_V2_PROVIDER_NAMED_POI,
     window.OMAP_SEARCH_V2_PROVIDER_NOMINATIM,
     window.OMAP_SEARCH_V2_PROVIDER_PHOTON
   ]

@@ -1,0 +1,14 @@
+Wersja diagnostyczna oparta bezpośrednio na przesłanym archiwum OdwrotnaMapa(3).zip.
+
+Nie zmieniono:
+- rankingu,
+- providerów,
+- inicjalizacji,
+- wyboru wyniku,
+- panelu informacji.
+
+Dodano wyłącznie logi konsoli:
+- [OMapa diagnostyka] wyszukiwanie
+- wyniki wyszukiwarki
+- wybrany wynik
+- [OMapa diagnostyka] panel dostał
