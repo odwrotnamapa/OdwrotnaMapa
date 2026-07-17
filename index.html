@@ -233,6 +233,71 @@
     </aside>
 
 
+    
+    <aside id="favorites-panel"
+           class="legend-panel favorites-panel"
+           aria-labelledby="favorites-title"
+           hidden>
+      <button id="favorites-sheet-handle"
+              class="route-sheet-handle favorites-sheet-handle"
+              type="button"
+              aria-label="Zmień wysokość panelu Ulubione">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="legend-header">
+        <h2 id="favorites-title">Ulubione</h2>
+        <button id="favorites-close"
+                class="legend-close"
+                type="button"
+                aria-label="Zamknij Ulubione">×</button>
+      </div>
+
+      <div class="favorites-toolbar">
+        <label class="favorites-search-wrap">
+          <span aria-hidden="true">🔍</span>
+          <input id="favorites-search"
+                 type="search"
+                 autocomplete="off"
+                 placeholder="Szukaj ulubionych…"
+                 aria-label="Szukaj ulubionych">
+        </label>
+
+        <div class="favorites-file-actions">
+          <button id="favorites-export"
+                  type="button">
+            <span aria-hidden="true">⬆</span>
+            <span>Eksportuj JSON</span>
+          </button>
+
+          <button id="favorites-import-button"
+                  type="button">
+            <span aria-hidden="true">⬇</span>
+            <span>Importuj JSON</span>
+          </button>
+
+          <input id="favorites-import-input"
+                 type="file"
+                 accept="application/json,.json"
+                 hidden>
+        </div>
+      </div>
+
+      <div class="favorites-summary">
+        <span id="favorites-count">0</span>
+        <span id="favorites-count-label">zapisanych miejsc</span>
+      </div>
+
+      <div id="favorites-list"
+           class="favorites-list">
+        <p id="favorites-empty"
+           class="favorites-empty">
+          Brak ulubionych miejsc.
+        </p>
+      </div>
+    </aside>
+
+
     <aside id="about-panel" class="legend-panel about-panel"
            aria-labelledby="about-title" hidden>
       <div class="legend-header">
@@ -311,6 +376,9 @@
       </div>
 
       <div id="discover-status" class="discover-status" hidden></div>
+      <ol id="discover-results-list"
+          class="discover-results-list"
+          hidden></ol>
 
       <button id="discover-clear" class="discover-clear" type="button" hidden>
         Wyczyść wyniki
@@ -332,6 +400,16 @@
       </div>
 
       <div class="menu-actions">
+
+        <button id="favorites-open-button"
+                class="menu-action"
+                type="button">
+          <span aria-hidden="true">⭐</span>
+          <span id="favorites-menu-label">Ulubione</span>
+        </button>
+
+
+
         <button id="menu-location-button" class="menu-action" type="button">
           <span aria-hidden="true">📍</span>
           <span id="menu-location-label">Moja lokalizacja</span>

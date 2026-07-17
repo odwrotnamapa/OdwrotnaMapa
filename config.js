@@ -45,6 +45,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     language: "odwrotnamapa.language",
     theme: "odwrotnamapa.theme",
     view: "odwrotnamapa.view",
-    searchHistory: "odwrotnamapa.searchHistory"
+    searchHistory: "odwrotnamapa.searchHistory",
+    favorites: "odwrotnamapa.favorites"
   }
 });

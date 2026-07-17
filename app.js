@@ -110,6 +110,16 @@
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
+      favoritesTitle: "Ulubione",
+      favoritesEmpty: "Brak ulubionych miejsc.",
+      favoritesSearch: "Szukaj ulubionych…",
+      favoritesCountLabel: "zapisanych miejsc",
+      favoritesExport: "Eksportuj JSON",
+      favoritesImport: "Importuj JSON",
+      favoritesClose: "Zamknij Ulubione",
+      favoritesNoMatch: "Brak pasujących ulubionych.",
+      favoritesImported: count => `Zaimportowano ${count} miejsc.`,
+      favoritesImportError: "Nie udało się zaimportować pliku JSON.",
       menuTheme: "Wygląd mapy",
       menuLocation: "Moja lokalizacja",
       menuLanguage: "Język",
@@ -248,6 +258,16 @@
       discoverZooming: "Zooming in to the search area…",
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
+      favoritesTitle: "Favorites",
+      favoritesEmpty: "No favorite places yet.",
+      favoritesSearch: "Search favorites…",
+      favoritesCountLabel: "saved places",
+      favoritesExport: "Export JSON",
+      favoritesImport: "Import JSON",
+      favoritesClose: "Close Favorites",
+      favoritesNoMatch: "No matching favorites.",
+      favoritesImported: count => `Imported ${count} places.`,
+      favoritesImportError: "The JSON file could not be imported.",
       menuTheme: "Map style",
       menuLocation: "My location",
       menuLanguage: "Language",
@@ -307,7 +327,8 @@
     placePopup: null,
     placeRequestController: null,
     exploreMarkers: [],
-    exploreRequestController: null
+    exploreRequestController: null,
+    favorites: readFavorites()
   };
 
   const el = {
@@ -329,6 +350,20 @@
     menuSheetHandle: $("menu-sheet-handle"),
     menuClose: $("menu-close"),
     menuTitle: $("menu-title"),
+    favoritesList: $("favorites-list"),
+    favoritesEmpty: $("favorites-empty"),
+    favoritesCount: $("favorites-count"),
+    favoritesOpenButton: $("favorites-open-button"),
+    favoritesMenuLabel: $("favorites-menu-label"),
+    favoritesPanel: $("favorites-panel"),
+    favoritesSheetHandle: $("favorites-sheet-handle"),
+    favoritesClose: $("favorites-close"),
+    favoritesTitle: $("favorites-title"),
+    favoritesSearch: $("favorites-search"),
+    favoritesExport: $("favorites-export"),
+    favoritesImportButton: $("favorites-import-button"),
+    favoritesImportInput: $("favorites-import-input"),
+    favoritesCountLabel: $("favorites-count-label"),
     menuLocationButton: $("menu-location-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuThemeLabel: $("menu-theme-label"),
@@ -357,6 +392,7 @@
     discoverNote: $("discover-note"),
     discoverCategories: $("discover-categories"),
     discoverStatus: $("discover-status"),
+    discoverResultsList: $("discover-results-list"),
     discoverClear: $("discover-clear"),
     routePanel: $("route-panel"),
     routeSheetHandle: $("route-sheet-handle"),
@@ -469,6 +505,14 @@
 
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
+  el.favoritesOpenButton?.addEventListener("click", openFavoritesPanel);
+  el.favoritesClose?.addEventListener("click", closeFavoritesPanel);
+  el.favoritesSearch?.addEventListener("input", renderFavoritesList);
+  el.favoritesExport?.addEventListener("click", exportFavoritesJson);
+  el.favoritesImportButton?.addEventListener("click", () => {
+    el.favoritesImportInput?.click();
+  });
+  el.favoritesImportInput?.addEventListener("change", importFavoritesJson);
   el.menuLocationButton?.addEventListener("click", locateFromMenu);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
@@ -515,6 +559,7 @@
   initializeRouteBottomSheet();
   initializeDiscoverBottomSheet();
   initializeMenuBottomSheet();
+  initializeFavoritesBottomSheet();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -522,6 +567,7 @@
       closeAbout();
       closeDiscover();
       closeMenu();
+      closeFavoritesPanel();
       closeRoutePanel();
     }
   });
@@ -609,6 +655,7 @@
       option.textContent = t.styles[option.value];
     }
     document.body.classList.toggle("ui-dark", state.theme === "dark");
+    renderFavoritesList();
   }
 
   function ensureSatellite() {
@@ -1247,41 +1294,11 @@
       showMessage(text[state.language].autocompleteLoading);
 
       try {
-        const correctedLocalQuery = state.language === "pl"
-          ? correctPolishCityQuery(query)
-          : query;
-
         const items = await findPlacesWithFallback(
-          correctedLocalQuery,
+          query,
           6,
           abortController.signal
         );
-
-        if (
-          activeInput &&
-          activeInput.value.trim() === query &&
-          correctedLocalQuery !== query
-        ) {
-          activeInput.value = correctedLocalQuery;
-          show(
-            text[state.language].autocompleteCorrected(
-              correctedLocalQuery
-            ),
-            2200
-          );
-        } else if (
-          activeInput &&
-          activeInput.value.trim() === query &&
-          !isAddressLikeQuery(query) &&
-          maybeAutocorrectPlaceInput(activeInput, query, items)
-        ) {
-          show(
-            text[state.language].autocompleteCorrected(
-              getPrimaryPlaceName(items[0])
-            ),
-            2200
-          );
-        }
 
         render(items);
       } catch (error) {
@@ -1454,44 +1471,159 @@
   }
 
   async function findPlacesWithFallback(query, limit = 6, signal) {
-    const correctedQuery = state.language === "pl"
-      ? correctPolishCityQuery(query)
-      : query;
+    const originalQuery = query.trim();
 
-    if (isAddressLikeQuery(correctedQuery)) {
+    const searchExact = async value => {
+      const normalized = value.trim();
+
+      // Najpierw dokładne zapytanie do Nominatim.
       try {
         const nominatimResults = await fetchNominatimPlaces(
-          correctedQuery,
+          normalized,
           limit,
           signal
         );
-        if (nominatimResults.length) return nominatimResults;
+
+        const rankedNominatim = rankSearchResults(
+          normalized,
+          nominatimResults
+        );
+
+        if (rankedNominatim.length) {
+          return rankedNominatim;
+        }
       } catch (error) {
         if (error.name === "AbortError") throw error;
-        console.warn(
-          "Nominatim address search failed, using Photon fallback.",
-          error
-        );
+        console.warn("Nominatim search failed.", error);
       }
 
-      return fetchPhotonPlaces(correctedQuery, limit, signal);
+      // Photon jest dopiero drugim źródłem, nigdy korektą.
+      try {
+        const photonResults = await fetchPhotonPlaces(
+          normalized,
+          limit,
+          signal
+        );
+
+        return rankSearchResults(
+          normalized,
+          photonResults
+        );
+      } catch (error) {
+        if (error.name === "AbortError") throw error;
+        console.warn("Photon search failed.", error);
+        return [];
+      }
+    };
+
+    // 1. Zawsze szukaj dokładnie tego, co wpisał użytkownik.
+    const exactResults = await searchExact(originalQuery);
+
+    // Każdy wynik dla oryginalnego zapytania ma pierwszeństwo.
+    // Autokorekta uruchamia się wyłącznie przy całkowitym braku wyników.
+    if (exactResults.length) {
+      return exactResults;
     }
 
-    let photonResults = [];
-
-    try {
-      photonResults = await fetchPhotonPlaces(
-        correctedQuery,
-        limit,
-        signal
-      );
-    } catch (error) {
-      if (error.name === "AbortError") throw error;
-      console.warn("Photon search failed, using Nominatim fallback.", error);
+    if (state.language !== "pl") {
+      return [];
     }
 
-    if (photonResults.length) return photonResults;
-    return fetchNominatimPlaces(correctedQuery, limit, signal);
+    const correctedQuery = correctPolishCityQuery(originalQuery);
+
+    if (
+      normalizeSearchText(correctedQuery) ===
+      normalizeSearchText(originalQuery)
+    ) {
+      return exactResults;
+    }
+
+    const correctedResults = await searchExact(correctedQuery);
+
+    return correctedResults;
+  }
+
+  function rankSearchResults(query, results) {
+    return [...results]
+      .map(result => ({
+        result,
+        score: getSearchResultMatchScore(query, result)
+      }))
+      .filter(item => item.score >= 0.35)
+      .sort((a, b) => b.score - a.score)
+      .map(item => item.result);
+  }
+
+  function getSearchResultMatchScore(query, result) {
+    const normalizedQuery = normalizeSearchText(query);
+    const title = normalizeSearchText(
+      getSearchResultTitle(result) ||
+      getPreferredPlaceLabel(result) ||
+      ""
+    );
+    const display = normalizeSearchText(
+      result.display_name || ""
+    );
+
+    if (!normalizedQuery) return 0;
+    if (title === normalizedQuery) return 1;
+    if (display.startsWith(normalizedQuery)) return 0.95;
+    if (title.startsWith(normalizedQuery)) return 0.9;
+    if (title.includes(normalizedQuery)) return 0.82;
+    if (display.includes(normalizedQuery)) return 0.74;
+
+    const similarity = stringSimilarity(
+      normalizedQuery,
+      title || display
+    );
+
+    return similarity * 0.7;
+  }
+
+  function stringSimilarity(left, right) {
+    if (!left || !right) return 0;
+    if (left === right) return 1;
+
+    const distance = levenshteinDistance(left, right);
+    const length = Math.max(left.length, right.length);
+
+    return length
+      ? 1 - distance / length
+      : 0;
+  }
+
+  function levenshteinDistance(left, right) {
+    const rows = left.length + 1;
+    const columns = right.length + 1;
+    const matrix = Array.from(
+      { length: rows },
+      () => new Array(columns).fill(0)
+    );
+
+    for (let row = 0; row < rows; row += 1) {
+      matrix[row][0] = row;
+    }
+
+    for (let column = 0; column < columns; column += 1) {
+      matrix[0][column] = column;
+    }
+
+    for (let row = 1; row < rows; row += 1) {
+      for (let column = 1; column < columns; column += 1) {
+        const cost =
+          left[row - 1] === right[column - 1]
+            ? 0
+            : 1;
+
+        matrix[row][column] = Math.min(
+          matrix[row - 1][column] + 1,
+          matrix[row][column - 1] + 1,
+          matrix[row - 1][column - 1] + cost
+        );
+      }
+    }
+
+    return matrix[left.length][right.length];
   }
 
   async function fetchPhotonPlaces(query, limit, signal) {
@@ -1595,57 +1727,6 @@
     };
   }
 
-  function maybeAutocorrectPlaceInput(input, query, items) {
-    if (!items.length || query.length < 4) return false;
-
-    const best = items[0];
-    if (!isSettlementResult(best)) return false;
-
-    const candidate = getPrimaryPlaceName(best);
-    if (!candidate) return false;
-
-    const queryNormalized = normalizeSearchText(query);
-    const candidateNormalized = normalizeSearchText(candidate);
-
-    if (
-      !queryNormalized ||
-      !candidateNormalized ||
-      queryNormalized === candidateNormalized
-    ) {
-      return false;
-    }
-
-    // Autokorekta nazw miejsc, a nie całych rozbudowanych adresów.
-    if (queryNormalized.split(" ").length > 2) return false;
-
-    const distance = damerauLevenshtein(
-      queryNormalized,
-      candidateNormalized
-    );
-    const longest = Math.max(
-      queryNormalized.length,
-      candidateNormalized.length
-    );
-    const maximumDistance =
-      longest <= 4 ? 1 :
-      longest <= 8 ? 2 :
-      3;
-
-    const sameBeginning =
-      queryNormalized[0] === candidateNormalized[0];
-
-    if (
-      sameBeginning &&
-      distance > 0 &&
-      distance <= maximumDistance &&
-      distance / longest <= 0.34
-    ) {
-      input.value = candidate;
-      return true;
-    }
-
-    return false;
-  }
 
   function isSettlementResult(result) {
     const type = String(result._placeType || "").toLowerCase();
@@ -2178,6 +2259,16 @@
     });
   }
 
+  function initializeFavoritesBottomSheet() {
+    initializeBottomSheet({
+      panel: el.favoritesPanel,
+      handle: el.favoritesSheetHandle,
+      close: closeFavoritesPanel,
+      cssVariable: "--favorites-sheet-height"
+    });
+  }
+
+
 
 
 
@@ -2185,6 +2276,7 @@
 
 
   function toggleDiscover() {
+    closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.discoverPanel.hidden;
 
@@ -2209,6 +2301,7 @@
   }
 
   function toggleRoute() {
+    closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.routePanel.hidden;
     closeDiscover();
@@ -2478,16 +2571,34 @@ function closeRoute() {
     const actions = document.createElement("div");
     actions.className = "place-card-actions";
 
+    const favoriteKey = getFavoriteKey(place, lngLat);
+
     actions.append(
-      createPlaceAction("📍 " + t.placeSetA, () => {
+      createPlaceAction("📍", t.placeSetA, () => {
         setPlaceAsRoutePoint("a", place, lngLat);
       }),
-      createPlaceAction("🏁 " + t.placeSetB, () => {
+      createPlaceAction("🏁", t.placeSetB, () => {
         setPlaceAsRoutePoint("b", place, lngLat);
       }),
-      createPlaceAction("🔗 " + t.placeShare, () => {
+      createPlaceAction("🔗", t.placeShare, () => {
         sharePlace(place, lngLat);
-      })
+      }),
+      createPlaceAction(
+        isFavorite(favoriteKey) ? "★" : "☆",
+        state.language === "pl"
+          ? "Dodaj do ulubionych"
+          : "Add to favorites",
+        button => {
+          const nowFavorite = toggleFavorite(
+            favoriteKey,
+            place,
+            lngLat
+          );
+          button.textContent = nowFavorite ? "★" : "☆";
+          button.classList.toggle("is-favorite", nowFavorite);
+        },
+        isFavorite(favoriteKey)
+      )
     );
 
     card.appendChild(actions);
@@ -2729,13 +2840,72 @@ function closeRoute() {
     return "";
   }
 
-  function createPlaceAction(label, onClick) {
+  function createPlaceAction(
+    icon,
+    accessibleLabel,
+    onClick,
+    active = false
+  ) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "place-card-action";
-    button.textContent = label;
-    button.addEventListener("click", onClick);
+    button.textContent = icon;
+    button.title = accessibleLabel;
+    button.setAttribute("aria-label", accessibleLabel);
+    button.classList.toggle("is-favorite", active);
+    button.addEventListener("click", () => onClick(button));
     return button;
+  }
+
+  function readFavorites() {
+    try {
+      const value = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.favorites) || "[]"
+      );
+      return Array.isArray(value) ? value : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function getFavoriteKey(place, lngLat) {
+    const osmKey =
+      place.osm_type && place.osm_id
+        ? `${place.osm_type}:${place.osm_id}`
+        : "";
+
+    return osmKey ||
+      `${Number(lngLat.lat).toFixed(6)},${Number(lngLat.lng).toFixed(6)}`;
+  }
+
+  function isFavorite(key) {
+    return state.favorites.some(item => item.key === key);
+  }
+
+  function toggleFavorite(key, place, lngLat) {
+    const index = state.favorites.findIndex(
+      item => item.key === key
+    );
+
+    if (index >= 0) {
+      state.favorites.splice(index, 1);
+      saveFavorites();
+      renderFavoritesList();
+      return false;
+    }
+
+    state.favorites.unshift({
+      key,
+      title: getPlaceTitle(place),
+      address: getPlaceAddress(place),
+      lat: Number(lngLat.lat),
+      lon: Number(lngLat.lng)
+    });
+
+    state.favorites = state.favorites.slice(0, 100);
+    saveFavorites();
+    renderFavoritesList();
+    return true;
   }
 
   function isTransitStopPlace(place) {
@@ -3956,8 +4126,37 @@ function closeRoute() {
       if (maneuver.streetNames?.length) {
         const street = document.createElement("span");
         street.className = "route-direction-street";
-        street.textContent = maneuver.streetNames.join(", ");
+        street.textContent = maneuver.streetNames.join(" → ");
         copy.appendChild(street);
+      }
+
+      const metaParts = [];
+      if (Number(maneuver.time) > 0) {
+        metaParts.push(formatRouteStepDuration(maneuver.time));
+      }
+      if (maneuver.routeName) {
+        metaParts.push(
+          state.language === "pl"
+            ? `linia ${maneuver.routeName}`
+            : `line ${maneuver.routeName}`
+        );
+      }
+      if (Number(maneuver.numStops || maneuver.stops) > 0) {
+        const stopCount = Number(
+          maneuver.numStops || maneuver.stops
+        );
+        metaParts.push(
+          state.language === "pl"
+            ? `${stopCount} przyst.`
+            : `${stopCount} stops`
+        );
+      }
+
+      if (metaParts.length) {
+        const meta = document.createElement("span");
+        meta.className = "route-direction-meta";
+        meta.textContent = metaParts.join(" · ");
+        copy.appendChild(meta);
       }
 
       const distance = document.createElement("span");
@@ -3990,6 +4189,17 @@ function closeRoute() {
     el.routeDirectionsCount.textContent =
       `${maneuvers.length} ${text[state.language].routeSteps}`;
     el.routeDirections.hidden = false;
+  }
+
+  function formatRouteStepDuration(seconds) {
+    const minutes = Math.max(1, Math.round(Number(seconds) / 60));
+    if (minutes < 60) {
+      return `${minutes} min`;
+    }
+
+    const hours = Math.floor(minutes / 60);
+    const rest = minutes % 60;
+    return rest ? `${hours} h ${rest} min` : `${hours} h`;
   }
 
   function clearRouteDirections() {
@@ -4331,7 +4541,274 @@ function closeRoute() {
     updateRouteClickHint();
   }
 
+  function openFavoritesPanel() {
+    closeMenu();
+    closeLegend();
+    closeRoutePanel();
+    closeDiscover();
+    closeAbout();
+
+    el.favoritesPanel.hidden = false;
+    el.favoritesSearch.value = "";
+    renderFavoritesList();
+
+    if (
+      window.matchMedia("(max-width: 600px)").matches &&
+      el.favoritesPanel.getBoundingClientRect().height < 90
+    ) {
+      el.favoritesPanel.style.setProperty(
+        "--favorites-sheet-height",
+        `${window.innerHeight * 0.42}px`
+      );
+      el.favoritesPanel.classList.remove("is-collapsed");
+    }
+  }
+
+  function closeFavoritesPanel() {
+    if (!el.favoritesPanel || el.favoritesPanel.hidden) return;
+    el.favoritesPanel.hidden = true;
+  }
+
+  function renderFavoritesList() {
+    if (
+      !el.favoritesList ||
+      !el.favoritesEmpty ||
+      !el.favoritesCount
+    ) {
+      return;
+    }
+
+    el.favoritesList
+      .querySelectorAll(".favorite-place-item")
+      .forEach(item => item.remove());
+
+    const query = normalizeSearchText(
+      el.favoritesSearch?.value || ""
+    );
+
+    const favorites = (
+      Array.isArray(state.favorites)
+        ? state.favorites
+        : []
+    ).filter(favorite => {
+      if (!query) return true;
+
+      const haystack = normalizeSearchText(
+        [
+          favorite.title,
+          favorite.address,
+          favorite.lat,
+          favorite.lon
+        ]
+          .filter(value => value !== undefined && value !== null)
+          .join(" ")
+      );
+
+      return haystack.includes(query);
+    });
+
+    el.favoritesCount.textContent =
+      String(state.favorites.length);
+
+    const hasAny = state.favorites.length > 0;
+    const hasMatches = favorites.length > 0;
+
+    el.favoritesEmpty.hidden = hasMatches;
+    el.favoritesEmpty.textContent = hasAny
+      ? text[state.language].favoritesNoMatch
+      : text[state.language].favoritesEmpty;
+
+    if (!hasMatches) return;
+
+    const fragment = document.createDocumentFragment();
+
+    favorites.forEach(favorite => {
+      const item = document.createElement("div");
+      item.className = "favorite-place-item";
+
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.className = "favorite-place-open";
+
+      const icon = document.createElement("span");
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = "⭐";
+
+      const copy = document.createElement("span");
+
+      const title = document.createElement("strong");
+      title.textContent =
+        favorite.title ||
+        (state.language === "pl"
+          ? "Ulubione miejsce"
+          : "Favorite place");
+
+      const address = document.createElement("small");
+      address.textContent =
+        favorite.address ||
+        `${Number(favorite.lat).toFixed(5)}, ${Number(favorite.lon).toFixed(5)}`;
+
+      copy.append(title, address);
+      openButton.append(icon, copy);
+
+      openButton.addEventListener("click", () => {
+        const lon = Number(favorite.lon);
+        const lat = Number(favorite.lat);
+
+        map.flyTo({
+          center: [lon, lat],
+          zoom: Math.max(map.getZoom(), 16),
+          bearing: 180
+        });
+
+        map.once("moveend", () => {
+          showPlaceInformation({
+            lngLat: new maplibregl.LngLat(lon, lat)
+          });
+        });
+
+        // Panel Ulubione celowo pozostaje otwarty.
+      });
+
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "favorite-place-remove";
+      removeButton.textContent = "×";
+      removeButton.title =
+        state.language === "pl"
+          ? "Usuń z ulubionych"
+          : "Remove from favorites";
+      removeButton.setAttribute(
+        "aria-label",
+        removeButton.title
+      );
+
+      removeButton.addEventListener("click", () => {
+        state.favorites = state.favorites.filter(
+          entry => entry.key !== favorite.key
+        );
+
+        saveFavorites();
+        renderFavoritesList();
+      });
+
+      item.append(openButton, removeButton);
+      fragment.appendChild(item);
+    });
+
+    el.favoritesList.appendChild(fragment);
+  }
+
+  function saveFavorites() {
+    safeSet(
+      CONFIG.storageKeys.favorites,
+      JSON.stringify(state.favorites)
+    );
+  }
+
+  function exportFavoritesJson() {
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      favorites: state.favorites.map(favorite => ({
+        key: favorite.key,
+        title: favorite.title || "",
+        address: favorite.address || "",
+        lat: Number(favorite.lat),
+        lon: Number(favorite.lon)
+      }))
+    };
+
+    const blob = new Blob(
+      [JSON.stringify(payload, null, 2)],
+      { type: "application/json;charset=utf-8" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download =
+      `odwrotna-mapa-ulubione-${new Date()
+        .toISOString()
+        .slice(0, 10)}.json`;
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function importFavoritesJson(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+
+    try {
+      const raw = JSON.parse(await file.text());
+      const entries = Array.isArray(raw)
+        ? raw
+        : raw?.favorites;
+
+      if (!Array.isArray(entries)) {
+        throw new Error("Invalid favorites format");
+      }
+
+      const imported = [];
+      const known = new Set(
+        state.favorites.map(item => item.key)
+      );
+
+      for (const entry of entries) {
+        const lat = Number(entry.lat);
+        const lon = Number(entry.lon);
+
+        if (
+          !Number.isFinite(lat) ||
+          !Number.isFinite(lon)
+        ) {
+          continue;
+        }
+
+        const key =
+          String(entry.key || "").trim() ||
+          `${lat.toFixed(6)},${lon.toFixed(6)}`;
+
+        if (known.has(key)) continue;
+        known.add(key);
+
+        imported.push({
+          key,
+          title: String(entry.title || "").trim(),
+          address: String(entry.address || "").trim(),
+          lat,
+          lon
+        });
+      }
+
+      state.favorites = [
+        ...state.favorites,
+        ...imported
+      ].slice(0, 1000);
+
+      saveFavorites();
+      renderFavoritesList();
+
+      show(
+        text[state.language].favoritesImported(
+          imported.length
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      show(text[state.language].favoritesImportError);
+    }
+  }
+
+
   function toggleMenu() {
+    closeFavoritesPanel();
     if (!el.menuPanel || !el.menuButton) return;
 
     const shouldOpen = el.menuPanel.hidden;
@@ -4409,6 +4886,7 @@ function closeRoute() {
   }
 
   function toggleAbout() {
+    closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.aboutPanel.hidden;
     closeDiscover();
@@ -4425,6 +4903,7 @@ function closeRoute() {
   }
 
   function toggleLegend() {
+    closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.legendPanel.hidden;
     closeDiscover();
@@ -4686,7 +5165,11 @@ function closeRoute() {
   }
 
   function renderDiscoverResults(places, category) {
-    for (const place of places) {
+    el.discoverResultsList?.replaceChildren();
+
+    const listFragment = document.createDocumentFragment();
+
+    places.forEach((place, index) => {
       const element = document.createElement("button");
       element.type = "button";
       element.className = "explore-marker";
@@ -4703,17 +5186,63 @@ function closeRoute() {
         .setLngLat([place.lon, place.lat])
         .addTo(map);
 
+      const openPlace = () => {
+        map.easeTo({
+          center: [place.lon, place.lat],
+          zoom: Math.max(map.getZoom(), 16),
+          bearing: 180,
+          duration: 600
+        });
+
+        map.once("moveend", () => {
+          showPlaceInformation({
+            lngLat: new maplibregl.LngLat(
+              place.lon,
+              place.lat
+            )
+          });
+        });
+      };
+
       element.addEventListener("click", event => {
         event.stopPropagation();
-        showPlaceInformation({
-          lngLat: new maplibregl.LngLat(
-            place.lon,
-            place.lat
-          )
-        });
+        openPlace();
       });
 
       state.exploreMarkers.push(marker);
+
+      if (el.discoverResultsList) {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "discover-result-button";
+
+        const icon = document.createElement("span");
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = category.emoji;
+
+        const copy = document.createElement("span");
+        const name = document.createElement("strong");
+        name.textContent =
+          place.tags.name ||
+          place.tags.brand ||
+          `${category.emoji} ${index + 1}`;
+
+        const coordinates = document.createElement("small");
+        coordinates.textContent =
+          `${place.lat.toFixed(4)}, ${place.lon.toFixed(4)}`;
+
+        copy.append(name, coordinates);
+        button.append(icon, copy);
+        button.addEventListener("click", openPlace);
+        item.appendChild(button);
+        listFragment.appendChild(item);
+      }
+    });
+
+    if (el.discoverResultsList) {
+      el.discoverResultsList.appendChild(listFragment);
+      el.discoverResultsList.hidden = false;
     }
   }
 
@@ -4725,6 +5254,11 @@ function closeRoute() {
       marker.remove();
     }
     state.exploreMarkers = [];
+
+    if (el.discoverResultsList) {
+      el.discoverResultsList.replaceChildren();
+      el.discoverResultsList.hidden = true;
+    }
 
     if (!resetInterface) return;
 
