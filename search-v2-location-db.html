@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OMapa — baza lokalizacji Polski</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:1100px;margin:auto;padding:20px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .card{border:1px solid #8885;padding:14px}
+    input{width:100%;min-height:42px;padding:0 10px;box-sizing:border-box;font:inherit}
+    table{width:100%;border-collapse:collapse;margin-top:14px}
+    th,td{text-align:left;padding:8px;border-bottom:1px solid #8885;vertical-align:top}
+    small{opacity:.7}
+    @media(max-width:700px){.stats{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h1>Baza lokalizacji Polski</h1>
+  <p>To wersja rozwojowa: miasta ogólnopolskie + szczegółowe dzielnice dla wybranych metropolii.</p>
+
+  <div class="stats">
+    <div class="card"><strong id="cities">0</strong><br><small>miast</small></div>
+    <div class="card"><strong id="districts">0</strong><br><small>dzielnic i osiedli</small></div>
+    <div class="card"><strong id="aliases">0</strong><br><small>aliasów</small></div>
+  </div>
+
+  <h2>Wyszukaj w bazie</h2>
+  <input id="query" placeholder="Np. Morena, Mokotów, Olsztyn">
+
+  <table>
+    <thead><tr><th>Nazwa</th><th>Typ</th><th>Miasto nadrzędne</th><th>Aliasy</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script src="search-v2/lexicon/data-pl.js"></script>
+  <script src="search-v2/lexicon/loader.js"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
+  <script>
+    const db=window.OMAP_SEARCH_V2_LOCATIONS_PL;
+    cities.textContent=db.stats.cities;
+    districts.textContent=db.stats.districts;
+    aliases.textContent=db.stats.aliases;
+
+    const all=[];
+    for(const city of db.cities){
+      all.push({
+        name:city.name,
+        type:"miasto",
+        parent:"",
+        aliases:city.aliases||[]
+      });
+      for(const district of city.districts||[]){
+        all.push({
+          name:district.name,
+          type:district.type||"dzielnica",
+          parent:city.name,
+          aliases:district.aliases||[]
+        });
+      }
+    }
+
+    function normalize(v){
+      return String(v||"").normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .toLowerCase();
+    }
+
+    function render(){
+      const q=normalize(query.value.trim());
+      rows.replaceChildren();
+      for(const item of all.filter(x=>{
+        const text=normalize([
+          x.name,x.type,x.parent,...x.aliases
+        ].join(" "));
+        return !q||text.includes(q);
+      }).slice(0,150)){
+        const tr=document.createElement("tr");
+        tr.innerHTML=`
+          <td>${item.name}</td>
+          <td>${item.type}</td>
+          <td>${item.parent||"—"}</td>
+          <td>${item.aliases.join(", ")||"—"}</td>
+        `;
+        rows.appendChild(tr);
+      }
+    }
+
+    query.addEventListener("input",render);
+    render();
+  </script>
+</body>
+</html>

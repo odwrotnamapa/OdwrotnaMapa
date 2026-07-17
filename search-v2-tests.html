@@ -1,0 +1,13 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Testy Lexiconu</title><style>body{font-family:system-ui;max-width:1100px;margin:auto;padding:20px}table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid #aaa5;text-align:left;vertical-align:top}.ok{color:green}.bad{color:#c22}pre{white-space:pre-wrap}</style></head><body><h1>Search Engine 2.1 — testy parsera</h1><p id="s">Uruchamianie…</p><table><thead><tr><th>Zapytanie</th><th>Oczekiwano</th><th>Otrzymano</th><th>Status</th></tr></thead><tbody id="r"></tbody></table><script src="search-v2/lexicon/data-pl.js"></script>
+  <script src="search-v2/lexicon/loader.js"></script><script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
+  <script src="search-v2/location/resolver.js"></script>
+  <script src="search-v2/parser.js"></script><script>(async()=>{const c=window.OMAP_SEARCH_V2_TEST_CASES || [];let ok=0;for(const x of c){const p=await OMAP_SEARCH_V2_PARSER.parse(x.query);const a=[];if(x.category)a.push(p.category?.id===x.category);if(x.brand)a.push(p.brand?.id===x.brand);if(x.modifier)a.push(p.modifiers.some(m=>m.id===x.modifier));if(x.location)a.push(
+      OMAP_SEARCH_V2_PARSER.normalize(p.locationText)
+        .includes(OMAP_SEARCH_V2_PARSER.normalize(x.location)) ||
+      OMAP_SEARCH_V2_PARSER.normalize([
+        p.locationResolution?.city?.name,
+        p.locationResolution?.district?.name,
+        ...(p.locationResolution?.district?.aliases || [])
+      ].filter(Boolean).join(" "))
+        .includes(OMAP_SEARCH_V2_PARSER.normalize(x.location))
+    );const good=a.every(Boolean);ok+=good;const tr=document.createElement("tr");tr.innerHTML=`<td>${x.query}</td><td><pre>${JSON.stringify(x,null,2)}</pre></td><td><pre>${JSON.stringify(p,null,2)}</pre></td><td class="${good?"ok":"bad"}">${good?"OK":"BŁĄD"}</td>`;r.appendChild(tr)}s.textContent=`${ok}/${c.length} testów zaliczonych`})().catch(e=>s.textContent="Błąd: "+e.message)</script></body></html>

@@ -1,0 +1,338 @@
+{
+  "version": 2,
+  "importedAt": "2026-07-17T04:09:13.806Z",
+  "cities": [
+    {
+      "id": "bialystok",
+      "name": "Białystok",
+      "aliases": [
+        "bialystok"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "bielsko-biala",
+      "name": "Bielsko-Biała",
+      "aliases": [
+        "bielsko biala"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "bydgoszcz",
+      "name": "Bydgoszcz",
+      "aliases": [
+        "bromberg"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "bytom",
+      "name": "Bytom",
+      "aliases": [
+        "beuthen"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "czestochowa",
+      "name": "Częstochowa",
+      "aliases": [
+        "czestochowa"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "elblag",
+      "name": "Elbląg",
+      "aliases": [
+        "elblag",
+        "elbing"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "gdansk",
+      "name": "Gdańsk",
+      "aliases": [
+        "gdansk",
+        "danzig",
+        "Danzig"
+      ],
+      "voivodeship": "pomorskie",
+      "osm": {
+        "type": "node",
+        "id": 1001
+      },
+      "center": {
+        "lat": 54.352,
+        "lon": 18.646
+      }
+    },
+    {
+      "id": "gdynia",
+      "name": "Gdynia",
+      "aliases": [],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "gliwice",
+      "name": "Gliwice",
+      "aliases": [
+        "gleiwitz"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "gorzow-wielkopolski",
+      "name": "Gorzów Wielkopolski",
+      "aliases": [
+        "gorzow wielkopolski"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "grudziadz",
+      "name": "Grudziądz",
+      "aliases": [
+        "grudziadz",
+        "graudenz"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "jaworzno",
+      "name": "Jaworzno",
+      "aliases": [],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "kalisz",
+      "name": "Kalisz",
+      "aliases": [
+        "kalisch"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "katowice",
+      "name": "Katowice",
+      "aliases": [],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "kielce",
+      "name": "Kielce",
+      "aliases": [],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "koszalin",
+      "name": "Koszalin",
+      "aliases": [
+        "köslin",
+        "koslin"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "krakow",
+      "name": "Kraków",
+      "aliases": [
+        "krakow",
+        "cracow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "legnica",
+      "name": "Legnica",
+      "aliases": [
+        "liegnitz"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lublin",
+      "name": "Lublin",
+      "aliases": [],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "lodz",
+      "name": "Łódź",
+      "aliases": [
+        "lodz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "nowy-sacz",
+      "name": "Nowy Sącz",
+      "aliases": [
+        "nowy sacz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "olsztyn",
+      "name": "Olsztyn",
+      "aliases": [
+        "allenstein"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "opole",
+      "name": "Opole",
+      "aliases": [
+        "oppeln"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "plock",
+      "name": "Płock",
+      "aliases": [
+        "plock"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "poznan",
+      "name": "Poznań",
+      "aliases": [
+        "poznan",
+        "posen"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "radom",
+      "name": "Radom",
+      "aliases": [],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ruda-slaska",
+      "name": "Ruda Śląska",
+      "aliases": [
+        "ruda slaska"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "rybnik",
+      "name": "Rybnik",
+      "aliases": [],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "rzeszow",
+      "name": "Rzeszów",
+      "aliases": [
+        "rzeszow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "slupsk",
+      "name": "Słupsk",
+      "aliases": [
+        "slupsk",
+        "stolp"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "sosnowiec",
+      "name": "Sosnowiec",
+      "aliases": [],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "szczecin",
+      "name": "Szczecin",
+      "aliases": [
+        "stettin"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "tarnow",
+      "name": "Tarnów",
+      "aliases": [
+        "tarnow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "torun",
+      "name": "Toruń",
+      "aliases": [
+        "torun",
+        "thorn"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "walbrzych",
+      "name": "Wałbrzych",
+      "aliases": [
+        "walbrzych",
+        "waldenburg"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "warszawa",
+      "name": "Warszawa",
+      "aliases": [
+        "warsaw",
+        "Warsaw"
+      ],
+      "voivodeship": "mazowieckie",
+      "osm": {
+        "type": "node",
+        "id": 1002
+      },
+      "center": {
+        "lat": 52.2297,
+        "lon": 21.0122
+      }
+    },
+    {
+      "id": "wloclawek",
+      "name": "Włocławek",
+      "aliases": [
+        "wloclawek"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "wroclaw",
+      "name": "Wrocław",
+      "aliases": [
+        "wroclaw",
+        "breslau"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "zabrze",
+      "name": "Zabrze",
+      "aliases": [
+        "hindenburg"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "zielona-gora",
+      "name": "Zielona Góra",
+      "aliases": [
+        "zielona gora"
+      ],
+      "voivodeship": "lubuskie"
+    }
+  ]
+}

@@ -298,6 +298,32 @@
     </aside>
 
 
+
+    <aside id="place-panel"
+           class="legend-panel place-panel"
+           aria-labelledby="place-panel-title"
+           hidden>
+      <button id="place-sheet-handle"
+              class="route-sheet-handle place-sheet-handle"
+              type="button"
+              aria-label="Zmień wysokość panelu informacji">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="legend-header">
+        <h2 id="place-panel-title">Informacje</h2>
+        <button id="place-panel-close"
+                class="legend-close"
+                type="button"
+                aria-label="Zamknij informacje o miejscu">×</button>
+      </div>
+
+      <div id="place-panel-content"
+           class="place-panel-content"
+           aria-live="polite"></div>
+    </aside>
+
+
     <aside id="about-panel" class="legend-panel about-panel"
            aria-labelledby="about-title" hidden>
       <div class="legend-header">
@@ -318,7 +344,7 @@
 
       <dl class="about-meta">
         <div>
-          <dt id="about-version-label">Wersja</dt>
+          
           <dd>v0.2</dd>
         </div>
         <div>
@@ -474,6 +500,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
   <script src="config.js"></script>
+  <script src="search-v2/lexicon/data-pl.js"></script>
+  <script src="search-v2/lexicon/loader.js"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
+  <script src="search-v2/location/resolver.js"></script>
+  <script src="search-v2/parser.js"></script>
+
+  <script src="search-v2/ranking/helpers.js"></script>
+  <script src="search-v2/ranking/name.js"></script>
+  <script src="search-v2/ranking/location.js"></script>
+  <script src="search-v2/ranking/category.js"></script>
+  <script src="search-v2/ranking/brand.js"></script>
+  <script src="search-v2/ranking/modifiers.js"></script>
+  <script src="search-v2/ranking/importance.js"></script>
+  <script src="search-v2/ranking/final-score.js"></script>
+  <script src="search-v2/ranker.js"></script>
+  <script src="search-v2/engine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

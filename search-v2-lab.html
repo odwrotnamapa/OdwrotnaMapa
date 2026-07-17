@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OMapa — Search Engine 2.0 Lab</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color-scheme: light dark; }
+    body { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    form { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    input, button { min-height: 44px; padding: 0 12px; font: inherit; }
+    pre { padding: 12px; overflow: auto; border: 1px solid #8885; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .result { display: grid; gap: 4px; padding: 10px; border-bottom: 1px solid #8885; }
+    .score { font-weight: 800; }
+    small { opacity: .7; }
+    @media(max-width:700px){ .grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <h1>Search Engine 2.2 — Ranking Lab</h1>
+<p id="provider-mode"></p>
+  <p>
+    Testuj np. <code>olsztyn pkp</code>,
+    <code>warszawa lotnisko</code>,
+    <code>berlin zoo</code>,
+    <code>kraków rynek</code> lub <code>gdańsk ikea</code>.
+  </p>
+
+  <form id="lab-form">
+    <input id="lab-query" value="olsztyn pkp" autocomplete="off">
+    <button>Szukaj</button>
+  </form>
+
+  <p id="lab-status"></p>
+
+  <div class="grid">
+    <section>
+      <h2>Interpretacja</h2>
+      <pre id="lab-parsed"></pre>
+      <h2>Warianty</h2>
+      <pre id="lab-variants"></pre>
+      <h2>Diagnostyka providerów</h2>
+      <pre id="lab-diagnostics"></pre>
+    </section>
+    <section>
+      <h2>Ranking wyników</h2>
+      <div id="lab-results"></div>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="search-v2/lexicon/data-pl.js"></script>
+  <script src="search-v2/lexicon/loader.js"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
+  <script src="search-v2/location/resolver.js"></script>
+  <script src="search-v2/parser.js"></script>
+
+  <script src="search-v2/ranking/helpers.js"></script>
+  <script src="search-v2/ranking/name.js"></script>
+  <script src="search-v2/ranking/location.js"></script>
+  <script src="search-v2/ranking/category.js"></script>
+  <script src="search-v2/ranking/brand.js"></script>
+  <script src="search-v2/ranking/modifiers.js"></script>
+  <script src="search-v2/ranking/importance.js"></script>
+  <script src="search-v2/ranking/final-score.js"></script>
+  <script src="search-v2/ranker.js"></script>
+  <script src="search-v2/engine.js"></script>
+  <script>
+    const providerMode =
+      document.querySelector("#provider-mode");
+
+    providerMode.textContent =
+      window.location.protocol === "file:"
+        ? "Tryb lokalny: Nominatim JSONP; Photon jest wyłączony."
+        : "Tryb HTTP/HTTPS: Nominatim i Photon.";
+
+    const form = document.querySelector("#lab-form");
+    const input = document.querySelector("#lab-query");
+    const status = document.querySelector("#lab-status");
+    const parsed = document.querySelector("#lab-parsed");
+    const variants = document.querySelector("#lab-variants");
+    const diagnostics =
+      document.querySelector("#lab-diagnostics");
+    const results = document.querySelector("#lab-results");
+
+    async function run(event) {
+      event?.preventDefault();
+      const query = input.value.trim();
+      if (!query) return;
+
+      status.textContent = "Wyszukiwanie…";
+      results.replaceChildren();
+
+      try {
+        const response = await window.OMAP_SEARCH_V2.search(query, {
+          language: "pl",
+          limit: 12
+        });
+
+        parsed.textContent = JSON.stringify(response.parsed, null, 2);
+        variants.textContent = response.variants.join("\n");
+        diagnostics.textContent = JSON.stringify(
+          response.diagnostics,
+          null,
+          2
+        );
+
+        for (const result of response.results) {
+          const item = document.createElement("article");
+          item.className = "result";
+          item.innerHTML = `
+            <strong>${escapeHtml(result.name || result.display_name)}</strong>
+            <span>${escapeHtml(result.display_name || "")}</span>
+            <span class="score">Punkty: ${result._searchV2?.points ?? 0}</span>
+            <small>
+              ${escapeHtml((result._searchV2?.reasons || []).join(" · "))}
+            </small>
+            <small>
+              ${escapeHtml(result.provider || "")}
+              · ${Number(result.lat).toFixed(5)}, ${Number(result.lon).toFixed(5)}
+            </small>
+          `;
+          results.appendChild(item);
+        }
+
+        const errorCount =
+          response.diagnostics?.providerErrors?.length || 0;
+        const attempted =
+          response.diagnostics?.attemptedQueries?.length || 0;
+
+        status.textContent =
+          `Znaleziono ${response.results.length} wyników. ` +
+          `Wykonano ${attempted} wariantów zapytania.` +
+          (
+            errorCount
+              ? ` Błędy providerów: ${errorCount}.`
+              : ""
+          );
+      } catch (error) {
+        console.error(error);
+        status.textContent = "Błąd: " + error.message;
+      }
+    }
+
+    function escapeHtml(value) {
+      const element = document.createElement("span");
+      element.textContent = String(value || "");
+      return element.innerHTML;
+    }
+
+    form.addEventListener("submit", run);
+    run();
+  </script>
+</body>
+</html>

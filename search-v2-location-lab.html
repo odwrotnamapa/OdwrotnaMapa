@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OMapa — Location Engine Lab</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:980px;margin:auto;padding:20px}
+    form{display:grid;grid-template-columns:1fr auto;gap:8px}
+    input,button{min-height:44px;padding:0 12px;font:inherit}
+    pre{padding:12px;border:1px solid #8885;white-space:pre-wrap}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:700px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h1>Location Engine — Polska</h1>
+  <p>
+    Przykłady:
+    <code>apteka Gdańsk Morena</code>,
+    <code>parking Warszawa Mokotów</code>,
+    <code>Lidl Kraków Podgórze</code>,
+    <code>bankomat Jeżyce</code>.
+  </p>
+
+  <form id="form">
+    <input id="query" value="apteka Gdańsk Morena">
+    <button>Analizuj</button>
+  </form>
+
+  <div class="grid">
+    <section>
+      <h2>Parser</h2>
+      <pre id="parsed"></pre>
+    </section>
+    <section>
+      <h2>Warianty zapytania</h2>
+      <pre id="variants"></pre>
+    </section>
+  </div>
+
+  <script src="search-v2/lexicon/data-pl.js"></script>
+  <script src="search-v2/lexicon/loader.js"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
+  <script src="search-v2/location/resolver.js"></script>
+  <script src="search-v2/parser.js"></script>
+  <script>
+    const form=document.querySelector("#form");
+    const query=document.querySelector("#query");
+    const parsedEl=document.querySelector("#parsed");
+    const variantsEl=document.querySelector("#variants");
+
+    async function run(event){
+      event?.preventDefault();
+      const parsed=await OMAP_SEARCH_V2_PARSER.parse(query.value);
+      const variants=await OMAP_SEARCH_V2_PARSER.expand(parsed);
+      parsedEl.textContent=JSON.stringify(parsed,null,2);
+      variantsEl.textContent=variants.join("\n");
+    }
+
+    form.addEventListener("submit",run);
+    run();
+  </script>
+</body>
+</html>

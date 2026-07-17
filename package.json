@@ -1,0 +1,13 @@
+{
+  "name": "omapa-location-database",
+  "private": true,
+  "scripts": {
+    "location:build": "node tools/build-location-db.cjs",
+    "location:import:sample": "node tools/update-location-db.cjs --input samples/pl-overpass-sample.json",
+    "location:import:file": "node tools/update-location-db.cjs",
+    "location:download": "node tools/update-location-db.cjs --download"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

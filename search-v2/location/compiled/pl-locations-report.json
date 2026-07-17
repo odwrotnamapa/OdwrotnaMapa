@@ -1,0 +1,600 @@
+{
+  "stats": {
+    "cities": 40,
+    "districts": 40,
+    "aliases": 117
+  },
+  "ambiguousAliases": [
+    {
+      "alias": "czestochowa",
+      "owners": [
+        {
+          "type": "city",
+          "id": "czestochowa",
+          "name": "Częstochowa"
+        },
+        {
+          "type": "city",
+          "id": "czestochowa",
+          "name": "Częstochowa"
+        }
+      ]
+    },
+    {
+      "alias": "elblag",
+      "owners": [
+        {
+          "type": "city",
+          "id": "elblag",
+          "name": "Elbląg"
+        },
+        {
+          "type": "city",
+          "id": "elblag",
+          "name": "Elbląg"
+        }
+      ]
+    },
+    {
+      "alias": "gdansk",
+      "owners": [
+        {
+          "type": "city",
+          "id": "gdansk",
+          "name": "Gdańsk"
+        },
+        {
+          "type": "city",
+          "id": "gdansk",
+          "name": "Gdańsk"
+        }
+      ]
+    },
+    {
+      "alias": "danzig",
+      "owners": [
+        {
+          "type": "city",
+          "id": "gdansk",
+          "name": "Gdańsk"
+        },
+        {
+          "type": "city",
+          "id": "gdansk",
+          "name": "Gdańsk"
+        }
+      ]
+    },
+    {
+      "alias": "morena",
+      "owners": [
+        {
+          "type": "district",
+          "id": "piecki-migowo",
+          "name": "Piecki-Migowo",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "piecki-migowo",
+          "name": "Piecki-Migowo",
+          "parentCityId": "gdansk"
+        }
+      ]
+    },
+    {
+      "alias": "wrzeszcz gorny",
+      "owners": [
+        {
+          "type": "district",
+          "id": "wrzeszcz-gorny",
+          "name": "Wrzeszcz Górny",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "wrzeszcz-gorny",
+          "name": "Wrzeszcz Górny",
+          "parentCityId": "gdansk"
+        }
+      ]
+    },
+    {
+      "alias": "gorny wrzeszcz",
+      "owners": [
+        {
+          "type": "district",
+          "id": "wrzeszcz-gorny",
+          "name": "Wrzeszcz Górny",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "wrzeszcz-gorny",
+          "name": "Wrzeszcz Górny",
+          "parentCityId": "gdansk"
+        }
+      ]
+    },
+    {
+      "alias": "wrzeszcz dolny",
+      "owners": [
+        {
+          "type": "district",
+          "id": "wrzeszcz-dolny",
+          "name": "Wrzeszcz Dolny",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "wrzeszcz-dolny",
+          "name": "Wrzeszcz Dolny",
+          "parentCityId": "gdansk"
+        }
+      ]
+    },
+    {
+      "alias": "srodmiescie",
+      "owners": [
+        {
+          "type": "district",
+          "id": "srodmiescie-gdansk",
+          "name": "Śródmieście",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-gdansk",
+          "name": "Śródmieście",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-lodz",
+          "name": "Śródmieście",
+          "parentCityId": "lodz"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-lodz",
+          "name": "Śródmieście",
+          "parentCityId": "lodz"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-warszawa",
+          "name": "Śródmieście",
+          "parentCityId": "warszawa"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-warszawa",
+          "name": "Śródmieście",
+          "parentCityId": "warszawa"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-wroclaw",
+          "name": "Śródmieście",
+          "parentCityId": "wroclaw"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-wroclaw",
+          "name": "Śródmieście",
+          "parentCityId": "wroclaw"
+        }
+      ]
+    },
+    {
+      "alias": "centrum",
+      "owners": [
+        {
+          "type": "district",
+          "id": "srodmiescie-gdansk",
+          "name": "Śródmieście",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-krakow",
+          "name": "Stare Miasto",
+          "parentCityId": "krakow"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-lodz",
+          "name": "Śródmieście",
+          "parentCityId": "lodz"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-poznan",
+          "name": "Stare Miasto",
+          "parentCityId": "poznan"
+        },
+        {
+          "type": "district",
+          "id": "srodmiescie-warszawa",
+          "name": "Śródmieście",
+          "parentCityId": "warszawa"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-wroclaw",
+          "name": "Stare Miasto",
+          "parentCityId": "wroclaw"
+        }
+      ]
+    },
+    {
+      "alias": "stare miasto",
+      "owners": [
+        {
+          "type": "district",
+          "id": "srodmiescie-gdansk",
+          "name": "Śródmieście",
+          "parentCityId": "gdansk"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-krakow",
+          "name": "Stare Miasto",
+          "parentCityId": "krakow"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-poznan",
+          "name": "Stare Miasto",
+          "parentCityId": "poznan"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-wroclaw",
+          "name": "Stare Miasto",
+          "parentCityId": "wroclaw"
+        }
+      ]
+    },
+    {
+      "alias": "gorzow wielkopolski",
+      "owners": [
+        {
+          "type": "city",
+          "id": "gorzow-wielkopolski",
+          "name": "Gorzów Wielkopolski"
+        },
+        {
+          "type": "city",
+          "id": "gorzow-wielkopolski",
+          "name": "Gorzów Wielkopolski"
+        }
+      ]
+    },
+    {
+      "alias": "grudziadz",
+      "owners": [
+        {
+          "type": "city",
+          "id": "grudziadz",
+          "name": "Grudziądz"
+        },
+        {
+          "type": "city",
+          "id": "grudziadz",
+          "name": "Grudziądz"
+        }
+      ]
+    },
+    {
+      "alias": "koslin",
+      "owners": [
+        {
+          "type": "city",
+          "id": "koszalin",
+          "name": "Koszalin"
+        },
+        {
+          "type": "city",
+          "id": "koszalin",
+          "name": "Koszalin"
+        }
+      ]
+    },
+    {
+      "alias": "krakow",
+      "owners": [
+        {
+          "type": "city",
+          "id": "krakow",
+          "name": "Kraków"
+        },
+        {
+          "type": "city",
+          "id": "krakow",
+          "name": "Kraków"
+        }
+      ]
+    },
+    {
+      "alias": "starowka",
+      "owners": [
+        {
+          "type": "district",
+          "id": "stare-miasto-krakow",
+          "name": "Stare Miasto",
+          "parentCityId": "krakow"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-krakow",
+          "name": "Stare Miasto",
+          "parentCityId": "krakow"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-poznan",
+          "name": "Stare Miasto",
+          "parentCityId": "poznan"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-poznan",
+          "name": "Stare Miasto",
+          "parentCityId": "poznan"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-wroclaw",
+          "name": "Stare Miasto",
+          "parentCityId": "wroclaw"
+        },
+        {
+          "type": "district",
+          "id": "stare-miasto-wroclaw",
+          "name": "Stare Miasto",
+          "parentCityId": "wroclaw"
+        }
+      ]
+    },
+    {
+      "alias": "podgorze",
+      "owners": [
+        {
+          "type": "district",
+          "id": "podgorze",
+          "name": "Podgórze",
+          "parentCityId": "krakow"
+        },
+        {
+          "type": "district",
+          "id": "podgorze",
+          "name": "Podgórze",
+          "parentCityId": "krakow"
+        }
+      ]
+    },
+    {
+      "alias": "debniki",
+      "owners": [
+        {
+          "type": "district",
+          "id": "debniki",
+          "name": "Dębniki",
+          "parentCityId": "krakow"
+        },
+        {
+          "type": "district",
+          "id": "debniki",
+          "name": "Dębniki",
+          "parentCityId": "krakow"
+        }
+      ]
+    },
+    {
+      "alias": "gorna",
+      "owners": [
+        {
+          "type": "district",
+          "id": "gorna",
+          "name": "Górna",
+          "parentCityId": "lodz"
+        },
+        {
+          "type": "district",
+          "id": "gorna",
+          "name": "Górna",
+          "parentCityId": "lodz"
+        }
+      ]
+    },
+    {
+      "alias": "nowy sacz",
+      "owners": [
+        {
+          "type": "city",
+          "id": "nowy-sacz",
+          "name": "Nowy Sącz"
+        },
+        {
+          "type": "city",
+          "id": "nowy-sacz",
+          "name": "Nowy Sącz"
+        }
+      ]
+    },
+    {
+      "alias": "poznan",
+      "owners": [
+        {
+          "type": "city",
+          "id": "poznan",
+          "name": "Poznań"
+        },
+        {
+          "type": "city",
+          "id": "poznan",
+          "name": "Poznań"
+        }
+      ]
+    },
+    {
+      "alias": "jezyce",
+      "owners": [
+        {
+          "type": "district",
+          "id": "jezyce",
+          "name": "Jeżyce",
+          "parentCityId": "poznan"
+        },
+        {
+          "type": "district",
+          "id": "jezyce",
+          "name": "Jeżyce",
+          "parentCityId": "poznan"
+        }
+      ]
+    },
+    {
+      "alias": "ruda slaska",
+      "owners": [
+        {
+          "type": "city",
+          "id": "ruda-slaska",
+          "name": "Ruda Śląska"
+        },
+        {
+          "type": "city",
+          "id": "ruda-slaska",
+          "name": "Ruda Śląska"
+        }
+      ]
+    },
+    {
+      "alias": "rzeszow",
+      "owners": [
+        {
+          "type": "city",
+          "id": "rzeszow",
+          "name": "Rzeszów"
+        },
+        {
+          "type": "city",
+          "id": "rzeszow",
+          "name": "Rzeszów"
+        }
+      ]
+    },
+    {
+      "alias": "tarnow",
+      "owners": [
+        {
+          "type": "city",
+          "id": "tarnow",
+          "name": "Tarnów"
+        },
+        {
+          "type": "city",
+          "id": "tarnow",
+          "name": "Tarnów"
+        }
+      ]
+    },
+    {
+      "alias": "torun",
+      "owners": [
+        {
+          "type": "city",
+          "id": "torun",
+          "name": "Toruń"
+        },
+        {
+          "type": "city",
+          "id": "torun",
+          "name": "Toruń"
+        }
+      ]
+    },
+    {
+      "alias": "warsaw",
+      "owners": [
+        {
+          "type": "city",
+          "id": "warszawa",
+          "name": "Warszawa"
+        },
+        {
+          "type": "city",
+          "id": "warszawa",
+          "name": "Warszawa"
+        }
+      ]
+    },
+    {
+      "alias": "mokotow",
+      "owners": [
+        {
+          "type": "district",
+          "id": "mokotow",
+          "name": "Mokotów",
+          "parentCityId": "warszawa"
+        },
+        {
+          "type": "district",
+          "id": "mokotow",
+          "name": "Mokotów",
+          "parentCityId": "warszawa"
+        }
+      ]
+    },
+    {
+      "alias": "ursynow",
+      "owners": [
+        {
+          "type": "district",
+          "id": "ursynow",
+          "name": "Ursynów",
+          "parentCityId": "warszawa"
+        },
+        {
+          "type": "district",
+          "id": "ursynow",
+          "name": "Ursynów",
+          "parentCityId": "warszawa"
+        }
+      ]
+    },
+    {
+      "alias": "zoliborz",
+      "owners": [
+        {
+          "type": "district",
+          "id": "zoliborz",
+          "name": "Żoliborz",
+          "parentCityId": "warszawa"
+        },
+        {
+          "type": "district",
+          "id": "zoliborz",
+          "name": "Żoliborz",
+          "parentCityId": "warszawa"
+        }
+      ]
+    },
+    {
+      "alias": "zielona gora",
+      "owners": [
+        {
+          "type": "city",
+          "id": "zielona-gora",
+          "name": "Zielona Góra"
+        },
+        {
+          "type": "city",
+          "id": "zielona-gora",
+          "name": "Zielona Góra"
+        }
+      ]
+    }
+  ]
+}

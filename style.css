@@ -3245,3 +3245,128 @@ a.place-card-row {
     height: var(--menu-sheet-height) !important;
   }
 }
+
+
+/* Panel informacji o miejscu */
+.place-panel {
+  width: min(390px, calc(100vw - 24px));
+}
+
+.place-sheet-handle {
+  display: none;
+}
+
+.place-panel-content {
+  min-height: 76px;
+}
+
+.place-panel .place-card {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.place-panel .place-card-image {
+  width: calc(100% + 28px);
+  max-width: none;
+  margin: -2px -14px 14px;
+  border-radius: 0;
+}
+
+.place-panel .place-card-loading {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .place-panel {
+    --place-sheet-height: 42vh;
+    position: absolute;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 74px !important;
+    left: 8px !important;
+    width: auto !important;
+    height: var(--place-sheet-height);
+    max-height: calc(100vh - 90px) !important;
+    min-height: 48px;
+    padding: 0 14px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 20px;
+    touch-action: pan-y;
+    transition: height 220ms ease;
+  }
+
+  .place-panel.is-dragging {
+    transition: none;
+    user-select: none;
+  }
+
+  .place-sheet-handle {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    border: 0;
+    background: var(--panel);
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .place-sheet-handle span {
+    display: block;
+    width: 44px;
+    height: 5px;
+    border-radius: 999px;
+    background:
+      color-mix(in srgb, var(--text) 35%, transparent);
+  }
+
+  .place-panel .legend-header {
+    position: sticky;
+    top: 28px;
+    z-index: 4;
+    margin: 0 -14px 12px;
+    padding: 9px 14px 10px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .place-panel.is-collapsed {
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  .place-panel.is-collapsed
+  > :not(.place-sheet-handle) {
+    display: none;
+  }
+
+  .place-panel.is-collapsed
+  .place-sheet-handle {
+    height: 48px;
+  }
+
+  .place-panel.is-collapsed
+  .place-sheet-handle span {
+    width: 52px;
+  }
+
+  body:has(.place-panel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.place-panel:not([hidden]))
+  .maplibregl-ctrl-bottom-right {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "city_centre": {
+    "aliases": [
+      "centrum",
+      "centrum miasta",
+      "śródmieście",
+      "srodmiescie",
+      "downtown",
+      "city centre"
+    ]
+  },
+  "old_town": {
+    "aliases": [
+      "stare miasto",
+      "starówka",
+      "starowka",
+      "old town"
+    ]
+  },
+  "main_square": {
+    "aliases": [
+      "rynek",
+      "rynek główny",
+      "rynek glowny",
+      "main square"
+    ]
+  },
+  "waterfront": {
+    "aliases": [
+      "nabrzeże",
+      "nabrzeze",
+      "bulwar",
+      "waterfront"
+    ]
+  },
+  "port": {
+    "aliases": [
+      "port",
+      "marina",
+      "przystań",
+      "przystan"
+    ]
+  },
+  "nearby": {
+    "aliases": [
+      "okolica",
+      "okolice",
+      "pobliże",
+      "poblize",
+      "wokół",
+      "wokol"
+    ]
+  },
+  "station_area": {
+    "aliases": [
+      "przy dworcu",
+      "obok dworca",
+      "okolice dworca"
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OMapa — importer lokalizacji</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:20px}
+    pre{padding:14px;border:1px solid #8885;overflow:auto}
+    code{font-family:ui-monospace,monospace}
+  </style>
+</head>
+<body>
+  <h1>Importer lokalizacji OSM</h1>
+  <p>
+    Importer działa jako skrypt Node.js, ponieważ przeglądarka
+    nie może bezpiecznie zapisywać plików projektu.
+  </p>
+
+  <h2>Test na danych przykładowych</h2>
+  <pre>npm run location:import:sample</pre>
+
+  <h2>Import własnego Overpass JSON</h2>
+  <pre>node tools/update-location-db.cjs --input ścieżka/do/pliku.json</pre>
+
+  <h2>Pobranie z Overpass API</h2>
+  <pre>npm run location:download</pre>
+
+  <p>
+    Po imporcie skrypt automatycznie uruchamia walidację
+    i buduje pliki w katalogu
+    <code>search-v2/location/compiled/</code>.
+  </p>
+</body>
+</html>

@@ -44,7 +44,6 @@
       about: "O projekcie",
       closeAbout: "Zamknij sekcję O projekcie",
       aboutIntro: "Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.",
-      aboutVersion: "Wersja",
       aboutData: "Dane mapowe",
       aboutStyle: "Styl mapy",
       aboutEngine: "Silnik",
@@ -127,6 +126,9 @@
       menuClose: "Zamknij menu",
       clearMap: "Wyczyść mapę",
       mapCleared: "Wyczyszczono elementy mapy.",
+      placePanelTitle: "Informacje",
+      placePanelClose: "Zamknij informacje o miejscu",
+      placePanelResize: "Zmień wysokość panelu informacji",
       placeLoading: "Pobieranie informacji o miejscu…",
       placeUnknown: "Wybrane miejsce",
       placeType: "Typ",
@@ -192,7 +194,6 @@
       about: "About",
       closeAbout: "Close the About panel",
       aboutIntro: "Most modern maps place north at the top. This is not, however, the only possible way to represent the world. Odwrotna Mapa was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.",
-      aboutVersion: "Version",
       aboutData: "Map data",
       aboutStyle: "Map style",
       aboutEngine: "Engine",
@@ -275,6 +276,9 @@
       menuClose: "Close menu",
       clearMap: "Clear map",
       mapCleared: "Map elements cleared.",
+      placePanelTitle: "Information",
+      placePanelClose: "Close place information",
+      placePanelResize: "Resize place information panel",
       placeLoading: "Loading place information…",
       placeUnknown: "Selected place",
       placeType: "Type",
@@ -325,6 +329,7 @@
     routeWaypointMarkers: [],
     selectedManeuverIndex: null,
     placePopup: null,
+    placePanelLngLat: null,
     placeRequestController: null,
     exploreMarkers: [],
     exploreRequestController: null,
@@ -352,6 +357,11 @@
     menuTitle: $("menu-title"),
     favoritesList: $("favorites-list"),
     favoritesEmpty: $("favorites-empty"),
+    placePanel: $("place-panel"),
+    placeSheetHandle: $("place-sheet-handle"),
+    placePanelTitle: $("place-panel-title"),
+    placePanelClose: $("place-panel-close"),
+    placePanelContent: $("place-panel-content"),
     favoritesCount: $("favorites-count"),
     favoritesOpenButton: $("favorites-open-button"),
     favoritesMenuLabel: $("favorites-menu-label"),
@@ -379,7 +389,6 @@
     aboutClose: $("about-close"),
     aboutTitle: $("about-title"),
     aboutIntro: $("about-intro"),
-    aboutVersionLabel: $("about-version-label"),
     aboutDataLabel: $("about-data-label"),
     aboutStyleLabel: $("about-style-label"),
     aboutEngineLabel: $("about-engine-label"),
@@ -478,7 +487,6 @@
   map.on("click", handleMapClick);
   map.on("contextmenu", event => {
     event.preventDefault();
-    closePlacePopup();
   });
 
   el.themeSelect.value = state.theme;
@@ -502,6 +510,7 @@
   el.locateButton?.addEventListener("click", locate);
   el.legendButton?.addEventListener("click", toggleLegend);
   el.legendClose?.addEventListener("click", closeLegend);
+  el.placePanelClose?.addEventListener("click", closePlacePanel);
 
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
@@ -560,6 +569,7 @@
   initializeDiscoverBottomSheet();
   initializeMenuBottomSheet();
   initializeFavoritesBottomSheet();
+  initializePlaceBottomSheet();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -568,6 +578,7 @@
       closeDiscover();
       closeMenu();
       closeFavoritesPanel();
+      closePlacePanel();
       closeRoutePanel();
     }
   });
@@ -605,10 +616,12 @@
     if (el.aboutTitle) el.aboutTitle.textContent = t.about;
     el.aboutClose?.setAttribute("aria-label", t.closeAbout);
     if (el.aboutIntro) el.aboutIntro.textContent = t.aboutIntro;
-    if (el.aboutVersionLabel) el.aboutVersionLabel.textContent = t.aboutVersion;
     if (el.aboutDataLabel) el.aboutDataLabel.textContent = t.aboutData;
     if (el.aboutStyleLabel) el.aboutStyleLabel.textContent = t.aboutStyle;
     if (el.aboutEngineLabel) el.aboutEngineLabel.textContent = t.aboutEngine;
+    if (el.placePanelTitle) el.placePanelTitle.textContent = t.placePanelTitle;
+    el.placePanelClose?.setAttribute("aria-label", t.placePanelClose);
+    el.placeSheetHandle?.setAttribute("aria-label", t.placePanelResize);
     if (el.routeButton) el.routeButton.title = t.route;
     el.routeButton?.setAttribute("aria-label", t.route);
     if (el.routeTitle) el.routeTitle.textContent = t.routeTitle;
@@ -1471,6 +1484,40 @@
   }
 
   async function findPlacesWithFallback(query, limit = 6, signal) {
+    const useSearchV2 =
+      new URLSearchParams(window.location.search)
+        .get("searchv2") === "1";
+
+    if (useSearchV2 && window.OMAP_SEARCH_V2) {
+      try {
+        const response = await window.OMAP_SEARCH_V2.search(
+          query,
+          {
+            language: state.language,
+            limit,
+            signal
+          }
+        );
+
+        if (response.results.length) {
+          console.info("Search Engine 2.0", {
+            query,
+            parsed: response.parsed,
+            variants: response.variants,
+            results: response.results
+          });
+
+          return response.results;
+        }
+      } catch (error) {
+        if (error.name === "AbortError") throw error;
+        console.warn(
+          "Search Engine 2.0 failed; using legacy search.",
+          error
+        );
+      }
+    }
+
     const originalQuery = query.trim();
 
     const searchExact = async value => {
@@ -2268,6 +2315,15 @@
     });
   }
 
+  function initializePlaceBottomSheet() {
+    initializeBottomSheet({
+      panel: el.placePanel,
+      handle: el.placeSheetHandle,
+      close: closePlacePanel,
+      cssVariable: "--place-sheet-height"
+    });
+  }
+
 
 
 
@@ -2276,6 +2332,7 @@
 
 
   function toggleDiscover() {
+    closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.discoverPanel.hidden;
@@ -2301,6 +2358,7 @@
   }
 
   function toggleRoute() {
+    closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.routePanel.hidden;
@@ -2378,51 +2436,67 @@ function closeRoute() {
       return;
     }
 
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-
-    if (isTouchDevice && state.placePopup) {
-      closePlacePopup();
-      return;
-    }
-
     await showPlaceInformation(event);
   }
 
-  function closePlacePopup() {
-    state.placeRequestController?.abort();
-    state.placeRequestController = null;
+  function openPlacePanel() {
+    closeMenu();
+    closeLegend();
+    closeAbout();
+    closeDiscover();
+    closeFavoritesPanel();
+    closeRoutePanel();
 
-    if (state.placePopup) {
-      const popup = state.placePopup;
-      state.placePopup = null;
-      popup.remove();
+    if (!el.placePanel) return;
+
+    el.placePanel.hidden = false;
+
+    if (
+      window.matchMedia("(max-width: 600px)").matches &&
+      el.placePanel.getBoundingClientRect().height < 90
+    ) {
+      el.placePanel.style.setProperty(
+        "--place-sheet-height",
+        `${window.innerHeight * 0.42}px`
+      );
+      el.placePanel.classList.remove("is-collapsed");
     }
   }
 
+  function closePlacePanel() {
+    state.placeRequestController?.abort();
+    state.placeRequestController = null;
+    state.placePanelLngLat = null;
+    state.placePopup = null;
+
+    if (el.placePanel) {
+      el.placePanel.hidden = true;
+    }
+
+    if (el.placePanelContent) {
+      el.placePanelContent.replaceChildren();
+    }
+  }
+
+  // Zachowujemy dawną nazwę funkcji, żeby istniejące wywołania
+  // czyszczenia karty miejsca nadal działały.
+  function closePlacePopup() {
+    closePlacePanel();
+  }
+
   async function showPlaceInformation(event) {
-    closePlacePopup();
+    state.placeRequestController?.abort();
     state.placeRequestController = new AbortController();
+    state.placePanelLngLat = event.lngLat;
+
+    openPlacePanel();
 
     const t = text[state.language];
     const loading = document.createElement("div");
     loading.className = "place-card place-card-loading";
     loading.textContent = t.placeLoading;
 
-    state.placePopup = new maplibregl.Popup({
-      closeButton: true,
-      closeOnClick: true,
-      maxWidth: "360px",
-      offset: 12
-    })
-      .setLngLat(event.lngLat)
-      .setDOMContent(loading)
-      .addTo(map);
-
-    state.placePopup.on("close", () => {
-      state.placeRequestController?.abort();
-      state.placeRequestController = null;
-      state.placePopup = null;
-    });
+    el.placePanelContent?.replaceChildren(loading);
 
     try {
       const place = await fetchPlaceInformation(
@@ -2431,10 +2505,22 @@ function closeRoute() {
         state.placeRequestController.signal
       );
 
-      if (!state.placePopup) return;
-      state.placePopup.setDOMContent(
+      if (
+        !el.placePanel ||
+        el.placePanel.hidden ||
+        state.placePanelLngLat !== event.lngLat
+      ) {
+        return;
+      }
+
+      el.placePanelContent.replaceChildren(
         createPlaceCard(place, event.lngLat)
       );
+
+      el.placePanel.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     } catch (error) {
       if (error.name === "AbortError") return;
       console.error(error);
@@ -2442,7 +2528,8 @@ function closeRoute() {
       const failed = document.createElement("div");
       failed.className = "place-card place-card-loading";
       failed.textContent = t.placeError;
-      state.placePopup?.setDOMContent(failed);
+
+      el.placePanelContent?.replaceChildren(failed);
     }
   }
 
@@ -4569,6 +4656,7 @@ function closeRoute() {
   }
 
   function openFavoritesPanel() {
+    closePlacePanel();
     closeMenu();
     closeLegend();
     closeRoutePanel();
@@ -4835,6 +4923,7 @@ function closeRoute() {
 
 
   function toggleMenu() {
+    closePlacePanel();
     closeFavoritesPanel();
     if (!el.menuPanel || !el.menuButton) return;
 
@@ -4913,6 +5002,7 @@ function closeRoute() {
   }
 
   function toggleAbout() {
+    closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.aboutPanel.hidden;
@@ -4930,6 +5020,7 @@ function closeRoute() {
   }
 
   function toggleLegend() {
+    closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
     const shouldOpen = el.legendPanel.hidden;
