@@ -7,13 +7,19 @@
       0
     );
 
-    const reasons = parts.flatMap(part => part.reasons || []);
+    const reasons = parts.flatMap(
+      part => part.reasons || []
+    );
 
     let confidence = "low";
-    if (points >= 260) confidence = "very_high";
-    else if (points >= 190) confidence = "high";
-    else if (points >= 120) confidence = "medium";
+    if (points >= 360) confidence = "very_high";
+    else if (points >= 260) confidence = "high";
+    else if (points >= 160) confidence = "medium";
 
-    return { points, reasons, confidence };
+    return {
+      points,
+      reasons,
+      confidence
+    };
   };
 })();

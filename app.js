@@ -122,7 +122,15 @@
       menuTheme: "Wygląd mapy",
       menuLocation: "Moja lokalizacja",
       menuLanguage: "Język",
+      menuLegend: "Legenda",
       menuAbout: "O projekcie",
+      contextRouteA: "Ustaw jako punkt A",
+      contextRouteB: "Ustaw jako punkt B",
+      contextCopyCoordinates: "Skopiuj współrzędne",
+      contextShowInformation: "Pokaż informacje",
+      contextAddFavorite: "Dodaj do ulubionych",
+      contextFavoriteAdded: "Dodano miejsce do ulubionych.",
+      contextFavoriteRemoved: "Usunięto miejsce z ulubionych.",
       menuClose: "Zamknij menu",
       clearMap: "Wyczyść mapę",
       mapCleared: "Wyczyszczono elementy mapy.",
@@ -272,7 +280,15 @@
       menuTheme: "Map style",
       menuLocation: "My location",
       menuLanguage: "Language",
+      menuLegend: "Legend",
       menuAbout: "About",
+      contextRouteA: "Set as Point A",
+      contextRouteB: "Set as Point B",
+      contextCopyCoordinates: "Copy coordinates",
+      contextShowInformation: "Show information",
+      contextAddFavorite: "Add to favorites",
+      contextFavoriteAdded: "Place added to favorites.",
+      contextFavoriteRemoved: "Place removed from favorites.",
       menuClose: "Close menu",
       clearMap: "Clear map",
       mapCleared: "Map elements cleared.",
@@ -331,7 +347,9 @@
     placePopup: null,
     placePanelLngLat: null,
     selectedPlaceMarker: null,
+    contextPointMarker: null,
     userLocationMarker: null,
+    contextMenuLngLat: null,
     placeRequestController: null,
     exploreMarkers: [],
     exploreRequestController: null,
@@ -380,6 +398,10 @@
     menuThemeSelect: $("menu-theme-select"),
     menuThemeLabel: $("menu-theme-label"),
     menuLanguageSelect: $("menu-language-select"),
+    menuLegendButton: $("menu-legend-button"),
+    menuLegendLabel: $("menu-legend-label"),
+    brandButton: $("brand-button"),
+    mapContextMenu: $("map-context-menu"),
     clearMapButton: $("clear-map-button"),
     menuAboutButton: $("menu-about-button"),
     menuLocationLabel: $("menu-location-label"),
@@ -487,9 +509,8 @@
 
   map.on("moveend", saveView);
   map.on("click", handleMapClick);
-  map.on("contextmenu", event => {
-    event.preventDefault();
-  });
+  map.on("contextmenu", openMapContextMenu);
+  map.on("movestart", closeMapContextMenu);
 
   el.themeSelect.value = state.theme;
   el.languageSelect.value = state.language;
@@ -510,12 +531,30 @@
   });
 
   el.locateButton?.addEventListener("click", locate);
+  el.brandButton?.addEventListener("click", event => {
+    event.preventDefault();
+    locate();
+  });
   el.legendButton?.addEventListener("click", toggleLegend);
   el.legendClose?.addEventListener("click", closeLegend);
   el.placePanelClose?.addEventListener("click", closePlacePanel);
 
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
+  el.menuLegendButton?.addEventListener("click", toggleLegend);
+  el.mapContextMenu?.addEventListener(
+    "click",
+    handleMapContextAction
+  );
+  document.addEventListener("pointerdown", event => {
+    if (
+      el.mapContextMenu &&
+      !el.mapContextMenu.hidden &&
+      !el.mapContextMenu.contains(event.target)
+    ) {
+      closeMapContextMenu();
+    }
+  });
   el.favoritesOpenButton?.addEventListener("click", openFavoritesPanel);
   el.favoritesClose?.addEventListener("click", closeFavoritesPanel);
   el.favoritesSearch?.addEventListener("input", renderFavoritesList);
@@ -584,6 +623,7 @@
       closeLegend();
       closeAbout();
       closeDiscover();
+      closeMapContextMenu();
       closeMenu();
       closeFavoritesPanel();
       closePlacePanel();
@@ -616,6 +656,10 @@
     el.locateButton?.setAttribute("aria-label", t.locate);
     if (el.legendButton) el.legendButton.title = t.legend;
     el.legendButton?.setAttribute("aria-label", t.legend);
+    if (el.menuLegendLabel) {
+      el.menuLegendLabel.textContent = t.menuLegend;
+    }
+    updateMapContextMenuLabels();
     if (el.legendTitle) el.legendTitle.textContent = t.legend;
     el.legendClose?.setAttribute("aria-label", t.closeLegend);
     if (el.legendNote) el.legendNote.textContent = t.legendNote;
@@ -630,6 +674,12 @@
     if (el.placePanelTitle) el.placePanelTitle.textContent = t.placePanelTitle;
     el.placePanelClose?.setAttribute("aria-label", t.placePanelClose);
     el.placeSheetHandle?.setAttribute("aria-label", t.placePanelResize);
+    el.brandButton?.setAttribute(
+      "aria-label",
+      state.language === "pl"
+        ? "Pokaż moją lokalizację"
+        : "Show my location"
+    );
     if (el.routeButton) el.routeButton.title = t.route;
     el.routeButton?.setAttribute("aria-label", t.route);
     if (el.routeTitle) el.routeTitle.textContent = t.routeTitle;
@@ -1491,38 +1541,74 @@
       : query;
   }
 
+  
+  function withSearchUiTimeout(promise, timeoutMs = 11000) {
+    let timeoutId;
+
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutId = window.setTimeout(() => {
+        reject(new Error("SEARCH_UI_TIMEOUT"));
+      }, timeoutMs);
+    });
+
+    return Promise.race([
+      promise.finally(() => {
+        window.clearTimeout(timeoutId);
+      }),
+      timeoutPromise
+    ]);
+  }
+
   async function findPlacesWithFallback(query, limit = 6, signal) {
+    const searchParameters =
+      new URLSearchParams(window.location.search);
     const useSearchV2 =
-      new URLSearchParams(window.location.search)
-        .get("searchv2") === "1";
+      searchParameters.get("search") !== "legacy" &&
+      searchParameters.get("searchv2") !== "0";
 
     if (useSearchV2 && window.OMAP_SEARCH_V2) {
       try {
-        const response = await window.OMAP_SEARCH_V2.search(
-          query,
-          {
-            language: state.language,
-            limit,
-            signal
-          }
+        const isLocalFile =
+          window.location.protocol === "file:";
+
+        const response = await withSearchUiTimeout(
+          window.OMAP_SEARCH_V2.search(
+            query,
+            {
+              language: state.language,
+              limit,
+              signal,
+              totalTimeoutMs: isLocalFile
+                ? 9500
+                : 8000,
+              providerTimeoutMs: isLocalFile
+                ? 8500
+                : 4000
+            }
+          ),
+          isLocalFile ? 10000 : 9000
         );
 
-        if (response.results.length) {
-          console.info("Search Engine 2.0", {
-            query,
-            parsed: response.parsed,
-            variants: response.variants,
-            results: response.results
-          });
+        console.info("OMapa Search RC", {
+          query,
+          parsed: response.parsed,
+          variants: response.variants,
+          diagnostics: response.diagnostics,
+          results: response.results
+        });
 
-          return response.results;
-        }
+        return response.results;
       } catch (error) {
         if (error.name === "AbortError") throw error;
+
         console.warn(
-          "Search Engine 2.0 failed; using legacy search.",
+          "OMapa Search RC failed.",
           error
         );
+
+        // Nie uruchamiamy ponownie całego starego pipeline'u,
+        // bo powodował drugie, długie oczekiwanie.
+        return [];
       }
     }
 
@@ -2340,6 +2426,7 @@
 
 
   function toggleDiscover() {
+    closeMapContextMenu();
     closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
@@ -2366,6 +2453,7 @@
   }
 
   function toggleRoute() {
+    closeMapContextMenu();
     closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
@@ -2438,7 +2526,241 @@ function closeRoute() {
     updateRouteClickHint();
   }
 
+
+  function updateMapContextMenuLabels() {
+    const t = text[state.language];
+    const labels = {
+      "route-a": t.contextRouteA,
+      "route-b": t.contextRouteB,
+      copy: t.contextCopyCoordinates,
+      info: t.contextShowInformation,
+      favorite: t.contextAddFavorite
+    };
+
+    for (const element of document.querySelectorAll(
+      "[data-map-context-label]"
+    )) {
+      element.textContent =
+        labels[element.dataset.mapContextLabel] ||
+        element.textContent;
+    }
+
+    el.mapContextMenu?.setAttribute(
+      "aria-label",
+      state.language === "pl"
+        ? "Opcje punktu na mapie"
+        : "Map point options"
+    );
+  }
+
+  function openMapContextMenu(event) {
+    event.originalEvent?.preventDefault();
+    if (!el.mapContextMenu) return;
+
+    closeMapContextMenu();
+    closeMenu();
+
+    state.contextMenuLngLat = new maplibregl.LngLat(
+      event.lngLat.lng,
+      event.lngLat.lat
+    );
+
+    showContextPointMarker(state.contextMenuLngLat);
+    updateMapContextMenuLabels();
+    el.mapContextMenu.hidden = false;
+
+    const originalEvent = event.originalEvent;
+    const clientX = Number(
+      originalEvent?.clientX ??
+      event.point?.x ??
+      0
+    );
+    const clientY = Number(
+      originalEvent?.clientY ??
+      event.point?.y ??
+      0
+    );
+
+    const rect = el.mapContextMenu.getBoundingClientRect();
+    const margin = 8;
+
+    const left = Math.min(
+      Math.max(margin, clientX),
+      window.innerWidth - rect.width - margin
+    );
+
+    const top = Math.min(
+      Math.max(margin, clientY),
+      window.innerHeight - rect.height - margin
+    );
+
+    el.mapContextMenu.style.left = `${left}px`;
+    el.mapContextMenu.style.top = `${top}px`;
+
+    el.mapContextMenu
+      .querySelector("button")
+      ?.focus({ preventScroll: true });
+  }
+
+  function closeMapContextMenu() {
+    state.contextMenuLngLat = null;
+
+    if (!el.mapContextMenu) return;
+    el.mapContextMenu.hidden = true;
+  }
+
+  async function setContextPointAsRoute(key, lngLat) {
+    if (!lngLat) return;
+
+    const point = {
+      lon: lngLat.lng,
+      lat: lngLat.lat,
+      label: formatCoordinates(lngLat.lng, lngLat.lat)
+    };
+
+    try {
+      point.label = await reverseGeocodeRoutePoint(point);
+    } catch (error) {
+      console.warn("Context route reverse geocoding failed.", error);
+    }
+
+    if (el.routePanel.hidden) {
+      toggleRoute();
+    }
+
+    if (key === "a") {
+      state.routePointA = point;
+      if (el.routeFrom) el.routeFrom.value = point.label;
+      setRouteMarker("a", point);
+    } else {
+      state.routePointB = point;
+      if (el.routeTo) el.routeTo.value = point.label;
+      setRouteMarker("b", point);
+    }
+
+    state.routeClickStage = state.routePointA
+      ? (state.routePointB ? "move-b" : "b")
+      : "a";
+
+    updateRouteClickHint();
+
+    if (state.routePointA && state.routePointB) {
+      await calculateRouteFromStoredPoints();
+    }
+  }
+
+  async function addContextPointToFavorites(lngLat) {
+    if (!lngLat) return;
+
+    show(text[state.language].placeLoading, 0);
+
+    try {
+      const place = await fetchPlaceInformation(
+        lngLat.lng,
+        lngLat.lat
+      );
+
+      const key = getFavoriteKey(place, lngLat);
+      const nowFavorite = toggleFavorite(
+        key,
+        place,
+        lngLat
+      );
+
+      show(
+        nowFavorite
+          ? text[state.language].contextFavoriteAdded
+          : text[state.language].contextFavoriteRemoved
+      );
+    } catch (error) {
+      console.error(error);
+      show(text[state.language].placeError);
+    }
+  }
+
+  async function handleMapContextAction(event) {
+    const button = event.target.closest(
+      "[data-map-context-action]"
+    );
+    if (!button || !state.contextMenuLngLat) return;
+
+    const action = button.dataset.mapContextAction;
+    const lngLat = new maplibregl.LngLat(
+      state.contextMenuLngLat.lng,
+      state.contextMenuLngLat.lat
+    );
+
+    closeMapContextMenu();
+
+    if (action === "route-a") {
+      await setContextPointAsRoute("a", lngLat);
+      return;
+    }
+
+    if (action === "route-b") {
+      await setContextPointAsRoute("b", lngLat);
+      return;
+    }
+
+    if (action === "copy") {
+      await copyValue(
+        `${lngLat.lat.toFixed(6)}, ${lngLat.lng.toFixed(6)}`,
+        text[state.language].placeCoordinatesCopied
+      );
+      return;
+    }
+
+    if (action === "info") {
+      removeContextPointMarker();
+      await showPlaceInformation({ lngLat });
+      return;
+    }
+
+    if (action === "favorite") {
+      await addContextPointToFavorites(lngLat);
+    }
+  }
+
+
+  function collapseMobilePanel(panel, cssVariable) {
+    if (
+      !panel ||
+      panel.hidden ||
+      !window.matchMedia("(max-width: 600px)").matches
+    ) {
+      return;
+    }
+
+    panel.classList.add("is-collapsed");
+    panel.style.setProperty(cssVariable, "48px");
+  }
+
+  function collapseMobilePanels() {
+    // Panel Trasa pozostaje rozwinięty podczas wybierania punktów
+    // bezpośrednio na mapie.
+    collapseMobilePanel(
+      el.discoverPanel,
+      "--discover-sheet-height"
+    );
+    collapseMobilePanel(
+      el.menuPanel,
+      "--menu-sheet-height"
+    );
+    collapseMobilePanel(
+      el.favoritesPanel,
+      "--favorites-sheet-height"
+    );
+    collapseMobilePanel(
+      el.placePanel,
+      "--place-sheet-height"
+    );
+  }
+
   async function handleMapClick(event) {
+    closeMapContextMenu();
+    removeContextPointMarker();
+    collapseMobilePanels();
+
     if (!el.routePanel.hidden) {
       await handleRouteMapClick(event);
       return;
@@ -2446,8 +2768,6 @@ function closeRoute() {
 
     // Zwykłe kliknięcie pustego obszaru mapy nie wykonuje
     // reverse geocodingu i nie otwiera panelu Informacje.
-    // Szczegóły miejsca są dostępne tylko po świadomym wyborze:
-    // z wyszukiwarki, Odkrywaj, Ulubionych lub markera OMapy.
   }
 
 
@@ -2455,7 +2775,8 @@ function closeRoute() {
     const element = document.createElement("div");
     element.className = "selected-place-marker";
     element.setAttribute("aria-hidden", "true");
-    element.innerHTML = '<span class="selected-place-marker-pin"></span>';
+    element.innerHTML =
+      '<span class="selected-place-marker-dot"></span>';
     return element;
   }
 
@@ -2465,7 +2786,7 @@ function closeRoute() {
     if (!state.selectedPlaceMarker) {
       state.selectedPlaceMarker = new maplibregl.Marker({
         element: createSelectedPlaceMarkerElement(),
-        anchor: "bottom"
+        anchor: "center"
       });
     }
 
@@ -2478,6 +2799,36 @@ function closeRoute() {
     state.selectedPlaceMarker?.remove();
     state.selectedPlaceMarker = null;
   }
+
+  function createContextPointMarkerElement() {
+    const element = document.createElement("div");
+    element.className = "context-point-marker";
+    element.setAttribute("aria-hidden", "true");
+    element.innerHTML =
+      '<span class="context-point-marker-dot"></span>';
+    return element;
+  }
+
+  function showContextPointMarker(lngLat) {
+    if (!lngLat) return;
+
+    if (!state.contextPointMarker) {
+      state.contextPointMarker = new maplibregl.Marker({
+        element: createContextPointMarkerElement(),
+        anchor: "center"
+      });
+    }
+
+    state.contextPointMarker
+      .setLngLat(lngLat)
+      .addTo(map);
+  }
+
+  function removeContextPointMarker() {
+    state.contextPointMarker?.remove();
+    state.contextPointMarker = null;
+  }
+
 
   function createUserLocationMarkerElement() {
     const element = document.createElement("div");
@@ -3596,12 +3947,15 @@ function closeRoute() {
     removeRouteMarker(key);
 
     const isA = key === "a";
+    const markerElement = createRouteMarkerElement(
+      isA ? "A" : "B",
+      isA ? "route-a" : "route-b"
+    );
+
     const marker = new maplibregl.Marker({
-      element: createRouteMarkerElement(
-        isA ? "A" : "B",
-        isA ? "route-a" : "route-b"
-      ),
-      anchor: "bottom",
+      element: markerElement,
+      anchor: "center",
+      offset: [0, 0],
       draggable: true
     })
       .setLngLat([point.lon, point.lat])
@@ -4734,6 +5088,7 @@ function closeRoute() {
   }
 
   function openFavoritesPanel() {
+    closeMapContextMenu();
     closePlacePanel();
     closeMenu();
     closeLegend();
@@ -5001,6 +5356,7 @@ function closeRoute() {
 
 
   function toggleMenu() {
+    closeMapContextMenu();
     closePlacePanel();
     closeFavoritesPanel();
     if (!el.menuPanel || !el.menuButton) return;
@@ -5074,9 +5430,11 @@ function closeRoute() {
   }
 
   function clearMapView() {
+    closeMapContextMenu();
     clearRoute();
     clearDiscoverResults();
     closePlacePanel();
+    removeContextPointMarker();
     removeUserLocationMarker();
     hideAllAutocomplete();
 
@@ -5091,6 +5449,7 @@ function closeRoute() {
   }
 
   function toggleAbout() {
+    closeMapContextMenu();
     closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
@@ -5109,6 +5468,7 @@ function closeRoute() {
   }
 
   function toggleLegend() {
+    closeMapContextMenu();
     closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
@@ -5495,6 +5855,17 @@ function closeRoute() {
     event.preventDefault();
     const q = el.searchInput.value.trim();
     if (!q) return;
+
+    if (window.location.protocol === "file:") {
+      show(
+        state.language === "pl"
+          ? "Uruchom OMapę przez URUCHOM_OMAPE.bat lub URUCHOM_OMAPE.command."
+          : "Start OMapa using URUCHOM_OMAPE.bat or URUCHOM_OMAPE.command.",
+        7000
+      );
+      return;
+    }
+
     show(text[state.language].searching, 0);
 
     try {

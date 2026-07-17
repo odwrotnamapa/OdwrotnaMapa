@@ -5,7 +5,11 @@
     "location:build": "node tools/build-location-db.cjs",
     "location:import:sample": "node tools/update-location-db.cjs --input samples/pl-overpass-sample.json",
     "location:import:file": "node tools/update-location-db.cjs",
-    "location:download": "node tools/update-location-db.cjs --download"
+    "location:download": "node tools/update-location-db.cjs --download",
+    "search:test": "node tools/test-search.cjs",
+    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs",
+    "start": "node tools/start-local-server.cjs",
+    "dev": "node tools/start-local-server.cjs"
   },
   "engines": {
     "node": ">=18"

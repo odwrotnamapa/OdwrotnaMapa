@@ -5,8 +5,14 @@
   const H = window.OMAP_SEARCH_V2_RANKING_HELPERS;
   const Location = window.OMAP_SEARCH_V2_LOCATION;
 
-  window.OMAP_SEARCH_V2_RANK_LOCATION = function (parsed, result) {
-    if (!parsed.locationText || parsed.locationMode === "user") {
+  window.OMAP_SEARCH_V2_RANK_LOCATION = function (
+    parsed,
+    result
+  ) {
+    if (
+      !parsed.locationText ||
+      parsed.locationMode === "user"
+    ) {
       return { points: 0, reasons: [] };
     }
 
@@ -21,20 +27,20 @@
 
       if (parsed.locationResolution.city) {
         if (matches.city) {
-          points += 115;
+          points += 145;
           reasons.push("zgodne miasto");
         } else {
-          points -= 60;
+          points -= 110;
           reasons.push("inne miasto");
         }
       }
 
       if (parsed.locationResolution.district) {
         if (matches.district) {
-          points += 110;
+          points += 155;
           reasons.push("zgodna dzielnica");
         } else {
-          points -= 45;
+          points -= 90;
           reasons.push("inna dzielnica");
         }
       }
@@ -52,23 +58,32 @@
     const full = H.text(result);
 
     if (city === location) {
-      points += 125;
+      points += 145;
       reasons.push("dokładnie zgodna lokalizacja");
     } else if (city.includes(location)) {
-      points += 105;
+      points += 120;
       reasons.push("zgodna lokalizacja");
     } else if (full.includes(location)) {
-      points += 80;
+      points += 95;
       reasons.push("lokalizacja w adresie");
     } else {
-      const tokens = location.split(" ").filter(token => token.length >= 2);
-      const matched = tokens.filter(token => full.includes(token));
-      points += matched.length * 18;
+      const tokens = location
+        .split(" ")
+        .filter(token => token.length >= 2);
 
-      if (matched.length) {
+      const matched = tokens.filter(
+        token => full.includes(token)
+      );
+
+      points += matched.length * 24;
+
+      if (matched.length === tokens.length && tokens.length) {
+        points += 35;
+        reasons.push("wszystkie elementy lokalizacji zgodne");
+      } else if (matched.length) {
         reasons.push("częściowo zgodna lokalizacja");
       } else {
-        points -= 55;
+        points -= 75;
         reasons.push("inna lokalizacja");
       }
     }

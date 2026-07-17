@@ -3449,3 +3449,793 @@ a.place-card-row {
     opacity: 0.25;
   }
 }
+
+
+/* =========================================================
+   Spójny nagłówek: logo bezpośrednio przy wyszukiwarce
+   ========================================================= */
+.toolbar {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+}
+
+.toolbar-primary {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  max-width: min(760px, calc(100vw - 86px));
+  flex: 1 1 auto;
+  gap: 0;
+}
+
+.toolbar-primary .brand {
+  border-radius: 14px 0 0 14px !important;
+  box-shadow: var(--shadow);
+  z-index: 1;
+}
+
+.toolbar-primary .search {
+  flex: 1 1 auto;
+  min-width: 240px;
+  border-left: 0;
+  border-radius: 0 14px 14px 0 !important;
+  box-shadow: var(--shadow);
+}
+
+.toolbar-actions {
+  margin-left: auto !important;
+}
+
+/* =========================================================
+   Menu kontekstowe mapy
+   ========================================================= */
+.map-context-menu {
+  position: fixed;
+  z-index: 80;
+  width: min(260px, calc(100vw - 16px));
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: 0 14px 38px rgb(0 0 0 / 0.24);
+  backdrop-filter: blur(14px);
+}
+
+.map-context-menu[hidden] {
+  display: none;
+}
+
+.map-context-menu button {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.map-context-menu button:hover,
+.map-context-menu button:focus-visible {
+  outline: none;
+  background:
+    color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+
+.map-context-menu button > span:first-child {
+  display: grid;
+  place-items: center;
+}
+
+.map-context-menu button > span:last-child {
+  font-size: 0.82rem;
+  font-weight: 720;
+}
+
+.map-context-separator {
+  height: 1px;
+  margin: 5px 7px;
+  background: var(--border);
+}
+
+
+
+/* =========================================================
+   Mobilny układ przy dolnej krawędzi
+   ========================================================= */
+@media (max-width: 600px) {
+  .toolbar {
+    position: fixed !important;
+    z-index: 40 !important;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 68px !important;
+    left: 8px !important;
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .toolbar-primary {
+    display: grid !important;
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    gap: 0 !important;
+  }
+
+  .toolbar-primary .brand {
+    grid-column: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 46px !important;
+    min-width: 46px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 4px 6px !important;
+    border-radius: 14px 0 0 14px !important;
+    overflow: hidden !important;
+  }
+
+  .toolbar-primary .brand strong {
+    display: none !important;
+  }
+
+  .toolbar-primary .brand-logo {
+    display: block !important;
+    width: 29px !important;
+    height: 38px !important;
+    max-width: 29px !important;
+    object-fit: contain !important;
+  }
+
+  .toolbar-primary .search {
+    grid-column: 2 !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0 14px 14px 0 !important;
+    overflow: hidden !important;
+  }
+
+  .toolbar-primary .search input {
+    display: block !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .toolbar-primary .search button {
+    flex: 0 0 auto !important;
+  }
+
+  .toolbar-actions,
+  .toolbar .search #route-button,
+  .toolbar .search #discover-button,
+  .mobile-search-logo {
+    display: none !important;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed !important;
+    z-index: 40 !important;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    left: 8px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    width: auto !important;
+    min-height: 54px !important;
+    margin: 0 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+  }
+
+  .mobile-bottom-action {
+    display: flex !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
+  }
+
+  body {
+    padding-bottom: 130px !important;
+  }
+
+  .route-panel,
+  .discover-panel,
+  .menu-panel,
+  .favorites-panel,
+  .place-panel,
+  .legend-panel {
+    bottom: 130px !important;
+    max-height: calc(100vh - 146px) !important;
+  }
+
+  .maplibregl-ctrl-bottom-left,
+  .maplibregl-ctrl-bottom-right {
+    bottom: 130px !important;
+  }
+}
+
+
+/* =========================================================
+   Uniwersalny kanciasty język kształtów
+   ========================================================= */
+:root {
+  --ui-radius: 4px;
+}
+
+.toolbar,
+.toolbar-primary .brand,
+.toolbar-primary .search,
+.toolbar-actions,
+.mobile-bottom-nav,
+.mobile-bottom-action,
+.legend-panel,
+.route-panel,
+.discover-panel,
+.menu-panel,
+.favorites-panel,
+.place-panel,
+.about-panel,
+.map-context-menu,
+.map-context-menu button,
+.menu-action,
+.icon-button,
+.search,
+.search input,
+.search button,
+.status,
+.fatal-error,
+.place-card,
+.favorite-place-item,
+.discover-result-item,
+.route-result-item,
+.autocomplete,
+.search-history,
+button,
+input,
+select,
+textarea {
+  border-radius: var(--ui-radius) !important;
+}
+
+.map-context-separator,
+.route-sheet-handle span,
+.place-sheet-handle span,
+.discover-sheet-handle span,
+.menu-sheet-handle span,
+.favorites-sheet-handle span {
+  border-radius: 0 !important;
+}
+
+/* Wyjątki: markery lokalizacji pozostają okrągłe. */
+.user-location-marker,
+.user-location-marker *,
+.selected-place-marker-pin::after,
+.context-point-marker,
+.context-point-marker-dot {
+  border-radius: 50% !important;
+}
+
+
+.context-point-marker {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.context-point-marker-dot {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  background: #e11d48;
+  box-shadow:
+    0 0 0 1px rgb(225 29 72 / 0.45),
+    0 2px 8px rgb(0 0 0 / 0.28);
+}
+
+
+/* =========================================================
+   Mobilne podpowiedzi i historia nad dolnym paskiem
+   ========================================================= */
+@media (max-width: 600px) {
+  .search-autocomplete,
+  .autocomplete,
+  .autocomplete-list,
+  .search-suggestions,
+  .search-history,
+  .search-history-list {
+    position: fixed !important;
+    z-index: 55 !important;
+    right: 8px !important;
+    bottom: 126px !important;
+    left: 8px !important;
+    top: auto !important;
+    width: auto !important;
+    max-height: min(46vh, 360px) !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+    border-radius: var(--ui-radius) !important;
+  }
+
+  .search {
+    position: relative !important;
+  }
+
+  .search > [role="listbox"],
+  .search > ul:not(.search-inline-actions),
+  .search > .history-list {
+    position: fixed !important;
+    z-index: 55 !important;
+    right: 8px !important;
+    bottom: 126px !important;
+    left: 8px !important;
+    top: auto !important;
+    width: auto !important;
+    max-height: min(46vh, 360px) !important;
+    overflow-y: auto !important;
+  }
+}
+
+
+/* =========================================================
+   Ostre prostokąty w całym interfejsie
+   ========================================================= */
+:root {
+  --ui-radius: 0px;
+}
+
+.toolbar,
+.toolbar-primary,
+.toolbar-primary .brand,
+.toolbar-primary .search,
+.toolbar-actions,
+.mobile-bottom-nav,
+.mobile-bottom-action,
+.legend-panel,
+.route-panel,
+.discover-panel,
+.menu-panel,
+.favorites-panel,
+.place-panel,
+.about-panel,
+.map-context-menu,
+.map-context-menu button,
+.menu-action,
+.icon-button,
+.search,
+.search input,
+.search button,
+.status,
+.fatal-error,
+.place-card,
+.favorite-place-item,
+.discover-result-item,
+.route-result-item,
+.autocomplete,
+.autocomplete-floating,
+.autocomplete-list,
+.search-history,
+button,
+input,
+select,
+textarea {
+  border-radius: 0 !important;
+}
+
+/* Pinezka informacji o miejscu: dokładnie taki sam punkt jak prawy klik. */
+.selected-place-marker {
+  width: 22px !important;
+  height: 22px !important;
+  display: grid !important;
+  place-items: center !important;
+  pointer-events: none !important;
+  filter: none !important;
+}
+
+.selected-place-marker-dot {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  border-radius: 50% !important;
+  background: #e11d48;
+  box-shadow:
+    0 0 0 1px rgb(225 29 72 / 0.45),
+    0 2px 8px rgb(0 0 0 / 0.28);
+}
+
+/* Stara pinezka typu łezka nie jest już używana. */
+.selected-place-marker-pin {
+  display: none !important;
+}
+
+/* Punkty trasy mają wskazywać dokładny środek współrzędnej. */
+.route-marker,
+.route-waypoint-marker,
+.route-point-marker,
+.maplibregl-marker:has(.route-marker),
+.maplibregl-marker:has(.route-waypoint-marker),
+.maplibregl-marker:has(.route-point-marker) {
+}
+
+.route-marker,
+.route-waypoint-marker,
+.route-point-marker {
+  margin: 0 !important;
+}
+
+
+/* =========================================================
+   Dokładne markery punktów trasy
+   Współrzędna znajduje się w geometrycznym środku znacznika.
+   ========================================================= */
+.route-letter-marker {
+  display: grid !important;
+  place-items: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  border: 3px solid #fff !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.2),
+    0 2px 8px rgb(0 0 0 / 0.3) !important;
+
+}
+
+.route-letter-marker > span {
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  
+  line-height: 1 !important;
+}
+
+.maplibregl-marker:has(.route-letter-marker) {
+  margin: 0 !important;
+}
+
+
+/* =========================================================
+   Komunikaty mobilne nad dolnym paskiem wyszukiwania
+   ========================================================= */
+@media (max-width: 600px) {
+  .status {
+    position: fixed !important;
+    z-index: 70 !important;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 126px !important;
+    left: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    
+  }
+}
+
+
+
+
+/* =========================================================
+   UI Cleanup — kolory głównych akcji
+   ========================================================= */
+
+/* Wspólne białe powierzchnie */
+.toolbar-primary .search,
+.toolbar-primary .search input,
+.mobile-bottom-nav,
+#mobile-discover-button,
+#mobile-menu-button,
+#discover-button {
+  background: var(--panel) !important;
+  background-color: var(--panel) !important;
+  color: var(--text) !important;
+}
+
+/* Główna akcja: Szukaj */
+#search-button {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* Trasa jest trybem: białe/panelowe tło i czerwony tekst */
+#route-button,
+#mobile-route-button {
+  background: var(--panel) !important;
+  background-color: var(--panel) !important;
+  color: var(--accent) !important;
+}
+
+/* Aktywny panel Trasa */
+#route-button.is-active,
+#route-button[aria-expanded="true"],
+#mobile-route-button.is-active,
+#mobile-route-button[aria-expanded="true"] {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* Przyciemnienie czerwonej akcji Szukaj */
+#search-button:hover,
+#search-button:focus-visible {
+  background:
+    color-mix(in srgb, var(--accent) 84%, #000) !important;
+  color: #fff !important;
+}
+
+#route-button:hover,
+#mobile-route-button:hover,
+#route-button:focus-visible,
+#mobile-route-button:focus-visible {
+  background:
+    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
+  color: var(--accent) !important;
+}
+
+#route-button.is-active:hover,
+#route-button[aria-expanded="true"]:hover,
+#mobile-route-button.is-active:hover,
+#mobile-route-button[aria-expanded="true"]:hover {
+  background:
+    color-mix(in srgb, var(--accent) 84%, #000) !important;
+  color: #fff !important;
+}
+
+/* Przyciemnienie białych akcji */
+#mobile-discover-button:hover,
+#mobile-menu-button:hover,
+#discover-button:hover,
+#mobile-discover-button:focus-visible,
+#mobile-menu-button:focus-visible,
+#discover-button:focus-visible {
+  background:
+    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
+  background-color:
+    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
+  color: var(--text) !important;
+}
+
+/* Stan wciśnięcia */
+#search-button:active {
+  background:
+    color-mix(in srgb, var(--accent) 70%, #000) !important;
+}
+
+#route-button:active,
+#mobile-route-button:active {
+  background:
+    color-mix(in srgb, var(--panel) 78%, var(--text)) !important;
+  color: var(--accent) !important;
+}
+
+#mobile-discover-button:active,
+#mobile-menu-button:active,
+#discover-button:active {
+  background:
+    color-mix(in srgb, var(--panel) 76%, var(--text)) !important;
+}
+
+/* Nie używamy globalnego filtra, bo zmieniał też ikony i tekst. */
+#search-button,
+#route-button,
+#mobile-route-button,
+#mobile-discover-button,
+#mobile-menu-button,
+#discover-button {
+  filter: none !important;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease !important;
+}
+
+/* =========================================================
+   UI Cleanup — widoczne i dokładne markery A/B
+   ========================================================= */
+.route-letter-marker,
+.route-letter-marker.maplibregl-marker {
+  display: grid !important;
+  place-items: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  min-height: 26px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 3px solid #fff !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  font-size: 0.78rem !important;
+  font-weight: 850 !important;
+  line-height: 1 !important;
+  pointer-events: auto !important;
+  z-index: 8 !important;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.25),
+    0 2px 8px rgb(0 0 0 / 0.34) !important;
+}
+
+.route-letter-marker.route-a,
+.route-letter-marker.route-a.maplibregl-marker {
+  background: #16a34a !important;
+  background-color: #16a34a !important;
+}
+
+.route-letter-marker.route-b,
+.route-letter-marker.route-b.maplibregl-marker {
+  background: #dc2626 !important;
+  background-color: #dc2626 !important;
+}
+
+.route-letter-marker > span {
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  color: #fff !important;
+  
+  line-height: 1 !important;
+}
+
+
+/* MapLibre ustawia pozycję markerów przez inline transform.
+   Nie wolno go nadpisywać, bo marker trafia do lewego górnego rogu. */
+.route-letter-marker.maplibregl-marker,
+.maplibregl-marker.route-letter-marker {
+  transform: var(--maplibre-marker-transform, unset);
+}
+
+
+
+/* Motywowo poprawne powierzchnie */
+.toolbar-primary .search,
+.toolbar-primary .search input,
+.mobile-bottom-nav,
+#mobile-discover-button,
+#mobile-menu-button,
+#discover-button,
+#route-button,
+#mobile-route-button {
+  background: var(--panel) !important;
+  background-color: var(--panel) !important;
+  color: var(--text);
+}
+
+.toolbar-primary .search input {
+  color: var(--text) !important;
+}
+
+.toolbar-primary .search input::placeholder {
+  color: var(--muted) !important;
+}
+
+/* Czerwone akcenty po deklaracji powierzchni panelowych */
+#search-button {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+#route-button,
+#mobile-route-button {
+  color: var(--accent) !important;
+}
+
+#route-button.is-active,
+#route-button[aria-expanded="true"],
+#mobile-route-button.is-active,
+#mobile-route-button[aria-expanded="true"] {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+
+
+/* =========================================================
+   Mobilne przyciski: ikona nad nazwą, trzy kolumny w jednym rzędzie
+   ========================================================= */
+@media (max-width: 600px) {
+  .mobile-bottom-nav {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .mobile-bottom-action {
+    display: grid !important;
+    grid-template-rows: auto auto !important;
+    grid-template-columns: 1fr !important;
+    place-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    padding: 6px 8px !important;
+    color: var(--accent) !important;
+    text-align: center !important;
+  }
+
+  .mobile-bottom-action > span:first-child {
+    display: block !important;
+    grid-row: 1 !important;
+    margin: 0 !important;
+    font-size: 1.2rem !important;
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+
+  .mobile-bottom-action > span:last-child {
+    display: block !important;
+    grid-row: 2 !important;
+    margin: 0 !important;
+    color: var(--accent) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+  }
+
+  #mobile-route-button,
+  #mobile-discover-button,
+  #mobile-menu-button {
+    color: var(--accent) !important;
+  }
+
+  #mobile-route-button > span:last-child,
+  #mobile-discover-button > span:last-child,
+  #mobile-menu-button > span:last-child {
+    color: var(--accent) !important;
+  }
+
+  /* Aktywny przycisk zachowuje czerwone tło i biały tekst. */
+  #mobile-route-button.is-active,
+  #mobile-route-button[aria-expanded="true"],
+  #mobile-discover-button.is-active,
+  #mobile-discover-button[aria-expanded="true"],
+  #mobile-menu-button.is-active,
+  #mobile-menu-button[aria-expanded="true"] {
+    background: var(--accent) !important;
+    background-color: var(--accent) !important;
+    color: #fff !important;
+  }
+
+  #mobile-route-button.is-active > span:last-child,
+  #mobile-route-button[aria-expanded="true"] > span:last-child,
+  #mobile-discover-button.is-active > span:last-child,
+  #mobile-discover-button[aria-expanded="true"] > span:last-child,
+  #mobile-menu-button.is-active > span:last-child,
+  #mobile-menu-button[aria-expanded="true"] > span:last-child {
+    color: #fff !important;
+  }
+}

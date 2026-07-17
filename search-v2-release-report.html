@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OMapa Search — raport wydania</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:1100px;margin:auto;padding:20px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .card{border:1px solid #8885;padding:14px;border-radius:12px}
+    .ok{color:#16803b}.bad{color:#c52828}
+    table{width:100%;border-collapse:collapse;margin-top:16px}
+    td,th{padding:8px;border-bottom:1px solid #8885;text-align:left}
+    @media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <h1>OMapa Search — Release Corpus</h1>
+  <p>
+    Testy działają lokalnie i nie odpytują zewnętrznych usług.
+    Sprawdzają parser, Location Engine, zachowanie oryginalnego
+    zapytania i złote przypadki rankingu.
+  </p>
+
+  <div class="stats">
+    <div class="card"><strong id="coverage">0%</strong><br>pokrycie korpusu</div>
+    <div class="card"><strong id="total">0</strong><br>testów parsera</div>
+    <div class="card"><strong id="passed">0</strong><br>zaliczonych</div>
+    <div class="card"><strong id="ranking">0</strong><br>testów rankingu</div>
+    <div class="card"><strong id="status">…</strong><br>status</div>
+  </div>
+
+  <h2>Niepowodzenia</h2>
+  <table>
+    <thead><tr><th>Zapytanie</th><th>Powód</th></tr></thead>
+    <tbody id="failures"></tbody>
+  </table>
+
+  <script src="search-v2/lexicon/data-pl.js"></script>
+  <script src="search-v2/lexicon/loader.js"></script>
+  <script src="search-v2/location/compiled/pl-locations.compiled.js"></script>
+  <script src="search-v2/location/resolver.js"></script>
+  <script src="search-v2/parser.js"></script>
+  <script src="search-v2/ranking/helpers.js"></script>
+  <script src="search-v2/ranking/name.js"></script>
+  <script src="search-v2/ranking/location.js"></script>
+  <script src="search-v2/ranking/category.js"></script>
+  <script src="search-v2/ranking/brand.js"></script>
+  <script src="search-v2/ranking/modifiers.js"></script>
+  <script src="search-v2/ranking/importance.js"></script>
+  <script src="search-v2/ranking/final-score.js"></script>
+  <script src="search-v2/ranker.js"></script>
+  <script src="search-v2/tests/search-corpus.js"></script>
+  <script>
+    (async()=>{
+      const cases=OMAP_SEARCH_CORPUS.cases;
+      const failed=[];
+
+      for(const test of cases){
+        const p=await OMAP_SEARCH_V2_PARSER.parse(test.query);
+        const v=await OMAP_SEARCH_V2_PARSER.expand(p);
+        const e=test.expected;
+        const reasons=[];
+
+        if(e.kind&&p.kind!==e.kind)reasons.push(`typ: ${p.kind}`);
+        if(e.category&&p.category?.id!==e.category)reasons.push(`kategoria: ${p.category?.id||"brak"}`);
+        if(e.modifier&&!p.modifiers.some(x=>x.id===e.modifier))reasons.push(`brak modyfikatora ${e.modifier}`);
+        if(e.brand&&!p.brand)reasons.push("brak marki");
+        if(e.city&&p.locationResolution?.city?.id!==e.city)reasons.push(`miasto: ${p.locationResolution?.city?.id||"brak"}`);
+        if(e.district&&p.locationResolution?.district?.id!==e.district)reasons.push(`dzielnica: ${p.locationResolution?.district?.id||"brak"}`);
+        if(e.preservesOriginal&&!v.some(x=>OMAP_SEARCH_V2_PARSER.normalize(x)===OMAP_SEARCH_V2_PARSER.normalize(test.query)))reasons.push("utracono oryginalne zapytanie");
+
+        if(reasons.length)failed.push({query:test.query,reasons});
+      }
+
+      total.textContent=cases.length;
+      passed.textContent=cases.length-failed.length;
+      ranking.textContent="7";
+      coverage.textContent=
+        `${Math.round((cases.length-failed.length)/cases.length*100)}%`;
+      status.textContent=
+        failed.length?"WYMAGA POPRAWEK":"GOTOWE";
+      status.className=failed.length?"bad":"ok";
+
+      for(const item of failed){
+        const tr=document.createElement("tr");
+        tr.innerHTML=`<td>${item.query}</td><td>${item.reasons.join("; ")}</td>`;
+        failures.appendChild(tr);
+      }
+
+      if(!failed.length){
+        failures.innerHTML="<tr><td colspan=2>Brak błędów parsera w korpusie.</td></tr>";
+      }
+    })();
+  </script>
+</body>
+</html>

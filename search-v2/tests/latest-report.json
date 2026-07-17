@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-07-17T08:55:15.045Z",
+  "parser": {
+    "total": 145,
+    "passed": 145,
+    "failures": [],
+    "averageMs": 1.197340827586205,
+    "maximumMs": 16.324420999999994
+  },
+  "ranking": {
+    "total": 7,
+    "passed": 7,
+    "failures": []
+  },
+  "coverage": 1,
+  "thresholds": {
+    "parserCoverageRequired": 1,
+    "rankingCoverageRequired": 1,
+    "parserAverageMsMaximum": 10
+  },
+  "passed": true
+}

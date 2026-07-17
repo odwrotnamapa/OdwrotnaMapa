@@ -22,15 +22,13 @@
     </section>
 
     <header class="toolbar" aria-label="Sterowanie mapą">
-      <a class="brand" href="#" aria-label="Odwrotna Mapa">
+      <div class="toolbar-primary">
+      <a id="brand-button" class="brand" href="#" aria-label="Pokaż moją lokalizację">
         <img class="brand-logo" src="assets/logo.svg?v=3" alt="">
         <strong>Odwrotna Mapa</strong>
       </a>
 
       <form id="search-form" class="search" role="search">
-        <a class="mobile-search-logo" href="#" aria-label="Odwrotna Mapa">
-          <img src="assets/logo.svg?v=4" alt="">
-        </a>
         <input id="search-input" type="search" autocomplete="off"
                placeholder="Szukaj miejsca…" aria-label="Szukaj miejsca">
         <button id="search-clear" class="search-clear" type="button"
@@ -52,6 +50,7 @@
           <span aria-hidden="true">📍</span>
         </button>
       </form>
+      </div>
 
       <div class="toolbar-actions">
         <button id="menu-button" class="icon-button" type="button"
@@ -460,6 +459,12 @@
           </select>
         </label>
 
+
+        <button id="menu-legend-button" class="menu-action" type="button">
+          <span aria-hidden="true">🗺️</span>
+          <span id="menu-legend-label">Legenda</span>
+        </button>
+
         <button id="clear-map-button" class="menu-action" type="button">
           <span aria-hidden="true">🧹</span>
           <span id="clear-map-label">Wyczyść mapę</span>
@@ -491,6 +496,35 @@
     </nav>
 
 
+
+    <div id="map-context-menu"
+         class="map-context-menu"
+         role="menu"
+         aria-label="Opcje punktu na mapie"
+         hidden>
+      <button type="button" role="menuitem" data-map-context-action="route-a">
+        <span aria-hidden="true">🅰️</span>
+        <span data-map-context-label="route-a">Ustaw jako punkt A</span>
+      </button>
+      <button type="button" role="menuitem" data-map-context-action="route-b">
+        <span aria-hidden="true">🅱️</span>
+        <span data-map-context-label="route-b">Ustaw jako punkt B</span>
+      </button>
+      <div class="map-context-separator" role="separator"></div>
+      <button type="button" role="menuitem" data-map-context-action="copy">
+        <span aria-hidden="true">📋</span>
+        <span data-map-context-label="copy">Skopiuj współrzędne</span>
+      </button>
+      <button type="button" role="menuitem" data-map-context-action="info">
+        <span aria-hidden="true">ℹ️</span>
+        <span data-map-context-label="info">Pokaż informacje</span>
+      </button>
+      <button type="button" role="menuitem" data-map-context-action="favorite">
+        <span aria-hidden="true">⭐</span>
+        <span data-map-context-label="favorite">Dodaj do ulubionych</span>
+      </button>
+    </div>
+
     <div id="status" class="status" role="status" aria-live="polite" hidden></div>
   </main>
 
@@ -515,6 +549,10 @@
   <script src="search-v2/ranking/importance.js"></script>
   <script src="search-v2/ranking/final-score.js"></script>
   <script src="search-v2/ranker.js"></script>
+  <script src="search-v2/providers/local.js"></script>
+  <script src="search-v2/providers/nominatim.js"></script>
+  <script src="search-v2/providers/photon.js"></script>
+  <script src="search-v2/providers/manager.js"></script>
   <script src="search-v2/engine.js"></script>
   <script src="app.js"></script>
 </body>
