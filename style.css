@@ -3370,3 +3370,82 @@ a.place-card-row {
     pointer-events: none;
   }
 }
+
+
+/* Pinezka wybranego miejsca */
+.selected-place-marker {
+  position: relative;
+  width: 34px;
+  height: 44px;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.28));
+}
+
+.selected-place-marker-pin {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  transform: translateX(-50%) rotate(45deg);
+  border: 3px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  background: #e11d48;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.22);
+}
+
+.selected-place-marker-pin::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* Symbol bieżącej lokalizacji */
+.user-location-marker {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+}
+
+.user-location-marker-pulse {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: rgb(37 99 235 / 0.22);
+  animation: user-location-pulse 2.2s ease-out infinite;
+}
+
+.user-location-marker-dot {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #2563eb;
+  box-shadow:
+    0 0 0 1px rgb(37 99 235 / 0.45),
+    0 2px 7px rgb(0 0 0 / 0.3);
+}
+
+@keyframes user-location-pulse {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.85;
+  }
+  70%,
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .user-location-marker-pulse {
+    animation: none;
+    opacity: 0.25;
+  }
+}

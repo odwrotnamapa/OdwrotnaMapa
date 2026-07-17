@@ -330,6 +330,8 @@
     selectedManeuverIndex: null,
     placePopup: null,
     placePanelLngLat: null,
+    selectedPlaceMarker: null,
+    userLocationMarker: null,
     placeRequestController: null,
     exploreMarkers: [],
     exploreRequestController: null,
@@ -547,7 +549,10 @@
   el.mobileMenuButton?.addEventListener("click", toggleMenu);
   el.discoverButton?.addEventListener("click", toggleDiscover);
   el.discoverClose?.addEventListener("click", closeDiscover);
-  el.discoverClear?.addEventListener("click", clearDiscoverResults);
+  el.discoverClear?.addEventListener("click", () => {
+    clearDiscoverResults();
+    closeDiscover();
+  });
 
   for (const button of el.discoverCategories.querySelectorAll(
     "[data-discover-category]"
@@ -559,7 +564,10 @@
 
   el.routeClose?.addEventListener("click", closeRoute);
   el.routeSwap?.addEventListener("click", swapRoutePoints);
-  el.routeClear?.addEventListener("click", clearRoute);
+  el.routeClear?.addEventListener("click", () => {
+    clearRoute();
+    closeRoute();
+  });
   el.routeForm?.addEventListener("submit", planRoute);
   el.routeShare?.addEventListener("click", shareRoute);
   for (const modeInput of document.querySelectorAll('input[name="route-mode"]')) {
@@ -2439,6 +2447,70 @@ function closeRoute() {
     await showPlaceInformation(event);
   }
 
+
+  function createSelectedPlaceMarkerElement() {
+    const element = document.createElement("div");
+    element.className = "selected-place-marker";
+    element.setAttribute("aria-hidden", "true");
+    element.innerHTML = '<span class="selected-place-marker-pin"></span>';
+    return element;
+  }
+
+  function showSelectedPlaceMarker(lngLat) {
+    if (!lngLat) return;
+
+    if (!state.selectedPlaceMarker) {
+      state.selectedPlaceMarker = new maplibregl.Marker({
+        element: createSelectedPlaceMarkerElement(),
+        anchor: "bottom"
+      });
+    }
+
+    state.selectedPlaceMarker
+      .setLngLat(lngLat)
+      .addTo(map);
+  }
+
+  function removeSelectedPlaceMarker() {
+    state.selectedPlaceMarker?.remove();
+    state.selectedPlaceMarker = null;
+  }
+
+  function createUserLocationMarkerElement() {
+    const element = document.createElement("div");
+    element.className = "user-location-marker";
+    element.setAttribute(
+      "aria-label",
+      state.language === "pl"
+        ? "Twoja lokalizacja"
+        : "Your location"
+    );
+    element.innerHTML =
+      '<span class="user-location-marker-pulse"></span>' +
+      '<span class="user-location-marker-dot"></span>';
+    return element;
+  }
+
+  function showUserLocationMarker(lngLat) {
+    if (!lngLat) return;
+
+    if (!state.userLocationMarker) {
+      state.userLocationMarker = new maplibregl.Marker({
+        element: createUserLocationMarkerElement(),
+        anchor: "center"
+      });
+    }
+
+    state.userLocationMarker
+      .setLngLat(lngLat)
+      .addTo(map);
+  }
+
+  function removeUserLocationMarker() {
+    state.userLocationMarker?.remove();
+    state.userLocationMarker = null;
+  }
+
   function openPlacePanel() {
     closeMenu();
     closeLegend();
@@ -2468,6 +2540,7 @@ function closeRoute() {
     state.placeRequestController = null;
     state.placePanelLngLat = null;
     state.placePopup = null;
+    removeSelectedPlaceMarker();
 
     if (el.placePanel) {
       el.placePanel.hidden = true;
@@ -2489,6 +2562,7 @@ function closeRoute() {
     state.placeRequestController = new AbortController();
     state.placePanelLngLat = event.lngLat;
 
+    showSelectedPlaceMarker(event.lngLat);
     openPlacePanel();
 
     const t = text[state.language];
@@ -4969,6 +5043,8 @@ function closeRoute() {
         const lon = position.coords.longitude;
         const lat = position.coords.latitude;
 
+        showUserLocationMarker({ lng: lon, lat });
+
         map.flyTo({
           center: [lon, lat],
           zoom: Math.max(map.getZoom(), 15),
@@ -4996,8 +5072,17 @@ function closeRoute() {
   function clearMapView() {
     clearRoute();
     clearDiscoverResults();
-    closePlacePopup();
+    closePlacePanel();
+    removeUserLocationMarker();
     hideAllAutocomplete();
+
+    closeRoute();
+    closeDiscover();
+    closeMenu();
+    closeLegend();
+    closeAbout();
+    closeFavoritesPanel();
+
     show(text[state.language].mapCleared);
   }
 
