@@ -1290,6 +1290,7 @@
           setPlacePanelReturnTarget("search", {
             query: el.searchInput?.value || label
           });
+          prepareMobilePlacePanelAfterSearch();
           showSelectedPlaceInformation(result);
 
           map.flyTo({
@@ -1517,6 +1518,7 @@
           setPlacePanelReturnTarget("search", {
             query: el.searchInput?.value || entry.label
           });
+          prepareMobilePlacePanelAfterSearch();
 
           if (isExactPlace) {
             showSelectedPlaceInformation({
@@ -2566,6 +2568,24 @@
     );
     window.addEventListener("resize", setDefaultHeight);
 
+    if (
+      panel === el.placePanel &&
+      window.visualViewport
+    ) {
+      window.visualViewport.addEventListener(
+        "resize",
+        () => {
+          if (
+            !panel.hidden &&
+            !panel.classList.contains("is-dragging") &&
+            !panel.classList.contains("is-collapsed")
+          ) {
+            stabilizeMobilePlacePanelHeight();
+          }
+        }
+      );
+    }
+
     setDefaultHeight();
   }
 
@@ -3360,6 +3380,8 @@ function closeRoute() {
     el.placePanel.scrollTop = 0;
   }
 
+  let placePanelViewportTimer = null;
+
   function stabilizeMobilePlacePanelHeight() {
     normalizeMobilePlacePanelHeight();
 
@@ -3370,6 +3392,47 @@ function closeRoute() {
         normalizeMobilePlacePanelHeight();
       });
     });
+
+    // Mobilna klawiatura zmienia wysokość visualViewport dopiero
+    // po zakończeniu animacji zamykania. Utrwalamy wysokość panelu
+    // również po tych późniejszych zmianach.
+    window.clearTimeout(placePanelViewportTimer);
+
+    const delays = [80, 180, 320, 520];
+
+    delays.forEach(delay => {
+      window.setTimeout(() => {
+        normalizeMobilePlacePanelHeight();
+      }, delay);
+    });
+
+    placePanelViewportTimer = window.setTimeout(() => {
+      normalizeMobilePlacePanelHeight();
+      placePanelViewportTimer = null;
+    }, 700);
+  }
+
+  function prepareMobilePlacePanelAfterSearch() {
+    if (
+      !window.matchMedia("(max-width: 600px)").matches
+    ) {
+      return;
+    }
+
+    const active = document.activeElement;
+
+    if (
+      active instanceof HTMLElement &&
+      (
+        active === el.searchInput ||
+        active.closest?.(".autocomplete")
+      )
+    ) {
+      active.blur();
+    }
+
+    hideAllAutocomplete();
+    stabilizeMobilePlacePanelHeight();
   }
 
 
@@ -7294,6 +7357,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       setPlacePanelReturnTarget("search", {
         query: q
       });
+      prepareMobilePlacePanelAfterSearch();
       showSelectedPlaceInformation(result);
 
       map.flyTo({
