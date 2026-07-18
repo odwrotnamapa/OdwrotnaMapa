@@ -27,21 +27,24 @@ const checks = [
     )
   ],
   [
-    "height is fixed to 42 dynamic viewport units",
+    "default height is 42 dynamic viewport units",
     finalSection.includes(
-      "height: 42dvh !important"
+      "--place-sheet-height: 42dvh"
+    ) &&
+    finalSection.includes(
+      "height: var(--place-sheet-height) !important"
     )
   ],
   [
-    "360 pixel cap is overridden",
+    "360 pixel cap is overridden without blocking drag",
     finalSection.includes(
-      "max-height: 42dvh !important"
+      "max-height: calc(100dvh - 16px) !important"
     )
   ],
   [
-    "minimum height cannot shrink",
+    "minimum height allows collapsed state",
     finalSection.includes(
-      "min-height: 42dvh !important"
+      "min-height: 48px !important"
     )
   ],
   [
