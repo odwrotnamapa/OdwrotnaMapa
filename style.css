@@ -4308,3 +4308,123 @@ textarea {
   line-height: 1 !important;
   box-sizing: border-box !important;
 }
+
+
+/* =========================================================
+   Telefon: otwarty panel zastępuje wyszukiwarkę i przyciski
+   ========================================================= */
+@media (max-width: 600px) {
+  body:has(.route-panel:not([hidden])) .toolbar,
+  body:has(.discover-panel:not([hidden])) .toolbar,
+  body:has(.menu-panel:not([hidden])) .toolbar,
+  body:has(.favorites-panel:not([hidden])) .toolbar,
+  body:has(.place-panel:not([hidden])) .toolbar,
+  body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
+  body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
+  body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
+  body:has(.favorites-panel:not([hidden])) .mobile-bottom-nav,
+  body:has(.place-panel:not([hidden])) .mobile-bottom-nav {
+    display: none !important;
+  }
+
+  body:has(.route-panel:not([hidden])) .route-panel,
+  body:has(.discover-panel:not([hidden])) .discover-panel,
+  body:has(.menu-panel:not([hidden])) .menu-panel,
+  body:has(.favorites-panel:not([hidden])) .favorites-panel,
+  body:has(.place-panel:not([hidden])) .place-panel {
+    bottom: 8px !important;
+    max-height: calc(100vh - 16px) !important;
+  }
+
+  body:has(.route-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
+  body:has(.discover-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
+  body:has(.menu-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
+  body:has(.favorites-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
+  body:has(.place-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
+    display: none !important;
+  }
+}
+
+
+/* =========================================================
+   Zagnieżdżone podstrony Menu
+   ========================================================= */
+.legend-header.has-menu-back {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-header.has-menu-back h2 {
+  min-width: 0;
+  text-align: center;
+}
+
+.menu-back-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.menu-back-button:hover,
+.menu-back-button:focus-visible {
+  background: color-mix(
+    in srgb,
+    var(--accent) 10%,
+    transparent
+  );
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .menu-subpanel {
+    position: absolute;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    left: 8px !important;
+    width: auto !important;
+    height: min(42vh, calc(100vh - 16px));
+    max-height: min(42vh, calc(100vh - 16px)) !important;
+    padding: 0 14px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 0;
+  }
+
+  .menu-subpanel .legend-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 -14px 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    backdrop-filter: blur(12px);
+  }
+
+  body:has(.legend-panel.menu-subpanel:not([hidden])) .toolbar,
+  body:has(.about-panel.menu-subpanel:not([hidden])) .toolbar,
+  body:has(.legend-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav,
+  body:has(.about-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav {
+    display: none !important;
+  }
+
+  body:has(.legend-panel.menu-subpanel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.about-panel.menu-subpanel:not([hidden]))
+  .maplibregl-ctrl-bottom-left {
+    display: none !important;
+  }
+}

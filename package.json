@@ -7,7 +7,7 @@
     "location:import:file": "node tools/update-location-db.cjs",
     "location:download": "node tools/update-location-db.cjs --download",
     "search:test": "node tools/test-search.cjs",
-    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs && node tools/test-teryt.cjs && node tools/test-categories.cjs && node tools/test-selected-place-flow.cjs && node tools/test-exact-name-localization-images.cjs && node tools/test-search-session.cjs && node tools/test-named-poi-index.cjs",
+    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs && node tools/test-teryt.cjs && node tools/test-categories.cjs && node tools/test-selected-place-flow.cjs && node tools/test-exact-name-localization-images.cjs && node tools/test-search-session.cjs && node tools/test-named-poi-index.cjs && node tools/test-named-poi-coordinate-refinement.cjs && node tools/test-named-poi-alias-coordinates.cjs && node tools/test-named-poi-history-identity.cjs && node tools/test-stale-moveend-callbacks.cjs && node tools/test-global-named-poi-guard.cjs && node tools/test-mobile-panel-replacement.cjs && node tools/test-route-b-panel-open.cjs && node tools/test-menu-subpanels.cjs && node tools/test-route-b-persistent-menu-height.cjs",
     "start": "node tools/start-local-server.cjs",
     "dev": "node tools/start-local-server.cjs",
     "teryt:import": "node tools/import-teryt.cjs",
@@ -19,7 +19,16 @@
     "named-poi:import": "node tools/import-named-poi.cjs",
     "named-poi:test": "node tools/test-named-poi-index.cjs",
     "named-poi:fetch-wikidata": "node tools/fetch-wikidata-named-poi.cjs",
-    "named-poi:merge": "node tools/merge-named-poi.cjs"
+    "named-poi:merge": "node tools/merge-named-poi.cjs",
+    "named-poi-coordinates:test": "node tools/test-named-poi-coordinate-refinement.cjs",
+    "named-poi-alias-coordinates:test": "node tools/test-named-poi-alias-coordinates.cjs",
+    "named-poi-history:test": "node tools/test-named-poi-history-identity.cjs",
+    "stale-moveend:test": "node tools/test-stale-moveend-callbacks.cjs",
+    "named-poi-global-guard:test": "node tools/test-global-named-poi-guard.cjs",
+    "mobile-panel-replacement:test": "node tools/test-mobile-panel-replacement.cjs",
+    "route-b-panel:test": "node tools/test-route-b-panel-open.cjs",
+    "menu-subpanels:test": "node tools/test-menu-subpanels.cjs",
+    "route-b-menu-height:test": "node tools/test-route-b-persistent-menu-height.cjs"
   },
   "engines": {
     "node": ">=18"

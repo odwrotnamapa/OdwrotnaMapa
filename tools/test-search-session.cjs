@@ -46,8 +46,9 @@ const checks = [
     searchBlock.includes("session.assertActive()")
   ],
   [
-    "panel reuses frozen selected place",
-    selectedBlock.includes("session.selectedPlace")
+    "panel uses explicitly passed selected place",
+    !selectedBlock.includes("session.selectedPlace") &&
+    selectedBlock.includes("const lngLat = getResultLngLat(result)")
   ],
   [
     "panel does not perform lookup",

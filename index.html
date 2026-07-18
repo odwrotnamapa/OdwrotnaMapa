@@ -83,8 +83,12 @@
 
     </header>
 
-    <aside id="legend-panel" class="legend-panel" aria-labelledby="legend-title" hidden>
-      <div class="legend-header">
+    <aside id="legend-panel" class="legend-panel menu-subpanel" aria-labelledby="legend-title" hidden>
+      <div class="legend-header has-menu-back">
+        <button id="legend-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
         <h2 id="legend-title">Legenda</h2>
         <button id="legend-close" class="legend-close" type="button"
                 aria-label="Zamknij legendę">×</button>
@@ -251,7 +255,11 @@
         <span aria-hidden="true"></span>
       </button>
 
-      <div class="legend-header">
+      <div class="legend-header has-menu-back">
+        <button id="favorites-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
         <h2 id="favorites-title">Ulubione</h2>
         <button id="favorites-close"
                 class="legend-close"
@@ -330,9 +338,13 @@
     </aside>
 
 
-    <aside id="about-panel" class="legend-panel about-panel"
+    <aside id="about-panel" class="legend-panel about-panel menu-subpanel"
            aria-labelledby="about-title" hidden>
-      <div class="legend-header">
+      <div class="legend-header has-menu-back">
+        <button id="about-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
         <h2 id="about-title">O projekcie</h2>
         <button id="about-close" class="legend-close" type="button"
                 aria-label="Zamknij sekcję O projekcie">×</button>

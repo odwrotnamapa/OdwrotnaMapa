@@ -10,6 +10,7 @@
       search: "Szukaj miejsca…", button: "Szukaj",
       styles: { light: "Jasna", dark: "Ciemna", satellite: "Satelitarna" },
       locate: "Moja lokalizacja", legend: "Legenda", closeLegend: "Zamknij legendę",
+      backToMenu: "Wróć do menu",
       legendSections: {
         boundaries: "Granice",
         roads: "Drogi",
@@ -168,6 +169,7 @@
       search: "Search for a place…", button: "Search",
       styles: { light: "Light", dark: "Dark", satellite: "Satellite" },
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
+      backToMenu: "Back to menu",
       legendSections: {
         boundaries: "Boundaries",
         roads: "Roads",
@@ -347,6 +349,8 @@
     placePopup: null,
     placePanelLngLat: null,
     selectedPlace: null,
+    namedPoiGuardId: 0,
+    activeNamedPoiId: null,
     selectedPlaceMarker: null,
     contextPointMarker: null,
     userLocationMarker: null,
@@ -371,6 +375,7 @@
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
     legendClose: $("legend-close"),
+    legendBack: $("legend-back"),
     menuButton: $("menu-button"),
     mobileRouteButton: $("mobile-route-button"),
     mobileDiscoverButton: $("mobile-discover-button"),
@@ -392,6 +397,7 @@
     favoritesPanel: $("favorites-panel"),
     favoritesSheetHandle: $("favorites-sheet-handle"),
     favoritesClose: $("favorites-close"),
+    favoritesBack: $("favorites-back"),
     favoritesTitle: $("favorites-title"),
     favoritesSearch: $("favorites-search"),
     favoritesExport: $("favorites-export"),
@@ -415,6 +421,7 @@
     aboutButton: $("about-button"),
     aboutPanel: $("about-panel"),
     aboutClose: $("about-close"),
+    aboutBack: $("about-back"),
     aboutTitle: $("about-title"),
     aboutIntro: $("about-intro"),
     aboutDataLabel: $("about-data-label"),
@@ -551,7 +558,10 @@
 
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
-  el.menuLegendButton?.addEventListener("click", toggleLegend);
+  el.menuLegendButton?.addEventListener(
+    "click",
+    openLegendFromMenu
+  );
   el.mapContextMenu?.addEventListener(
     "click",
     handleMapContextAction
@@ -565,8 +575,18 @@
       closeMapContextMenu();
     }
   });
-  el.favoritesOpenButton?.addEventListener("click", openFavoritesPanel);
-  el.favoritesClose?.addEventListener("click", closeFavoritesPanel);
+  el.favoritesOpenButton?.addEventListener(
+    "click",
+    openFavoritesPanel
+  );
+  el.favoritesClose?.addEventListener(
+    "click",
+    closeFavoritesPanel
+  );
+  el.favoritesBack?.addEventListener(
+    "click",
+    returnFromFavoritesToMenu
+  );
   el.favoritesSearch?.addEventListener("input", renderFavoritesList);
   el.favoritesExport?.addEventListener("click", exportFavoritesJson);
   el.favoritesImportButton?.addEventListener("click", () => {
@@ -585,13 +605,21 @@
     el.languageSelect.dispatchEvent(new Event("change"));
   });
   el.clearMapButton?.addEventListener("click", clearMapView);
-  el.menuAboutButton?.addEventListener("click", () => {
-    closeMenu();
-    toggleAbout();
-  });
+  el.menuAboutButton?.addEventListener(
+    "click",
+    openAboutFromMenu
+  );
 
   el.aboutButton?.addEventListener("click", toggleAbout);
   el.aboutClose?.addEventListener("click", closeAbout);
+  el.aboutBack?.addEventListener(
+    "click",
+    returnFromAboutToMenu
+  );
+  el.legendBack?.addEventListener(
+    "click",
+    returnFromLegendToMenu
+  );
   el.routeButton?.addEventListener("click", toggleRoute);
   el.mobileRouteButton?.addEventListener("click", toggleRoute);
   el.mobileDiscoverButton?.addEventListener("click", toggleDiscover);
@@ -670,6 +698,9 @@
     updateMapContextMenuLabels();
     if (el.legendTitle) el.legendTitle.textContent = t.legend;
     el.legendClose?.setAttribute("aria-label", t.closeLegend);
+    el.legendBack?.setAttribute("aria-label", t.backToMenu);
+    el.aboutBack?.setAttribute("aria-label", t.backToMenu);
+    el.favoritesBack?.setAttribute("aria-label", t.backToMenu);
     if (el.legendNote) el.legendNote.textContent = t.legendNote;
     if (el.aboutButton) el.aboutButton.title = t.about;
     el.aboutButton?.setAttribute("aria-label", t.about);
@@ -1133,6 +1164,24 @@
       displayName: entry.displayName || entry.label,
       lon: Number(entry.lon),
       lat: Number(entry.lat),
+      osm_type: entry.osm_type || "",
+      osm_id: entry.osm_id || "",
+      namedPoiId: entry.namedPoiId || "",
+      provider: entry.provider || "",
+      providers: entry.providers || [],
+      source: entry.source || "",
+      exactLocalIdentity: Boolean(
+        entry._exactLocalIdentity ||
+        entry.exactLocalIdentity
+      ),
+      name: entry.name || entry.label,
+      aliases: entry.aliases || [],
+      keywords: entry.keywords || [],
+      type: entry.type || "",
+      category: entry.category || "",
+      class: entry.class || "",
+      address: entry.address || {},
+      extratags: entry.extratags || {},
       savedAt: Date.now()
     });
 
@@ -1147,9 +1196,22 @@
   }
 
   function loadSharedPlaceFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const point = parseSharedPoint(params.get("place"));
+    const url = new URL(window.location.href);
+    const point = parseSharedPoint(
+      url.searchParams.get("place")
+    );
+
     if (!point) return;
+
+    // Otwórz udostępniony punkt natychmiast. Nie zostawiaj
+    // jednorazowego callbacku moveend, który mógłby uruchomić
+    // się dopiero podczas pierwszego późniejszego wyszukiwania.
+    showPlaceInformation({
+      lngLat: new maplibregl.LngLat(
+        point.lon,
+        point.lat
+      )
+    });
 
     map.flyTo({
       center: [point.lon, point.lat],
@@ -1157,11 +1219,14 @@
       bearing: 180
     });
 
-    map.once("moveend", () => {
-      showPlaceInformation({
-        lngLat: new maplibregl.LngLat(point.lon, point.lat)
-      });
-    });
+    // Parametr jest jednorazowy. Usunięcie go zapobiega
+    // ponownemu uzbrojeniu tego przepływu po odświeżeniu.
+    url.searchParams.delete("place");
+    window.history.replaceState(
+      null,
+      "",
+      url.pathname + url.search + url.hash
+    );
   }
 
   function initializeAutocomplete() {
@@ -1202,17 +1267,24 @@
             category: result.category,
             class: result.class,
             address: result.address,
-            extratags: result.extratags
+            extratags: result.extratags,
+            namedPoiId: result.namedPoiId,
+            provider: result.provider,
+            providers: result.providers,
+            source: result.source,
+            _exactLocalIdentity:
+              result._exactLocalIdentity,
+            aliases: result.aliases,
+            keywords: result.keywords
           });
+
+          window.OMAP_SEARCH_SESSION?.cancel?.();
+          showSelectedPlaceInformation(result);
 
           map.flyTo({
             center: [lon, lat],
             zoom: getSearchResultZoom(result),
             bearing: 180
-          });
-
-          map.once("moveend", () => {
-            showSelectedPlaceInformation(result);
           });
         }
       },
@@ -1423,20 +1495,33 @@
           updateSearchClearButton();
           hide();
 
+          window.OMAP_SEARCH_SESSION?.cancel?.();
+
+          const isExactPlace =
+            entry.exactLocalIdentity ||
+            entry.provider === "named-poi" ||
+            Boolean(entry.namedPoiId) ||
+            Boolean(entry.osm_type && entry.osm_id);
+
+          if (isExactPlace) {
+            showSelectedPlaceInformation({
+              ...entry,
+              _exactLocalIdentity:
+                entry.exactLocalIdentity
+            });
+          } else {
+            showPlaceInformation({
+              lngLat: new maplibregl.LngLat(
+                entry.lon,
+                entry.lat
+              )
+            });
+          }
+
           map.flyTo({
             center: [entry.lon, entry.lat],
             zoom: 16,
             bearing: 180
-          });
-
-          map.once("moveend", () => {
-            if (entry.osm_type && entry.osm_id) {
-              showSelectedPlaceInformation(entry);
-            } else {
-              showPlaceInformation({
-                lngLat: new maplibregl.LngLat(entry.lon, entry.lat)
-              });
-            }
           });
         });
 
@@ -2903,7 +2988,11 @@ function closeRoute() {
 
     if (action === "info") {
       removeContextPointMarker();
-      await showPlaceInformation({ lngLat });
+      invalidateNamedPoiGuard();
+      await showPlaceInformation({
+        lngLat,
+        forceReverse: true
+      });
       return;
     }
 
@@ -2926,9 +3015,36 @@ function closeRoute() {
     panel.style.setProperty(cssVariable, "48px");
   }
 
+  function collapseMobileRoutePanel() {
+    collapseMobilePanel(
+      el.routePanel,
+      "--route-sheet-height"
+    );
+  }
+
+  function expandMobileRoutePanel() {
+    if (
+      !el.routePanel ||
+      el.routePanel.hidden ||
+      !window.matchMedia("(max-width: 600px)").matches
+    ) {
+      return;
+    }
+
+    const height = window.innerHeight * 0.42;
+
+    el.routePanel.style.setProperty(
+      "--route-sheet-height",
+      `${height}px`
+    );
+    document.documentElement.style.setProperty(
+      "--route-sheet-height",
+      `${height}px`
+    );
+    el.routePanel.classList.remove("is-collapsed");
+  }
+
   function collapseMobilePanels() {
-    // Panel Trasa pozostaje rozwinięty podczas wybierania punktów
-    // bezpośrednio na mapie.
     collapseMobilePanel(
       el.discoverPanel,
       "--discover-sheet-height"
@@ -2962,7 +3078,28 @@ function closeRoute() {
     collapseMobilePanels();
 
     if (!el.routePanel.hidden) {
+      const routeStageBeforeClick =
+        state.routeClickStage;
+
       await handleRouteMapClick(event);
+
+      const routeStageAfterClick =
+        state.routeClickStage;
+
+      const isPointBInteraction =
+        routeStageBeforeClick === "b" ||
+        routeStageBeforeClick === "move-b" ||
+        routeStageAfterClick === "b" ||
+        routeStageAfterClick === "move-b";
+
+      // Panel pozostaje otwarty przy pierwszym wyborze B
+      // oraz przy każdym późniejszym przesuwaniu punktu B.
+      if (isPointBInteraction) {
+        expandMobileRoutePanel();
+      } else {
+        collapseMobileRoutePanel();
+      }
+
       return;
     }
 
@@ -2991,16 +3128,45 @@ function closeRoute() {
       : null;
   }
 
-  async function showSelectedPlaceInformation(result) {
-    const session =
-      window.OMAP_SEARCH_SESSION?.current?.();
 
-    if (
-      session &&
-      session.selectedPlace &&
-      result !== session.selectedPlace
-    ) {
-      result = session.selectedPlace;
+  function isExactNamedPoi(result) {
+    return Boolean(
+      result &&
+      (
+        result._exactLocalIdentity ||
+        result.provider === "named-poi" ||
+        result.namedPoiId
+      )
+    );
+  }
+
+  function activateNamedPoiGuard(result) {
+    state.namedPoiGuardId += 1;
+    state.activeNamedPoiId =
+      result?.namedPoiId ||
+      result?.place_id ||
+      null;
+
+    return state.namedPoiGuardId;
+  }
+
+  function invalidateNamedPoiGuard() {
+    state.namedPoiGuardId += 1;
+    state.activeNamedPoiId = null;
+  }
+
+  function canReverseGeocodeForGuard(guardId) {
+    return (
+      guardId === state.namedPoiGuardId &&
+      !state.activeNamedPoiId
+    );
+  }
+
+  async function showSelectedPlaceInformation(result) {
+    if (isExactNamedPoi(result)) {
+      activateNamedPoiGuard(result);
+    } else {
+      invalidateNamedPoiGuard();
     }
 
     const lngLat = getResultLngLat(result);
@@ -3173,6 +3339,7 @@ function closeRoute() {
   }
 
   function closePlacePanel() {
+    invalidateNamedPoiGuard();
     window.OMAP_SEARCH_SESSION?.cancel?.();
     state.placeRequestController?.abort();
     state.placeRequestController = null;
@@ -3199,6 +3366,15 @@ function closeRoute() {
   // Wywoływana tylko dla świadomie wybranego miejsca.
   async function showPlaceInformation(event) {
     window.OMAP_SEARCH_SESSION?.cancel?.();
+
+    const guardId = state.namedPoiGuardId;
+
+    if (
+      state.activeNamedPoiId &&
+      !event?.forceReverse
+    ) {
+      return;
+    }
     state.selectedPlace = null;
     state.placeRequestController?.abort();
     state.placeRequestController = new AbortController();
@@ -3225,6 +3401,12 @@ function closeRoute() {
         !el.placePanel ||
         el.placePanel.hidden ||
         state.placePanelLngLat !== event.lngLat
+      ) {
+        return;
+      }
+
+      if (
+        !canReverseGeocodeForGuard(guardId)
       ) {
         return;
       }
@@ -5508,16 +5690,14 @@ function closeRoute() {
         const lon = Number(favorite.lon);
         const lat = Number(favorite.lat);
 
+        showPlaceInformation({
+          lngLat: new maplibregl.LngLat(lon, lat)
+        });
+
         map.flyTo({
           center: [lon, lat],
           zoom: Math.max(map.getZoom(), 16),
           bearing: 180
-        });
-
-        map.once("moveend", () => {
-          showPlaceInformation({
-            lngLat: new maplibregl.LngLat(lon, lat)
-          });
         });
 
         // Panel Ulubione celowo pozostaje otwarty.
@@ -5659,6 +5839,78 @@ function closeRoute() {
     }
   }
 
+
+
+  function openMenuHome() {
+    closeMapContextMenu();
+    closePlacePanel();
+    closeFavoritesPanel();
+    closeLegend();
+    closeAbout();
+    closeRoutePanel();
+    closeDiscover();
+
+    if (!el.menuPanel) return;
+
+    el.menuPanel.hidden = false;
+    el.menuPanel.classList.remove("is-collapsed");
+
+    if (window.matchMedia("(max-width: 600px)").matches) {
+      const height = window.innerHeight * 0.42;
+      el.menuPanel.style.setProperty(
+        "--menu-sheet-height",
+        `${height}px`
+      );
+      document.documentElement.style.setProperty(
+        "--menu-sheet-height",
+        `${height}px`
+      );
+    }
+
+    el.menuButton?.setAttribute("aria-expanded", "true");
+    el.menuButton?.classList.add("is-active");
+    el.mobileMenuButton?.setAttribute("aria-expanded", "true");
+    el.mobileMenuButton?.classList.add("is-active");
+  }
+
+  function openLegendFromMenu() {
+    closeMenu();
+    closeAbout();
+    closeFavoritesPanel();
+    closeRoutePanel();
+    closeDiscover();
+
+    el.legendPanel.hidden = false;
+    el.legendPanel.classList.remove("is-collapsed");
+    el.legendButton?.setAttribute("aria-expanded", "true");
+  }
+
+  function openAboutFromMenu() {
+    closeMenu();
+    closeLegend();
+    closeFavoritesPanel();
+    closeRoutePanel();
+    closeDiscover();
+
+    el.aboutPanel.hidden = false;
+    el.aboutPanel.classList.remove("is-collapsed");
+    el.aboutButton?.setAttribute("aria-expanded", "true");
+  }
+
+  function returnFromLegendToMenu() {
+    closeLegend();
+    openMenuHome();
+  }
+
+  function returnFromAboutToMenu() {
+    closeAbout();
+    openMenuHome();
+  }
+
+  function returnFromFavoritesToMenu() {
+    closeFavoritesPanel();
+    openMenuHome();
+  }
 
   function toggleMenu() {
     closeMapContextMenu();
@@ -5808,6 +6060,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function clearMainSearch() {
+    invalidateNamedPoiGuard();
     if (el.searchInput) el.searchInput.value = "";
     hideAllAutocomplete();
     updateSearchClearButton();
@@ -6070,15 +6323,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         .addTo(map);
 
       const openPlace = () => {
-        map.easeTo({
-          center: [place.lon, place.lat],
-          zoom: Math.max(map.getZoom(), 16),
-          bearing: 180,
-          duration: 600
-        });
-
-        map.once("moveend", () => {
-          showSelectedPlaceInformation({
+        showSelectedPlaceInformation({
             place_id: `discover:${place.type || "node"}:${place.id || index}`,
             osm_type: place.type || "",
             osm_id: place.id || "",
@@ -6114,6 +6359,12 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
             },
             extratags: { ...place.tags }
           });
+
+        map.easeTo({
+          center: [place.lon, place.lat],
+          zoom: Math.max(map.getZoom(), 16),
+          bearing: 180,
+          duration: 600
         });
       };
 
@@ -6346,6 +6597,254 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     };
   }
 
+
+  function normalizedPoiIdentity(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+
+  function candidateOwnName(candidate) {
+    return (
+      candidate?.namedetails?.["name:pl"] ||
+      candidate?.namedetails?.name ||
+      candidate?.name ||
+      ""
+    );
+  }
+
+  function isCompatibleNamedPoiCandidate(
+    selected,
+    candidate
+  ) {
+    if (
+      !selected ||
+      !candidate ||
+      candidate.provider === "named-poi"
+    ) {
+      return false;
+    }
+
+    const selectedNames = [
+      candidateOwnName(selected),
+      ...(selected.aliases || [])
+    ]
+      .map(normalizedPoiIdentity)
+      .filter(Boolean);
+
+    const candidateNames = [
+      candidateOwnName(candidate),
+      ...(candidate.aliases || [])
+    ]
+      .map(normalizedPoiIdentity)
+      .filter(Boolean);
+
+    const namesMatch = selectedNames.some(
+      selectedName =>
+        candidateNames.some(candidateName => {
+          if (selectedName === candidateName) {
+            return true;
+          }
+
+          const selectedTokens =
+            selectedName.split(" ").filter(Boolean);
+          const candidateTokens =
+            candidateName.split(" ").filter(Boolean);
+
+          const shared = selectedTokens.filter(
+            token => candidateTokens.includes(token)
+          );
+
+          const shorterLength = Math.min(
+            selectedTokens.length,
+            candidateTokens.length
+          );
+
+          return (
+            shorterLength >= 2 &&
+            shared.length >= shorterLength &&
+            (
+              selectedName.includes(candidateName) ||
+              candidateName.includes(selectedName) ||
+              shared.length >= 2
+            )
+          );
+        })
+    );
+
+    if (!namesMatch) {
+      return false;
+    }
+
+    const selectedCity = normalizedPoiIdentity(
+      selected.address?.city ||
+      selected.city
+    );
+
+    const candidateCity = normalizedPoiIdentity(
+      candidate.address?.city ||
+      candidate.address?.town ||
+      candidate.address?.municipality
+    );
+
+    if (
+      selectedCity &&
+      candidateCity &&
+      selectedCity !== candidateCity
+    ) {
+      return false;
+    }
+
+    const selectedLat = Number(selected.lat);
+    const selectedLon = Number(selected.lon);
+    const candidateLat = Number(candidate.lat);
+    const candidateLon = Number(candidate.lon);
+
+    if (
+      Number.isFinite(selectedLat) &&
+      Number.isFinite(selectedLon) &&
+      Number.isFinite(candidateLat) &&
+      Number.isFinite(candidateLon)
+    ) {
+      const latitudeScale = 111320;
+      const longitudeScale =
+        111320 *
+        Math.cos(
+          selectedLat * Math.PI / 180
+        );
+
+      const distanceMeters = Math.hypot(
+        (candidateLat - selectedLat) *
+          latitudeScale,
+        (candidateLon - selectedLon) *
+          longitudeScale
+      );
+
+      if (distanceMeters > 3000) {
+        return false;
+      }
+    }
+
+    const selectedType = normalizedPoiIdentity(
+      selected.type || selected.category
+    );
+    const candidateType = normalizedPoiIdentity(
+      candidate.type || candidate.category
+    );
+    const candidateClass = normalizedPoiIdentity(
+      candidate.class
+    );
+
+    if (
+      candidateClass === "highway" ||
+      candidateType === "road" ||
+      candidateType === "defibrillator" ||
+      candidateType === "aed"
+    ) {
+      return false;
+    }
+
+    if (
+      selectedType === "mall" ||
+      selected.category === "shopping_mall"
+    ) {
+      return (
+        candidateType === "mall" ||
+        candidateType === "shopping centre" ||
+        candidateType === "shopping center" ||
+        candidate.category === "shopping_mall"
+      );
+    }
+
+    return true;
+  }
+
+  function coordinateCandidateQuality(candidate) {
+    let score = 0;
+
+    if (candidate.osm_type === "relation") score += 40;
+    if (candidate.osm_type === "way") score += 35;
+    if (candidate.boundingbox) score += 25;
+    if (candidate.provider === "nominatim") score += 20;
+    if (candidate.class !== "highway") score += 10;
+
+    score += Number(
+      candidate.importance || 0
+    ) * 10;
+
+    return score;
+  }
+
+  function refineNamedPoiCoordinates(
+    selected,
+    candidates
+  ) {
+    if (
+      !selected?._exactLocalIdentity &&
+      selected?.provider !== "named-poi"
+    ) {
+      return selected;
+    }
+
+    const matches = (candidates || [])
+      .filter(candidate =>
+        isCompatibleNamedPoiCandidate(
+          selected,
+          candidate
+        )
+      )
+      .sort(
+        (left, right) =>
+          coordinateCandidateQuality(right) -
+          coordinateCandidateQuality(left)
+      );
+
+    const best = matches[0];
+
+    if (!best) return selected;
+
+    const lat = Number(best.lat);
+    const lon = Number(best.lon);
+
+    if (
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lon)
+    ) {
+      return selected;
+    }
+
+    return {
+      ...selected,
+
+      // Zachowujemy lokalną nazwę, kategorię i aliasy.
+      lat: String(lat),
+      lon: String(lon),
+      boundingbox:
+        best.boundingbox ||
+        selected.boundingbox,
+
+      // Identyfikator geometrii może pomóc w trasach
+      // i późniejszym wzbogacaniu, ale nie zmienia nazwy.
+      geometry_osm_type: best.osm_type,
+      geometry_osm_id: best.osm_id,
+      coordinateSource:
+        best.provider || "external",
+
+      address: {
+        ...(best.address || {}),
+        ...(selected.address || {})
+      },
+
+      extratags: {
+        ...(best.extratags || {}),
+        ...(selected.extratags || {})
+      }
+    };
+  }
+
   async function search(event) {
     event.preventDefault();
 
@@ -6399,7 +6898,15 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         return;
       }
 
-      const result = session.select(selected);
+      const positionedResult =
+        refineNamedPoiCoordinates(
+          selected,
+          results
+        );
+
+      const result = session.select(
+        positionedResult
+      );
 
       const correctedName = getPrimaryPlaceName(result);
 
@@ -6424,7 +6931,15 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         category: result.category,
         class: result.class,
         address: result.address,
-        extratags: result.extratags
+        extratags: result.extratags,
+        namedPoiId: result.namedPoiId,
+        provider: result.provider,
+        providers: result.providers,
+        source: result.source,
+        _exactLocalIdentity:
+          result._exactLocalIdentity,
+        aliases: result.aliases,
+        keywords: result.keywords
       });
 
       const point = [

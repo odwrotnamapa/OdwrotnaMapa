@@ -370,7 +370,11 @@
       "id": "omap:poi:focus-bydgoszcz",
       "name": "Focus Bydgoszcz",
       "aliases": [
-        "Galeria Focus Bydgoszcz"
+        "Galeria Focus Bydgoszcz",
+        "Focus Mall Bydgoszcz",
+        "Focus Mall",
+        "Centrum Handlowe Focus Bydgoszcz",
+        "CH Focus Bydgoszcz"
       ],
       "keywords": [
         "mall",
@@ -384,14 +388,19 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.1231,
-      "lon": 18.0252,
+      "lat": 53.124181,
+      "lon": 18.017858,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jagiellońska",
+        "house_number": "39-47",
+        "postcode": "85-097"
       },
-      "extratags": {},
+      "extratags": {
+        "website": "https://focus.gcity.pl/"
+      },
       "city": "Bydgoszcz",
       "voivodeship": "kujawsko-pomorskie",
       "priority": 1000,
