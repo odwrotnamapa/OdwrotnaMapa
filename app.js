@@ -3327,14 +3327,20 @@ function closeRoute() {
     el.placePanel.hidden = false;
 
     if (
-      window.matchMedia("(max-width: 600px)").matches &&
-      el.placePanel.getBoundingClientRect().height < 90
+      window.matchMedia("(max-width: 600px)").matches
     ) {
+      const height = window.innerHeight * 0.42;
+
       el.placePanel.style.setProperty(
         "--place-sheet-height",
-        `${window.innerHeight * 0.42}px`
+        `${height}px`
+      );
+      document.documentElement.style.setProperty(
+        "--place-sheet-height",
+        `${height}px`
       );
       el.placePanel.classList.remove("is-collapsed");
+      el.placePanel.scrollTop = 0;
     }
   }
 
