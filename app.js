@@ -3934,7 +3934,35 @@ function closeRoute() {
       title: getPlaceTitle(place),
       address: getPlaceAddress(place),
       lat: Number(lngLat.lat),
-      lon: Number(lngLat.lng)
+      lon: Number(lngLat.lng),
+      name: place.name || getPlaceTitle(place),
+      display_name:
+        place.display_name ||
+        getPlaceAddress(place),
+      osm_type: place.osm_type || "",
+      osm_id: place.osm_id || "",
+      namedPoiId: place.namedPoiId || "",
+      provider: place.provider || "",
+      providers: place.providers || [],
+      source: place.source || "",
+      exactLocalIdentity: Boolean(
+        place._exactLocalIdentity ||
+        place.exactLocalIdentity
+      ),
+      aliases: place.aliases || [],
+      keywords: place.keywords || [],
+      type: place.type || "",
+      category: place.category || "",
+      class: place.class || "",
+      addressDetails: {
+        ...(place.address || {})
+      },
+      extratags: {
+        ...(place.extratags || {})
+      },
+      namedetails: {
+        ...(place.namedetails || {})
+      }
     });
 
     state.favorites = state.favorites.slice(0, 100);
@@ -5722,9 +5750,46 @@ function closeRoute() {
         const lon = Number(favorite.lon);
         const lat = Number(favorite.lat);
 
-        showPlaceInformation({
-          lngLat: new maplibregl.LngLat(lon, lat)
-        });
+        const hasExactIdentity = Boolean(
+          favorite.exactLocalIdentity ||
+          favorite.provider === "named-poi" ||
+          favorite.namedPoiId ||
+          (favorite.osm_type && favorite.osm_id)
+        );
+
+        if (hasExactIdentity) {
+          showSelectedPlaceInformation({
+            ...favorite,
+            name:
+              favorite.name ||
+              favorite.title,
+            display_name:
+              favorite.display_name ||
+              favorite.address ||
+              favorite.title,
+            address: {
+              ...(favorite.addressDetails || {})
+            },
+            extratags: {
+              ...(favorite.extratags || {})
+            },
+            namedetails: {
+              ...(favorite.namedetails || {})
+            },
+            _exactLocalIdentity:
+              favorite.exactLocalIdentity,
+            providers:
+              favorite.providers?.length
+                ? favorite.providers
+                : [favorite.provider].filter(Boolean)
+          });
+        } else {
+          invalidateNamedPoiGuard();
+          showPlaceInformation({
+            lngLat: new maplibregl.LngLat(lon, lat),
+            forceReverse: true
+          });
+        }
 
         map.flyTo({
           center: [lon, lat],
@@ -5776,6 +5841,7 @@ function closeRoute() {
       version: 1,
       exportedAt: new Date().toISOString(),
       favorites: state.favorites.map(favorite => ({
+        ...favorite,
         key: favorite.key,
         title: favorite.title || "",
         address: favorite.address || "",
@@ -5844,11 +5910,25 @@ function closeRoute() {
         known.add(key);
 
         imported.push({
+          ...entry,
           key,
           title: String(entry.title || "").trim(),
           address: String(entry.address || "").trim(),
           lat,
-          lon
+          lon,
+          exactLocalIdentity: Boolean(
+            entry.exactLocalIdentity ||
+            entry._exactLocalIdentity
+          ),
+          addressDetails: {
+            ...(entry.addressDetails || entry.addressObject || {})
+          },
+          extratags: {
+            ...(entry.extratags || {})
+          },
+          namedetails: {
+            ...(entry.namedetails || {})
+          }
         });
       }
 

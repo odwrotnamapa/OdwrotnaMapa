@@ -7,7 +7,7 @@
     "location:import:file": "node tools/update-location-db.cjs",
     "location:download": "node tools/update-location-db.cjs --download",
     "search:test": "node tools/test-search.cjs",
-    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs && node tools/test-teryt.cjs && node tools/test-categories.cjs && node tools/test-selected-place-flow.cjs && node tools/test-exact-name-localization-images.cjs && node tools/test-search-session.cjs && node tools/test-named-poi-index.cjs && node tools/test-named-poi-coordinate-refinement.cjs && node tools/test-named-poi-alias-coordinates.cjs && node tools/test-named-poi-history-identity.cjs && node tools/test-stale-moveend-callbacks.cjs && node tools/test-global-named-poi-guard.cjs && node tools/test-mobile-panel-replacement.cjs && node tools/test-route-b-panel-open.cjs && node tools/test-menu-subpanels.cjs && node tools/test-route-b-persistent-menu-height.cjs && node tools/test-place-panel-uniform-height.cjs && node tools/test-search-result-panel-height.cjs && node tools/test-place-panel-final-height.cjs",
+    "release:check": "node tools/build-location-db.cjs && node tools/test-search.cjs && node tools/test-teryt.cjs && node tools/test-categories.cjs && node tools/test-selected-place-flow.cjs && node tools/test-exact-name-localization-images.cjs && node tools/test-search-session.cjs && node tools/test-named-poi-index.cjs && node tools/test-named-poi-coordinate-refinement.cjs && node tools/test-named-poi-alias-coordinates.cjs && node tools/test-named-poi-history-identity.cjs && node tools/test-stale-moveend-callbacks.cjs && node tools/test-global-named-poi-guard.cjs && node tools/test-mobile-panel-replacement.cjs && node tools/test-route-b-panel-open.cjs && node tools/test-menu-subpanels.cjs && node tools/test-route-b-persistent-menu-height.cjs && node tools/test-place-panel-uniform-height.cjs && node tools/test-search-result-panel-height.cjs && node tools/test-place-panel-final-height.cjs && node tools/test-favorites-place-identity.cjs",
     "start": "node tools/start-local-server.cjs",
     "dev": "node tools/start-local-server.cjs",
     "teryt:import": "node tools/import-teryt.cjs",
@@ -31,7 +31,8 @@
     "route-b-menu-height:test": "node tools/test-route-b-persistent-menu-height.cjs",
     "place-panel-height:test": "node tools/test-place-panel-uniform-height.cjs",
     "search-result-panel-height:test": "node tools/test-search-result-panel-height.cjs",
-    "place-panel-final-height:test": "node tools/test-place-panel-final-height.cjs"
+    "place-panel-final-height:test": "node tools/test-place-panel-final-height.cjs",
+    "favorites-identity:test": "node tools/test-favorites-place-identity.cjs"
   },
   "engines": {
     "node": ">=18"
