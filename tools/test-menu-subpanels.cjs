@@ -22,9 +22,7 @@ const checks = [
   [
     "legend has menu back button",
     html.includes('id="legend-back"') &&
-    html.includes(
-      'id="legend-panel" class="legend-panel menu-subpanel"'
-    )
+    /id="legend-panel" class="[^"]*legend-panel[^"]*menu-subpanel[^"]*"/.test(html)
   ],
   [
     "about has menu back button",

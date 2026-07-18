@@ -41,9 +41,9 @@ const checks = [
   ],
   [
     "back returns to all three origins",
-    app.includes('target.type === "favorites"') &&
-    app.includes('target.type === "discover"') &&
-    app.includes('target.type === "search"')
+    app.includes('OMAP_BACK_NAVIGATION?.register(\n    "favorites"') &&
+    app.includes('OMAP_BACK_NAVIGATION?.register(\n    "discover"') &&
+    app.includes('OMAP_BACK_NAVIGATION?.register(\n    "search"')
   ],
   [
     "discover results survive information panel",

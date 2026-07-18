@@ -37,11 +37,12 @@ const checks = [
   [
     "history local result avoids reverse",
     app.includes('entry.provider === "named-poi"') &&
-    /if \(isExactPlace\) \{[\s\S]*?showSelectedPlaceInformation/.test(app)
+    app.includes("reverse: !isExactPlace") &&
+    app.includes('origin: "search-history"')
   ],
   [
     "autocomplete renders immediately",
-    /showSelectedPlaceInformation\(result\);[\s\S]*?map\.flyTo/.test(app)
+    /openSearchPlaceThroughService\([\s\S]*?result[\s\S]*?origin: "autocomplete"[\s\S]*?map\.flyTo/.test(app)
   ],
   [
     "stale session override removed",
