@@ -4483,3 +4483,102 @@ textarea {
   visibility: hidden;
   display: grid;
 }
+
+
+/* =========================================================
+   Uniwersalny standard wszystkich mobilnych paneli
+   ========================================================= */
+@media (max-width: 600px) {
+  :root {
+    --mobile-panel-default-height: 42dvh;
+    --mobile-panel-collapsed-height: 48px;
+    --mobile-panel-bottom-gap: 8px;
+  }
+
+  .route-panel:not([hidden]),
+  .discover-panel:not([hidden]),
+  .menu-panel:not([hidden]),
+  .favorites-panel:not([hidden]),
+  .place-panel:not([hidden]),
+  .menu-subpanel:not([hidden]) {
+    bottom: var(--mobile-panel-bottom-gap) !important;
+    min-height: var(--mobile-panel-collapsed-height) !important;
+    max-height: calc(100dvh - 16px) !important;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .route-panel:not([hidden]) {
+    height: var(--route-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
+  .discover-panel:not([hidden]) {
+    height: var(--discover-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
+  .menu-panel:not([hidden]),
+  .menu-subpanel:not([hidden]) {
+    height: var(--menu-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
+  .favorites-panel:not([hidden]) {
+    height: var(--favorites-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
+  .place-panel:not([hidden]) {
+    height: var(--place-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
+  .route-panel.is-collapsed,
+  .discover-panel.is-collapsed,
+  .menu-panel.is-collapsed,
+  .favorites-panel.is-collapsed,
+  .place-panel.is-collapsed,
+  .menu-subpanel.is-collapsed {
+    height: var(--mobile-panel-collapsed-height) !important;
+    min-height: var(--mobile-panel-collapsed-height) !important;
+    max-height: var(--mobile-panel-collapsed-height) !important;
+    overflow: hidden !important;
+  }
+
+  .route-panel.is-dragging,
+  .discover-panel.is-dragging,
+  .menu-panel.is-dragging,
+  .favorites-panel.is-dragging,
+  .place-panel.is-dragging,
+  .menu-subpanel.is-dragging {
+    transition: none !important;
+  }
+}
+
+
+/* Legenda i O projekcie korzystają z tego samego standardu paneli */
+@media (max-width: 600px) {
+  .legend-panel.menu-subpanel:not([hidden]) {
+    height: var(
+      --legend-sheet-height,
+      var(--mobile-panel-default-height)
+    ) !important;
+  }
+
+  .about-panel.menu-subpanel:not([hidden]) {
+    height: var(
+      --about-sheet-height,
+      var(--mobile-panel-default-height)
+    ) !important;
+  }
+
+  .legend-panel.menu-subpanel.is-collapsed,
+  .about-panel.menu-subpanel.is-collapsed {
+    height: var(
+      --mobile-panel-collapsed-height
+    ) !important;
+    min-height: var(
+      --mobile-panel-collapsed-height
+    ) !important;
+    max-height: var(
+      --mobile-panel-collapsed-height
+    ) !important;
+    overflow: hidden !important;
+  }
+}

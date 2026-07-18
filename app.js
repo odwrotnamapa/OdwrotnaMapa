@@ -377,6 +377,7 @@
     languageSelect: $("language-select"),    locateButton: $("locate-button"),
     legendButton: $("legend-button"),
     legendPanel: $("legend-panel"),
+    legendSheetHandle: $("legend-sheet-handle"),
     legendClose: $("legend-close"),
     legendBack: $("legend-back"),
     menuButton: $("menu-button"),
@@ -424,6 +425,7 @@
     menuAboutLabel: $("menu-about-label"),
     aboutButton: $("about-button"),
     aboutPanel: $("about-panel"),
+    aboutSheetHandle: $("about-sheet-handle"),
     aboutClose: $("about-close"),
     aboutBack: $("about-back"),
     aboutTitle: $("about-title"),
@@ -661,6 +663,8 @@
   initializeMenuBottomSheet();
   initializeFavoritesBottomSheet();
   initializePlaceBottomSheet();
+  initializeLegendBottomSheet();
+  initializeAboutBottomSheet();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -2406,6 +2410,128 @@
     };
   }
 
+
+  const MOBILE_PANEL_STANDARD = Object.freeze({
+    collapsedHeight: 48,
+    defaultHeightRatio: 0.42,
+    viewportGap: 8
+  });
+
+  function isMobilePanelViewport() {
+    return window.matchMedia("(max-width: 600px)").matches;
+  }
+
+  function getMobilePanelViewportHeight() {
+    return window.visualViewport?.height || window.innerHeight;
+  }
+
+  function getMobilePanelDefaultHeight() {
+    return Math.max(
+      MOBILE_PANEL_STANDARD.collapsedHeight,
+      getMobilePanelViewportHeight() *
+        MOBILE_PANEL_STANDARD.defaultHeightRatio
+    );
+  }
+
+  function getMobilePanelMaximumHeight() {
+    return Math.max(
+      MOBILE_PANEL_STANDARD.collapsedHeight,
+      getMobilePanelViewportHeight() -
+        MOBILE_PANEL_STANDARD.viewportGap * 2
+    );
+  }
+
+  function setMobilePanelHeight(
+    panel,
+    cssVariable,
+    height,
+    { animate = true, collapsed = null } = {}
+  ) {
+    if (!panel || !isMobilePanelViewport()) return;
+
+    const safeHeight = Math.min(
+      getMobilePanelMaximumHeight(),
+      Math.max(
+        MOBILE_PANEL_STANDARD.collapsedHeight,
+        Number(height)
+      )
+    );
+
+    if (!animate) panel.classList.add("is-dragging");
+
+    panel.style.setProperty(cssVariable, `${safeHeight}px`);
+    document.documentElement.style.setProperty(
+      cssVariable,
+      `${safeHeight}px`
+    );
+
+    const shouldCollapse =
+      collapsed ??
+      safeHeight <= MOBILE_PANEL_STANDARD.collapsedHeight + 8;
+
+    panel.classList.toggle("is-collapsed", shouldCollapse);
+
+    if (animate) {
+      requestAnimationFrame(() => {
+        panel.classList.remove("is-dragging");
+      });
+    }
+  }
+
+  function openMobilePanelStandard(panel, cssVariable) {
+    if (!panel || !isMobilePanelViewport()) return;
+
+    panel.hidden = false;
+    setMobilePanelHeight(
+      panel,
+      cssVariable,
+      getMobilePanelDefaultHeight(),
+      { collapsed: false }
+    );
+    panel.classList.remove("is-collapsed");
+    panel.scrollTop = 0;
+  }
+
+  function collapseMobilePanelStandard(panel, cssVariable) {
+    setMobilePanelHeight(
+      panel,
+      cssVariable,
+      MOBILE_PANEL_STANDARD.collapsedHeight,
+      { collapsed: true }
+    );
+  }
+
+  function stabilizeMobilePanelStandard(panel, cssVariable) {
+    if (
+      !panel ||
+      panel.hidden ||
+      !isMobilePanelViewport() ||
+      panel.classList.contains("is-dragging") ||
+      panel.classList.contains("is-collapsed")
+    ) {
+      return;
+    }
+
+    const refresh = () => {
+      if (
+        !panel.hidden &&
+        !panel.classList.contains("is-dragging") &&
+        !panel.classList.contains("is-collapsed")
+      ) {
+        setMobilePanelHeight(
+          panel,
+          cssVariable,
+          getMobilePanelDefaultHeight(),
+          { collapsed: false }
+        );
+      }
+    };
+
+    [0, 80, 180, 320, 520, 700].forEach(delay => {
+      setTimeout(refresh, delay);
+    });
+  }
+
   function initializeBottomSheet({
     panel,
     handle,
@@ -2414,127 +2540,78 @@
   }) {
     if (!handle || !panel) return;
 
-    const mobileQuery = window.matchMedia("(max-width: 600px)");
-
     let dragging = false;
     let startY = 0;
     let startHeight = 0;
     let activePointerId = null;
     let movedDuringGesture = false;
 
-    const collapsedHeight = 48;
-
-    const clampHeight = height => {
-      const viewport = window.innerHeight;
-      const maximum = Math.max(collapsedHeight, viewport - 8);
-      return Math.min(
-        maximum,
-        Math.max(collapsedHeight, height)
-      );
-    };
-
-    const updateCollapsedState = height => {
-      panel.classList.toggle(
-        "is-collapsed",
-        height <= collapsedHeight + 8
-      );
-    };
-
-    const setHeight = (height, animate = true) => {
-      if (!mobileQuery.matches) return;
-
-      const safeHeight = clampHeight(height);
-
-      if (!animate) {
-        panel.classList.add("is-dragging");
-      }
-
-      panel.style.setProperty(
-        cssVariable,
-        `${safeHeight}px`
-      );
-
-      updateCollapsedState(safeHeight);
-
-      if (animate) {
-        requestAnimationFrame(() => {
-          panel.classList.remove("is-dragging");
-        });
-      }
-    };
-
     const setDefaultHeight = () => {
-      if (!mobileQuery.matches) {
+      if (!isMobilePanelViewport()) {
         panel.style.removeProperty(cssVariable);
-        panel.classList.remove("is-collapsed");
+        panel.classList.remove("is-collapsed", "is-dragging");
         return;
       }
 
-      const currentHeight =
-        panel.getBoundingClientRect().height;
-
-      if (currentHeight <= collapsedHeight + 2) {
-        setHeight(window.innerHeight * 0.42);
-      } else {
-        setHeight(currentHeight, false);
-        panel.classList.remove("is-dragging");
+      if (
+        panel.hidden ||
+        panel.classList.contains("is-collapsed") ||
+        panel.classList.contains("is-dragging")
+      ) {
+        return;
       }
+
+      setMobilePanelHeight(
+        panel,
+        cssVariable,
+        getMobilePanelDefaultHeight(),
+        { collapsed: false }
+      );
     };
 
     handle.addEventListener("pointerdown", event => {
-      if (!mobileQuery.matches) return;
+      if (!isMobilePanelViewport()) return;
 
       dragging = true;
       movedDuringGesture = false;
       activePointerId = event.pointerId;
       startY = event.clientY;
       startHeight = panel.getBoundingClientRect().height;
-
       panel.classList.add("is-dragging");
       handle.setPointerCapture(event.pointerId);
       event.preventDefault();
     });
 
     handle.addEventListener("pointermove", event => {
-      if (
-        !dragging ||
-        event.pointerId !== activePointerId
-      ) {
-        return;
-      }
+      if (!dragging || event.pointerId !== activePointerId) return;
 
       const delta = startY - event.clientY;
-      if (Math.abs(delta) > 4) {
-        movedDuringGesture = true;
-      }
+      if (Math.abs(delta) > 4) movedDuringGesture = true;
 
-      setHeight(startHeight + delta, false);
+      setMobilePanelHeight(
+        panel,
+        cssVariable,
+        startHeight + delta,
+        { animate: false }
+      );
       event.preventDefault();
     });
 
     const finishDrag = event => {
-      if (
-        !dragging ||
-        event.pointerId !== activePointerId
-      ) {
-        return;
-      }
+      if (!dragging || event.pointerId !== activePointerId) return;
 
       dragging = false;
       activePointerId = null;
 
-      const viewport = window.innerHeight;
-      let currentHeight =
-        panel.getBoundingClientRect().height;
+      let height = panel.getBoundingClientRect().height;
 
-      if (currentHeight < 90) {
-        currentHeight = collapsedHeight;
-      } else if (currentHeight > viewport - 90) {
-        currentHeight = viewport - 8;
+      if (height < 90) {
+        height = MOBILE_PANEL_STANDARD.collapsedHeight;
+      } else if (height > getMobilePanelMaximumHeight() - 82) {
+        height = getMobilePanelMaximumHeight();
       }
 
-      panel.classList.remove("is-dragging");
-      setHeight(currentHeight, true);
+      setMobilePanelHeight(panel, cssVariable, height);
 
       try {
         handle.releasePointerCapture(event.pointerId);
@@ -2545,47 +2622,19 @@
     handle.addEventListener("pointercancel", finishDrag);
 
     handle.addEventListener("click", () => {
-      if (
-        !mobileQuery.matches ||
-        movedDuringGesture
-      ) {
-        return;
-      }
+      if (!isMobilePanelViewport() || movedDuringGesture) return;
 
-      const currentHeight =
-        panel.getBoundingClientRect().height;
+      const height = panel.getBoundingClientRect().height;
 
-      if (currentHeight <= collapsedHeight + 8) {
-        setHeight(window.innerHeight * 0.42);
+      if (height <= MOBILE_PANEL_STANDARD.collapsedHeight + 8) {
+        openMobilePanelStandard(panel, cssVariable);
       } else {
-        setHeight(collapsedHeight);
+        collapseMobilePanelStandard(panel, cssVariable);
       }
     });
 
-    mobileQuery.addEventListener?.(
-      "change",
-      setDefaultHeight
-    );
     window.addEventListener("resize", setDefaultHeight);
-
-    if (
-      panel === el.placePanel &&
-      window.visualViewport
-    ) {
-      window.visualViewport.addEventListener(
-        "resize",
-        () => {
-          if (
-            !panel.hidden &&
-            !panel.classList.contains("is-dragging") &&
-            !panel.classList.contains("is-collapsed")
-          ) {
-            stabilizeMobilePlacePanelHeight();
-          }
-        }
-      );
-    }
-
+    window.visualViewport?.addEventListener("resize", setDefaultHeight);
     setDefaultHeight();
   }
 
@@ -2634,6 +2683,24 @@
     });
   }
 
+  function initializeLegendBottomSheet() {
+    initializeBottomSheet({
+      panel: el.legendPanel,
+      handle: el.legendSheetHandle,
+      close: closeLegend,
+      cssVariable: "--legend-sheet-height"
+    });
+  }
+
+  function initializeAboutBottomSheet() {
+    initializeBottomSheet({
+      panel: el.aboutPanel,
+      handle: el.aboutSheetHandle,
+      close: closeAbout,
+      cssVariable: "--about-sheet-height"
+    });
+  }
+
 
 
 
@@ -2654,6 +2721,9 @@
     closeRoute();
 
     el.discoverPanel.hidden = !shouldOpen;
+    if (shouldOpen) {
+      openMobilePanelStandard(el.discoverPanel, "--discover-sheet-height");
+    }
     
     el.discoverButton?.setAttribute("aria-expanded", String(shouldOpen));
     el.discoverButton?.classList.toggle("is-active", shouldOpen);
@@ -2690,6 +2760,9 @@ el.discoverButton?.setAttribute(
     closeLegend();
     closeAbout();
     el.routePanel.hidden = !shouldOpen;
+    if (shouldOpen) {
+      openMobilePanelStandard(el.routePanel, "--route-sheet-height");
+    }
     
     el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
     el.routeButton?.classList.toggle("is-active", shouldOpen);
@@ -3041,16 +3114,8 @@ function closeRoute() {
 
 
   function collapseMobilePanel(panel, cssVariable) {
-    if (
-      !panel ||
-      panel.hidden ||
-      !window.matchMedia("(max-width: 600px)").matches
-    ) {
-      return;
-    }
-
-    panel.classList.add("is-collapsed");
-    panel.style.setProperty(cssVariable, "48px");
+    if (!panel || panel.hidden) return;
+    collapseMobilePanelStandard(panel, cssVariable);
   }
 
   function collapseMobileRoutePanel() {
@@ -3061,25 +3126,10 @@ function closeRoute() {
   }
 
   function expandMobileRoutePanel() {
-    if (
-      !el.routePanel ||
-      el.routePanel.hidden ||
-      !window.matchMedia("(max-width: 600px)").matches
-    ) {
-      return;
-    }
-
-    const height = window.innerHeight * 0.42;
-
-    el.routePanel.style.setProperty(
-      "--route-sheet-height",
-      `${height}px`
+    openMobilePanelStandard(
+      el.routePanel,
+      "--route-sheet-height"
     );
-    document.documentElement.style.setProperty(
-      "--route-sheet-height",
-      `${height}px`
-    );
-    el.routePanel.classList.remove("is-collapsed");
   }
 
   function collapseMobilePanels() {
@@ -3358,78 +3408,26 @@ function closeRoute() {
 
 
   function normalizeMobilePlacePanelHeight() {
-    if (
-      !el.placePanel ||
-      el.placePanel.hidden ||
-      !window.matchMedia("(max-width: 600px)").matches
-    ) {
-      return;
-    }
-
-    const height = "42dvh";
-
-    el.placePanel.style.setProperty(
-      "--place-sheet-height",
-      height
+    openMobilePanelStandard(
+      el.placePanel,
+      "--place-sheet-height"
     );
-    document.documentElement.style.setProperty(
-      "--place-sheet-height",
-      height
-    );
-    el.placePanel.classList.remove("is-collapsed");
-    el.placePanel.scrollTop = 0;
   }
 
   let placePanelViewportTimer = null;
 
   function stabilizeMobilePlacePanelHeight() {
-    normalizeMobilePlacePanelHeight();
-
-    window.requestAnimationFrame(() => {
-      normalizeMobilePlacePanelHeight();
-
-      window.requestAnimationFrame(() => {
-        normalizeMobilePlacePanelHeight();
-      });
-    });
-
-    // Mobilna klawiatura zmienia wysokość visualViewport dopiero
-    // po zakończeniu animacji zamykania. Utrwalamy wysokość panelu
-    // również po tych późniejszych zmianach.
-    window.clearTimeout(placePanelViewportTimer);
-
-    const delays = [80, 180, 320, 520];
-
-    delays.forEach(delay => {
-      window.setTimeout(() => {
-        normalizeMobilePlacePanelHeight();
-      }, delay);
-    });
-
-    placePanelViewportTimer = window.setTimeout(() => {
-      normalizeMobilePlacePanelHeight();
-      placePanelViewportTimer = null;
-    }, 700);
+    stabilizeMobilePanelStandard(
+      el.placePanel,
+      "--place-sheet-height"
+    );
   }
 
   function prepareMobilePlacePanelAfterSearch() {
-    if (
-      !window.matchMedia("(max-width: 600px)").matches
-    ) {
-      return;
-    }
+    if (!isMobilePanelViewport()) return;
 
     const active = document.activeElement;
-
-    if (
-      active instanceof HTMLElement &&
-      (
-        active === el.searchInput ||
-        active.closest?.(".autocomplete")
-      )
-    ) {
-      active.blur();
-    }
+    if (active instanceof HTMLElement) active.blur();
 
     hideAllAutocomplete();
     stabilizeMobilePlacePanelHeight();
@@ -3475,6 +3473,10 @@ function closeRoute() {
     if (!el.discoverPanel) return;
 
     el.discoverPanel.hidden = false;
+    openMobilePanelStandard(
+      el.discoverPanel,
+      "--discover-sheet-height"
+    );
     el.discoverPanel.classList.remove("is-collapsed");
 
     if (window.matchMedia("(max-width: 600px)").matches) {
@@ -3536,7 +3538,10 @@ function closeRoute() {
     if (!el.placePanel) return;
 
     el.placePanel.hidden = false;
-    stabilizeMobilePlacePanelHeight();
+    openMobilePanelStandard(
+      el.placePanel,
+      "--place-sheet-height"
+    );
   }
 
   function closePlacePanel() {
@@ -5817,6 +5822,10 @@ function closeRoute() {
     closeAbout();
 
     el.favoritesPanel.hidden = false;
+    openMobilePanelStandard(
+      el.favoritesPanel,
+      "--favorites-sheet-height"
+    );
     el.favoritesSearch.value = "";
     renderFavoritesList();
 
@@ -6140,6 +6149,10 @@ function closeRoute() {
     if (!el.menuPanel) return;
 
     el.menuPanel.hidden = false;
+    openMobilePanelStandard(
+      el.menuPanel,
+      "--menu-sheet-height"
+    );
     el.menuPanel.classList.remove("is-collapsed");
 
     if (window.matchMedia("(max-width: 600px)").matches) {
@@ -6168,7 +6181,10 @@ function closeRoute() {
     closeDiscover();
 
     el.legendPanel.hidden = false;
-    el.legendPanel.classList.remove("is-collapsed");
+    openMobilePanelStandard(
+      el.legendPanel,
+      "--legend-sheet-height"
+    );
     el.legendButton?.setAttribute("aria-expanded", "true");
   }
 
@@ -6180,7 +6196,10 @@ function closeRoute() {
     closeDiscover();
 
     el.aboutPanel.hidden = false;
-    el.aboutPanel.classList.remove("is-collapsed");
+    openMobilePanelStandard(
+      el.aboutPanel,
+      "--about-sheet-height"
+    );
     el.aboutButton?.setAttribute("aria-expanded", "true");
   }
 
@@ -6215,6 +6234,9 @@ function closeRoute() {
     }
 
     el.menuPanel.hidden = !shouldOpen;
+    if (shouldOpen) {
+      openMobilePanelStandard(el.menuPanel, "--menu-sheet-height");
+    }
     
     el.menuButton?.setAttribute("aria-expanded", String(shouldOpen));
     el.menuButton?.classList.toggle("is-active", shouldOpen);
@@ -6308,12 +6330,26 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
+
     const shouldOpen = el.aboutPanel.hidden;
+
     closeDiscover();
     closeLegend();
     closeRoutePanel();
+
     el.aboutPanel.hidden = !shouldOpen;
-    el.aboutButton?.setAttribute("aria-expanded", String(shouldOpen));
+
+    if (shouldOpen) {
+      openMobilePanelStandard(
+        el.aboutPanel,
+        "--about-sheet-height"
+      );
+    }
+
+    el.aboutButton?.setAttribute(
+      "aria-expanded",
+      String(shouldOpen)
+    );
   }
 
   function closeAbout() {
@@ -6327,12 +6363,26 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     closePlacePanel();
     closeFavoritesPanel();
     closeMenu();
+
     const shouldOpen = el.legendPanel.hidden;
+
     closeDiscover();
     closeAbout();
     closeRoute();
+
     el.legendPanel.hidden = !shouldOpen;
-    el.legendButton?.setAttribute("aria-expanded", String(shouldOpen));
+
+    if (shouldOpen) {
+      openMobilePanelStandard(
+        el.legendPanel,
+        "--legend-sheet-height"
+      );
+    }
+
+    el.legendButton?.setAttribute(
+      "aria-expanded",
+      String(shouldOpen)
+    );
   }
 
   function closeLegend() {
