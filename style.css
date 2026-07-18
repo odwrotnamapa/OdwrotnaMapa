@@ -4435,31 +4435,33 @@ textarea {
    ========================================================= */
 @media (max-width: 600px) {
   body:has(.place-panel:not([hidden])) .place-panel {
-    --place-sheet-height: 42dvh !important;
-    height: 42dvh !important;
-    max-height: 42dvh !important;
-    min-height: 42dvh !important;
+    --place-sheet-height: 42dvh;
+    height: var(--place-sheet-height) !important;
+    max-height: calc(100dvh - 16px) !important;
+    min-height: 48px !important;
     bottom: 8px !important;
     overflow-y: auto !important;
   }
 
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed {
-    height: 42dvh !important;
-    max-height: 42dvh !important;
-    min-height: 42dvh !important;
+    --place-sheet-height: 48px !important;
+    height: 48px !important;
+    max-height: 48px !important;
+    min-height: 48px !important;
+    overflow: hidden !important;
   }
 
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed
   > :not(.place-sheet-handle) {
-    display: initial;
+    display: none !important;
   }
 
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed
   .place-sheet-handle {
-    height: 28px;
+    height: 48px;
   }
 }
 
