@@ -3,6 +3,14 @@
   "importedAt": "2026-07-17T04:09:13.806Z",
   "cities": [
     {
+      "id": "biaa-podlaska",
+      "name": "Biała Podlaska",
+      "aliases": [
+        "biała podlaska"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
       "id": "bialystok",
       "name": "Białystok",
       "aliases": [
@@ -35,10 +43,34 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "chem",
+      "name": "Chełm",
+      "aliases": [
+        "chełm"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "chorzow",
+      "name": "Chorzów",
+      "aliases": [
+        "chorzow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
       "id": "czestochowa",
       "name": "Częstochowa",
       "aliases": [
         "czestochowa"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "dabrowa-gornicza",
+      "name": "Dąbrowa Górnicza",
+      "aliases": [
+        "dabrowa gornicza"
       ],
       "voivodeship": "śląskie"
     },
@@ -101,10 +133,26 @@
       "voivodeship": "kujawsko-pomorskie"
     },
     {
+      "id": "jastrzebie-zdroj",
+      "name": "Jastrzębie-Zdrój",
+      "aliases": [
+        "jastrzebie zdroj"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
       "id": "jaworzno",
       "name": "Jaworzno",
       "aliases": [],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "jelenia-gora",
+      "name": "Jelenia Góra",
+      "aliases": [
+        "jelenia gora"
+      ],
+      "voivodeship": "dolnośląskie"
     },
     {
       "id": "kalisz",
@@ -127,6 +175,14 @@
       "voivodeship": "świętokrzyskie"
     },
     {
+      "id": "konin",
+      "name": "Konin",
+      "aliases": [
+        "konin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
       "id": "koszalin",
       "name": "Koszalin",
       "aliases": [
@@ -145,6 +201,14 @@
       "voivodeship": "małopolskie"
     },
     {
+      "id": "krosno",
+      "name": "Krosno",
+      "aliases": [
+        "krosno"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
       "id": "legnica",
       "name": "Legnica",
       "aliases": [
@@ -153,10 +217,12 @@
       "voivodeship": "dolnośląskie"
     },
     {
-      "id": "lublin",
-      "name": "Lublin",
-      "aliases": [],
-      "voivodeship": "lubelskie"
+      "id": "leszno",
+      "name": "Leszno",
+      "aliases": [
+        "leszno"
+      ],
+      "voivodeship": "wielkopolskie"
     },
     {
       "id": "lodz",
@@ -165,6 +231,20 @@
         "lodz"
       ],
       "voivodeship": "łódzkie"
+    },
+    {
+      "id": "lublin",
+      "name": "Lublin",
+      "aliases": [],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "mysowice",
+      "name": "Mysłowice",
+      "aliases": [
+        "mysłowice"
+      ],
+      "voivodeship": "śląskie"
     },
     {
       "id": "nowy-sacz",
@@ -183,12 +263,44 @@
       "voivodeship": "warmińsko-mazurskie"
     },
     {
+      "id": "omza",
+      "name": "Łomża",
+      "aliases": [
+        "łomza"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
       "id": "opole",
       "name": "Opole",
       "aliases": [
         "oppeln"
       ],
       "voivodeship": "opolskie"
+    },
+    {
+      "id": "ostroeka",
+      "name": "Ostrołęka",
+      "aliases": [
+        "ostrołeka"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "piekary-slaskie",
+      "name": "Piekary Śląskie",
+      "aliases": [
+        "piekary slaskie"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "piotrkow-trybunalski",
+      "name": "Piotrków Trybunalski",
+      "aliases": [
+        "piotrkow trybunalski"
+      ],
+      "voivodeship": "łódzkie"
     },
     {
       "id": "plock",
@@ -206,6 +318,14 @@
         "posen"
       ],
       "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "przemysl",
+      "name": "Przemyśl",
+      "aliases": [
+        "przemysl"
+      ],
+      "voivodeship": "podkarpackie"
     },
     {
       "id": "radom",
@@ -236,11 +356,43 @@
       "voivodeship": "podkarpackie"
     },
     {
+      "id": "siedlce",
+      "name": "Siedlce",
+      "aliases": [
+        "siedlce"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "siemianowice-slaskie",
+      "name": "Siemianowice Śląskie",
+      "aliases": [
+        "siemianowice slaskie"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "skierniewice",
+      "name": "Skierniewice",
+      "aliases": [
+        "skierniewice"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
       "id": "slupsk",
       "name": "Słupsk",
       "aliases": [
         "slupsk",
         "stolp"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "sopot",
+      "name": "Sopot",
+      "aliases": [
+        "sopot"
       ],
       "voivodeship": "pomorskie"
     },
@@ -251,12 +403,44 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "suwaki",
+      "name": "Suwałki",
+      "aliases": [
+        "suwałki"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "swietochowice",
+      "name": "Świętochłowice",
+      "aliases": [
+        "swietochłowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "swinoujscie",
+      "name": "Świnoujście",
+      "aliases": [
+        "swinoujscie"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
       "id": "szczecin",
       "name": "Szczecin",
       "aliases": [
         "stettin"
       ],
       "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "tarnobrzeg",
+      "name": "Tarnobrzeg",
+      "aliases": [
+        "tarnobrzeg"
+      ],
+      "voivodeship": "podkarpackie"
     },
     {
       "id": "tarnow",
@@ -274,6 +458,14 @@
         "thorn"
       ],
       "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "tychy",
+      "name": "Tychy",
+      "aliases": [
+        "tychy"
+      ],
+      "voivodeship": "śląskie"
     },
     {
       "id": "walbrzych",
@@ -327,12 +519,28 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "zamosc",
+      "name": "Zamość",
+      "aliases": [
+        "zamosc"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
       "id": "zielona-gora",
       "name": "Zielona Góra",
       "aliases": [
         "zielona gora"
       ],
       "voivodeship": "lubuskie"
+    },
+    {
+      "id": "zory",
+      "name": "Żory",
+      "aliases": [
+        "zory"
+      ],
+      "voivodeship": "śląskie"
     }
   ]
 }

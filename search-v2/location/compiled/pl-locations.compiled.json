@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-18T19:06:43.473Z",
+  "generatedAt": "2026-07-19T06:24:34.192Z",
   "country": {
     "id": "pl",
     "name": "Polska",
@@ -10,11 +10,20 @@
     ]
   },
   "stats": {
-    "cities": 40,
+    "cities": 66,
     "districts": 40,
-    "aliases": 117
+    "aliases": 144
   },
   "cities": [
+    {
+      "id": "biaa-podlaska",
+      "name": "Biała Podlaska",
+      "aliases": [
+        "biała podlaska"
+      ],
+      "voivodeship": "lubelskie",
+      "districts": []
+    },
     {
       "id": "bialystok",
       "name": "Białystok",
@@ -52,10 +61,37 @@
       "districts": []
     },
     {
+      "id": "chem",
+      "name": "Chełm",
+      "aliases": [
+        "chełm"
+      ],
+      "voivodeship": "lubelskie",
+      "districts": []
+    },
+    {
+      "id": "chorzow",
+      "name": "Chorzów",
+      "aliases": [
+        "chorzow"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
       "id": "czestochowa",
       "name": "Częstochowa",
       "aliases": [
         "czestochowa"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
+      "id": "dabrowa-gornicza",
+      "name": "Dąbrowa Górnicza",
+      "aliases": [
+        "dabrowa gornicza"
       ],
       "voivodeship": "śląskie",
       "districts": []
@@ -196,10 +232,28 @@
       "districts": []
     },
     {
+      "id": "jastrzebie-zdroj",
+      "name": "Jastrzębie-Zdrój",
+      "aliases": [
+        "jastrzebie zdroj"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
       "id": "jaworzno",
       "name": "Jaworzno",
       "aliases": [],
       "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
+      "id": "jelenia-gora",
+      "name": "Jelenia Góra",
+      "aliases": [
+        "jelenia gora"
+      ],
+      "voivodeship": "dolnośląskie",
       "districts": []
     },
     {
@@ -223,6 +277,15 @@
       "name": "Kielce",
       "aliases": [],
       "voivodeship": "świętokrzyskie",
+      "districts": []
+    },
+    {
+      "id": "konin",
+      "name": "Konin",
+      "aliases": [
+        "konin"
+      ],
+      "voivodeship": "wielkopolskie",
       "districts": []
     },
     {
@@ -297,6 +360,15 @@
       ]
     },
     {
+      "id": "krosno",
+      "name": "Krosno",
+      "aliases": [
+        "krosno"
+      ],
+      "voivodeship": "podkarpackie",
+      "districts": []
+    },
+    {
       "id": "legnica",
       "name": "Legnica",
       "aliases": [
@@ -306,10 +378,12 @@
       "districts": []
     },
     {
-      "id": "lublin",
-      "name": "Lublin",
-      "aliases": [],
-      "voivodeship": "lubelskie",
+      "id": "leszno",
+      "name": "Leszno",
+      "aliases": [
+        "leszno"
+      ],
+      "voivodeship": "wielkopolskie",
       "districts": []
     },
     {
@@ -366,6 +440,22 @@
       ]
     },
     {
+      "id": "lublin",
+      "name": "Lublin",
+      "aliases": [],
+      "voivodeship": "lubelskie",
+      "districts": []
+    },
+    {
+      "id": "mysowice",
+      "name": "Mysłowice",
+      "aliases": [
+        "mysłowice"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
       "id": "nowy-sacz",
       "name": "Nowy Sącz",
       "aliases": [
@@ -384,12 +474,48 @@
       "districts": []
     },
     {
+      "id": "omza",
+      "name": "Łomża",
+      "aliases": [
+        "łomza"
+      ],
+      "voivodeship": "podlaskie",
+      "districts": []
+    },
+    {
       "id": "opole",
       "name": "Opole",
       "aliases": [
         "oppeln"
       ],
       "voivodeship": "opolskie",
+      "districts": []
+    },
+    {
+      "id": "ostroeka",
+      "name": "Ostrołęka",
+      "aliases": [
+        "ostrołeka"
+      ],
+      "voivodeship": "mazowieckie",
+      "districts": []
+    },
+    {
+      "id": "piekary-slaskie",
+      "name": "Piekary Śląskie",
+      "aliases": [
+        "piekary slaskie"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
+      "id": "piotrkow-trybunalski",
+      "name": "Piotrków Trybunalski",
+      "aliases": [
+        "piotrkow trybunalski"
+      ],
+      "voivodeship": "łódzkie",
       "districts": []
     },
     {
@@ -455,6 +581,15 @@
       ]
     },
     {
+      "id": "przemysl",
+      "name": "Przemyśl",
+      "aliases": [
+        "przemysl"
+      ],
+      "voivodeship": "podkarpackie",
+      "districts": []
+    },
+    {
       "id": "radom",
       "name": "Radom",
       "aliases": [],
@@ -487,11 +622,47 @@
       "districts": []
     },
     {
+      "id": "siedlce",
+      "name": "Siedlce",
+      "aliases": [
+        "siedlce"
+      ],
+      "voivodeship": "mazowieckie",
+      "districts": []
+    },
+    {
+      "id": "siemianowice-slaskie",
+      "name": "Siemianowice Śląskie",
+      "aliases": [
+        "siemianowice slaskie"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
+      "id": "skierniewice",
+      "name": "Skierniewice",
+      "aliases": [
+        "skierniewice"
+      ],
+      "voivodeship": "łódzkie",
+      "districts": []
+    },
+    {
       "id": "slupsk",
       "name": "Słupsk",
       "aliases": [
         "slupsk",
         "stolp"
+      ],
+      "voivodeship": "pomorskie",
+      "districts": []
+    },
+    {
+      "id": "sopot",
+      "name": "Sopot",
+      "aliases": [
+        "sopot"
       ],
       "voivodeship": "pomorskie",
       "districts": []
@@ -504,12 +675,48 @@
       "districts": []
     },
     {
+      "id": "suwaki",
+      "name": "Suwałki",
+      "aliases": [
+        "suwałki"
+      ],
+      "voivodeship": "podlaskie",
+      "districts": []
+    },
+    {
+      "id": "swietochowice",
+      "name": "Świętochłowice",
+      "aliases": [
+        "swietochłowice"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
+    },
+    {
+      "id": "swinoujscie",
+      "name": "Świnoujście",
+      "aliases": [
+        "swinoujscie"
+      ],
+      "voivodeship": "zachodniopomorskie",
+      "districts": []
+    },
+    {
       "id": "szczecin",
       "name": "Szczecin",
       "aliases": [
         "stettin"
       ],
       "voivodeship": "zachodniopomorskie",
+      "districts": []
+    },
+    {
+      "id": "tarnobrzeg",
+      "name": "Tarnobrzeg",
+      "aliases": [
+        "tarnobrzeg"
+      ],
+      "voivodeship": "podkarpackie",
       "districts": []
     },
     {
@@ -529,6 +736,15 @@
         "thorn"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "districts": []
+    },
+    {
+      "id": "tychy",
+      "name": "Tychy",
+      "aliases": [
+        "tychy"
+      ],
+      "voivodeship": "śląskie",
       "districts": []
     },
     {
@@ -703,6 +919,15 @@
       "districts": []
     },
     {
+      "id": "zamosc",
+      "name": "Zamość",
+      "aliases": [
+        "zamosc"
+      ],
+      "voivodeship": "lubelskie",
+      "districts": []
+    },
+    {
       "id": "zielona-gora",
       "name": "Zielona Góra",
       "aliases": [
@@ -710,9 +935,30 @@
       ],
       "voivodeship": "lubuskie",
       "districts": []
+    },
+    {
+      "id": "zory",
+      "name": "Żory",
+      "aliases": [
+        "zory"
+      ],
+      "voivodeship": "śląskie",
+      "districts": []
     }
   ],
   "tokenIndex": {
+    "biała podlaska": [
+      {
+        "type": "city",
+        "id": "biaa-podlaska",
+        "name": "Biała Podlaska"
+      },
+      {
+        "type": "city",
+        "id": "biaa-podlaska",
+        "name": "Biała Podlaska"
+      }
+    ],
     "białystok": [
       {
         "type": "city",
@@ -769,6 +1015,30 @@
         "name": "Bytom"
       }
     ],
+    "chełm": [
+      {
+        "type": "city",
+        "id": "chem",
+        "name": "Chełm"
+      },
+      {
+        "type": "city",
+        "id": "chem",
+        "name": "Chełm"
+      }
+    ],
+    "chorzow": [
+      {
+        "type": "city",
+        "id": "chorzow",
+        "name": "Chorzów"
+      },
+      {
+        "type": "city",
+        "id": "chorzow",
+        "name": "Chorzów"
+      }
+    ],
     "czestochowa": [
       {
         "type": "city",
@@ -779,6 +1049,18 @@
         "type": "city",
         "id": "czestochowa",
         "name": "Częstochowa"
+      }
+    ],
+    "dabrowa gornicza": [
+      {
+        "type": "city",
+        "id": "dabrowa-gornicza",
+        "name": "Dąbrowa Górnicza"
+      },
+      {
+        "type": "city",
+        "id": "dabrowa-gornicza",
+        "name": "Dąbrowa Górnicza"
       }
     ],
     "elblag": [
@@ -1118,11 +1400,37 @@
         "name": "Grudziądz"
       }
     ],
+    "jastrzebie-zdroj": [
+      {
+        "type": "city",
+        "id": "jastrzebie-zdroj",
+        "name": "Jastrzębie-Zdrój"
+      }
+    ],
+    "jastrzebie zdroj": [
+      {
+        "type": "city",
+        "id": "jastrzebie-zdroj",
+        "name": "Jastrzębie-Zdrój"
+      }
+    ],
     "jaworzno": [
       {
         "type": "city",
         "id": "jaworzno",
         "name": "Jaworzno"
+      }
+    ],
+    "jelenia gora": [
+      {
+        "type": "city",
+        "id": "jelenia-gora",
+        "name": "Jelenia Góra"
+      },
+      {
+        "type": "city",
+        "id": "jelenia-gora",
+        "name": "Jelenia Góra"
       }
     ],
     "kalisz": [
@@ -1151,6 +1459,18 @@
         "type": "city",
         "id": "kielce",
         "name": "Kielce"
+      }
+    ],
+    "konin": [
+      {
+        "type": "city",
+        "id": "konin",
+        "name": "Konin"
+      },
+      {
+        "type": "city",
+        "id": "konin",
+        "name": "Konin"
       }
     ],
     "koszalin": [
@@ -1289,6 +1609,18 @@
         "parentCityId": "krakow"
       }
     ],
+    "krosno": [
+      {
+        "type": "city",
+        "id": "krosno",
+        "name": "Krosno"
+      },
+      {
+        "type": "city",
+        "id": "krosno",
+        "name": "Krosno"
+      }
+    ],
     "legnica": [
       {
         "type": "city",
@@ -1303,11 +1635,16 @@
         "name": "Legnica"
       }
     ],
-    "lublin": [
+    "leszno": [
       {
         "type": "city",
-        "id": "lublin",
-        "name": "Lublin"
+        "id": "leszno",
+        "name": "Leszno"
+      },
+      {
+        "type": "city",
+        "id": "leszno",
+        "name": "Leszno"
       }
     ],
     "łodz": [
@@ -1378,6 +1715,25 @@
         "parentCityId": "lodz"
       }
     ],
+    "lublin": [
+      {
+        "type": "city",
+        "id": "lublin",
+        "name": "Lublin"
+      }
+    ],
+    "mysłowice": [
+      {
+        "type": "city",
+        "id": "mysowice",
+        "name": "Mysłowice"
+      },
+      {
+        "type": "city",
+        "id": "mysowice",
+        "name": "Mysłowice"
+      }
+    ],
     "nowy sacz": [
       {
         "type": "city",
@@ -1404,6 +1760,18 @@
         "name": "Olsztyn"
       }
     ],
+    "łomza": [
+      {
+        "type": "city",
+        "id": "omza",
+        "name": "Łomża"
+      },
+      {
+        "type": "city",
+        "id": "omza",
+        "name": "Łomża"
+      }
+    ],
     "opole": [
       {
         "type": "city",
@@ -1416,6 +1784,42 @@
         "type": "city",
         "id": "opole",
         "name": "Opole"
+      }
+    ],
+    "ostrołeka": [
+      {
+        "type": "city",
+        "id": "ostroeka",
+        "name": "Ostrołęka"
+      },
+      {
+        "type": "city",
+        "id": "ostroeka",
+        "name": "Ostrołęka"
+      }
+    ],
+    "piekary slaskie": [
+      {
+        "type": "city",
+        "id": "piekary-slaskie",
+        "name": "Piekary Śląskie"
+      },
+      {
+        "type": "city",
+        "id": "piekary-slaskie",
+        "name": "Piekary Śląskie"
+      }
+    ],
+    "piotrkow trybunalski": [
+      {
+        "type": "city",
+        "id": "piotrkow-trybunalski",
+        "name": "Piotrków Trybunalski"
+      },
+      {
+        "type": "city",
+        "id": "piotrkow-trybunalski",
+        "name": "Piotrków Trybunalski"
       }
     ],
     "płock": [
@@ -1497,6 +1901,18 @@
         "parentCityId": "poznan"
       }
     ],
+    "przemysl": [
+      {
+        "type": "city",
+        "id": "przemysl",
+        "name": "Przemyśl"
+      },
+      {
+        "type": "city",
+        "id": "przemysl",
+        "name": "Przemyśl"
+      }
+    ],
     "radom": [
       {
         "type": "city",
@@ -1535,6 +1951,42 @@
         "name": "Rzeszów"
       }
     ],
+    "siedlce": [
+      {
+        "type": "city",
+        "id": "siedlce",
+        "name": "Siedlce"
+      },
+      {
+        "type": "city",
+        "id": "siedlce",
+        "name": "Siedlce"
+      }
+    ],
+    "siemianowice slaskie": [
+      {
+        "type": "city",
+        "id": "siemianowice-slaskie",
+        "name": "Siemianowice Śląskie"
+      },
+      {
+        "type": "city",
+        "id": "siemianowice-slaskie",
+        "name": "Siemianowice Śląskie"
+      }
+    ],
+    "skierniewice": [
+      {
+        "type": "city",
+        "id": "skierniewice",
+        "name": "Skierniewice"
+      },
+      {
+        "type": "city",
+        "id": "skierniewice",
+        "name": "Skierniewice"
+      }
+    ],
     "słupsk": [
       {
         "type": "city",
@@ -1556,11 +2008,59 @@
         "name": "Słupsk"
       }
     ],
+    "sopot": [
+      {
+        "type": "city",
+        "id": "sopot",
+        "name": "Sopot"
+      },
+      {
+        "type": "city",
+        "id": "sopot",
+        "name": "Sopot"
+      }
+    ],
     "sosnowiec": [
       {
         "type": "city",
         "id": "sosnowiec",
         "name": "Sosnowiec"
+      }
+    ],
+    "suwałki": [
+      {
+        "type": "city",
+        "id": "suwaki",
+        "name": "Suwałki"
+      },
+      {
+        "type": "city",
+        "id": "suwaki",
+        "name": "Suwałki"
+      }
+    ],
+    "swietochłowice": [
+      {
+        "type": "city",
+        "id": "swietochowice",
+        "name": "Świętochłowice"
+      },
+      {
+        "type": "city",
+        "id": "swietochowice",
+        "name": "Świętochłowice"
+      }
+    ],
+    "swinoujscie": [
+      {
+        "type": "city",
+        "id": "swinoujscie",
+        "name": "Świnoujście"
+      },
+      {
+        "type": "city",
+        "id": "swinoujscie",
+        "name": "Świnoujście"
       }
     ],
     "szczecin": [
@@ -1575,6 +2075,18 @@
         "type": "city",
         "id": "szczecin",
         "name": "Szczecin"
+      }
+    ],
+    "tarnobrzeg": [
+      {
+        "type": "city",
+        "id": "tarnobrzeg",
+        "name": "Tarnobrzeg"
+      },
+      {
+        "type": "city",
+        "id": "tarnobrzeg",
+        "name": "Tarnobrzeg"
       }
     ],
     "tarnow": [
@@ -1606,6 +2118,18 @@
         "type": "city",
         "id": "torun",
         "name": "Toruń"
+      }
+    ],
+    "tychy": [
+      {
+        "type": "city",
+        "id": "tychy",
+        "name": "Tychy"
+      },
+      {
+        "type": "city",
+        "id": "tychy",
+        "name": "Tychy"
       }
     ],
     "wałbrzych": [
@@ -1835,6 +2359,18 @@
         "name": "Zabrze"
       }
     ],
+    "zamosc": [
+      {
+        "type": "city",
+        "id": "zamosc",
+        "name": "Zamość"
+      },
+      {
+        "type": "city",
+        "id": "zamosc",
+        "name": "Zamość"
+      }
+    ],
     "zielona gora": [
       {
         "type": "city",
@@ -1845,6 +2381,18 @@
         "type": "city",
         "id": "zielona-gora",
         "name": "Zielona Góra"
+      }
+    ],
+    "zory": [
+      {
+        "type": "city",
+        "id": "zory",
+        "name": "Żory"
+      },
+      {
+        "type": "city",
+        "id": "zory",
+        "name": "Żory"
       }
     ]
   }
