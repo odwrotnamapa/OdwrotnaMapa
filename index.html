@@ -71,8 +71,7 @@
     
     <div class="legacy-hidden-controls" hidden>
       <select id="theme-select">
-        <option value="light">Jasna</option>
-        <option value="dark">Ciemna</option>
+        <option value="default">Domyślna</option>
         <option value="satellite">Satelitarna</option>
       </select>
       <button id="locate-button" type="button">📍</button>
@@ -372,10 +371,6 @@
 
       <dl class="about-meta">
         <div>
-          
-          <dd>v0.2</dd>
-        </div>
-        <div>
           <dt id="about-data-label">Dane mapowe</dt>
           <dd>© OpenStreetMap contributors</dd>
         </div>
@@ -388,6 +383,11 @@
           <dd>MapLibre GL JS</dd>
         </div>
       </dl>
+
+      <p id="about-contact" class="about-contact">
+        <span id="about-contact-label">Kontakt:</span>
+        <a href="mailto:odwrotnamapa@protonmail.com">odwrotnamapa@protonmail.com</a>
+      </p>
     </aside>
 
     <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
@@ -469,8 +469,7 @@
           <span aria-hidden="true">🗺️</span>
           <span id="menu-theme-label">Wygląd mapy</span>
           <select id="menu-theme-select" aria-labelledby="menu-theme-label">
-            <option value="light">Jasna</option>
-            <option value="dark">Ciemna</option>
+            <option value="default">Domyślna</option>
             <option value="satellite">Satelitarna</option>
           </select>
         </label>

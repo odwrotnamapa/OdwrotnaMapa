@@ -5,7 +5,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     zoom: 4.8,
     bearing: 180,
     pitch: 0,
-    minZoom: 2
+    minZoom: 0
   },
   satellite: {
     sourceId: "southmaps-satellite",
@@ -21,7 +21,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     plannerEndpoint: "https://api.transitous.org/api/v6/plan",
     sourcesUrl: "https://transitous.org/sources/",
     radius: 180,
-    limit: 8
+    limit: 24
   },
 
   routing: {

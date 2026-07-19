@@ -635,6 +635,16 @@ body.ui-dark .legend-symbol.osm-buildings {
   font-size: 0.82rem;
 }
 
+.about-contact {
+  margin: 16px 0 0;
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.about-contact a {
+  color: var(--accent);
+}
+
 @media (max-width: 480px) {
   .about-panel {
     width: calc(100vw - 16px);

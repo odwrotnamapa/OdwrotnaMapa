@@ -10,7 +10,7 @@
     pl: {
       title: "Odwrotna Mapa - mapa z południem u góry",
       search: "Szukaj miejsca…", button: "Szukaj",
-      styles: { light: "Jasna", dark: "Ciemna", satellite: "Satelitarna" },
+      styles: { default: "Domyślna", satellite: "Satelitarna" },
       locate: "Moja lokalizacja", legend: "Legenda", closeLegend: "Zamknij legendę",
       backToMenu: "Wróć do menu",
       legendSections: {
@@ -50,6 +50,7 @@
       aboutData: "Dane mapowe",
       aboutStyle: "Styl mapy",
       aboutEngine: "Silnik",
+      aboutContact: "Kontakt:",
       searching: "Wyszukiwanie…", noResults: "Nie znaleziono miejsca.",
       searchError: "Nie udało się wyszukać miejsca.",
       locating: "Ustalanie lokalizacji…",
@@ -186,7 +187,7 @@
     en: {
       title: "Odwrotna Mapa - mapa z południem u góry",
       search: "Search for a place…", button: "Search",
-      styles: { light: "Light", dark: "Dark", satellite: "Satellite" },
+      styles: { default: "Default", satellite: "Satellite" },
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
       backToMenu: "Back to menu",
       legendSections: {
@@ -226,6 +227,7 @@
       aboutData: "Map data",
       aboutStyle: "Map style",
       aboutEngine: "Engine",
+      aboutContact: "Contact:",
       searching: "Searching…", noResults: "No place found.",
       searchError: "The place search failed.",
       locating: "Finding your location…",
@@ -365,9 +367,13 @@
     language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, "pl"))
       ? safeGet(CONFIG.storageKeys.language, "pl")
       : "pl",
-    theme: ["light", "dark", "satellite"].includes(safeGet(CONFIG.storageKeys.theme, "light"))
-      ? safeGet(CONFIG.storageKeys.theme, "light")
-      : "light",
+    theme: (() => {
+      const stored = safeGet(CONFIG.storageKeys.theme, "default");
+      if (stored === "light" || stored === "dark") return "default";
+      return ["default", "satellite"].includes(stored)
+        ? stored
+        : "default";
+    })(),
     timer: null,
     originalPaint: new Map(),
     originalTextFields: new Map(),
@@ -467,6 +473,7 @@
     aboutDataLabel: $("about-data-label"),
     aboutStyleLabel: $("about-style-label"),
     aboutEngineLabel: $("about-engine-label"),
+    aboutContactLabel: $("about-contact-label"),
     routeButton: $("route-button"),
     discoverButton: $("discover-button"),
     discoverSheetHandle: $("discover-sheet-handle"),
@@ -578,6 +585,32 @@
     safeSet(CONFIG.storageKeys.theme, state.theme);
     applyTheme(state.theme);
     updateUI();
+  });
+
+  window.matchMedia?.("(prefers-color-scheme: dark)")
+    ?.addEventListener("change", () => {
+      if (state.theme === "default") applyTheme(state.theme);
+    });
+
+  function refreshDefaultThemeIfNeeded() {
+    if (state.theme === "default") applyTheme(state.theme);
+  }
+
+  if (window.MutationObserver) {
+    new MutationObserver(refreshDefaultThemeIfNeeded).observe(
+      document.documentElement,
+      { attributes: true, attributeFilter: ["data-darkreader-scheme", "class"] }
+    );
+    new MutationObserver(refreshDefaultThemeIfNeeded).observe(
+      document.head,
+      { childList: true }
+    );
+  }
+
+  // Dark-mode browser extensions (e.g. Dark Reader) often apply a moment
+  // after the page finishes loading, so re-check a few times early on.
+  [300, 800, 1600, 3000].forEach(delay => {
+    window.setTimeout(refreshDefaultThemeIfNeeded, delay);
   });
 
   el.languageSelect?.addEventListener("change", e => {
@@ -765,6 +798,7 @@
     if (el.aboutDataLabel) el.aboutDataLabel.textContent = t.aboutData;
     if (el.aboutStyleLabel) el.aboutStyleLabel.textContent = t.aboutStyle;
     if (el.aboutEngineLabel) el.aboutEngineLabel.textContent = t.aboutEngine;
+    if (el.aboutContactLabel) el.aboutContactLabel.textContent = t.aboutContact;
     if (el.placePanelTitle) el.placePanelTitle.textContent = t.placePanelTitle;
     el.placePanelClose?.setAttribute("aria-label", t.placePanelClose);
     el.placeSheetHandle?.setAttribute("aria-label", t.placePanelResize);
@@ -828,7 +862,7 @@
     for (const option of el.menuThemeSelect.options) {
       option.textContent = t.styles[option.value];
     }
-    document.body.classList.toggle("ui-dark", state.theme === "dark");
+    document.body.classList.toggle("ui-dark", resolveTheme(state.theme) === "dark");
     renderFavoritesList();
   }
 
@@ -874,12 +908,68 @@
     }
   }
 
+  let darkModeProbe = null;
+
+  function getDarkModeProbe() {
+    if (darkModeProbe && document.body.contains(darkModeProbe)) {
+      return darkModeProbe;
+    }
+
+    const probe = document.createElement("div");
+    probe.id = "omap-dark-mode-probe";
+    probe.setAttribute("aria-hidden", "true");
+    probe.style.cssText =
+      "position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;" +
+      "background-color:#ffffff;pointer-events:none;";
+    document.body.appendChild(probe);
+    darkModeProbe = probe;
+    return probe;
+  }
+
+  function detectBrowserForcedDarkMode() {
+    if (!document.body) return false;
+
+    // Dark Reader marks the page with this attribute when active.
+    const scheme = document.documentElement.getAttribute(
+      "data-darkreader-scheme"
+    );
+    if (scheme) return scheme !== "light";
+
+    // Generic fallback: dark-mode extensions (Dark Reader and similar)
+    // recolor the whole page, including inline styles. A probe element
+    // with an explicit white background will come back dark if such an
+    // extension is active.
+    const background = getComputedStyle(getDarkModeProbe()).backgroundColor;
+    const channels = background?.match(/[\d.]+/g);
+    if (!channels || channels.length < 3) return false;
+
+    const [r, g, b] = channels.map(Number);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance < 0.5;
+  }
+
+  function prefersDarkColorScheme() {
+    return Boolean(
+      (window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+      detectBrowserForcedDarkMode()
+    );
+  }
+
+  function resolveTheme(theme) {
+    if (theme === "default") {
+      return prefersDarkColorScheme() ? "dark" : "light";
+    }
+    return theme;
+  }
+
   function applyTheme(theme) {
     if (!map.isStyleLoaded()) {
       map.once("idle", () => applyTheme(theme));
       return;
     }
 
+    const effectiveTheme = resolveTheme(theme);
     const layers = map.getStyle().layers || [];
 
     for (const layer of layers) {
@@ -916,7 +1006,7 @@
 
       setVisibility(layer, true);
 
-      if (theme === "dark") {
+      if (effectiveTheme === "dark") {
         disableFillPattern(layer);
         applyDarkPalette(layer);
       } else {
@@ -925,7 +1015,7 @@
       }
     }
 
-    document.body.classList.toggle("ui-dark", theme === "dark");
+    document.body.classList.toggle("ui-dark", effectiveTheme === "dark");
     applyLanguage(state.language);
 
     for (const layer of map.getStyle().layers || []) {
