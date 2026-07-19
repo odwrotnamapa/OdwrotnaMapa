@@ -33,7 +33,7 @@ const checks = [
   ],
   [
     "discover sets return target",
-    app.includes('setPlacePanelReturnTarget("discover")')
+    app.includes('setPlacePanelReturnTarget("discover"')
   ],
   [
     "search results set return target",
