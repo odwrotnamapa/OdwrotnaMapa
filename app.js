@@ -110,6 +110,22 @@
       discoverFound: count => `Znaleziono ${count} miejsc.`,
       discoverEmpty: "Brak wyników w aktualnym widoku.",
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
+      discoverCategories: {
+        pizza: "Pizza",
+        cafe: "Kawiarnie",
+        restaurant: "Restauracje",
+        bar: "Bary",
+        hotel: "Hotele",
+        fuel: "Paliwo",
+        museum: "Muzea",
+        park: "Parki",
+        pharmacy: "Apteki",
+        hospital: "Szpitale",
+        bank: "Banki",
+        bus_stop: "Przystanki",
+        shop: "Sklepy",
+        beach: "Plaże"
+      },
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
       favoritesTitle: "Ulubione",
@@ -270,6 +286,22 @@
       discoverFound: count => `Found ${count} places.`,
       discoverEmpty: "No results in the current map view.",
       discoverZooming: "Zooming in to the search area…",
+      discoverCategories: {
+        pizza: "Pizza",
+        cafe: "Cafés",
+        restaurant: "Restaurants",
+        bar: "Bars",
+        hotel: "Hotels",
+        fuel: "Fuel",
+        museum: "Museums",
+        park: "Parks",
+        pharmacy: "Pharmacies",
+        hospital: "Hospitals",
+        bank: "Banks",
+        bus_stop: "Bus stops",
+        shop: "Shops",
+        beach: "Beaches"
+      },
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
       favoritesTitle: "Favorites",
@@ -698,6 +730,15 @@
     if (el.mobileMenuButton?.lastElementChild) {
       el.mobileMenuButton.lastElementChild.textContent = t.menuTitle;
     }
+    if (el.menuTitle) el.menuTitle.textContent = t.menuTitle;
+    if (el.menuThemeLabel) el.menuThemeLabel.textContent = t.menuTheme;
+    if (el.menuLocationLabel) el.menuLocationLabel.textContent = t.menuLocation;
+    if (el.menuLanguageLabel) el.menuLanguageLabel.textContent = t.menuLanguage;
+    if (el.clearMapLabel) el.clearMapLabel.textContent = t.clearMap;
+    if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
+    if (el.favoritesMenuLabel) el.favoritesMenuLabel.textContent = t.favoritesTitle;
+    if (el.favoritesTitle) el.favoritesTitle.textContent = t.favoritesTitle;
+    if (el.favoritesCountLabel) el.favoritesCountLabel.textContent = t.favoritesCountLabel;
     document.documentElement.lang = state.language;
     document.title = t.title;
     if (el.searchInput) el.searchInput.placeholder = t.search;
@@ -742,6 +783,15 @@
     el.discoverClose?.setAttribute("aria-label", t.discoverClose);
     if (el.discoverNote) el.discoverNote.textContent = t.discoverNote;
     if (el.discoverClear) el.discoverClear.textContent = t.discoverClear;
+    for (const button of el.discoverCategories?.querySelectorAll(
+      "[data-discover-category]"
+    ) || []) {
+      const label = t.discoverCategories?.[button.dataset.discoverCategory];
+      if (!label) continue;
+      const span = button.querySelector("span");
+      if (span) span.textContent = label;
+      button.setAttribute("aria-label", label);
+    }
     el.routeClose?.setAttribute("aria-label", t.closeRoute);
     el.routeSheetHandle?.setAttribute("aria-label", t.resizeRoutePanel);
     if (el.routeFromLabel) el.routeFromLabel.textContent = t.routeFrom;
@@ -2598,15 +2648,18 @@
       dragging = false;
       activePointerId = null;
 
-      let height = panel.getBoundingClientRect().height;
+      const height = panel.getBoundingClientRect().height;
+      const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
+      const defaultHeight = getMobilePanelDefaultHeight();
+      const midpoint = (collapsedHeight + defaultHeight) / 2;
+      const snapToCollapsed = height <= midpoint;
 
-      if (height < 90) {
-        height = MOBILE_PANEL_STANDARD.collapsedHeight;
-      } else if (height > getMobilePanelMaximumHeight() - 82) {
-        height = getMobilePanelMaximumHeight();
-      }
-
-      setMobilePanelHeight(panel, cssVariable, height);
+      setMobilePanelHeight(
+        panel,
+        cssVariable,
+        snapToCollapsed ? collapsedHeight : defaultHeight,
+        { collapsed: snapToCollapsed }
+      );
 
       try {
         handle.releasePointerCapture(event.pointerId);
@@ -3476,7 +3529,7 @@ function closeRoute() {
     });
   }
 
-  function reopenDiscoverPanel() {
+  function reopenDiscoverPanel(target) {
     if (!el.discoverPanel) return;
 
     el.discoverPanel.hidden = false;
@@ -3496,6 +3549,15 @@ function closeRoute() {
         "--discover-sheet-height",
         `${height}px`
       );
+    }
+
+    const scrollTop = target?.scrollTop || 0;
+    if (scrollTop) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          el.discoverPanel.scrollTop = scrollTop;
+        });
+      });
     }
 
     el.discoverButton?.setAttribute(
@@ -3530,7 +3592,7 @@ function closeRoute() {
 
   window.OMAP_BACK_NAVIGATION?.register(
     "discover",
-    () => reopenDiscoverPanel()
+    target => reopenDiscoverPanel(target)
   );
 
   window.OMAP_BACK_NAVIGATION?.register(
@@ -6017,7 +6079,9 @@ function closeRoute() {
       }
 
       if (event.source === "discover") {
-        setPlacePanelReturnTarget("discover");
+        setPlacePanelReturnTarget("discover", {
+          scrollTop: el.discoverPanel?.scrollTop || 0
+        });
         showSelectedPlaceInformation(place);
 
         map.easeTo({
