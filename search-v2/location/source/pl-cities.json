@@ -1,20 +1,244 @@
 {
   "version": 2,
-  "importedAt": "2026-07-17T04:09:13.806Z",
+  "importedAt": "2026-07-19T10:54:23.025427+00:00",
   "cities": [
     {
-      "id": "biaa-podlaska",
-      "name": "Biała Podlaska",
+      "id": "aleksandrow-kujawski",
+      "name": "Aleksandrów Kujawski",
       "aliases": [
-        "biała podlaska"
+        "aleksandrow kujawski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "aleksandrow-lodzki",
+      "name": "Aleksandrów Łódzki",
+      "aliases": [
+        "aleksandrow lodzki"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "alwernia",
+      "name": "Alwernia",
+      "aliases": [
+        "alwernia"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "andrychow",
+      "name": "Andrychów",
+      "aliases": [
+        "andrychow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "annopol",
+      "name": "Annopol",
+      "aliases": [
+        "annopol"
       ],
       "voivodeship": "lubelskie"
+    },
+    {
+      "id": "augustow",
+      "name": "Augustów",
+      "aliases": [
+        "augustow"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "babimost",
+      "name": "Babimost",
+      "aliases": [
+        "babimost"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "baborow",
+      "name": "Baborów",
+      "aliases": [
+        "baborow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "baranow-sandomierski",
+      "name": "Baranów Sandomierski",
+      "aliases": [
+        "baranow sandomierski"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "barcin",
+      "name": "Barcin",
+      "aliases": [
+        "barcin"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "barczewo",
+      "name": "Barczewo",
+      "aliases": [
+        "barczewo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "bardo",
+      "name": "Bardo",
+      "aliases": [
+        "bardo"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "barlinek",
+      "name": "Barlinek",
+      "aliases": [
+        "barlinek"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "bartoszyce",
+      "name": "Bartoszyce",
+      "aliases": [
+        "bartoszyce"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "barwice",
+      "name": "Barwice",
+      "aliases": [
+        "barwice"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "bedzin",
+      "name": "Będzin",
+      "aliases": [
+        "bedzin"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "belchatow",
+      "name": "Bełchatów",
+      "aliases": [
+        "belchatow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "belzyce",
+      "name": "Bełżyce",
+      "aliases": [
+        "belzyce"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "biala",
+      "name": "Biała",
+      "aliases": [
+        "biala"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "biala-piska",
+      "name": "Biała Piska",
+      "aliases": [
+        "biala piska"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "biala-podlaska",
+      "name": "Biała Podlaska",
+      "aliases": [
+        "biala podlaska"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "biala-rawska",
+      "name": "Biała Rawska",
+      "aliases": [
+        "biala rawska"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "bialaczow",
+      "name": "Białaczów",
+      "aliases": [
+        "bialaczow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "bialobrzegi",
+      "name": "Białobrzegi",
+      "aliases": [
+        "bialobrzegi"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "bialogard",
+      "name": "Białogard",
+      "aliases": [
+        "bialogard"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "bialy-bor",
+      "name": "Biały Bór",
+      "aliases": [
+        "bialy bor"
+      ],
+      "voivodeship": "zachodniopomorskie"
     },
     {
       "id": "bialystok",
       "name": "Białystok",
       "aliases": [
         "bialystok"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "biecz",
+      "name": "Biecz",
+      "aliases": [
+        "biecz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "bielawa",
+      "name": "Bielawa",
+      "aliases": [
+        "bielawa"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "bielsk-podlaski",
+      "name": "Bielsk Podlaski",
+      "aliases": [
+        "bielsk podlaski"
       ],
       "voivodeship": "podlaskie"
     },
@@ -27,34 +251,812 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "bierun",
+      "name": "Bieruń",
+      "aliases": [
+        "bierun"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "bierutow",
+      "name": "Bierutów",
+      "aliases": [
+        "bierutow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "biezun",
+      "name": "Bieżuń",
+      "aliases": [
+        "biezun"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "bilgoraj",
+      "name": "Biłgoraj",
+      "aliases": [
+        "bilgoraj"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "bircza",
+      "name": "Bircza",
+      "aliases": [
+        "bircza"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "biskupiec",
+      "name": "Biskupiec",
+      "aliases": [
+        "biskupiec"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "bisztynek",
+      "name": "Bisztynek",
+      "aliases": [
+        "bisztynek"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "blachownia",
+      "name": "Blachownia",
+      "aliases": [
+        "blachownia"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "blaszki",
+      "name": "Błaszki",
+      "aliases": [
+        "blaszki"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "blazowa",
+      "name": "Błażowa",
+      "aliases": [
+        "blazowa"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "blonie",
+      "name": "Błonie",
+      "aliases": [
+        "blonie"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "bobolice",
+      "name": "Bobolice",
+      "aliases": [
+        "bobolice"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "bobowa",
+      "name": "Bobowa",
+      "aliases": [
+        "bobowa"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "bobrowniki",
+      "name": "Bobrowniki",
+      "aliases": [
+        "bobrowniki"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "bochnia",
+      "name": "Bochnia",
+      "aliases": [
+        "bochnia"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "bodzanow",
+      "name": "Bodzanów",
+      "aliases": [
+        "bodzanow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "bodzentyn",
+      "name": "Bodzentyn",
+      "aliases": [
+        "bodzentyn"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "bogatynia",
+      "name": "Bogatynia",
+      "aliases": [
+        "bogatynia"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "bogoria",
+      "name": "Bogoria",
+      "aliases": [
+        "bogoria"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "boguchwala",
+      "name": "Boguchwała",
+      "aliases": [
+        "boguchwala"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "boguszow-gorce",
+      "name": "Boguszów-Gorce",
+      "aliases": [
+        "boguszow gorce"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "bojanowo",
+      "name": "Bojanowo",
+      "aliases": [
+        "bojanowo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "boleslawiec-dolnoslaskie",
+      "name": "Bolesławiec",
+      "aliases": [
+        "boleslawiec"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "boleslawiec-lodzkie",
+      "name": "Bolesławiec",
+      "aliases": [
+        "boleslawiec"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "bolimow",
+      "name": "Bolimów",
+      "aliases": [
+        "bolimow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "bolkow",
+      "name": "Bolków",
+      "aliases": [
+        "bolkow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "borek-wielkopolski",
+      "name": "Borek Wielkopolski",
+      "aliases": [
+        "borek wielkopolski"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "borne-sulinowo",
+      "name": "Borne Sulinowo",
+      "aliases": [
+        "borne sulinowo"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "branice",
+      "name": "Branice",
+      "aliases": [
+        "branice"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "braniewo",
+      "name": "Braniewo",
+      "aliases": [
+        "braniewo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "bransk",
+      "name": "Brańsk",
+      "aliases": [
+        "bransk"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "brodnica",
+      "name": "Brodnica",
+      "aliases": [
+        "brodnica"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "brody",
+      "name": "Brody",
+      "aliases": [
+        "brody"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "brok",
+      "name": "Brok",
+      "aliases": [
+        "brok"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "brusy",
+      "name": "Brusy",
+      "aliases": [
+        "brusy"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "brwinow",
+      "name": "Brwinów",
+      "aliases": [
+        "brwinow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "brzeg",
+      "name": "Brzeg",
+      "aliases": [
+        "brzeg"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "brzeg-dolny",
+      "name": "Brzeg Dolny",
+      "aliases": [
+        "brzeg dolny"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "brzesc-kujawski",
+      "name": "Brześć Kujawski",
+      "aliases": [
+        "brzesc kujawski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "brzesko",
+      "name": "Brzesko",
+      "aliases": [
+        "brzesko"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "brzeszcze",
+      "name": "Brzeszcze",
+      "aliases": [
+        "brzeszcze"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "brzeziny",
+      "name": "Brzeziny",
+      "aliases": [
+        "brzeziny"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "brzostek",
+      "name": "Brzostek",
+      "aliases": [
+        "brzostek"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "brzozow",
+      "name": "Brzozów",
+      "aliases": [
+        "brzozow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "budzyn",
+      "name": "Budzyń",
+      "aliases": [
+        "budzyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "buk",
+      "name": "Buk",
+      "aliases": [
+        "buk"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "bukowno",
+      "name": "Bukowno",
+      "aliases": [
+        "bukowno"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "busko-zdroj",
+      "name": "Busko-Zdrój",
+      "aliases": [
+        "busko zdroj"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "bychawa",
+      "name": "Bychawa",
+      "aliases": [
+        "bychawa"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "byczyna",
+      "name": "Byczyna",
+      "aliases": [
+        "byczyna"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
       "id": "bydgoszcz",
       "name": "Bydgoszcz",
       "aliases": [
-        "bromberg"
+        "bromberg",
+        "bydgoszcz"
       ],
       "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "bystrzyca-klodzka",
+      "name": "Bystrzyca Kłodzka",
+      "aliases": [
+        "bystrzyca klodzka"
+      ],
+      "voivodeship": "dolnośląskie"
     },
     {
       "id": "bytom",
       "name": "Bytom",
       "aliases": [
-        "beuthen"
+        "beuthen",
+        "bytom"
       ],
       "voivodeship": "śląskie"
     },
     {
-      "id": "chem",
+      "id": "bytom-odrzanski",
+      "name": "Bytom Odrzański",
+      "aliases": [
+        "bytom odrzanski"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "bytow",
+      "name": "Bytów",
+      "aliases": [
+        "bytow"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "cedynia",
+      "name": "Cedynia",
+      "aliases": [
+        "cedynia"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "ceglow",
+      "name": "Cegłów",
+      "aliases": [
+        "ceglow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "checiny",
+      "name": "Chęciny",
+      "aliases": [
+        "checiny"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "chelm",
       "name": "Chełm",
       "aliases": [
-        "chełm"
+        "chelm"
       ],
       "voivodeship": "lubelskie"
+    },
+    {
+      "id": "chelmek",
+      "name": "Chełmek",
+      "aliases": [
+        "chelmek"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "chelmno",
+      "name": "Chełmno",
+      "aliases": [
+        "chelmno"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "chelmza",
+      "name": "Chełmża",
+      "aliases": [
+        "chelmza"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "chmielnik",
+      "name": "Chmielnik",
+      "aliases": [
+        "chmielnik"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "chocianow",
+      "name": "Chocianów",
+      "aliases": [
+        "chocianow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "chociwel",
+      "name": "Chociwel",
+      "aliases": [
+        "chociwel"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "chocz",
+      "name": "Chocz",
+      "aliases": [
+        "chocz"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "chodecz",
+      "name": "Chodecz",
+      "aliases": [
+        "chodecz"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "chodziez",
+      "name": "Chodzież",
+      "aliases": [
+        "chodziez"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "chojna",
+      "name": "Chojna",
+      "aliases": [
+        "chojna"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "chojnice",
+      "name": "Chojnice",
+      "aliases": [
+        "chojnice"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "chojnow",
+      "name": "Chojnów",
+      "aliases": [
+        "chojnow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "choroszcz",
+      "name": "Choroszcz",
+      "aliases": [
+        "choroszcz"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "chorzele",
+      "name": "Chorzele",
+      "aliases": [
+        "chorzele"
+      ],
+      "voivodeship": "mazowieckie"
     },
     {
       "id": "chorzow",
       "name": "Chorzów",
       "aliases": [
         "chorzow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "choszczno",
+      "name": "Choszczno",
+      "aliases": [
+        "choszczno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "chrzanow",
+      "name": "Chrzanów",
+      "aliases": [
+        "chrzanow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "ciechanow",
+      "name": "Ciechanów",
+      "aliases": [
+        "ciechanow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ciechanowiec",
+      "name": "Ciechanowiec",
+      "aliases": [
+        "ciechanowiec"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "ciechocinek",
+      "name": "Ciechocinek",
+      "aliases": [
+        "ciechocinek"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "ciepielow",
+      "name": "Ciepielów",
+      "aliases": [
+        "ciepielow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "cieszanow",
+      "name": "Cieszanów",
+      "aliases": [
+        "cieszanow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "cieszyn",
+      "name": "Cieszyn",
+      "aliases": [
+        "cieszyn"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "ciezkowice",
+      "name": "Ciężkowice",
+      "aliases": [
+        "ciezkowice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "cmielow",
+      "name": "Ćmielów",
+      "aliases": [
+        "cmielow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "cybinka",
+      "name": "Cybinka",
+      "aliases": [
+        "cybinka"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "czaplinek",
+      "name": "Czaplinek",
+      "aliases": [
+        "czaplinek"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "czarna-bialostocka",
+      "name": "Czarna Białostocka",
+      "aliases": [
+        "czarna bialostocka"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "czarna-woda",
+      "name": "Czarna Woda",
+      "aliases": [
+        "czarna woda"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "czarne",
+      "name": "Czarne",
+      "aliases": [
+        "czarne"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "czarnkow",
+      "name": "Czarnków",
+      "aliases": [
+        "czarnkow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "czarny-dunajec",
+      "name": "Czarny Dunajec",
+      "aliases": [
+        "czarny dunajec"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "czchow",
+      "name": "Czchów",
+      "aliases": [
+        "czchow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "czechowice-dziedzice",
+      "name": "Czechowice-Dziedzice",
+      "aliases": [
+        "czechowice dziedzice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "czeladz",
+      "name": "Czeladź",
+      "aliases": [
+        "czeladz"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "czemierniki",
+      "name": "Czemierniki",
+      "aliases": [
+        "czemierniki"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "czempin",
+      "name": "Czempiń",
+      "aliases": [
+        "czempin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "czerniejewo",
+      "name": "Czerniejewo",
+      "aliases": [
+        "czerniejewo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "czersk",
+      "name": "Czersk",
+      "aliases": [
+        "czersk"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "czerwiensk",
+      "name": "Czerwieńsk",
+      "aliases": [
+        "czerwiensk"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "czerwinsk-nad-wisla",
+      "name": "Czerwińsk nad Wisłą",
+      "aliases": [
+        "czerwinsk nad wisla"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "czerwionka-leszczyny",
+      "name": "Czerwionka-Leszczyny",
+      "aliases": [
+        "czerwionka leszczyny"
       ],
       "voivodeship": "śląskie"
     },
@@ -67,6 +1069,46 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "czlopa",
+      "name": "Człopa",
+      "aliases": [
+        "czlopa"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "czluchow",
+      "name": "Człuchów",
+      "aliases": [
+        "czluchow"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "czyzew",
+      "name": "Czyżew",
+      "aliases": [
+        "czyzew"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "dabie",
+      "name": "Dąbie",
+      "aliases": [
+        "dabie"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "dabrowa-bialostocka",
+      "name": "Dąbrowa Białostocka",
+      "aliases": [
+        "dabrowa bialostocka"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
       "id": "dabrowa-gornicza",
       "name": "Dąbrowa Górnicza",
       "aliases": [
@@ -75,45 +1117,600 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "dabrowa-tarnowska",
+      "name": "Dąbrowa Tarnowska",
+      "aliases": [
+        "dabrowa tarnowska"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "dabrowice",
+      "name": "Dąbrowice",
+      "aliases": [
+        "dabrowice"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "daleszyce",
+      "name": "Daleszyce",
+      "aliases": [
+        "daleszyce"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "darlowo",
+      "name": "Darłowo",
+      "aliases": [
+        "darlowo"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "debica",
+      "name": "Dębica",
+      "aliases": [
+        "debica"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "deblin",
+      "name": "Dęblin",
+      "aliases": [
+        "deblin"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "debno",
+      "name": "Dębno",
+      "aliases": [
+        "debno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "debrzno",
+      "name": "Debrzno",
+      "aliases": [
+        "debrzno"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "dobczyce",
+      "name": "Dobczyce",
+      "aliases": [
+        "dobczyce"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "dobiegniew",
+      "name": "Dobiegniew",
+      "aliases": [
+        "dobiegniew"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "dobra-wielkopolskie",
+      "name": "Dobra",
+      "aliases": [
+        "dobra"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "dobra-zachodniopomorskie",
+      "name": "Dobra",
+      "aliases": [
+        "dobra"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "dobre",
+      "name": "Dobre",
+      "aliases": [
+        "dobre"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "dobre-miasto",
+      "name": "Dobre Miasto",
+      "aliases": [
+        "dobre miasto"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "dobrodzien",
+      "name": "Dobrodzień",
+      "aliases": [
+        "dobrodzien"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "dobrzany",
+      "name": "Dobrzany",
+      "aliases": [
+        "dobrzany"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "dobrzyca",
+      "name": "Dobrzyca",
+      "aliases": [
+        "dobrzyca"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "dobrzyn-nad-wisla",
+      "name": "Dobrzyń nad Wisłą",
+      "aliases": [
+        "dobrzyn nad wisla"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "dolsk",
+      "name": "Dolsk",
+      "aliases": [
+        "dolsk"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "drawno",
+      "name": "Drawno",
+      "aliases": [
+        "drawno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "drawsko-pomorskie",
+      "name": "Drawsko Pomorskie",
+      "aliases": [
+        "drawsko pomorskie"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "drezdenko",
+      "name": "Drezdenko",
+      "aliases": [
+        "drezdenko"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "drobin",
+      "name": "Drobin",
+      "aliases": [
+        "drobin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "drohiczyn",
+      "name": "Drohiczyn",
+      "aliases": [
+        "drohiczyn"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "drzewica",
+      "name": "Drzewica",
+      "aliases": [
+        "drzewica"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "dubiecko",
+      "name": "Dubiecko",
+      "aliases": [
+        "dubiecko"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "dukla",
+      "name": "Dukla",
+      "aliases": [
+        "dukla"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "duszniki-zdroj",
+      "name": "Duszniki-Zdrój",
+      "aliases": [
+        "duszniki zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "dynow",
+      "name": "Dynów",
+      "aliases": [
+        "dynow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "dzialdowo",
+      "name": "Działdowo",
+      "aliases": [
+        "dzialdowo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "dzialoszyce",
+      "name": "Działoszyce",
+      "aliases": [
+        "dzialoszyce"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "dzialoszyn",
+      "name": "Działoszyn",
+      "aliases": [
+        "dzialoszyn"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "dzierzgon",
+      "name": "Dzierzgoń",
+      "aliases": [
+        "dzierzgon"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "dzierzoniow",
+      "name": "Dzierżoniów",
+      "aliases": [
+        "dzierzoniow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "dziwnow",
+      "name": "Dziwnów",
+      "aliases": [
+        "dziwnow"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
       "id": "elblag",
       "name": "Elbląg",
       "aliases": [
-        "elblag",
-        "elbing"
+        "elbing",
+        "elblag"
       ],
       "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "elk",
+      "name": "Ełk",
+      "aliases": [
+        "elk"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "frampol",
+      "name": "Frampol",
+      "aliases": [
+        "frampol"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "frombork",
+      "name": "Frombork",
+      "aliases": [
+        "frombork"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "gabin",
+      "name": "Gąbin",
+      "aliases": [
+        "gabin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "garwolin",
+      "name": "Garwolin",
+      "aliases": [
+        "garwolin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "gasawa",
+      "name": "Gąsawa",
+      "aliases": [
+        "gasawa"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
     },
     {
       "id": "gdansk",
       "name": "Gdańsk",
       "aliases": [
-        "gdansk",
+        "Danzig",
         "danzig",
-        "Danzig"
+        "gdansk"
       ],
-      "voivodeship": "pomorskie",
-      "osm": {
-        "type": "node",
-        "id": 1001
-      },
-      "center": {
-        "lat": 54.352,
-        "lon": 18.646
-      }
+      "voivodeship": "pomorskie"
     },
     {
       "id": "gdynia",
       "name": "Gdynia",
-      "aliases": [],
+      "aliases": [
+        "gdynia"
+      ],
       "voivodeship": "pomorskie"
+    },
+    {
+      "id": "gielniow",
+      "name": "Gielniów",
+      "aliases": [
+        "gielniow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "gizycko",
+      "name": "Giżycko",
+      "aliases": [
+        "gizycko"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "glinojeck",
+      "name": "Glinojeck",
+      "aliases": [
+        "glinojeck"
+      ],
+      "voivodeship": "mazowieckie"
     },
     {
       "id": "gliwice",
       "name": "Gliwice",
       "aliases": [
-        "gleiwitz"
+        "gleiwitz",
+        "gliwice"
       ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "glogow",
+      "name": "Głogów",
+      "aliases": [
+        "glogow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "glogow-malopolski",
+      "name": "Głogów Małopolski",
+      "aliases": [
+        "glogow malopolski"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "glogowek",
+      "name": "Głogówek",
+      "aliases": [
+        "glogowek"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "glowaczow",
+      "name": "Głowaczów",
+      "aliases": [
+        "glowaczow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "glowno",
+      "name": "Głowno",
+      "aliases": [
+        "glowno"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "glubczyce",
+      "name": "Głubczyce",
+      "aliases": [
+        "glubczyce"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "glucholazy",
+      "name": "Głuchołazy",
+      "aliases": [
+        "glucholazy"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "gluszyca",
+      "name": "Głuszyca",
+      "aliases": [
+        "gluszyca"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "gniew",
+      "name": "Gniew",
+      "aliases": [
+        "gniew"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "gniewkowo",
+      "name": "Gniewkowo",
+      "aliases": [
+        "gniewkowo"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "gniezno",
+      "name": "Gniezno",
+      "aliases": [
+        "gniezno"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "gogolin",
+      "name": "Gogolin",
+      "aliases": [
+        "gogolin"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "golancz",
+      "name": "Gołańcz",
+      "aliases": [
+        "golancz"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "golczewo",
+      "name": "Golczewo",
+      "aliases": [
+        "golczewo"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "goldap",
+      "name": "Gołdap",
+      "aliases": [
+        "goldap"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "goleniow",
+      "name": "Goleniów",
+      "aliases": [
+        "goleniow"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "golina",
+      "name": "Golina",
+      "aliases": [
+        "golina"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "golub-dobrzyn",
+      "name": "Golub-Dobrzyń",
+      "aliases": [
+        "golub dobrzyn"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "goniadz",
+      "name": "Goniądz",
+      "aliases": [
+        "goniadz"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "gora",
+      "name": "Góra",
+      "aliases": [
+        "gora"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "gora-kalwaria",
+      "name": "Góra Kalwaria",
+      "aliases": [
+        "gora kalwaria"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "goraj",
+      "name": "Goraj",
+      "aliases": [
+        "goraj"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "gorlice",
+      "name": "Gorlice",
+      "aliases": [
+        "gorlice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "gorowo-ilaweckie",
+      "name": "Górowo Iławeckie",
+      "aliases": [
+        "gorowo ilaweckie"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "gorzno",
+      "name": "Górzno",
+      "aliases": [
+        "gorzno"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "gorzow-slaski",
+      "name": "Gorzów Śląski",
+      "aliases": [
+        "gorzow slaski"
+      ],
+      "voivodeship": "opolskie"
     },
     {
       "id": "gorzow-wielkopolski",
@@ -124,13 +1721,389 @@
       "voivodeship": "lubuskie"
     },
     {
+      "id": "goscino",
+      "name": "Gościno",
+      "aliases": [
+        "goscino"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "gostyn",
+      "name": "Gostyń",
+      "aliases": [
+        "gostyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "gostynin",
+      "name": "Gostynin",
+      "aliases": [
+        "gostynin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "gowarczow",
+      "name": "Gowarczów",
+      "aliases": [
+        "gowarczow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "gozdnica",
+      "name": "Gozdnica",
+      "aliases": [
+        "gozdnica"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "grabow",
+      "name": "Grabów",
+      "aliases": [
+        "grabow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "grabow-nad-prosna",
+      "name": "Grabów nad Prosną",
+      "aliases": [
+        "grabow nad prosna"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "grajewo",
+      "name": "Grajewo",
+      "aliases": [
+        "grajewo"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "grodkow",
+      "name": "Grodków",
+      "aliases": [
+        "grodkow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "grodzisk-mazowiecki",
+      "name": "Grodzisk Mazowiecki",
+      "aliases": [
+        "grodzisk mazowiecki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "grodzisk-wielkopolski",
+      "name": "Grodzisk Wielkopolski",
+      "aliases": [
+        "grodzisk wielkopolski"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "grojec",
+      "name": "Grójec",
+      "aliases": [
+        "grojec"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
       "id": "grudziadz",
       "name": "Grudziądz",
       "aliases": [
-        "grudziadz",
-        "graudenz"
+        "graudenz",
+        "grudziadz"
       ],
       "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "grybow",
+      "name": "Grybów",
+      "aliases": [
+        "grybow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "gryfice",
+      "name": "Gryfice",
+      "aliases": [
+        "gryfice"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "gryfino",
+      "name": "Gryfino",
+      "aliases": [
+        "gryfino"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "gryfow-slaski",
+      "name": "Gryfów Śląski",
+      "aliases": [
+        "gryfow slaski"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "gubin",
+      "name": "Gubin",
+      "aliases": [
+        "gubin"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "hajnowka",
+      "name": "Hajnówka",
+      "aliases": [
+        "hajnowka"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "halinow",
+      "name": "Halinów",
+      "aliases": [
+        "halinow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "hel",
+      "name": "Hel",
+      "aliases": [
+        "hel"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "hrubieszow",
+      "name": "Hrubieszów",
+      "aliases": [
+        "hrubieszow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "ilawa",
+      "name": "Iława",
+      "aliases": [
+        "ilawa"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "ilowa",
+      "name": "Iłowa",
+      "aliases": [
+        "ilowa"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "ilza",
+      "name": "Iłża",
+      "aliases": [
+        "ilza"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "imielin",
+      "name": "Imielin",
+      "aliases": [
+        "imielin"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "inowlodz",
+      "name": "Inowłódz",
+      "aliases": [
+        "inowlodz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "inowroclaw",
+      "name": "Inowrocław",
+      "aliases": [
+        "inowroclaw"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "insko",
+      "name": "Ińsko",
+      "aliases": [
+        "insko"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "iwaniska",
+      "name": "Iwaniska",
+      "aliases": [
+        "iwaniska"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "iwonicz-zdroj",
+      "name": "Iwonicz-Zdrój",
+      "aliases": [
+        "iwonicz zdroj"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "izbica",
+      "name": "Izbica",
+      "aliases": [
+        "izbica"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "izbica-kujawska",
+      "name": "Izbica Kujawska",
+      "aliases": [
+        "izbica kujawska"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "jablonowo-pomorskie",
+      "name": "Jabłonowo Pomorskie",
+      "aliases": [
+        "jablonowo pomorskie"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "jadow",
+      "name": "Jadów",
+      "aliases": [
+        "jadow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "janikowo",
+      "name": "Janikowo",
+      "aliases": [
+        "janikowo"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "janow",
+      "name": "Janów",
+      "aliases": [
+        "janow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "janow-lubelski",
+      "name": "Janów Lubelski",
+      "aliases": [
+        "janow lubelski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "janow-podlaski",
+      "name": "Janów Podlaski",
+      "aliases": [
+        "janow podlaski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "janowiec-wielkopolski",
+      "name": "Janowiec Wielkopolski",
+      "aliases": [
+        "janowiec wielkopolski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "jaraczewo",
+      "name": "Jaraczewo",
+      "aliases": [
+        "jaraczewo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "jarocin",
+      "name": "Jarocin",
+      "aliases": [
+        "jarocin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "jaroslaw",
+      "name": "Jarosław",
+      "aliases": [
+        "jaroslaw"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "jasien",
+      "name": "Jasień",
+      "aliases": [
+        "jasien"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "jaslo",
+      "name": "Jasło",
+      "aliases": [
+        "jaslo"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "jastarnia",
+      "name": "Jastarnia",
+      "aliases": [
+        "jastarnia"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "jastrowie",
+      "name": "Jastrowie",
+      "aliases": [
+        "jastrowie"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "jastrzab",
+      "name": "Jastrząb",
+      "aliases": [
+        "jastrzab"
+      ],
+      "voivodeship": "mazowieckie"
     },
     {
       "id": "jastrzebie-zdroj",
@@ -141,10 +2114,84 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "jawor",
+      "name": "Jawor",
+      "aliases": [
+        "jawor"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "jawornik-polski",
+      "name": "Jawornik Polski",
+      "aliases": [
+        "jawornik polski"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
       "id": "jaworzno",
       "name": "Jaworzno",
-      "aliases": [],
+      "aliases": [
+        "jaworzno"
+      ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "jaworzyna-slaska",
+      "name": "Jaworzyna Śląska",
+      "aliases": [
+        "jaworzyna slaska"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "jedlicze",
+      "name": "Jedlicze",
+      "aliases": [
+        "jedlicze"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "jedlina-zdroj",
+      "name": "Jedlina-Zdrój",
+      "aliases": [
+        "jedlina zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "jedlnia-letnisko",
+      "name": "Jedlnia-Letnisko",
+      "aliases": [
+        "jedlnia letnisko"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "jedrzejow",
+      "name": "Jędrzejów",
+      "aliases": [
+        "jedrzejow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "jedwabne",
+      "name": "Jedwabne",
+      "aliases": [
+        "jedwabne"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "jelcz-laskowice",
+      "name": "Jelcz-Laskowice",
+      "aliases": [
+        "jelcz laskowice"
+      ],
+      "voivodeship": "dolnośląskie"
     },
     {
       "id": "jelenia-gora",
@@ -155,24 +2202,509 @@
       "voivodeship": "dolnośląskie"
     },
     {
-      "id": "kalisz",
-      "name": "Kalisz",
+      "id": "jeziorany",
+      "name": "Jeziorany",
       "aliases": [
-        "kalisch"
+        "jeziorany"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "jezow",
+      "name": "Jeżów",
+      "aliases": [
+        "jezow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "jordanow",
+      "name": "Jordanów",
+      "aliases": [
+        "jordanow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "jozefow-lubelskie",
+      "name": "Józefów",
+      "aliases": [
+        "jozefow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "jozefow-mazowieckie",
+      "name": "Józefów",
+      "aliases": [
+        "jozefow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "jozefow-nad-wisla",
+      "name": "Józefów nad Wisłą",
+      "aliases": [
+        "jozefow nad wisla"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "jutrosin",
+      "name": "Jutrosin",
+      "aliases": [
+        "jutrosin"
       ],
       "voivodeship": "wielkopolskie"
     },
     {
+      "id": "kaczory",
+      "name": "Kaczory",
+      "aliases": [
+        "kaczory"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kalety",
+      "name": "Kalety",
+      "aliases": [
+        "kalety"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "kalisz",
+      "name": "Kalisz",
+      "aliases": [
+        "kalisch",
+        "kalisz"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kalisz-pomorski",
+      "name": "Kalisz Pomorski",
+      "aliases": [
+        "kalisz pomorski"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "kaluszyn",
+      "name": "Kałuszyn",
+      "aliases": [
+        "kaluszyn"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "kalwaria-zebrzydowska",
+      "name": "Kalwaria Zebrzydowska",
+      "aliases": [
+        "kalwaria zebrzydowska"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "kamien-krajenski",
+      "name": "Kamień Krajeński",
+      "aliases": [
+        "kamien krajenski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "kamien-pomorski",
+      "name": "Kamień Pomorski",
+      "aliases": [
+        "kamien pomorski"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "kamieniec-zabkowicki",
+      "name": "Kamieniec Ząbkowicki",
+      "aliases": [
+        "kamieniec zabkowicki"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kamienna-gora",
+      "name": "Kamienna Góra",
+      "aliases": [
+        "kamienna gora"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kamiensk",
+      "name": "Kamieńsk",
+      "aliases": [
+        "kamiensk"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "kamionka",
+      "name": "Kamionka",
+      "aliases": [
+        "kamionka"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "kanczuga",
+      "name": "Kańczuga",
+      "aliases": [
+        "kanczuga"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "karczew",
+      "name": "Karczew",
+      "aliases": [
+        "karczew"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "kargowa",
+      "name": "Kargowa",
+      "aliases": [
+        "kargowa"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "karlino",
+      "name": "Karlino",
+      "aliases": [
+        "karlino"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "karpacz",
+      "name": "Karpacz",
+      "aliases": [
+        "karpacz"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kartuzy",
+      "name": "Kartuzy",
+      "aliases": [
+        "kartuzy"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
       "id": "katowice",
       "name": "Katowice",
-      "aliases": [],
+      "aliases": [
+        "katowice"
+      ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "katy-wroclawskie",
+      "name": "Kąty Wrocławskie",
+      "aliases": [
+        "katy wroclawskie"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kazanow",
+      "name": "Kazanów",
+      "aliases": [
+        "kazanow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "kazimierz-dolny",
+      "name": "Kazimierz Dolny",
+      "aliases": [
+        "kazimierz dolny"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "kazimierza-wielka",
+      "name": "Kazimierza Wielka",
+      "aliases": [
+        "kazimierza wielka"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "kcynia",
+      "name": "Kcynia",
+      "aliases": [
+        "kcynia"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "kedzierzyn-kozle",
+      "name": "Kędzierzyn-Koźle",
+      "aliases": [
+        "kedzierzyn kozle"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "kepice",
+      "name": "Kępice",
+      "aliases": [
+        "kepice"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "kepno",
+      "name": "Kępno",
+      "aliases": [
+        "kepno"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ketrzyn",
+      "name": "Kętrzyn",
+      "aliases": [
+        "ketrzyn"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "kety",
+      "name": "Kęty",
+      "aliases": [
+        "kety"
+      ],
+      "voivodeship": "małopolskie"
     },
     {
       "id": "kielce",
       "name": "Kielce",
-      "aliases": [],
+      "aliases": [
+        "kielce"
+      ],
       "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "kiernozia",
+      "name": "Kiernozia",
+      "aliases": [
+        "kiernozia"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "kietrz",
+      "name": "Kietrz",
+      "aliases": [
+        "kietrz"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "kikol",
+      "name": "Kikół",
+      "aliases": [
+        "kikol"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "kisielice",
+      "name": "Kisielice",
+      "aliases": [
+        "kisielice"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "klecko",
+      "name": "Kłecko",
+      "aliases": [
+        "klecko"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kleczew",
+      "name": "Kleczew",
+      "aliases": [
+        "kleczew"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kleszczele",
+      "name": "Kleszczele",
+      "aliases": [
+        "kleszczele"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "klimontow",
+      "name": "Klimontów",
+      "aliases": [
+        "klimontow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "klobuck",
+      "name": "Kłobuck",
+      "aliases": [
+        "klobuck"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "klodawa",
+      "name": "Kłodawa",
+      "aliases": [
+        "klodawa"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "klodzko",
+      "name": "Kłodzko",
+      "aliases": [
+        "klodzko"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kluczbork",
+      "name": "Kluczbork",
+      "aliases": [
+        "kluczbork"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "knurow",
+      "name": "Knurów",
+      "aliases": [
+        "knurow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "knyszyn",
+      "name": "Knyszyn",
+      "aliases": [
+        "knyszyn"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "kobylin",
+      "name": "Kobylin",
+      "aliases": [
+        "kobylin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kobylka",
+      "name": "Kobyłka",
+      "aliases": [
+        "kobylka"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "kobylnica",
+      "name": "Kobylnica",
+      "aliases": [
+        "kobylnica"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "kock",
+      "name": "Kock",
+      "aliases": [
+        "kock"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "kolaczyce",
+      "name": "Kołaczyce",
+      "aliases": [
+        "kolaczyce"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "kolbuszowa",
+      "name": "Kolbuszowa",
+      "aliases": [
+        "kolbuszowa"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "kolno",
+      "name": "Kolno",
+      "aliases": [
+        "kolno"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "kolo",
+      "name": "Koło",
+      "aliases": [
+        "kolo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kolobrzeg",
+      "name": "Kołobrzeg",
+      "aliases": [
+        "kolobrzeg"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "kolonowskie",
+      "name": "Kolonowskie",
+      "aliases": [
+        "kolonowskie"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "koluszki",
+      "name": "Koluszki",
+      "aliases": [
+        "koluszki"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "koniecpol",
+      "name": "Koniecpol",
+      "aliases": [
+        "koniecpol"
+      ],
+      "voivodeship": "śląskie"
     },
     {
       "id": "konin",
@@ -183,22 +2715,263 @@
       "voivodeship": "wielkopolskie"
     },
     {
+      "id": "konskie",
+      "name": "Końskie",
+      "aliases": [
+        "konskie"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "konskowola",
+      "name": "Końskowola",
+      "aliases": [
+        "konskowola"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "konstancin-jeziorna",
+      "name": "Konstancin-Jeziorna",
+      "aliases": [
+        "konstancin jeziorna"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "konstantynow-lodzki",
+      "name": "Konstantynów Łódzki",
+      "aliases": [
+        "konstantynow lodzki"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "koprzywnica",
+      "name": "Koprzywnica",
+      "aliases": [
+        "koprzywnica"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "korfantow",
+      "name": "Korfantów",
+      "aliases": [
+        "korfantow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "kornik",
+      "name": "Kórnik",
+      "aliases": [
+        "kornik"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "koronowo",
+      "name": "Koronowo",
+      "aliases": [
+        "koronowo"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "korsze",
+      "name": "Korsze",
+      "aliases": [
+        "korsze"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "koscian",
+      "name": "Kościan",
+      "aliases": [
+        "koscian"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "koscierzyna",
+      "name": "Kościerzyna",
+      "aliases": [
+        "koscierzyna"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "kosow-lacki",
+      "name": "Kosów Lacki",
+      "aliases": [
+        "kosow lacki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "kostrzyn",
+      "name": "Kostrzyn",
+      "aliases": [
+        "kostrzyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kostrzyn-nad-odra",
+      "name": "Kostrzyn nad Odrą",
+      "aliases": [
+        "kostrzyn nad odra"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
       "id": "koszalin",
       "name": "Koszalin",
       "aliases": [
-        "köslin",
-        "koslin"
+        "koslin",
+        "koszalin",
+        "köslin"
       ],
       "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "koszyce",
+      "name": "Koszyce",
+      "aliases": [
+        "koszyce"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "kowal",
+      "name": "Kowal",
+      "aliases": [
+        "kowal"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "kowalewo-pomorskie",
+      "name": "Kowalewo Pomorskie",
+      "aliases": [
+        "kowalewo pomorskie"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "kowary",
+      "name": "Kowary",
+      "aliases": [
+        "kowary"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kozieglowy",
+      "name": "Koziegłowy",
+      "aliases": [
+        "kozieglowy"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "kozienice",
+      "name": "Kozienice",
+      "aliases": [
+        "kozienice"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "kozmin-wielkopolski",
+      "name": "Koźmin Wielkopolski",
+      "aliases": [
+        "kozmin wielkopolski"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kozminek",
+      "name": "Koźminek",
+      "aliases": [
+        "kozminek"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kozuchow",
+      "name": "Kożuchów",
+      "aliases": [
+        "kozuchow"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "krajenka",
+      "name": "Krajenka",
+      "aliases": [
+        "krajenka"
+      ],
+      "voivodeship": "wielkopolskie"
     },
     {
       "id": "krakow",
       "name": "Kraków",
       "aliases": [
-        "krakow",
-        "cracow"
+        "cracow",
+        "krakow"
       ],
       "voivodeship": "małopolskie"
+    },
+    {
+      "id": "krapkowice",
+      "name": "Krapkowice",
+      "aliases": [
+        "krapkowice"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "krasnik",
+      "name": "Kraśnik",
+      "aliases": [
+        "krasnik"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "krasnobrod",
+      "name": "Krasnobród",
+      "aliases": [
+        "krasnobrod"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "krasnystaw",
+      "name": "Krasnystaw",
+      "aliases": [
+        "krasnystaw"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "krobia",
+      "name": "Krobia",
+      "aliases": [
+        "krobia"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "krosniewice",
+      "name": "Krośniewice",
+      "aliases": [
+        "krosniewice"
+      ],
+      "voivodeship": "łódzkie"
     },
     {
       "id": "krosno",
@@ -209,12 +2982,341 @@
       "voivodeship": "podkarpackie"
     },
     {
+      "id": "krosno-odrzanskie",
+      "name": "Krosno Odrzańskie",
+      "aliases": [
+        "krosno odrzanskie"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "krotoszyn",
+      "name": "Krotoszyn",
+      "aliases": [
+        "krotoszyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kruszwica",
+      "name": "Kruszwica",
+      "aliases": [
+        "kruszwica"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "krynica-morska",
+      "name": "Krynica Morska",
+      "aliases": [
+        "krynica morska"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "krynica-zdroj",
+      "name": "Krynica-Zdrój",
+      "aliases": [
+        "krynica zdroj"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "krynki",
+      "name": "Krynki",
+      "aliases": [
+        "krynki"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "krzanowice",
+      "name": "Krzanowice",
+      "aliases": [
+        "krzanowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "krzepice",
+      "name": "Krzepice",
+      "aliases": [
+        "krzepice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "krzeszowice",
+      "name": "Krzeszowice",
+      "aliases": [
+        "krzeszowice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "krzywin",
+      "name": "Krzywiń",
+      "aliases": [
+        "krzywin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "krzyz-wielkopolski",
+      "name": "Krzyż Wielkopolski",
+      "aliases": [
+        "krzyz wielkopolski"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ksiaz-wielki",
+      "name": "Książ Wielki",
+      "aliases": [
+        "ksiaz wielki"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "ksiaz-wielkopolski",
+      "name": "Książ Wielkopolski",
+      "aliases": [
+        "ksiaz wielkopolski"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "kudowa-zdroj",
+      "name": "Kudowa-Zdrój",
+      "aliases": [
+        "kudowa zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "kunow",
+      "name": "Kunów",
+      "aliases": [
+        "kunow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "kurow",
+      "name": "Kurów",
+      "aliases": [
+        "kurow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "kutno",
+      "name": "Kutno",
+      "aliases": [
+        "kutno"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "kuznia-raciborska",
+      "name": "Kuźnia Raciborska",
+      "aliases": [
+        "kuznia raciborska"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "kwidzyn",
+      "name": "Kwidzyn",
+      "aliases": [
+        "kwidzyn"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "labiszyn",
+      "name": "Łabiszyn",
+      "aliases": [
+        "labiszyn"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "ladek-zdroj",
+      "name": "Lądek-Zdrój",
+      "aliases": [
+        "ladek zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lagow",
+      "name": "Łagów",
+      "aliases": [
+        "lagow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "lancut",
+      "name": "Łańcut",
+      "aliases": [
+        "lancut"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "lapy",
+      "name": "Łapy",
+      "aliases": [
+        "lapy"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "lasin",
+      "name": "Łasin",
+      "aliases": [
+        "lasin"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "lask",
+      "name": "Łask",
+      "aliases": [
+        "lask"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "laskarzew",
+      "name": "Łaskarzew",
+      "aliases": [
+        "laskarzew"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "laszczow",
+      "name": "Łaszczów",
+      "aliases": [
+        "laszczow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "latowicz",
+      "name": "Latowicz",
+      "aliases": [
+        "latowicz"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "laziska-gorne",
+      "name": "Łaziska Górne",
+      "aliases": [
+        "laziska gorne"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "lazy",
+      "name": "Łazy",
+      "aliases": [
+        "lazy"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "leba",
+      "name": "Łeba",
+      "aliases": [
+        "leba"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "lebork",
+      "name": "Lębork",
+      "aliases": [
+        "lebork"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "leczna",
+      "name": "Łęczna",
+      "aliases": [
+        "leczna"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "leczyca",
+      "name": "Łęczyca",
+      "aliases": [
+        "leczyca"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "ledziny",
+      "name": "Lędziny",
+      "aliases": [
+        "ledziny"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "legionowo",
+      "name": "Legionowo",
+      "aliases": [
+        "legionowo"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
       "id": "legnica",
       "name": "Legnica",
       "aliases": [
+        "legnica",
         "liegnitz"
       ],
       "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "leknica",
+      "name": "Łęknica",
+      "aliases": [
+        "leknica"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "lesko",
+      "name": "Lesko",
+      "aliases": [
+        "lesko"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "lesna",
+      "name": "Leśna",
+      "aliases": [
+        "lesna"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lesnica",
+      "name": "Leśnica",
+      "aliases": [
+        "lesnica"
+      ],
+      "voivodeship": "opolskie"
     },
     {
       "id": "leszno",
@@ -225,6 +3327,110 @@
       "voivodeship": "wielkopolskie"
     },
     {
+      "id": "lewin-brzeski",
+      "name": "Lewin Brzeski",
+      "aliases": [
+        "lewin brzeski"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "lezajsk",
+      "name": "Leżajsk",
+      "aliases": [
+        "lezajsk"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "libiaz",
+      "name": "Libiąż",
+      "aliases": [
+        "libiaz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "lidzbark",
+      "name": "Lidzbark",
+      "aliases": [
+        "lidzbark"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "lidzbark-warminski",
+      "name": "Lidzbark Warmiński",
+      "aliases": [
+        "lidzbark warminski"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "limanowa",
+      "name": "Limanowa",
+      "aliases": [
+        "limanowa"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "lipiany",
+      "name": "Lipiany",
+      "aliases": [
+        "lipiany"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "lipno",
+      "name": "Lipno",
+      "aliases": [
+        "lipno"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "lipsk",
+      "name": "Lipsk",
+      "aliases": [
+        "lipsk"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "lipsko",
+      "name": "Lipsko",
+      "aliases": [
+        "lipsko"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "lobez",
+      "name": "Łobez",
+      "aliases": [
+        "lobez"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "lobzenica",
+      "name": "Łobżenica",
+      "aliases": [
+        "lobzenica"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "lochow",
+      "name": "Łochów",
+      "aliases": [
+        "lochow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
       "id": "lodz",
       "name": "Łódź",
       "aliases": [
@@ -233,18 +3439,972 @@
       "voivodeship": "łódzkie"
     },
     {
-      "id": "lublin",
-      "name": "Lublin",
-      "aliases": [],
+      "id": "lomianki",
+      "name": "Łomianki",
+      "aliases": [
+        "lomianki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "lomza",
+      "name": "Łomża",
+      "aliases": [
+        "lomza"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "lopuszno",
+      "name": "Łopuszno",
+      "aliases": [
+        "lopuszno"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "losice",
+      "name": "Łosice",
+      "aliases": [
+        "losice"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "lowicz",
+      "name": "Łowicz",
+      "aliases": [
+        "lowicz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "lubaczow",
+      "name": "Lubaczów",
+      "aliases": [
+        "lubaczow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "luban",
+      "name": "Lubań",
+      "aliases": [
+        "luban"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lubartow",
+      "name": "Lubartów",
+      "aliases": [
+        "lubartow"
+      ],
       "voivodeship": "lubelskie"
     },
     {
-      "id": "mysowice",
-      "name": "Mysłowice",
+      "id": "lubawa",
+      "name": "Lubawa",
       "aliases": [
-        "mysłowice"
+        "lubawa"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "lubawka",
+      "name": "Lubawka",
+      "aliases": [
+        "lubawka"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lubien-kujawski",
+      "name": "Lubień Kujawski",
+      "aliases": [
+        "lubien kujawski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "lubin",
+      "name": "Lubin",
+      "aliases": [
+        "lubin"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lublin",
+      "name": "Lublin",
+      "aliases": [
+        "lublin"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "lubliniec",
+      "name": "Lubliniec",
+      "aliases": [
+        "lubliniec"
       ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "lubniewice",
+      "name": "Lubniewice",
+      "aliases": [
+        "lubniewice"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "lubomierz",
+      "name": "Lubomierz",
+      "aliases": [
+        "lubomierz"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "lubon",
+      "name": "Luboń",
+      "aliases": [
+        "lubon"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "lubowidz",
+      "name": "Lubowidz",
+      "aliases": [
+        "lubowidz"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "lubraniec",
+      "name": "Lubraniec",
+      "aliases": [
+        "lubraniec"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "lubsko",
+      "name": "Lubsko",
+      "aliases": [
+        "lubsko"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "lubycza-krolewska",
+      "name": "Lubycza Królewska",
+      "aliases": [
+        "lubycza krolewska"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "lukow",
+      "name": "Łuków",
+      "aliases": [
+        "lukow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "lutomiersk",
+      "name": "Lutomiersk",
+      "aliases": [
+        "lutomiersk"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "lututow",
+      "name": "Lututów",
+      "aliases": [
+        "lututow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "lwowek",
+      "name": "Lwówek",
+      "aliases": [
+        "lwowek"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "lwowek-slaski",
+      "name": "Lwówek Śląski",
+      "aliases": [
+        "lwowek slaski"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "maciejowice",
+      "name": "Maciejowice",
+      "aliases": [
+        "maciejowice"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "magnuszew",
+      "name": "Magnuszew",
+      "aliases": [
+        "magnuszew"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "makow-mazowiecki",
+      "name": "Maków Mazowiecki",
+      "aliases": [
+        "makow mazowiecki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "makow-podhalanski",
+      "name": "Maków Podhalański",
+      "aliases": [
+        "makow podhalanski"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "malbork",
+      "name": "Malbork",
+      "aliases": [
+        "malbork"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "malkinia-gorna",
+      "name": "Małkinia Górna",
+      "aliases": [
+        "malkinia gorna"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "malogoszcz",
+      "name": "Małogoszcz",
+      "aliases": [
+        "malogoszcz"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "malomice",
+      "name": "Małomice",
+      "aliases": [
+        "malomice"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "margonin",
+      "name": "Margonin",
+      "aliases": [
+        "margonin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "marki",
+      "name": "Marki",
+      "aliases": [
+        "marki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "maszewo",
+      "name": "Maszewo",
+      "aliases": [
+        "maszewo"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "miasteczko-krajenskie",
+      "name": "Miasteczko Krajeńskie",
+      "aliases": [
+        "miasteczko krajenskie"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "miasteczko-slaskie",
+      "name": "Miasteczko Śląskie",
+      "aliases": [
+        "miasteczko slaskie"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "miastko",
+      "name": "Miastko",
+      "aliases": [
+        "miastko"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "michalowo",
+      "name": "Michałowo",
+      "aliases": [
+        "michalowo"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "miechow",
+      "name": "Miechów",
+      "aliases": [
+        "miechow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "miedzyborz",
+      "name": "Międzybórz",
+      "aliases": [
+        "miedzyborz"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "miedzychod",
+      "name": "Międzychód",
+      "aliases": [
+        "miedzychod"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "miedzylesie",
+      "name": "Międzylesie",
+      "aliases": [
+        "miedzylesie"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "miedzyrzec-podlaski",
+      "name": "Międzyrzec Podlaski",
+      "aliases": [
+        "miedzyrzec podlaski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "miedzyrzecz",
+      "name": "Międzyrzecz",
+      "aliases": [
+        "miedzyrzecz"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "miedzyzdroje",
+      "name": "Międzyzdroje",
+      "aliases": [
+        "miedzyzdroje"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "miejska-gorka",
+      "name": "Miejska Górka",
+      "aliases": [
+        "miejska gorka"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "miekinia",
+      "name": "Miękinia",
+      "aliases": [
+        "miekinia"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "mielec",
+      "name": "Mielec",
+      "aliases": [
+        "mielec"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "mielno",
+      "name": "Mielno",
+      "aliases": [
+        "mielno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "mieroszow",
+      "name": "Mieroszów",
+      "aliases": [
+        "mieroszow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "miescisko",
+      "name": "Mieścisko",
+      "aliases": [
+        "miescisko"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "mieszkowice",
+      "name": "Mieszkowice",
+      "aliases": [
+        "mieszkowice"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "mikolajki",
+      "name": "Mikołajki",
+      "aliases": [
+        "mikolajki"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "mikolow",
+      "name": "Mikołów",
+      "aliases": [
+        "mikolow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "mikstat",
+      "name": "Mikstat",
+      "aliases": [
+        "mikstat"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "milakowo",
+      "name": "Miłakowo",
+      "aliases": [
+        "milakowo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "milanowek",
+      "name": "Milanówek",
+      "aliases": [
+        "milanowek"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "milicz",
+      "name": "Milicz",
+      "aliases": [
+        "milicz"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "milomlyn",
+      "name": "Miłomłyn",
+      "aliases": [
+        "milomlyn"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "miloslaw",
+      "name": "Miłosław",
+      "aliases": [
+        "miloslaw"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "minsk-mazowiecki",
+      "name": "Mińsk Mazowiecki",
+      "aliases": [
+        "minsk mazowiecki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "miroslawiec",
+      "name": "Mirosławiec",
+      "aliases": [
+        "miroslawiec"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "mirsk",
+      "name": "Mirsk",
+      "aliases": [
+        "mirsk"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "mlawa",
+      "name": "Mława",
+      "aliases": [
+        "mlawa"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "mlynary",
+      "name": "Młynary",
+      "aliases": [
+        "mlynary"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "modliborzyce",
+      "name": "Modliborzyce",
+      "aliases": [
+        "modliborzyce"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "mogielnica",
+      "name": "Mogielnica",
+      "aliases": [
+        "mogielnica"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "mogilno",
+      "name": "Mogilno",
+      "aliases": [
+        "mogilno"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "monki",
+      "name": "Mońki",
+      "aliases": [
+        "monki"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "morag",
+      "name": "Morąg",
+      "aliases": [
+        "morag"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "morawica",
+      "name": "Morawica",
+      "aliases": [
+        "morawica"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "mordy",
+      "name": "Mordy",
+      "aliases": [
+        "mordy"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "moryn",
+      "name": "Moryń",
+      "aliases": [
+        "moryn"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "mosina",
+      "name": "Mosina",
+      "aliases": [
+        "mosina"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "mragowo",
+      "name": "Mrągowo",
+      "aliases": [
+        "mragowo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "mrocza",
+      "name": "Mrocza",
+      "aliases": [
+        "mrocza"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "mrozy",
+      "name": "Mrozy",
+      "aliases": [
+        "mrozy"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "mszana-dolna",
+      "name": "Mszana Dolna",
+      "aliases": [
+        "mszana dolna"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "mszczonow",
+      "name": "Mszczonów",
+      "aliases": [
+        "mszczonow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "murowana-goslina",
+      "name": "Murowana Goślina",
+      "aliases": [
+        "murowana goslina"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "muszyna",
+      "name": "Muszyna",
+      "aliases": [
+        "muszyna"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "myslenice",
+      "name": "Myślenice",
+      "aliases": [
+        "myslenice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "mysliborz",
+      "name": "Myślibórz",
+      "aliases": [
+        "mysliborz"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "myslowice",
+      "name": "Mysłowice",
+      "aliases": [
+        "myslowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "myszkow",
+      "name": "Myszków",
+      "aliases": [
+        "myszkow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "myszyniec",
+      "name": "Myszyniec",
+      "aliases": [
+        "myszyniec"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "naklo-nad-notecia",
+      "name": "Nakło nad Notecią",
+      "aliases": [
+        "naklo nad notecia"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "naleczow",
+      "name": "Nałęczów",
+      "aliases": [
+        "naleczow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "namyslow",
+      "name": "Namysłów",
+      "aliases": [
+        "namyslow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "narol",
+      "name": "Narol",
+      "aliases": [
+        "narol"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "nasielsk",
+      "name": "Nasielsk",
+      "aliases": [
+        "nasielsk"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "nekla",
+      "name": "Nekla",
+      "aliases": [
+        "nekla"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "nidzica",
+      "name": "Nidzica",
+      "aliases": [
+        "nidzica"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "niemcza",
+      "name": "Niemcza",
+      "aliases": [
+        "niemcza"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "niemodlin",
+      "name": "Niemodlin",
+      "aliases": [
+        "niemodlin"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "niepolomice",
+      "name": "Niepołomice",
+      "aliases": [
+        "niepolomice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "nieszawa",
+      "name": "Nieszawa",
+      "aliases": [
+        "nieszawa"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "nisko",
+      "name": "Nisko",
+      "aliases": [
+        "nisko"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "nowa-deba",
+      "name": "Nowa Dęba",
+      "aliases": [
+        "nowa deba"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "nowa-ruda",
+      "name": "Nowa Ruda",
+      "aliases": [
+        "nowa ruda"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "nowa-sarzyna",
+      "name": "Nowa Sarzyna",
+      "aliases": [
+        "nowa sarzyna"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "nowa-slupia",
+      "name": "Nowa Słupia",
+      "aliases": [
+        "nowa slupia"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "nowa-sol",
+      "name": "Nowa Sól",
+      "aliases": [
+        "nowa sol"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "nowe",
+      "name": "Nowe",
+      "aliases": [
+        "nowe"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "nowe-brzesko",
+      "name": "Nowe Brzesko",
+      "aliases": [
+        "nowe brzesko"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "nowe-miasteczko",
+      "name": "Nowe Miasteczko",
+      "aliases": [
+        "nowe miasteczko"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "nowe-miasto",
+      "name": "Nowe Miasto",
+      "aliases": [
+        "nowe miasto"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "nowe-miasto-lubawskie",
+      "name": "Nowe Miasto Lubawskie",
+      "aliases": [
+        "nowe miasto lubawskie"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "nowe-miasto-nad-pilica",
+      "name": "Nowe Miasto nad Pilicą",
+      "aliases": [
+        "nowe miasto nad pilica"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "nowe-skalmierzyce",
+      "name": "Nowe Skalmierzyce",
+      "aliases": [
+        "nowe skalmierzyce"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "nowe-warpno",
+      "name": "Nowe Warpno",
+      "aliases": [
+        "nowe warpno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "nowogard",
+      "name": "Nowogard",
+      "aliases": [
+        "nowogard"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "nowogrod",
+      "name": "Nowogród",
+      "aliases": [
+        "nowogrod"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "nowogrod-bobrzanski",
+      "name": "Nowogród Bobrzański",
+      "aliases": [
+        "nowogrod bobrzanski"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "nowogrodziec",
+      "name": "Nowogrodziec",
+      "aliases": [
+        "nowogrodziec"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "nowy-dwor-gdanski",
+      "name": "Nowy Dwór Gdański",
+      "aliases": [
+        "nowy dwor gdanski"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "nowy-dwor-mazowiecki",
+      "name": "Nowy Dwór Mazowiecki",
+      "aliases": [
+        "nowy dwor mazowiecki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "nowy-korczyn",
+      "name": "Nowy Korczyn",
+      "aliases": [
+        "nowy korczyn"
+      ],
+      "voivodeship": "świętokrzyskie"
     },
     {
       "id": "nowy-sacz",
@@ -255,36 +4415,567 @@
       "voivodeship": "małopolskie"
     },
     {
-      "id": "olsztyn",
-      "name": "Olsztyn",
+      "id": "nowy-staw",
+      "name": "Nowy Staw",
       "aliases": [
-        "allenstein"
+        "nowy staw"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "nowy-targ",
+      "name": "Nowy Targ",
+      "aliases": [
+        "nowy targ"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "nowy-tomysl",
+      "name": "Nowy Tomyśl",
+      "aliases": [
+        "nowy tomysl"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "nowy-wisnicz",
+      "name": "Nowy Wiśnicz",
+      "aliases": [
+        "nowy wisnicz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "nysa",
+      "name": "Nysa",
+      "aliases": [
+        "nysa"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "oborniki",
+      "name": "Oborniki",
+      "aliases": [
+        "oborniki"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "oborniki-slaskie",
+      "name": "Oborniki Śląskie",
+      "aliases": [
+        "oborniki slaskie"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "obrzycko",
+      "name": "Obrzycko",
+      "aliases": [
+        "obrzycko"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "odolanow",
+      "name": "Odolanów",
+      "aliases": [
+        "odolanow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "odrzywol",
+      "name": "Odrzywół",
+      "aliases": [
+        "odrzywol"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ogrodzieniec",
+      "name": "Ogrodzieniec",
+      "aliases": [
+        "ogrodzieniec"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "okonek",
+      "name": "Okonek",
+      "aliases": [
+        "okonek"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "olawa",
+      "name": "Oława",
+      "aliases": [
+        "olawa"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "olecko",
+      "name": "Olecko",
+      "aliases": [
+        "olecko"
       ],
       "voivodeship": "warmińsko-mazurskie"
     },
     {
-      "id": "omza",
-      "name": "Łomża",
+      "id": "olesnica-dolnoslaskie",
+      "name": "Oleśnica",
       "aliases": [
-        "łomza"
+        "olesnica"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "olesnica-swietokrzyskie",
+      "name": "Oleśnica",
+      "aliases": [
+        "olesnica"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "olesno",
+      "name": "Olesno",
+      "aliases": [
+        "olesno"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "oleszyce",
+      "name": "Oleszyce",
+      "aliases": [
+        "oleszyce"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "olkusz",
+      "name": "Olkusz",
+      "aliases": [
+        "olkusz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "olsztyn-slaskie",
+      "name": "Olsztyn",
+      "aliases": [
+        "allenstein",
+        "olsztyn"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "olsztyn-warminsko-mazurskie",
+      "name": "Olsztyn",
+      "aliases": [
+        "allenstein",
+        "olsztyn"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "olsztynek",
+      "name": "Olsztynek",
+      "aliases": [
+        "olsztynek"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "olszyna",
+      "name": "Olszyna",
+      "aliases": [
+        "olszyna"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "opalenica",
+      "name": "Opalenica",
+      "aliases": [
+        "opalenica"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "opatow",
+      "name": "Opatów",
+      "aliases": [
+        "opatow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "opatowek",
+      "name": "Opatówek",
+      "aliases": [
+        "opatowek"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "opatowiec",
+      "name": "Opatowiec",
+      "aliases": [
+        "opatowiec"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "opoczno",
+      "name": "Opoczno",
+      "aliases": [
+        "opoczno"
+      ],
+      "voivodeship": "łódzkie"
     },
     {
       "id": "opole",
       "name": "Opole",
       "aliases": [
+        "opole",
         "oppeln"
       ],
       "voivodeship": "opolskie"
     },
     {
-      "id": "ostroeka",
-      "name": "Ostrołęka",
+      "id": "opole-lubelskie",
+      "name": "Opole Lubelskie",
       "aliases": [
-        "ostrołeka"
+        "opole lubelskie"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "orneta",
+      "name": "Orneta",
+      "aliases": [
+        "orneta"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "orzesze",
+      "name": "Orzesze",
+      "aliases": [
+        "orzesze"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "orzysz",
+      "name": "Orzysz",
+      "aliases": [
+        "orzysz"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "osieck",
+      "name": "Osieck",
+      "aliases": [
+        "osieck"
       ],
       "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "osieczna",
+      "name": "Osieczna",
+      "aliases": [
+        "osieczna"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "osiek",
+      "name": "Osiek",
+      "aliases": [
+        "osiek"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "osjakow",
+      "name": "Osjaków",
+      "aliases": [
+        "osjakow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "osno-lubuskie",
+      "name": "Ośno Lubuskie",
+      "aliases": [
+        "osno lubuskie"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "ostroda",
+      "name": "Ostróda",
+      "aliases": [
+        "ostroda"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "ostroleka",
+      "name": "Ostrołęka",
+      "aliases": [
+        "ostroleka"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ostrorog",
+      "name": "Ostroróg",
+      "aliases": [
+        "ostrorog"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ostrow-lubelski",
+      "name": "Ostrów Lubelski",
+      "aliases": [
+        "ostrow lubelski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "ostrow-mazowiecka",
+      "name": "Ostrów Mazowiecka",
+      "aliases": [
+        "ostrow mazowiecka"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ostrow-wielkopolski",
+      "name": "Ostrów Wielkopolski",
+      "aliases": [
+        "ostrow wielkopolski"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ostrowiec-swietokrzyski",
+      "name": "Ostrowiec Świętokrzyski",
+      "aliases": [
+        "ostrowiec swietokrzyski"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "ostrzeszow",
+      "name": "Ostrzeszów",
+      "aliases": [
+        "ostrzeszow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "oswiecim",
+      "name": "Oświęcim",
+      "aliases": [
+        "oswiecim"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "otmuchow",
+      "name": "Otmuchów",
+      "aliases": [
+        "otmuchow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "otwock",
+      "name": "Otwock",
+      "aliases": [
+        "otwock"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "otyn",
+      "name": "Otyń",
+      "aliases": [
+        "otyn"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "ozarow",
+      "name": "Ożarów",
+      "aliases": [
+        "ozarow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "ozarow-mazowiecki",
+      "name": "Ożarów Mazowiecki",
+      "aliases": [
+        "ozarow mazowiecki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ozimek",
+      "name": "Ozimek",
+      "aliases": [
+        "ozimek"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "ozorkow",
+      "name": "Ozorków",
+      "aliases": [
+        "ozorkow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "pabianice",
+      "name": "Pabianice",
+      "aliases": [
+        "pabianice"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "pacanow",
+      "name": "Pacanów",
+      "aliases": [
+        "pacanow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "paczkow",
+      "name": "Paczków",
+      "aliases": [
+        "paczkow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "pajeczno",
+      "name": "Pajęczno",
+      "aliases": [
+        "pajeczno"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "pakosc",
+      "name": "Pakość",
+      "aliases": [
+        "pakosc"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "parczew",
+      "name": "Parczew",
+      "aliases": [
+        "parczew"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "parzeczew",
+      "name": "Parzęczew",
+      "aliases": [
+        "parzeczew"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "paslek",
+      "name": "Pasłęk",
+      "aliases": [
+        "paslek"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "pasym",
+      "name": "Pasym",
+      "aliases": [
+        "pasym"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "pelczyce",
+      "name": "Pełczyce",
+      "aliases": [
+        "pelczyce"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "pelplin",
+      "name": "Pelplin",
+      "aliases": [
+        "pelplin"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "piaseczno",
+      "name": "Piaseczno",
+      "aliases": [
+        "piaseczno"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "piaski",
+      "name": "Piaski",
+      "aliases": [
+        "piaski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "piastow",
+      "name": "Piastów",
+      "aliases": [
+        "piastow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "piatek",
+      "name": "Piątek",
+      "aliases": [
+        "piatek"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "piechowice",
+      "name": "Piechowice",
+      "aliases": [
+        "piechowice"
+      ],
+      "voivodeship": "dolnośląskie"
     },
     {
       "id": "piekary-slaskie",
@@ -295,12 +4986,148 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "piekoszow",
+      "name": "Piekoszów",
+      "aliases": [
+        "piekoszow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "pieniezno",
+      "name": "Pieniężno",
+      "aliases": [
+        "pieniezno"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "piensk",
+      "name": "Pieńsk",
+      "aliases": [
+        "piensk"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "pierzchnica",
+      "name": "Pierzchnica",
+      "aliases": [
+        "pierzchnica"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "pieszyce",
+      "name": "Pieszyce",
+      "aliases": [
+        "pieszyce"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "pila",
+      "name": "Piła",
+      "aliases": [
+        "pila"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "pilawa",
+      "name": "Pilawa",
+      "aliases": [
+        "pilawa"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "pilawa-gorna",
+      "name": "Piława Górna",
+      "aliases": [
+        "pilawa gorna"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "pilica",
+      "name": "Pilica",
+      "aliases": [
+        "pilica"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "pilzno",
+      "name": "Pilzno",
+      "aliases": [
+        "pilzno"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "pinczow",
+      "name": "Pińczów",
+      "aliases": [
+        "pinczow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "pionki",
+      "name": "Pionki",
+      "aliases": [
+        "pionki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "piotrkow-kujawski",
+      "name": "Piotrków Kujawski",
+      "aliases": [
+        "piotrkow kujawski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
       "id": "piotrkow-trybunalski",
       "name": "Piotrków Trybunalski",
       "aliases": [
         "piotrkow trybunalski"
       ],
       "voivodeship": "łódzkie"
+    },
+    {
+      "id": "pisz",
+      "name": "Pisz",
+      "aliases": [
+        "pisz"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "piszczac",
+      "name": "Piszczac",
+      "aliases": [
+        "piszczac"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "piwniczna-zdroj",
+      "name": "Piwniczna-Zdrój",
+      "aliases": [
+        "piwniczna zdroj"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "pleszew",
+      "name": "Pleszew",
+      "aliases": [
+        "pleszew"
+      ],
+      "voivodeship": "wielkopolskie"
     },
     {
       "id": "plock",
@@ -311,13 +5138,269 @@
       "voivodeship": "mazowieckie"
     },
     {
+      "id": "plonsk",
+      "name": "Płońsk",
+      "aliases": [
+        "plonsk"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "ploty",
+      "name": "Płoty",
+      "aliases": [
+        "ploty"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "pniewy",
+      "name": "Pniewy",
+      "aliases": [
+        "pniewy"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "pobiedziska",
+      "name": "Pobiedziska",
+      "aliases": [
+        "pobiedziska"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "poddebice",
+      "name": "Poddębice",
+      "aliases": [
+        "poddebice"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "podkowa-lesna",
+      "name": "Podkowa Leśna",
+      "aliases": [
+        "podkowa lesna"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "pogorzela",
+      "name": "Pogorzela",
+      "aliases": [
+        "pogorzela"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "polanica-zdroj",
+      "name": "Polanica-Zdrój",
+      "aliases": [
+        "polanica zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "polaniec",
+      "name": "Połaniec",
+      "aliases": [
+        "polaniec"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "polanow",
+      "name": "Polanów",
+      "aliases": [
+        "polanow"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "polczyn-zdroj",
+      "name": "Połczyn-Zdrój",
+      "aliases": [
+        "polczyn zdroj"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "police",
+      "name": "Police",
+      "aliases": [
+        "police"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "polkowice",
+      "name": "Polkowice",
+      "aliases": [
+        "polkowice"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "poniatowa",
+      "name": "Poniatowa",
+      "aliases": [
+        "poniatowa"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "poniec",
+      "name": "Poniec",
+      "aliases": [
+        "poniec"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "poreba",
+      "name": "Poręba",
+      "aliases": [
+        "poreba"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
       "id": "poznan",
       "name": "Poznań",
       "aliases": [
-        "poznan",
-        "posen"
+        "posen",
+        "poznan"
       ],
       "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "prabuty",
+      "name": "Prabuty",
+      "aliases": [
+        "prabuty"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "praszka",
+      "name": "Praszka",
+      "aliases": [
+        "praszka"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "prochowice",
+      "name": "Prochowice",
+      "aliases": [
+        "prochowice"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "proszkow",
+      "name": "Prószków",
+      "aliases": [
+        "proszkow"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "proszowice",
+      "name": "Proszowice",
+      "aliases": [
+        "proszowice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "pruchnik",
+      "name": "Pruchnik",
+      "aliases": [
+        "pruchnik"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "prudnik",
+      "name": "Prudnik",
+      "aliases": [
+        "prudnik"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "prusice",
+      "name": "Prusice",
+      "aliases": [
+        "prusice"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "pruszcz",
+      "name": "Pruszcz",
+      "aliases": [
+        "pruszcz"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "pruszcz-gdanski",
+      "name": "Pruszcz Gdański",
+      "aliases": [
+        "pruszcz gdanski"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "pruszkow",
+      "name": "Pruszków",
+      "aliases": [
+        "pruszkow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "przasnysz",
+      "name": "Przasnysz",
+      "aliases": [
+        "przasnysz"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "przeclaw",
+      "name": "Przecław",
+      "aliases": [
+        "przeclaw"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "przedborz",
+      "name": "Przedbórz",
+      "aliases": [
+        "przedborz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "przedecz",
+      "name": "Przedecz",
+      "aliases": [
+        "przedecz"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "przemkow",
+      "name": "Przemków",
+      "aliases": [
+        "przemkow"
+      ],
+      "voivodeship": "dolnośląskie"
     },
     {
       "id": "przemysl",
@@ -328,10 +5411,364 @@
       "voivodeship": "podkarpackie"
     },
     {
+      "id": "przeworsk",
+      "name": "Przeworsk",
+      "aliases": [
+        "przeworsk"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "przyrow",
+      "name": "Przyrów",
+      "aliases": [
+        "przyrow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "przysucha",
+      "name": "Przysucha",
+      "aliases": [
+        "przysucha"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "przytyk",
+      "name": "Przytyk",
+      "aliases": [
+        "przytyk"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "pszczyna",
+      "name": "Pszczyna",
+      "aliases": [
+        "pszczyna"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "pszow",
+      "name": "Pszów",
+      "aliases": [
+        "pszow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "puck",
+      "name": "Puck",
+      "aliases": [
+        "puck"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "pulawy",
+      "name": "Puławy",
+      "aliases": [
+        "pulawy"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "pultusk",
+      "name": "Pułtusk",
+      "aliases": [
+        "pultusk"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "puszczykowo",
+      "name": "Puszczykowo",
+      "aliases": [
+        "puszczykowo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "pyrzyce",
+      "name": "Pyrzyce",
+      "aliases": [
+        "pyrzyce"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "pyskowice",
+      "name": "Pyskowice",
+      "aliases": [
+        "pyskowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "pyzdry",
+      "name": "Pyzdry",
+      "aliases": [
+        "pyzdry"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "rabka-zdroj",
+      "name": "Rabka-Zdrój",
+      "aliases": [
+        "rabka zdroj"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "raciaz",
+      "name": "Raciąż",
+      "aliases": [
+        "raciaz"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "raciborz",
+      "name": "Racibórz",
+      "aliases": [
+        "raciborz"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "radkow",
+      "name": "Radków",
+      "aliases": [
+        "radkow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "radlin",
+      "name": "Radlin",
+      "aliases": [
+        "radlin"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "radlow",
+      "name": "Radłów",
+      "aliases": [
+        "radlow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
       "id": "radom",
       "name": "Radom",
-      "aliases": [],
+      "aliases": [
+        "radom"
+      ],
       "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "radomsko",
+      "name": "Radomsko",
+      "aliases": [
+        "radomsko"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "radomysl-wielki",
+      "name": "Radomyśl Wielki",
+      "aliases": [
+        "radomysl wielki"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "radoszyce",
+      "name": "Radoszyce",
+      "aliases": [
+        "radoszyce"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "radymno",
+      "name": "Radymno",
+      "aliases": [
+        "radymno"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "radziejow",
+      "name": "Radziejów",
+      "aliases": [
+        "radziejow"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "radzionkow",
+      "name": "Radzionków",
+      "aliases": [
+        "radzionkow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "radzymin",
+      "name": "Radzymin",
+      "aliases": [
+        "radzymin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "radzyn-chelminski",
+      "name": "Radzyń Chełmiński",
+      "aliases": [
+        "radzyn chelminski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "radzyn-podlaski",
+      "name": "Radzyń Podlaski",
+      "aliases": [
+        "radzyn podlaski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "rajgrod",
+      "name": "Rajgród",
+      "aliases": [
+        "rajgrod"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "rakoniewice",
+      "name": "Rakoniewice",
+      "aliases": [
+        "rakoniewice"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "raszkow",
+      "name": "Raszków",
+      "aliases": [
+        "raszkow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "rawa-mazowiecka",
+      "name": "Rawa Mazowiecka",
+      "aliases": [
+        "rawa mazowiecka"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "rawicz",
+      "name": "Rawicz",
+      "aliases": [
+        "rawicz"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "recz",
+      "name": "Recz",
+      "aliases": [
+        "recz"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "reda",
+      "name": "Reda",
+      "aliases": [
+        "reda"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "rejowiec",
+      "name": "Rejowiec",
+      "aliases": [
+        "rejowiec"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "rejowiec-fabryczny",
+      "name": "Rejowiec Fabryczny",
+      "aliases": [
+        "rejowiec fabryczny"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "resko",
+      "name": "Resko",
+      "aliases": [
+        "resko"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "reszel",
+      "name": "Reszel",
+      "aliases": [
+        "reszel"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "rogozno",
+      "name": "Rogoźno",
+      "aliases": [
+        "rogozno"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ropczyce",
+      "name": "Ropczyce",
+      "aliases": [
+        "ropczyce"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "rozan",
+      "name": "Różan",
+      "aliases": [
+        "rozan"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "rozprza",
+      "name": "Rozprza",
+      "aliases": [
+        "rozprza"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "ruciane-nida",
+      "name": "Ruciane-Nida",
+      "aliases": [
+        "ruciane nida"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
     },
     {
       "id": "ruda-slaska",
@@ -342,10 +5779,108 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "rudnik-nad-sanem",
+      "name": "Rudnik nad Sanem",
+      "aliases": [
+        "rudnik nad sanem"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "rumia",
+      "name": "Rumia",
+      "aliases": [
+        "rumia"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
       "id": "rybnik",
       "name": "Rybnik",
-      "aliases": [],
+      "aliases": [
+        "rybnik"
+      ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "rychtal",
+      "name": "Rychtal",
+      "aliases": [
+        "rychtal"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "rychwal",
+      "name": "Rychwał",
+      "aliases": [
+        "rychwal"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "rydultowy",
+      "name": "Rydułtowy",
+      "aliases": [
+        "rydultowy"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "rydzyna",
+      "name": "Rydzyna",
+      "aliases": [
+        "rydzyna"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ryglice",
+      "name": "Ryglice",
+      "aliases": [
+        "ryglice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "ryki",
+      "name": "Ryki",
+      "aliases": [
+        "ryki"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "rymanow",
+      "name": "Rymanów",
+      "aliases": [
+        "rymanow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "ryn",
+      "name": "Ryn",
+      "aliases": [
+        "ryn"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "rypin",
+      "name": "Rypin",
+      "aliases": [
+        "rypin"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "rzepin",
+      "name": "Rzepin",
+      "aliases": [
+        "rzepin"
+      ],
+      "voivodeship": "lubuskie"
     },
     {
       "id": "rzeszow",
@@ -356,12 +5891,124 @@
       "voivodeship": "podkarpackie"
     },
     {
+      "id": "rzgow",
+      "name": "Rzgów",
+      "aliases": [
+        "rzgow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "sandomierz",
+      "name": "Sandomierz",
+      "aliases": [
+        "sandomierz"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "sanniki",
+      "name": "Sanniki",
+      "aliases": [
+        "sanniki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sanok",
+      "name": "Sanok",
+      "aliases": [
+        "sanok"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "scinawa",
+      "name": "Ścinawa",
+      "aliases": [
+        "scinawa"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "sedziszow",
+      "name": "Sędziszów",
+      "aliases": [
+        "sedziszow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "sedziszow-malopolski",
+      "name": "Sędziszów Małopolski",
+      "aliases": [
+        "sedziszow malopolski"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "sejny",
+      "name": "Sejny",
+      "aliases": [
+        "sejny"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "sepolno-krajenskie",
+      "name": "Sępólno Krajeńskie",
+      "aliases": [
+        "sepolno krajenskie"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "sepopol",
+      "name": "Sępopol",
+      "aliases": [
+        "sepopol"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "serock",
+      "name": "Serock",
+      "aliases": [
+        "serock"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sianow",
+      "name": "Sianów",
+      "aliases": [
+        "sianow"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "siechnice",
+      "name": "Siechnice",
+      "aliases": [
+        "siechnice"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
       "id": "siedlce",
       "name": "Siedlce",
       "aliases": [
         "siedlce"
       ],
       "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "siedliszcze",
+      "name": "Siedliszcze",
+      "aliases": [
+        "siedliszcze"
+      ],
+      "voivodeship": "lubelskie"
     },
     {
       "id": "siemianowice-slaskie",
@@ -372,12 +6019,220 @@
       "voivodeship": "śląskie"
     },
     {
+      "id": "siemiatycze",
+      "name": "Siemiatycze",
+      "aliases": [
+        "siemiatycze"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "sieniawa",
+      "name": "Sieniawa",
+      "aliases": [
+        "sieniawa"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "siennica",
+      "name": "Siennica",
+      "aliases": [
+        "siennica"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sienno",
+      "name": "Sienno",
+      "aliases": [
+        "sienno"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sieradz",
+      "name": "Sieradz",
+      "aliases": [
+        "sieradz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "sierakow",
+      "name": "Sieraków",
+      "aliases": [
+        "sierakow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "sierpc",
+      "name": "Sierpc",
+      "aliases": [
+        "sierpc"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "siewierz",
+      "name": "Siewierz",
+      "aliases": [
+        "siewierz"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "skala",
+      "name": "Skała",
+      "aliases": [
+        "skala"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "skalbmierz",
+      "name": "Skalbmierz",
+      "aliases": [
+        "skalbmierz"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "skarszewy",
+      "name": "Skarszewy",
+      "aliases": [
+        "skarszewy"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "skaryszew",
+      "name": "Skaryszew",
+      "aliases": [
+        "skaryszew"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "skarzysko-kamienna",
+      "name": "Skarżysko-Kamienna",
+      "aliases": [
+        "skarzysko kamienna"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "skawina",
+      "name": "Skawina",
+      "aliases": [
+        "skawina"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "skepe",
+      "name": "Skępe",
+      "aliases": [
+        "skepe"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
       "id": "skierniewice",
       "name": "Skierniewice",
       "aliases": [
         "skierniewice"
       ],
       "voivodeship": "łódzkie"
+    },
+    {
+      "id": "skoczow",
+      "name": "Skoczów",
+      "aliases": [
+        "skoczow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "skoki",
+      "name": "Skoki",
+      "aliases": [
+        "skoki"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "skorcz",
+      "name": "Skórcz",
+      "aliases": [
+        "skorcz"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "skwierzyna",
+      "name": "Skwierzyna",
+      "aliases": [
+        "skwierzyna"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "slawa",
+      "name": "Sława",
+      "aliases": [
+        "slawa"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "slawkow",
+      "name": "Sławków",
+      "aliases": [
+        "slawkow"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "slawno",
+      "name": "Sławno",
+      "aliases": [
+        "slawno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "slesin",
+      "name": "Ślesin",
+      "aliases": [
+        "slesin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "slomniki",
+      "name": "Słomniki",
+      "aliases": [
+        "slomniki"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "slubice",
+      "name": "Słubice",
+      "aliases": [
+        "slubice"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "slupca",
+      "name": "Słupca",
+      "aliases": [
+        "slupca"
+      ],
+      "voivodeship": "wielkopolskie"
     },
     {
       "id": "slupsk",
@@ -389,6 +6244,94 @@
       "voivodeship": "pomorskie"
     },
     {
+      "id": "smigiel",
+      "name": "Śmigiel",
+      "aliases": [
+        "smigiel"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "sobkow",
+      "name": "Sobków",
+      "aliases": [
+        "sobkow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "sobotka",
+      "name": "Sobótka",
+      "aliases": [
+        "sobotka"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "sochaczew",
+      "name": "Sochaczew",
+      "aliases": [
+        "sochaczew"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sochocin",
+      "name": "Sochocin",
+      "aliases": [
+        "sochocin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sokolka",
+      "name": "Sokółka",
+      "aliases": [
+        "sokolka"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "sokolow-malopolski",
+      "name": "Sokołów Małopolski",
+      "aliases": [
+        "sokolow malopolski"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "sokolow-podlaski",
+      "name": "Sokołów Podlaski",
+      "aliases": [
+        "sokolow podlaski"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "solec-kujawski",
+      "name": "Solec Kujawski",
+      "aliases": [
+        "solec kujawski"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "solec-nad-wisla",
+      "name": "Solec nad Wisłą",
+      "aliases": [
+        "solec nad wisla"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sompolno",
+      "name": "Sompolno",
+      "aliases": [
+        "sompolno"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
       "id": "sopot",
       "name": "Sopot",
       "aliases": [
@@ -397,24 +6340,442 @@
       "voivodeship": "pomorskie"
     },
     {
-      "id": "sosnowiec",
-      "name": "Sosnowiec",
-      "aliases": [],
+      "id": "sosnicowice",
+      "name": "Sośnicowice",
+      "aliases": [
+        "sosnicowice"
+      ],
       "voivodeship": "śląskie"
     },
     {
-      "id": "suwaki",
-      "name": "Suwałki",
+      "id": "sosnowiec",
+      "name": "Sosnowiec",
       "aliases": [
-        "suwałki"
+        "sosnowiec"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "srem",
+      "name": "Śrem",
+      "aliases": [
+        "srem"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "sroda-slaska",
+      "name": "Środa Śląska",
+      "aliases": [
+        "sroda slaska"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "sroda-wielkopolska",
+      "name": "Środa Wielkopolska",
+      "aliases": [
+        "sroda wielkopolska"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "stalowa-wola",
+      "name": "Stalowa Wola",
+      "aliases": [
+        "stalowa wola"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "stanislawow",
+      "name": "Stanisławów",
+      "aliases": [
+        "stanislawow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "staporkow",
+      "name": "Stąporków",
+      "aliases": [
+        "staporkow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "starachowice",
+      "name": "Starachowice",
+      "aliases": [
+        "starachowice"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "stargard",
+      "name": "Stargard",
+      "aliases": [
+        "stargard"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "starogard-gdanski",
+      "name": "Starogard Gdański",
+      "aliases": [
+        "starogard gdanski"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "starozreby",
+      "name": "Staroźreby",
+      "aliases": [
+        "starozreby"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "stary-sacz",
+      "name": "Stary Sącz",
+      "aliases": [
+        "stary sacz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "staszow",
+      "name": "Staszów",
+      "aliases": [
+        "staszow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "stawiski",
+      "name": "Stawiski",
+      "aliases": [
+        "stawiski"
       ],
       "voivodeship": "podlaskie"
     },
     {
-      "id": "swietochowice",
+      "id": "stawiszyn",
+      "name": "Stawiszyn",
+      "aliases": [
+        "stawiszyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "stepnica",
+      "name": "Stepnica",
+      "aliases": [
+        "stepnica"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "steszew",
+      "name": "Stęszew",
+      "aliases": [
+        "steszew"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "stoczek-lukowski",
+      "name": "Stoczek Łukowski",
+      "aliases": [
+        "stoczek lukowski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "stopnica",
+      "name": "Stopnica",
+      "aliases": [
+        "stopnica"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "stronie-slaskie",
+      "name": "Stronie Śląskie",
+      "aliases": [
+        "stronie slaskie"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "strumien",
+      "name": "Strumień",
+      "aliases": [
+        "strumien"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "strykow",
+      "name": "Stryków",
+      "aliases": [
+        "strykow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "strzegom",
+      "name": "Strzegom",
+      "aliases": [
+        "strzegom"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "strzelce-krajenskie",
+      "name": "Strzelce Krajeńskie",
+      "aliases": [
+        "strzelce krajenskie"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "strzelce-opolskie",
+      "name": "Strzelce Opolskie",
+      "aliases": [
+        "strzelce opolskie"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "strzeleczki",
+      "name": "Strzeleczki",
+      "aliases": [
+        "strzeleczki"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "strzelin",
+      "name": "Strzelin",
+      "aliases": [
+        "strzelin"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "strzelno",
+      "name": "Strzelno",
+      "aliases": [
+        "strzelno"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "strzyzow",
+      "name": "Strzyżów",
+      "aliases": [
+        "strzyzow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "sucha-beskidzka",
+      "name": "Sucha Beskidzka",
+      "aliases": [
+        "sucha beskidzka"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "suchan",
+      "name": "Suchań",
+      "aliases": [
+        "suchan"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "suchedniow",
+      "name": "Suchedniów",
+      "aliases": [
+        "suchedniow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "suchowola",
+      "name": "Suchowola",
+      "aliases": [
+        "suchowola"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "sulechow",
+      "name": "Sulechów",
+      "aliases": [
+        "sulechow"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "sulecin",
+      "name": "Sulęcin",
+      "aliases": [
+        "sulecin"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "sulejow",
+      "name": "Sulejów",
+      "aliases": [
+        "sulejow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "sulejowek",
+      "name": "Sulejówek",
+      "aliases": [
+        "sulejowek"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "sulkowice",
+      "name": "Sułkowice",
+      "aliases": [
+        "sulkowice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "sulmierzyce",
+      "name": "Sulmierzyce",
+      "aliases": [
+        "sulmierzyce"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "suprasl",
+      "name": "Supraśl",
+      "aliases": [
+        "suprasl"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "suraz",
+      "name": "Suraż",
+      "aliases": [
+        "suraz"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "susz",
+      "name": "Susz",
+      "aliases": [
+        "susz"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "suwalki",
+      "name": "Suwałki",
+      "aliases": [
+        "suwalki"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "swarzedz",
+      "name": "Swarzędz",
+      "aliases": [
+        "swarzedz"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "swiatniki-gorne",
+      "name": "Świątniki Górne",
+      "aliases": [
+        "swiatniki gorne"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "swidnica",
+      "name": "Świdnica",
+      "aliases": [
+        "swidnica"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "swidnik",
+      "name": "Świdnik",
+      "aliases": [
+        "swidnik"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "swidwin",
+      "name": "Świdwin",
+      "aliases": [
+        "swidwin"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "swiebodzice",
+      "name": "Świebodzice",
+      "aliases": [
+        "swiebodzice"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "swiebodzin",
+      "name": "Świebodzin",
+      "aliases": [
+        "swiebodzin"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "swiecie",
+      "name": "Świecie",
+      "aliases": [
+        "swiecie"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "swieradow-zdroj",
+      "name": "Świeradów-Zdrój",
+      "aliases": [
+        "swieradow zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "swierzawa",
+      "name": "Świerzawa",
+      "aliases": [
+        "swierzawa"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "swietochlowice",
       "name": "Świętochłowice",
       "aliases": [
-        "swietochłowice"
+        "swietochlowice"
       ],
       "voivodeship": "śląskie"
     },
@@ -427,12 +6788,197 @@
       "voivodeship": "zachodniopomorskie"
     },
     {
+      "id": "sycow",
+      "name": "Syców",
+      "aliases": [
+        "sycow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "szadek",
+      "name": "Szadek",
+      "aliases": [
+        "szadek"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "szamocin",
+      "name": "Szamocin",
+      "aliases": [
+        "szamocin"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "szamotuly",
+      "name": "Szamotuły",
+      "aliases": [
+        "szamotuly"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "szczawnica",
+      "name": "Szczawnica",
+      "aliases": [
+        "szczawnica"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "szczawno-zdroj",
+      "name": "Szczawno-Zdrój",
+      "aliases": [
+        "szczawno zdroj"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "szczebrzeszyn",
+      "name": "Szczebrzeszyn",
+      "aliases": [
+        "szczebrzeszyn"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
       "id": "szczecin",
       "name": "Szczecin",
       "aliases": [
-        "stettin"
+        "stettin",
+        "szczecin"
       ],
       "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "szczecinek",
+      "name": "Szczecinek",
+      "aliases": [
+        "szczecinek"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "szczekociny",
+      "name": "Szczekociny",
+      "aliases": [
+        "szczekociny"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "szczucin",
+      "name": "Szczucin",
+      "aliases": [
+        "szczucin"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "szczuczyn",
+      "name": "Szczuczyn",
+      "aliases": [
+        "szczuczyn"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "szczyrk",
+      "name": "Szczyrk",
+      "aliases": [
+        "szczyrk"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "szczytna",
+      "name": "Szczytna",
+      "aliases": [
+        "szczytna"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "szczytno",
+      "name": "Szczytno",
+      "aliases": [
+        "szczytno"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "szepietowo",
+      "name": "Szepietowo",
+      "aliases": [
+        "szepietowo"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "szklarska-poreba",
+      "name": "Szklarska Poręba",
+      "aliases": [
+        "szklarska poreba"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "szlichtyngowa",
+      "name": "Szlichtyngowa",
+      "aliases": [
+        "szlichtyngowa"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "szprotawa",
+      "name": "Szprotawa",
+      "aliases": [
+        "szprotawa"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "sztum",
+      "name": "Sztum",
+      "aliases": [
+        "sztum"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "szubin",
+      "name": "Szubin",
+      "aliases": [
+        "szubin"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "szydlow",
+      "name": "Szydłów",
+      "aliases": [
+        "szydlow"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "szydlowiec",
+      "name": "Szydłowiec",
+      "aliases": [
+        "szydlowiec"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "tarczyn",
+      "name": "Tarczyn",
+      "aliases": [
+        "tarczyn"
+      ],
+      "voivodeship": "mazowieckie"
     },
     {
       "id": "tarnobrzeg",
@@ -443,6 +6989,14 @@
       "voivodeship": "podkarpackie"
     },
     {
+      "id": "tarnogrod",
+      "name": "Tarnogród",
+      "aliases": [
+        "tarnogrod"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
       "id": "tarnow",
       "name": "Tarnów",
       "aliases": [
@@ -451,13 +7005,221 @@
       "voivodeship": "małopolskie"
     },
     {
+      "id": "tarnowskie-gory",
+      "name": "Tarnowskie Góry",
+      "aliases": [
+        "tarnowskie gory"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "tczew",
+      "name": "Tczew",
+      "aliases": [
+        "tczew"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "terespol",
+      "name": "Terespol",
+      "aliases": [
+        "terespol"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "tluszcz",
+      "name": "Tłuszcz",
+      "aliases": [
+        "tluszcz"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "tolkmicko",
+      "name": "Tolkmicko",
+      "aliases": [
+        "tolkmicko"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "tomaszow-lubelski",
+      "name": "Tomaszów Lubelski",
+      "aliases": [
+        "tomaszow lubelski"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "tomaszow-mazowiecki",
+      "name": "Tomaszów Mazowiecki",
+      "aliases": [
+        "tomaszow mazowiecki"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
       "id": "torun",
       "name": "Toruń",
       "aliases": [
-        "torun",
-        "thorn"
+        "thorn",
+        "torun"
       ],
       "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "torzym",
+      "name": "Torzym",
+      "aliases": [
+        "torzym"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "toszek",
+      "name": "Toszek",
+      "aliases": [
+        "toszek"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "trzcianka",
+      "name": "Trzcianka",
+      "aliases": [
+        "trzcianka"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "trzciel",
+      "name": "Trzciel",
+      "aliases": [
+        "trzciel"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "trzcinsko-zdroj",
+      "name": "Trzcińsko-Zdrój",
+      "aliases": [
+        "trzcinsko zdroj"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "trzebiatow",
+      "name": "Trzebiatów",
+      "aliases": [
+        "trzebiatow"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "trzebinia",
+      "name": "Trzebinia",
+      "aliases": [
+        "trzebinia"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "trzebnica",
+      "name": "Trzebnica",
+      "aliases": [
+        "trzebnica"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "trzemeszno",
+      "name": "Trzemeszno",
+      "aliases": [
+        "trzemeszno"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "tuchola",
+      "name": "Tuchola",
+      "aliases": [
+        "tuchola"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "tuchow",
+      "name": "Tuchów",
+      "aliases": [
+        "tuchow"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "tuczno",
+      "name": "Tuczno",
+      "aliases": [
+        "tuczno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "tuliszkow",
+      "name": "Tuliszków",
+      "aliases": [
+        "tuliszkow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "tulowice",
+      "name": "Tułowice",
+      "aliases": [
+        "tulowice"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "turek",
+      "name": "Turek",
+      "aliases": [
+        "turek"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "turobin",
+      "name": "Turobin",
+      "aliases": [
+        "turobin"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "tuszyn",
+      "name": "Tuszyn",
+      "aliases": [
+        "tuszyn"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "twardogora",
+      "name": "Twardogóra",
+      "aliases": [
+        "twardogora"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "tychowo",
+      "name": "Tychowo",
+      "aliases": [
+        "tychowo"
+      ],
+      "voivodeship": "zachodniopomorskie"
     },
     {
       "id": "tychy",
@@ -466,6 +7228,134 @@
         "tychy"
       ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "tyczyn",
+      "name": "Tyczyn",
+      "aliases": [
+        "tyczyn"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "tykocin",
+      "name": "Tykocin",
+      "aliases": [
+        "tykocin"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "tyszowce",
+      "name": "Tyszowce",
+      "aliases": [
+        "tyszowce"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "ujazd-lodzkie",
+      "name": "Ujazd",
+      "aliases": [
+        "ujazd"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "ujazd-opolskie",
+      "name": "Ujazd",
+      "aliases": [
+        "ujazd"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "ujscie",
+      "name": "Ujście",
+      "aliases": [
+        "ujscie"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "ulanow",
+      "name": "Ulanów",
+      "aliases": [
+        "ulanow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "uniejow",
+      "name": "Uniejów",
+      "aliases": [
+        "uniejow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "urzedow",
+      "name": "Urzędów",
+      "aliases": [
+        "urzedow"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "ustka",
+      "name": "Ustka",
+      "aliases": [
+        "ustka"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "ustron",
+      "name": "Ustroń",
+      "aliases": [
+        "ustron"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "ustrzyki-dolne",
+      "name": "Ustrzyki Dolne",
+      "aliases": [
+        "ustrzyki dolne"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "wabrzezno",
+      "name": "Wąbrzeźno",
+      "aliases": [
+        "wabrzezno"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "wachock",
+      "name": "Wąchock",
+      "aliases": [
+        "wachock"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "wadowice",
+      "name": "Wadowice",
+      "aliases": [
+        "wadowice"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "wagrowiec",
+      "name": "Wągrowiec",
+      "aliases": [
+        "wagrowiec"
+      ],
+      "voivodeship": "wielkopolskie"
     },
     {
       "id": "walbrzych",
@@ -477,21 +7367,230 @@
       "voivodeship": "dolnośląskie"
     },
     {
+      "id": "walcz",
+      "name": "Wałcz",
+      "aliases": [
+        "walcz"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "warka",
+      "name": "Warka",
+      "aliases": [
+        "warka"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
       "id": "warszawa",
       "name": "Warszawa",
       "aliases": [
+        "Warsaw",
         "warsaw",
-        "Warsaw"
+        "warszawa"
       ],
-      "voivodeship": "mazowieckie",
-      "osm": {
-        "type": "node",
-        "id": 1002
-      },
-      "center": {
-        "lat": 52.2297,
-        "lon": 21.0122
-      }
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "warta",
+      "name": "Warta",
+      "aliases": [
+        "warta"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "wasilkow",
+      "name": "Wasilków",
+      "aliases": [
+        "wasilkow"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "wasosz",
+      "name": "Wąsosz",
+      "aliases": [
+        "wasosz"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "wawolnica",
+      "name": "Wąwolnica",
+      "aliases": [
+        "wawolnica"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "wegliniec",
+      "name": "Węgliniec",
+      "aliases": [
+        "wegliniec"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "wegorzewo",
+      "name": "Węgorzewo",
+      "aliases": [
+        "wegorzewo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "wegorzyno",
+      "name": "Węgorzyno",
+      "aliases": [
+        "wegorzyno"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "wegrow",
+      "name": "Węgrów",
+      "aliases": [
+        "wegrow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "wejherowo",
+      "name": "Wejherowo",
+      "aliases": [
+        "wejherowo"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "wiazow",
+      "name": "Wiązów",
+      "aliases": [
+        "wiazow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "wiecbork",
+      "name": "Więcbork",
+      "aliases": [
+        "wiecbork"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
+      "id": "wielbark",
+      "name": "Wielbark",
+      "aliases": [
+        "wielbark"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "wielen",
+      "name": "Wieleń",
+      "aliases": [
+        "wielen"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wielichowo",
+      "name": "Wielichowo",
+      "aliases": [
+        "wielichowo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wieliczka",
+      "name": "Wieliczka",
+      "aliases": [
+        "wieliczka"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "wielun",
+      "name": "Wieluń",
+      "aliases": [
+        "wielun"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "wieruszow",
+      "name": "Wieruszów",
+      "aliases": [
+        "wieruszow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "wilamowice",
+      "name": "Wilamowice",
+      "aliases": [
+        "wilamowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "wiskitki",
+      "name": "Wiskitki",
+      "aliases": [
+        "wiskitki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "wisla",
+      "name": "Wisła",
+      "aliases": [
+        "wisla"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "wislica",
+      "name": "Wiślica",
+      "aliases": [
+        "wislica"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "witkowo",
+      "name": "Witkowo",
+      "aliases": [
+        "witkowo"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "witnica",
+      "name": "Witnica",
+      "aliases": [
+        "witnica"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "wladyslawowo",
+      "name": "Władysławowo",
+      "aliases": [
+        "wladyslawowo"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "wlen",
+      "name": "Wleń",
+      "aliases": [
+        "wlen"
+      ],
+      "voivodeship": "dolnośląskie"
     },
     {
       "id": "wloclawek",
@@ -502,21 +7601,326 @@
       "voivodeship": "kujawsko-pomorskie"
     },
     {
+      "id": "wlodawa",
+      "name": "Włodawa",
+      "aliases": [
+        "wlodawa"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "wlodowice",
+      "name": "Włodowice",
+      "aliases": [
+        "wlodowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "wloszczowa",
+      "name": "Włoszczowa",
+      "aliases": [
+        "wloszczowa"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "wodzislaw",
+      "name": "Wodzisław",
+      "aliases": [
+        "wodzislaw"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "wodzislaw-slaski",
+      "name": "Wodzisław Śląski",
+      "aliases": [
+        "wodzislaw slaski"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "wojcieszow",
+      "name": "Wojcieszów",
+      "aliases": [
+        "wojcieszow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "wojkowice",
+      "name": "Wojkowice",
+      "aliases": [
+        "wojkowice"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "wojnicz",
+      "name": "Wojnicz",
+      "aliases": [
+        "wojnicz"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "wolborz",
+      "name": "Wolbórz",
+      "aliases": [
+        "wolborz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "wolbrom",
+      "name": "Wolbrom",
+      "aliases": [
+        "wolbrom"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "wolczyn",
+      "name": "Wołczyn",
+      "aliases": [
+        "wolczyn"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "wolin",
+      "name": "Wolin",
+      "aliases": [
+        "wolin"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "wolomin",
+      "name": "Wołomin",
+      "aliases": [
+        "wolomin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "wolow",
+      "name": "Wołów",
+      "aliases": [
+        "wolow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "wolsztyn",
+      "name": "Wolsztyn",
+      "aliases": [
+        "wolsztyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wozniki",
+      "name": "Woźniki",
+      "aliases": [
+        "wozniki"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
       "id": "wroclaw",
       "name": "Wrocław",
       "aliases": [
-        "wroclaw",
-        "breslau"
+        "breslau",
+        "wroclaw"
       ],
       "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "wronki",
+      "name": "Wronki",
+      "aliases": [
+        "wronki"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wrzesnia",
+      "name": "Września",
+      "aliases": [
+        "wrzesnia"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wschowa",
+      "name": "Wschowa",
+      "aliases": [
+        "wschowa"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "wyrzysk",
+      "name": "Wyrzysk",
+      "aliases": [
+        "wyrzysk"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wysmierzyce",
+      "name": "Wyśmierzyce",
+      "aliases": [
+        "wysmierzyce"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "wysoka",
+      "name": "Wysoka",
+      "aliases": [
+        "wysoka"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "wysokie-mazowieckie",
+      "name": "Wysokie Mazowieckie",
+      "aliases": [
+        "wysokie mazowieckie"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "wyszkow",
+      "name": "Wyszków",
+      "aliases": [
+        "wyszkow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "wyszogrod",
+      "name": "Wyszogród",
+      "aliases": [
+        "wyszogrod"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zabki",
+      "name": "Ząbki",
+      "aliases": [
+        "zabki"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zabkowice-slaskie",
+      "name": "Ząbkowice Śląskie",
+      "aliases": [
+        "zabkowice slaskie"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "zabludow",
+      "name": "Zabłudów",
+      "aliases": [
+        "zabludow"
+      ],
+      "voivodeship": "podlaskie"
+    },
+    {
+      "id": "zabno",
+      "name": "Żabno",
+      "aliases": [
+        "zabno"
+      ],
+      "voivodeship": "małopolskie"
     },
     {
       "id": "zabrze",
       "name": "Zabrze",
       "aliases": [
-        "hindenburg"
+        "hindenburg",
+        "zabrze"
       ],
       "voivodeship": "śląskie"
+    },
+    {
+      "id": "zagan",
+      "name": "Żagań",
+      "aliases": [
+        "zagan"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "zagorow",
+      "name": "Zagórów",
+      "aliases": [
+        "zagorow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "zagorz",
+      "name": "Zagórz",
+      "aliases": [
+        "zagorz"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "zakliczyn",
+      "name": "Zakliczyn",
+      "aliases": [
+        "zakliczyn"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "zaklikow",
+      "name": "Zaklików",
+      "aliases": [
+        "zaklikow"
+      ],
+      "voivodeship": "podkarpackie"
+    },
+    {
+      "id": "zakopane",
+      "name": "Zakopane",
+      "aliases": [
+        "zakopane"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "zakroczym",
+      "name": "Zakroczym",
+      "aliases": [
+        "zakroczym"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zalewo",
+      "name": "Zalewo",
+      "aliases": [
+        "zalewo"
+      ],
+      "voivodeship": "warmińsko-mazurskie"
+    },
+    {
+      "id": "zambrow",
+      "name": "Zambrów",
+      "aliases": [
+        "zambrow"
+      ],
+      "voivodeship": "podlaskie"
     },
     {
       "id": "zamosc",
@@ -527,6 +7931,174 @@
       "voivodeship": "lubelskie"
     },
     {
+      "id": "zaniemysl",
+      "name": "Zaniemyśl",
+      "aliases": [
+        "zaniemysl"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "zarki",
+      "name": "Żarki",
+      "aliases": [
+        "zarki"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "zarnow",
+      "name": "Żarnów",
+      "aliases": [
+        "zarnow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "zarow",
+      "name": "Żarów",
+      "aliases": [
+        "zarow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "zary",
+      "name": "Żary",
+      "aliases": [
+        "zary"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "zator",
+      "name": "Zator",
+      "aliases": [
+        "zator"
+      ],
+      "voivodeship": "małopolskie"
+    },
+    {
+      "id": "zawadzkie",
+      "name": "Zawadzkie",
+      "aliases": [
+        "zawadzkie"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "zawichost",
+      "name": "Zawichost",
+      "aliases": [
+        "zawichost"
+      ],
+      "voivodeship": "świętokrzyskie"
+    },
+    {
+      "id": "zawidow",
+      "name": "Zawidów",
+      "aliases": [
+        "zawidow"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "zawiercie",
+      "name": "Zawiercie",
+      "aliases": [
+        "zawiercie"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "zbaszyn",
+      "name": "Zbąszyń",
+      "aliases": [
+        "zbaszyn"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "zbaszynek",
+      "name": "Zbąszynek",
+      "aliases": [
+        "zbaszynek"
+      ],
+      "voivodeship": "lubuskie"
+    },
+    {
+      "id": "zdunska-wola",
+      "name": "Zduńska Wola",
+      "aliases": [
+        "zdunska wola"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "zduny",
+      "name": "Zduny",
+      "aliases": [
+        "zduny"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "zdzieszowice",
+      "name": "Zdzieszowice",
+      "aliases": [
+        "zdzieszowice"
+      ],
+      "voivodeship": "opolskie"
+    },
+    {
+      "id": "zelechow",
+      "name": "Żelechów",
+      "aliases": [
+        "zelechow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zelow",
+      "name": "Zelów",
+      "aliases": [
+        "zelow"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "zerkow",
+      "name": "Żerków",
+      "aliases": [
+        "zerkow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "zgierz",
+      "name": "Zgierz",
+      "aliases": [
+        "zgierz"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "zgorzelec",
+      "name": "Zgorzelec",
+      "aliases": [
+        "zgorzelec"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "ziebice",
+      "name": "Ziębice",
+      "aliases": [
+        "ziebice"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
       "id": "zielona-gora",
       "name": "Zielona Góra",
       "aliases": [
@@ -535,10 +8107,130 @@
       "voivodeship": "lubuskie"
     },
     {
+      "id": "zielonka",
+      "name": "Zielonka",
+      "aliases": [
+        "zielonka"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zlocieniec",
+      "name": "Złocieniec",
+      "aliases": [
+        "zlocieniec"
+      ],
+      "voivodeship": "zachodniopomorskie"
+    },
+    {
+      "id": "zloczew",
+      "name": "Złoczew",
+      "aliases": [
+        "zloczew"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "zlotoryja",
+      "name": "Złotoryja",
+      "aliases": [
+        "zlotoryja"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "zlotow",
+      "name": "Złotów",
+      "aliases": [
+        "zlotow"
+      ],
+      "voivodeship": "wielkopolskie"
+    },
+    {
+      "id": "zloty-stok",
+      "name": "Złoty Stok",
+      "aliases": [
+        "zloty stok"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "zmigrod",
+      "name": "Żmigród",
+      "aliases": [
+        "zmigrod"
+      ],
+      "voivodeship": "dolnośląskie"
+    },
+    {
+      "id": "znin",
+      "name": "Żnin",
+      "aliases": [
+        "znin"
+      ],
+      "voivodeship": "kujawsko-pomorskie"
+    },
+    {
       "id": "zory",
       "name": "Żory",
       "aliases": [
         "zory"
+      ],
+      "voivodeship": "śląskie"
+    },
+    {
+      "id": "zukowo",
+      "name": "Żukowo",
+      "aliases": [
+        "zukowo"
+      ],
+      "voivodeship": "pomorskie"
+    },
+    {
+      "id": "zuromin",
+      "name": "Żuromin",
+      "aliases": [
+        "zuromin"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zwierzyniec",
+      "name": "Zwierzyniec",
+      "aliases": [
+        "zwierzyniec"
+      ],
+      "voivodeship": "lubelskie"
+    },
+    {
+      "id": "zwolen",
+      "name": "Zwoleń",
+      "aliases": [
+        "zwolen"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zychlin",
+      "name": "Żychlin",
+      "aliases": [
+        "zychlin"
+      ],
+      "voivodeship": "łódzkie"
+    },
+    {
+      "id": "zyrardow",
+      "name": "Żyrardów",
+      "aliases": [
+        "zyrardow"
+      ],
+      "voivodeship": "mazowieckie"
+    },
+    {
+      "id": "zywiec",
+      "name": "Żywiec",
+      "aliases": [
+        "zywiec"
       ],
       "voivodeship": "śląskie"
     }
