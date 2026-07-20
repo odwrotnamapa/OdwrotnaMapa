@@ -1,7 +1,7 @@
 🇵🇱 
 Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. **Odwrotna Mapa** zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.
 
-...jednak skłamałbym mówiąc że to jedyne co definiuje tę apkę, jest z niej znacznie więcej pożytku i multum funkcjonalności, między innymi
+...jednak skłamałbym mówiąc że to jedyne co definiuje tę apkę, jest z niej znacznie więcej pożytku i multum funkcjonalności, między innymi:
 - **Mapa z południem u góry** — odwrócona perspektywa jako główna idea projektu
 - **Wyszukiwarka miejsc i adresów** (Nominatim, Photon)
 - **Odkrywaj** — szybkie wyszukiwanie w kategoriach (restauracje, kawiarnie, apteki, przystanki i inne)
