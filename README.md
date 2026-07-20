@@ -15,6 +15,8 @@ Większość współczesnych map przedstawia północ na górze, więc łatwo za
 - **Aplikacja na Androida** i **na Windows** (desktop), oprócz wersji przeglądarkowej (niedługo)
 - W pełni otwarty kod źródłowy (licencja MIT)
 
+---
+
 🇬🇧 
 Most modern maps place north at the top. This is not, however, the only possible way to represent the world. **Odwrotna Mapa** (literally "Reverse Map") was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.
 
@@ -32,7 +34,9 @@ Most modern maps place north at the top. This is not, however, the only possible
 - **Android app** and **Windows desktop app**, in addition to the browser version (soon)
 - Fully open source (MIT license)
 
-**Link for the prototype:**
+---
+
+**Link:**
 https://odwrotnamapa.github.io/odwrotnamapa/
 
 jeden z "własnych" motywów kolorystycznych dla przykładu/a custom theme for an example:
