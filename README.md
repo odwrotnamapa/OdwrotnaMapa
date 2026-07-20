@@ -37,11 +37,6 @@ https://odwrotnamapa.github.io/odwrotnamapa/
 
 ---
 
-jeden z własnych motywów kolorystycznych dla przykładu/a custom theme for an example:
-<img width="1024" height="670" alt="opium theme dla omapy" src="https://github.com/user-attachments/assets/d31c234a-615a-4ca0-9259-e0dcec0cbb3e" />
-
----
-
 ☕️ Buy Me a Coffee:
 https://buymeacoffee.com/odwrotnamapa
 
