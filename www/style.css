@@ -2942,13 +2942,17 @@ a.place-card-row {
 }
 
 .favorite-place-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 36px;
   border: 1px solid var(--border);
 }
 
+.favorite-place-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
 .favorite-place-open,
-.favorite-place-remove {
+.favorite-place-remove,
+.favorite-place-edit-toggle {
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -2967,10 +2971,16 @@ a.place-card-row {
   text-align: left;
 }
 
+.favorite-place-actions {
+  display: flex;
+}
+
 .favorite-place-open:hover,
 .favorite-place-open:focus-visible,
 .favorite-place-remove:hover,
-.favorite-place-remove:focus-visible {
+.favorite-place-remove:focus-visible,
+.favorite-place-edit-toggle:hover,
+.favorite-place-edit-toggle:focus-visible {
   background: color-mix(
     in srgb,
     var(--accent) 10%,
@@ -3005,9 +3015,65 @@ a.place-card-row {
   font-size: 0.64rem;
 }
 
+.favorite-place-open small.favorite-place-note {
+  font-style: italic;
+}
+
+.favorite-place-edit-toggle,
 .favorite-place-remove {
   border-left: 1px solid var(--border);
+  width: 36px;
   font-size: 1rem;
+}
+
+.favorite-place-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 8px;
+  border-top: 1px solid var(--border);
+}
+
+.favorite-place-edit-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.favorite-place-edit-form input,
+.favorite-place-edit-form textarea {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 0.74rem;
+  color: var(--text);
+  background: var(--surface, transparent);
+  resize: vertical;
+}
+
+.favorite-place-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.favorite-place-edit-save,
+.favorite-place-edit-cancel {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text);
+}
+
+.favorite-place-edit-save {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 

@@ -131,6 +131,14 @@
       menuTitle: "Menu",
       favoritesTitle: "Ulubione",
       favoritesEmpty: "Brak ulubionych miejsc.",
+      favoriteEdit: "Edytuj",
+      favoriteEditTitle: "Edytuj miejsce",
+      favoriteCustomNameLabel: "Własna nazwa",
+      favoriteCustomNamePlaceholder: "np. Ulubiona kawiarnia",
+      favoriteNoteLabel: "Notatka",
+      favoriteNotePlaceholder: "np. otwarte do 22, wejście od podwórka",
+      favoriteSave: "Zapisz",
+      favoriteCancelEdit: "Anuluj",
       favoritesSearch: "Szukaj ulubionych…",
       favoritesCountLabel: "zapisanych miejsc",
       favoritesExport: "Eksportuj JSON",
@@ -140,6 +148,7 @@
       favoritesImported: count => `Zaimportowano ${count} miejsc.`,
       favoritesImportError: "Nie udało się zaimportować pliku JSON.",
       menuTheme: "Wygląd mapy",
+      menuOffline: "Mapa offline (świat)",
       menuLocation: "Moja lokalizacja",
       menuLanguage: "Język",
       menuLegend: "Legenda",
@@ -308,6 +317,14 @@
       menuTitle: "Menu",
       favoritesTitle: "Favorites",
       favoritesEmpty: "No favorite places yet.",
+      favoriteEdit: "Edit",
+      favoriteEditTitle: "Edit place",
+      favoriteCustomNameLabel: "Custom name",
+      favoriteCustomNamePlaceholder: "e.g. Favorite cafe",
+      favoriteNoteLabel: "Note",
+      favoriteNotePlaceholder: "e.g. open until 10pm, entrance from the yard",
+      favoriteSave: "Save",
+      favoriteCancelEdit: "Cancel",
       favoritesSearch: "Search favorites…",
       favoritesCountLabel: "saved places",
       favoritesExport: "Export JSON",
@@ -317,6 +334,7 @@
       favoritesImported: count => `Imported ${count} places.`,
       favoritesImportError: "The JSON file could not be imported.",
       menuTheme: "Map style",
+      menuOffline: "Offline map (world)",
       menuLocation: "My location",
       menuLanguage: "Language",
       menuLegend: "Legend",
@@ -374,6 +392,7 @@
         ? stored
         : "default";
     })(),
+    offlineMode: safeGet(CONFIG.storageKeys.offlineMode, "0") === "1",
     timer: null,
     originalPaint: new Map(),
     originalTextFields: new Map(),
@@ -451,6 +470,9 @@
     favoritesCountLabel: $("favorites-count-label"),
     menuLocationButton: $("menu-location-button"),
     menuThemeSelect: $("menu-theme-select"),
+    menuThemeRow: $("menu-theme-row"),
+    menuOfflineToggle: $("menu-offline-toggle"),
+    menuOfflineLabel: $("menu-offline-label"),
     menuThemeLabel: $("menu-theme-label"),
     menuLanguageSelect: $("menu-language-select"),
     menuLegendButton: $("menu-legend-button"),
@@ -525,6 +547,12 @@
     return;
   }
 
+  if (window.pmtiles && !window.__omapPmtilesProtocolRegistered) {
+    const pmtilesProtocol = new window.pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles", pmtilesProtocol.tile);
+    window.__omapPmtilesProtocolRegistered = true;
+  }
+
   let map;
   try {
     const saved = readView();
@@ -537,6 +565,7 @@
       pitch: saved?.pitch ?? CONFIG.map.pitch,
       minZoom: CONFIG.map.minZoom
     });
+    window.__omapMap = map;
   } catch (error) {
     fatal(error.message);
     return;
@@ -564,6 +593,7 @@
     loadSharedRouteFromUrl();
     loadSharedPlaceFromUrl();
     initializeGeoUriHandling();
+    if (state.offlineMode) setOfflineMode(true);
   });
 
   map.on("moveend", saveView);
@@ -586,6 +616,10 @@
     safeSet(CONFIG.storageKeys.theme, state.theme);
     applyTheme(state.theme);
     updateUI();
+  });
+
+  el.menuOfflineToggle?.addEventListener("change", e => {
+    setOfflineMode(e.target.checked);
   });
 
   window.matchMedia?.("(prefers-color-scheme: dark)")
@@ -761,6 +795,8 @@
     }
     if (el.menuTitle) el.menuTitle.textContent = t.menuTitle;
     if (el.menuThemeLabel) el.menuThemeLabel.textContent = t.menuTheme;
+    if (el.menuOfflineLabel) el.menuOfflineLabel.textContent = t.menuOffline;
+    if (el.menuOfflineToggle) el.menuOfflineToggle.checked = state.offlineMode;
     if (el.menuLocationLabel) el.menuLocationLabel.textContent = t.menuLocation;
     if (el.menuLanguageLabel) el.menuLanguageLabel.textContent = t.menuLanguage;
     if (el.clearMapLabel) el.clearMapLabel.textContent = t.clearMap;
@@ -967,6 +1003,54 @@
     return theme;
   }
 
+  function buildOfflineStyle() {
+    const flavor = resolveTheme(state.theme) === "dark" ? "dark" : "light";
+    const pmtilesAbsoluteUrl =
+      window.omapOfflinePmtilesUrl ||
+      new URL(CONFIG.offline.pmtilesPath, window.location.href).href;
+
+    return {
+      version: 8,
+      glyphs: CONFIG.offline.glyphs,
+      sprite: CONFIG.offline.sprite[flavor],
+      sources: {
+        offline: {
+          type: "vector",
+          url: "pmtiles://" + pmtilesAbsoluteUrl,
+          attribution:
+            '© <a href="https://openstreetmap.org">OpenStreetMap</a> © <a href="https://protomaps.com">Protomaps</a>'
+        }
+      },
+      layers: window.basemaps.layers(
+        "offline",
+        window.basemaps.namedFlavor(flavor),
+        { lang: state.language === "pl" ? "pl" : "en" }
+      )
+    };
+  }
+
+  function setOfflineMode(enabled) {
+    state.offlineMode = enabled;
+    safeSet(CONFIG.storageKeys.offlineMode, enabled ? "1" : "0");
+
+    if (el.menuOfflineToggle) el.menuOfflineToggle.checked = enabled;
+    if (el.menuThemeRow) el.menuThemeRow.hidden = enabled;
+
+    map.setStyle(enabled ? buildOfflineStyle() : CONFIG.map.styleUrl);
+
+    if (!enabled) {
+      const waitForStyleReady = () => {
+        if (map.isStyleLoaded()) {
+          map.off("styledata", waitForStyleReady);
+          applyTheme(state.theme);
+          map.once("idle", () => applyTheme(state.theme));
+          applyLanguageAfterStartup();
+        }
+      };
+      map.on("styledata", waitForStyleReady);
+    }
+  }
+
   let lastResolvedTheme = null;
 
   function applyTheme(theme) {
@@ -974,6 +1058,8 @@
       map.once("idle", () => applyTheme(theme));
       return;
     }
+
+    ensureSatellite();
 
     const effectiveTheme = resolveTheme(theme);
     lastResolvedTheme = effectiveTheme;
@@ -5998,38 +6084,38 @@ function closeRoute() {
     await calculateRouteFromStoredPoints();
   }
 
-function openGeoUri(rawUrl) {
-  const match = /^geo:([^;?]+)/i.exec(String(rawUrl || ""));
-  if (!match) return;
+  function openGeoUri(rawUrl) {
+    const match = /^geo:([^;?]+)/i.exec(String(rawUrl || ""));
+    if (!match) return;
 
-  const point = parseSharedPoint(decodeURIComponent(match[1]));
-  if (!point) return;
+    const point = parseSharedPoint(decodeURIComponent(match[1]));
+    if (!point) return;
 
-  showPlaceInformation({
-    lngLat: new maplibregl.LngLat(point.lon, point.lat)
-  });
+    showPlaceInformation({
+      lngLat: new maplibregl.LngLat(point.lon, point.lat)
+    });
 
-  map.flyTo({
-    center: [point.lon, point.lat],
-    zoom: 17,
-    bearing: 180
-  });
-}
+    map.flyTo({
+      center: [point.lon, point.lat],
+      zoom: 17,
+      bearing: 180
+    });
+  }
 
-function initializeGeoUriHandling() {
-  window.omapHandleGeoUri = openGeoUri;
+  function initializeGeoUriHandling() {
+    window.omapHandleGeoUri = openGeoUri;
 
-  const capacitorApp = window.CapacitorApp;
-  if (!capacitorApp) return;
+    const capacitorApp = window.CapacitorApp;
+    if (!capacitorApp) return;
 
-  capacitorApp.addListener("appUrlOpen", event => {
-    openGeoUri(event?.url);
-  });
+    capacitorApp.addListener("appUrlOpen", event => {
+      openGeoUri(event?.url);
+    });
 
-  capacitorApp.getLaunchUrl?.()
-    .then(result => openGeoUri(result?.url))
-    .catch(() => {});
-}
+    capacitorApp.getLaunchUrl?.()
+      .then(result => openGeoUri(result?.url))
+      .catch(() => {});
+  }
 
   function parseSharedPoint(value) {
     if (!value) return null;
@@ -6264,8 +6350,12 @@ function initializeGeoUriHandling() {
   });
 
   async function openFavoritePlace(favorite) {
+    const payload = favorite.customName
+      ? { ...favorite, name: favorite.customName, title: favorite.customName }
+      : favorite;
+
     return window.OMAP_PLACE_SERVICE.open(
-      favorite,
+      payload,
       {
         source: "favorite",
         metadata: {
@@ -6354,6 +6444,8 @@ function initializeGeoUriHandling() {
         [
           favorite.title,
           favorite.address,
+          favorite.customName,
+          favorite.note,
           favorite.lat,
           favorite.lon
         ]
@@ -6395,6 +6487,7 @@ function initializeGeoUriHandling() {
 
       const title = document.createElement("strong");
       title.textContent =
+        favorite.customName ||
         favorite.title ||
         (state.language === "pl"
           ? "Ulubione miejsce"
@@ -6406,6 +6499,14 @@ function initializeGeoUriHandling() {
         `${Number(favorite.lat).toFixed(5)}, ${Number(favorite.lon).toFixed(5)}`;
 
       copy.append(title, address);
+
+      if (favorite.note) {
+        const note = document.createElement("small");
+        note.className = "favorite-place-note";
+        note.textContent = favorite.note;
+        copy.append(note);
+      }
+
       openButton.append(icon, copy);
 
       openButton.addEventListener(
@@ -6416,6 +6517,13 @@ function initializeGeoUriHandling() {
           // Panel Ulubione celowo pozostaje otwarty.
         }
       );
+
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.className = "favorite-place-edit-toggle";
+      editButton.textContent = "✎";
+      editButton.title = text[state.language].favoriteEdit;
+      editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
 
       const removeButton = document.createElement("button");
       removeButton.type = "button";
@@ -6439,11 +6547,79 @@ function initializeGeoUriHandling() {
         renderFavoritesList();
       });
 
-      item.append(openButton, removeButton);
+      const editForm = document.createElement("div");
+      editForm.className = "favorite-place-edit-form";
+      editForm.hidden = true;
+
+      const nameLabel = document.createElement("label");
+      nameLabel.textContent = text[state.language].favoriteCustomNameLabel;
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.placeholder = text[state.language].favoriteCustomNamePlaceholder;
+      nameInput.value = favorite.customName || "";
+      nameLabel.append(nameInput);
+
+      const noteLabel = document.createElement("label");
+      noteLabel.textContent = text[state.language].favoriteNoteLabel;
+      const noteInput = document.createElement("textarea");
+      noteInput.rows = 2;
+      noteInput.placeholder = text[state.language].favoriteNotePlaceholder;
+      noteInput.value = favorite.note || "";
+      noteLabel.append(noteInput);
+
+      const editActions = document.createElement("div");
+      editActions.className = "favorite-place-edit-actions";
+
+      const saveButton = document.createElement("button");
+      saveButton.type = "button";
+      saveButton.className = "favorite-place-edit-save";
+      saveButton.textContent = text[state.language].favoriteSave;
+      saveButton.addEventListener("click", () => {
+        updateFavoriteDetails(favorite.key, {
+          customName: nameInput.value,
+          note: noteInput.value
+        });
+      });
+
+      const cancelButton = document.createElement("button");
+      cancelButton.type = "button";
+      cancelButton.className = "favorite-place-edit-cancel";
+      cancelButton.textContent = text[state.language].favoriteCancelEdit;
+      cancelButton.addEventListener("click", () => {
+        editForm.hidden = true;
+      });
+
+      editActions.append(saveButton, cancelButton);
+      editForm.append(nameLabel, noteLabel, editActions);
+
+      editButton.addEventListener("click", () => {
+        editForm.hidden = !editForm.hidden;
+      });
+
+      const actions = document.createElement("div");
+      actions.className = "favorite-place-actions";
+      actions.append(editButton, removeButton);
+
+      const row = document.createElement("div");
+      row.className = "favorite-place-row";
+      row.append(openButton, actions);
+
+      item.append(row, editForm);
       fragment.appendChild(item);
     });
 
     el.favoritesList.appendChild(fragment);
+  }
+
+  function updateFavoriteDetails(key, { customName, note }) {
+    const favorite = state.favorites.find(item => item.key === key);
+    if (!favorite) return;
+
+    favorite.customName = (customName || "").trim();
+    favorite.note = (note || "").trim();
+
+    saveFavorites();
+    renderFavoritesList();
   }
 
   function saveFavorites() {
