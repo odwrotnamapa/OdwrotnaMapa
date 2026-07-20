@@ -6,6 +6,8 @@ Most modern maps place north at the top. This is not, however, the only possible
 
 https://odwrotnamapa.github.io/odwrotnamapa/
 
+![Odwrotna Mapa - Motyw Opium](./opium theme dla omapy.jpg)
+
 ---
 ☕️ Buy Me a Coffee:
 https://buymeacoffee.com/odwrotnamapa
