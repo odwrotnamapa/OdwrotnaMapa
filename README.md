@@ -1,6 +1,6 @@
 # Odwrotna Mapa
 
-Interaktywna mapa z południem u góry.
+Interaktywna mapa z południem u góry
 
 <img width="1870" height="982" alt="Screenshot 2026-07-20 at 15-11-53 Odwrotna Mapa - mapa z południem u góry" src="https://github.com/user-attachments/assets/588352ee-f14c-473d-b7ea-3e66dffa0f9d" />
 
