@@ -588,7 +588,8 @@ body.ui-dark .legend-symbol.osm-buildings {
   stroke-linejoin: round;
 }
 
-.about-panel {
+.about-panel,
+.backup-panel {
   width: min(390px, calc(100vw - 24px));
 }
 
@@ -653,7 +654,8 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 @media (max-width: 480px) {
-  .about-panel {
+  .about-panel,
+  .backup-panel {
     width: calc(100vw - 16px);
   }
 
@@ -1869,6 +1871,7 @@ select,
 .legend-panel,
 .route-panel,
 .about-panel,
+.backup-panel,
 .legend-close,
 .route-primary,
 .route-secondary,
@@ -3234,6 +3237,46 @@ a.place-card-row {
   font-weight: 750;
 }
 
+.menu-backup-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 12px 12px;
+}
+
+#menu-backup-select-all {
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 4px 10px;
+  font-size: 0.66rem;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+#menu-backup-select-all:hover,
+#menu-backup-select-all:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.menu-backup-scope-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.menu-backup-scope-item input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 .favorites-summary {
   display: flex;
   gap: 5px;
@@ -3811,6 +3854,7 @@ a.place-card-row {
 .favorites-panel,
 .place-panel,
 .about-panel,
+.backup-panel,
 .map-context-menu,
 .map-context-menu button,
 .menu-action,
@@ -3936,6 +3980,7 @@ textarea {
 .favorites-panel,
 .place-panel,
 .about-panel,
+.backup-panel,
 .map-context-menu,
 .map-context-menu button,
 .menu-action,
@@ -4528,14 +4573,18 @@ textarea {
 
   body:has(.legend-panel.menu-subpanel:not([hidden])) .toolbar,
   body:has(.about-panel.menu-subpanel:not([hidden])) .toolbar,
+  body:has(.backup-panel.menu-subpanel:not([hidden])) .toolbar,
   body:has(.legend-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav,
-  body:has(.about-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav {
+  body:has(.about-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav,
+  body:has(.backup-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav {
     display: none !important;
   }
 
   body:has(.legend-panel.menu-subpanel:not([hidden]))
   .maplibregl-ctrl-bottom-left,
   body:has(.about-panel.menu-subpanel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.backup-panel.menu-subpanel:not([hidden]))
   .maplibregl-ctrl-bottom-left {
     display: none !important;
   }
@@ -4679,8 +4728,16 @@ textarea {
     ) !important;
   }
 
+  .backup-panel.menu-subpanel:not([hidden]) {
+    height: var(
+      --backup-sheet-height,
+      var(--mobile-panel-default-height)
+    ) !important;
+  }
+
   .legend-panel.menu-subpanel.is-collapsed,
-  .about-panel.menu-subpanel.is-collapsed {
+  .about-panel.menu-subpanel.is-collapsed,
+  .backup-panel.menu-subpanel.is-collapsed {
     height: var(
       --mobile-panel-collapsed-height
     ) !important;
@@ -4715,6 +4772,7 @@ textarea {
 .favorites-panel,
 .place-panel,
 .about-panel,
+.backup-panel,
 .discover-panel {
   border-radius: min(
     var(--app-sheet-corner-radius),
@@ -4813,6 +4871,7 @@ textarea,
 @media (max-width: 600px) {
   #legend-panel,
   #about-panel,
+  #backup-panel,
   #route-panel,
   #favorites-panel,
   #place-panel,
@@ -4820,6 +4879,7 @@ textarea,
   #menu-panel,
   .legend-panel,
   .about-panel,
+  .backup-panel,
   .route-panel,
   .favorites-panel,
   .place-panel,

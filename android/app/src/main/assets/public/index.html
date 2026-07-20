@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="style.css?v=20260719140000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}</style>
   <script src="assets/build-info.js?v=20260719140000"></script>
+  <script src="assets/capacitor-bridge.js"></script>
 </head>
 <body>
   <main id="app">
@@ -369,6 +370,54 @@
       </p>
     </aside>
 
+    <aside id="backup-panel" class="legend-panel backup-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="backup-title" hidden>
+      <button id="backup-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
+              aria-label="Zmień wysokość panelu kopii zapasowej">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
+        <button id="backup-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
+        <h2 id="backup-title">Kopia zapasowa</h2>
+        <button id="backup-close" class="legend-close" type="button"
+                aria-label="Zamknij kopię zapasową">×</button>
+      </div>
+
+      <div class="menu-backup-actions">
+        <button id="menu-export-all" type="button">
+          <span aria-hidden="true">⬆</span>
+          <span id="menu-export-all-label">Eksportuj JSON</span>
+        </button>
+
+        <button id="menu-import-all-button" type="button">
+          <span aria-hidden="true">⬇</span>
+          <span id="menu-import-all-label">Importuj JSON</span>
+        </button>
+
+        <input id="menu-import-all-input"
+               type="file"
+               accept="application/json,.json"
+               hidden>
+      </div>
+
+      <div class="menu-backup-scope">
+        <button id="menu-backup-select-all" type="button">Zaznacz wszystko</button>
+
+        <label class="menu-backup-scope-item">
+          <input type="checkbox" id="menu-backup-scope-favorites" checked>
+          <span id="menu-backup-scope-favorites-label">Ulubione miejsca</span>
+        </label>
+
+        <label class="menu-backup-scope-item">
+          <input type="checkbox" id="menu-backup-scope-colors" checked>
+          <span id="menu-backup-scope-colors-label">Kolory</span>
+        </label>
+      </div>
+    </aside>
+
     <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
 
     
@@ -429,23 +478,6 @@
         <h2 id="menu-title">Menu</h2>
         <button id="menu-close" class="legend-close" type="button"
                 aria-label="Zamknij menu">×</button>
-      </div>
-
-      <div class="menu-backup-actions">
-        <button id="menu-export-all" type="button">
-          <span aria-hidden="true">⬆</span>
-          <span id="menu-export-all-label">Eksportuj JSON</span>
-        </button>
-
-        <button id="menu-import-all-button" type="button">
-          <span aria-hidden="true">⬇</span>
-          <span id="menu-import-all-label">Importuj JSON</span>
-        </button>
-
-        <input id="menu-import-all-input"
-               type="file"
-               accept="application/json,.json"
-               hidden>
       </div>
 
       <div class="menu-actions">
@@ -538,6 +570,11 @@
         <button id="clear-map-button" class="menu-action" type="button">
           <span aria-hidden="true">🧹</span>
           <span id="clear-map-label">Wyczyść mapę</span>
+        </button>
+
+        <button id="menu-backup-button" class="menu-action" type="button">
+          <span aria-hidden="true">💾</span>
+          <span id="menu-backup-label">Kopia zapasowa</span>
         </button>
 
         <button id="menu-about-button" class="menu-action" type="button">

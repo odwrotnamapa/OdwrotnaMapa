@@ -166,6 +166,7 @@
       backupScopeColors: "Kolory",
       colorsImported: "Zaimportowano kolory.",
       backupNothingSelected: "Zaznacz przynajmniej jedną opcję.",
+      backupExportError: "Nie udało się wyeksportować pliku.",
       favoritesClose: "Zamknij Ulubione",
       favoritesNoMatch: "Brak pasujących ulubionych.",
       favoritesImported: count => `Zaimportowano ${count} miejsc.`,
@@ -375,6 +376,7 @@
       backupScopeColors: "Colors",
       colorsImported: "Colors imported.",
       backupNothingSelected: "Select at least one option.",
+      backupExportError: "Could not export the file.",
       favoritesClose: "Close Favorites",
       favoritesNoMatch: "No matching favorites.",
       favoritesImported: count => `Imported ${count} places.`,
@@ -694,6 +696,8 @@
 
   el.themeSelect.value = state.theme;
   el.languageSelect.value = state.language;
+  if (el.menuThemeSelect) el.menuThemeSelect.value = state.theme;
+  if (el.menuLanguageSelect) el.menuLanguageSelect.value = state.language;
   updateUI();
 
   el.themeSelect?.addEventListener("change", e => {
@@ -1076,6 +1080,8 @@
     for (const option of el.menuThemeSelect.options) {
       option.textContent = t.styles[option.value];
     }
+    if (el.menuThemeSelect) el.menuThemeSelect.value = state.theme;
+    if (el.menuLanguageSelect) el.menuLanguageSelect.value = state.language;
     if (el.customMapHeading) el.customMapHeading.textContent = t.customMapColorsHeading;
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
     if (el.customPaletteReset) el.customPaletteReset.textContent = t.customColorReset;
@@ -6907,7 +6913,7 @@ function closeRoute() {
     );
   }
 
-  function exportAllSettingsJson() {
+  async function exportAllSettingsJson() {
     const scopes = getCheckedBackupScopes();
 
     if (scopes.length === 0) {
@@ -6935,18 +6941,44 @@ function closeRoute() {
       payload.customPalette = { ...state.customPalette };
     }
 
+    const json = JSON.stringify(payload, null, 2);
+    const filename =
+      `odwrotna-mapa-ustawienia-${new Date()
+        .toISOString()
+        .slice(0, 10)}.json`;
+
+    // Android WebView nie obsługuje niezawodnie pobierania plików przez
+    // <a download> + blob: URL, więc tam zapisujemy plik natywnie i
+    // otwieramy systemowe okno udostępniania/zapisu.
+    if (window.CapacitorPlatform === "android" && window.CapacitorFilesystem) {
+      try {
+        const writeResult = await window.CapacitorFilesystem.writeFile({
+          path: filename,
+          data: json,
+          directory: window.CapacitorDirectory.Cache,
+          encoding: window.CapacitorEncoding.UTF8
+        });
+
+        await window.CapacitorShare.share({
+          title: filename,
+          files: [writeResult.uri]
+        });
+      } catch (error) {
+        console.error(error);
+        show(text[state.language].backupExportError);
+      }
+      return;
+    }
+
     const blob = new Blob(
-      [JSON.stringify(payload, null, 2)],
+      [json],
       { type: "application/json;charset=utf-8" }
     );
 
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download =
-      `odwrotna-mapa-ustawienia-${new Date()
-        .toISOString()
-        .slice(0, 10)}.json`;
+    anchor.download = filename;
 
     document.body.appendChild(anchor);
     anchor.click();

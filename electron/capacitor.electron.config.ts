@@ -1,5 +1,5 @@
 import { defineConfig } from '@capawesome/capacitor-electron/config';
-import { app, Menu, BrowserWindow } from 'electron';
+import { app, dialog, Menu, BrowserWindow } from 'electron';
 
 function findGeoArg(argv: string[]): string | null {
   return argv.find(arg => arg.startsWith('geo:')) || null;
@@ -50,6 +50,28 @@ export default defineConfig({
     },
     onWindowCreated: window => {
       mainWindowRef = window;
+
+      // Pobieranie plikow (blob: + <a download>) nie zawsze trafia do
+      // natywnego okna "Zapisz jako" w tym srodowisku (scisle CSP +
+      // sandboxowany renderer), wiec obslugujemy to bezposrednio w
+      // procesie glownym Electrona, gdzie mamy pelny dostep do systemu
+      // plikow.
+      window.webContents.session.on('will-download', (_event, item) => {
+        const suggested = item.getFilename() || 'odwrotna-mapa-eksport.json';
+
+        const result = dialog.showSaveDialogSync(window, {
+          title: suggested,
+          defaultPath: suggested,
+        });
+
+        if (!result) {
+          item.cancel();
+          return;
+        }
+
+        item.setSavePath(result);
+      });
+
       window.webContents.on('did-finish-load', () => {
         if (pendingGeoUri) {
           deliverGeoUri(pendingGeoUri);
