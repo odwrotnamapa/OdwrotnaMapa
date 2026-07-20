@@ -3034,6 +3034,10 @@ a.place-card-row {
   border-top: 1px solid var(--border);
 }
 
+.favorite-place-edit-form[hidden] {
+  display: none;
+}
+
 .favorite-place-edit-form label {
   display: flex;
   flex-direction: column;
