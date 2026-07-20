@@ -14,4 +14,9 @@ module.exports = {
     // Platform runtime + plugins, prepared by `capacitor-electron vendor`.
     { from: 'vendor/node_modules', to: 'node_modules' },
   ],
+  linux: {
+    target: ['AppImage', 'deb'],
+    category: 'Utility',
+    icon: 'assets/icon.png',
+  },
 };
