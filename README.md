@@ -39,11 +39,7 @@ Most modern maps place north at the top. This is not, however, the only possible
 ---
 # Zrzuty ekranu
 
-<p float="left">
-<img width="250" alt="2026-07-20 15 46 27" src="https://github.com/user-attachments/assets/c831bec1-09ff-4516-930b-ede58d8c789e" />
-<img width="250" alt="2026-07-20 15 44 31" src="https://github.com/user-attachments/assets/999e9017-c12a-43cc-a2ee-ef7691b61065" />
-<img width="250" alt="2026-07-20 15 42 18" src="https://github.com/user-attachments/assets/6e31b5a2-0230-46ed-bd5c-7ae6e086cc2a" />
-</p>
+
 
 ---
 📨 Kontakt:
