@@ -1,7 +1,7 @@
 🇵🇱 
 Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. **Odwrotna Mapa** zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.
 
-...jednak skłamałbym mówiąc że to jedyne co definiuje tę apkę, jest z niej znacznie więcej pożytku i multum funkcjonalności, między innymi:
+...jednak skłamałbym mówiąc, że to jedyne co definiuje tę apkę  —  jest z niej znacznie więcej pożytku i multum funkcjonalności, między innymi:
 - **Mapa z południem u góry** — odwrócona perspektywa jako główna idea projektu
 - **Wyszukiwarka miejsc i adresów** (Nominatim, Photon)
 - **Odkrywaj** — szybkie wyszukiwanie w kategoriach (restauracje, kawiarnie, apteki, przystanki i inne)
@@ -20,7 +20,7 @@ Większość współczesnych map przedstawia północ na górze, więc łatwo za
 🇬🇧 
 Most modern maps place north at the top. This is not, however, the only possible way to represent the world. **Odwrotna Mapa** (literally "Reverse Map") was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.
 
-...but I'd be lying if I said that's the only thing that defines this app—it offers much more value and a wealth of features, including:
+...but I'd be lying if I said that's the only thing that defines this app — it offers much more value and a wealth of features, including:
 - **South-up map** — a flipped perspective as the project's core idea
 - **Place and address search** (Nominatim, Photon)
 - **Discover** — quick category-based search (restaurants, cafes, pharmacies, bus stops, and more)
