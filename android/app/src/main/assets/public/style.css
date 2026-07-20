@@ -4126,7 +4126,7 @@ textarea {
   margin: 0 !important;
   border: 3px solid #fff !important;
   border-radius: 50% !important;
-  color: #fff !important;
+  color: var(--panel) !important;
   box-shadow:
     0 0 0 1px rgb(0 0 0 / 0.2),
     0 2px 8px rgb(0 0 0 / 0.3) !important;
@@ -4188,7 +4188,7 @@ textarea {
 #search-button {
   background: var(--accent) !important;
   background-color: var(--accent) !important;
-  color: #fff !important;
+  color: var(--panel) !important;
 }
 
 /* Trasa jest trybem: białe/panelowe tło i czerwony tekst */
@@ -4206,7 +4206,7 @@ textarea {
 #mobile-route-button[aria-expanded="true"] {
   background: var(--accent) !important;
   background-color: var(--accent) !important;
-  color: #fff !important;
+  color: var(--panel) !important;
 }
 
 /* Przyciemnienie czerwonej akcji Szukaj */
@@ -4214,7 +4214,7 @@ textarea {
 #search-button:focus-visible {
   background:
     color-mix(in srgb, var(--accent) 84%, #000) !important;
-  color: #fff !important;
+  color: var(--panel) !important;
 }
 
 #route-button:hover,
@@ -4232,7 +4232,7 @@ textarea {
 #mobile-route-button[aria-expanded="true"]:hover {
   background:
     color-mix(in srgb, var(--accent) 84%, #000) !important;
-  color: #fff !important;
+  color: var(--panel) !important;
 }
 
 /* Przyciemnienie białych akcji */
@@ -4299,7 +4299,7 @@ textarea {
   padding: 0 !important;
   border: 3px solid #fff !important;
   border-radius: 50% !important;
-  color: #fff !important;
+  color: var(--panel) !important;
   font-size: 0.78rem !important;
   font-weight: 850 !important;
   line-height: 1 !important;
@@ -4327,7 +4327,7 @@ textarea {
   place-items: center !important;
   width: 100% !important;
   height: 100% !important;
-  color: #fff !important;
+  color: var(--panel) !important;
   
   line-height: 1 !important;
 }
@@ -4368,7 +4368,7 @@ textarea {
 #search-button {
   background: var(--accent) !important;
   background-color: var(--accent) !important;
-  color: #fff !important;
+  color: var(--panel) !important;
 }
 
 #route-button,
@@ -4382,7 +4382,7 @@ textarea {
 #mobile-route-button[aria-expanded="true"] {
   background: var(--accent) !important;
   background-color: var(--accent) !important;
-  color: #fff !important;
+  color: var(--panel) !important;
 }
 
 
@@ -4451,7 +4451,7 @@ textarea {
   #mobile-menu-button[aria-expanded="true"] {
     background: var(--accent) !important;
     background-color: var(--accent) !important;
-    color: #fff !important;
+    color: var(--panel) !important;
   }
 
   #mobile-route-button.is-active > span:last-child,
@@ -4460,7 +4460,7 @@ textarea {
   #mobile-discover-button[aria-expanded="true"] > span:last-child,
   #mobile-menu-button.is-active > span:last-child,
   #mobile-menu-button[aria-expanded="true"] > span:last-child {
-    color: #fff !important;
+    color: var(--panel) !important;
   }
 }
 
@@ -4498,7 +4498,7 @@ textarea {
   #menu-button[aria-expanded="true"] {
     background: var(--accent) !important;
     background-color: var(--accent) !important;
-    color: #fff !important;
+    color: var(--panel) !important;
   }
 
   #discover-button.is-active:hover,
@@ -4513,7 +4513,7 @@ textarea {
       color-mix(in srgb, var(--accent) 84%, #000) !important;
     background-color:
       color-mix(in srgb, var(--accent) 84%, #000) !important;
-    color: #fff !important;
+    color: var(--panel) !important;
   }
 }
 

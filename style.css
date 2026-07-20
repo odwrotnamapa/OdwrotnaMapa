@@ -72,7 +72,7 @@ button, input, select {
   width: 28px;
   height: 28px;
   background: var(--accent);
-  color: white;
+  color: var(--panel);
 }
 
 .search {
@@ -807,7 +807,7 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-primary {
   border: 1px solid var(--accent);
   background: var(--accent);
-  color: white;
+  color: var(--panel);
 }
 
 .route-secondary {
@@ -2004,7 +2004,7 @@ a.place-card-row {
 .route-primary:hover,
 .route-primary:focus-visible {
   background: var(--accent) !important;
-  color: #ffffff !important;
+  color: var(--panel) !important;
   border-color: var(--accent) !important;
   font-size: 0.86rem;
   text-indent: 0;
@@ -2047,7 +2047,7 @@ a.place-card-row {
   border: 2px solid #ffffff;
   border-radius: 0;
   background: var(--accent);
-  color: #ffffff;
+  color: var(--panel);
   font-size: 1.05rem;
   line-height: 1;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.32);
