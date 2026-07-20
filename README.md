@@ -40,9 +40,9 @@ Most modern maps place north at the top. This is not, however, the only possible
 # Zrzuty ekranu
 
 <p float="left">
-<img width="250" alt="2026-07-20 15 56 53" src="https://github.com/user-attachments/assets/d50deb0f-0003-4260-a668-b8609bd4fa18" />
-<img width="250" alt="2026-07-20 15 55 18" src="https://github.com/user-attachments/assets/bf6c7c60-0953-48cb-8cb6-7fd0b0a5ef33" />
 <img width="250" alt="2026-07-20 15 53 36" src="https://github.com/user-attachments/assets/df18c79b-6e5e-42b2-b9d4-167ed19b0b16" />
+<img width="250" alt="2026-07-20 15 55 18" src="https://github.com/user-attachments/assets/bf6c7c60-0953-48cb-8cb6-7fd0b0a5ef33" />
+<img width="250" alt="2026-07-20 15 56 53" src="https://github.com/user-attachments/assets/d50deb0f-0003-4260-a668-b8609bd4fa18" />
 </p>
 
 ---
