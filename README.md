@@ -6,6 +6,8 @@ Most modern maps place north at the top. This is not, however, the only possible
 
 https://odwrotnamapa.github.io/odwrotnamapa/
 
+<img width="1024" height="670" alt="opium theme dla omapy" src="https://github.com/user-attachments/assets/d31c234a-615a-4ca0-9259-e0dcec0cbb3e" />
+
 ---
 ☕️ Buy Me a Coffee:
 https://buymeacoffee.com/odwrotnamapa
