@@ -44,6 +44,8 @@ Most modern maps place north at the top. This is not, however, the only possible
 <img width="250" alt="2026-07-20 15 55 18" src="https://github.com/user-attachments/assets/bf6c7c60-0953-48cb-8cb6-7fd0b0a5ef33" />
 <img width="250" alt="2026-07-20 15 56 53" src="https://github.com/user-attachments/assets/d50deb0f-0003-4260-a668-b8609bd4fa18" />
 <img width="250" alt="2026-07-20 16 00 48" src="https://github.com/user-attachments/assets/b82fedb0-e0db-4db6-91d9-e34cf79c36a4" />
+<img width="250" alt="2026-07-20 16 07 29" src="https://github.com/user-attachments/assets/4ea2f1d9-183c-4cc8-9a2a-fa3be849cd85" />
+<img width="250" alt="2026-07-20 16 08 27" src="https://github.com/user-attachments/assets/17358a23-efb1-4dd0-967c-92b77bb01788" />
 </p>
 
 ---
