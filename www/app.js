@@ -3275,34 +3275,14 @@
     setDefaultHeight();
   }
 
-function initializeRouteBottomSheet() {
-  initializeBottomSheet({
-    panel: el.routePanel,
-    handle: el.routeSheetHandle,
-    close: closeRoute,
-    cssVariable: "--route-sheet-height"
-  });
-
-const focusRouteInput = input => {
-  if (!input || !isMobilePanelViewport()) return;
-
-  setMobilePanelHeight(
-    el.routePanel,
-    "--route-sheet-height",
-    getMobilePanelDefaultHeight(),
-    { collapsed: false }
-  );
-
-  el.routePanel.classList.remove("is-collapsed");
-
-  el.routeFrom?.addEventListener("focus", () => {
-    focusRouteInput(el.routeFrom);
-  });
-
-  el.routeTo?.addEventListener("focus", () => {
-    focusRouteInput(el.routeTo);
-  });
-}
+  function initializeRouteBottomSheet() {
+    initializeBottomSheet({
+      panel: el.routePanel,
+      handle: el.routeSheetHandle,
+      close: closeRoute,
+      cssVariable: "--route-sheet-height"
+    });
+  }
 
   function initializeDiscoverBottomSheet() {
     initializeBottomSheet({
