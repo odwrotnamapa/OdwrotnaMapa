@@ -3283,23 +3283,25 @@ function initializeRouteBottomSheet() {
     cssVariable: "--route-sheet-height"
   });
 
-  const focusRouteInput = input => {
-    if (!input || !isMobilePanelViewport()) return;
+const focusRouteInput = input => {
+  if (!input || !isMobilePanelViewport()) return;
 
-    // Rozwiń panel po kliknięciu pola
-    openMobilePanelStandard(
-      el.routePanel,
-      "--route-sheet-height"
-    );
+  setMobilePanelHeight(
+    el.routePanel,
+    "--route-sheet-height",
+    getMobilePanelDefaultHeight(),
+    { collapsed: false }
+  );
 
-    // Poczekaj na otwarcie klawiatury i przesuń pole do widocznego miejsca
-    setTimeout(() => {
-      input.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }, 300);
-  };
+  el.routePanel.classList.remove("is-collapsed");
+
+  setTimeout(() => {
+    input.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
+  }, 300);
+};
 
   el.routeFrom?.addEventListener("focus", () => {
     focusRouteInput(el.routeFrom);
