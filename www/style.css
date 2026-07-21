@@ -11,6 +11,12 @@
 
 * { box-sizing: border-box; }
 
+/* Znaczniki na mapie (A/B, ulubione, eksploracja) muszą zostać pod
+   panelami UI, nie nad nimi - domyślny z-index MapLibre bywa za wysoki. */
+.maplibregl-marker {
+  z-index: 2 !important;
+}
+
 html, body, #app, #map {
   width: 100%;
   height: 100%;
@@ -4655,6 +4661,10 @@ textarea {
   font-size: 1.3rem;
   line-height: 1;
   cursor: pointer;
+}
+
+.menu-back-button[hidden] {
+  display: none;
 }
 
 .menu-back-button:hover,
