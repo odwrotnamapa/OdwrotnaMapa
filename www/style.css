@@ -12,7 +12,16 @@
 * { box-sizing: border-box; }
 
 /* Znaczniki na mapie (A/B, ulubione, eksploracja) muszą zostać pod
-   panelami UI, nie nad nimi - domyślny z-index MapLibre bywa za wysoki. */
+   panelami UI, nie nad nimi. Sam kontener mapy trzeba przypiąć do
+   niskiego z-index, bo inaczej wszystko wewnątrz niego (łącznie ze
+   znacznikami) tworzy własny kontekst nakładania, w którym z-index
+   pojedynczych elementów wewnątrz nie ma już znaczenia względem
+   paneli na zewnątrz. */
+#map {
+  position: relative;
+  z-index: 0;
+}
+
 .maplibregl-marker {
   z-index: 2 !important;
 }
