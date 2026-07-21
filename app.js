@@ -3275,34 +3275,14 @@
     setDefaultHeight();
   }
 
-function initializeRouteBottomSheet() {
-  initializeBottomSheet({
-    panel: el.routePanel,
-    handle: el.routeSheetHandle,
-    close: closeRoute,
-    cssVariable: "--route-sheet-height"
-  });
-
-const focusRouteInput = input => {
-  if (!input || !isMobilePanelViewport()) return;
-
-  setMobilePanelHeight(
-    el.routePanel,
-    "--route-sheet-height",
-    getMobilePanelDefaultHeight(),
-    { collapsed: false }
-  );
-
-  el.routePanel.classList.remove("is-collapsed");
-
-  el.routeFrom?.addEventListener("focus", () => {
-    focusRouteInput(el.routeFrom);
-  });
-
-  el.routeTo?.addEventListener("focus", () => {
-    focusRouteInput(el.routeTo);
-  });
-}
+  function initializeRouteBottomSheet() {
+    initializeBottomSheet({
+      panel: el.routePanel,
+      handle: el.routeSheetHandle,
+      close: closeRoute,
+      cssVariable: "--route-sheet-height"
+    });
+  }
 
   function initializeDiscoverBottomSheet() {
     initializeBottomSheet({
@@ -5544,10 +5524,6 @@ function closeRoute() {
   async function calculateRouteFromStoredPoints() {
     if (!state.routePointA || !state.routePointB) return;
 
-	// Zamknij klawiaturę od razu
-    document.activeElement?.blur?.();
-
-
     show(text[state.language].routeSearching, 0);
     if (el.routeSubmit) el.routeSubmit.disabled = true;
 
@@ -5562,6 +5538,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
+      document.activeElement?.blur?.();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -5688,25 +5665,20 @@ function closeRoute() {
     else removeRouteMarker("b");
   }
 
-async function planRoute(event) {
-  event.preventDefault();
+  async function planRoute(event) {
+    event.preventDefault();
+    const fromQuery = el.routeFrom.value.trim();
+    const toQuery = el.routeTo.value.trim();
+    if (!fromQuery || !toQuery) return;
 
-  // Zamknij klawiaturę po zatwierdzeniu pól A i B
-  document.activeElement?.blur?.();
+    show(text[state.language].routeSearching, 0);
+    if (el.routeSubmit) el.routeSubmit.disabled = true;
 
-  const fromQuery = el.routeFrom.value.trim();
-  const toQuery = el.routeTo.value.trim();
-
-  if (!fromQuery || !toQuery) return;
-
-  show(text[state.language].routeSearching, 0);
-  if (el.routeSubmit) el.routeSubmit.disabled = true;
-
-  try {
-    const [from, to] = await Promise.all([
-      geocodeRoutePoint(fromQuery),
-      geocodeRoutePoint(toQuery)
-    ]);
+    try {
+      const [from, to] = await Promise.all([
+        geocodeRoutePoint(fromQuery),
+        geocodeRoutePoint(toQuery)
+      ]);
 
       if (!from || !to) {
         show(text[state.language].routePointNotFound);
