@@ -5538,6 +5538,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
+      document.activeElement?.blur?.();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -5701,6 +5702,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
+      document.activeElement?.blur?.();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
