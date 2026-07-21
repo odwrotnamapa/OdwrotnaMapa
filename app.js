@@ -3129,8 +3129,6 @@
   function openMobilePanelStandard(panel, cssVariable) {
     if (!panel || !isMobilePanelViewport()) return;
 
-    panel.hidden = false;
-
     setMobilePanelHeight(
       panel,
       cssVariable,
@@ -3138,6 +3136,8 @@
       { collapsed: false, mode: "default", animate: false }
     );
     panel.classList.remove("is-collapsed");
+
+    panel.hidden = false;
     panel.scrollTop = 0;
 
     requestAnimationFrame(() => {
@@ -3453,7 +3453,6 @@ el.discoverButton?.setAttribute(
     state.discoverBackContext = { place, lngLat };
     if (el.discoverBack) el.discoverBack.hidden = false;
 
-    el.discoverPanel.hidden = false;
     openMobilePanelStandard(el.discoverPanel, "--discover-sheet-height");
     el.discoverButton?.setAttribute("aria-expanded", "true");
     el.discoverButton?.classList.add("is-active");
@@ -4347,7 +4346,6 @@ function closeRoute() {
   function reopenDiscoverPanel(target) {
     if (!el.discoverPanel) return;
 
-    el.discoverPanel.hidden = false;
     openMobilePanelStandard(
       el.discoverPanel,
       "--discover-sheet-height"
@@ -4442,7 +4440,6 @@ function closeRoute() {
 
     if (!el.placePanel) return;
 
-    el.placePanel.hidden = false;
     openMobilePanelStandard(
       el.placePanel,
       "--place-sheet-height"
@@ -7079,7 +7076,6 @@ function closeRoute() {
     closeFavoritesPanel();
     closeHistory();
 
-    el.historyPanel.hidden = false;
     openMobilePanelStandard(
       el.historyPanel,
       "--history-sheet-height"
@@ -7214,7 +7210,6 @@ function closeRoute() {
     closeAbout();
     closeBackup();
 
-    el.favoritesPanel.hidden = false;
     openMobilePanelStandard(
       el.favoritesPanel,
       "--favorites-sheet-height"
@@ -7826,7 +7821,6 @@ function closeRoute() {
 
     if (!el.menuPanel) return;
 
-    el.menuPanel.hidden = false;
     openMobilePanelStandard(
       el.menuPanel,
       "--menu-sheet-height"
@@ -7848,7 +7842,6 @@ function closeRoute() {
     closeRoutePanel();
     closeDiscover();
 
-    el.legendPanel.hidden = false;
     openMobilePanelStandard(
       el.legendPanel,
       "--legend-sheet-height"
@@ -7864,7 +7857,6 @@ function closeRoute() {
     closeRoutePanel();
     closeDiscover();
 
-    el.aboutPanel.hidden = false;
     openMobilePanelStandard(
       el.aboutPanel,
       "--about-sheet-height"
@@ -7892,7 +7884,6 @@ function closeRoute() {
     closeRoutePanel();
     closeDiscover();
 
-    el.backupPanel.hidden = false;
     openMobilePanelStandard(
       el.backupPanel,
       "--backup-sheet-height"
