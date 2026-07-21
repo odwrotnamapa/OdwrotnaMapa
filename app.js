@@ -2059,21 +2059,11 @@
         button.addEventListener("pointerdown", event => {
           event.preventDefault();
         });
-        button.addEventListener("click", async () => {
+        button.addEventListener("click", () => {
           if (result.__myLocationOption) {
             const select = activeSelect;
             hide();
-            show(text[state.language].locatingForRoute, 0);
-
-            try {
-              const point = await getCurrentPositionAsRoutePoint();
-              hideStatus();
-              select?.(point);
-            } catch (error) {
-              console.error(error);
-              show(text[state.language].locateError);
-            }
-
+            useMyLocationForRoute(point => select?.(point));
             return;
           }
 
@@ -3036,32 +3026,6 @@
       normalized.split(" ").length >= 3 ||
       /\b(ul|ulica|aleja|al|plac|pl|rondo|osiedle|os)\b/.test(normalized)
     );
-  }
-
-  function getCurrentPositionAsRoutePoint() {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject(new Error("Geolocation not supported"));
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          resolve({
-            lon: position.coords.longitude,
-            lat: position.coords.latitude,
-            label: text[state.language].menuLocation,
-            __resolvedPoint: true
-          });
-        },
-        error => reject(error),
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 30000
-        }
-      );
-    });
   }
 
   function resultToRoutePoint(result) {
@@ -7756,6 +7720,40 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     el.mobileMenuButton?.classList.remove("is-active");
   }
 
+  function useMyLocationForRoute(onResolved) {
+    if (!navigator.geolocation) {
+      show(
+        state.language === "pl"
+          ? "Twoja przeglądarka nie obsługuje lokalizacji."
+          : "Your browser does not support geolocation."
+      );
+      return;
+    }
+
+    show(text[state.language].locatingForRoute, 0);
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        hide();
+        onResolved({
+          lon: position.coords.longitude,
+          lat: position.coords.latitude,
+          label: text[state.language].menuLocation,
+          __resolvedPoint: true
+        });
+      },
+      error => {
+        console.error(error);
+        show(text[state.language].locateError);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 30000
+      }
+    );
+  }
+
   function locateFromMenu() {
     if (!navigator.geolocation) {
       show(
@@ -8971,8 +8969,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     clearTimeout(state.timer);
     el.status.hidden = true;
   }
-
-  const hideStatus = hide;
 
   function fatal(message) {
     el.fatalText.textContent = message;
