@@ -3131,19 +3131,11 @@
 
     panel.hidden = false;
 
-    const rememberedMode = mobilePanelMode.get(cssVariable);
-    const restoreExpanded = rememberedMode === "expanded";
-
     setMobilePanelHeight(
       panel,
       cssVariable,
-      restoreExpanded
-        ? getMobilePanelMaximumHeight()
-        : getMobilePanelDefaultHeight(),
-      {
-        collapsed: false,
-        mode: restoreExpanded ? "expanded" : "default"
-      }
+      getMobilePanelDefaultHeight(),
+      { collapsed: false, mode: "default" }
     );
     panel.classList.remove("is-collapsed");
     panel.scrollTop = 0;
@@ -3175,19 +3167,11 @@
         !panel.classList.contains("is-dragging") &&
         !panel.classList.contains("is-collapsed")
       ) {
-        const restoreExpanded =
-          mobilePanelMode.get(cssVariable) === "expanded";
-
         setMobilePanelHeight(
           panel,
           cssVariable,
-          restoreExpanded
-            ? getMobilePanelMaximumHeight()
-            : getMobilePanelDefaultHeight(),
-          {
-            collapsed: false,
-            mode: restoreExpanded ? "expanded" : "default"
-          }
+          getMobilePanelDefaultHeight(),
+          { collapsed: false, mode: "default" }
         );
       }
     };
@@ -3226,19 +3210,11 @@
         return;
       }
 
-      const restoreExpanded =
-        mobilePanelMode.get(cssVariable) === "expanded";
-
       setMobilePanelHeight(
         panel,
         cssVariable,
-        restoreExpanded
-          ? getMobilePanelMaximumHeight()
-          : getMobilePanelDefaultHeight(),
-        {
-          collapsed: false,
-          mode: restoreExpanded ? "expanded" : "default"
-        }
+        getMobilePanelDefaultHeight(),
+        { collapsed: false, mode: "default" }
       );
     };
 
