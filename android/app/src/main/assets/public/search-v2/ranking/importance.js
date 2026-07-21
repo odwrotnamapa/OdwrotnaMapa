@@ -66,6 +66,18 @@
       reasons.push("biuro zamiast dworca");
     }
 
+    if (
+      parsed.category?.id === "railway_station" &&
+      parsed.locationText &&
+      result.type === "station" &&
+      /\bgłówn(y|a)\b|\bglown(y|a)\b/i.test(
+        H.name(result) || ""
+      )
+    ) {
+      points += 50;
+      reasons.push("dworzec główny miasta");
+    }
+
     return { points, reasons };
   };
 })();

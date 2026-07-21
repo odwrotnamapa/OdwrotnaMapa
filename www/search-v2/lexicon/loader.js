@@ -1,6 +1,6 @@
 (function(){"use strict";
 const FILES=["categories","brands","modifiers","transport","places"];let data=null;
-const normalize=v=>String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}\s'.+/-]/gu," ").replace(/\s+/g," ").trim();
+const normalize=v=>String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l").replace(/Ł/g,"L").toLowerCase().replace(/[^\p{L}\p{N}\s'.+/-]/gu," ").replace(/\s+/g," ").trim();
 const esc=v=>v.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 const has=(text,phrase)=>new RegExp(`(^|\\s)${esc(normalize(phrase))}($|\\s)`).test(normalize(text));
 function best(query,collection){const c=[];for(const [id,e] of Object.entries(collection||{}))for(const alias of e.aliases||[])if(has(query,alias))c.push({id,alias,entry:e,n:normalize(alias)});return c.sort((a,b)=>b.n.length-a.n.length)[0]||null}

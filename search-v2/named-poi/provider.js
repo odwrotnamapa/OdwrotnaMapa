@@ -8,6 +8,8 @@
     return String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ł/g, "l")
+      .replace(/Ł/g, "L")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
@@ -21,46 +23,65 @@
 
   function score(query, record) {
     const normalizedQuery = normalize(query);
-    const names = [
+    const identityNames = [
       record.name,
-      ...(record.aliases || []),
-      ...(record.keywords || [])
+      ...(record.aliases || [])
     ].map(normalize);
-
-    if (names.includes(normalizedQuery)) {
-      return 10000 + Number(record.priority || 0);
-    }
-
+    const keywordNames = (record.keywords || []).map(normalize);
     const queryTokens = tokens(query);
 
-    let best = 0;
+    let identityBest = 0;
+    let exactIdentity = false;
 
-    for (const name of names) {
-      if (name.startsWith(normalizedQuery)) {
-        best = Math.max(best, 8000);
+    for (const name of identityNames) {
+      if (name === normalizedQuery) {
+        identityBest = Math.max(identityBest, 10000);
+        exactIdentity = true;
+      } else if (name.startsWith(normalizedQuery)) {
+        identityBest = Math.max(identityBest, 8000);
       } else if (name.includes(normalizedQuery)) {
-        best = Math.max(best, 6500);
-      }
-
-      const nameTokens = tokens(name);
-      const matches = queryTokens.filter(token =>
-        nameTokens.includes(token)
-      ).length;
-
-      if (
-        queryTokens.length >= 2 &&
-        matches === queryTokens.length
-      ) {
-        best = Math.max(best, 7000);
+        identityBest = Math.max(identityBest, 6500);
       }
     }
 
-    return best
-      ? best + Number(record.priority || 0)
-      : 0;
+    if (identityBest > 0) {
+      return {
+        value: identityBest + Number(record.priority || 0),
+        isIdentity: exactIdentity
+      };
+    }
+
+    // Dopasowania wieloczłonowe (np. "muzeum Gdańsk") mogą korzystać
+    // też ze słów kluczowych (miasto, kategoria), ale tylko gdy
+    // zapytanie samo ma co najmniej 2 słowa. Pojedyncze słowo (np.
+    // sama nazwa miasta) nie może w ten sposób "trafiać" we wszystkie
+    // miejsca otagowane tym miastem jako słowem kluczowym.
+    if (queryTokens.length >= 2) {
+      const allNames = [...identityNames, ...keywordNames];
+      const combinedTokens = new Set();
+
+      for (const name of allNames) {
+        for (const token of tokens(name)) {
+          combinedTokens.add(token);
+        }
+      }
+
+      const allPresent = queryTokens.every(token =>
+        combinedTokens.has(token)
+      );
+
+      if (allPresent) {
+        return {
+          value: 3000 + Number(record.priority || 0),
+          isIdentity: false
+        };
+      }
+    }
+
+    return { value: 0, isIdentity: false };
   }
 
-  function toResult(record, providerQuery, localScore) {
+  function toResult(record, providerQuery, localScore, isIdentity) {
     return {
       place_id: record.id,
       namedPoiId: record.id,
@@ -100,7 +121,7 @@
       providerQuery,
       source: record.source || "OMapa Named POI",
       _namedPoiScore: localScore,
-      _exactLocalIdentity: true
+      _exactLocalIdentity: isIdentity
     };
   }
 
@@ -117,9 +138,9 @@
         record,
         score: score(query, record)
       }))
-      .filter(item => item.score > 0)
+      .filter(item => item.score.value > 0)
       .sort((left, right) =>
-        right.score - left.score ||
+        right.score.value - left.score.value ||
         left.record.name.localeCompare(
           right.record.name,
           "pl"
@@ -130,7 +151,8 @@
         toResult(
           item.record,
           query,
-          item.score
+          item.score.value,
+          item.score.isIdentity
         )
       );
   }

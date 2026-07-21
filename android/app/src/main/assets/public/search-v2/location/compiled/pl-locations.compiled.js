@@ -1,6 +1,6 @@
 window.OMAP_SEARCH_V2_LOCATIONS_PL = {
   "version": 1,
-  "generatedAt": "2026-07-19T12:48:42.021Z",
+  "generatedAt": "2026-07-21T14:56:40.483Z",
   "country": {
     "id": "pl",
     "name": "Polska",
@@ -22,6 +22,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "aleksandrow kujawski"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.8764,
+      "lon": 18.6933,
       "districts": [
         {
           "id": "halinowo",
@@ -553,6 +555,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bedzin"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.325,
+      "lon": 19.1333,
       "districts": [
         {
           "id": "boleradz",
@@ -683,6 +687,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "belchatow"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.3667,
+      "lon": 19.3667,
       "districts": [
         {
           "id": "lipy",
@@ -930,6 +936,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "biala podlaska"
       ],
       "voivodeship": "lubelskie",
+      "lat": 52.0333,
+      "lon": 23.1333,
       "districts": [
         {
           "id": "sidorki",
@@ -1252,6 +1260,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bialystok"
       ],
       "voivodeship": "podlaskie",
+      "lat": 53.1324,
+      "lon": 23.1687,
       "districts": [
         {
           "id": "halickie",
@@ -1611,6 +1621,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bielsko biala"
       ],
       "voivodeship": "śląskie",
+      "lat": 49.8225,
+      "lon": 19.0444,
       "districts": [
         {
           "id": "krzemionka",
@@ -1957,6 +1969,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bierun"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.0911,
+      "lon": 19.091,
       "districts": [
         {
           "id": "bierun-nowy",
@@ -2098,6 +2112,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bilgoraj"
       ],
       "voivodeship": "lubelskie",
+      "lat": 50.55,
+      "lon": 22.7333,
       "districts": [
         {
           "id": "roznowka-stawy",
@@ -3075,6 +3091,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "boleslawiec"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.2667,
+      "lon": 15.5667,
       "districts": [
         {
           "id": "boleslawice",
@@ -3101,6 +3119,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "boleslawiec"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.2667,
+      "lon": 15.5667,
       "districts": []
     },
     {
@@ -3222,6 +3242,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "brodnica"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.258,
+      "lon": 19.4054,
       "districts": [
         {
           "id": "niskie-brodno",
@@ -3462,6 +3484,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "brzeg"
       ],
       "voivodeship": "opolskie",
+      "lat": 50.8667,
+      "lon": 17.4667,
       "districts": [
         {
           "id": "rataje",
@@ -4600,6 +4624,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bydgoszcz"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.1167,
+      "lon": 18,
       "districts": [
         {
           "id": "jastrzebie",
@@ -4981,6 +5007,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "bytom"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.347,
+      "lon": 18.923,
       "districts": [
         {
           "id": "szombierki",
@@ -5214,6 +5242,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chelm"
       ],
       "voivodeship": "lubelskie",
+      "lat": 51.1333,
+      "lon": 23.4833,
       "districts": [
         {
           "id": "antonin",
@@ -5402,6 +5432,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chelmno"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.3492,
+      "lon": 18.4261,
       "districts": [
         {
           "id": "dworzyska",
@@ -5452,6 +5484,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chelmza"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.2,
+      "lon": 18.6,
       "districts": [
         {
           "id": "trakt",
@@ -5630,6 +5664,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chodziez"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.9901,
+      "lon": 16.9122,
       "districts": [
         {
           "id": "karczewnik",
@@ -5714,6 +5750,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chojnice"
       ],
       "voivodeship": "pomorskie",
+      "lat": 53.6955,
+      "lon": 17.557,
       "districts": [
         {
           "id": "grunowo",
@@ -5772,6 +5810,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chojnow"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.2667,
+      "lon": 15.9333,
       "districts": []
     },
     {
@@ -5865,6 +5905,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "chorzow"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.2884,
+      "lon": 18.9628,
       "districts": [
         {
           "id": "maciejkowice",
@@ -6313,6 +6355,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "cieszyn"
       ],
       "voivodeship": "śląskie",
+      "lat": 49.75,
+      "lon": 18.6333,
       "districts": [
         {
           "id": "blogocice",
@@ -6607,6 +6651,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "czarnkow"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.9,
+      "lon": 16.5667,
       "districts": []
     },
     {
@@ -6966,6 +7012,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "czeladz"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3333,
+      "lon": 19.0833,
       "districts": [
         {
           "id": "madera",
@@ -7170,6 +7218,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "czestochowa"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.8096,
+      "lon": 19.1222,
       "districts": [
         {
           "id": "bugaj",
@@ -7574,6 +7624,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "czluchow"
       ],
       "voivodeship": "pomorskie",
+      "lat": 53.6672,
+      "lon": 17.3586,
       "districts": []
     },
     {
@@ -7693,6 +7745,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "dabrowa gornicza"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3339,
+      "lon": 19.2047,
       "districts": [
         {
           "id": "trzebieslawice",
@@ -8311,6 +8365,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "debica"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 50.0515,
+      "lon": 21.4114,
       "districts": [
         {
           "id": "gawrzylowa",
@@ -9338,6 +9394,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "dzialdowo"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.2333,
+      "lon": 20.1833,
       "districts": [
         {
           "id": "kolgartowo",
@@ -9457,6 +9515,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "dzierzoniow"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 50.7281,
+      "lon": 16.6511,
       "districts": [
         {
           "id": "nowe-miasto",
@@ -9526,6 +9586,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "elblag"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.1522,
+      "lon": 19.4089,
       "districts": [
         {
           "id": "krasny-las",
@@ -9640,6 +9702,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "elk"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.8167,
+      "lon": 22.35,
       "districts": [
         {
           "id": "szyba",
@@ -9836,6 +9900,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gdansk"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.3483,
+      "lon": 18.654,
       "districts": [
         {
           "id": "piecki-migowo",
@@ -10716,6 +10782,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gdynia"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.5175,
+      "lon": 18.54,
       "districts": [
         {
           "id": "pogorze",
@@ -11096,6 +11164,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gizycko"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.04,
+      "lon": 21.7589,
       "districts": []
     },
     {
@@ -11132,6 +11202,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gliwice"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.2942,
+      "lon": 18.6658,
       "districts": [
         {
           "id": "szobiszowice",
@@ -11262,6 +11334,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "glogow"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.6589,
+      "lon": 16.0803,
       "districts": [
         {
           "id": "biechow",
@@ -11736,6 +11810,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gniezno"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.5333,
+      "lon": 17.6,
       "districts": [
         {
           "id": "kleryka",
@@ -12108,6 +12184,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "golub dobrzyn"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.1,
+      "lon": 19.05,
       "districts": [
         {
           "id": "blonie",
@@ -12293,6 +12371,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gorlice"
       ],
       "voivodeship": "małopolskie",
+      "lat": 49.6556,
+      "lon": 21.1604,
       "districts": [
         {
           "id": "magdalena",
@@ -12399,6 +12479,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gorowo ilaweckie"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.2856,
+      "lon": 20.4889,
       "districts": []
     },
     {
@@ -12564,6 +12646,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "gorzow wielkopolski"
       ],
       "voivodeship": "lubuskie",
+      "lat": 52.7333,
+      "lon": 15.25,
       "districts": [
         {
           "id": "malyszyn",
@@ -12866,6 +12950,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "grajewo"
       ],
       "voivodeship": "podlaskie",
+      "lat": 53.65,
+      "lon": 22.45,
       "districts": []
     },
     {
@@ -12939,6 +13025,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "grudziadz"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.4875,
+      "lon": 18.755,
       "districts": [
         {
           "id": "czerwony-dwor",
@@ -13444,6 +13532,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ilawa"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.5964,
+      "lon": 19.5656,
       "districts": [
         {
           "id": "gajerek",
@@ -13610,6 +13700,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "imielin"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.1478,
+      "lon": 19.1814,
       "districts": [
         {
           "id": "cisowiec",
@@ -13710,6 +13802,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "inowroclaw"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.7958,
+      "lon": 18.2611,
       "districts": [
         {
           "id": "rabinek",
@@ -14249,6 +14343,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "jaroslaw"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 50.0162,
+      "lon": 22.6778,
       "districts": [
         {
           "id": "garbarze",
@@ -14667,6 +14763,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "jastrzebie zdroj"
       ],
       "voivodeship": "śląskie",
+      "lat": 49.95,
+      "lon": 18.5833,
       "districts": [
         {
           "id": "bzie-dolne",
@@ -14797,6 +14895,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "jawor"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.0676,
+      "lon": 16.185,
       "districts": [
         {
           "id": "stary-jawor",
@@ -14905,6 +15005,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "jaworzno"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.2,
+      "lon": 19.275,
       "districts": [
         {
           "id": "byczyna",
@@ -15632,6 +15734,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "jelenia gora"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 50.9,
+      "lon": 15.7333,
       "districts": [
         {
           "id": "czarne",
@@ -16194,6 +16298,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kalisz"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 51.757,
+      "lon": 18.083,
       "districts": [
         {
           "id": "huby",
@@ -16813,6 +16919,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "katowice"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.25,
+      "lon": 19,
       "districts": [
         {
           "id": "cegielnia-murcki",
@@ -17646,6 +17754,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ketrzyn"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.0768,
+      "lon": 21.3753,
       "districts": []
     },
     {
@@ -17793,6 +17903,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kielce"
       ],
       "voivodeship": "świętokrzyskie",
+      "lat": 50.8725,
+      "lon": 20.6319,
       "districts": [
         {
           "id": "bocianek",
@@ -18596,6 +18708,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "klodzko"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 50.4386,
+      "lon": 16.655,
       "districts": []
     },
     {
@@ -18623,6 +18737,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "knurow"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.2167,
+      "lon": 18.6833,
       "districts": [
         {
           "id": "krywald",
@@ -18700,6 +18816,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kobylka"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.3395,
+      "lon": 21.1959,
       "districts": [
         {
           "id": "antolek",
@@ -18894,6 +19012,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kolo"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.2,
+      "lon": 18.6333,
       "districts": [
         {
           "id": "mozajka",
@@ -18952,6 +19072,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kolobrzeg"
       ],
       "voivodeship": "zachodniopomorskie",
+      "lat": 54.1761,
+      "lon": 15.5761,
       "districts": [
         {
           "id": "przylaski",
@@ -19167,6 +19289,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "konin"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.2275,
+      "lon": 18.2614,
       "districts": [
         {
           "id": "laskowiec",
@@ -19929,6 +20053,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "koscian"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.0833,
+      "lon": 16.65,
       "districts": [
         {
           "id": "czarkowo",
@@ -19971,6 +20097,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "koscierzyna"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.1219,
+      "lon": 17.9811,
       "districts": [
         {
           "id": "strzelnica",
@@ -20149,6 +20277,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "köslin"
       ],
       "voivodeship": "zachodniopomorskie",
+      "lat": 54.1903,
+      "lon": 16.1817,
       "districts": [
         {
           "id": "kretomino",
@@ -20633,6 +20763,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "krakow"
       ],
       "voivodeship": "małopolskie",
+      "lat": 50.0614,
+      "lon": 19.9372,
       "districts": [
         {
           "id": "stare-miasto-krakow",
@@ -20735,6 +20867,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "krasnik"
       ],
       "voivodeship": "lubelskie",
+      "lat": 50.9214,
+      "lon": 22.2208,
       "districts": [
         {
           "id": "gajowka-budzyn",
@@ -21063,6 +21197,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "krosno"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 49.6937,
+      "lon": 21.7652,
       "districts": [
         {
           "id": "wisze",
@@ -21998,6 +22134,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kutno"
       ],
       "voivodeship": "łódzkie",
+      "lat": 52.2333,
+      "lon": 19.3667,
       "districts": [
         {
           "id": "wiktoryn",
@@ -22129,6 +22267,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "kwidzyn"
       ],
       "voivodeship": "pomorskie",
+      "lat": 53.7358,
+      "lon": 18.9308,
       "districts": []
     },
     {
@@ -22507,6 +22647,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "laziska gorne"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.1494,
+      "lon": 18.8419,
       "districts": [
         {
           "id": "brada",
@@ -22649,6 +22791,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lebork"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.55,
+      "lon": 17.75,
       "districts": [
         {
           "id": "rybki",
@@ -22725,6 +22869,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "leczyca"
       ],
       "voivodeship": "łódzkie",
+      "lat": 52.0583,
+      "lon": 19.2,
       "districts": [
         {
           "id": "przedmiescie-ozorkowskie",
@@ -22849,6 +22995,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "legionowo"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.3952,
+      "lon": 20.9308,
       "districts": [
         {
           "id": "ludwisin",
@@ -22892,6 +23040,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "liegnitz"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.2101,
+      "lon": 16.1619,
       "districts": [
         {
           "id": "przybkow",
@@ -23085,6 +23235,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "leszno"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 51.8403,
+      "lon": 16.5749,
       "districts": [
         {
           "id": "antoniny",
@@ -23479,6 +23631,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lidzbark warminski"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.1259,
+      "lon": 20.5795,
       "districts": []
     },
     {
@@ -23660,6 +23814,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lipno"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.85,
+      "lon": 19.1667,
       "districts": [
         {
           "id": "przekop",
@@ -23846,6 +24002,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lodz"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.75,
+      "lon": 19.4667,
       "districts": [
         {
           "id": "srodmiescie-lodz",
@@ -23933,6 +24091,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lomza"
       ],
       "voivodeship": "podlaskie",
+      "lat": 53.1833,
+      "lon": 22.0833,
       "districts": [
         {
           "id": "lomzyca-przedmiescie",
@@ -24075,6 +24235,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lowicz"
       ],
       "voivodeship": "łódzkie",
+      "lat": 52.1,
+      "lon": 19.9333,
       "districts": [
         {
           "id": "blich",
@@ -24143,6 +24305,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "luban"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.1167,
+      "lon": 15.3,
       "districts": [
         {
           "id": "ksieginki",
@@ -24161,6 +24325,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lubartow"
       ],
       "voivodeship": "lubelskie",
+      "lat": 51.4667,
+      "lon": 22.6,
       "districts": [
         {
           "id": "lucka",
@@ -24328,6 +24494,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lubin"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.4,
+      "lon": 16.2,
       "districts": [
         {
           "id": "malomice",
@@ -24370,6 +24538,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lublin"
       ],
       "voivodeship": "lubelskie",
+      "lat": 51.25,
+      "lon": 22.5667,
       "districts": [
         {
           "id": "partanina",
@@ -25169,6 +25339,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "lubon"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.3333,
+      "lon": 16.8833,
       "districts": [
         {
           "id": "zabikowo-kolonia",
@@ -25802,6 +25974,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "malbork"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.0285,
+      "lon": 19.0444,
       "districts": [
         {
           "id": "kaldowo",
@@ -25921,6 +26095,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "marki"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.3333,
+      "lon": 21.1,
       "districts": [
         {
           "id": "czarna-struga",
@@ -26394,6 +26570,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "mielec"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 50.2833,
+      "lon": 21.4333,
       "districts": [
         {
           "id": "berdechow",
@@ -26732,6 +26910,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "mikolow"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.1708,
+      "lon": 18.9039,
       "districts": [
         {
           "id": "kopaniny-lewe",
@@ -26953,6 +27133,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "milanowek"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.1243,
+      "lon": 20.6654,
       "districts": [
         {
           "id": "graniczna",
@@ -27153,6 +27335,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "minsk mazowiecki"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.1833,
+      "lon": 21.5667,
       "districts": [
         {
           "id": "kedzierak-maly",
@@ -27238,6 +27422,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "mlawa"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 53.1167,
+      "lon": 20.3667,
       "districts": [
         {
           "id": "mlawka",
@@ -27552,6 +27738,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "mragowo"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.8642,
+      "lon": 21.305,
       "districts": [
         {
           "id": "lesna-droga",
@@ -28345,6 +28533,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "myslowice"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.2119,
+      "lon": 19.1478,
       "districts": [
         {
           "id": "kosztowy",
@@ -29588,6 +29778,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "nowa sol"
       ],
       "voivodeship": "lubuskie",
+      "lat": 51.8033,
+      "lon": 15.7169,
       "districts": [
         {
           "id": "koserz",
@@ -29956,6 +30148,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "nowy dwor mazowiecki"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.4303,
+      "lon": 20.7158,
       "districts": [
         {
           "id": "nowoleczna",
@@ -30039,6 +30233,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "nowy sacz"
       ],
       "voivodeship": "małopolskie",
+      "lat": 49.625,
+      "lon": 20.6956,
       "districts": [
         {
           "id": "domki",
@@ -30795,6 +30991,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "olawa"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 50.9439,
+      "lon": 17.2925,
       "districts": [
         {
           "id": "nowy-otok",
@@ -30838,6 +31036,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "olesnica"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.2128,
+      "lon": 17.3831,
       "districts": [
         {
           "id": "lucien",
@@ -30872,6 +31072,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "olesnica"
       ],
       "voivodeship": "świętokrzyskie",
+      "lat": 51.2128,
+      "lon": 17.3831,
       "districts": [
         {
           "id": "wrzos",
@@ -31120,6 +31322,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "olsztyn"
       ],
       "voivodeship": "śląskie",
+      "lat": 53.78,
+      "lon": 20.4942,
       "districts": [
         {
           "id": "odrzykon",
@@ -31147,6 +31351,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "olsztyn"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.78,
+      "lon": 20.4942,
       "districts": [
         {
           "id": "kortowo",
@@ -31474,6 +31680,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "oppeln"
       ],
       "voivodeship": "opolskie",
+      "lat": 50.6667,
+      "lon": 17.9242,
       "districts": [
         {
           "id": "zabia-gorka",
@@ -31911,6 +32119,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "orzesze"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.1439,
+      "lon": 18.7756,
       "districts": [
         {
           "id": "peclowka",
@@ -32221,6 +32431,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ostroda"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.6967,
+      "lon": 19.9647,
       "districts": [
         {
           "id": "cierzpiety",
@@ -32263,6 +32475,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ostroleka"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 53.0833,
+      "lon": 21.5667,
       "districts": [
         {
           "id": "wojciechowice",
@@ -32446,6 +32660,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ostrow wielkopolski"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 51.6547,
+      "lon": 17.8072,
       "districts": [
         {
           "id": "nowy-staw",
@@ -32544,6 +32760,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ostrowiec swietokrzyski"
       ],
       "voivodeship": "świętokrzyskie",
+      "lat": 50.9333,
+      "lon": 21.4,
       "districts": [
         {
           "id": "cukrownia",
@@ -32796,6 +33014,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "oswiecim"
       ],
       "voivodeship": "małopolskie",
+      "lat": 50.0381,
+      "lon": 19.2214,
       "districts": [
         {
           "id": "kruki",
@@ -33199,6 +33419,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ozorkow"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.9667,
+      "lon": 19.2833,
       "districts": [
         {
           "id": "krzeszew-rzadowy",
@@ -33297,6 +33519,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "pabianice"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.6642,
+      "lon": 19.35,
       "districts": [
         {
           "id": "klimkowizna",
@@ -33681,6 +33905,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "piastow"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.1844,
+      "lon": 20.8395,
       "districts": []
     },
     {
@@ -33741,6 +33967,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "piekary slaskie"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3833,
+      "lon": 18.95,
       "districts": [
         {
           "id": "brzozowice",
@@ -34277,6 +34505,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "piotrkow trybunalski"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.4,
+      "lon": 19.6833,
       "districts": [
         {
           "id": "budki",
@@ -35118,6 +35348,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "plock"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.55,
+      "lon": 19.7,
       "districts": [
         {
           "id": "chelpowo",
@@ -35312,6 +35544,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "plonsk"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.6233,
+      "lon": 20.3753,
       "districts": []
     },
     {
@@ -35763,6 +35997,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "poznan"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.4083,
+      "lon": 16.9336,
       "districts": [
         {
           "id": "stare-miasto-poznan",
@@ -36223,6 +36459,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "pruszcz gdanski"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.2667,
+      "lon": 18.6333,
       "districts": []
     },
     {
@@ -36232,6 +36470,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "pruszkow"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.1667,
+      "lon": 20.8,
       "districts": [
         {
           "id": "tworki",
@@ -36500,6 +36740,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "przemysl"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 49.7835,
+      "lon": 22.7842,
       "districts": [
         {
           "id": "wysokie-gory",
@@ -37033,6 +37275,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "puck"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.7204,
+      "lon": 18.4113,
       "districts": [
         {
           "id": "rozgard",
@@ -37307,6 +37551,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "pyskowice"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3981,
+      "lon": 18.6275,
       "districts": [
         {
           "id": "dzierzno",
@@ -37993,6 +38239,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "raciaz"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.7794,
+      "lon": 20.1153,
       "districts": []
     },
     {
@@ -38225,6 +38473,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "radom"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 51.4167,
+      "lon": 21.15,
       "districts": [
         {
           "id": "brzustowka",
@@ -39053,6 +39303,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "radzionkow"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.4016,
+      "lon": 18.901,
       "districts": [
         {
           "id": "rojca",
@@ -39281,6 +39533,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "rawa mazowiecka"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.7667,
+      "lon": 20.25,
       "districts": [
         {
           "id": "osada-dolna",
@@ -39814,6 +40068,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ruda slaska"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3117,
+      "lon": 18.8514,
       "districts": [
         {
           "id": "bielszowice",
@@ -39978,6 +40234,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "rumia"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.5706,
+      "lon": 18.4105,
       "districts": [
         {
           "id": "biala-rzeka",
@@ -40028,6 +40286,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "rybnik"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.0833,
+      "lon": 18.5,
       "districts": [
         {
           "id": "kuznia-ligocka",
@@ -40796,6 +41056,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "rypin"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.0669,
+      "lon": 19.4069,
       "districts": [
         {
           "id": "pradowka",
@@ -40943,6 +41205,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "rzeszow"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 50.0411,
+      "lon": 21.9989,
       "districts": [
         {
           "id": "pobitno",
@@ -42053,6 +42317,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "sejny"
       ],
       "voivodeship": "podlaskie",
+      "lat": 54.1,
+      "lon": 23.35,
       "districts": [
         {
           "id": "cyganowo",
@@ -42151,6 +42417,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "siedlce"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.1833,
+      "lon": 22.2833,
       "districts": [
         {
           "id": "piaski-zamiejskie",
@@ -42315,6 +42583,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "siemianowice slaskie"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3123,
+      "lon": 19.0232,
       "districts": [
         {
           "id": "bangow",
@@ -43464,6 +43734,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "skierniewice"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.9569,
+      "lon": 20.143,
       "districts": [
         {
           "id": "feliksow",
@@ -43908,6 +44180,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "stolp"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.4667,
+      "lon": 17.0333,
       "districts": [
         {
           "id": "ryczewo",
@@ -43995,6 +44269,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "sochaczew"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.225,
+      "lon": 20.2333,
       "districts": [
         {
           "id": "adamowka",
@@ -44170,6 +44446,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "sokolow podlaski"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.4,
+      "lon": 22.25,
       "districts": [
         {
           "id": "wesola",
@@ -44306,6 +44584,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "sopot"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.4419,
+      "lon": 18.5478,
       "districts": [
         {
           "id": "przylesie",
@@ -44366,6 +44646,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "sosnowiec"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3,
+      "lon": 19.1667,
       "districts": [
         {
           "id": "modrzejow",
@@ -44882,6 +45164,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "starachowice"
       ],
       "voivodeship": "świętokrzyskie",
+      "lat": 51.05,
+      "lon": 21.0667,
       "districts": [
         {
           "id": "abisynia",
@@ -45156,6 +45440,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "stargard"
       ],
       "voivodeship": "zachodniopomorskie",
+      "lat": 53.3387,
+      "lon": 15.0448,
       "districts": [
         {
           "id": "przedmiescie-barnimowskie",
@@ -45254,6 +45540,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "starogard gdanski"
       ],
       "voivodeship": "pomorskie",
+      "lat": 53.9667,
+      "lon": 18.5333,
       "districts": [
         {
           "id": "freda",
@@ -46727,6 +47015,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "suwalki"
       ],
       "voivodeship": "podlaskie",
+      "lat": 54.1,
+      "lon": 22.9333,
       "districts": [
         {
           "id": "krzywolka",
@@ -46901,6 +47191,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "swidnica"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 50.8438,
+      "lon": 16.4886,
       "districts": [
         {
           "id": "kraszowice",
@@ -46919,6 +47211,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "swidnik"
       ],
       "voivodeship": "lubelskie",
+      "lat": 51.2333,
+      "lon": 22.7,
       "districts": [
         {
           "id": "biskupie",
@@ -47187,6 +47481,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "swietochlowice"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.2855,
+      "lon": 18.9309,
       "districts": [
         {
           "id": "zgoda",
@@ -47261,6 +47557,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "swinoujscie"
       ],
       "voivodeship": "zachodniopomorskie",
+      "lat": 53.9103,
+      "lon": 14.2469,
       "districts": [
         {
           "id": "paprotno",
@@ -47918,6 +48216,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "szczecin"
       ],
       "voivodeship": "zachodniopomorskie",
+      "lat": 53.4247,
+      "lon": 14.5553,
       "districts": [
         {
           "id": "osiedle-zalom",
@@ -48536,6 +48836,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "szczecinek"
       ],
       "voivodeship": "zachodniopomorskie",
+      "lat": 53.7078,
+      "lon": 16.6992,
       "districts": [
         {
           "id": "swiatki",
@@ -49500,6 +49802,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "szczytno"
       ],
       "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.5667,
+      "lon": 21,
       "districts": []
     },
     {
@@ -49796,6 +50100,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "tarnobrzeg"
       ],
       "voivodeship": "podkarpackie",
+      "lat": 50.5833,
+      "lon": 21.6833,
       "districts": [
         {
           "id": "miechocin",
@@ -50024,6 +50330,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "tarnow"
       ],
       "voivodeship": "małopolskie",
+      "lat": 50.0125,
+      "lon": 20.9883,
       "districts": [
         {
           "id": "dabrowka-infulacka",
@@ -50292,6 +50600,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "tczew"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.0911,
+      "lon": 18.7864,
       "districts": [
         {
           "id": "gorki",
@@ -50475,6 +50785,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "tomaszow lubelski"
       ],
       "voivodeship": "lubelskie",
+      "lat": 50.45,
+      "lon": 23.4167,
       "districts": [
         {
           "id": "sznurzenski-las",
@@ -50613,6 +50925,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "tomaszow mazowiecki"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.5314,
+      "lon": 20.0089,
       "districts": [
         {
           "id": "zapiecek",
@@ -50832,6 +51146,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "torun"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.0144,
+      "lon": 18.6014,
       "districts": [
         {
           "id": "grebocin-nad-struga",
@@ -51816,6 +52132,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "turek"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.0155,
+      "lon": 18.5006,
       "districts": [
         {
           "id": "poduchowne",
@@ -51968,6 +52286,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "tychy"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.1236,
+      "lon": 18.9867,
       "districts": [
         {
           "id": "paprocany",
@@ -52427,6 +52747,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "ustka"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.5803,
+      "lon": 16.8619,
       "districts": [
         {
           "id": "grabienko",
@@ -52729,6 +53051,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "wabrzezno"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.2833,
+      "lon": 18.95,
       "districts": [
         {
           "id": "pod-mysliwiec",
@@ -52838,6 +53162,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "wagrowiec"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 52.8083,
+      "lon": 17.1994,
       "districts": [
         {
           "id": "berdychowo",
@@ -52881,6 +53207,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "waldenburg"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 50.7667,
+      "lon": 16.2833,
       "districts": [
         {
           "id": "bialy-kamien",
@@ -53161,6 +53489,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "warszawa"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.23,
+      "lon": 21.0111,
       "districts": [
         {
           "id": "mokotow",
@@ -53542,6 +53872,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "wejherowo"
       ],
       "voivodeship": "pomorskie",
+      "lat": 54.6056,
+      "lon": 18.2356,
       "districts": [
         {
           "id": "cementownia",
@@ -54613,6 +54945,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "wloclawek"
       ],
       "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.65,
+      "lon": 19.05,
       "districts": [
         {
           "id": "zabijaki",
@@ -56060,6 +56394,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "wroclaw"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.11,
+      "lon": 17.0325,
       "districts": [
         {
           "id": "stare-miasto-wroclaw",
@@ -56351,6 +56687,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zabki"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.2928,
+      "lon": 21.1161,
       "districts": [
         {
           "id": "drewnica",
@@ -56463,6 +56801,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zabrze"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.3,
+      "lon": 18.7833,
       "districts": [
         {
           "id": "maciejow",
@@ -57423,6 +57763,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zambrow"
       ],
       "voivodeship": "podlaskie",
+      "lat": 52.9853,
+      "lon": 22.2422,
       "districts": [
         {
           "id": "pruszki-jablon",
@@ -57441,6 +57783,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zamosc"
       ],
       "voivodeship": "lubelskie",
+      "lat": 50.7206,
+      "lon": 23.2586,
       "districts": [
         {
           "id": "stare-miasto",
@@ -57648,6 +57992,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zary"
       ],
       "voivodeship": "lubuskie",
+      "lat": 51.6419,
+      "lon": 15.1372,
       "districts": [
         {
           "id": "kunice-zarskie",
@@ -58110,6 +58456,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zdunska wola"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.6,
+      "lon": 18.9333,
       "districts": [
         {
           "id": "rozomysl",
@@ -58353,6 +58701,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zgierz"
       ],
       "voivodeship": "łódzkie",
+      "lat": 51.8564,
+      "lon": 19.4061,
       "districts": [
         {
           "id": "pienki",
@@ -58507,6 +58857,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zgorzelec"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.1528,
+      "lon": 15,
       "districts": [
         {
           "id": "ujazd",
@@ -58543,6 +58895,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zielona gora"
       ],
       "voivodeship": "lubuskie",
+      "lat": 51.9397,
+      "lon": 15.505,
       "districts": [
         {
           "id": "piskorze",
@@ -58967,6 +59321,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zlotoryja"
       ],
       "voivodeship": "dolnośląskie",
+      "lat": 51.1264,
+      "lon": 15.9198,
       "districts": [
         {
           "id": "gorzen",
@@ -59001,6 +59357,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zlotow"
       ],
       "voivodeship": "wielkopolskie",
+      "lat": 53.3603,
+      "lon": 17.0408,
       "districts": []
     },
     {
@@ -59062,6 +59420,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zory"
       ],
       "voivodeship": "śląskie",
+      "lat": 50.045,
+      "lon": 18.7006,
       "districts": [
         {
           "id": "dabie",
@@ -59352,6 +59712,8 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "zyrardow"
       ],
       "voivodeship": "mazowieckie",
+      "lat": 52.05,
+      "lon": 20.4333,
       "districts": [
         {
           "id": "podblich",

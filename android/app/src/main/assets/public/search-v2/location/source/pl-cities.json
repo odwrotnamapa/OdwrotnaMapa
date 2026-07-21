@@ -8,7 +8,9 @@
       "aliases": [
         "aleksandrow kujawski"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.8764,
+      "lon": 18.6933
     },
     {
       "id": "aleksandrow-lodzki",
@@ -128,7 +130,9 @@
       "aliases": [
         "bedzin"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.325,
+      "lon": 19.1333
     },
     {
       "id": "belchatow",
@@ -136,7 +140,9 @@
       "aliases": [
         "belchatow"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.3667,
+      "lon": 19.3667
     },
     {
       "id": "belzyce",
@@ -168,7 +174,9 @@
       "aliases": [
         "biala podlaska"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 52.0333,
+      "lon": 23.1333
     },
     {
       "id": "biala-rawska",
@@ -216,7 +224,9 @@
       "aliases": [
         "bialystok"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "podlaskie",
+      "lat": 53.1324,
+      "lon": 23.1687
     },
     {
       "id": "biecz",
@@ -248,7 +258,9 @@
       "aliases": [
         "bielsko biala"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 49.8225,
+      "lon": 19.0444
     },
     {
       "id": "bierun",
@@ -256,7 +268,9 @@
       "aliases": [
         "bierun"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.0911,
+      "lon": 19.091
     },
     {
       "id": "bierutow",
@@ -280,7 +294,9 @@
       "aliases": [
         "bilgoraj"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 50.55,
+      "lon": 22.7333
     },
     {
       "id": "bircza",
@@ -432,7 +448,9 @@
       "aliases": [
         "boleslawiec"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.2667,
+      "lon": 15.5667
     },
     {
       "id": "boleslawiec-lodzkie",
@@ -440,7 +458,9 @@
       "aliases": [
         "boleslawiec"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.2667,
+      "lon": 15.5667
     },
     {
       "id": "bolimow",
@@ -504,7 +524,9 @@
       "aliases": [
         "brodnica"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.258,
+      "lon": 19.4054
     },
     {
       "id": "brody",
@@ -544,7 +566,9 @@
       "aliases": [
         "brzeg"
       ],
-      "voivodeship": "opolskie"
+      "voivodeship": "opolskie",
+      "lat": 50.8667,
+      "lon": 17.4667
     },
     {
       "id": "brzeg-dolny",
@@ -657,7 +681,9 @@
         "bromberg",
         "bydgoszcz"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.1167,
+      "lon": 18
     },
     {
       "id": "bystrzyca-klodzka",
@@ -674,7 +700,9 @@
         "beuthen",
         "bytom"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.347,
+      "lon": 18.923
     },
     {
       "id": "bytom-odrzanski",
@@ -722,7 +750,9 @@
       "aliases": [
         "chelm"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 51.1333,
+      "lon": 23.4833
     },
     {
       "id": "chelmek",
@@ -738,7 +768,9 @@
       "aliases": [
         "chelmno"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.3492,
+      "lon": 18.4261
     },
     {
       "id": "chelmza",
@@ -746,7 +778,9 @@
       "aliases": [
         "chelmza"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.2,
+      "lon": 18.6
     },
     {
       "id": "chmielnik",
@@ -794,7 +828,9 @@
       "aliases": [
         "chodziez"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.9901,
+      "lon": 16.9122
     },
     {
       "id": "chojna",
@@ -810,7 +846,9 @@
       "aliases": [
         "chojnice"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 53.6955,
+      "lon": 17.557
     },
     {
       "id": "chojnow",
@@ -818,7 +856,9 @@
       "aliases": [
         "chojnow"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.2667,
+      "lon": 15.9333
     },
     {
       "id": "choroszcz",
@@ -842,7 +882,9 @@
       "aliases": [
         "chorzow"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.2884,
+      "lon": 18.9628
     },
     {
       "id": "choszczno",
@@ -906,7 +948,9 @@
       "aliases": [
         "cieszyn"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 49.75,
+      "lon": 18.6333
     },
     {
       "id": "ciezkowice",
@@ -970,7 +1014,9 @@
       "aliases": [
         "czarnkow"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.9,
+      "lon": 16.5667
     },
     {
       "id": "czarny-dunajec",
@@ -1002,7 +1048,9 @@
       "aliases": [
         "czeladz"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3333,
+      "lon": 19.0833
     },
     {
       "id": "czemierniki",
@@ -1066,7 +1114,9 @@
       "aliases": [
         "czestochowa"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.8096,
+      "lon": 19.1222
     },
     {
       "id": "czlopa",
@@ -1082,7 +1132,9 @@
       "aliases": [
         "czluchow"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 53.6672,
+      "lon": 17.3586
     },
     {
       "id": "czyzew",
@@ -1114,7 +1166,9 @@
       "aliases": [
         "dabrowa gornicza"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3339,
+      "lon": 19.2047
     },
     {
       "id": "dabrowa-tarnowska",
@@ -1154,7 +1208,9 @@
       "aliases": [
         "debica"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 50.0515,
+      "lon": 21.4114
     },
     {
       "id": "deblin",
@@ -1354,7 +1410,9 @@
       "aliases": [
         "dzialdowo"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.2333,
+      "lon": 20.1833
     },
     {
       "id": "dzialoszyce",
@@ -1386,7 +1444,9 @@
       "aliases": [
         "dzierzoniow"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 50.7281,
+      "lon": 16.6511
     },
     {
       "id": "dziwnow",
@@ -1403,7 +1463,9 @@
         "elbing",
         "elblag"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.1522,
+      "lon": 19.4089
     },
     {
       "id": "elk",
@@ -1411,7 +1473,9 @@
       "aliases": [
         "elk"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.8167,
+      "lon": 22.35
     },
     {
       "id": "frampol",
@@ -1461,7 +1525,9 @@
         "danzig",
         "gdansk"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.3483,
+      "lon": 18.654
     },
     {
       "id": "gdynia",
@@ -1469,7 +1535,9 @@
       "aliases": [
         "gdynia"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.5175,
+      "lon": 18.54
     },
     {
       "id": "gielniow",
@@ -1485,7 +1553,9 @@
       "aliases": [
         "gizycko"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.04,
+      "lon": 21.7589
     },
     {
       "id": "glinojeck",
@@ -1502,7 +1572,9 @@
         "gleiwitz",
         "gliwice"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.2942,
+      "lon": 18.6658
     },
     {
       "id": "glogow",
@@ -1510,7 +1582,9 @@
       "aliases": [
         "glogow"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.6589,
+      "lon": 16.0803
     },
     {
       "id": "glogow-malopolski",
@@ -1590,7 +1664,9 @@
       "aliases": [
         "gniezno"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.5333,
+      "lon": 17.6
     },
     {
       "id": "gogolin",
@@ -1646,7 +1722,9 @@
       "aliases": [
         "golub dobrzyn"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.1,
+      "lon": 19.05
     },
     {
       "id": "goniadz",
@@ -1686,7 +1764,9 @@
       "aliases": [
         "gorlice"
       ],
-      "voivodeship": "małopolskie"
+      "voivodeship": "małopolskie",
+      "lat": 49.6556,
+      "lon": 21.1604
     },
     {
       "id": "gorowo-ilaweckie",
@@ -1694,7 +1774,9 @@
       "aliases": [
         "gorowo ilaweckie"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.2856,
+      "lon": 20.4889
     },
     {
       "id": "gorzno",
@@ -1718,7 +1800,9 @@
       "aliases": [
         "gorzow wielkopolski"
       ],
-      "voivodeship": "lubuskie"
+      "voivodeship": "lubuskie",
+      "lat": 52.7333,
+      "lon": 15.25
     },
     {
       "id": "goscino",
@@ -1782,7 +1866,9 @@
       "aliases": [
         "grajewo"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "podlaskie",
+      "lat": 53.65,
+      "lon": 22.45
     },
     {
       "id": "grodkow",
@@ -1823,7 +1909,9 @@
         "graudenz",
         "grudziadz"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.4875,
+      "lon": 18.755
     },
     {
       "id": "grybow",
@@ -1903,7 +1991,9 @@
       "aliases": [
         "ilawa"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.5964,
+      "lon": 19.5656
     },
     {
       "id": "ilowa",
@@ -1927,7 +2017,9 @@
       "aliases": [
         "imielin"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.1478,
+      "lon": 19.1814
     },
     {
       "id": "inowlodz",
@@ -1943,7 +2035,9 @@
       "aliases": [
         "inowroclaw"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.7958,
+      "lon": 18.2611
     },
     {
       "id": "insko",
@@ -2063,7 +2157,9 @@
       "aliases": [
         "jaroslaw"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 50.0162,
+      "lon": 22.6778
     },
     {
       "id": "jasien",
@@ -2111,7 +2207,9 @@
       "aliases": [
         "jastrzebie zdroj"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 49.95,
+      "lon": 18.5833
     },
     {
       "id": "jawor",
@@ -2119,7 +2217,9 @@
       "aliases": [
         "jawor"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.0676,
+      "lon": 16.185
     },
     {
       "id": "jawornik-polski",
@@ -2135,7 +2235,9 @@
       "aliases": [
         "jaworzno"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.2,
+      "lon": 19.275
     },
     {
       "id": "jaworzyna-slaska",
@@ -2199,7 +2301,9 @@
       "aliases": [
         "jelenia gora"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 50.9,
+      "lon": 15.7333
     },
     {
       "id": "jeziorany",
@@ -2280,7 +2384,9 @@
         "kalisch",
         "kalisz"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 51.757,
+      "lon": 18.083
     },
     {
       "id": "kalisz-pomorski",
@@ -2408,7 +2514,9 @@
       "aliases": [
         "katowice"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.25,
+      "lon": 19
     },
     {
       "id": "katy-wroclawskie",
@@ -2480,7 +2588,9 @@
       "aliases": [
         "ketrzyn"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.0768,
+      "lon": 21.3753
     },
     {
       "id": "kety",
@@ -2496,7 +2606,9 @@
       "aliases": [
         "kielce"
       ],
-      "voivodeship": "świętokrzyskie"
+      "voivodeship": "świętokrzyskie",
+      "lat": 50.8725,
+      "lon": 20.6319
     },
     {
       "id": "kiernozia",
@@ -2584,7 +2696,9 @@
       "aliases": [
         "klodzko"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 50.4386,
+      "lon": 16.655
     },
     {
       "id": "kluczbork",
@@ -2600,7 +2714,9 @@
       "aliases": [
         "knurow"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.2167,
+      "lon": 18.6833
     },
     {
       "id": "knyszyn",
@@ -2624,7 +2740,9 @@
       "aliases": [
         "kobylka"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.3395,
+      "lon": 21.1959
     },
     {
       "id": "kobylnica",
@@ -2672,7 +2790,9 @@
       "aliases": [
         "kolo"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.2,
+      "lon": 18.6333
     },
     {
       "id": "kolobrzeg",
@@ -2680,7 +2800,9 @@
       "aliases": [
         "kolobrzeg"
       ],
-      "voivodeship": "zachodniopomorskie"
+      "voivodeship": "zachodniopomorskie",
+      "lat": 54.1761,
+      "lon": 15.5761
     },
     {
       "id": "kolonowskie",
@@ -2712,7 +2834,9 @@
       "aliases": [
         "konin"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.2275,
+      "lon": 18.2614
     },
     {
       "id": "konskie",
@@ -2792,7 +2916,9 @@
       "aliases": [
         "koscian"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.0833,
+      "lon": 16.65
     },
     {
       "id": "koscierzyna",
@@ -2800,7 +2926,9 @@
       "aliases": [
         "koscierzyna"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.1219,
+      "lon": 17.9811
     },
     {
       "id": "kosow-lacki",
@@ -2834,7 +2962,9 @@
         "koszalin",
         "köslin"
       ],
-      "voivodeship": "zachodniopomorskie"
+      "voivodeship": "zachodniopomorskie",
+      "lat": 54.1903,
+      "lon": 16.1817
     },
     {
       "id": "koszyce",
@@ -2923,7 +3053,9 @@
         "cracow",
         "krakow"
       ],
-      "voivodeship": "małopolskie"
+      "voivodeship": "małopolskie",
+      "lat": 50.0614,
+      "lon": 19.9372
     },
     {
       "id": "krapkowice",
@@ -2939,7 +3071,9 @@
       "aliases": [
         "krasnik"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 50.9214,
+      "lon": 22.2208
     },
     {
       "id": "krasnobrod",
@@ -2979,7 +3113,9 @@
       "aliases": [
         "krosno"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 49.6937,
+      "lon": 21.7652
     },
     {
       "id": "krosno-odrzanskie",
@@ -3115,7 +3251,9 @@
       "aliases": [
         "kutno"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 52.2333,
+      "lon": 19.3667
     },
     {
       "id": "kuznia-raciborska",
@@ -3131,7 +3269,9 @@
       "aliases": [
         "kwidzyn"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 53.7358,
+      "lon": 18.9308
     },
     {
       "id": "labiszyn",
@@ -3219,7 +3359,9 @@
       "aliases": [
         "laziska gorne"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.1494,
+      "lon": 18.8419
     },
     {
       "id": "lazy",
@@ -3243,7 +3385,9 @@
       "aliases": [
         "lebork"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.55,
+      "lon": 17.75
     },
     {
       "id": "leczna",
@@ -3259,7 +3403,9 @@
       "aliases": [
         "leczyca"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 52.0583,
+      "lon": 19.2
     },
     {
       "id": "ledziny",
@@ -3275,7 +3421,9 @@
       "aliases": [
         "legionowo"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.3952,
+      "lon": 20.9308
     },
     {
       "id": "legnica",
@@ -3284,7 +3432,9 @@
         "legnica",
         "liegnitz"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.2101,
+      "lon": 16.1619
     },
     {
       "id": "leknica",
@@ -3324,7 +3474,9 @@
       "aliases": [
         "leszno"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 51.8403,
+      "lon": 16.5749
     },
     {
       "id": "lewin-brzeski",
@@ -3364,7 +3516,9 @@
       "aliases": [
         "lidzbark warminski"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 54.1259,
+      "lon": 20.5795
     },
     {
       "id": "limanowa",
@@ -3388,7 +3542,9 @@
       "aliases": [
         "lipno"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.85,
+      "lon": 19.1667
     },
     {
       "id": "lipsk",
@@ -3436,7 +3592,9 @@
       "aliases": [
         "lodz"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.75,
+      "lon": 19.4667
     },
     {
       "id": "lomianki",
@@ -3452,7 +3610,9 @@
       "aliases": [
         "lomza"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "podlaskie",
+      "lat": 53.1833,
+      "lon": 22.0833
     },
     {
       "id": "lopuszno",
@@ -3476,7 +3636,9 @@
       "aliases": [
         "lowicz"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 52.1,
+      "lon": 19.9333
     },
     {
       "id": "lubaczow",
@@ -3492,7 +3654,9 @@
       "aliases": [
         "luban"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.1167,
+      "lon": 15.3
     },
     {
       "id": "lubartow",
@@ -3500,7 +3664,9 @@
       "aliases": [
         "lubartow"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 51.4667,
+      "lon": 22.6
     },
     {
       "id": "lubawa",
@@ -3532,7 +3698,9 @@
       "aliases": [
         "lubin"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.4,
+      "lon": 16.2
     },
     {
       "id": "lublin",
@@ -3540,7 +3708,9 @@
       "aliases": [
         "lublin"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 51.25,
+      "lon": 22.5667
     },
     {
       "id": "lubliniec",
@@ -3572,7 +3742,9 @@
       "aliases": [
         "lubon"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.3333,
+      "lon": 16.8833
     },
     {
       "id": "lubowidz",
@@ -3684,7 +3856,9 @@
       "aliases": [
         "malbork"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.0285,
+      "lon": 19.0444
     },
     {
       "id": "malkinia-gorna",
@@ -3724,7 +3898,9 @@
       "aliases": [
         "marki"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.3333,
+      "lon": 21.1
     },
     {
       "id": "maszewo",
@@ -3844,7 +4020,9 @@
       "aliases": [
         "mielec"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 50.2833,
+      "lon": 21.4333
     },
     {
       "id": "mielno",
@@ -3892,7 +4070,9 @@
       "aliases": [
         "mikolow"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.1708,
+      "lon": 18.9039
     },
     {
       "id": "mikstat",
@@ -3916,7 +4096,9 @@
       "aliases": [
         "milanowek"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.1243,
+      "lon": 20.6654
     },
     {
       "id": "milicz",
@@ -3948,7 +4130,9 @@
       "aliases": [
         "minsk mazowiecki"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.1833,
+      "lon": 21.5667
     },
     {
       "id": "miroslawiec",
@@ -3972,7 +4156,9 @@
       "aliases": [
         "mlawa"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 53.1167,
+      "lon": 20.3667
     },
     {
       "id": "mlynary",
@@ -4060,7 +4246,9 @@
       "aliases": [
         "mragowo"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.8642,
+      "lon": 21.305
     },
     {
       "id": "mrocza",
@@ -4132,7 +4320,9 @@
       "aliases": [
         "myslowice"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.2119,
+      "lon": 19.1478
     },
     {
       "id": "myszkow",
@@ -4284,7 +4474,9 @@
       "aliases": [
         "nowa sol"
       ],
-      "voivodeship": "lubuskie"
+      "voivodeship": "lubuskie",
+      "lat": 51.8033,
+      "lon": 15.7169
     },
     {
       "id": "nowe",
@@ -4396,7 +4588,9 @@
       "aliases": [
         "nowy dwor mazowiecki"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.4303,
+      "lon": 20.7158
     },
     {
       "id": "nowy-korczyn",
@@ -4412,7 +4606,9 @@
       "aliases": [
         "nowy sacz"
       ],
-      "voivodeship": "małopolskie"
+      "voivodeship": "małopolskie",
+      "lat": 49.625,
+      "lon": 20.6956
     },
     {
       "id": "nowy-staw",
@@ -4516,7 +4712,9 @@
       "aliases": [
         "olawa"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 50.9439,
+      "lon": 17.2925
     },
     {
       "id": "olecko",
@@ -4532,7 +4730,9 @@
       "aliases": [
         "olesnica"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.2128,
+      "lon": 17.3831
     },
     {
       "id": "olesnica-swietokrzyskie",
@@ -4540,7 +4740,9 @@
       "aliases": [
         "olesnica"
       ],
-      "voivodeship": "świętokrzyskie"
+      "voivodeship": "świętokrzyskie",
+      "lat": 51.2128,
+      "lon": 17.3831
     },
     {
       "id": "olesno",
@@ -4573,7 +4775,9 @@
         "allenstein",
         "olsztyn"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 53.78,
+      "lon": 20.4942
     },
     {
       "id": "olsztyn-warminsko-mazurskie",
@@ -4582,7 +4786,9 @@
         "allenstein",
         "olsztyn"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.78,
+      "lon": 20.4942
     },
     {
       "id": "olsztynek",
@@ -4647,7 +4853,9 @@
         "opole",
         "oppeln"
       ],
-      "voivodeship": "opolskie"
+      "voivodeship": "opolskie",
+      "lat": 50.6667,
+      "lon": 17.9242
     },
     {
       "id": "opole-lubelskie",
@@ -4671,7 +4879,9 @@
       "aliases": [
         "orzesze"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.1439,
+      "lon": 18.7756
     },
     {
       "id": "orzysz",
@@ -4727,7 +4937,9 @@
       "aliases": [
         "ostroda"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.6967,
+      "lon": 19.9647
     },
     {
       "id": "ostroleka",
@@ -4735,7 +4947,9 @@
       "aliases": [
         "ostroleka"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 53.0833,
+      "lon": 21.5667
     },
     {
       "id": "ostrorog",
@@ -4767,7 +4981,9 @@
       "aliases": [
         "ostrow wielkopolski"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 51.6547,
+      "lon": 17.8072
     },
     {
       "id": "ostrowiec-swietokrzyski",
@@ -4775,7 +4991,9 @@
       "aliases": [
         "ostrowiec swietokrzyski"
       ],
-      "voivodeship": "świętokrzyskie"
+      "voivodeship": "świętokrzyskie",
+      "lat": 50.9333,
+      "lon": 21.4
     },
     {
       "id": "ostrzeszow",
@@ -4791,7 +5009,9 @@
       "aliases": [
         "oswiecim"
       ],
-      "voivodeship": "małopolskie"
+      "voivodeship": "małopolskie",
+      "lat": 50.0381,
+      "lon": 19.2214
     },
     {
       "id": "otmuchow",
@@ -4847,7 +5067,9 @@
       "aliases": [
         "ozorkow"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.9667,
+      "lon": 19.2833
     },
     {
       "id": "pabianice",
@@ -4855,7 +5077,9 @@
       "aliases": [
         "pabianice"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.6642,
+      "lon": 19.35
     },
     {
       "id": "pacanow",
@@ -4959,7 +5183,9 @@
       "aliases": [
         "piastow"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.1844,
+      "lon": 20.8395
     },
     {
       "id": "piatek",
@@ -4983,7 +5209,9 @@
       "aliases": [
         "piekary slaskie"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3833,
+      "lon": 18.95
     },
     {
       "id": "piekoszow",
@@ -5095,7 +5323,9 @@
       "aliases": [
         "piotrkow trybunalski"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.4,
+      "lon": 19.6833
     },
     {
       "id": "pisz",
@@ -5135,7 +5365,9 @@
       "aliases": [
         "plock"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.55,
+      "lon": 19.7
     },
     {
       "id": "plonsk",
@@ -5143,7 +5375,9 @@
       "aliases": [
         "plonsk"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.6233,
+      "lon": 20.3753
     },
     {
       "id": "ploty",
@@ -5272,7 +5506,9 @@
         "posen",
         "poznan"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.4083,
+      "lon": 16.9336
     },
     {
       "id": "prabuty",
@@ -5352,7 +5588,9 @@
       "aliases": [
         "pruszcz gdanski"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.2667,
+      "lon": 18.6333
     },
     {
       "id": "pruszkow",
@@ -5360,7 +5598,9 @@
       "aliases": [
         "pruszkow"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.1667,
+      "lon": 20.8
     },
     {
       "id": "przasnysz",
@@ -5408,7 +5648,9 @@
       "aliases": [
         "przemysl"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 49.7835,
+      "lon": 22.7842
     },
     {
       "id": "przeworsk",
@@ -5464,7 +5706,9 @@
       "aliases": [
         "puck"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.7204,
+      "lon": 18.4113
     },
     {
       "id": "pulawy",
@@ -5504,7 +5748,9 @@
       "aliases": [
         "pyskowice"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3981,
+      "lon": 18.6275
     },
     {
       "id": "pyzdry",
@@ -5528,7 +5774,9 @@
       "aliases": [
         "raciaz"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.7794,
+      "lon": 20.1153
     },
     {
       "id": "raciborz",
@@ -5568,7 +5816,9 @@
       "aliases": [
         "radom"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 51.4167,
+      "lon": 21.15
     },
     {
       "id": "radomsko",
@@ -5616,7 +5866,9 @@
       "aliases": [
         "radzionkow"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.4016,
+      "lon": 18.901
     },
     {
       "id": "radzymin",
@@ -5672,7 +5924,9 @@
       "aliases": [
         "rawa mazowiecka"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.7667,
+      "lon": 20.25
     },
     {
       "id": "rawicz",
@@ -5776,7 +6030,9 @@
       "aliases": [
         "ruda slaska"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3117,
+      "lon": 18.8514
     },
     {
       "id": "rudnik-nad-sanem",
@@ -5792,7 +6048,9 @@
       "aliases": [
         "rumia"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.5706,
+      "lon": 18.4105
     },
     {
       "id": "rybnik",
@@ -5800,7 +6058,9 @@
       "aliases": [
         "rybnik"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.0833,
+      "lon": 18.5
     },
     {
       "id": "rychtal",
@@ -5872,7 +6132,9 @@
       "aliases": [
         "rypin"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.0669,
+      "lon": 19.4069
     },
     {
       "id": "rzepin",
@@ -5888,7 +6150,9 @@
       "aliases": [
         "rzeszow"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 50.0411,
+      "lon": 21.9989
     },
     {
       "id": "rzgow",
@@ -5952,7 +6216,9 @@
       "aliases": [
         "sejny"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "podlaskie",
+      "lat": 54.1,
+      "lon": 23.35
     },
     {
       "id": "sepolno-krajenskie",
@@ -6000,7 +6266,9 @@
       "aliases": [
         "siedlce"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.1833,
+      "lon": 22.2833
     },
     {
       "id": "siedliszcze",
@@ -6016,7 +6284,9 @@
       "aliases": [
         "siemianowice slaskie"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3123,
+      "lon": 19.0232
     },
     {
       "id": "siemiatycze",
@@ -6144,7 +6414,9 @@
       "aliases": [
         "skierniewice"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.9569,
+      "lon": 20.143
     },
     {
       "id": "skoczow",
@@ -6241,7 +6513,9 @@
         "slupsk",
         "stolp"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.4667,
+      "lon": 17.0333
     },
     {
       "id": "smigiel",
@@ -6273,7 +6547,9 @@
       "aliases": [
         "sochaczew"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.225,
+      "lon": 20.2333
     },
     {
       "id": "sochocin",
@@ -6305,7 +6581,9 @@
       "aliases": [
         "sokolow podlaski"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.4,
+      "lon": 22.25
     },
     {
       "id": "solec-kujawski",
@@ -6337,7 +6615,9 @@
       "aliases": [
         "sopot"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.4419,
+      "lon": 18.5478
     },
     {
       "id": "sosnicowice",
@@ -6353,7 +6633,9 @@
       "aliases": [
         "sosnowiec"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3,
+      "lon": 19.1667
     },
     {
       "id": "srem",
@@ -6409,7 +6691,9 @@
       "aliases": [
         "starachowice"
       ],
-      "voivodeship": "świętokrzyskie"
+      "voivodeship": "świętokrzyskie",
+      "lat": 51.05,
+      "lon": 21.0667
     },
     {
       "id": "stargard",
@@ -6417,7 +6701,9 @@
       "aliases": [
         "stargard"
       ],
-      "voivodeship": "zachodniopomorskie"
+      "voivodeship": "zachodniopomorskie",
+      "lat": 53.3387,
+      "lon": 15.0448
     },
     {
       "id": "starogard-gdanski",
@@ -6425,7 +6711,9 @@
       "aliases": [
         "starogard gdanski"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 53.9667,
+      "lon": 18.5333
     },
     {
       "id": "starozreby",
@@ -6689,7 +6977,9 @@
       "aliases": [
         "suwalki"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "podlaskie",
+      "lat": 54.1,
+      "lon": 22.9333
     },
     {
       "id": "swarzedz",
@@ -6713,7 +7003,9 @@
       "aliases": [
         "swidnica"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 50.8438,
+      "lon": 16.4886
     },
     {
       "id": "swidnik",
@@ -6721,7 +7013,9 @@
       "aliases": [
         "swidnik"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 51.2333,
+      "lon": 22.7
     },
     {
       "id": "swidwin",
@@ -6777,7 +7071,9 @@
       "aliases": [
         "swietochlowice"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.2855,
+      "lon": 18.9309
     },
     {
       "id": "swinoujscie",
@@ -6785,7 +7081,9 @@
       "aliases": [
         "swinoujscie"
       ],
-      "voivodeship": "zachodniopomorskie"
+      "voivodeship": "zachodniopomorskie",
+      "lat": 53.9103,
+      "lon": 14.2469
     },
     {
       "id": "sycow",
@@ -6850,7 +7148,9 @@
         "stettin",
         "szczecin"
       ],
-      "voivodeship": "zachodniopomorskie"
+      "voivodeship": "zachodniopomorskie",
+      "lat": 53.4247,
+      "lon": 14.5553
     },
     {
       "id": "szczecinek",
@@ -6858,7 +7158,9 @@
       "aliases": [
         "szczecinek"
       ],
-      "voivodeship": "zachodniopomorskie"
+      "voivodeship": "zachodniopomorskie",
+      "lat": 53.7078,
+      "lon": 16.6992
     },
     {
       "id": "szczekociny",
@@ -6906,7 +7208,9 @@
       "aliases": [
         "szczytno"
       ],
-      "voivodeship": "warmińsko-mazurskie"
+      "voivodeship": "warmińsko-mazurskie",
+      "lat": 53.5667,
+      "lon": 21
     },
     {
       "id": "szepietowo",
@@ -6986,7 +7290,9 @@
       "aliases": [
         "tarnobrzeg"
       ],
-      "voivodeship": "podkarpackie"
+      "voivodeship": "podkarpackie",
+      "lat": 50.5833,
+      "lon": 21.6833
     },
     {
       "id": "tarnogrod",
@@ -7002,7 +7308,9 @@
       "aliases": [
         "tarnow"
       ],
-      "voivodeship": "małopolskie"
+      "voivodeship": "małopolskie",
+      "lat": 50.0125,
+      "lon": 20.9883
     },
     {
       "id": "tarnowskie-gory",
@@ -7018,7 +7326,9 @@
       "aliases": [
         "tczew"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.0911,
+      "lon": 18.7864
     },
     {
       "id": "terespol",
@@ -7050,7 +7360,9 @@
       "aliases": [
         "tomaszow lubelski"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 50.45,
+      "lon": 23.4167
     },
     {
       "id": "tomaszow-mazowiecki",
@@ -7058,7 +7370,9 @@
       "aliases": [
         "tomaszow mazowiecki"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.5314,
+      "lon": 20.0089
     },
     {
       "id": "torun",
@@ -7067,7 +7381,9 @@
         "thorn",
         "torun"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.0144,
+      "lon": 18.6014
     },
     {
       "id": "torzym",
@@ -7187,7 +7503,9 @@
       "aliases": [
         "turek"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.0155,
+      "lon": 18.5006
     },
     {
       "id": "turobin",
@@ -7227,7 +7545,9 @@
       "aliases": [
         "tychy"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.1236,
+      "lon": 18.9867
     },
     {
       "id": "tyczyn",
@@ -7307,7 +7627,9 @@
       "aliases": [
         "ustka"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.5803,
+      "lon": 16.8619
     },
     {
       "id": "ustron",
@@ -7331,7 +7653,9 @@
       "aliases": [
         "wabrzezno"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 53.2833,
+      "lon": 18.95
     },
     {
       "id": "wachock",
@@ -7355,7 +7679,9 @@
       "aliases": [
         "wagrowiec"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 52.8083,
+      "lon": 17.1994
     },
     {
       "id": "walbrzych",
@@ -7364,7 +7690,9 @@
         "walbrzych",
         "waldenburg"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 50.7667,
+      "lon": 16.2833
     },
     {
       "id": "walcz",
@@ -7390,7 +7718,9 @@
         "warsaw",
         "warszawa"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.23,
+      "lon": 21.0111
     },
     {
       "id": "warta",
@@ -7462,7 +7792,9 @@
       "aliases": [
         "wejherowo"
       ],
-      "voivodeship": "pomorskie"
+      "voivodeship": "pomorskie",
+      "lat": 54.6056,
+      "lon": 18.2356
     },
     {
       "id": "wiazow",
@@ -7598,7 +7930,9 @@
       "aliases": [
         "wloclawek"
       ],
-      "voivodeship": "kujawsko-pomorskie"
+      "voivodeship": "kujawsko-pomorskie",
+      "lat": 52.65,
+      "lon": 19.05
     },
     {
       "id": "wlodawa",
@@ -7735,7 +8069,9 @@
         "breslau",
         "wroclaw"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.11,
+      "lon": 17.0325
     },
     {
       "id": "wronki",
@@ -7815,7 +8151,9 @@
       "aliases": [
         "zabki"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.2928,
+      "lon": 21.1161
     },
     {
       "id": "zabkowice-slaskie",
@@ -7848,7 +8186,9 @@
         "hindenburg",
         "zabrze"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.3,
+      "lon": 18.7833
     },
     {
       "id": "zagan",
@@ -7920,7 +8260,9 @@
       "aliases": [
         "zambrow"
       ],
-      "voivodeship": "podlaskie"
+      "voivodeship": "podlaskie",
+      "lat": 52.9853,
+      "lon": 22.2422
     },
     {
       "id": "zamosc",
@@ -7928,7 +8270,9 @@
       "aliases": [
         "zamosc"
       ],
-      "voivodeship": "lubelskie"
+      "voivodeship": "lubelskie",
+      "lat": 50.7206,
+      "lon": 23.2586
     },
     {
       "id": "zaniemysl",
@@ -7968,7 +8312,9 @@
       "aliases": [
         "zary"
       ],
-      "voivodeship": "lubuskie"
+      "voivodeship": "lubuskie",
+      "lat": 51.6419,
+      "lon": 15.1372
     },
     {
       "id": "zator",
@@ -8032,7 +8378,9 @@
       "aliases": [
         "zdunska wola"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.6,
+      "lon": 18.9333
     },
     {
       "id": "zduny",
@@ -8080,7 +8428,9 @@
       "aliases": [
         "zgierz"
       ],
-      "voivodeship": "łódzkie"
+      "voivodeship": "łódzkie",
+      "lat": 51.8564,
+      "lon": 19.4061
     },
     {
       "id": "zgorzelec",
@@ -8088,7 +8438,9 @@
       "aliases": [
         "zgorzelec"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.1528,
+      "lon": 15
     },
     {
       "id": "ziebice",
@@ -8104,7 +8456,9 @@
       "aliases": [
         "zielona gora"
       ],
-      "voivodeship": "lubuskie"
+      "voivodeship": "lubuskie",
+      "lat": 51.9397,
+      "lon": 15.505
     },
     {
       "id": "zielonka",
@@ -8136,7 +8490,9 @@
       "aliases": [
         "zlotoryja"
       ],
-      "voivodeship": "dolnośląskie"
+      "voivodeship": "dolnośląskie",
+      "lat": 51.1264,
+      "lon": 15.9198
     },
     {
       "id": "zlotow",
@@ -8144,7 +8500,9 @@
       "aliases": [
         "zlotow"
       ],
-      "voivodeship": "wielkopolskie"
+      "voivodeship": "wielkopolskie",
+      "lat": 53.3603,
+      "lon": 17.0408
     },
     {
       "id": "zloty-stok",
@@ -8176,7 +8534,9 @@
       "aliases": [
         "zory"
       ],
-      "voivodeship": "śląskie"
+      "voivodeship": "śląskie",
+      "lat": 50.045,
+      "lon": 18.7006
     },
     {
       "id": "zukowo",
@@ -8224,7 +8584,9 @@
       "aliases": [
         "zyrardow"
       ],
-      "voivodeship": "mazowieckie"
+      "voivodeship": "mazowieckie",
+      "lat": 52.05,
+      "lon": 20.4333
     },
     {
       "id": "zywiec",

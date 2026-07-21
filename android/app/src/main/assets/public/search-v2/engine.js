@@ -323,6 +323,12 @@
       }
     }
 
+    const MIN_RESULT_SCORE = 20;
+    const relevant = ranked.filter(
+      result => (result._searchV2?.points ?? 0) >= MIN_RESULT_SCORE
+    );
+    const finalResults = relevant.length ? relevant : ranked.slice(0, 1);
+
     return {
       parsed,
       variants,
@@ -340,7 +346,7 @@
           )
         }
       },
-      results: ranked.slice(0, limit)
+      results: finalResults.slice(0, limit)
     };
   }
 

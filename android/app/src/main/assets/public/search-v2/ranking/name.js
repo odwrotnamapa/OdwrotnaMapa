@@ -50,17 +50,29 @@
     }
 
     if (name === query) {
-      points += 180;
+      points += 240;
       reasons.push("dokładna pełna nazwa");
     } else if (full.startsWith(query)) {
-      points += 145;
+      points += 130;
       reasons.push("pełny wynik zaczyna się od zapytania");
     } else if (name.startsWith(query)) {
-      points += 120;
+      points += 105;
       reasons.push("nazwa zaczyna się od zapytania");
     } else if (name.includes(query)) {
-      points += 95;
+      points += 70;
       reasons.push("nazwa zawiera zapytanie");
+
+      // Nazwa z dodatkowymi, niepowiązanymi słowami (np. "Forum Gdańsk"
+      // dla zapytania "Gdańsk") nie powinna niemal dorównywać
+      // dokładnemu dopasowaniu.
+      const extraWords = Math.max(
+        0,
+        name.split(" ").length - query.split(" ").length
+      );
+      if (extraWords > 0) {
+        points -= Math.min(45, extraWords * 20);
+        reasons.push("dodatkowe słowa w nazwie");
+      }
     } else {
       const value = similarity(query, name);
       points += Math.round(value * 55);

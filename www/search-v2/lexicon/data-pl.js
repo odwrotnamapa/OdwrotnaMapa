@@ -4,8 +4,10 @@ window.OMAP_SEARCH_V2_LEXICON_DATA_PL = {
       "label": "dworzec kolejowy",
       "aliases": [
         "pkp",
+        "dworzec",
         "dworzec pkp",
         "dworzec kolejowy",
+        "stacja",
         "stacja kolejowa",
         "kolej",
         "pociąg",

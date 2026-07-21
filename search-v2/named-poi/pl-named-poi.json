@@ -919,7 +919,8 @@
         "małopolskie",
         "dworzec",
         "kolej",
-        "pkp"
+        "pkp",
+        "stacja"
       ],
       "type": "station",
       "category": "railway_station",
@@ -2031,7 +2032,8 @@
         "mazowieckie",
         "dworzec",
         "kolej",
-        "pkp"
+        "pkp",
+        "stacja"
       ],
       "type": "station",
       "category": "railway_station",
@@ -6039,7 +6041,8 @@
         "warminsko-mazurskie",
         "dworzec",
         "kolej",
-        "pkp"
+        "pkp",
+        "stacja"
       ],
       "type": "station",
       "category": "railway_station",
@@ -6056,8 +6059,323 @@
       "voivodeship": "warminsko-mazurskie",
       "priority": 1000,
       "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-gdansk",
+      "name": "Port Lotniczy Gdańsk im. Lecha Wałęsy",
+      "aliases": [
+        "Lotnisko Gdańsk",
+        "Lotnisko Rębiechowo",
+        "GDN"
+      ],
+      "keywords": [
+        "airport",
+        "Gdańsk",
+        "pomorskie",
+        "lotnisko",
+        "port lotniczy"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 54.3776,
+      "lon": 18.4662,
+      "address": {
+        "city": "Gdańsk",
+        "state": "pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Gdańsk",
+      "voivodeship": "pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-katowice",
+      "name": "Międzynarodowy Port Lotniczy Katowice w Pyrzowicach",
+      "aliases": [
+        "Lotnisko Katowice",
+        "Lotnisko Pyrzowice",
+        "KTW"
+      ],
+      "keywords": [
+        "airport",
+        "Katowice",
+        "śląskie",
+        "lotnisko",
+        "port lotniczy",
+        "Pyrzowice"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 50.4743,
+      "lon": 19.08,
+      "address": {
+        "city": "Katowice",
+        "state": "śląskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Katowice",
+      "voivodeship": "śląskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-rzeszow",
+      "name": "Port Lotniczy Rzeszów-Jasionka",
+      "aliases": [
+        "Lotnisko Rzeszów",
+        "Lotnisko Jasionka",
+        "RZE"
+      ],
+      "keywords": [
+        "airport",
+        "Rzeszów",
+        "podkarpackie",
+        "lotnisko",
+        "port lotniczy",
+        "Jasionka"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 50.11,
+      "lon": 22.019,
+      "address": {
+        "city": "Rzeszów",
+        "state": "podkarpackie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Rzeszów",
+      "voivodeship": "podkarpackie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-szczecin",
+      "name": "Port Lotniczy Szczecin-Goleniów",
+      "aliases": [
+        "Lotnisko Szczecin",
+        "Lotnisko Goleniów",
+        "SZZ"
+      ],
+      "keywords": [
+        "airport",
+        "Szczecin",
+        "zachodniopomorskie",
+        "lotnisko",
+        "port lotniczy",
+        "Goleniów"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 53.5847,
+      "lon": 14.9022,
+      "address": {
+        "city": "Szczecin",
+        "state": "zachodniopomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Szczecin",
+      "voivodeship": "zachodniopomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-bydgoszcz",
+      "name": "Port Lotniczy Bydgoszcz im. Ignacego Jana Paderewskiego",
+      "aliases": [
+        "Lotnisko Bydgoszcz",
+        "BZG"
+      ],
+      "keywords": [
+        "airport",
+        "Bydgoszcz",
+        "kujawsko-pomorskie",
+        "lotnisko",
+        "port lotniczy"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 53.0968,
+      "lon": 17.9776,
+      "address": {
+        "city": "Bydgoszcz",
+        "state": "kujawsko-pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Bydgoszcz",
+      "voivodeship": "kujawsko-pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-lodz",
+      "name": "Port Lotniczy Łódź im. Władysława Reymonta",
+      "aliases": [
+        "Lotnisko Łódź",
+        "LCJ"
+      ],
+      "keywords": [
+        "airport",
+        "Łódź",
+        "łódzkie",
+        "lotnisko",
+        "port lotniczy"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 51.7217,
+      "lon": 19.3981,
+      "address": {
+        "city": "Łódź",
+        "state": "łódzkie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Łódź",
+      "voivodeship": "łódzkie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-lublin",
+      "name": "Port Lotniczy Lublin",
+      "aliases": [
+        "Lotnisko Lublin",
+        "Lotnisko Świdnik",
+        "LUZ"
+      ],
+      "keywords": [
+        "airport",
+        "Lublin",
+        "lubelskie",
+        "lotnisko",
+        "port lotniczy",
+        "Świdnik"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 51.2403,
+      "lon": 22.7136,
+      "address": {
+        "city": "Lublin",
+        "state": "lubelskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Lublin",
+      "voivodeship": "lubelskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-modlin",
+      "name": "Port Lotniczy Warszawa-Modlin",
+      "aliases": [
+        "Lotnisko Modlin",
+        "WMI"
+      ],
+      "keywords": [
+        "airport",
+        "Warszawa",
+        "mazowieckie",
+        "lotnisko",
+        "port lotniczy",
+        "Modlin",
+        "Nowy Dwór Mazowiecki"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 52.4511,
+      "lon": 20.6518,
+      "address": {
+        "city": "Nowy Dwór Mazowiecki",
+        "state": "mazowieckie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Nowy Dwór Mazowiecki",
+      "voivodeship": "mazowieckie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-zielona-gora",
+      "name": "Port Lotniczy Zielona Góra-Babimost",
+      "aliases": [
+        "Lotnisko Zielona Góra",
+        "Lotnisko Babimost",
+        "IEG"
+      ],
+      "keywords": [
+        "airport",
+        "Zielona Góra",
+        "lubuskie",
+        "lotnisko",
+        "port lotniczy",
+        "Babimost"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 52.1389,
+      "lon": 15.7986,
+      "address": {
+        "city": "Zielona Góra",
+        "state": "lubuskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Zielona Góra",
+      "voivodeship": "lubuskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:lotnisko-olsztyn",
+      "name": "Port Lotniczy Olsztyn-Mazury",
+      "aliases": [
+        "Lotnisko Olsztyn",
+        "Lotnisko Szymany",
+        "SZY"
+      ],
+      "keywords": [
+        "airport",
+        "Olsztyn",
+        "warminsko-mazurskie",
+        "lotnisko",
+        "port lotniczy",
+        "Szymany"
+      ],
+      "type": "airport",
+      "category": "airport",
+      "class": "aeroway",
+      "lat": 53.4819,
+      "lon": 20.9377,
+      "address": {
+        "city": "Olsztyn",
+        "state": "warmińsko-mazurskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Olsztyn",
+      "voivodeship": "warmińsko-mazurskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
     }
   ],
   "generatedAt": "2026-07-17",
-  "recordCount": 260
+  "recordCount": 270
 }

@@ -1,6 +1,6 @@
 window.OMAP_SEARCH_V2_LOCATIONS_PL = {
   "version": 1,
-  "generatedAt": "2026-07-21T14:56:40.483Z",
+  "generatedAt": "2026-07-21T16:56:18.928Z",
   "country": {
     "id": "pl",
     "name": "Polska",
@@ -12,7 +12,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
   "stats": {
     "cities": 1026,
     "districts": 6217,
-    "aliases": 6994
+    "aliases": 6117
   },
   "cities": [
     {
@@ -60185,14 +60185,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "aleksandrow-kujawski"
       }
     ],
-    "aleksandrow łodzki": [
+    "aleksandrow lodzki": [
       {
         "type": "city",
         "id": "aleksandrow-lodzki",
         "name": "Aleksandrów Łódzki"
-      }
-    ],
-    "aleksandrow lodzki": [
+      },
       {
         "type": "city",
         "id": "aleksandrow-lodzki",
@@ -60297,31 +60295,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "aleksandrow-lodzki"
       }
     ],
-    "łomnik": [
-      {
-        "type": "district",
-        "id": "lomnik",
-        "name": "Łomnik",
-        "parentCityId": "aleksandrow-lodzki"
-      }
-    ],
     "lomnik": [
       {
         "type": "district",
         "id": "lomnik",
         "name": "Łomnik",
         "parentCityId": "aleksandrow-lodzki"
+      },
+      {
+        "type": "district",
+        "id": "lomnik",
+        "name": "Łomnik",
+        "parentCityId": "aleksandrow-lodzki"
       }
     ],
-    "rafałki": [
+    "rafalki": [
       {
         "type": "district",
         "id": "rafalki",
         "name": "Rafałki",
         "parentCityId": "aleksandrow-lodzki"
-      }
-    ],
-    "rafalki": [
+      },
       {
         "type": "district",
         "id": "rafalki",
@@ -60911,15 +60905,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "augustow"
       }
     ],
-    "wojtowskie włoki": [
+    "wojtowskie wloki": [
       {
         "type": "district",
         "id": "wojtowskie-wloki",
         "name": "Wójtowskie Włóki",
         "parentCityId": "augustow"
-      }
-    ],
-    "wojtowskie wloki": [
+      },
       {
         "type": "district",
         "id": "wojtowskie-wloki",
@@ -61393,31 +61385,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "baranow-sandomierski"
       }
     ],
-    "koło boznicy": [
-      {
-        "type": "district",
-        "id": "kolo-boznicy",
-        "name": "Koło Bóżnicy",
-        "parentCityId": "baranow-sandomierski"
-      }
-    ],
     "kolo boznicy": [
       {
         "type": "district",
         "id": "kolo-boznicy",
         "name": "Koło Bóżnicy",
         "parentCityId": "baranow-sandomierski"
+      },
+      {
+        "type": "district",
+        "id": "kolo-boznicy",
+        "name": "Koło Bóżnicy",
+        "parentCityId": "baranow-sandomierski"
       }
     ],
-    "nad wisłoka": [
+    "nad wisloka": [
       {
         "type": "district",
         "id": "nad-wisloka",
         "name": "Nad Wisłoką",
         "parentCityId": "baranow-sandomierski"
-      }
-    ],
-    "nad wisloka": [
+      },
       {
         "type": "district",
         "id": "nad-wisloka",
@@ -61941,12 +61929,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawichost"
       }
     ],
-    "piekło": [
+    "pieklo": [
       {
         "type": "district",
         "id": "pieklo",
         "name": "Piekło",
         "parentCityId": "baranow-sandomierski"
+      },
+      {
+        "type": "district",
+        "id": "pieklo",
+        "name": "Piekło",
+        "parentCityId": "baranow-sandomierski"
+      },
+      {
+        "type": "district",
+        "id": "pieklo",
+        "name": "Piekło",
+        "parentCityId": "bobowa"
       },
       {
         "type": "district",
@@ -61964,6 +61964,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "pieklo",
         "name": "Piekło",
+        "parentCityId": "dabrowa-gornicza"
+      },
+      {
+        "type": "district",
+        "id": "pieklo",
+        "name": "Piekło",
+        "parentCityId": "nowy-sacz"
+      },
+      {
+        "type": "district",
+        "id": "pieklo",
+        "name": "Piekło",
         "parentCityId": "nowy-sacz"
       },
       {
@@ -61971,6 +61983,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "pieklo",
         "name": "Piekło",
         "parentCityId": "ozorkow"
+      },
+      {
+        "type": "district",
+        "id": "pieklo",
+        "name": "Piekło",
+        "parentCityId": "ozorkow"
+      },
+      {
+        "type": "district",
+        "id": "pieklo",
+        "name": "Piekło",
+        "parentCityId": "szczyrk"
       },
       {
         "type": "district",
@@ -61983,44 +62007,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "pieklo",
         "name": "Piekło",
         "parentCityId": "wilamowice"
-      }
-    ],
-    "pieklo": [
-      {
-        "type": "district",
-        "id": "pieklo",
-        "name": "Piekło",
-        "parentCityId": "baranow-sandomierski"
-      },
-      {
-        "type": "district",
-        "id": "pieklo",
-        "name": "Piekło",
-        "parentCityId": "bobowa"
-      },
-      {
-        "type": "district",
-        "id": "pieklo",
-        "name": "Piekło",
-        "parentCityId": "dabrowa-gornicza"
-      },
-      {
-        "type": "district",
-        "id": "pieklo",
-        "name": "Piekło",
-        "parentCityId": "nowy-sacz"
-      },
-      {
-        "type": "district",
-        "id": "pieklo",
-        "name": "Piekło",
-        "parentCityId": "ozorkow"
-      },
-      {
-        "type": "district",
-        "id": "pieklo",
-        "name": "Piekło",
-        "parentCityId": "szczyrk"
       },
       {
         "type": "district",
@@ -62207,7 +62193,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "barwice"
       }
     ],
-    "łeknica": [
+    "leknica": [
+      {
+        "type": "district",
+        "id": "leknica",
+        "name": "Łęknica",
+        "parentCityId": "barwice"
+      },
       {
         "type": "district",
         "id": "leknica",
@@ -62218,14 +62210,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "leknica",
         "name": "Łęknica"
-      }
-    ],
-    "leknica": [
-      {
-        "type": "district",
-        "id": "leknica",
-        "name": "Łęknica",
-        "parentCityId": "barwice"
       },
       {
         "type": "city",
@@ -62311,15 +62295,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sanok"
       }
     ],
-    "łagisza": [
+    "lagisza": [
       {
         "type": "district",
         "id": "lagisza",
         "name": "Łagisza",
         "parentCityId": "bedzin"
-      }
-    ],
-    "lagisza": [
+      },
       {
         "type": "district",
         "id": "lagisza",
@@ -62415,15 +62397,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zator"
       }
     ],
-    "podłosie": [
+    "podlosie": [
       {
         "type": "district",
         "id": "podlosie",
         "name": "Podłosie",
         "parentCityId": "bedzin"
-      }
-    ],
-    "podlosie": [
+      },
       {
         "type": "district",
         "id": "podlosie",
@@ -62457,12 +62437,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lazy"
       }
     ],
-    "łeg": [
+    "leg": [
       {
         "type": "district",
         "id": "leg",
         "name": "Łęg",
         "parentCityId": "bedzin"
+      },
+      {
+        "type": "district",
+        "id": "leg",
+        "name": "Łęg",
+        "parentCityId": "bedzin"
+      },
+      {
+        "type": "district",
+        "id": "leg",
+        "name": "Łęg",
+        "parentCityId": "wloclawek"
       },
       {
         "type": "district",
@@ -62475,20 +62467,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "leg",
         "name": "Łęg",
         "parentCityId": "zdzieszowice"
-      }
-    ],
-    "leg": [
-      {
-        "type": "district",
-        "id": "leg",
-        "name": "Łęg",
-        "parentCityId": "bedzin"
-      },
-      {
-        "type": "district",
-        "id": "leg",
-        "name": "Łęg",
-        "parentCityId": "wloclawek"
       },
       {
         "type": "district",
@@ -62511,27 +62489,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bedzin"
       }
     ],
-    "stara łagisza": [
-      {
-        "type": "district",
-        "id": "stara-lagisza",
-        "name": "Stara Łagisza",
-        "parentCityId": "bedzin"
-      }
-    ],
     "stara lagisza": [
       {
         "type": "district",
         "id": "stara-lagisza",
         "name": "Stara Łagisza",
         "parentCityId": "bedzin"
-      }
-    ],
-    "małobadz": [
+      },
       {
         "type": "district",
-        "id": "malobadz",
-        "name": "Małobądz",
+        "id": "stara-lagisza",
+        "name": "Stara Łagisza",
         "parentCityId": "bedzin"
       }
     ],
@@ -62541,9 +62509,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "malobadz",
         "name": "Małobądz",
         "parentCityId": "bedzin"
+      },
+      {
+        "type": "district",
+        "id": "malobadz",
+        "name": "Małobądz",
+        "parentCityId": "bedzin"
       }
     ],
-    "niepiekło": [
+    "niepieklo": [
+      {
+        "type": "district",
+        "id": "niepieklo",
+        "name": "Niepiekło",
+        "parentCityId": "bedzin"
+      },
       {
         "type": "district",
         "id": "niepieklo",
@@ -62555,14 +62535,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "niepieklo",
         "name": "Niepiekło",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "niepieklo": [
-      {
-        "type": "district",
-        "id": "niepieklo",
-        "name": "Niepiekło",
-        "parentCityId": "bedzin"
       },
       {
         "type": "district",
@@ -62613,14 +62585,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bedzin"
       }
     ],
-    "bełchatow": [
+    "belchatow": [
       {
         "type": "city",
         "id": "belchatow",
         "name": "Bełchatów"
-      }
-    ],
-    "belchatow": [
+      },
       {
         "type": "city",
         "id": "belchatow",
@@ -63163,15 +63133,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "belchatow"
       }
     ],
-    "bełchatowek": [
+    "belchatowek": [
       {
         "type": "district",
         "id": "belchatowek",
         "name": "Bełchatówek",
         "parentCityId": "belchatow"
-      }
-    ],
-    "belchatowek": [
+      },
       {
         "type": "district",
         "id": "belchatowek",
@@ -63393,14 +63361,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "belchatow"
       }
     ],
-    "bełzyce": [
+    "belzyce": [
       {
         "type": "city",
         "id": "belzyce",
         "name": "Bełżyce"
-      }
-    ],
-    "belzyce": [
+      },
       {
         "type": "city",
         "id": "belzyce",
@@ -63483,7 +63449,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sieniawa"
       }
     ],
-    "dołek": [
+    "dolek": [
+      {
+        "type": "district",
+        "id": "dolek",
+        "name": "Dołek",
+        "parentCityId": "belzyce"
+      },
       {
         "type": "district",
         "id": "dolek",
@@ -63495,14 +63467,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "dolek",
         "name": "Dołek",
         "parentCityId": "bukowno"
-      }
-    ],
-    "dolek": [
-      {
-        "type": "district",
-        "id": "dolek",
-        "name": "Dołek",
-        "parentCityId": "belzyce"
       },
       {
         "type": "district",
@@ -63551,7 +63515,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "belzyce"
       }
     ],
-    "biała": [
+    "biala": [
+      {
+        "type": "city",
+        "id": "biala",
+        "name": "Biała"
+      },
       {
         "type": "city",
         "id": "biala",
@@ -63562,13 +63531,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "biala",
         "name": "Biała",
         "parentCityId": "rzeszow"
-      }
-    ],
-    "biala": [
-      {
-        "type": "city",
-        "id": "biala",
-        "name": "Biała"
       },
       {
         "type": "district",
@@ -63893,28 +63855,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "biala"
       }
     ],
-    "biała piska": [
-      {
-        "type": "city",
-        "id": "biala-piska",
-        "name": "Biała Piska"
-      }
-    ],
     "biala piska": [
       {
         "type": "city",
         "id": "biala-piska",
         "name": "Biała Piska"
+      },
+      {
+        "type": "city",
+        "id": "biala-piska",
+        "name": "Biała Piska"
       }
     ],
-    "biała podlaska": [
+    "biala podlaska": [
       {
         "type": "city",
         "id": "biala-podlaska",
         "name": "Biała Podlaska"
-      }
-    ],
-    "biala podlaska": [
+      },
       {
         "type": "city",
         "id": "biala-podlaska",
@@ -63979,139 +63937,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "warszawa"
       }
     ],
-    "błonie": [
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "biala-podlaska"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "bircza"
-      },
-      {
-        "type": "city",
-        "id": "blonie",
-        "name": "Błonie"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "bransk"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "dynow"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "golub-dobrzyn"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "jaslo"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "krapkowice"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "krotoszyn"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "lezajsk"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "nowe-skalmierzyce"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "opole-lubelskie"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "ozorkow"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "radymno"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "sanok"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "siedlce"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "skaryszew"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "sulmierzyce"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "szczebrzeszyn"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "tarnogrod"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "wielun"
-      },
-      {
-        "type": "district",
-        "id": "blonie",
-        "name": "Błonie",
-        "parentCityId": "zamosc"
-      }
-    ],
     "blonie": [
       {
         "type": "district",
@@ -64123,12 +63948,35 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "biala-podlaska"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "bircza"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "bircza"
       },
       {
         "type": "city",
         "id": "blonie",
         "name": "Błonie"
+      },
+      {
+        "type": "city",
+        "id": "blonie",
+        "name": "Błonie"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "bransk"
       },
       {
         "type": "district",
@@ -64146,7 +63994,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "dynow"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "golub-dobrzyn"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "golub-dobrzyn"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "jaslo"
       },
       {
         "type": "district",
@@ -64164,7 +64030,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "krapkowice"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "krotoszyn"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "krotoszyn"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "lezajsk"
       },
       {
         "type": "district",
@@ -64182,7 +64066,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "nowe-skalmierzyce"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "opole-lubelskie"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "opole-lubelskie"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "ozorkow"
       },
       {
         "type": "district",
@@ -64200,7 +64102,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "radymno"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "sanok"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "sanok"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "siedlce"
       },
       {
         "type": "district",
@@ -64218,7 +64138,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "skaryszew"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "sulmierzyce"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "sulmierzyce"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "szczebrzeszyn"
       },
       {
         "type": "district",
@@ -64236,7 +64174,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "blonie",
         "name": "Błonie",
+        "parentCityId": "tarnogrod"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
         "parentCityId": "wielun"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "wielun"
+      },
+      {
+        "type": "district",
+        "id": "blonie",
+        "name": "Błonie",
+        "parentCityId": "zamosc"
       },
       {
         "type": "district",
@@ -64245,7 +64201,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zamosc"
       }
     ],
-    "białka": [
+    "bialka": [
+      {
+        "type": "district",
+        "id": "bialka",
+        "name": "Białka",
+        "parentCityId": "biala-podlaska"
+      },
       {
         "type": "district",
         "id": "bialka",
@@ -64257,14 +64219,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "bialka",
         "name": "Białka",
         "parentCityId": "szklarska-poreba"
-      }
-    ],
-    "bialka": [
-      {
-        "type": "district",
-        "id": "bialka",
-        "name": "Białka",
-        "parentCityId": "biala-podlaska"
       },
       {
         "type": "district",
@@ -64853,15 +64807,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "znin"
       }
     ],
-    "kołychawa": [
+    "kolychawa": [
       {
         "type": "district",
         "id": "kolychawa",
         "name": "Kołychawa",
         "parentCityId": "biala-podlaska"
-      }
-    ],
-    "kolychawa": [
+      },
       {
         "type": "district",
         "id": "kolychawa",
@@ -64935,15 +64887,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "biala-podlaska"
       }
     ],
-    "uhło": [
+    "uhlo": [
       {
         "type": "district",
         "id": "uhlo",
         "name": "Uhło",
         "parentCityId": "biala-podlaska"
-      }
-    ],
-    "uhlo": [
+      },
       {
         "type": "district",
         "id": "uhlo",
@@ -64965,28 +64915,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "biala-podlaska"
       }
     ],
-    "biała rawska": [
-      {
-        "type": "city",
-        "id": "biala-rawska",
-        "name": "Biała Rawska"
-      }
-    ],
     "biala rawska": [
       {
         "type": "city",
         "id": "biala-rawska",
         "name": "Biała Rawska"
+      },
+      {
+        "type": "city",
+        "id": "biala-rawska",
+        "name": "Biała Rawska"
       }
     ],
-    "białaczow": [
+    "bialaczow": [
       {
         "type": "city",
         "id": "bialaczow",
         "name": "Białaczów"
-      }
-    ],
-    "bialaczow": [
+      },
       {
         "type": "city",
         "id": "bialaczow",
@@ -65007,25 +64953,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialaczow"
       }
     ],
-    "stanisławow": [
-      {
-        "type": "district",
-        "id": "stanislawow",
-        "name": "Stanisławów",
-        "parentCityId": "bialaczow"
-      },
-      {
-        "type": "district",
-        "id": "stanislawow",
-        "name": "Stanisławów",
-        "parentCityId": "kielce"
-      },
-      {
-        "type": "city",
-        "id": "stanislawow",
-        "name": "Stanisławów"
-      }
-    ],
     "stanislawow": [
       {
         "type": "district",
@@ -65037,7 +64964,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "stanislawow",
         "name": "Stanisławów",
+        "parentCityId": "bialaczow"
+      },
+      {
+        "type": "district",
+        "id": "stanislawow",
+        "name": "Stanisławów",
         "parentCityId": "kielce"
+      },
+      {
+        "type": "district",
+        "id": "stanislawow",
+        "name": "Stanisławów",
+        "parentCityId": "kielce"
+      },
+      {
+        "type": "city",
+        "id": "stanislawow",
+        "name": "Stanisławów"
       },
       {
         "type": "city",
@@ -65059,11 +65003,22 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialaczow"
       }
     ],
-    "białobrzegi": [
+    "bialobrzegi": [
       {
         "type": "city",
         "id": "bialobrzegi",
         "name": "Białobrzegi"
+      },
+      {
+        "type": "city",
+        "id": "bialobrzegi",
+        "name": "Białobrzegi"
+      },
+      {
+        "type": "district",
+        "id": "bialobrzegi",
+        "name": "Białobrzegi",
+        "parentCityId": "krosno"
       },
       {
         "type": "district",
@@ -65076,19 +65031,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "bialobrzegi",
         "name": "Białobrzegi",
         "parentCityId": "tomaszow-mazowiecki"
-      }
-    ],
-    "bialobrzegi": [
-      {
-        "type": "city",
-        "id": "bialobrzegi",
-        "name": "Białobrzegi"
-      },
-      {
-        "type": "district",
-        "id": "bialobrzegi",
-        "name": "Białobrzegi",
-        "parentCityId": "krosno"
       },
       {
         "type": "district",
@@ -65227,14 +65169,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialobrzegi"
       }
     ],
-    "białogard": [
+    "bialogard": [
       {
         "type": "city",
         "id": "bialogard",
         "name": "Białogard"
-      }
-    ],
-    "bialogard": [
+      },
       {
         "type": "city",
         "id": "bialogard",
@@ -65279,34 +65219,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialogard"
       }
     ],
-    "połczynek": [
-      {
-        "type": "district",
-        "id": "polczynek",
-        "name": "Połczynek",
-        "parentCityId": "bialogard"
-      }
-    ],
     "polczynek": [
       {
         "type": "district",
         "id": "polczynek",
         "name": "Połczynek",
         "parentCityId": "bialogard"
-      }
-    ],
-    "przedmiescie kołobrzeskie": [
-      {
-        "type": "district",
-        "id": "przedmiescie-kolobrzeskie",
-        "name": "Przedmieście Kołobrzeskie",
-        "parentCityId": "bialogard"
       },
       {
         "type": "district",
-        "id": "przedmiescie-kolobrzeskie",
-        "name": "Przedmieście Kołobrzeskie",
-        "parentCityId": "trzebiatow"
+        "id": "polczynek",
+        "name": "Połczynek",
+        "parentCityId": "bialogard"
       }
     ],
     "przedmiescie kolobrzeskie": [
@@ -65320,18 +65244,28 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "przedmiescie-kolobrzeskie",
         "name": "Przedmieście Kołobrzeskie",
+        "parentCityId": "bialogard"
+      },
+      {
+        "type": "district",
+        "id": "przedmiescie-kolobrzeskie",
+        "name": "Przedmieście Kołobrzeskie",
+        "parentCityId": "trzebiatow"
+      },
+      {
+        "type": "district",
+        "id": "przedmiescie-kolobrzeskie",
+        "name": "Przedmieście Kołobrzeskie",
         "parentCityId": "trzebiatow"
       }
     ],
-    "przemiłowo": [
+    "przemilowo": [
       {
         "type": "district",
         "id": "przemilowo",
         "name": "Przemiłowo",
         "parentCityId": "bialogard"
-      }
-    ],
-    "przemilowo": [
+      },
       {
         "type": "district",
         "id": "przemilowo",
@@ -65353,28 +65287,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialogard"
       }
     ],
-    "biały bor": [
-      {
-        "type": "city",
-        "id": "bialy-bor",
-        "name": "Biały Bór"
-      }
-    ],
     "bialy bor": [
       {
         "type": "city",
         "id": "bialy-bor",
         "name": "Biały Bór"
+      },
+      {
+        "type": "city",
+        "id": "bialy-bor",
+        "name": "Biały Bór"
       }
     ],
-    "białystok": [
+    "bialystok": [
       {
         "type": "city",
         "id": "bialystok",
         "name": "Białystok"
-      }
-    ],
-    "bialystok": [
+      },
       {
         "type": "city",
         "id": "bialystok",
@@ -65977,15 +65907,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialystok"
       }
     ],
-    "białostoczek": [
+    "bialostoczek": [
       {
         "type": "district",
         "id": "bialostoczek",
         "name": "Białostoczek",
         "parentCityId": "bialystok"
-      }
-    ],
-    "bialostoczek": [
+      },
       {
         "type": "district",
         "id": "bialostoczek",
@@ -66161,15 +66089,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bialystok"
       }
     ],
-    "słoboda": [
+    "sloboda": [
       {
         "type": "district",
         "id": "sloboda",
         "name": "Słoboda",
         "parentCityId": "bialystok"
-      }
-    ],
-    "sloboda": [
+      },
       {
         "type": "district",
         "id": "sloboda",
@@ -66331,15 +66257,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tuchow"
       }
     ],
-    "załawie": [
+    "zalawie": [
       {
         "type": "district",
         "id": "zalawie",
         "name": "Załawie",
         "parentCityId": "biecz"
-      }
-    ],
-    "zalawie": [
+      },
       {
         "type": "district",
         "id": "zalawie",
@@ -66451,15 +66375,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bielsk-podlaski"
       }
     ],
-    "hołowiesk": [
+    "holowiesk": [
       {
         "type": "district",
         "id": "holowiesk",
         "name": "Hołowiesk",
         "parentCityId": "bielsk-podlaski"
-      }
-    ],
-    "holowiesk": [
+      },
       {
         "type": "district",
         "id": "holowiesk",
@@ -66481,7 +66403,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bielsk-podlaski"
       }
     ],
-    "bielsko-biała": [
+    "bielsko-biala": [
       {
         "type": "city",
         "id": "bielsko-biala",
@@ -66719,15 +66641,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nysa"
       }
     ],
-    "hałcnowska kepa": [
+    "halcnowska kepa": [
       {
         "type": "district",
         "id": "halcnowska-kepa",
         "name": "Hałcnowska Kępa",
         "parentCityId": "bielsko-biala"
-      }
-    ],
-    "halcnowska kepa": [
+      },
       {
         "type": "district",
         "id": "halcnowska-kepa",
@@ -66761,31 +66681,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radlin"
       }
     ],
-    "wały szwedzkie": [
-      {
-        "type": "district",
-        "id": "waly-szwedzkie",
-        "name": "Wały Szwedzkie",
-        "parentCityId": "bielsko-biala"
-      }
-    ],
     "waly szwedzkie": [
       {
         "type": "district",
         "id": "waly-szwedzkie",
         "name": "Wały Szwedzkie",
         "parentCityId": "bielsko-biala"
+      },
+      {
+        "type": "district",
+        "id": "waly-szwedzkie",
+        "name": "Wały Szwedzkie",
+        "parentCityId": "bielsko-biala"
       }
     ],
-    "zapłocie gorne": [
+    "zaplocie gorne": [
       {
         "type": "district",
         "id": "zaplocie-gorne",
         "name": "Zapłocie Górne",
         "parentCityId": "bielsko-biala"
-      }
-    ],
-    "zaplocie gorne": [
+      },
       {
         "type": "district",
         "id": "zaplocie-gorne",
@@ -66911,15 +66827,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rymanow"
       }
     ],
-    "złote łany": [
+    "zlote lany": [
       {
         "type": "district",
         "id": "zlote-lany",
         "name": "Złote Łany",
         "parentCityId": "bielsko-biala"
-      }
-    ],
-    "zlote lany": [
+      },
       {
         "type": "district",
         "id": "zlote-lany",
@@ -67209,27 +67123,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bielsko-biala"
       }
     ],
-    "doły starobielskie": [
-      {
-        "type": "district",
-        "id": "doly-starobielskie",
-        "name": "Doły Starobielskie",
-        "parentCityId": "bielsko-biala"
-      }
-    ],
     "doly starobielskie": [
       {
         "type": "district",
         "id": "doly-starobielskie",
         "name": "Doły Starobielskie",
         "parentCityId": "bielsko-biala"
-      }
-    ],
-    "hałcnow": [
+      },
       {
         "type": "district",
-        "id": "halcnow",
-        "name": "Hałcnów",
+        "id": "doly-starobielskie",
+        "name": "Doły Starobielskie",
         "parentCityId": "bielsko-biala"
       }
     ],
@@ -67239,13 +67143,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "halcnow",
         "name": "Hałcnów",
         "parentCityId": "bielsko-biala"
-      }
-    ],
-    "wielka łaka": [
+      },
       {
         "type": "district",
-        "id": "wielka-laka",
-        "name": "Wielka Łąka",
+        "id": "halcnow",
+        "name": "Hałcnów",
         "parentCityId": "bielsko-biala"
       }
     ],
@@ -67255,17 +67157,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wielka-laka",
         "name": "Wielka Łąka",
         "parentCityId": "bielsko-biala"
+      },
+      {
+        "type": "district",
+        "id": "wielka-laka",
+        "name": "Wielka Łąka",
+        "parentCityId": "bielsko-biala"
       }
     ],
-    "zapłocie dolne": [
+    "zaplocie dolne": [
       {
         "type": "district",
         "id": "zaplocie-dolne",
         "name": "Zapłocie Dolne",
         "parentCityId": "bielsko-biala"
-      }
-    ],
-    "zaplocie dolne": [
+      },
       {
         "type": "district",
         "id": "zaplocie-dolne",
@@ -67397,15 +67303,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bierun"
       }
     ],
-    "łysina": [
+    "lysina": [
       {
         "type": "district",
         "id": "lysina",
         "name": "Łysina",
         "parentCityId": "bierun"
-      }
-    ],
-    "lysina": [
+      },
       {
         "type": "district",
         "id": "lysina",
@@ -67549,14 +67453,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Bieżuń"
       }
     ],
-    "biłgoraj": [
+    "bilgoraj": [
       {
         "type": "city",
         "id": "bilgoraj",
         "name": "Biłgoraj"
-      }
-    ],
-    "bilgoraj": [
+      },
       {
         "type": "city",
         "id": "bilgoraj",
@@ -67751,7 +67653,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bilgoraj"
       }
     ],
-    "podemłynie": [
+    "podemlynie": [
+      {
+        "type": "district",
+        "id": "podemlynie",
+        "name": "Podemłynie",
+        "parentCityId": "bilgoraj"
+      },
       {
         "type": "district",
         "id": "podemlynie",
@@ -67763,14 +67671,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "podemlynie",
         "name": "Podemłynie",
         "parentCityId": "solec-nad-wisla"
-      }
-    ],
-    "podemlynie": [
-      {
-        "type": "district",
-        "id": "podemlynie",
-        "name": "Podemłynie",
-        "parentCityId": "bilgoraj"
       },
       {
         "type": "district",
@@ -67915,15 +67815,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "przysucha"
       }
     ],
-    "wilczy doł": [
+    "wilczy dol": [
       {
         "type": "district",
         "id": "wilczy-dol",
         "name": "Wilczy Dół",
         "parentCityId": "blachownia"
-      }
-    ],
-    "wilczy dol": [
+      },
       {
         "type": "district",
         "id": "wilczy-dol",
@@ -67999,15 +67897,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "blachownia"
       }
     ],
-    "błaszczyki": [
+    "blaszczyki": [
       {
         "type": "district",
         "id": "blaszczyki",
         "name": "Błaszczyki",
         "parentCityId": "blachownia"
-      }
-    ],
-    "blaszczyki": [
+      },
       {
         "type": "district",
         "id": "blaszczyki",
@@ -68043,14 +67939,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "blachownia"
       }
     ],
-    "błaszki": [
+    "blaszki": [
       {
         "type": "city",
         "id": "blaszki",
         "name": "Błaszki"
-      }
-    ],
-    "blaszki": [
+      },
       {
         "type": "city",
         "id": "blaszki",
@@ -68085,14 +67979,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "blaszki"
       }
     ],
-    "błazowa": [
+    "blazowa": [
       {
         "type": "city",
         "id": "blazowa",
         "name": "Błażowa"
-      }
-    ],
-    "blazowa": [
+      },
       {
         "type": "city",
         "id": "blazowa",
@@ -68175,32 +68067,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloszczowa"
       }
     ],
-    "michałowka": [
-      {
-        "type": "district",
-        "id": "michalowka",
-        "name": "Michałówka",
-        "parentCityId": "blazowa"
-      },
-      {
-        "type": "district",
-        "id": "michalowka",
-        "name": "Michałówka",
-        "parentCityId": "hrubieszow"
-      },
-      {
-        "type": "district",
-        "id": "michalowka",
-        "name": "Michałówka",
-        "parentCityId": "pulawy"
-      },
-      {
-        "type": "district",
-        "id": "michalowka",
-        "name": "Michałówka",
-        "parentCityId": "rabka-zdroj"
-      }
-    ],
     "michalowka": [
       {
         "type": "district",
@@ -68212,6 +68078,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "michalowka",
         "name": "Michałówka",
+        "parentCityId": "blazowa"
+      },
+      {
+        "type": "district",
+        "id": "michalowka",
+        "name": "Michałówka",
+        "parentCityId": "hrubieszow"
+      },
+      {
+        "type": "district",
+        "id": "michalowka",
+        "name": "Michałówka",
         "parentCityId": "hrubieszow"
       },
       {
@@ -68224,33 +68102,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "michalowka",
         "name": "Michałówka",
+        "parentCityId": "pulawy"
+      },
+      {
+        "type": "district",
+        "id": "michalowka",
+        "name": "Michałówka",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "łaki": [
-      {
-        "type": "district",
-        "id": "laki",
-        "name": "Łąki",
-        "parentCityId": "blonie"
       },
       {
         "type": "district",
-        "id": "laki",
-        "name": "Łąki",
-        "parentCityId": "dukla"
-      },
-      {
-        "type": "district",
-        "id": "laki",
-        "name": "Łąki",
-        "parentCityId": "grodzisk-mazowiecki"
-      },
-      {
-        "type": "district",
-        "id": "laki",
-        "name": "Łąki",
-        "parentCityId": "szczyrk"
+        "id": "michalowka",
+        "name": "Michałówka",
+        "parentCityId": "rabka-zdroj"
       }
     ],
     "laki": [
@@ -68264,6 +68128,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "laki",
         "name": "Łąki",
+        "parentCityId": "blonie"
+      },
+      {
+        "type": "district",
+        "id": "laki",
+        "name": "Łąki",
+        "parentCityId": "dukla"
+      },
+      {
+        "type": "district",
+        "id": "laki",
+        "name": "Łąki",
         "parentCityId": "dukla"
       },
       {
@@ -68271,6 +68147,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "laki",
         "name": "Łąki",
         "parentCityId": "grodzisk-mazowiecki"
+      },
+      {
+        "type": "district",
+        "id": "laki",
+        "name": "Łąki",
+        "parentCityId": "grodzisk-mazowiecki"
+      },
+      {
+        "type": "district",
+        "id": "laki",
+        "name": "Łąki",
+        "parentCityId": "szczyrk"
       },
       {
         "type": "district",
@@ -68425,15 +68313,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bobowa"
       }
     ],
-    "koło stacji": [
+    "kolo stacji": [
       {
         "type": "district",
         "id": "kolo-stacji",
         "name": "Koło Stacji",
         "parentCityId": "bobowa"
-      }
-    ],
-    "kolo stacji": [
+      },
       {
         "type": "district",
         "id": "kolo-stacji",
@@ -68455,27 +68341,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bobowa"
       }
     ],
-    "na młynowce": [
-      {
-        "type": "district",
-        "id": "na-mlynowce",
-        "name": "Na Młynówce",
-        "parentCityId": "bobowa"
-      }
-    ],
     "na mlynowce": [
       {
         "type": "district",
         "id": "na-mlynowce",
         "name": "Na Młynówce",
         "parentCityId": "bobowa"
-      }
-    ],
-    "pławienka": [
+      },
       {
         "type": "district",
-        "id": "plawienka",
-        "name": "Pławienka",
+        "id": "na-mlynowce",
+        "name": "Na Młynówce",
         "parentCityId": "bobowa"
       }
     ],
@@ -68485,9 +68361,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "plawienka",
         "name": "Pławienka",
         "parentCityId": "bobowa"
+      },
+      {
+        "type": "district",
+        "id": "plawienka",
+        "name": "Pławienka",
+        "parentCityId": "bobowa"
       }
     ],
-    "połanki": [
+    "polanki": [
+      {
+        "type": "district",
+        "id": "polanki",
+        "name": "Półanki",
+        "parentCityId": "bobowa"
+      },
       {
         "type": "district",
         "id": "polanki",
@@ -68499,14 +68387,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "polanki",
         "name": "Półanki",
         "parentCityId": "rudnik-nad-sanem"
-      }
-    ],
-    "polanki": [
-      {
-        "type": "district",
-        "id": "polanki",
-        "name": "Półanki",
-        "parentCityId": "bobowa"
       },
       {
         "type": "district",
@@ -68813,15 +68693,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bochnia"
       }
     ],
-    "dołuszyce": [
+    "doluszyce": [
       {
         "type": "district",
         "id": "doluszyce",
         "name": "Dołuszyce",
         "parentCityId": "bochnia"
-      }
-    ],
-    "doluszyce": [
+      },
       {
         "type": "district",
         "id": "doluszyce",
@@ -69465,15 +69343,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sucha-beskidzka"
       }
     ],
-    "ryczywoł": [
+    "ryczywol": [
       {
         "type": "district",
         "id": "ryczywol",
         "name": "Ryczywół",
         "parentCityId": "bochnia"
-      }
-    ],
-    "ryczywol": [
+      },
       {
         "type": "district",
         "id": "ryczywol",
@@ -69755,27 +69631,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bogoria"
       }
     ],
-    "ujazd kiełczynski": [
-      {
-        "type": "district",
-        "id": "ujazd-kielczynski",
-        "name": "Ujazd Kiełczyński",
-        "parentCityId": "bogoria"
-      }
-    ],
     "ujazd kielczynski": [
       {
         "type": "district",
         "id": "ujazd-kielczynski",
         "name": "Ujazd Kiełczyński",
         "parentCityId": "bogoria"
-      }
-    ],
-    "boguchwała": [
+      },
       {
-        "type": "city",
-        "id": "boguchwala",
-        "name": "Boguchwała"
+        "type": "district",
+        "id": "ujazd-kielczynski",
+        "name": "Ujazd Kiełczyński",
+        "parentCityId": "bogoria"
       }
     ],
     "boguchwala": [
@@ -69783,38 +69650,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "boguchwala",
         "name": "Boguchwała"
-      }
-    ],
-    "doł": [
-      {
-        "type": "district",
-        "id": "dol",
-        "name": "Dół",
-        "parentCityId": "boguchwala"
       },
       {
-        "type": "district",
-        "id": "dol",
-        "name": "Dół",
-        "parentCityId": "dynow"
-      },
-      {
-        "type": "district",
-        "id": "dol",
-        "name": "Dół",
-        "parentCityId": "krosno"
-      },
-      {
-        "type": "district",
-        "id": "dol",
-        "name": "Dół",
-        "parentCityId": "rzeszow"
-      },
-      {
-        "type": "district",
-        "id": "dol",
-        "name": "Dół",
-        "parentCityId": "tuchow"
+        "type": "city",
+        "id": "boguchwala",
+        "name": "Boguchwała"
       }
     ],
     "dol": [
@@ -69828,6 +69668,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "dol",
         "name": "Dół",
+        "parentCityId": "boguchwala"
+      },
+      {
+        "type": "district",
+        "id": "dol",
+        "name": "Dół",
+        "parentCityId": "dynow"
+      },
+      {
+        "type": "district",
+        "id": "dol",
+        "name": "Dół",
         "parentCityId": "dynow"
       },
       {
@@ -69840,7 +69692,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "dol",
         "name": "Dół",
+        "parentCityId": "krosno"
+      },
+      {
+        "type": "district",
+        "id": "dol",
+        "name": "Dół",
         "parentCityId": "rzeszow"
+      },
+      {
+        "type": "district",
+        "id": "dol",
+        "name": "Dół",
+        "parentCityId": "rzeszow"
+      },
+      {
+        "type": "district",
+        "id": "dol",
+        "name": "Dół",
+        "parentCityId": "tuchow"
       },
       {
         "type": "district",
@@ -69961,15 +69831,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "boguchwala"
       }
     ],
-    "koło goscinca": [
+    "kolo goscinca": [
       {
         "type": "district",
         "id": "kolo-goscinca",
         "name": "Koło Gościńca",
         "parentCityId": "boguchwala"
-      }
-    ],
-    "kolo goscinca": [
+      },
       {
         "type": "district",
         "id": "kolo-goscinca",
@@ -70041,7 +69909,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "za kosciołem": [
+    "za kosciolem": [
+      {
+        "type": "district",
+        "id": "za-kosciolem",
+        "name": "Za Kościołem",
+        "parentCityId": "boguchwala"
+      },
       {
         "type": "district",
         "id": "za-kosciolem",
@@ -70053,14 +69927,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "za-kosciolem",
         "name": "Za Kościołem",
         "parentCityId": "muszyna"
-      }
-    ],
-    "za kosciolem": [
-      {
-        "type": "district",
-        "id": "za-kosciolem",
-        "name": "Za Kościołem",
-        "parentCityId": "boguchwala"
       },
       {
         "type": "district",
@@ -70135,7 +70001,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "boguszow-gorce"
       }
     ],
-    "koło": [
+    "kolo": [
+      {
+        "type": "district",
+        "id": "kolo",
+        "name": "Koło",
+        "parentCityId": "boguszow-gorce"
+      },
       {
         "type": "district",
         "id": "kolo",
@@ -70146,14 +70018,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "kolo",
         "name": "Koło"
-      }
-    ],
-    "kolo": [
-      {
-        "type": "district",
-        "id": "kolo",
-        "name": "Koło",
-        "parentCityId": "boguszow-gorce"
       },
       {
         "type": "city",
@@ -70231,7 +70095,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "boguszow-gorce"
       }
     ],
-    "chełmiec": [
+    "chelmiec": [
+      {
+        "type": "district",
+        "id": "chelmiec",
+        "name": "Chełmiec",
+        "parentCityId": "boguszow-gorce"
+      },
       {
         "type": "district",
         "id": "chelmiec",
@@ -70243,14 +70113,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "chelmiec",
         "name": "Chełmiec",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "chelmiec": [
-      {
-        "type": "district",
-        "id": "chelmiec",
-        "name": "Chełmiec",
-        "parentCityId": "boguszow-gorce"
       },
       {
         "type": "district",
@@ -70313,18 +70175,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bojanowo"
       }
     ],
-    "bolesławiec": [
-      {
-        "type": "city",
-        "id": "boleslawiec-dolnoslaskie",
-        "name": "Bolesławiec"
-      },
-      {
-        "type": "city",
-        "id": "boleslawiec-lodzkie",
-        "name": "Bolesławiec"
-      }
-    ],
     "boleslawiec": [
       {
         "type": "city",
@@ -70333,11 +70183,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
       },
       {
         "type": "city",
+        "id": "boleslawiec-dolnoslaskie",
+        "name": "Bolesławiec"
+      },
+      {
+        "type": "city",
+        "id": "boleslawiec-lodzkie",
+        "name": "Bolesławiec"
+      },
+      {
+        "type": "city",
         "id": "boleslawiec-lodzkie",
         "name": "Bolesławiec"
       }
     ],
-    "bolesławice": [
+    "boleslawice": [
+      {
+        "type": "district",
+        "id": "boleslawice",
+        "name": "Bolesławice",
+        "parentCityId": "boleslawiec-dolnoslaskie"
+      },
       {
         "type": "district",
         "id": "boleslawice",
@@ -70349,14 +70215,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "boleslawice",
         "name": "Bolesławice",
         "parentCityId": "slupsk"
-      }
-    ],
-    "boleslawice": [
-      {
-        "type": "district",
-        "id": "boleslawice",
-        "name": "Bolesławice",
-        "parentCityId": "boleslawiec-dolnoslaskie"
       },
       {
         "type": "district",
@@ -70491,15 +70349,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bransk"
       }
     ],
-    "porosłe": [
+    "porosle": [
       {
         "type": "district",
         "id": "porosle",
         "name": "Porosłe",
         "parentCityId": "bransk"
-      }
-    ],
-    "porosle": [
+      },
       {
         "type": "district",
         "id": "porosle",
@@ -70649,39 +70505,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brodnica"
       }
     ],
-    "wybudowanie michałowskie": [
-      {
-        "type": "district",
-        "id": "wybudowanie-michalowskie",
-        "name": "Wybudowanie Michałowskie",
-        "parentCityId": "brodnica"
-      }
-    ],
     "wybudowanie michalowskie": [
       {
         "type": "district",
         "id": "wybudowanie-michalowskie",
         "name": "Wybudowanie Michałowskie",
         "parentCityId": "brodnica"
-      }
-    ],
-    "michałowo": [
+      },
       {
         "type": "district",
-        "id": "michalowo",
-        "name": "Michałowo",
+        "id": "wybudowanie-michalowskie",
+        "name": "Wybudowanie Michałowskie",
         "parentCityId": "brodnica"
-      },
-      {
-        "type": "district",
-        "id": "michalowo",
-        "name": "Michałowo",
-        "parentCityId": "gniewkowo"
-      },
-      {
-        "type": "city",
-        "id": "michalowo",
-        "name": "Michałowo"
       }
     ],
     "michalowo": [
@@ -70695,7 +70530,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "michalowo",
         "name": "Michałowo",
+        "parentCityId": "brodnica"
+      },
+      {
+        "type": "district",
+        "id": "michalowo",
+        "name": "Michałowo",
         "parentCityId": "gniewkowo"
+      },
+      {
+        "type": "district",
+        "id": "michalowo",
+        "name": "Michałowo",
+        "parentCityId": "gniewkowo"
+      },
+      {
+        "type": "city",
+        "id": "michalowo",
+        "name": "Michałowo"
       },
       {
         "type": "city",
@@ -70819,7 +70671,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brok"
       }
     ],
-    "łysa gora": [
+    "lysa gora": [
+      {
+        "type": "district",
+        "id": "lysa-gora",
+        "name": "Łysa Góra",
+        "parentCityId": "brok"
+      },
       {
         "type": "district",
         "id": "lysa-gora",
@@ -70831,6 +70689,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lysa-gora",
         "name": "Łysa Góra",
         "parentCityId": "siewierz"
+      },
+      {
+        "type": "district",
+        "id": "lysa-gora",
+        "name": "Łysa Góra",
+        "parentCityId": "siewierz"
+      },
+      {
+        "type": "district",
+        "id": "lysa-gora",
+        "name": "Łysa Góra",
+        "parentCityId": "skawina"
       },
       {
         "type": "district",
@@ -70843,26 +70713,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lysa-gora",
         "name": "Łysa Góra",
         "parentCityId": "zagorz"
-      }
-    ],
-    "lysa gora": [
-      {
-        "type": "district",
-        "id": "lysa-gora",
-        "name": "Łysa Góra",
-        "parentCityId": "brok"
-      },
-      {
-        "type": "district",
-        "id": "lysa-gora",
-        "name": "Łysa Góra",
-        "parentCityId": "siewierz"
-      },
-      {
-        "type": "district",
-        "id": "lysa-gora",
-        "name": "Łysa Góra",
-        "parentCityId": "skawina"
       },
       {
         "type": "district",
@@ -70927,15 +70777,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brok"
       }
     ],
-    "nakły": [
+    "nakly": [
       {
         "type": "district",
         "id": "nakly",
         "name": "Nakły",
         "parentCityId": "brok"
-      }
-    ],
-    "nakly": [
+      },
       {
         "type": "district",
         "id": "nakly",
@@ -71329,12 +71177,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brzesc-kujawski"
       }
     ],
-    "działki": [
+    "dzialki": [
       {
         "type": "district",
         "id": "dzialki",
         "name": "Działki",
         "parentCityId": "brzesc-kujawski"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "brzesc-kujawski"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "chelmno"
       },
       {
         "type": "district",
@@ -71352,7 +71212,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "dzialki",
         "name": "Działki",
+        "parentCityId": "dabrowa-gornicza"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
         "parentCityId": "dzialdowo"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "dzialdowo"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "lidzbark"
       },
       {
         "type": "district",
@@ -71370,6 +71248,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "dzialki",
         "name": "Działki",
+        "parentCityId": "nowe-miasto-lubawskie"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "pulawy"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
         "parentCityId": "pulawy"
       },
       {
@@ -71382,7 +71272,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "dzialki",
         "name": "Działki",
+        "parentCityId": "ryki"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
         "parentCityId": "siedliszcze"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "siedliszcze"
+      },
+      {
+        "type": "district",
+        "id": "dzialki",
+        "name": "Działki",
+        "parentCityId": "slesin"
       },
       {
         "type": "district",
@@ -71395,68 +71303,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "dzialki",
         "name": "Działki",
         "parentCityId": "starachowice"
-      }
-    ],
-    "dzialki": [
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "brzesc-kujawski"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "chelmno"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "dabrowa-gornicza"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "dzialdowo"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "lidzbark"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "nowe-miasto-lubawskie"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "pulawy"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "ryki"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "siedliszcze"
-      },
-      {
-        "type": "district",
-        "id": "dzialki",
-        "name": "Działki",
-        "parentCityId": "slesin"
       },
       {
         "type": "district",
@@ -71533,15 +71379,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brzesko"
       }
     ],
-    "koło pawilonu": [
+    "kolo pawilonu": [
       {
         "type": "district",
         "id": "kolo-pawilonu",
         "name": "Koło Pawilonu",
         "parentCityId": "brzesko"
-      }
-    ],
-    "kolo pawilonu": [
+      },
       {
         "type": "district",
         "id": "kolo-pawilonu",
@@ -71663,15 +71507,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brzesko"
       }
     ],
-    "słotwina": [
+    "slotwina": [
       {
         "type": "district",
         "id": "slotwina",
         "name": "Słotwina",
         "parentCityId": "brzesko"
-      }
-    ],
-    "slotwina": [
+      },
       {
         "type": "district",
         "id": "slotwina",
@@ -71771,15 +71613,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brzesko"
       }
     ],
-    "słotwina na gorkach": [
+    "slotwina na gorkach": [
       {
         "type": "district",
         "id": "slotwina-na-gorkach",
         "name": "Słotwina na Górkach",
         "parentCityId": "brzesko"
-      }
-    ],
-    "slotwina na gorkach": [
+      },
       {
         "type": "district",
         "id": "slotwina-na-gorkach",
@@ -71973,15 +71813,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "brzeszcze"
       }
     ],
-    "mały bor": [
+    "maly bor": [
       {
         "type": "district",
         "id": "maly-bor",
         "name": "Mały Bór",
         "parentCityId": "brzeszcze"
-      }
-    ],
-    "maly bor": [
+      },
       {
         "type": "district",
         "id": "maly-bor",
@@ -72195,15 +72033,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wojkowice"
       }
     ],
-    "wilcze doły": [
+    "wilcze doly": [
       {
         "type": "district",
         "id": "wilcze-doly",
         "name": "Wilcze Doły",
         "parentCityId": "brzeszcze"
-      }
-    ],
-    "wilcze doly": [
+      },
       {
         "type": "district",
         "id": "wilcze-doly",
@@ -72403,12 +72239,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "starachowice"
       }
     ],
-    "doły": [
+    "doly": [
       {
         "type": "district",
         "id": "doly",
         "name": "Doły",
         "parentCityId": "brzeszcze"
+      },
+      {
+        "type": "district",
+        "id": "doly",
+        "name": "Doły",
+        "parentCityId": "brzeszcze"
+      },
+      {
+        "type": "district",
+        "id": "doly",
+        "name": "Doły",
+        "parentCityId": "busko-zdroj"
       },
       {
         "type": "district",
@@ -72426,7 +72274,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "doly",
         "name": "Doły",
+        "parentCityId": "dobrzyn-nad-wisla"
+      },
+      {
+        "type": "district",
+        "id": "doly",
+        "name": "Doły",
         "parentCityId": "dynow"
+      },
+      {
+        "type": "district",
+        "id": "doly",
+        "name": "Doły",
+        "parentCityId": "dynow"
+      },
+      {
+        "type": "district",
+        "id": "doly",
+        "name": "Doły",
+        "parentCityId": "kazimierz-dolny"
       },
       {
         "type": "district",
@@ -72439,38 +72305,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "doly",
         "name": "Doły",
         "parentCityId": "zloczew"
-      }
-    ],
-    "doly": [
-      {
-        "type": "district",
-        "id": "doly",
-        "name": "Doły",
-        "parentCityId": "brzeszcze"
-      },
-      {
-        "type": "district",
-        "id": "doly",
-        "name": "Doły",
-        "parentCityId": "busko-zdroj"
-      },
-      {
-        "type": "district",
-        "id": "doly",
-        "name": "Doły",
-        "parentCityId": "dobrzyn-nad-wisla"
-      },
-      {
-        "type": "district",
-        "id": "doly",
-        "name": "Doły",
-        "parentCityId": "dynow"
-      },
-      {
-        "type": "district",
-        "id": "doly",
-        "name": "Doły",
-        "parentCityId": "kazimierz-dolny"
       },
       {
         "type": "district",
@@ -72981,15 +72815,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sedziszow-malopolski"
       }
     ],
-    "jakla mała": [
+    "jakla mala": [
       {
         "type": "district",
         "id": "jakla-mala",
         "name": "Jakla Mała",
         "parentCityId": "brzozow"
-      }
-    ],
-    "jakla mala": [
+      },
       {
         "type": "district",
         "id": "jakla-mala",
@@ -73199,15 +73031,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "budzyn"
       }
     ],
-    "łucjanowo": [
+    "lucjanowo": [
       {
         "type": "district",
         "id": "lucjanowo",
         "name": "Łucjanowo",
         "parentCityId": "budzyn"
-      }
-    ],
-    "lucjanowo": [
+      },
       {
         "type": "district",
         "id": "lucjanowo",
@@ -73265,15 +73095,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Bukowno"
       }
     ],
-    "tłukienka": [
+    "tlukienka": [
       {
         "type": "district",
         "id": "tlukienka",
         "name": "Tłukienka",
         "parentCityId": "bukowno"
-      }
-    ],
-    "tlukienka": [
+      },
       {
         "type": "district",
         "id": "tlukienka",
@@ -73371,7 +73199,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pszczyna"
       }
     ],
-    "skałka": [
+    "skalka": [
+      {
+        "type": "district",
+        "id": "skalka",
+        "name": "Skałka",
+        "parentCityId": "bukowno"
+      },
       {
         "type": "district",
         "id": "skalka",
@@ -73383,14 +73217,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "skalka",
         "name": "Skałka",
         "parentCityId": "starachowice"
-      }
-    ],
-    "skalka": [
-      {
-        "type": "district",
-        "id": "skalka",
-        "name": "Skałka",
-        "parentCityId": "bukowno"
       },
       {
         "type": "district",
@@ -73413,15 +73239,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bukowno"
       }
     ],
-    "wygiełza": [
+    "wygielza": [
       {
         "type": "district",
         "id": "wygielza",
         "name": "Wygiełza",
         "parentCityId": "bukowno"
-      }
-    ],
-    "wygielza": [
+      },
       {
         "type": "district",
         "id": "wygielza",
@@ -73559,31 +73383,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bukowno"
       }
     ],
-    "koło janinej gory": [
-      {
-        "type": "district",
-        "id": "kolo-janinej-gory",
-        "name": "Koło Janinej Góry",
-        "parentCityId": "bukowno"
-      }
-    ],
     "kolo janinej gory": [
       {
         "type": "district",
         "id": "kolo-janinej-gory",
         "name": "Koło Janinej Góry",
         "parentCityId": "bukowno"
+      },
+      {
+        "type": "district",
+        "id": "kolo-janinej-gory",
+        "name": "Koło Janinej Góry",
+        "parentCityId": "bukowno"
       }
     ],
-    "jabłon": [
+    "jablon": [
       {
         "type": "district",
         "id": "jablon",
         "name": "Jabłoń",
         "parentCityId": "bukowno"
-      }
-    ],
-    "jablon": [
+      },
       {
         "type": "district",
         "id": "jablon",
@@ -73713,12 +73533,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "busko-zdroj"
       }
     ],
-    "łagiewniki": [
+    "lagiewniki": [
       {
         "type": "district",
         "id": "lagiewniki",
         "name": "Łagiewniki",
         "parentCityId": "busko-zdroj"
+      },
+      {
+        "type": "district",
+        "id": "lagiewniki",
+        "name": "Łagiewniki",
+        "parentCityId": "busko-zdroj"
+      },
+      {
+        "type": "district",
+        "id": "lagiewniki",
+        "name": "Łagiewniki",
+        "parentCityId": "bytom"
       },
       {
         "type": "district",
@@ -73731,20 +73563,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lagiewniki",
         "name": "Łagiewniki",
         "parentCityId": "kruszwica"
-      }
-    ],
-    "lagiewniki": [
-      {
-        "type": "district",
-        "id": "lagiewniki",
-        "name": "Łagiewniki",
-        "parentCityId": "busko-zdroj"
-      },
-      {
-        "type": "district",
-        "id": "lagiewniki",
-        "name": "Łagiewniki",
-        "parentCityId": "bytom"
       },
       {
         "type": "district",
@@ -73835,15 +73653,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "busko-zdroj"
       }
     ],
-    "długa gora": [
+    "dluga gora": [
       {
         "type": "district",
         "id": "dluga-gora",
         "name": "Długa Góra",
         "parentCityId": "busko-zdroj"
-      }
-    ],
-    "dluga gora": [
+      },
       {
         "type": "district",
         "id": "dluga-gora",
@@ -73865,7 +73681,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "busko-zdroj"
       }
     ],
-    "wał": [
+    "wal": [
+      {
+        "type": "district",
+        "id": "wal",
+        "name": "Wał",
+        "parentCityId": "busko-zdroj"
+      },
       {
         "type": "district",
         "id": "wal",
@@ -73877,14 +73699,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wal",
         "name": "Wał",
         "parentCityId": "radomysl-wielki"
-      }
-    ],
-    "wal": [
-      {
-        "type": "district",
-        "id": "wal",
-        "name": "Wał",
-        "parentCityId": "busko-zdroj"
       },
       {
         "type": "district",
@@ -73935,15 +73749,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "busko-zdroj"
       }
     ],
-    "za szkoła": [
+    "za szkola": [
       {
         "type": "district",
         "id": "za-szkola",
         "name": "Za Szkołą",
         "parentCityId": "busko-zdroj"
-      }
-    ],
-    "za szkola": [
+      },
       {
         "type": "district",
         "id": "za-szkola",
@@ -74243,15 +74055,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bychawa"
       }
     ],
-    "wola mała": [
+    "wola mala": [
       {
         "type": "district",
         "id": "wola-mala",
         "name": "Wola Mała",
         "parentCityId": "bychawa"
-      }
-    ],
-    "wola mala": [
+      },
       {
         "type": "district",
         "id": "wola-mala",
@@ -74494,15 +74304,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "smukała gorna": [
+    "smukala gorna": [
       {
         "type": "district",
         "id": "smukala-gorna",
         "name": "Smukała Górna",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "smukala gorna": [
+      },
       {
         "type": "district",
         "id": "smukala-gorna",
@@ -74552,15 +74360,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "zołwin": [
+    "zolwin": [
       {
         "type": "district",
         "id": "zolwin",
         "name": "Żółwin",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "zolwin": [
+      },
       {
         "type": "district",
         "id": "zolwin",
@@ -74624,15 +74430,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "bartodzieje małe": [
+    "bartodzieje male": [
       {
         "type": "district",
         "id": "bartodzieje-male",
         "name": "Bartodzieje Małe",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "bartodzieje male": [
+      },
       {
         "type": "district",
         "id": "bartodzieje-male",
@@ -74682,15 +74486,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "kobyle błota": [
+    "kobyle blota": [
       {
         "type": "district",
         "id": "kobyle-blota",
         "name": "Kobyle Błota",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "kobyle blota": [
+      },
       {
         "type": "district",
         "id": "kobyle-blota",
@@ -74726,15 +74528,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "opławiec": [
+    "oplawiec": [
       {
         "type": "district",
         "id": "oplawiec",
         "name": "Opławiec",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "oplawiec": [
+      },
       {
         "type": "district",
         "id": "oplawiec",
@@ -74796,31 +74596,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rumia"
       }
     ],
-    "łegnowo": [
-      {
-        "type": "district",
-        "id": "legnowo",
-        "name": "Łęgnowo",
-        "parentCityId": "bydgoszcz"
-      }
-    ],
     "legnowo": [
       {
         "type": "district",
         "id": "legnowo",
         "name": "Łęgnowo",
         "parentCityId": "bydgoszcz"
+      },
+      {
+        "type": "district",
+        "id": "legnowo",
+        "name": "Łęgnowo",
+        "parentCityId": "bydgoszcz"
       }
     ],
-    "pałcz": [
+    "palcz": [
       {
         "type": "district",
         "id": "palcz",
         "name": "Pałcz",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "palcz": [
+      },
       {
         "type": "district",
         "id": "palcz",
@@ -74842,15 +74638,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "smukała dolna": [
+    "smukala dolna": [
       {
         "type": "district",
         "id": "smukala-dolna",
         "name": "Smukała Dolna",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "smukala dolna": [
+      },
       {
         "type": "district",
         "id": "smukala-dolna",
@@ -74886,15 +74680,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "łoskon": [
+    "loskon": [
       {
         "type": "district",
         "id": "loskon",
         "name": "Łoskoń",
         "parentCityId": "bydgoszcz"
-      }
-    ],
-    "loskon": [
+      },
       {
         "type": "district",
         "id": "loskon",
@@ -74980,14 +74772,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "bydgoszcz"
       }
     ],
-    "bystrzyca kłodzka": [
+    "bystrzyca klodzka": [
       {
         "type": "city",
         "id": "bystrzyca-klodzka",
         "name": "Bystrzyca Kłodzka"
-      }
-    ],
-    "bystrzyca klodzka": [
+      },
       {
         "type": "city",
         "id": "bystrzyca-klodzka",
@@ -75421,14 +75211,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "cedynia"
       }
     ],
-    "cegłow": [
+    "ceglow": [
       {
         "type": "city",
         "id": "ceglow",
         "name": "Cegłów"
-      }
-    ],
-    "ceglow": [
+      },
       {
         "type": "city",
         "id": "ceglow",
@@ -75447,15 +75235,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Chęciny"
       }
     ],
-    "zelejowa w łakach": [
+    "zelejowa w lakach": [
       {
         "type": "district",
         "id": "zelejowa-w-lakach",
         "name": "Zelejowa w Łąkach",
         "parentCityId": "checiny"
-      }
-    ],
-    "zelejowa w lakach": [
+      },
       {
         "type": "district",
         "id": "zelejowa-w-lakach",
@@ -75519,11 +75305,22 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "checiny"
       }
     ],
-    "chełm": [
+    "chelm": [
       {
         "type": "city",
         "id": "chelm",
         "name": "Chełm"
+      },
+      {
+        "type": "city",
+        "id": "chelm",
+        "name": "Chełm"
+      },
+      {
+        "type": "district",
+        "id": "chelm",
+        "name": "Chełm",
+        "parentCityId": "gdansk"
       },
       {
         "type": "district",
@@ -75536,19 +75333,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "chelm",
         "name": "Chełm",
         "parentCityId": "myslenice"
-      }
-    ],
-    "chelm": [
-      {
-        "type": "city",
-        "id": "chelm",
-        "name": "Chełm"
-      },
-      {
-        "type": "district",
-        "id": "chelm",
-        "name": "Chełm",
-        "parentCityId": "gdansk"
       },
       {
         "type": "district",
@@ -75599,15 +75383,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chelm"
       }
     ],
-    "białawin": [
+    "bialawin": [
       {
         "type": "district",
         "id": "bialawin",
         "name": "Białawin",
         "parentCityId": "chelm"
-      }
-    ],
-    "bialawin": [
+      },
       {
         "type": "district",
         "id": "bialawin",
@@ -75743,15 +75525,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chelm"
       }
     ],
-    "zołtance": [
+    "zoltance": [
       {
         "type": "district",
         "id": "zoltance",
         "name": "Żółtańce",
         "parentCityId": "chelm"
-      }
-    ],
-    "zoltance": [
+      },
       {
         "type": "district",
         "id": "zoltance",
@@ -75953,15 +75733,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawichost"
       }
     ],
-    "chełmska starowka": [
+    "chelmska starowka": [
       {
         "type": "district",
         "id": "chelmska-starowka",
         "name": "Chełmska Starówka",
         "parentCityId": "chelm"
-      }
-    ],
-    "chelmska starowka": [
+      },
       {
         "type": "district",
         "id": "chelmska-starowka",
@@ -76025,14 +75803,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chelm"
       }
     ],
-    "chełmek": [
+    "chelmek": [
       {
         "type": "city",
         "id": "chelmek",
         "name": "Chełmek"
-      }
-    ],
-    "chelmek": [
+      },
       {
         "type": "city",
         "id": "chelmek",
@@ -76107,14 +75883,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chelmek"
       }
     ],
-    "chełmno": [
+    "chelmno": [
       {
         "type": "city",
         "id": "chelmno",
         "name": "Chełmno"
-      }
-    ],
-    "chelmno": [
+      },
       {
         "type": "city",
         "id": "chelmno",
@@ -76273,14 +76047,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wyszogrod"
       }
     ],
-    "chełmza": [
+    "chelmza": [
       {
         "type": "city",
         "id": "chelmza",
         "name": "Chełmża"
-      }
-    ],
-    "chelmza": [
+      },
       {
         "type": "city",
         "id": "chelmza",
@@ -76301,15 +76073,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chelmza"
       }
     ],
-    "chełminskie": [
+    "chelminskie": [
       {
         "type": "district",
         "id": "chelminskie",
         "name": "Chełmińskie",
         "parentCityId": "chelmza"
-      }
-    ],
-    "chelminskie": [
+      },
       {
         "type": "district",
         "id": "chelminskie",
@@ -76535,15 +76305,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chociwel"
       }
     ],
-    "kołat": [
+    "kolat": [
       {
         "type": "district",
         "id": "kolat",
         "name": "Kołat",
         "parentCityId": "chociwel"
-      }
-    ],
-    "kolat": [
+      },
       {
         "type": "district",
         "id": "kolat",
@@ -76575,20 +76343,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Chodecz"
       }
     ],
-    "bałuty": [
-      {
-        "type": "district",
-        "id": "baluty",
-        "name": "Bałuty",
-        "parentCityId": "chodecz"
-      },
-      {
-        "type": "district",
-        "id": "baluty",
-        "name": "Bałuty",
-        "parentCityId": "lodz"
-      }
-    ],
     "baluty": [
       {
         "type": "district",
@@ -76600,33 +76354,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "baluty",
         "name": "Bałuty",
-        "parentCityId": "lodz"
-      }
-    ],
-    "piekiełko": [
-      {
-        "type": "district",
-        "id": "piekielko",
-        "name": "Piekiełko",
         "parentCityId": "chodecz"
       },
       {
         "type": "district",
-        "id": "piekielko",
-        "name": "Piekiełko",
-        "parentCityId": "grybow"
+        "id": "baluty",
+        "name": "Bałuty",
+        "parentCityId": "lodz"
       },
       {
         "type": "district",
-        "id": "piekielko",
-        "name": "Piekiełko",
-        "parentCityId": "mlawa"
-      },
-      {
-        "type": "district",
-        "id": "piekielko",
-        "name": "Piekiełko",
-        "parentCityId": "rypin"
+        "id": "baluty",
+        "name": "Bałuty",
+        "parentCityId": "lodz"
       }
     ],
     "piekielko": [
@@ -76640,6 +76380,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "piekielko",
         "name": "Piekiełko",
+        "parentCityId": "chodecz"
+      },
+      {
+        "type": "district",
+        "id": "piekielko",
+        "name": "Piekiełko",
+        "parentCityId": "grybow"
+      },
+      {
+        "type": "district",
+        "id": "piekielko",
+        "name": "Piekiełko",
         "parentCityId": "grybow"
       },
       {
@@ -76647,6 +76399,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "piekielko",
         "name": "Piekiełko",
         "parentCityId": "mlawa"
+      },
+      {
+        "type": "district",
+        "id": "piekielko",
+        "name": "Piekiełko",
+        "parentCityId": "mlawa"
+      },
+      {
+        "type": "district",
+        "id": "piekielko",
+        "name": "Piekiełko",
+        "parentCityId": "rypin"
       },
       {
         "type": "district",
@@ -76921,31 +76685,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wyszogrod"
       }
     ],
-    "igły": [
-      {
-        "type": "district",
-        "id": "igly",
-        "name": "Igły",
-        "parentCityId": "chojnice"
-      }
-    ],
     "igly": [
       {
         "type": "district",
         "id": "igly",
         "name": "Igły",
         "parentCityId": "chojnice"
+      },
+      {
+        "type": "district",
+        "id": "igly",
+        "name": "Igły",
+        "parentCityId": "chojnice"
       }
     ],
-    "małe osady": [
+    "male osady": [
       {
         "type": "district",
         "id": "male-osady",
         "name": "Małe Osady",
         "parentCityId": "chojnice"
-      }
-    ],
-    "male osady": [
+      },
       {
         "type": "district",
         "id": "male-osady",
@@ -76977,15 +76737,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Choroszcz"
       }
     ],
-    "nowosiołki": [
+    "nowosiolki": [
       {
         "type": "district",
         "id": "nowosiolki",
         "name": "Nowosiółki",
         "parentCityId": "choroszcz"
-      }
-    ],
-    "nowosiolki": [
+      },
       {
         "type": "district",
         "id": "nowosiolki",
@@ -77199,15 +76957,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "chorzow"
       }
     ],
-    "wezłowiec": [
+    "wezlowiec": [
       {
         "type": "district",
         "id": "wezlowiec",
         "name": "Węzłowiec",
         "parentCityId": "chorzow"
-      }
-    ],
-    "wezlowiec": [
+      },
       {
         "type": "district",
         "id": "wezlowiec",
@@ -77833,15 +77589,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ciechocinek"
       }
     ],
-    "słonsk gorny": [
+    "slonsk gorny": [
       {
         "type": "district",
         "id": "slonsk-gorny",
         "name": "Słońsk Górny",
         "parentCityId": "ciechocinek"
-      }
-    ],
-    "slonsk gorny": [
+      },
       {
         "type": "district",
         "id": "slonsk-gorny",
@@ -77861,15 +77615,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Ciepielów"
       }
     ],
-    "podłacze": [
+    "podlacze": [
       {
         "type": "district",
         "id": "podlacze",
         "name": "Podłącze",
         "parentCityId": "ciepielow"
-      }
-    ],
-    "podlacze": [
+      },
       {
         "type": "district",
         "id": "podlacze",
@@ -77929,15 +77681,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Cieszyn"
       }
     ],
-    "błogocice": [
+    "blogocice": [
       {
         "type": "district",
         "id": "blogocice",
         "name": "Błogocice",
         "parentCityId": "cieszyn"
-      }
-    ],
-    "blogocice": [
+      },
       {
         "type": "district",
         "id": "blogocice",
@@ -78085,15 +77835,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ustron"
       }
     ],
-    "gułdowy": [
+    "guldowy": [
       {
         "type": "district",
         "id": "guldowy",
         "name": "Gułdowy",
         "parentCityId": "cieszyn"
-      }
-    ],
-    "guldowy": [
+      },
       {
         "type": "district",
         "id": "guldowy",
@@ -78153,7 +77901,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaworzno"
       }
     ],
-    "przedmiescie małe": [
+    "przedmiescie male": [
+      {
+        "type": "district",
+        "id": "przedmiescie-male",
+        "name": "Przedmieście Małe",
+        "parentCityId": "ciezkowice"
+      },
       {
         "type": "district",
         "id": "przedmiescie-male",
@@ -78165,14 +77919,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "przedmiescie-male",
         "name": "Przedmieście Małe",
         "parentCityId": "tuchow"
-      }
-    ],
-    "przedmiescie male": [
-      {
-        "type": "district",
-        "id": "przedmiescie-male",
-        "name": "Przedmieście Małe",
-        "parentCityId": "ciezkowice"
       },
       {
         "type": "district",
@@ -78209,15 +77955,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ciezkowice"
       }
     ],
-    "skamieniałe miasto": [
+    "skamieniale miasto": [
       {
         "type": "district",
         "id": "skamieniale-miasto",
         "name": "Skamieniałe Miasto",
         "parentCityId": "ciezkowice"
-      }
-    ],
-    "skamieniale miasto": [
+      },
       {
         "type": "district",
         "id": "skamieniale-miasto",
@@ -78363,31 +78107,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "cmielow"
       }
     ],
-    "skała": [
-      {
-        "type": "district",
-        "id": "skala",
-        "name": "Skała",
-        "parentCityId": "cmielow"
-      },
-      {
-        "type": "district",
-        "id": "skala",
-        "name": "Skała",
-        "parentCityId": "dynow"
-      },
-      {
-        "type": "district",
-        "id": "skala",
-        "name": "Skała",
-        "parentCityId": "rydultowy"
-      },
-      {
-        "type": "city",
-        "id": "skala",
-        "name": "Skała"
-      }
-    ],
     "skala": [
       {
         "type": "district",
@@ -78399,6 +78118,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "skala",
         "name": "Skała",
+        "parentCityId": "cmielow"
+      },
+      {
+        "type": "district",
+        "id": "skala",
+        "name": "Skała",
+        "parentCityId": "dynow"
+      },
+      {
+        "type": "district",
+        "id": "skala",
+        "name": "Skała",
         "parentCityId": "dynow"
       },
       {
@@ -78406,6 +78137,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "skala",
         "name": "Skała",
         "parentCityId": "rydultowy"
+      },
+      {
+        "type": "district",
+        "id": "skala",
+        "name": "Skała",
+        "parentCityId": "rydultowy"
+      },
+      {
+        "type": "city",
+        "id": "skala",
+        "name": "Skała"
       },
       {
         "type": "city",
@@ -78563,14 +78305,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zielona-gora"
       }
     ],
-    "czarna białostocka": [
+    "czarna bialostocka": [
       {
         "type": "city",
         "id": "czarna-bialostocka",
         "name": "Czarna Białostocka"
-      }
-    ],
-    "czarna bialostocka": [
+      },
       {
         "type": "city",
         "id": "czarna-bialostocka",
@@ -78605,7 +78345,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czarna-bialostocka"
       }
     ],
-    "pierekał-zawały": [
+    "pierekal-zawaly": [
       {
         "type": "district",
         "id": "pierekal-zawaly",
@@ -78707,15 +78447,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Czarny Dunajec"
       }
     ],
-    "gorny młyn": [
+    "gorny mlyn": [
       {
         "type": "district",
         "id": "gorny-mlyn",
         "name": "Górny Młyn",
         "parentCityId": "czarny-dunajec"
-      }
-    ],
-    "gorny mlyn": [
+      },
       {
         "type": "district",
         "id": "gorny-mlyn",
@@ -79303,15 +79041,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czeladz"
       }
     ],
-    "kolonia małobadz": [
+    "kolonia malobadz": [
       {
         "type": "district",
         "id": "kolonia-malobadz",
         "name": "Kolonia Małobądz",
         "parentCityId": "czeladz"
-      }
-    ],
-    "kolonia malobadz": [
+      },
       {
         "type": "district",
         "id": "kolonia-malobadz",
@@ -79479,14 +79215,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Czerwieńsk"
       }
     ],
-    "czerwinsk nad wisła": [
+    "czerwinsk nad wisla": [
       {
         "type": "city",
         "id": "czerwinsk-nad-wisla",
         "name": "Czerwińsk nad Wisłą"
-      }
-    ],
-    "czerwinsk nad wisla": [
+      },
       {
         "type": "city",
         "id": "czerwinsk-nad-wisla",
@@ -79573,15 +79307,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czerwionka-leszczyny"
       }
     ],
-    "bełkowiec": [
+    "belkowiec": [
       {
         "type": "district",
         "id": "belkowiec",
         "name": "Bełkowiec",
         "parentCityId": "czerwionka-leszczyny"
-      }
-    ],
-    "belkowiec": [
+      },
       {
         "type": "district",
         "id": "belkowiec",
@@ -79713,15 +79445,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czestochowa"
       }
     ],
-    "złota gora": [
+    "zlota gora": [
       {
         "type": "district",
         "id": "zlota-gora",
         "name": "Złota Góra",
         "parentCityId": "czestochowa"
-      }
-    ],
-    "zlota gora": [
+      },
       {
         "type": "district",
         "id": "zlota-gora",
@@ -79839,15 +79569,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czestochowa"
       }
     ],
-    "błeszno": [
+    "bleszno": [
       {
         "type": "district",
         "id": "bleszno",
         "name": "Błeszno",
         "parentCityId": "czestochowa"
-      }
-    ],
-    "bleszno": [
+      },
       {
         "type": "district",
         "id": "bleszno",
@@ -79965,15 +79693,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czestochowa"
       }
     ],
-    "brzeziny małe": [
+    "brzeziny male": [
       {
         "type": "district",
         "id": "brzeziny-male",
         "name": "Brzeziny Małe",
         "parentCityId": "czestochowa"
-      }
-    ],
-    "brzeziny male": [
+      },
       {
         "type": "district",
         "id": "brzeziny-male",
@@ -80157,7 +79883,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piotrkow-trybunalski"
       }
     ],
-    "aniołow": [
+    "aniolow": [
+      {
+        "type": "district",
+        "id": "aniolow",
+        "name": "Aniołów",
+        "parentCityId": "czestochowa"
+      },
       {
         "type": "district",
         "id": "aniolow",
@@ -80169,14 +79901,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "aniolow",
         "name": "Aniołów",
         "parentCityId": "zgierz"
-      }
-    ],
-    "aniolow": [
-      {
-        "type": "district",
-        "id": "aniolow",
-        "name": "Aniołów",
-        "parentCityId": "czestochowa"
       },
       {
         "type": "district",
@@ -80479,14 +80203,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czestochowa"
       }
     ],
-    "człopa": [
+    "czlopa": [
       {
         "type": "city",
         "id": "czlopa",
         "name": "Człopa"
-      }
-    ],
-    "czlopa": [
+      },
       {
         "type": "city",
         "id": "czlopa",
@@ -80507,14 +80229,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "czlopa"
       }
     ],
-    "człuchow": [
+    "czluchow": [
       {
         "type": "city",
         "id": "czluchow",
         "name": "Człuchów"
-      }
-    ],
-    "czluchow": [
+      },
       {
         "type": "city",
         "id": "czluchow",
@@ -80613,21 +80333,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabie"
       }
     ],
-    "dabrowa białostocka": [
-      {
-        "type": "city",
-        "id": "dabrowa-bialostocka",
-        "name": "Dąbrowa Białostocka"
-      }
-    ],
     "dabrowa bialostocka": [
       {
         "type": "city",
         "id": "dabrowa-bialostocka",
         "name": "Dąbrowa Białostocka"
+      },
+      {
+        "type": "city",
+        "id": "dabrowa-bialostocka",
+        "name": "Dąbrowa Białostocka"
       }
     ],
-    "małyszowka-kolonia": [
+    "malyszowka-kolonia": [
       {
         "type": "district",
         "id": "malyszowka-kolonia",
@@ -80763,15 +80481,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowa-bialostocka"
       }
     ],
-    "małyszowka": [
+    "malyszowka": [
       {
         "type": "district",
         "id": "malyszowka",
         "name": "Małyszówka",
         "parentCityId": "dabrowa-bialostocka"
-      }
-    ],
-    "malyszowka": [
+      },
       {
         "type": "district",
         "id": "malyszowka",
@@ -80791,23 +80507,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Dąbrowa Górnicza"
       }
     ],
-    "trzebiesławice": [
-      {
-        "type": "district",
-        "id": "trzebieslawice",
-        "name": "Trzebiesławice",
-        "parentCityId": "dabrowa-gornicza"
-      }
-    ],
     "trzebieslawice": [
       {
         "type": "district",
         "id": "trzebieslawice",
         "name": "Trzebiesławice",
         "parentCityId": "dabrowa-gornicza"
+      },
+      {
+        "type": "district",
+        "id": "trzebieslawice",
+        "name": "Trzebiesławice",
+        "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "błedow": [
+    "bledow": [
+      {
+        "type": "district",
+        "id": "bledow",
+        "name": "Błędów",
+        "parentCityId": "dabrowa-gornicza"
+      },
       {
         "type": "district",
         "id": "bledow",
@@ -80819,14 +80539,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "bledow",
         "name": "Błędów",
         "parentCityId": "szczecin"
-      }
-    ],
-    "bledow": [
-      {
-        "type": "district",
-        "id": "bledow",
-        "name": "Błędów",
-        "parentCityId": "dabrowa-gornicza"
       },
       {
         "type": "district",
@@ -80849,15 +80561,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "łosien": [
+    "losien": [
       {
         "type": "district",
         "id": "losien",
         "name": "Łosień",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "losien": [
+      },
       {
         "type": "district",
         "id": "losien",
@@ -81083,15 +80793,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "szałasowizna": [
+    "szalasowizna": [
       {
         "type": "district",
         "id": "szalasowizna",
         "name": "Szałasowizna",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "szalasowizna": [
+      },
       {
         "type": "district",
         "id": "szalasowizna",
@@ -81125,49 +80833,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "osjakow"
       }
     ],
-    "łazy": [
-      {
-        "type": "district",
-        "id": "lazy",
-        "name": "Łazy",
-        "parentCityId": "dabrowa-gornicza"
-      },
-      {
-        "type": "district",
-        "id": "lazy",
-        "name": "Łazy",
-        "parentCityId": "kielce"
-      },
-      {
-        "type": "district",
-        "id": "lazy",
-        "name": "Łazy",
-        "parentCityId": "laziska-gorne"
-      },
-      {
-        "type": "city",
-        "id": "lazy",
-        "name": "Łazy"
-      },
-      {
-        "type": "district",
-        "id": "lazy",
-        "name": "Łazy",
-        "parentCityId": "nowa-slupia"
-      },
-      {
-        "type": "district",
-        "id": "lazy",
-        "name": "Łazy",
-        "parentCityId": "piwniczna-zdroj"
-      },
-      {
-        "type": "district",
-        "id": "lazy",
-        "name": "Łazy",
-        "parentCityId": "starachowice"
-      }
-    ],
     "lazy": [
       {
         "type": "district",
@@ -81179,7 +80844,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "lazy",
         "name": "Łazy",
+        "parentCityId": "dabrowa-gornicza"
+      },
+      {
+        "type": "district",
+        "id": "lazy",
+        "name": "Łazy",
         "parentCityId": "kielce"
+      },
+      {
+        "type": "district",
+        "id": "lazy",
+        "name": "Łazy",
+        "parentCityId": "kielce"
+      },
+      {
+        "type": "district",
+        "id": "lazy",
+        "name": "Łazy",
+        "parentCityId": "laziska-gorne"
       },
       {
         "type": "district",
@@ -81191,6 +80874,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "lazy",
         "name": "Łazy"
+      },
+      {
+        "type": "city",
+        "id": "lazy",
+        "name": "Łazy"
+      },
+      {
+        "type": "district",
+        "id": "lazy",
+        "name": "Łazy",
+        "parentCityId": "nowa-slupia"
       },
       {
         "type": "district",
@@ -81208,18 +80902,28 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "lazy",
         "name": "Łazy",
+        "parentCityId": "piwniczna-zdroj"
+      },
+      {
+        "type": "district",
+        "id": "lazy",
+        "name": "Łazy",
+        "parentCityId": "starachowice"
+      },
+      {
+        "type": "district",
+        "id": "lazy",
+        "name": "Łazy",
         "parentCityId": "starachowice"
       }
     ],
-    "łeka": [
+    "leka": [
       {
         "type": "district",
         "id": "leka",
         "name": "Łęka",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "leka": [
+      },
       {
         "type": "district",
         "id": "leka",
@@ -81293,15 +80997,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "swiecie"
       }
     ],
-    "strzemieszyce małe": [
+    "strzemieszyce male": [
       {
         "type": "district",
         "id": "strzemieszyce-male",
         "name": "Strzemieszyce Małe",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "strzemieszyce male": [
+      },
       {
         "type": "district",
         "id": "strzemieszyce-male",
@@ -81379,15 +81081,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "piła ujejska": [
+    "pila ujejska": [
       {
         "type": "district",
         "id": "pila-ujejska",
         "name": "Piła Ujejska",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "pila ujejska": [
+      },
       {
         "type": "district",
         "id": "pila-ujejska",
@@ -81475,31 +81175,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "babia ława": [
-      {
-        "type": "district",
-        "id": "babia-lawa",
-        "name": "Babia Ława",
-        "parentCityId": "dabrowa-gornicza"
-      }
-    ],
     "babia lawa": [
       {
         "type": "district",
         "id": "babia-lawa",
         "name": "Babia Ława",
         "parentCityId": "dabrowa-gornicza"
+      },
+      {
+        "type": "district",
+        "id": "babia-lawa",
+        "name": "Babia Ława",
+        "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "gołonog": [
+    "golonog": [
       {
         "type": "district",
         "id": "golonog",
         "name": "Gołonóg",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "golonog": [
+      },
       {
         "type": "district",
         "id": "golonog",
@@ -81655,15 +81351,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowa-gornicza"
       }
     ],
-    "łeknice": [
+    "leknice": [
       {
         "type": "district",
         "id": "leknice",
         "name": "Łęknice",
         "parentCityId": "dabrowa-gornicza"
-      }
-    ],
-    "leknice": [
+      },
       {
         "type": "district",
         "id": "leknice",
@@ -81805,12 +81499,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dabrowice"
       }
     ],
-    "działy": [
+    "dzialy": [
       {
         "type": "district",
         "id": "dzialy",
         "name": "Działy",
         "parentCityId": "dabrowice"
+      },
+      {
+        "type": "district",
+        "id": "dzialy",
+        "name": "Działy",
+        "parentCityId": "dabrowice"
+      },
+      {
+        "type": "district",
+        "id": "dzialy",
+        "name": "Działy",
+        "parentCityId": "limanowa"
       },
       {
         "type": "district",
@@ -81823,20 +81529,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "dzialy",
         "name": "Działy",
         "parentCityId": "rzeszow"
-      }
-    ],
-    "dzialy": [
-      {
-        "type": "district",
-        "id": "dzialy",
-        "name": "Działy",
-        "parentCityId": "dabrowice"
-      },
-      {
-        "type": "district",
-        "id": "dzialy",
-        "name": "Działy",
-        "parentCityId": "limanowa"
       },
       {
         "type": "district",
@@ -81975,15 +81667,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "daleszyce"
       }
     ],
-    "ławy": [
+    "lawy": [
       {
         "type": "district",
         "id": "lawy",
         "name": "Ławy",
         "parentCityId": "daleszyce"
-      }
-    ],
-    "lawy": [
+      },
       {
         "type": "district",
         "id": "lawy",
@@ -82077,26 +81767,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczawnica"
       }
     ],
-    "darłowo": [
-      {
-        "type": "city",
-        "id": "darlowo",
-        "name": "Darłowo"
-      }
-    ],
     "darlowo": [
       {
         "type": "city",
         "id": "darlowo",
         "name": "Darłowo"
-      }
-    ],
-    "racisław": [
+      },
       {
-        "type": "district",
-        "id": "racislaw",
-        "name": "Racisław",
-        "parentCityId": "darlowo"
+        "type": "city",
+        "id": "darlowo",
+        "name": "Darłowo"
       }
     ],
     "racislaw": [
@@ -82105,17 +81785,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "racislaw",
         "name": "Racisław",
         "parentCityId": "darlowo"
+      },
+      {
+        "type": "district",
+        "id": "racislaw",
+        "name": "Racisław",
+        "parentCityId": "darlowo"
       }
     ],
-    "darłowko": [
+    "darlowko": [
       {
         "type": "district",
         "id": "darlowko",
         "name": "Darłówko",
         "parentCityId": "darlowo"
-      }
-    ],
-    "darlowko": [
+      },
       {
         "type": "district",
         "id": "darlowko",
@@ -82135,31 +81819,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Dębica"
       }
     ],
-    "gawrzyłowa": [
-      {
-        "type": "district",
-        "id": "gawrzylowa",
-        "name": "Gawrzyłowa",
-        "parentCityId": "debica"
-      }
-    ],
     "gawrzylowa": [
       {
         "type": "district",
         "id": "gawrzylowa",
         "name": "Gawrzyłowa",
         "parentCityId": "debica"
+      },
+      {
+        "type": "district",
+        "id": "gawrzylowa",
+        "name": "Gawrzyłowa",
+        "parentCityId": "debica"
       }
     ],
-    "koło słonecznej": [
+    "kolo slonecznej": [
       {
         "type": "district",
         "id": "kolo-slonecznej",
         "name": "Koło Słonecznej",
         "parentCityId": "debica"
-      }
-    ],
-    "kolo slonecznej": [
+      },
       {
         "type": "district",
         "id": "kolo-slonecznej",
@@ -82465,12 +82145,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "deblin"
       }
     ],
-    "młynki": [
+    "mlynki": [
       {
         "type": "district",
         "id": "mlynki",
         "name": "Młynki",
         "parentCityId": "deblin"
+      },
+      {
+        "type": "district",
+        "id": "mlynki",
+        "name": "Młynki",
+        "parentCityId": "deblin"
+      },
+      {
+        "type": "district",
+        "id": "mlynki",
+        "name": "Młynki",
+        "parentCityId": "narol"
       },
       {
         "type": "district",
@@ -82483,20 +82175,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mlynki",
         "name": "Młynki",
         "parentCityId": "poniatowa"
-      }
-    ],
-    "mlynki": [
-      {
-        "type": "district",
-        "id": "mlynki",
-        "name": "Młynki",
-        "parentCityId": "deblin"
-      },
-      {
-        "type": "district",
-        "id": "mlynki",
-        "name": "Młynki",
-        "parentCityId": "narol"
       },
       {
         "type": "district",
@@ -82545,15 +82223,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "deblin"
       }
     ],
-    "młynkow": [
+    "mlynkow": [
       {
         "type": "district",
         "id": "mlynkow",
         "name": "Młynków",
         "parentCityId": "deblin"
-      }
-    ],
-    "mlynkow": [
+      },
       {
         "type": "district",
         "id": "mlynkow",
@@ -82897,31 +82573,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Dobre Miasto"
       }
     ],
-    "przysiołek gorny": [
-      {
-        "type": "district",
-        "id": "przysiolek-gorny",
-        "name": "Przysiółek Górny",
-        "parentCityId": "dobre-miasto"
-      }
-    ],
     "przysiolek gorny": [
       {
         "type": "district",
         "id": "przysiolek-gorny",
         "name": "Przysiółek Górny",
         "parentCityId": "dobre-miasto"
+      },
+      {
+        "type": "district",
+        "id": "przysiolek-gorny",
+        "name": "Przysiółek Górny",
+        "parentCityId": "dobre-miasto"
       }
     ],
-    "przysiołek dolny": [
+    "przysiolek dolny": [
       {
         "type": "district",
         "id": "przysiolek-dolny",
         "name": "Przysiółek Dolny",
         "parentCityId": "dobre-miasto"
-      }
-    ],
-    "przysiolek dolny": [
+      },
       {
         "type": "district",
         "id": "przysiolek-dolny",
@@ -83021,14 +82693,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dobrzyca"
       }
     ],
-    "dobrzyn nad wisła": [
+    "dobrzyn nad wisla": [
       {
         "type": "city",
         "id": "dobrzyn-nad-wisla",
         "name": "Dobrzyń nad Wisłą"
-      }
-    ],
-    "dobrzyn nad wisla": [
+      },
       {
         "type": "city",
         "id": "dobrzyn-nad-wisla",
@@ -83301,31 +82971,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Drezdenko"
       }
     ],
-    "chełm drezdenecki": [
-      {
-        "type": "district",
-        "id": "chelm-drezdenecki",
-        "name": "Chełm Drezdenecki",
-        "parentCityId": "drezdenko"
-      }
-    ],
     "chelm drezdenecki": [
       {
         "type": "district",
         "id": "chelm-drezdenecki",
         "name": "Chełm Drezdenecki",
         "parentCityId": "drezdenko"
+      },
+      {
+        "type": "district",
+        "id": "chelm-drezdenecki",
+        "name": "Chełm Drezdenecki",
+        "parentCityId": "drezdenko"
       }
     ],
-    "bielicki młyn": [
+    "bielicki mlyn": [
       {
         "type": "district",
         "id": "bielicki-mlyn",
         "name": "Bielicki Młyn",
         "parentCityId": "drezdenko"
-      }
-    ],
-    "bielicki mlyn": [
+      },
       {
         "type": "district",
         "id": "bielicki-mlyn",
@@ -84051,30 +83717,26 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dynow"
       }
     ],
-    "włoski": [
-      {
-        "type": "district",
-        "id": "wloski",
-        "name": "Włośki",
-        "parentCityId": "dynow"
-      }
-    ],
     "wloski": [
       {
         "type": "district",
         "id": "wloski",
         "name": "Włośki",
         "parentCityId": "dynow"
+      },
+      {
+        "type": "district",
+        "id": "wloski",
+        "name": "Włośki",
+        "parentCityId": "dynow"
       }
     ],
-    "działdowo": [
+    "dzialdowo": [
       {
         "type": "city",
         "id": "dzialdowo",
         "name": "Działdowo"
-      }
-    ],
-    "dzialdowo": [
+      },
       {
         "type": "city",
         "id": "dzialdowo",
@@ -84135,50 +83797,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konstancin-jeziorna"
       }
     ],
-    "działoszyce": [
-      {
-        "type": "city",
-        "id": "dzialoszyce",
-        "name": "Działoszyce"
-      }
-    ],
     "dzialoszyce": [
       {
         "type": "city",
         "id": "dzialoszyce",
         "name": "Działoszyce"
-      }
-    ],
-    "chałupki": [
-      {
-        "type": "district",
-        "id": "chalupki",
-        "name": "Chałupki",
-        "parentCityId": "dzialoszyce"
       },
       {
-        "type": "district",
-        "id": "chalupki",
-        "name": "Chałupki",
-        "parentCityId": "jawornik-polski"
-      },
-      {
-        "type": "district",
-        "id": "chalupki",
-        "name": "Chałupki",
-        "parentCityId": "lezajsk"
-      },
-      {
-        "type": "district",
-        "id": "chalupki",
-        "name": "Chałupki",
-        "parentCityId": "przedborz"
-      },
-      {
-        "type": "district",
-        "id": "chalupki",
-        "name": "Chałupki",
-        "parentCityId": "sieniawa"
+        "type": "city",
+        "id": "dzialoszyce",
+        "name": "Działoszyce"
       }
     ],
     "chalupki": [
@@ -84192,6 +83820,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "chalupki",
         "name": "Chałupki",
+        "parentCityId": "dzialoszyce"
+      },
+      {
+        "type": "district",
+        "id": "chalupki",
+        "name": "Chałupki",
+        "parentCityId": "jawornik-polski"
+      },
+      {
+        "type": "district",
+        "id": "chalupki",
+        "name": "Chałupki",
         "parentCityId": "jawornik-polski"
       },
       {
@@ -84204,7 +83844,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "chalupki",
         "name": "Chałupki",
+        "parentCityId": "lezajsk"
+      },
+      {
+        "type": "district",
+        "id": "chalupki",
+        "name": "Chałupki",
         "parentCityId": "przedborz"
+      },
+      {
+        "type": "district",
+        "id": "chalupki",
+        "name": "Chałupki",
+        "parentCityId": "przedborz"
+      },
+      {
+        "type": "district",
+        "id": "chalupki",
+        "name": "Chałupki",
+        "parentCityId": "sieniawa"
       },
       {
         "type": "district",
@@ -84253,29 +83911,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "dzialoszyce"
       }
     ],
-    "działoszyn": [
-      {
-        "type": "city",
-        "id": "dzialoszyn",
-        "name": "Działoszyn"
-      }
-    ],
     "dzialoszyn": [
       {
         "type": "city",
         "id": "dzialoszyn",
         "name": "Działoszyn"
+      },
+      {
+        "type": "city",
+        "id": "dzialoszyn",
+        "name": "Działoszyn"
       }
     ],
-    "pod łakami": [
+    "pod lakami": [
       {
         "type": "district",
         "id": "pod-lakami",
         "name": "Pod Łąkami",
         "parentCityId": "dzialoszyn"
-      }
-    ],
-    "pod lakami": [
+      },
       {
         "type": "district",
         "id": "pod-lakami",
@@ -84670,14 +84324,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pila"
       }
     ],
-    "ełk": [
+    "elk": [
       {
         "type": "city",
         "id": "elk",
         "name": "Ełk"
-      }
-    ],
-    "elk": [
+      },
       {
         "type": "city",
         "id": "elk",
@@ -84922,7 +84574,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "garwolin"
       }
     ],
-    "sulbiny-działki": [
+    "sulbiny-dzialki": [
       {
         "type": "district",
         "id": "sulbiny-dzialki",
@@ -85146,7 +84798,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "zaspa-młyniec": [
+    "zaspa-mlyniec": [
       {
         "type": "district",
         "id": "zaspa-mlyniec",
@@ -85246,15 +84898,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "składy": [
+    "sklady": [
       {
         "type": "district",
         "id": "sklady",
         "name": "Składy",
         "parentCityId": "gdansk"
-      }
-    ],
-    "sklady": [
+      },
       {
         "type": "district",
         "id": "sklady",
@@ -85332,15 +84982,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "głowice": [
+    "glowice": [
       {
         "type": "district",
         "id": "glowice",
         "name": "Głowice",
         "parentCityId": "gdansk"
-      }
-    ],
-    "glowice": [
+      },
       {
         "type": "district",
         "id": "glowice",
@@ -85376,15 +85024,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "wisłoujscie": [
+    "wisloujscie": [
       {
         "type": "district",
         "id": "wisloujscie",
         "name": "Wisłoujście",
         "parentCityId": "gdansk"
-      }
-    ],
-    "wisloujscie": [
+      },
       {
         "type": "district",
         "id": "wisloujscie",
@@ -85444,15 +85090,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "płonia wielka": [
+    "plonia wielka": [
       {
         "type": "district",
         "id": "plonia-wielka",
         "name": "Płonia Wielka",
         "parentCityId": "gdansk"
-      }
-    ],
-    "plonia wielka": [
+      },
       {
         "type": "district",
         "id": "plonia-wielka",
@@ -85544,15 +85188,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "kiełpinek": [
+    "kielpinek": [
       {
         "type": "district",
         "id": "kielpinek",
         "name": "Kiełpinek",
         "parentCityId": "gdansk"
-      }
-    ],
-    "kielpinek": [
+      },
       {
         "type": "district",
         "id": "kielpinek",
@@ -85614,7 +85256,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "błonia": [
+    "blonia": [
+      {
+        "type": "district",
+        "id": "blonia",
+        "name": "Błonia",
+        "parentCityId": "gdansk"
+      },
       {
         "type": "district",
         "id": "blonia",
@@ -85626,14 +85274,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "blonia",
         "name": "Błonia",
         "parentCityId": "ropczyce"
-      }
-    ],
-    "blonia": [
-      {
-        "type": "district",
-        "id": "blonia",
-        "name": "Błonia",
-        "parentCityId": "gdansk"
       },
       {
         "type": "district",
@@ -85900,7 +85540,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "młyniska": [
+    "mlyniska": [
+      {
+        "type": "district",
+        "id": "mlyniska",
+        "name": "Młyniska",
+        "parentCityId": "gdansk"
+      },
       {
         "type": "district",
         "id": "mlyniska",
@@ -85912,14 +85558,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mlyniska",
         "name": "Młyniska",
         "parentCityId": "krynica-morska"
-      }
-    ],
-    "mlyniska": [
-      {
-        "type": "district",
-        "id": "mlyniska",
-        "name": "Młyniska",
-        "parentCityId": "gdansk"
       },
       {
         "type": "district",
@@ -86006,15 +85644,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "karczemki kiełpinskie": [
+    "karczemki kielpinskie": [
       {
         "type": "district",
         "id": "karczemki-kielpinskie",
         "name": "Karczemki Kiełpińskie",
         "parentCityId": "gdansk"
-      }
-    ],
-    "karczemki kielpinskie": [
+      },
       {
         "type": "district",
         "id": "karczemki-kielpinskie",
@@ -86064,31 +85700,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "kiełpino gorne": [
-      {
-        "type": "district",
-        "id": "kielpino-gorne",
-        "name": "Kiełpino Górne",
-        "parentCityId": "gdansk"
-      }
-    ],
     "kielpino gorne": [
       {
         "type": "district",
         "id": "kielpino-gorne",
         "name": "Kiełpino Górne",
         "parentCityId": "gdansk"
+      },
+      {
+        "type": "district",
+        "id": "kielpino-gorne",
+        "name": "Kiełpino Górne",
+        "parentCityId": "gdansk"
       }
     ],
-    "długie ogrody": [
+    "dlugie ogrody": [
       {
         "type": "district",
         "id": "dlugie-ogrody",
         "name": "Długie Ogrody",
         "parentCityId": "gdansk"
-      }
-    ],
-    "dlugie ogrody": [
+      },
       {
         "type": "district",
         "id": "dlugie-ogrody",
@@ -86138,15 +85770,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "łostowice": [
+    "lostowice": [
       {
         "type": "district",
         "id": "lostowice",
         "name": "Łostowice",
         "parentCityId": "gdansk"
-      }
-    ],
-    "lostowice": [
+      },
       {
         "type": "district",
         "id": "lostowice",
@@ -86180,15 +85810,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "szadołki": [
+    "szadolki": [
       {
         "type": "district",
         "id": "szadolki",
         "name": "Szadółki",
         "parentCityId": "gdansk"
-      }
-    ],
-    "szadolki": [
+      },
       {
         "type": "district",
         "id": "szadolki",
@@ -86320,15 +85948,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "pachołek": [
+    "pacholek": [
       {
         "type": "district",
         "id": "pacholek",
         "name": "Pachołek",
         "parentCityId": "gdansk"
-      }
-    ],
-    "pacholek": [
+      },
       {
         "type": "district",
         "id": "pacholek",
@@ -86432,15 +86058,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "ołowianka": [
+    "olowianka": [
       {
         "type": "district",
         "id": "olowianka",
         "name": "Ołowianka",
         "parentCityId": "gdansk"
-      }
-    ],
-    "olowianka": [
+      },
       {
         "type": "district",
         "id": "olowianka",
@@ -86462,15 +86086,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "płonia mała": [
+    "plonia mala": [
       {
         "type": "district",
         "id": "plonia-mala",
         "name": "Płonia Mała",
         "parentCityId": "gdansk"
-      }
-    ],
-    "plonia mala": [
+      },
       {
         "type": "district",
         "id": "plonia-mala",
@@ -86676,15 +86298,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdansk"
       }
     ],
-    "głowne miasto": [
+    "glowne miasto": [
       {
         "type": "district",
         "id": "glowne-miasto",
         "name": "Główne Miasto",
         "parentCityId": "gdansk"
-      }
-    ],
-    "glowne miasto": [
+      },
       {
         "type": "district",
         "id": "glowne-miasto",
@@ -86838,15 +86458,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "babie doły": [
+    "babie doly": [
       {
         "type": "district",
         "id": "babie-doly",
         "name": "Babie Doły",
         "parentCityId": "gdynia"
-      }
-    ],
-    "babie doly": [
+      },
       {
         "type": "district",
         "id": "babie-doly",
@@ -86868,31 +86486,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "mały kack": [
-      {
-        "type": "district",
-        "id": "maly-kack",
-        "name": "Mały Kack",
-        "parentCityId": "gdynia"
-      }
-    ],
     "maly kack": [
       {
         "type": "district",
         "id": "maly-kack",
         "name": "Mały Kack",
         "parentCityId": "gdynia"
+      },
+      {
+        "type": "district",
+        "id": "maly-kack",
+        "name": "Mały Kack",
+        "parentCityId": "gdynia"
       }
     ],
-    "stare obłuze": [
+    "stare obluze": [
       {
         "type": "district",
         "id": "stare-obluze",
         "name": "Stare Obłuże",
         "parentCityId": "gdynia"
-      }
-    ],
-    "stare obluze": [
+      },
       {
         "type": "district",
         "id": "stare-obluze",
@@ -87022,34 +86636,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "działki lesne": [
-      {
-        "type": "district",
-        "id": "dzialki-lesne",
-        "name": "Działki Leśne",
-        "parentCityId": "gdynia"
-      }
-    ],
     "dzialki lesne": [
       {
         "type": "district",
         "id": "dzialki-lesne",
         "name": "Działki Leśne",
         "parentCityId": "gdynia"
-      }
-    ],
-    "orłowo": [
-      {
-        "type": "district",
-        "id": "orlowo",
-        "name": "Orłowo",
-        "parentCityId": "gdynia"
       },
       {
         "type": "district",
-        "id": "orlowo",
-        "name": "Orłowo",
-        "parentCityId": "starachowice"
+        "id": "dzialki-lesne",
+        "name": "Działki Leśne",
+        "parentCityId": "gdynia"
       }
     ],
     "orlowo": [
@@ -87063,18 +86661,28 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "orlowo",
         "name": "Orłowo",
+        "parentCityId": "gdynia"
+      },
+      {
+        "type": "district",
+        "id": "orlowo",
+        "name": "Orłowo",
+        "parentCityId": "starachowice"
+      },
+      {
+        "type": "district",
+        "id": "orlowo",
+        "name": "Orłowo",
         "parentCityId": "starachowice"
       }
     ],
-    "polanka redłowska": [
+    "polanka redlowska": [
       {
         "type": "district",
         "id": "polanka-redlowska",
         "name": "Polanka Redłowska",
         "parentCityId": "gdynia"
-      }
-    ],
-    "polanka redlowska": [
+      },
       {
         "type": "district",
         "id": "polanka-redlowska",
@@ -87124,31 +86732,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "nowe obłuze": [
-      {
-        "type": "district",
-        "id": "nowe-obluze",
-        "name": "Nowe Obłuże",
-        "parentCityId": "gdynia"
-      }
-    ],
     "nowe obluze": [
       {
         "type": "district",
         "id": "nowe-obluze",
         "name": "Nowe Obłuże",
         "parentCityId": "gdynia"
+      },
+      {
+        "type": "district",
+        "id": "nowe-obluze",
+        "name": "Nowe Obłuże",
+        "parentCityId": "gdynia"
       }
     ],
-    "redłowo": [
+    "redlowo": [
       {
         "type": "district",
         "id": "redlowo",
         "name": "Redłowo",
         "parentCityId": "gdynia"
-      }
-    ],
-    "redlowo": [
+      },
       {
         "type": "district",
         "id": "redlowo",
@@ -87238,15 +86842,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "obłuze": [
+    "obluze": [
       {
         "type": "district",
         "id": "obluze",
         "name": "Obłuże",
         "parentCityId": "gdynia"
-      }
-    ],
-    "obluze": [
+      },
       {
         "type": "district",
         "id": "obluze",
@@ -87326,15 +86928,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gdynia"
       }
     ],
-    "gołebiewo": [
+    "golebiewo": [
       {
         "type": "district",
         "id": "golebiewo",
         "name": "Gołębiewo",
         "parentCityId": "gdynia"
-      }
-    ],
-    "golebiewo": [
+      },
       {
         "type": "district",
         "id": "golebiewo",
@@ -87543,15 +87143,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gliwice"
       }
     ],
-    "wilcze gardło": [
+    "wilcze gardlo": [
       {
         "type": "district",
         "id": "wilcze-gardlo",
         "name": "Wilcze Gardło",
         "parentCityId": "gliwice"
-      }
-    ],
-    "wilcze gardlo": [
+      },
       {
         "type": "district",
         "id": "wilcze-gardlo",
@@ -87655,15 +87253,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gliwice"
       }
     ],
-    "łabedy": [
+    "labedy": [
       {
         "type": "district",
         "id": "labedy",
         "name": "Łabędy",
         "parentCityId": "gliwice"
-      }
-    ],
-    "labedy": [
+      },
       {
         "type": "district",
         "id": "labedy",
@@ -87803,14 +87399,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gliwice"
       }
     ],
-    "głogow": [
+    "glogow": [
       {
         "type": "city",
         "id": "glogow",
         "name": "Głogów"
-      }
-    ],
-    "glogow": [
+      },
       {
         "type": "city",
         "id": "glogow",
@@ -87831,15 +87425,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glogow"
       }
     ],
-    "wroblin głogowski": [
+    "wroblin glogowski": [
       {
         "type": "district",
         "id": "wroblin-glogowski",
         "name": "Wróblin Głogowski",
         "parentCityId": "glogow"
-      }
-    ],
-    "wroblin glogowski": [
+      },
       {
         "type": "district",
         "id": "wroblin-glogowski",
@@ -88087,14 +87679,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glogow"
       }
     ],
-    "głogow małopolski": [
+    "glogow malopolski": [
       {
         "type": "city",
         "id": "glogow-malopolski",
         "name": "Głogów Małopolski"
-      }
-    ],
-    "glogow malopolski": [
+      },
       {
         "type": "city",
         "id": "glogow-malopolski",
@@ -88315,14 +87905,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glogow-malopolski"
       }
     ],
-    "głogowek": [
+    "glogowek": [
       {
         "type": "city",
         "id": "glogowek",
         "name": "Głogówek"
-      }
-    ],
-    "glogowek": [
+      },
       {
         "type": "city",
         "id": "glogowek",
@@ -88417,28 +88005,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "toszek"
       }
     ],
-    "głowaczow": [
-      {
-        "type": "city",
-        "id": "glowaczow",
-        "name": "Głowaczów"
-      }
-    ],
     "glowaczow": [
       {
         "type": "city",
         "id": "glowaczow",
         "name": "Głowaczów"
+      },
+      {
+        "type": "city",
+        "id": "glowaczow",
+        "name": "Głowaczów"
       }
     ],
-    "głowno": [
+    "glowno": [
       {
         "type": "city",
         "id": "glowno",
         "name": "Głowno"
-      }
-    ],
-    "glowno": [
+      },
       {
         "type": "city",
         "id": "glowno",
@@ -88473,15 +88057,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glowno"
       }
     ],
-    "moczydła": [
+    "moczydla": [
       {
         "type": "district",
         "id": "moczydla",
         "name": "Moczydła",
         "parentCityId": "glowno"
-      }
-    ],
-    "moczydla": [
+      },
       {
         "type": "district",
         "id": "moczydla",
@@ -88645,14 +88227,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glowno"
       }
     ],
-    "głubczyce": [
+    "glubczyce": [
       {
         "type": "city",
         "id": "glubczyce",
         "name": "Głubczyce"
-      }
-    ],
-    "glubczyce": [
+      },
       {
         "type": "city",
         "id": "glubczyce",
@@ -88673,14 +88253,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glubczyce"
       }
     ],
-    "głuchołazy": [
+    "glucholazy": [
       {
         "type": "city",
         "id": "glucholazy",
         "name": "Głuchołazy"
-      }
-    ],
-    "glucholazy": [
+      },
       {
         "type": "city",
         "id": "glucholazy",
@@ -88763,14 +88341,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "glucholazy"
       }
     ],
-    "głuszyca": [
+    "gluszyca": [
       {
         "type": "city",
         "id": "gluszyca",
         "name": "Głuszyca"
-      }
-    ],
-    "gluszyca": [
+      },
       {
         "type": "city",
         "id": "gluszyca",
@@ -89077,15 +88653,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gniezno"
       }
     ],
-    "pławnik": [
+    "plawnik": [
       {
         "type": "district",
         "id": "plawnik",
         "name": "Pławnik",
         "parentCityId": "gniezno"
-      }
-    ],
-    "plawnik": [
+      },
       {
         "type": "district",
         "id": "plawnik",
@@ -89119,15 +88693,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Gogolin"
       }
     ],
-    "karłubiec": [
+    "karlubiec": [
       {
         "type": "district",
         "id": "karlubiec",
         "name": "Karłubiec",
         "parentCityId": "gogolin"
-      }
-    ],
-    "karlubiec": [
+      },
       {
         "type": "district",
         "id": "karlubiec",
@@ -89149,14 +88721,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gogolin"
       }
     ],
-    "gołancz": [
+    "golancz": [
       {
         "type": "city",
         "id": "golancz",
         "name": "Gołańcz"
-      }
-    ],
-    "golancz": [
+      },
       {
         "type": "city",
         "id": "golancz",
@@ -89239,7 +88809,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "golczewo"
       }
     ],
-    "golczewo-młyn": [
+    "golczewo-mlyn": [
       {
         "type": "district",
         "id": "golczewo-mlyn",
@@ -89255,14 +88825,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "golczewo"
       }
     ],
-    "gołdap": [
+    "goldap": [
       {
         "type": "city",
         "id": "goldap",
         "name": "Gołdap"
-      }
-    ],
-    "goldap": [
+      },
       {
         "type": "city",
         "id": "goldap",
@@ -89321,27 +88889,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "białomacze": [
-      {
-        "type": "district",
-        "id": "bialomacze",
-        "name": "Białomącze",
-        "parentCityId": "goleniow"
-      }
-    ],
     "bialomacze": [
       {
         "type": "district",
         "id": "bialomacze",
         "name": "Białomącze",
         "parentCityId": "goleniow"
-      }
-    ],
-    "chochołki": [
+      },
       {
         "type": "district",
-        "id": "chocholki",
-        "name": "Chochołki",
+        "id": "bialomacze",
+        "name": "Białomącze",
         "parentCityId": "goleniow"
       }
     ],
@@ -89351,17 +88909,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "chocholki",
         "name": "Chochołki",
         "parentCityId": "goleniow"
+      },
+      {
+        "type": "district",
+        "id": "chocholki",
+        "name": "Chochołki",
+        "parentCityId": "goleniow"
       }
     ],
-    "strzałkowo": [
+    "strzalkowo": [
       {
         "type": "district",
         "id": "strzalkowo",
         "name": "Strzałkowo",
         "parentCityId": "goleniow"
-      }
-    ],
-    "strzalkowo": [
+      },
       {
         "type": "district",
         "id": "strzalkowo",
@@ -89489,15 +89051,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "goleniow"
       }
     ],
-    "budzisław": [
+    "budzislaw": [
       {
         "type": "district",
         "id": "budzislaw",
         "name": "Budzisław",
         "parentCityId": "goleniow"
-      }
-    ],
-    "budzislaw": [
+      },
       {
         "type": "district",
         "id": "budzislaw",
@@ -89531,15 +89091,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Golub-Dobrzyń"
       }
     ],
-    "osiedle sokołowskie": [
+    "osiedle sokolowskie": [
       {
         "type": "district",
         "id": "osiedle-sokolowskie",
         "name": "Osiedle Sokołowskie",
         "parentCityId": "golub-dobrzyn"
-      }
-    ],
-    "osiedle sokolowskie": [
+      },
       {
         "type": "district",
         "id": "osiedle-sokolowskie",
@@ -89575,15 +89133,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "golub-dobrzyn"
       }
     ],
-    "biała cegielnia": [
+    "biala cegielnia": [
       {
         "type": "district",
         "id": "biala-cegielnia",
         "name": "Biała Cegielnia",
         "parentCityId": "golub-dobrzyn"
-      }
-    ],
-    "biala cegielnia": [
+      },
       {
         "type": "district",
         "id": "biala-cegielnia",
@@ -89617,15 +89173,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "krasnobrod"
       }
     ],
-    "czarny kozieł": [
+    "czarny koziel": [
       {
         "type": "district",
         "id": "czarny-koziel",
         "name": "Czarny Kozieł",
         "parentCityId": "golub-dobrzyn"
-      }
-    ],
-    "czarny koziel": [
+      },
       {
         "type": "district",
         "id": "czarny-koziel",
@@ -89831,7 +89385,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gorlice"
       }
     ],
-    "łegi": [
+    "legi": [
+      {
+        "type": "district",
+        "id": "legi",
+        "name": "Łęgi",
+        "parentCityId": "gorlice"
+      },
       {
         "type": "district",
         "id": "legi",
@@ -89843,6 +89403,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "legi",
         "name": "Łęgi",
         "parentCityId": "pila"
+      },
+      {
+        "type": "district",
+        "id": "legi",
+        "name": "Łęgi",
+        "parentCityId": "pila"
+      },
+      {
+        "type": "district",
+        "id": "legi",
+        "name": "Łęgi",
+        "parentCityId": "rabka-zdroj"
       },
       {
         "type": "district",
@@ -89855,26 +89427,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "legi",
         "name": "Łęgi",
         "parentCityId": "szczawnica"
-      }
-    ],
-    "legi": [
-      {
-        "type": "district",
-        "id": "legi",
-        "name": "Łęgi",
-        "parentCityId": "gorlice"
-      },
-      {
-        "type": "district",
-        "id": "legi",
-        "name": "Łęgi",
-        "parentCityId": "pila"
-      },
-      {
-        "type": "district",
-        "id": "legi",
-        "name": "Łęgi",
-        "parentCityId": "rabka-zdroj"
       },
       {
         "type": "district",
@@ -89923,15 +89475,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gorlice"
       }
     ],
-    "sokoł": [
+    "sokol": [
       {
         "type": "district",
         "id": "sokol",
         "name": "Sokół",
         "parentCityId": "gorlice"
-      }
-    ],
-    "sokol": [
+      },
       {
         "type": "district",
         "id": "sokol",
@@ -90211,14 +89761,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "walbrzych"
       }
     ],
-    "gorowo iławeckie": [
+    "gorowo ilaweckie": [
       {
         "type": "city",
         "id": "gorowo-ilaweckie",
         "name": "Górowo Iławeckie"
-      }
-    ],
-    "gorowo ilaweckie": [
+      },
       {
         "type": "city",
         "id": "gorowo-ilaweckie",
@@ -90399,7 +89947,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "gorzow-slaski"
       }
     ],
-    "karłow": [
+    "karlow": [
+      {
+        "type": "district",
+        "id": "karlow",
+        "name": "Karłów",
+        "parentCityId": "gorzow-slaski"
+      },
       {
         "type": "district",
         "id": "karlow",
@@ -90411,14 +89965,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "karlow",
         "name": "Karłów",
         "parentCityId": "milicz"
-      }
-    ],
-    "karlow": [
-      {
-        "type": "district",
-        "id": "karlow",
-        "name": "Karłów",
-        "parentCityId": "gorzow-slaski"
       },
       {
         "type": "district",
@@ -90515,15 +90061,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Gorzów Wielkopolski"
       }
     ],
-    "małyszyn": [
+    "malyszyn": [
       {
         "type": "district",
         "id": "malyszyn",
         "name": "Małyszyn",
         "parentCityId": "gorzow-wielkopolski"
-      }
-    ],
-    "malyszyn": [
+      },
       {
         "type": "district",
         "id": "malyszyn",
@@ -91033,7 +90577,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Grodków"
       }
     ],
-    "połwiosek": [
+    "polwiosek": [
+      {
+        "type": "district",
+        "id": "polwiosek",
+        "name": "Półwiosek",
+        "parentCityId": "grodkow"
+      },
       {
         "type": "district",
         "id": "polwiosek",
@@ -91045,14 +90595,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "polwiosek",
         "name": "Półwiosek",
         "parentCityId": "wiazow"
-      }
-    ],
-    "polwiosek": [
-      {
-        "type": "district",
-        "id": "polwiosek",
-        "name": "Półwiosek",
-        "parentCityId": "grodkow"
       },
       {
         "type": "district",
@@ -91182,7 +90724,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "grudziadz"
       }
     ],
-    "chełminskie przedmiescie": [
+    "chelminskie przedmiescie": [
+      {
+        "type": "district",
+        "id": "chelminskie-przedmiescie",
+        "name": "Chełmińskie Przedmieście",
+        "parentCityId": "grudziadz"
+      },
       {
         "type": "district",
         "id": "chelminskie-przedmiescie",
@@ -91194,14 +90742,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "chelminskie-przedmiescie",
         "name": "Chełmińskie Przedmieście",
         "parentCityId": "torun"
-      }
-    ],
-    "chelminskie przedmiescie": [
-      {
-        "type": "district",
-        "id": "chelminskie-przedmiescie",
-        "name": "Chełmińskie Przedmieście",
-        "parentCityId": "grudziadz"
       },
       {
         "type": "district",
@@ -91380,15 +90920,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "grybow"
       }
     ],
-    "biała wyzna": [
+    "biala wyzna": [
       {
         "type": "district",
         "id": "biala-wyzna",
         "name": "Biała Wyżna",
         "parentCityId": "grybow"
-      }
-    ],
-    "biala wyzna": [
+      },
       {
         "type": "district",
         "id": "biala-wyzna",
@@ -92034,30 +91572,26 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "hrubieszow"
       }
     ],
-    "sławecin": [
-      {
-        "type": "district",
-        "id": "slawecin",
-        "name": "Sławęcin",
-        "parentCityId": "hrubieszow"
-      }
-    ],
     "slawecin": [
       {
         "type": "district",
         "id": "slawecin",
         "name": "Sławęcin",
         "parentCityId": "hrubieszow"
+      },
+      {
+        "type": "district",
+        "id": "slawecin",
+        "name": "Sławęcin",
+        "parentCityId": "hrubieszow"
       }
     ],
-    "iława": [
+    "ilawa": [
       {
         "type": "city",
         "id": "ilawa",
         "name": "Iława"
-      }
-    ],
-    "ilawa": [
+      },
       {
         "type": "city",
         "id": "ilawa",
@@ -92078,14 +91612,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ilawa"
       }
     ],
-    "iłowa": [
+    "ilowa": [
       {
         "type": "city",
         "id": "ilowa",
         "name": "Iłowa"
-      }
-    ],
-    "ilowa": [
+      },
       {
         "type": "city",
         "id": "ilowa",
@@ -92132,14 +91664,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piotrkow-trybunalski"
       }
     ],
-    "iłza": [
+    "ilza": [
       {
         "type": "city",
         "id": "ilza",
         "name": "Iłża"
-      }
-    ],
-    "ilza": [
+      },
       {
         "type": "city",
         "id": "ilza",
@@ -92174,15 +91704,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ilza"
       }
     ],
-    "struga chwałowska": [
+    "struga chwalowska": [
       {
         "type": "district",
         "id": "struga-chwalowska",
         "name": "Struga Chwałowska",
         "parentCityId": "ilza"
-      }
-    ],
-    "struga chwalowska": [
+      },
       {
         "type": "district",
         "id": "struga-chwalowska",
@@ -92450,14 +91978,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "imielin"
       }
     ],
-    "inowłodz": [
+    "inowlodz": [
       {
         "type": "city",
         "id": "inowlodz",
         "name": "Inowłódz"
-      }
-    ],
-    "inowlodz": [
+      },
       {
         "type": "city",
         "id": "inowlodz",
@@ -92492,14 +92018,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "inowlodz"
       }
     ],
-    "inowrocław": [
+    "inowroclaw": [
       {
         "type": "city",
         "id": "inowroclaw",
         "name": "Inowrocław"
-      }
-    ],
-    "inowroclaw": [
+      },
       {
         "type": "city",
         "id": "inowroclaw",
@@ -92656,7 +92180,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Iwaniska"
       }
     ],
-    "zabłocie": [
+    "zablocie": [
+      {
+        "type": "district",
+        "id": "zablocie",
+        "name": "Zabłocie",
+        "parentCityId": "iwaniska"
+      },
       {
         "type": "district",
         "id": "zablocie",
@@ -92668,6 +92198,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zablocie",
         "name": "Zabłocie",
         "parentCityId": "tarnow"
+      },
+      {
+        "type": "district",
+        "id": "zablocie",
+        "name": "Zabłocie",
+        "parentCityId": "tarnow"
+      },
+      {
+        "type": "district",
+        "id": "zablocie",
+        "name": "Zabłocie",
+        "parentCityId": "ustrzyki-dolne"
       },
       {
         "type": "district",
@@ -92680,26 +92222,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zablocie",
         "name": "Zabłocie",
         "parentCityId": "zywiec"
-      }
-    ],
-    "zablocie": [
-      {
-        "type": "district",
-        "id": "zablocie",
-        "name": "Zabłocie",
-        "parentCityId": "iwaniska"
-      },
-      {
-        "type": "district",
-        "id": "zablocie",
-        "name": "Zabłocie",
-        "parentCityId": "tarnow"
-      },
-      {
-        "type": "district",
-        "id": "zablocie",
-        "name": "Zabłocie",
-        "parentCityId": "ustrzyki-dolne"
       },
       {
         "type": "district",
@@ -92856,7 +92378,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "przysiołek": [
+    "przysiolek": [
+      {
+        "type": "district",
+        "id": "przysiolek",
+        "name": "Przysiółek",
+        "parentCityId": "izbica"
+      },
       {
         "type": "district",
         "id": "przysiolek",
@@ -92868,14 +92396,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "przysiolek",
         "name": "Przysiółek",
         "parentCityId": "sanok"
-      }
-    ],
-    "przysiolek": [
-      {
-        "type": "district",
-        "id": "przysiolek",
-        "name": "Przysiółek",
-        "parentCityId": "izbica"
       },
       {
         "type": "district",
@@ -92954,14 +92474,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "izbica-kujawska"
       }
     ],
-    "jabłonowo pomorskie": [
+    "jablonowo pomorskie": [
       {
         "type": "city",
         "id": "jablonowo-pomorskie",
         "name": "Jabłonowo Pomorskie"
-      }
-    ],
-    "jablonowo pomorskie": [
+      },
       {
         "type": "city",
         "id": "jablonowo-pomorskie",
@@ -93126,15 +92644,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "janow-lubelski"
       }
     ],
-    "biała poduchowna": [
+    "biala poduchowna": [
       {
         "type": "district",
         "id": "biala-poduchowna",
         "name": "Biała Poduchowna",
         "parentCityId": "janow-lubelski"
-      }
-    ],
-    "biala poduchowna": [
+      },
       {
         "type": "district",
         "id": "biala-poduchowna",
@@ -93272,15 +92788,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jarocin"
       }
     ],
-    "bogusław": [
+    "boguslaw": [
       {
         "type": "district",
         "id": "boguslaw",
         "name": "Bogusław",
         "parentCityId": "jarocin"
-      }
-    ],
-    "boguslaw": [
+      },
       {
         "type": "district",
         "id": "boguslaw",
@@ -93316,7 +92830,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jarocin"
       }
     ],
-    "ługi": [
+    "lugi": [
+      {
+        "type": "district",
+        "id": "lugi",
+        "name": "Ługi",
+        "parentCityId": "jarocin"
+      },
       {
         "type": "district",
         "id": "lugi",
@@ -93328,14 +92848,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lugi",
         "name": "Ługi",
         "parentCityId": "otwock"
-      }
-    ],
-    "lugi": [
-      {
-        "type": "district",
-        "id": "lugi",
-        "name": "Ługi",
-        "parentCityId": "jarocin"
       },
       {
         "type": "district",
@@ -93372,7 +92884,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jarocin"
       }
     ],
-    "jarosław": [
+    "jaroslaw": [
+      {
+        "type": "city",
+        "id": "jaroslaw",
+        "name": "Jarosław"
+      },
       {
         "type": "city",
         "id": "jaroslaw",
@@ -93383,13 +92900,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "jaroslaw",
         "name": "Jarosław",
         "parentCityId": "jozefow-mazowieckie"
-      }
-    ],
-    "jaroslaw": [
-      {
-        "type": "city",
-        "id": "jaroslaw",
-        "name": "Jarosław"
       },
       {
         "type": "district",
@@ -93492,15 +93002,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaroslaw"
       }
     ],
-    "munina mała": [
+    "munina mala": [
       {
         "type": "district",
         "id": "munina-mala",
         "name": "Munina Mała",
         "parentCityId": "jaroslaw"
-      }
-    ],
-    "munina mala": [
+      },
       {
         "type": "district",
         "id": "munina-mala",
@@ -93564,15 +93072,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaroslaw"
       }
     ],
-    "łazy szwarcmanowskie": [
+    "lazy szwarcmanowskie": [
       {
         "type": "district",
         "id": "lazy-szwarcmanowskie",
         "name": "Łazy Szwarcmanowskie",
         "parentCityId": "jaroslaw"
-      }
-    ],
-    "lazy szwarcmanowskie": [
+      },
       {
         "type": "district",
         "id": "lazy-szwarcmanowskie",
@@ -93594,31 +93100,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaroslaw"
       }
     ],
-    "kruhel pawłosiowski": [
-      {
-        "type": "district",
-        "id": "kruhel-pawlosiowski",
-        "name": "Kruhel Pawłosiowski",
-        "parentCityId": "jaroslaw"
-      }
-    ],
     "kruhel pawlosiowski": [
       {
         "type": "district",
         "id": "kruhel-pawlosiowski",
         "name": "Kruhel Pawłosiowski",
         "parentCityId": "jaroslaw"
+      },
+      {
+        "type": "district",
+        "id": "kruhel-pawlosiowski",
+        "name": "Kruhel Pawłosiowski",
+        "parentCityId": "jaroslaw"
       }
     ],
-    "kruhel pełkinski": [
+    "kruhel pelkinski": [
       {
         "type": "district",
         "id": "kruhel-pelkinski",
         "name": "Kruhel Pełkiński",
         "parentCityId": "jaroslaw"
-      }
-    ],
-    "kruhel pelkinski": [
+      },
       {
         "type": "district",
         "id": "kruhel-pelkinski",
@@ -93700,20 +93202,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wodzislaw-slaski"
       }
     ],
-    "głeboka": [
-      {
-        "type": "district",
-        "id": "gleboka",
-        "name": "Głęboka",
-        "parentCityId": "jaroslaw"
-      },
-      {
-        "type": "district",
-        "id": "gleboka",
-        "name": "Głęboka",
-        "parentCityId": "przemysl"
-      }
-    ],
     "gleboka": [
       {
         "type": "district",
@@ -93725,15 +93213,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "gleboka",
         "name": "Głęboka",
-        "parentCityId": "przemysl"
-      }
-    ],
-    "łazy kostkowskie": [
+        "parentCityId": "jaroslaw"
+      },
       {
         "type": "district",
-        "id": "lazy-kostkowskie",
-        "name": "Łazy Kostkowskie",
-        "parentCityId": "jaroslaw"
+        "id": "gleboka",
+        "name": "Głęboka",
+        "parentCityId": "przemysl"
+      },
+      {
+        "type": "district",
+        "id": "gleboka",
+        "name": "Głęboka",
+        "parentCityId": "przemysl"
       }
     ],
     "lazy kostkowskie": [
@@ -93742,16 +93234,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lazy-kostkowskie",
         "name": "Łazy Kostkowskie",
         "parentCityId": "jaroslaw"
+      },
+      {
+        "type": "district",
+        "id": "lazy-kostkowskie",
+        "name": "Łazy Kostkowskie",
+        "parentCityId": "jaroslaw"
       }
     ],
-    "jasło": [
+    "jaslo": [
       {
         "type": "city",
         "id": "jaslo",
         "name": "Jasło"
-      }
-    ],
-    "jaslo": [
+      },
       {
         "type": "city",
         "id": "jaslo",
@@ -93814,27 +93310,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaslo"
       }
     ],
-    "niegłowice": [
-      {
-        "type": "district",
-        "id": "nieglowice",
-        "name": "Niegłowice",
-        "parentCityId": "jaslo"
-      }
-    ],
     "nieglowice": [
       {
         "type": "district",
         "id": "nieglowice",
         "name": "Niegłowice",
         "parentCityId": "jaslo"
-      }
-    ],
-    "nowy zołkow": [
+      },
       {
         "type": "district",
-        "id": "nowy-zolkow",
-        "name": "Nowy Żółków",
+        "id": "nieglowice",
+        "name": "Niegłowice",
         "parentCityId": "jaslo"
       }
     ],
@@ -93844,17 +93330,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "nowy-zolkow",
         "name": "Nowy Żółków",
         "parentCityId": "jaslo"
+      },
+      {
+        "type": "district",
+        "id": "nowy-zolkow",
+        "name": "Nowy Żółków",
+        "parentCityId": "jaslo"
       }
     ],
-    "bryły": [
+    "bryly": [
       {
         "type": "district",
         "id": "bryly",
         "name": "Bryły",
         "parentCityId": "jaslo"
-      }
-    ],
-    "bryly": [
+      },
       {
         "type": "district",
         "id": "bryly",
@@ -93960,7 +93450,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaslo"
       }
     ],
-    "wadoły": [
+    "wadoly": [
+      {
+        "type": "district",
+        "id": "wadoly",
+        "name": "Wądoły",
+        "parentCityId": "jaslo"
+      },
       {
         "type": "district",
         "id": "wadoly",
@@ -93972,14 +93468,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wadoly",
         "name": "Wądoły",
         "parentCityId": "olesnica-dolnoslaskie"
-      }
-    ],
-    "wadoly": [
-      {
-        "type": "district",
-        "id": "wadoly",
-        "name": "Wądoły",
-        "parentCityId": "jaslo"
       },
       {
         "type": "district",
@@ -94054,15 +93542,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jastrowie"
       }
     ],
-    "wadołek": [
+    "wadolek": [
       {
         "type": "district",
         "id": "wadolek",
         "name": "Wądołek",
         "parentCityId": "jastrowie"
-      }
-    ],
-    "wadolek": [
+      },
       {
         "type": "district",
         "id": "wadolek",
@@ -94408,27 +93894,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jawornik-polski"
       }
     ],
-    "kurzy dział": [
-      {
-        "type": "district",
-        "id": "kurzy-dzial",
-        "name": "Kurzy Dział",
-        "parentCityId": "jawornik-polski"
-      }
-    ],
     "kurzy dzial": [
       {
         "type": "district",
         "id": "kurzy-dzial",
         "name": "Kurzy Dział",
         "parentCityId": "jawornik-polski"
-      }
-    ],
-    "młynska gora": [
+      },
       {
         "type": "district",
-        "id": "mlynska-gora",
-        "name": "Młyńska Góra",
+        "id": "kurzy-dzial",
+        "name": "Kurzy Dział",
         "parentCityId": "jawornik-polski"
       }
     ],
@@ -94438,13 +93914,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mlynska-gora",
         "name": "Młyńska Góra",
         "parentCityId": "jawornik-polski"
-      }
-    ],
-    "szałaje": [
+      },
       {
         "type": "district",
-        "id": "szalaje",
-        "name": "Szałaje",
+        "id": "mlynska-gora",
+        "name": "Młyńska Góra",
         "parentCityId": "jawornik-polski"
       }
     ],
@@ -94454,9 +93928,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "szalaje",
         "name": "Szałaje",
         "parentCityId": "jawornik-polski"
+      },
+      {
+        "type": "district",
+        "id": "szalaje",
+        "name": "Szałaje",
+        "parentCityId": "jawornik-polski"
       }
     ],
-    "zadział": [
+    "zadzial": [
+      {
+        "type": "district",
+        "id": "zadzial",
+        "name": "Zadział",
+        "parentCityId": "jawornik-polski"
+      },
       {
         "type": "district",
         "id": "zadzial",
@@ -94468,14 +93954,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zadzial",
         "name": "Zadział",
         "parentCityId": "nowy-targ"
-      }
-    ],
-    "zadzial": [
-      {
-        "type": "district",
-        "id": "zadzial",
-        "name": "Zadział",
-        "parentCityId": "jawornik-polski"
       },
       {
         "type": "district",
@@ -94498,15 +93976,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jawornik-polski"
       }
     ],
-    "zakoscioł": [
+    "zakosciol": [
       {
         "type": "district",
         "id": "zakosciol",
         "name": "Zakościół",
         "parentCityId": "jawornik-polski"
-      }
-    ],
-    "zakosciol": [
+      },
       {
         "type": "district",
         "id": "zakosciol",
@@ -94634,7 +94110,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaworzno"
       }
     ],
-    "zrodło": [
+    "zrodlo": [
+      {
+        "type": "district",
+        "id": "zrodlo",
+        "name": "Źródło",
+        "parentCityId": "jaworzno"
+      },
       {
         "type": "district",
         "id": "zrodlo",
@@ -94646,14 +94128,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zrodlo",
         "name": "Źródło",
         "parentCityId": "wysmierzyce"
-      }
-    ],
-    "zrodlo": [
-      {
-        "type": "district",
-        "id": "zrodlo",
-        "name": "Źródło",
-        "parentCityId": "jaworzno"
       },
       {
         "type": "district",
@@ -94702,15 +94176,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "katowice"
       }
     ],
-    "długoszyn": [
+    "dlugoszyn": [
       {
         "type": "district",
         "id": "dlugoszyn",
         "name": "Długoszyn",
         "parentCityId": "jaworzno"
-      }
-    ],
-    "dlugoszyn": [
+      },
       {
         "type": "district",
         "id": "dlugoszyn",
@@ -94828,15 +94300,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaworzno"
       }
     ],
-    "okragłe": [
+    "okragle": [
       {
         "type": "district",
         "id": "okragle",
         "name": "Okrągłe",
         "parentCityId": "jaworzno"
-      }
-    ],
-    "okragle": [
+      },
       {
         "type": "district",
         "id": "okragle",
@@ -94914,15 +94384,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jaworzno"
       }
     ],
-    "biały brzeg": [
+    "bialy brzeg": [
       {
         "type": "district",
         "id": "bialy-brzeg",
         "name": "Biały Brzeg",
         "parentCityId": "jaworzno"
-      }
-    ],
-    "bialy brzeg": [
+      },
       {
         "type": "district",
         "id": "bialy-brzeg",
@@ -95228,15 +94696,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Jedlicze"
       }
     ],
-    "zapłocia": [
+    "zaplocia": [
       {
         "type": "district",
         "id": "zaplocia",
         "name": "Zapłocia",
         "parentCityId": "jedlicze"
-      }
-    ],
-    "zaplocia": [
+      },
       {
         "type": "district",
         "id": "zaplocia",
@@ -95286,15 +94752,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jedlicze"
       }
     ],
-    "na podłaczu": [
+    "na podlaczu": [
       {
         "type": "district",
         "id": "na-podlaczu",
         "name": "Na Podłączu",
         "parentCityId": "jedlicze"
-      }
-    ],
-    "na podlaczu": [
+      },
       {
         "type": "district",
         "id": "na-podlaczu",
@@ -95716,15 +95180,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jedlnia-letnisko"
       }
     ],
-    "siczki k młyna": [
+    "siczki k mlyna": [
       {
         "type": "district",
         "id": "siczki-k-mlyna",
         "name": "Siczki k. Młyna",
         "parentCityId": "jedlnia-letnisko"
-      }
-    ],
-    "siczki k mlyna": [
+      },
       {
         "type": "district",
         "id": "siczki-k-mlyna",
@@ -95852,15 +95314,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jelcz-laskowice"
       }
     ],
-    "laskowice oławskie": [
+    "laskowice olawskie": [
       {
         "type": "district",
         "id": "laskowice-olawskie",
         "name": "Laskowice Oławskie",
         "parentCityId": "jelcz-laskowice"
-      }
-    ],
-    "laskowice olawskie": [
+      },
       {
         "type": "district",
         "id": "laskowice-olawskie",
@@ -96416,15 +95876,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jordanow"
       }
     ],
-    "jakałowka": [
+    "jakalowka": [
       {
         "type": "district",
         "id": "jakalowka",
         "name": "Jąkałówka",
         "parentCityId": "jordanow"
-      }
-    ],
-    "jakalowka": [
+      },
       {
         "type": "district",
         "id": "jakalowka",
@@ -96502,15 +95960,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jordanow"
       }
     ],
-    "sagułowka": [
+    "sagulowka": [
       {
         "type": "district",
         "id": "sagulowka",
         "name": "Sagułówka",
         "parentCityId": "jordanow"
-      }
-    ],
-    "sagulowka": [
+      },
       {
         "type": "district",
         "id": "sagulowka",
@@ -96546,15 +96002,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jordanow"
       }
     ],
-    "piecałowka": [
+    "piecalowka": [
       {
         "type": "district",
         "id": "piecalowka",
         "name": "Piecałówka",
         "parentCityId": "jordanow"
-      }
-    ],
-    "piecalowka": [
+      },
       {
         "type": "district",
         "id": "piecalowka",
@@ -96708,15 +96162,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tomaszow-mazowiecki"
       }
     ],
-    "pardysowka mała": [
+    "pardysowka mala": [
       {
         "type": "district",
         "id": "pardysowka-mala",
         "name": "Pardysówka Mała",
         "parentCityId": "jozefow-lubelskie"
-      }
-    ],
-    "pardysowka mala": [
+      },
       {
         "type": "district",
         "id": "pardysowka-mala",
@@ -96780,31 +96232,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jozefow-mazowieckie"
       }
     ],
-    "kolonia błota": [
-      {
-        "type": "district",
-        "id": "kolonia-blota",
-        "name": "Kolonia Błota",
-        "parentCityId": "jozefow-mazowieckie"
-      }
-    ],
     "kolonia blota": [
       {
         "type": "district",
         "id": "kolonia-blota",
         "name": "Kolonia Błota",
         "parentCityId": "jozefow-mazowieckie"
+      },
+      {
+        "type": "district",
+        "id": "kolonia-blota",
+        "name": "Kolonia Błota",
+        "parentCityId": "jozefow-mazowieckie"
       }
     ],
-    "swidry małe": [
+    "swidry male": [
       {
         "type": "district",
         "id": "swidry-male",
         "name": "Świdry Małe",
         "parentCityId": "jozefow-mazowieckie"
-      }
-    ],
-    "swidry male": [
+      },
       {
         "type": "district",
         "id": "swidry-male",
@@ -96826,14 +96274,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "jozefow-mazowieckie"
       }
     ],
-    "jozefow nad wisła": [
+    "jozefow nad wisla": [
       {
         "type": "city",
         "id": "jozefow-nad-wisla",
         "name": "Józefów nad Wisłą"
-      }
-    ],
-    "jozefow nad wisla": [
+      },
       {
         "type": "city",
         "id": "jozefow-nad-wisla",
@@ -97315,23 +96761,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kalisz"
       }
     ],
-    "sulisławice": [
-      {
-        "type": "district",
-        "id": "sulislawice",
-        "name": "Sulisławice",
-        "parentCityId": "kalisz"
-      }
-    ],
     "sulislawice": [
       {
         "type": "district",
         "id": "sulislawice",
         "name": "Sulisławice",
         "parentCityId": "kalisz"
+      },
+      {
+        "type": "district",
+        "id": "sulislawice",
+        "name": "Sulisławice",
+        "parentCityId": "kalisz"
       }
     ],
-    "sulisławice-kolonia": [
+    "sulislawice-kolonia": [
       {
         "type": "district",
         "id": "sulislawice-kolonia",
@@ -97469,14 +96913,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kalisz Pomorski"
       }
     ],
-    "kałuszyn": [
+    "kaluszyn": [
       {
         "type": "city",
         "id": "kaluszyn",
         "name": "Kałuszyn"
-      }
-    ],
-    "kaluszyn": [
+      },
       {
         "type": "city",
         "id": "kaluszyn",
@@ -97577,15 +97019,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kalwaria-zebrzydowska"
       }
     ],
-    "błaszkowka": [
+    "blaszkowka": [
       {
         "type": "district",
         "id": "blaszkowka",
         "name": "Błaszkówka",
         "parentCityId": "kalwaria-zebrzydowska"
-      }
-    ],
-    "blaszkowka": [
+      },
       {
         "type": "district",
         "id": "blaszkowka",
@@ -97689,15 +97129,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kamień Krajeński"
       }
     ],
-    "tobołka": [
+    "tobolka": [
       {
         "type": "district",
         "id": "tobolka",
         "name": "Tobółka",
         "parentCityId": "kamien-krajenski"
-      }
-    ],
-    "tobolka": [
+      },
       {
         "type": "district",
         "id": "tobolka",
@@ -97937,15 +97375,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Karpacz"
       }
     ],
-    "płoczki": [
+    "ploczki": [
       {
         "type": "district",
         "id": "ploczki",
         "name": "Płóczki",
         "parentCityId": "karpacz"
-      }
-    ],
-    "ploczki": [
+      },
       {
         "type": "district",
         "id": "ploczki",
@@ -98115,7 +97551,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "katowice"
       }
     ],
-    "wymysłow": [
+    "wymyslow": [
+      {
+        "type": "district",
+        "id": "wymyslow",
+        "name": "Wymysłów",
+        "parentCityId": "katowice"
+      },
       {
         "type": "district",
         "id": "wymyslow",
@@ -98127,6 +97569,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wymyslow",
         "name": "Wymysłów",
         "parentCityId": "opoczno"
+      },
+      {
+        "type": "district",
+        "id": "wymyslow",
+        "name": "Wymysłów",
+        "parentCityId": "opoczno"
+      },
+      {
+        "type": "district",
+        "id": "wymyslow",
+        "name": "Wymysłów",
+        "parentCityId": "szydlowiec"
       },
       {
         "type": "district",
@@ -98139,26 +97593,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wymyslow",
         "name": "Wymysłów",
         "parentCityId": "tarnobrzeg"
-      }
-    ],
-    "wymyslow": [
-      {
-        "type": "district",
-        "id": "wymyslow",
-        "name": "Wymysłów",
-        "parentCityId": "katowice"
-      },
-      {
-        "type": "district",
-        "id": "wymyslow",
-        "name": "Wymysłów",
-        "parentCityId": "opoczno"
-      },
-      {
-        "type": "district",
-        "id": "wymyslow",
-        "name": "Wymysłów",
-        "parentCityId": "szydlowiec"
       },
       {
         "type": "district",
@@ -98221,15 +97655,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "katowice"
       }
     ],
-    "dabrowka mała": [
+    "dabrowka mala": [
       {
         "type": "district",
         "id": "dabrowka-mala",
         "name": "Dąbrówka Mała",
         "parentCityId": "katowice"
-      }
-    ],
-    "dabrowka mala": [
+      },
       {
         "type": "district",
         "id": "dabrowka-mala",
@@ -98349,15 +97781,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "katowice"
       }
     ],
-    "wełnowiec": [
+    "welnowiec": [
       {
         "type": "district",
         "id": "welnowiec",
         "name": "Wełnowiec",
         "parentCityId": "katowice"
-      }
-    ],
-    "welnowiec": [
+      },
       {
         "type": "district",
         "id": "welnowiec",
@@ -98501,40 +97931,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "katowice"
       }
     ],
-    "załeska hałda": [
-      {
-        "type": "district",
-        "id": "zaleska-halda",
-        "name": "Załęska Hałda",
-        "parentCityId": "katowice"
-      }
-    ],
     "zaleska halda": [
       {
         "type": "district",
         "id": "zaleska-halda",
         "name": "Załęska Hałda",
         "parentCityId": "katowice"
-      }
-    ],
-    "załeze": [
+      },
       {
         "type": "district",
-        "id": "zaleze",
-        "name": "Załęże",
+        "id": "zaleska-halda",
+        "name": "Załęska Hałda",
         "parentCityId": "katowice"
-      },
-      {
-        "type": "district",
-        "id": "zaleze",
-        "name": "Załęże",
-        "parentCityId": "krosno"
-      },
-      {
-        "type": "district",
-        "id": "zaleze",
-        "name": "Załęże",
-        "parentCityId": "rzeszow"
       }
     ],
     "zaleze": [
@@ -98548,7 +97956,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "zaleze",
         "name": "Załęże",
+        "parentCityId": "katowice"
+      },
+      {
+        "type": "district",
+        "id": "zaleze",
+        "name": "Załęże",
         "parentCityId": "krosno"
+      },
+      {
+        "type": "district",
+        "id": "zaleze",
+        "name": "Załęże",
+        "parentCityId": "krosno"
+      },
+      {
+        "type": "district",
+        "id": "zaleze",
+        "name": "Załęże",
+        "parentCityId": "rzeszow"
       },
       {
         "type": "district",
@@ -98667,14 +98093,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wieliczka"
       }
     ],
-    "katy wrocławskie": [
+    "katy wroclawskie": [
       {
         "type": "city",
         "id": "katy-wroclawskie",
         "name": "Kąty Wrocławskie"
-      }
-    ],
-    "katy wroclawskie": [
+      },
       {
         "type": "city",
         "id": "katy-wroclawskie",
@@ -98745,15 +98169,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kazimierz-dolny"
       }
     ],
-    "doły wylegowskie": [
+    "doly wylegowskie": [
       {
         "type": "district",
         "id": "doly-wylegowskie",
         "name": "Doły Wylęgowskie",
         "parentCityId": "kazimierz-dolny"
-      }
-    ],
-    "doly wylegowskie": [
+      },
       {
         "type": "district",
         "id": "doly-wylegowskie",
@@ -98963,7 +98385,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kazimierza Wielka"
       }
     ],
-    "wesoła": [
+    "wesola": [
+      {
+        "type": "district",
+        "id": "wesola",
+        "name": "Wesoła",
+        "parentCityId": "kazimierza-wielka"
+      },
       {
         "type": "district",
         "id": "wesola",
@@ -98980,7 +98408,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "wesola",
         "name": "Wesoła",
+        "parentCityId": "myslowice"
+      },
+      {
+        "type": "district",
+        "id": "wesola",
+        "name": "Wesoła",
         "parentCityId": "ropczyce"
+      },
+      {
+        "type": "district",
+        "id": "wesola",
+        "name": "Wesoła",
+        "parentCityId": "ropczyce"
+      },
+      {
+        "type": "district",
+        "id": "wesola",
+        "name": "Wesoła",
+        "parentCityId": "sokolow-podlaski"
       },
       {
         "type": "district",
@@ -98993,32 +98439,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wesola",
         "name": "Wesoła",
         "parentCityId": "warszawa"
-      }
-    ],
-    "wesola": [
-      {
-        "type": "district",
-        "id": "wesola",
-        "name": "Wesoła",
-        "parentCityId": "kazimierza-wielka"
-      },
-      {
-        "type": "district",
-        "id": "wesola",
-        "name": "Wesoła",
-        "parentCityId": "myslowice"
-      },
-      {
-        "type": "district",
-        "id": "wesola",
-        "name": "Wesoła",
-        "parentCityId": "ropczyce"
-      },
-      {
-        "type": "district",
-        "id": "wesola",
-        "name": "Wesoła",
-        "parentCityId": "sokolow-podlaski"
       },
       {
         "type": "district",
@@ -99053,15 +98473,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kcynia"
       }
     ],
-    "diabełek": [
+    "diabelek": [
       {
         "type": "district",
         "id": "diabelek",
         "name": "Diabełek",
         "parentCityId": "kcynia"
-      }
-    ],
-    "diabelek": [
+      },
       {
         "type": "district",
         "id": "diabelek",
@@ -99135,15 +98553,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kedzierzyn-kozle"
       }
     ],
-    "sławiecice": [
+    "slawiecice": [
       {
         "type": "district",
         "id": "slawiecice",
         "name": "Sławięcice",
         "parentCityId": "kedzierzyn-kozle"
-      }
-    ],
-    "slawiecice": [
+      },
       {
         "type": "district",
         "id": "slawiecice",
@@ -99245,15 +98661,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kedzierzyn-kozle"
       }
     ],
-    "biały ług": [
+    "bialy lug": [
       {
         "type": "district",
         "id": "bialy-lug",
         "name": "Biały Ług",
         "parentCityId": "kedzierzyn-kozle"
-      }
-    ],
-    "bialy lug": [
+      },
       {
         "type": "district",
         "id": "bialy-lug",
@@ -99317,7 +98731,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kedzierzyn-kozle"
       }
     ],
-    "kłodnica": [
+    "klodnica": [
+      {
+        "type": "district",
+        "id": "klodnica",
+        "name": "Kłodnica",
+        "parentCityId": "kedzierzyn-kozle"
+      },
       {
         "type": "district",
         "id": "klodnica",
@@ -99329,14 +98749,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "klodnica",
         "name": "Kłodnica",
         "parentCityId": "ruda-slaska"
-      }
-    ],
-    "klodnica": [
-      {
-        "type": "district",
-        "id": "klodnica",
-        "name": "Kłodnica",
-        "parentCityId": "kedzierzyn-kozle"
       },
       {
         "type": "district",
@@ -99389,15 +98801,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kedzierzyn-kozle"
       }
     ],
-    "miejsce kłodnickie": [
+    "miejsce klodnickie": [
       {
         "type": "district",
         "id": "miejsce-klodnickie",
         "name": "Miejsce Kłodnickie",
         "parentCityId": "kedzierzyn-kozle"
-      }
-    ],
-    "miejsce klodnickie": [
+      },
       {
         "type": "district",
         "id": "miejsce-klodnickie",
@@ -99471,15 +98881,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kepno"
       }
     ],
-    "osiedle przemysława": [
+    "osiedle przemyslawa": [
       {
         "type": "district",
         "id": "osiedle-przemyslawa",
         "name": "Osiedle Przemysława",
         "parentCityId": "kepno"
-      }
-    ],
-    "osiedle przemyslawa": [
+      },
       {
         "type": "district",
         "id": "osiedle-przemyslawa",
@@ -99539,15 +98947,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kety"
       }
     ],
-    "keckie gory połnocne": [
+    "keckie gory polnocne": [
       {
         "type": "district",
         "id": "keckie-gory-polnocne",
         "name": "Kęckie Góry Północne",
         "parentCityId": "kety"
-      }
-    ],
-    "keckie gory polnocne": [
+      },
       {
         "type": "district",
         "id": "keckie-gory-polnocne",
@@ -99609,32 +99015,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kety"
       }
     ],
-    "młynek": [
-      {
-        "type": "district",
-        "id": "mlynek",
-        "name": "Młynek",
-        "parentCityId": "kety"
-      },
-      {
-        "type": "district",
-        "id": "mlynek",
-        "name": "Młynek",
-        "parentCityId": "lazy"
-      },
-      {
-        "type": "district",
-        "id": "mlynek",
-        "name": "Młynek",
-        "parentCityId": "lututow"
-      },
-      {
-        "type": "district",
-        "id": "mlynek",
-        "name": "Młynek",
-        "parentCityId": "rymanow"
-      }
-    ],
     "mlynek": [
       {
         "type": "district",
@@ -99646,6 +99026,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "mlynek",
         "name": "Młynek",
+        "parentCityId": "kety"
+      },
+      {
+        "type": "district",
+        "id": "mlynek",
+        "name": "Młynek",
+        "parentCityId": "lazy"
+      },
+      {
+        "type": "district",
+        "id": "mlynek",
+        "name": "Młynek",
         "parentCityId": "lazy"
       },
       {
@@ -99658,15 +99050,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "mlynek",
         "name": "Młynek",
-        "parentCityId": "rymanow"
-      }
-    ],
-    "widłak": [
+        "parentCityId": "lututow"
+      },
       {
         "type": "district",
-        "id": "widlak",
-        "name": "Widłak",
-        "parentCityId": "kety"
+        "id": "mlynek",
+        "name": "Młynek",
+        "parentCityId": "rymanow"
+      },
+      {
+        "type": "district",
+        "id": "mlynek",
+        "name": "Młynek",
+        "parentCityId": "rymanow"
       }
     ],
     "widlak": [
@@ -99675,17 +99071,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "widlak",
         "name": "Widłak",
         "parentCityId": "kety"
+      },
+      {
+        "type": "district",
+        "id": "widlak",
+        "name": "Widłak",
+        "parentCityId": "kety"
       }
     ],
-    "keckie gory południowe": [
+    "keckie gory poludniowe": [
       {
         "type": "district",
         "id": "keckie-gory-poludniowe",
         "name": "Kęckie Góry Południowe",
         "parentCityId": "kety"
-      }
-    ],
-    "keckie gory poludniowe": [
+      },
       {
         "type": "district",
         "id": "keckie-gory-poludniowe",
@@ -99899,7 +99299,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "zalesie-słowik": [
+    "zalesie-slowik": [
       {
         "type": "district",
         "id": "zalesie-slowik",
@@ -99973,7 +99373,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "nałeczow": [
+    "naleczow": [
+      {
+        "type": "district",
+        "id": "naleczow",
+        "name": "Nałęczów",
+        "parentCityId": "kielce"
+      },
       {
         "type": "district",
         "id": "naleczow",
@@ -99984,14 +99390,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "naleczow",
         "name": "Nałęczów"
-      }
-    ],
-    "naleczow": [
-      {
-        "type": "district",
-        "id": "naleczow",
-        "name": "Nałęczów",
-        "parentCityId": "kielce"
       },
       {
         "type": "city",
@@ -100013,15 +99411,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "szydłowek": [
+    "szydlowek": [
       {
         "type": "district",
         "id": "szydlowek",
         "name": "Szydłówek",
         "parentCityId": "kielce"
-      }
-    ],
-    "szydlowek": [
+      },
       {
         "type": "district",
         "id": "szydlowek",
@@ -100103,15 +99499,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "łan": [
+    "lan": [
       {
         "type": "district",
         "id": "lan",
         "name": "Łan",
         "parentCityId": "kielce"
-      }
-    ],
-    "lan": [
+      },
       {
         "type": "district",
         "id": "lan",
@@ -100231,7 +99625,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "słowik-willa": [
+    "slowik-willa": [
       {
         "type": "district",
         "id": "slowik-willa",
@@ -100365,15 +99759,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "białogon": [
+    "bialogon": [
       {
         "type": "district",
         "id": "bialogon",
         "name": "Białogon",
         "parentCityId": "kielce"
-      }
-    ],
-    "bialogon": [
+      },
       {
         "type": "district",
         "id": "bialogon",
@@ -100625,15 +100017,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "posłowice": [
+    "poslowice": [
       {
         "type": "district",
         "id": "poslowice",
         "name": "Posłowice",
         "parentCityId": "kielce"
-      }
-    ],
-    "poslowice": [
+      },
       {
         "type": "district",
         "id": "poslowice",
@@ -100825,15 +100215,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kielce"
       }
     ],
-    "głeboczka": [
+    "gleboczka": [
       {
         "type": "district",
         "id": "gleboczka",
         "name": "Głęboczka",
         "parentCityId": "kielce"
-      }
-    ],
-    "gleboczka": [
+      },
       {
         "type": "district",
         "id": "gleboczka",
@@ -101007,25 +100395,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Krotoszyn"
       }
     ],
-    "kikoł": [
-      {
-        "type": "city",
-        "id": "kikol",
-        "name": "Kikół"
-      }
-    ],
     "kikol": [
       {
         "type": "city",
         "id": "kikol",
         "name": "Kikół"
-      }
-    ],
-    "kłecko": [
+      },
       {
         "type": "city",
-        "id": "klecko",
-        "name": "Kłecko"
+        "id": "kikol",
+        "name": "Kikół"
       }
     ],
     "klecko": [
@@ -101033,9 +100412,14 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "klecko",
         "name": "Kłecko"
+      },
+      {
+        "type": "city",
+        "id": "klecko",
+        "name": "Kłecko"
       }
     ],
-    "kłecko-kolonia": [
+    "klecko-kolonia": [
       {
         "type": "district",
         "id": "klecko-kolonia",
@@ -101137,7 +100521,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kleczew"
       }
     ],
-    "białobrod-kolonia": [
+    "bialobrod-kolonia": [
       {
         "type": "district",
         "id": "bialobrod-kolonia",
@@ -101217,14 +100601,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "klimontow"
       }
     ],
-    "kłobuck": [
+    "klobuck": [
       {
         "type": "city",
         "id": "klobuck",
         "name": "Kłobuck"
-      }
-    ],
-    "klobuck": [
+      },
       {
         "type": "city",
         "id": "klobuck",
@@ -101263,7 +100645,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "klobuck"
       }
     ],
-    "przybyłow": [
+    "przybylow": [
+      {
+        "type": "district",
+        "id": "przybylow",
+        "name": "Przybyłów",
+        "parentCityId": "klobuck"
+      },
       {
         "type": "district",
         "id": "przybylow",
@@ -101275,14 +100663,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "przybylow",
         "name": "Przybyłów",
         "parentCityId": "zgierz"
-      }
-    ],
-    "przybylow": [
-      {
-        "type": "district",
-        "id": "przybylow",
-        "name": "Przybyłów",
-        "parentCityId": "klobuck"
       },
       {
         "type": "district",
@@ -101321,28 +100701,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "klobuck"
       }
     ],
-    "kłodawa": [
-      {
-        "type": "city",
-        "id": "klodawa",
-        "name": "Kłodawa"
-      }
-    ],
     "klodawa": [
       {
         "type": "city",
         "id": "klodawa",
         "name": "Kłodawa"
+      },
+      {
+        "type": "city",
+        "id": "klodawa",
+        "name": "Kłodawa"
       }
     ],
-    "kłodzko": [
+    "klodzko": [
       {
         "type": "city",
         "id": "klodzko",
         "name": "Kłodzko"
-      }
-    ],
-    "klodzko": [
+      },
       {
         "type": "city",
         "id": "klodzko",
@@ -101373,31 +100749,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Knurów"
       }
     ],
-    "krywałd": [
-      {
-        "type": "district",
-        "id": "krywald",
-        "name": "Krywałd",
-        "parentCityId": "knurow"
-      }
-    ],
     "krywald": [
       {
         "type": "district",
         "id": "krywald",
         "name": "Krywałd",
         "parentCityId": "knurow"
+      },
+      {
+        "type": "district",
+        "id": "krywald",
+        "name": "Krywałd",
+        "parentCityId": "knurow"
       }
     ],
-    "szczygłowice": [
+    "szczyglowice": [
       {
         "type": "district",
         "id": "szczyglowice",
         "name": "Szczygłowice",
         "parentCityId": "knurow"
-      }
-    ],
-    "szczyglowice": [
+      },
       {
         "type": "district",
         "id": "szczyglowice",
@@ -101457,14 +100829,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kobylin"
       }
     ],
-    "kobyłka": [
+    "kobylka": [
       {
         "type": "city",
         "id": "kobylka",
         "name": "Kobyłka"
-      }
-    ],
-    "kobylka": [
+      },
       {
         "type": "city",
         "id": "kobylka",
@@ -101485,15 +100855,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kobylka"
       }
     ],
-    "maciołki": [
+    "maciolki": [
       {
         "type": "district",
         "id": "maciolki",
         "name": "Maciołki",
         "parentCityId": "kobylka"
-      }
-    ],
-    "maciolki": [
+      },
       {
         "type": "district",
         "id": "maciolki",
@@ -101649,14 +101017,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kock"
       }
     ],
-    "kołaczyce": [
+    "kolaczyce": [
       {
         "type": "city",
         "id": "kolaczyce",
         "name": "Kołaczyce"
-      }
-    ],
-    "kolaczyce": [
+      },
       {
         "type": "city",
         "id": "kolaczyce",
@@ -101713,31 +101079,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowa-ruda"
       }
     ],
-    "małe łabno": [
-      {
-        "type": "district",
-        "id": "male-labno",
-        "name": "Małe Łabno",
-        "parentCityId": "kolno"
-      }
-    ],
     "male labno": [
       {
         "type": "district",
         "id": "male-labno",
         "name": "Małe Łabno",
         "parentCityId": "kolno"
+      },
+      {
+        "type": "district",
+        "id": "male-labno",
+        "name": "Małe Łabno",
+        "parentCityId": "kolno"
       }
     ],
-    "duze łabno": [
+    "duze labno": [
       {
         "type": "district",
         "id": "duze-labno",
         "name": "Duże Łabno",
         "parentCityId": "kolno"
-      }
-    ],
-    "duze labno": [
+      },
       {
         "type": "district",
         "id": "duze-labno",
@@ -101759,15 +101121,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kolo"
       }
     ],
-    "płaszczyzna": [
+    "plaszczyzna": [
       {
         "type": "district",
         "id": "plaszczyzna",
         "name": "Płaszczyzna",
         "parentCityId": "kolo"
-      }
-    ],
-    "plaszczyzna": [
+      },
       {
         "type": "district",
         "id": "plaszczyzna",
@@ -101831,14 +101191,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kolo"
       }
     ],
-    "kołobrzeg": [
+    "kolobrzeg": [
       {
         "type": "city",
         "id": "kolobrzeg",
         "name": "Kołobrzeg"
-      }
-    ],
-    "kolobrzeg": [
+      },
       {
         "type": "city",
         "id": "kolobrzeg",
@@ -101859,15 +101217,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kolobrzeg"
       }
     ],
-    "zołczyce": [
+    "zolczyce": [
       {
         "type": "district",
         "id": "zolczyce",
         "name": "Żółczyce",
         "parentCityId": "kolobrzeg"
-      }
-    ],
-    "zolczyce": [
+      },
       {
         "type": "district",
         "id": "zolczyce",
@@ -102053,15 +101409,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koluszki"
       }
     ],
-    "dołek słotwinski": [
+    "dolek slotwinski": [
       {
         "type": "district",
         "id": "dolek-slotwinski",
         "name": "Dołek Słotwiński",
         "parentCityId": "koluszki"
-      }
-    ],
-    "dolek slotwinski": [
+      },
       {
         "type": "district",
         "id": "dolek-slotwinski",
@@ -102233,15 +101587,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "niesłusz": [
+    "nieslusz": [
       {
         "type": "district",
         "id": "nieslusz",
         "name": "Niesłusz",
         "parentCityId": "konin"
-      }
-    ],
-    "nieslusz": [
+      },
       {
         "type": "district",
         "id": "nieslusz",
@@ -102263,7 +101615,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "przydziałki": [
+    "przydzialki": [
+      {
+        "type": "district",
+        "id": "przydzialki",
+        "name": "Przydziałki",
+        "parentCityId": "konin"
+      },
       {
         "type": "district",
         "id": "przydzialki",
@@ -102275,14 +101633,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "przydzialki",
         "name": "Przydziałki",
         "parentCityId": "kozminek"
-      }
-    ],
-    "przydzialki": [
-      {
-        "type": "district",
-        "id": "przydzialki",
-        "name": "Przydziałki",
-        "parentCityId": "konin"
       },
       {
         "type": "district",
@@ -102305,7 +101655,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "gosławice": [
+    "goslawice": [
+      {
+        "type": "district",
+        "id": "goslawice",
+        "name": "Gosławice",
+        "parentCityId": "konin"
+      },
       {
         "type": "district",
         "id": "goslawice",
@@ -102317,14 +101673,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "goslawice",
         "name": "Gosławice",
         "parentCityId": "opole"
-      }
-    ],
-    "goslawice": [
-      {
-        "type": "district",
-        "id": "goslawice",
-        "name": "Gosławice",
-        "parentCityId": "konin"
       },
       {
         "type": "district",
@@ -102381,15 +101729,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wielen"
       }
     ],
-    "pawłowek": [
+    "pawlowek": [
       {
         "type": "district",
         "id": "pawlowek",
         "name": "Pawłówek",
         "parentCityId": "konin"
-      }
-    ],
-    "pawlowek": [
+      },
       {
         "type": "district",
         "id": "pawlowek",
@@ -102537,15 +101883,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "morzysław": [
+    "morzyslaw": [
       {
         "type": "district",
         "id": "morzyslaw",
         "name": "Morzysław",
         "parentCityId": "konin"
-      }
-    ],
-    "morzyslaw": [
+      },
       {
         "type": "district",
         "id": "morzyslaw",
@@ -102567,7 +101911,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "cukrownia-gosławice": [
+    "cukrownia-goslawice": [
       {
         "type": "district",
         "id": "cukrownia-goslawice",
@@ -102583,15 +101927,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konin"
       }
     ],
-    "łezyn": [
+    "lezyn": [
       {
         "type": "district",
         "id": "lezyn",
         "name": "Łężyn",
         "parentCityId": "konin"
-      }
-    ],
-    "lezyn": [
+      },
       {
         "type": "district",
         "id": "lezyn",
@@ -102685,7 +102027,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konskie"
       }
     ],
-    "stary młyn": [
+    "stary mlyn": [
+      {
+        "type": "district",
+        "id": "stary-mlyn",
+        "name": "Stary Młyn",
+        "parentCityId": "konskie"
+      },
       {
         "type": "district",
         "id": "stary-mlyn",
@@ -102697,14 +102045,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "stary-mlyn",
         "name": "Stary Młyn",
         "parentCityId": "zakopane"
-      }
-    ],
-    "stary mlyn": [
-      {
-        "type": "district",
-        "id": "stary-mlyn",
-        "name": "Stary Młyn",
-        "parentCityId": "konskie"
       },
       {
         "type": "district",
@@ -103005,14 +102345,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konstancin-jeziorna"
       }
     ],
-    "konstantynow łodzki": [
+    "konstantynow lodzki": [
       {
         "type": "city",
         "id": "konstantynow-lodzki",
         "name": "Konstantynów Łódzki"
-      }
-    ],
-    "konstantynow lodzki": [
+      },
       {
         "type": "city",
         "id": "konstantynow-lodzki",
@@ -103103,15 +102441,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "konstantynow-lodzki"
       }
     ],
-    "mirosławice": [
+    "miroslawice": [
       {
         "type": "district",
         "id": "miroslawice",
         "name": "Mirosławice",
         "parentCityId": "konstantynow-lodzki"
-      }
-    ],
-    "miroslawice": [
+      },
       {
         "type": "district",
         "id": "miroslawice",
@@ -103431,15 +102767,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koscian"
       }
     ],
-    "kiełczewo": [
+    "kielczewo": [
       {
         "type": "district",
         "id": "kielczewo",
         "name": "Kiełczewo",
         "parentCityId": "koscian"
-      }
-    ],
-    "kielczewo": [
+      },
       {
         "type": "district",
         "id": "kielczewo",
@@ -103541,15 +102875,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kosow-lacki"
       }
     ],
-    "łomianka": [
+    "lomianka": [
       {
         "type": "district",
         "id": "lomianka",
         "name": "Łomianka",
         "parentCityId": "kosow-lacki"
-      }
-    ],
-    "lomianka": [
+      },
       {
         "type": "district",
         "id": "lomianka",
@@ -103677,15 +103009,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kostrzyn nad Odrą"
       }
     ],
-    "szumiłowo": [
+    "szumilowo": [
       {
         "type": "district",
         "id": "szumilowo",
         "name": "Szumiłowo",
         "parentCityId": "kostrzyn-nad-odra"
-      }
-    ],
-    "szumilowo": [
+      },
       {
         "type": "district",
         "id": "szumilowo",
@@ -103787,15 +103117,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "łabusz": [
+    "labusz": [
       {
         "type": "district",
         "id": "labusz",
         "name": "Łabusz",
         "parentCityId": "koszalin"
-      }
-    ],
-    "labusz": [
+      },
       {
         "type": "district",
         "id": "labusz",
@@ -103817,15 +103145,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "kłoski": [
+    "kloski": [
       {
         "type": "district",
         "id": "kloski",
         "name": "Kłoski",
         "parentCityId": "koszalin"
-      }
-    ],
-    "kloski": [
+      },
       {
         "type": "district",
         "id": "kloski",
@@ -103847,15 +103173,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "chełmoniewo": [
+    "chelmoniewo": [
       {
         "type": "district",
         "id": "chelmoniewo",
         "name": "Chełmoniewo",
         "parentCityId": "koszalin"
-      }
-    ],
-    "chelmoniewo": [
+      },
       {
         "type": "district",
         "id": "chelmoniewo",
@@ -103891,7 +103215,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "miłakowo": [
+    "milakowo": [
+      {
+        "type": "district",
+        "id": "milakowo",
+        "name": "Miłakowo",
+        "parentCityId": "koszalin"
+      },
       {
         "type": "district",
         "id": "milakowo",
@@ -103902,14 +103232,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "milakowo",
         "name": "Miłakowo"
-      }
-    ],
-    "milakowo": [
-      {
-        "type": "district",
-        "id": "milakowo",
-        "name": "Miłakowo",
-        "parentCityId": "koszalin"
       },
       {
         "type": "city",
@@ -103931,15 +103253,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "wichłacz": [
+    "wichlacz": [
       {
         "type": "district",
         "id": "wichlacz",
         "name": "Wichłacz",
         "parentCityId": "koszalin"
-      }
-    ],
-    "wichlacz": [
+      },
       {
         "type": "district",
         "id": "wichlacz",
@@ -104003,15 +103323,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "kawiłeg": [
+    "kawileg": [
       {
         "type": "district",
         "id": "kawileg",
         "name": "Kawiłęg",
         "parentCityId": "koszalin"
-      }
-    ],
-    "kawileg": [
+      },
       {
         "type": "district",
         "id": "kawileg",
@@ -104033,15 +103351,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "koszalin"
       }
     ],
-    "chełmki": [
+    "chelmki": [
       {
         "type": "district",
         "id": "chelmki",
         "name": "Chełmki",
         "parentCityId": "koszalin"
-      }
-    ],
-    "chelmki": [
+      },
       {
         "type": "district",
         "id": "chelmki",
@@ -104205,14 +103521,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kowary"
       }
     ],
-    "koziegłowy": [
+    "kozieglowy": [
       {
         "type": "city",
         "id": "kozieglowy",
         "name": "Koziegłowy"
-      }
-    ],
-    "kozieglowy": [
+      },
       {
         "type": "city",
         "id": "kozieglowy",
@@ -104377,7 +103691,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Koźminek"
       }
     ],
-    "słowiki": [
+    "slowiki": [
+      {
+        "type": "district",
+        "id": "slowiki",
+        "name": "Słowiki",
+        "parentCityId": "kozminek"
+      },
       {
         "type": "district",
         "id": "slowiki",
@@ -104389,14 +103709,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "slowiki",
         "name": "Słowiki",
         "parentCityId": "olkusz"
-      }
-    ],
-    "slowiki": [
-      {
-        "type": "district",
-        "id": "slowiki",
-        "name": "Słowiki",
-        "parentCityId": "kozminek"
       },
       {
         "type": "district",
@@ -104624,15 +103936,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "krasnik"
       }
     ],
-    "spławy": [
+    "splawy": [
       {
         "type": "district",
         "id": "splawy",
         "name": "Spławy",
         "parentCityId": "krasnik"
-      }
-    ],
-    "splawy": [
+      },
       {
         "type": "district",
         "id": "splawy",
@@ -104864,15 +104174,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zywiec"
       }
     ],
-    "zuławy": [
+    "zulawy": [
       {
         "type": "district",
         "id": "zulawy",
         "name": "Żuławy",
         "parentCityId": "krasnobrod"
-      }
-    ],
-    "zulawy": [
+      },
       {
         "type": "district",
         "id": "zulawy",
@@ -105088,31 +104396,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "krosno"
       }
     ],
-    "tłoki lewe": [
-      {
-        "type": "district",
-        "id": "tloki-lewe",
-        "name": "Tłoki Lewe",
-        "parentCityId": "krosno"
-      }
-    ],
     "tloki lewe": [
       {
         "type": "district",
         "id": "tloki-lewe",
         "name": "Tłoki Lewe",
         "parentCityId": "krosno"
+      },
+      {
+        "type": "district",
+        "id": "tloki-lewe",
+        "name": "Tłoki Lewe",
+        "parentCityId": "krosno"
       }
     ],
-    "tłoki prawe": [
+    "tloki prawe": [
       {
         "type": "district",
         "id": "tloki-prawe",
         "name": "Tłoki Prawe",
         "parentCityId": "krosno"
-      }
-    ],
-    "tloki prawe": [
+      },
       {
         "type": "district",
         "id": "tloki-prawe",
@@ -105192,7 +104496,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "krosno"
       }
     ],
-    "zapłocie": [
+    "zaplocie": [
+      {
+        "type": "district",
+        "id": "zaplocie",
+        "name": "Zapłocie",
+        "parentCityId": "krosno"
+      },
       {
         "type": "district",
         "id": "zaplocie",
@@ -105204,6 +104514,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zaplocie",
         "name": "Zapłocie",
         "parentCityId": "opole"
+      },
+      {
+        "type": "district",
+        "id": "zaplocie",
+        "name": "Zapłocie",
+        "parentCityId": "opole"
+      },
+      {
+        "type": "district",
+        "id": "zaplocie",
+        "name": "Zapłocie",
+        "parentCityId": "przedecz"
       },
       {
         "type": "district",
@@ -105216,26 +104538,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zaplocie",
         "name": "Zapłocie",
         "parentCityId": "wysmierzyce"
-      }
-    ],
-    "zaplocie": [
-      {
-        "type": "district",
-        "id": "zaplocie",
-        "name": "Zapłocie",
-        "parentCityId": "krosno"
-      },
-      {
-        "type": "district",
-        "id": "zaplocie",
-        "name": "Zapłocie",
-        "parentCityId": "opole"
-      },
-      {
-        "type": "district",
-        "id": "zaplocie",
-        "name": "Zapłocie",
-        "parentCityId": "przedecz"
       },
       {
         "type": "district",
@@ -105314,15 +104616,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "krosno"
       }
     ],
-    "suchodoł": [
+    "suchodol": [
       {
         "type": "district",
         "id": "suchodol",
         "name": "Suchodół",
         "parentCityId": "krosno"
-      }
-    ],
-    "suchodol": [
+      },
       {
         "type": "district",
         "id": "suchodol",
@@ -105614,7 +104914,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kruszwica"
       }
     ],
-    "folwark-gopło": [
+    "folwark-goplo": [
       {
         "type": "district",
         "id": "folwark-goplo",
@@ -105806,7 +105106,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "krynica-zdroj"
       }
     ],
-    "słotwiny": [
+    "slotwiny": [
+      {
+        "type": "district",
+        "id": "slotwiny",
+        "name": "Słotwiny",
+        "parentCityId": "krynica-zdroj"
+      },
       {
         "type": "district",
         "id": "slotwiny",
@@ -105818,14 +105124,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "slotwiny",
         "name": "Słotwiny",
         "parentCityId": "skalbmierz"
-      }
-    ],
-    "slotwiny": [
-      {
-        "type": "district",
-        "id": "slotwiny",
-        "name": "Słotwiny",
-        "parentCityId": "krynica-zdroj"
       },
       {
         "type": "district",
@@ -106186,31 +105484,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ksiaz-wielki"
       }
     ],
-    "wysiołek": [
-      {
-        "type": "district",
-        "id": "wysiolek",
-        "name": "Wysiołek",
-        "parentCityId": "ksiaz-wielki"
-      }
-    ],
     "wysiolek": [
       {
         "type": "district",
         "id": "wysiolek",
         "name": "Wysiołek",
         "parentCityId": "ksiaz-wielki"
+      },
+      {
+        "type": "district",
+        "id": "wysiolek",
+        "name": "Wysiołek",
+        "parentCityId": "ksiaz-wielki"
       }
     ],
-    "kozłowka": [
+    "kozlowka": [
       {
         "type": "district",
         "id": "kozlowka",
         "name": "Kozłówka",
         "parentCityId": "ksiaz-wielki"
-      }
-    ],
-    "kozlowka": [
+      },
       {
         "type": "district",
         "id": "kozlowka",
@@ -106286,15 +105580,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kudowa-zdroj"
       }
     ],
-    "bukowina kłodzka": [
+    "bukowina klodzka": [
       {
         "type": "district",
         "id": "bukowina-klodzka",
         "name": "Bukowina Kłodzka",
         "parentCityId": "kudowa-zdroj"
-      }
-    ],
-    "bukowina klodzka": [
+      },
       {
         "type": "district",
         "id": "bukowina-klodzka",
@@ -106330,7 +105622,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kudowa-zdroj"
       }
     ],
-    "słone": [
+    "slone": [
+      {
+        "type": "district",
+        "id": "slone",
+        "name": "Słone",
+        "parentCityId": "kudowa-zdroj"
+      },
       {
         "type": "district",
         "id": "slone",
@@ -106342,14 +105640,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "slone",
         "name": "Słone",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "slone": [
-      {
-        "type": "district",
-        "id": "slone",
-        "name": "Słone",
-        "parentCityId": "kudowa-zdroj"
       },
       {
         "type": "district",
@@ -106414,31 +105704,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kunow"
       }
     ],
-    "ciołek": [
-      {
-        "type": "district",
-        "id": "ciolek",
-        "name": "Ciołek",
-        "parentCityId": "kunow"
-      }
-    ],
     "ciolek": [
       {
         "type": "district",
         "id": "ciolek",
         "name": "Ciołek",
         "parentCityId": "kunow"
+      },
+      {
+        "type": "district",
+        "id": "ciolek",
+        "name": "Ciołek",
+        "parentCityId": "kunow"
       }
     ],
-    "małachow": [
+    "malachow": [
       {
         "type": "district",
         "id": "malachow",
         "name": "Małachów",
         "parentCityId": "kunow"
-      }
-    ],
-    "malachow": [
+      },
       {
         "type": "district",
         "id": "malachow",
@@ -106572,15 +105858,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "stodołki": [
+    "stodolki": [
       {
         "type": "district",
         "id": "stodolki",
         "name": "Stodółki",
         "parentCityId": "kutno"
-      }
-    ],
-    "stodolki": [
+      },
       {
         "type": "district",
         "id": "stodolki",
@@ -106628,15 +105912,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rypin"
       }
     ],
-    "łakoszyn": [
+    "lakoszyn": [
       {
         "type": "district",
         "id": "lakoszyn",
         "name": "Łąkoszyn",
         "parentCityId": "kutno"
-      }
-    ],
-    "lakoszyn": [
+      },
       {
         "type": "district",
         "id": "lakoszyn",
@@ -106742,15 +106024,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "kutno"
       }
     ],
-    "kotliska małe": [
+    "kotliska male": [
       {
         "type": "district",
         "id": "kotliska-male",
         "name": "Kotliska Małe",
         "parentCityId": "kutno"
-      }
-    ],
-    "kotliska male": [
+      },
       {
         "type": "district",
         "id": "kotliska-male",
@@ -106782,29 +106062,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Kwidzyn"
       }
     ],
-    "łabiszyn": [
-      {
-        "type": "city",
-        "id": "labiszyn",
-        "name": "Łabiszyn"
-      }
-    ],
     "labiszyn": [
       {
         "type": "city",
         "id": "labiszyn",
         "name": "Łabiszyn"
+      },
+      {
+        "type": "city",
+        "id": "labiszyn",
+        "name": "Łabiszyn"
       }
     ],
-    "stary łabiszyn": [
+    "stary labiszyn": [
       {
         "type": "district",
         "id": "stary-labiszyn",
         "name": "Stary Łabiszyn",
         "parentCityId": "labiszyn"
-      }
-    ],
-    "stary labiszyn": [
+      },
       {
         "type": "district",
         "id": "stary-labiszyn",
@@ -106826,14 +106102,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lądek-Zdrój"
       }
     ],
-    "łagow": [
+    "lagow": [
       {
         "type": "city",
         "id": "lagow",
         "name": "Łagów"
-      }
-    ],
-    "lagow": [
+      },
       {
         "type": "city",
         "id": "lagow",
@@ -106880,30 +106154,26 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "polaniec"
       }
     ],
-    "masłowiec": [
-      {
-        "type": "district",
-        "id": "maslowiec",
-        "name": "Masłowiec",
-        "parentCityId": "lagow"
-      }
-    ],
     "maslowiec": [
       {
         "type": "district",
         "id": "maslowiec",
         "name": "Masłowiec",
         "parentCityId": "lagow"
+      },
+      {
+        "type": "district",
+        "id": "maslowiec",
+        "name": "Masłowiec",
+        "parentCityId": "lagow"
       }
     ],
-    "łancut": [
+    "lancut": [
       {
         "type": "city",
         "id": "lancut",
         "name": "Łańcut"
-      }
-    ],
-    "lancut": [
+      },
       {
         "type": "city",
         "id": "lancut",
@@ -106978,14 +106248,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lezajsk"
       }
     ],
-    "łapy": [
+    "lapy": [
       {
         "type": "city",
         "id": "lapy",
         "name": "Łapy"
-      }
-    ],
-    "lapy": [
+      },
       {
         "type": "city",
         "id": "lapy",
@@ -107076,28 +106344,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lapy"
       }
     ],
-    "łasin": [
-      {
-        "type": "city",
-        "id": "lasin",
-        "name": "Łasin"
-      }
-    ],
     "lasin": [
       {
         "type": "city",
         "id": "lasin",
         "name": "Łasin"
+      },
+      {
+        "type": "city",
+        "id": "lasin",
+        "name": "Łasin"
       }
     ],
-    "łask": [
+    "lask": [
       {
         "type": "city",
         "id": "lask",
         "name": "Łask"
-      }
-    ],
-    "lask": [
+      },
       {
         "type": "city",
         "id": "lask",
@@ -107142,7 +106406,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakroczym"
       }
     ],
-    "nowy młyn": [
+    "nowy mlyn": [
+      {
+        "type": "district",
+        "id": "nowy-mlyn",
+        "name": "Nowy Młyn",
+        "parentCityId": "lask"
+      },
       {
         "type": "district",
         "id": "nowy-mlyn",
@@ -107154,14 +106424,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "nowy-mlyn",
         "name": "Nowy Młyn",
         "parentCityId": "skarzysko-kamienna"
-      }
-    ],
-    "nowy mlyn": [
-      {
-        "type": "district",
-        "id": "nowy-mlyn",
-        "name": "Nowy Młyn",
-        "parentCityId": "lask"
       },
       {
         "type": "district",
@@ -107214,14 +106476,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lask"
       }
     ],
-    "łaskarzew": [
+    "laskarzew": [
       {
         "type": "city",
         "id": "laskarzew",
         "name": "Łaskarzew"
-      }
-    ],
-    "laskarzew": [
+      },
       {
         "type": "city",
         "id": "laskarzew",
@@ -107284,14 +106544,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "laskarzew"
       }
     ],
-    "łaszczow": [
+    "laszczow": [
       {
         "type": "city",
         "id": "laszczow",
         "name": "Łaszczów"
-      }
-    ],
-    "laszczow": [
+      },
       {
         "type": "city",
         "id": "laszczow",
@@ -107444,14 +106702,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Latowicz"
       }
     ],
-    "łaziska gorne": [
+    "laziska gorne": [
       {
         "type": "city",
         "id": "laziska-gorne",
         "name": "Łaziska Górne"
-      }
-    ],
-    "laziska gorne": [
+      },
       {
         "type": "city",
         "id": "laziska-gorne",
@@ -107472,15 +106728,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "laziska-gorne"
       }
     ],
-    "łaziska srednie": [
+    "laziska srednie": [
       {
         "type": "district",
         "id": "laziska-srednie",
         "name": "Łaziska Średnie",
         "parentCityId": "laziska-gorne"
-      }
-    ],
-    "laziska srednie": [
+      },
       {
         "type": "district",
         "id": "laziska-srednie",
@@ -107502,23 +106756,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "laziska-gorne"
       }
     ],
-    "łaziska dolne": [
-      {
-        "type": "district",
-        "id": "laziska-dolne",
-        "name": "Łaziska Dolne",
-        "parentCityId": "laziska-gorne"
-      }
-    ],
     "laziska dolne": [
       {
         "type": "district",
         "id": "laziska-dolne",
         "name": "Łaziska Dolne",
         "parentCityId": "laziska-gorne"
+      },
+      {
+        "type": "district",
+        "id": "laziska-dolne",
+        "name": "Łaziska Dolne",
+        "parentCityId": "laziska-gorne"
       }
     ],
-    "głazowka": [
+    "glazowka": [
+      {
+        "type": "district",
+        "id": "glazowka",
+        "name": "Głazówka",
+        "parentCityId": "lazy"
+      },
       {
         "type": "district",
         "id": "glazowka",
@@ -107530,14 +106788,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "glazowka",
         "name": "Głazówka",
         "parentCityId": "wozniki"
-      }
-    ],
-    "glazowka": [
-      {
-        "type": "district",
-        "id": "glazowka",
-        "name": "Głazówka",
-        "parentCityId": "lazy"
       },
       {
         "type": "district",
@@ -107574,14 +106824,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lazy"
       }
     ],
-    "łeba": [
+    "leba": [
       {
         "type": "city",
         "id": "leba",
         "name": "Łeba"
-      }
-    ],
-    "leba": [
+      },
       {
         "type": "city",
         "id": "leba",
@@ -107628,19 +106876,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lebork"
       }
     ],
-    "łeczna": [
-      {
-        "type": "city",
-        "id": "leczna",
-        "name": "Łęczna"
-      },
-      {
-        "type": "district",
-        "id": "leczna",
-        "name": "Łęczna",
-        "parentCityId": "nowy-dwor-mazowiecki"
-      }
-    ],
     "leczna": [
       {
         "type": "city",
@@ -107648,21 +106883,30 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Łęczna"
       },
       {
+        "type": "city",
+        "id": "leczna",
+        "name": "Łęczna"
+      },
+      {
+        "type": "district",
+        "id": "leczna",
+        "name": "Łęczna",
+        "parentCityId": "nowy-dwor-mazowiecki"
+      },
+      {
         "type": "district",
         "id": "leczna",
         "name": "Łęczna",
         "parentCityId": "nowy-dwor-mazowiecki"
       }
     ],
-    "posiołek": [
+    "posiolek": [
       {
         "type": "district",
         "id": "posiolek",
         "name": "Posiołek",
         "parentCityId": "leczna"
-      }
-    ],
-    "posiolek": [
+      },
       {
         "type": "district",
         "id": "posiolek",
@@ -107724,14 +106968,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "leczna"
       }
     ],
-    "łeczyca": [
+    "leczyca": [
       {
         "type": "city",
         "id": "leczyca",
         "name": "Łęczyca"
-      }
-    ],
-    "leczyca": [
+      },
       {
         "type": "city",
         "id": "leczyca",
@@ -107820,27 +107062,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ledziny"
       }
     ],
-    "nowy hołdunow": [
-      {
-        "type": "district",
-        "id": "nowy-holdunow",
-        "name": "Nowy Hołdunów",
-        "parentCityId": "ledziny"
-      }
-    ],
     "nowy holdunow": [
       {
         "type": "district",
         "id": "nowy-holdunow",
         "name": "Nowy Hołdunów",
         "parentCityId": "ledziny"
-      }
-    ],
-    "stary hołdunow": [
+      },
       {
         "type": "district",
-        "id": "stary-holdunow",
-        "name": "Stary Hołdunów",
+        "id": "nowy-holdunow",
+        "name": "Nowy Hołdunów",
         "parentCityId": "ledziny"
       }
     ],
@@ -107850,17 +107082,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "stary-holdunow",
         "name": "Stary Hołdunów",
         "parentCityId": "ledziny"
+      },
+      {
+        "type": "district",
+        "id": "stary-holdunow",
+        "name": "Stary Hołdunów",
+        "parentCityId": "ledziny"
       }
     ],
-    "goławiec": [
+    "golawiec": [
       {
         "type": "district",
         "id": "golawiec",
         "name": "Goławiec",
         "parentCityId": "ledziny"
-      }
-    ],
-    "golawiec": [
+      },
       {
         "type": "district",
         "id": "golawiec",
@@ -108039,15 +107275,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "legnica"
       }
     ],
-    "bełdow": [
+    "beldow": [
       {
         "type": "district",
         "id": "beldow",
         "name": "Bełdów",
         "parentCityId": "legnica"
-      }
-    ],
-    "beldow": [
+      },
       {
         "type": "district",
         "id": "beldow",
@@ -108121,15 +107355,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lesko"
       }
     ],
-    "wola postołowa": [
+    "wola postolowa": [
       {
         "type": "district",
         "id": "wola-postolowa",
         "name": "Wola Postołowa",
         "parentCityId": "lesko"
-      }
-    ],
-    "wola postolowa": [
+      },
       {
         "type": "district",
         "id": "wola-postolowa",
@@ -108565,15 +107797,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "libiaz"
       }
     ],
-    "libiaz mały": [
+    "libiaz maly": [
       {
         "type": "district",
         "id": "libiaz-maly",
         "name": "Libiąż Mały",
         "parentCityId": "libiaz"
-      }
-    ],
-    "libiaz maly": [
+      },
       {
         "type": "district",
         "id": "libiaz-maly",
@@ -108649,12 +107879,23 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "libiaz"
       }
     ],
-    "piła": [
+    "pila": [
       {
         "type": "district",
         "id": "pila",
         "name": "Piła",
         "parentCityId": "libiaz"
+      },
+      {
+        "type": "district",
+        "id": "pila",
+        "name": "Piła",
+        "parentCityId": "libiaz"
+      },
+      {
+        "type": "city",
+        "id": "pila",
+        "name": "Piła"
       },
       {
         "type": "city",
@@ -108666,19 +107907,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "pila",
         "name": "Piła",
         "parentCityId": "wisla"
-      }
-    ],
-    "pila": [
-      {
-        "type": "district",
-        "id": "pila",
-        "name": "Piła",
-        "parentCityId": "libiaz"
-      },
-      {
-        "type": "city",
-        "id": "pila",
-        "name": "Piła"
       },
       {
         "type": "district",
@@ -108701,7 +107929,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "libiaz"
       }
     ],
-    "moczydło": [
+    "moczydlo": [
+      {
+        "type": "district",
+        "id": "moczydlo",
+        "name": "Moczydło",
+        "parentCityId": "libiaz"
+      },
       {
         "type": "district",
         "id": "moczydlo",
@@ -108713,14 +107947,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "moczydlo",
         "name": "Moczydło",
         "parentCityId": "serock"
-      }
-    ],
-    "moczydlo": [
-      {
-        "type": "district",
-        "id": "moczydlo",
-        "name": "Moczydło",
-        "parentCityId": "libiaz"
       },
       {
         "type": "district",
@@ -108831,15 +108057,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Limanowa"
       }
     ],
-    "podjabłoniec": [
+    "podjabloniec": [
       {
         "type": "district",
         "id": "podjabloniec",
         "name": "Podjabłoniec",
         "parentCityId": "limanowa"
-      }
-    ],
-    "podjabloniec": [
+      },
       {
         "type": "district",
         "id": "podjabloniec",
@@ -108889,15 +108113,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "limanowa"
       }
     ],
-    "łososina gorna": [
+    "lososina gorna": [
       {
         "type": "district",
         "id": "lososina-gorna",
         "name": "Łososina Górna",
         "parentCityId": "limanowa"
-      }
-    ],
-    "lososina gorna": [
+      },
       {
         "type": "district",
         "id": "lososina-gorna",
@@ -108933,15 +108155,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "limanowa"
       }
     ],
-    "jabłoniec": [
+    "jabloniec": [
       {
         "type": "district",
         "id": "jabloniec",
         "name": "Jabłoniec",
         "parentCityId": "limanowa"
-      }
-    ],
-    "jabloniec": [
+      },
       {
         "type": "district",
         "id": "jabloniec",
@@ -109045,31 +108265,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lipiany"
       }
     ],
-    "wadoł": [
-      {
-        "type": "district",
-        "id": "wadol",
-        "name": "Wądół",
-        "parentCityId": "lipiany"
-      }
-    ],
     "wadol": [
       {
         "type": "district",
         "id": "wadol",
         "name": "Wądół",
         "parentCityId": "lipiany"
+      },
+      {
+        "type": "district",
+        "id": "wadol",
+        "name": "Wądół",
+        "parentCityId": "lipiany"
       }
     ],
-    "małcz": [
+    "malcz": [
       {
         "type": "district",
         "id": "malcz",
         "name": "Małcz",
         "parentCityId": "lipiany"
-      }
-    ],
-    "malcz": [
+      },
       {
         "type": "district",
         "id": "malcz",
@@ -109225,26 +108441,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lipsko"
       }
     ],
-    "łobez": [
-      {
-        "type": "city",
-        "id": "lobez",
-        "name": "Łobez"
-      }
-    ],
     "lobez": [
       {
         "type": "city",
         "id": "lobez",
         "name": "Łobez"
-      }
-    ],
-    "łobzowek": [
+      },
       {
-        "type": "district",
-        "id": "lobzowek",
-        "name": "Łobzówek",
-        "parentCityId": "lobez"
+        "type": "city",
+        "id": "lobez",
+        "name": "Łobez"
       }
     ],
     "lobzowek": [
@@ -109253,17 +108459,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lobzowek",
         "name": "Łobzówek",
         "parentCityId": "lobez"
+      },
+      {
+        "type": "district",
+        "id": "lobzowek",
+        "name": "Łobzówek",
+        "parentCityId": "lobez"
       }
     ],
-    "łosnica": [
+    "losnica": [
       {
         "type": "district",
         "id": "losnica",
         "name": "Łośnica",
         "parentCityId": "lobez"
-      }
-    ],
-    "losnica": [
+      },
       {
         "type": "district",
         "id": "losnica",
@@ -109299,25 +108509,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lobez"
       }
     ],
-    "łobzenica": [
-      {
-        "type": "city",
-        "id": "lobzenica",
-        "name": "Łobżenica"
-      }
-    ],
     "lobzenica": [
       {
         "type": "city",
         "id": "lobzenica",
         "name": "Łobżenica"
-      }
-    ],
-    "łochow": [
+      },
       {
         "type": "city",
-        "id": "lochow",
-        "name": "Łochów"
+        "id": "lobzenica",
+        "name": "Łobżenica"
       }
     ],
     "lochow": [
@@ -109325,17 +108526,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "lochow",
         "name": "Łochów"
+      },
+      {
+        "type": "city",
+        "id": "lochow",
+        "name": "Łochów"
       }
     ],
-    "borek łochowski": [
+    "borek lochowski": [
       {
         "type": "district",
         "id": "borek-lochowski",
         "name": "Borek Łochowski",
         "parentCityId": "lochow"
-      }
-    ],
-    "borek lochowski": [
+      },
       {
         "type": "district",
         "id": "borek-lochowski",
@@ -109357,30 +108561,26 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lochow"
       }
     ],
-    "wymysły": [
-      {
-        "type": "district",
-        "id": "wymysly",
-        "name": "Wymysły",
-        "parentCityId": "lochow"
-      }
-    ],
     "wymysly": [
       {
         "type": "district",
         "id": "wymysly",
         "name": "Wymysły",
         "parentCityId": "lochow"
+      },
+      {
+        "type": "district",
+        "id": "wymysly",
+        "name": "Wymysły",
+        "parentCityId": "lochow"
       }
     ],
-    "łodz": [
+    "lodz": [
       {
         "type": "city",
         "id": "lodz",
         "name": "Łódź"
-      }
-    ],
-    "lodz": [
+      },
       {
         "type": "city",
         "id": "lodz",
@@ -109461,29 +108661,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lodz"
       }
     ],
-    "łomianki": [
-      {
-        "type": "city",
-        "id": "lomianki",
-        "name": "Łomianki"
-      }
-    ],
     "lomianki": [
       {
         "type": "city",
         "id": "lomianki",
         "name": "Łomianki"
+      },
+      {
+        "type": "city",
+        "id": "lomianki",
+        "name": "Łomianki"
       }
     ],
-    "łomianki gorne": [
+    "lomianki gorne": [
       {
         "type": "district",
         "id": "lomianki-gorne",
         "name": "Łomianki Górne",
         "parentCityId": "lomianki"
-      }
-    ],
-    "lomianki gorne": [
+      },
       {
         "type": "district",
         "id": "lomianki-gorne",
@@ -109505,21 +108701,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lomianki"
       }
     ],
-    "łomza": [
-      {
-        "type": "city",
-        "id": "lomza",
-        "name": "Łomża"
-      }
-    ],
     "lomza": [
       {
         "type": "city",
         "id": "lomza",
         "name": "Łomża"
+      },
+      {
+        "type": "city",
+        "id": "lomza",
+        "name": "Łomża"
       }
     ],
-    "łomzyca-przedmiescie": [
+    "lomzyca-przedmiescie": [
       {
         "type": "district",
         "id": "lomzyca-przedmiescie",
@@ -109619,14 +108813,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "siemiatycze"
       }
     ],
-    "łopuszno": [
+    "lopuszno": [
       {
         "type": "city",
         "id": "lopuszno",
         "name": "Łopuszno"
-      }
-    ],
-    "lopuszno": [
+      },
       {
         "type": "city",
         "id": "lopuszno",
@@ -109699,14 +108891,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lopuszno"
       }
     ],
-    "łosice": [
+    "losice": [
       {
         "type": "city",
         "id": "losice",
         "name": "Łosice"
-      }
-    ],
-    "losice": [
+      },
       {
         "type": "city",
         "id": "losice",
@@ -109767,14 +108957,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "losice"
       }
     ],
-    "łowicz": [
+    "lowicz": [
       {
         "type": "city",
         "id": "lowicz",
         "name": "Łowicz"
-      }
-    ],
-    "lowicz": [
+      },
       {
         "type": "city",
         "id": "lowicz",
@@ -109885,15 +109073,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lubartów"
       }
     ],
-    "łucka": [
+    "lucka": [
       {
         "type": "district",
         "id": "lucka",
         "name": "Łucka",
         "parentCityId": "lubartow"
-      }
-    ],
-    "lucka": [
+      },
       {
         "type": "district",
         "id": "lucka",
@@ -109955,15 +109141,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lubawa"
       }
     ],
-    "pod sampławe": [
+    "pod samplawe": [
       {
         "type": "district",
         "id": "pod-samplawe",
         "name": "Pod Sampławę",
         "parentCityId": "lubawa"
-      }
-    ],
-    "pod samplawe": [
+      },
       {
         "type": "district",
         "id": "pod-samplawe",
@@ -110133,7 +109317,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lubin"
       }
     ],
-    "małomice": [
+    "malomice": [
+      {
+        "type": "district",
+        "id": "malomice",
+        "name": "Małomice",
+        "parentCityId": "lubin"
+      },
       {
         "type": "district",
         "id": "malomice",
@@ -110144,14 +109334,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "malomice",
         "name": "Małomice"
-      }
-    ],
-    "malomice": [
-      {
-        "type": "district",
-        "id": "malomice",
-        "name": "Małomice",
-        "parentCityId": "lubin"
       },
       {
         "type": "city",
@@ -110339,15 +109521,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "kolonia sławinek": [
+    "kolonia slawinek": [
       {
         "type": "district",
         "id": "kolonia-slawinek",
         "name": "Kolonia Sławinek",
         "parentCityId": "lublin"
-      }
-    ],
-    "kolonia slawinek": [
+      },
       {
         "type": "district",
         "id": "kolonia-slawinek",
@@ -110465,15 +109645,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "długa wies": [
+    "dluga wies": [
       {
         "type": "district",
         "id": "dluga-wies",
         "name": "Długa Wieś",
         "parentCityId": "lublin"
-      }
-    ],
-    "dluga wies": [
+      },
       {
         "type": "district",
         "id": "dluga-wies",
@@ -110587,15 +109765,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowe-warpno"
       }
     ],
-    "sławin": [
+    "slawin": [
       {
         "type": "district",
         "id": "slawin",
         "name": "Sławin",
         "parentCityId": "lublin"
-      }
-    ],
-    "slawin": [
+      },
       {
         "type": "district",
         "id": "slawin",
@@ -110617,15 +109793,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "białkowska gora": [
+    "bialkowska gora": [
       {
         "type": "district",
         "id": "bialkowska-gora",
         "name": "Białkowska Góra",
         "parentCityId": "lublin"
-      }
-    ],
-    "bialkowska gora": [
+      },
       {
         "type": "district",
         "id": "bialkowska-gora",
@@ -110939,15 +110113,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "zimne doły": [
+    "zimne doly": [
       {
         "type": "district",
         "id": "zimne-doly",
         "name": "Zimne Doły",
         "parentCityId": "lublin"
-      }
-    ],
-    "zimne doly": [
+      },
       {
         "type": "district",
         "id": "zimne-doly",
@@ -111039,15 +110211,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "wola sławinska": [
+    "wola slawinska": [
       {
         "type": "district",
         "id": "wola-slawinska",
         "name": "Wola Sławińska",
         "parentCityId": "lublin"
-      }
-    ],
-    "wola slawinska": [
+      },
       {
         "type": "district",
         "id": "wola-slawinska",
@@ -111123,15 +110293,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "jerzysław": [
+    "jerzyslaw": [
       {
         "type": "district",
         "id": "jerzyslaw",
         "name": "Jerzysław",
         "parentCityId": "lublin"
-      }
-    ],
-    "jerzyslaw": [
+      },
       {
         "type": "district",
         "id": "jerzyslaw",
@@ -111227,15 +110395,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "sławinek": [
+    "slawinek": [
       {
         "type": "district",
         "id": "slawinek",
         "name": "Sławinek",
         "parentCityId": "lublin"
-      }
-    ],
-    "slawinek": [
+      },
       {
         "type": "district",
         "id": "slawinek",
@@ -111327,15 +110493,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lublin"
       }
     ],
-    "kolonia sławin": [
+    "kolonia slawin": [
       {
         "type": "district",
         "id": "kolonia-slawin",
         "name": "Kolonia Sławin",
         "parentCityId": "lublin"
-      }
-    ],
-    "kolonia slawin": [
+      },
       {
         "type": "district",
         "id": "kolonia-slawin",
@@ -111383,15 +110547,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lubliniec"
       }
     ],
-    "zagłowek": [
+    "zaglowek": [
       {
         "type": "district",
         "id": "zaglowek",
         "name": "Zagłówek",
         "parentCityId": "lubliniec"
-      }
-    ],
-    "zaglowek": [
+      },
       {
         "type": "district",
         "id": "zaglowek",
@@ -111705,15 +110867,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lubycza Królewska"
       }
     ],
-    "łuzek": [
+    "luzek": [
       {
         "type": "district",
         "id": "luzek",
         "name": "Łużek",
         "parentCityId": "lubycza-krolewska"
-      }
-    ],
-    "luzek": [
+      },
       {
         "type": "district",
         "id": "luzek",
@@ -111737,14 +110897,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lubycza-krolewska"
       }
     ],
-    "łukow": [
+    "lukow": [
       {
         "type": "city",
         "id": "lukow",
         "name": "Łuków"
-      }
-    ],
-    "lukow": [
+      },
       {
         "type": "city",
         "id": "lukow",
@@ -111779,15 +110937,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "lukow"
       }
     ],
-    "nowy łukow": [
+    "nowy lukow": [
       {
         "type": "district",
         "id": "nowy-lukow",
         "name": "Nowy Łuków",
         "parentCityId": "lukow"
-      }
-    ],
-    "nowy lukow": [
+      },
       {
         "type": "district",
         "id": "nowy-lukow",
@@ -111905,31 +111061,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczuczyn"
       }
     ],
-    "gołaszowiec": [
-      {
-        "type": "district",
-        "id": "golaszowiec",
-        "name": "Gołaszowiec",
-        "parentCityId": "lukow"
-      }
-    ],
     "golaszowiec": [
       {
         "type": "district",
         "id": "golaszowiec",
         "name": "Gołaszowiec",
         "parentCityId": "lukow"
+      },
+      {
+        "type": "district",
+        "id": "golaszowiec",
+        "name": "Gołaszowiec",
+        "parentCityId": "lukow"
       }
     ],
-    "łapiguz": [
+    "lapiguz": [
       {
         "type": "district",
         "id": "lapiguz",
         "name": "Łapiguz",
         "parentCityId": "lukow"
-      }
-    ],
-    "lapiguz": [
+      },
       {
         "type": "district",
         "id": "lapiguz",
@@ -112089,15 +111241,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Lwówek Śląski"
       }
     ],
-    "płakowice": [
+    "plakowice": [
       {
         "type": "district",
         "id": "plakowice",
         "name": "Płakowice",
         "parentCityId": "lwowek-slaski"
-      }
-    ],
-    "plakowice": [
+      },
       {
         "type": "district",
         "id": "plakowice",
@@ -112195,15 +111345,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Maków Podhalański"
       }
     ],
-    "makowski dział": [
+    "makowski dzial": [
       {
         "type": "district",
         "id": "makowski-dzial",
         "name": "Makowski Dział",
         "parentCityId": "makow-podhalanski"
-      }
-    ],
-    "makowski dzial": [
+      },
       {
         "type": "district",
         "id": "makowski-dzial",
@@ -112309,15 +111457,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "makow-podhalanski"
       }
     ],
-    "sołki": [
+    "solki": [
       {
         "type": "district",
         "id": "solki",
         "name": "Sółki",
         "parentCityId": "makow-podhalanski"
-      }
-    ],
-    "solki": [
+      },
       {
         "type": "district",
         "id": "solki",
@@ -112365,12 +111511,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "makow-podhalanski"
       }
     ],
-    "młyny": [
+    "mlyny": [
       {
         "type": "district",
         "id": "mlyny",
         "name": "Młyny",
         "parentCityId": "makow-podhalanski"
+      },
+      {
+        "type": "district",
+        "id": "mlyny",
+        "name": "Młyny",
+        "parentCityId": "makow-podhalanski"
+      },
+      {
+        "type": "district",
+        "id": "mlyny",
+        "name": "Młyny",
+        "parentCityId": "przysucha"
       },
       {
         "type": "district",
@@ -112383,20 +111541,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mlyny",
         "name": "Młyny",
         "parentCityId": "trzebinia"
-      }
-    ],
-    "mlyny": [
-      {
-        "type": "district",
-        "id": "mlyny",
-        "name": "Młyny",
-        "parentCityId": "makow-podhalanski"
-      },
-      {
-        "type": "district",
-        "id": "mlyny",
-        "name": "Młyny",
-        "parentCityId": "przysucha"
       },
       {
         "type": "district",
@@ -112699,15 +111843,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Malbork"
       }
     ],
-    "kałdowo": [
+    "kaldowo": [
       {
         "type": "district",
         "id": "kaldowo",
         "name": "Kałdowo",
         "parentCityId": "malbork"
-      }
-    ],
-    "kaldowo": [
+      },
       {
         "type": "district",
         "id": "kaldowo",
@@ -112767,28 +111909,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Wielbark"
       }
     ],
-    "małkinia gorna": [
-      {
-        "type": "city",
-        "id": "malkinia-gorna",
-        "name": "Małkinia Górna"
-      }
-    ],
     "malkinia gorna": [
       {
         "type": "city",
         "id": "malkinia-gorna",
         "name": "Małkinia Górna"
+      },
+      {
+        "type": "city",
+        "id": "malkinia-gorna",
+        "name": "Małkinia Górna"
       }
     ],
-    "małogoszcz": [
+    "malogoszcz": [
       {
         "type": "city",
         "id": "malogoszcz",
         "name": "Małogoszcz"
-      }
-    ],
-    "malogoszcz": [
+      },
       {
         "type": "city",
         "id": "malogoszcz",
@@ -112809,7 +111947,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "malogoszcz"
       }
     ],
-    "suwałki": [
+    "suwalki": [
+      {
+        "type": "district",
+        "id": "suwalki",
+        "name": "Suwałki",
+        "parentCityId": "malogoszcz"
+      },
       {
         "type": "district",
         "id": "suwalki",
@@ -112820,14 +111964,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "suwalki",
         "name": "Suwałki"
-      }
-    ],
-    "suwalki": [
-      {
-        "type": "district",
-        "id": "suwalki",
-        "name": "Suwałki",
-        "parentCityId": "malogoszcz"
       },
       {
         "type": "city",
@@ -113297,15 +112433,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "miechow"
       }
     ],
-    "doły komorowskie": [
+    "doly komorowskie": [
       {
         "type": "district",
         "id": "doly-komorowskie",
         "name": "Doły Komorowskie",
         "parentCityId": "miechow"
-      }
-    ],
-    "doly komorowskie": [
+      },
       {
         "type": "district",
         "id": "doly-komorowskie",
@@ -113351,15 +112485,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Międzychód"
       }
     ],
-    "mała wielowies": [
+    "mala wielowies": [
       {
         "type": "district",
         "id": "mala-wielowies",
         "name": "Mała Wielowieś",
         "parentCityId": "miedzychod"
-      }
-    ],
-    "mala wielowies": [
+      },
       {
         "type": "district",
         "id": "mala-wielowies",
@@ -113379,15 +112511,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Międzyrzec Podlaski"
       }
     ],
-    "stołpno": [
+    "stolpno": [
       {
         "type": "district",
         "id": "stolpno",
         "name": "Stołpno",
         "parentCityId": "miedzyrzec-podlaski"
-      }
-    ],
-    "stolpno": [
+      },
       {
         "type": "district",
         "id": "stolpno",
@@ -113423,15 +112553,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "miedzyrzec-podlaski"
       }
     ],
-    "łukowska": [
+    "lukowska": [
       {
         "type": "district",
         "id": "lukowska",
         "name": "Łukowska",
         "parentCityId": "miedzyrzec-podlaski"
-      }
-    ],
-    "lukowska": [
+      },
       {
         "type": "district",
         "id": "lukowska",
@@ -113739,31 +112867,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mielec"
       }
     ],
-    "gorka wojsławska": [
-      {
-        "type": "district",
-        "id": "gorka-wojslawska",
-        "name": "Górka Wojsławska",
-        "parentCityId": "mielec"
-      }
-    ],
     "gorka wojslawska": [
       {
         "type": "district",
         "id": "gorka-wojslawska",
         "name": "Górka Wojsławska",
         "parentCityId": "mielec"
+      },
+      {
+        "type": "district",
+        "id": "gorka-wojslawska",
+        "name": "Górka Wojsławska",
+        "parentCityId": "mielec"
       }
     ],
-    "stare skały": [
+    "stare skaly": [
       {
         "type": "district",
         "id": "stare-skaly",
         "name": "Stare Skały",
         "parentCityId": "mielec"
-      }
-    ],
-    "stare skaly": [
+      },
       {
         "type": "district",
         "id": "stare-skaly",
@@ -113785,15 +112909,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mielec"
       }
     ],
-    "wojsław": [
+    "wojslaw": [
       {
         "type": "district",
         "id": "wojslaw",
         "name": "Wojsław",
         "parentCityId": "mielec"
-      }
-    ],
-    "wojslaw": [
+      },
       {
         "type": "district",
         "id": "wojslaw",
@@ -113841,15 +112963,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mielec"
       }
     ],
-    "pod złotnikami": [
+    "pod zlotnikami": [
       {
         "type": "district",
         "id": "pod-zlotnikami",
         "name": "Pod Złotnikami",
         "parentCityId": "mielec"
-      }
-    ],
-    "pod zlotnikami": [
+      },
       {
         "type": "district",
         "id": "pod-zlotnikami",
@@ -113963,15 +113083,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mielec"
       }
     ],
-    "poreby wojsławickie": [
+    "poreby wojslawickie": [
       {
         "type": "district",
         "id": "poreby-wojslawickie",
         "name": "Poręby Wojsławickie",
         "parentCityId": "mielec"
-      }
-    ],
-    "poreby wojslawickie": [
+      },
       {
         "type": "district",
         "id": "poreby-wojslawickie",
@@ -114007,31 +113125,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mielec"
       }
     ],
-    "wojsławek": [
-      {
-        "type": "district",
-        "id": "wojslawek",
-        "name": "Wojsławek",
-        "parentCityId": "mielec"
-      }
-    ],
     "wojslawek": [
       {
         "type": "district",
         "id": "wojslawek",
         "name": "Wojsławek",
         "parentCityId": "mielec"
+      },
+      {
+        "type": "district",
+        "id": "wojslawek",
+        "name": "Wojsławek",
+        "parentCityId": "mielec"
       }
     ],
-    "łuze": [
+    "luze": [
       {
         "type": "district",
         "id": "luze",
         "name": "Łuże",
         "parentCityId": "mielec"
-      }
-    ],
-    "luze": [
+      },
       {
         "type": "district",
         "id": "luze",
@@ -114157,26 +113271,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mieszkowice"
       }
     ],
-    "mikołajki": [
-      {
-        "type": "city",
-        "id": "mikolajki",
-        "name": "Mikołajki"
-      }
-    ],
     "mikolajki": [
       {
         "type": "city",
         "id": "mikolajki",
         "name": "Mikołajki"
-      }
-    ],
-    "karłowo": [
+      },
       {
-        "type": "district",
-        "id": "karlowo",
-        "name": "Karłowo",
-        "parentCityId": "mikolajki"
+        "type": "city",
+        "id": "mikolajki",
+        "name": "Mikołajki"
       }
     ],
     "karlowo": [
@@ -114185,16 +113289,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "karlowo",
         "name": "Karłowo",
         "parentCityId": "mikolajki"
+      },
+      {
+        "type": "district",
+        "id": "karlowo",
+        "name": "Karłowo",
+        "parentCityId": "mikolajki"
       }
     ],
-    "mikołow": [
+    "mikolow": [
       {
         "type": "city",
         "id": "mikolow",
         "name": "Mikołów"
-      }
-    ],
-    "mikolow": [
+      },
       {
         "type": "city",
         "id": "mikolow",
@@ -114281,15 +113389,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "muszyna"
       }
     ],
-    "smiłowice": [
+    "smilowice": [
       {
         "type": "district",
         "id": "smilowice",
         "name": "Śmiłowice",
         "parentCityId": "mikolow"
-      }
-    ],
-    "smilowice": [
+      },
       {
         "type": "district",
         "id": "smilowice",
@@ -114353,15 +113459,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mikolow"
       }
     ],
-    "kałuze": [
+    "kaluze": [
       {
         "type": "district",
         "id": "kaluze",
         "name": "Kałuże",
         "parentCityId": "mikolow"
-      }
-    ],
-    "kaluze": [
+      },
       {
         "type": "district",
         "id": "kaluze",
@@ -114421,15 +113525,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mikolow"
       }
     ],
-    "reta smiłowicka": [
+    "reta smilowicka": [
       {
         "type": "district",
         "id": "reta-smilowicka",
         "name": "Reta Śmiłowicka",
         "parentCityId": "mikolow"
-      }
-    ],
-    "reta smilowicka": [
+      },
       {
         "type": "district",
         "id": "reta-smilowicka",
@@ -114641,15 +113743,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Milicz"
       }
     ],
-    "kobiałka": [
+    "kobialka": [
       {
         "type": "district",
         "id": "kobialka",
         "name": "Kobiałka",
         "parentCityId": "milicz"
-      }
-    ],
-    "kobialka": [
+      },
       {
         "type": "district",
         "id": "kobialka",
@@ -114673,14 +113773,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "milicz"
       }
     ],
-    "miłomłyn": [
+    "milomlyn": [
       {
         "type": "city",
         "id": "milomlyn",
         "name": "Miłomłyn"
-      }
-    ],
-    "milomlyn": [
+      },
       {
         "type": "city",
         "id": "milomlyn",
@@ -114743,14 +113841,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "milomlyn"
       }
     ],
-    "miłosław": [
+    "miloslaw": [
       {
         "type": "city",
         "id": "miloslaw",
         "name": "Miłosław"
-      }
-    ],
-    "miloslaw": [
+      },
       {
         "type": "city",
         "id": "miloslaw",
@@ -114795,15 +113891,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Mińsk Mazowiecki"
       }
     ],
-    "kedzierak mały": [
+    "kedzierak maly": [
       {
         "type": "district",
         "id": "kedzierak-maly",
         "name": "Kędzierak Mały",
         "parentCityId": "minsk-mazowiecki"
-      }
-    ],
-    "kedzierak maly": [
+      },
       {
         "type": "district",
         "id": "kedzierak-maly",
@@ -114853,14 +113947,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "minsk-mazowiecki"
       }
     ],
-    "mirosławiec": [
+    "miroslawiec": [
       {
         "type": "city",
         "id": "miroslawiec",
         "name": "Mirosławiec"
-      }
-    ],
-    "miroslawiec": [
+      },
       {
         "type": "city",
         "id": "miroslawiec",
@@ -114893,26 +113985,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mirsk"
       }
     ],
-    "mława": [
-      {
-        "type": "city",
-        "id": "mlawa",
-        "name": "Mława"
-      }
-    ],
     "mlawa": [
       {
         "type": "city",
         "id": "mlawa",
         "name": "Mława"
-      }
-    ],
-    "mławka": [
+      },
       {
-        "type": "district",
-        "id": "mlawka",
-        "name": "Mławka",
-        "parentCityId": "mlawa"
+        "type": "city",
+        "id": "mlawa",
+        "name": "Mława"
       }
     ],
     "mlawka": [
@@ -114921,13 +114003,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mlawka",
         "name": "Mławka",
         "parentCityId": "mlawa"
-      }
-    ],
-    "budy mławskie": [
+      },
       {
         "type": "district",
-        "id": "budy-mlawskie",
-        "name": "Budy Mławskie",
+        "id": "mlawka",
+        "name": "Mławka",
         "parentCityId": "mlawa"
       }
     ],
@@ -114937,9 +114017,15 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "budy-mlawskie",
         "name": "Budy Mławskie",
         "parentCityId": "mlawa"
+      },
+      {
+        "type": "district",
+        "id": "budy-mlawskie",
+        "name": "Budy Mławskie",
+        "parentCityId": "mlawa"
       }
     ],
-    "mława-wolka": [
+    "mlawa-wolka": [
       {
         "type": "district",
         "id": "mlawa-wolka",
@@ -114983,30 +114069,26 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mlawa"
       }
     ],
-    "stanisławowo": [
-      {
-        "type": "district",
-        "id": "stanislawowo",
-        "name": "Stanisławowo",
-        "parentCityId": "mlawa"
-      }
-    ],
     "stanislawowo": [
       {
         "type": "district",
         "id": "stanislawowo",
         "name": "Stanisławowo",
         "parentCityId": "mlawa"
+      },
+      {
+        "type": "district",
+        "id": "stanislawowo",
+        "name": "Stanisławowo",
+        "parentCityId": "mlawa"
       }
     ],
-    "młynary": [
+    "mlynary": [
       {
         "type": "city",
         "id": "mlynary",
         "name": "Młynary"
-      }
-    ],
-    "mlynary": [
+      },
       {
         "type": "city",
         "id": "mlynary",
@@ -115105,15 +114187,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mogielnica"
       }
     ],
-    "przykosciołek": [
+    "przykosciolek": [
       {
         "type": "district",
         "id": "przykosciolek",
         "name": "Przykościółek",
         "parentCityId": "mogielnica"
-      }
-    ],
-    "przykosciolek": [
+      },
       {
         "type": "district",
         "id": "przykosciolek",
@@ -115557,15 +114637,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "obłazy": [
+    "oblazy": [
       {
         "type": "district",
         "id": "oblazy",
         "name": "Obłazy",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "oblazy": [
+      },
       {
         "type": "district",
         "id": "oblazy",
@@ -115587,15 +114665,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "kołacze": [
+    "kolacze": [
       {
         "type": "district",
         "id": "kolacze",
         "name": "Kołacze",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "kolacze": [
+      },
       {
         "type": "district",
         "id": "kolacze",
@@ -115617,15 +114693,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "gocały": [
+    "gocaly": [
       {
         "type": "district",
         "id": "gocaly",
         "name": "Gocały",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "gocaly": [
+      },
       {
         "type": "district",
         "id": "gocaly",
@@ -115731,15 +114805,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "słomka": [
+    "slomka": [
       {
         "type": "district",
         "id": "slomka",
         "name": "Słomka",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "slomka": [
+      },
       {
         "type": "district",
         "id": "slomka",
@@ -115829,15 +114901,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "łabuzy": [
+    "labuzy": [
       {
         "type": "district",
         "id": "labuzy",
         "name": "Łabuzy",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "labuzy": [
+      },
       {
         "type": "district",
         "id": "labuzy",
@@ -115901,27 +114971,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "łysak": [
-      {
-        "type": "district",
-        "id": "lysak",
-        "name": "Łysak",
-        "parentCityId": "mszana-dolna"
-      }
-    ],
     "lysak": [
       {
         "type": "district",
         "id": "lysak",
         "name": "Łysak",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "marszałki": [
+      },
       {
         "type": "district",
-        "id": "marszalki",
-        "name": "Marszałki",
+        "id": "lysak",
+        "name": "Łysak",
         "parentCityId": "mszana-dolna"
       }
     ],
@@ -115931,17 +114991,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "marszalki",
         "name": "Marszałki",
         "parentCityId": "mszana-dolna"
+      },
+      {
+        "type": "district",
+        "id": "marszalki",
+        "name": "Marszałki",
+        "parentCityId": "mszana-dolna"
       }
     ],
-    "wonioły": [
+    "wonioly": [
       {
         "type": "district",
         "id": "wonioly",
         "name": "Wonioły",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "wonioly": [
+      },
       {
         "type": "district",
         "id": "wonioly",
@@ -116005,15 +115069,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "sawały": [
+    "sawaly": [
       {
         "type": "district",
         "id": "sawaly",
         "name": "Sawały",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "sawaly": [
+      },
       {
         "type": "district",
         "id": "sawaly",
@@ -116115,15 +115177,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "bołdony": [
+    "boldony": [
       {
         "type": "district",
         "id": "boldony",
         "name": "Bołdony",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "boldony": [
+      },
       {
         "type": "district",
         "id": "boldony",
@@ -116145,15 +115205,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mszana-dolna"
       }
     ],
-    "koziołki": [
+    "koziolki": [
       {
         "type": "district",
         "id": "koziolki",
         "name": "Koziołki",
         "parentCityId": "mszana-dolna"
-      }
-    ],
-    "koziolki": [
+      },
       {
         "type": "district",
         "id": "koziolki",
@@ -116201,7 +115259,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Mszczonów"
       }
     ],
-    "pogorzałki": [
+    "pogorzalki": [
+      {
+        "type": "district",
+        "id": "pogorzalki",
+        "name": "Pogorzałki",
+        "parentCityId": "mszczonow"
+      },
       {
         "type": "district",
         "id": "pogorzalki",
@@ -116213,14 +115277,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "pogorzalki",
         "name": "Pogorzałki",
         "parentCityId": "pyrzyce"
-      }
-    ],
-    "pogorzalki": [
-      {
-        "type": "district",
-        "id": "pogorzalki",
-        "name": "Pogorzałki",
-        "parentCityId": "mszczonow"
       },
       {
         "type": "district",
@@ -116323,7 +115379,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "muszyna"
       }
     ],
-    "młaki": [
+    "mlaki": [
+      {
+        "type": "district",
+        "id": "mlaki",
+        "name": "Młaki",
+        "parentCityId": "muszyna"
+      },
       {
         "type": "district",
         "id": "mlaki",
@@ -116335,14 +115397,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mlaki",
         "name": "Młaki",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "mlaki": [
-      {
-        "type": "district",
-        "id": "mlaki",
-        "name": "Młaki",
-        "parentCityId": "muszyna"
       },
       {
         "type": "district",
@@ -116379,15 +115433,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "muszyna"
       }
     ],
-    "stadło": [
+    "stadlo": [
       {
         "type": "district",
         "id": "stadlo",
         "name": "Stadło",
         "parentCityId": "muszyna"
-      }
-    ],
-    "stadlo": [
+      },
       {
         "type": "district",
         "id": "stadlo",
@@ -116489,31 +115541,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "muszyna"
       }
     ],
-    "wesołowka": [
-      {
-        "type": "district",
-        "id": "wesolowka",
-        "name": "Wesołówka",
-        "parentCityId": "muszyna"
-      }
-    ],
     "wesolowka": [
       {
         "type": "district",
         "id": "wesolowka",
         "name": "Wesołówka",
         "parentCityId": "muszyna"
+      },
+      {
+        "type": "district",
+        "id": "wesolowka",
+        "name": "Wesołówka",
+        "parentCityId": "muszyna"
       }
     ],
-    "miczuły": [
+    "miczuly": [
       {
         "type": "district",
         "id": "miczuly",
         "name": "Miczuły",
         "parentCityId": "muszyna"
-      }
-    ],
-    "miczuly": [
+      },
       {
         "type": "district",
         "id": "miczuly",
@@ -116629,14 +115677,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "mysliborz"
       }
     ],
-    "mysłowice": [
+    "myslowice": [
       {
         "type": "city",
         "id": "myslowice",
         "name": "Mysłowice"
-      }
-    ],
-    "myslowice": [
+      },
       {
         "type": "city",
         "id": "myslowice",
@@ -116657,15 +115703,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "myslowice"
       }
     ],
-    "słupna": [
+    "slupna": [
       {
         "type": "district",
         "id": "slupna",
         "name": "Słupna",
         "parentCityId": "myslowice"
-      }
-    ],
-    "slupna": [
+      },
       {
         "type": "district",
         "id": "slupna",
@@ -116715,7 +115759,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "myslowice"
       }
     ],
-    "ławki": [
+    "lawki": [
+      {
+        "type": "district",
+        "id": "lawki",
+        "name": "Ławki",
+        "parentCityId": "myslowice"
+      },
       {
         "type": "district",
         "id": "lawki",
@@ -116727,14 +115777,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lawki",
         "name": "Ławki",
         "parentCityId": "tomaszow-lubelski"
-      }
-    ],
-    "lawki": [
-      {
-        "type": "district",
-        "id": "lawki",
-        "name": "Ławki",
-        "parentCityId": "myslowice"
       },
       {
         "type": "district",
@@ -116867,15 +115909,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "myszkow"
       }
     ],
-    "mrzygłod": [
+    "mrzyglod": [
       {
         "type": "district",
         "id": "mrzyglod",
         "name": "Mrzygłód",
         "parentCityId": "myszkow"
-      }
-    ],
-    "mrzyglod": [
+      },
       {
         "type": "district",
         "id": "mrzyglod",
@@ -116965,26 +116005,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawiercie"
       }
     ],
-    "michałow": [
-      {
-        "type": "district",
-        "id": "michalow",
-        "name": "Michałów",
-        "parentCityId": "myszkow"
-      },
-      {
-        "type": "district",
-        "id": "michalow",
-        "name": "Michałów",
-        "parentCityId": "piotrkow-trybunalski"
-      },
-      {
-        "type": "district",
-        "id": "michalow",
-        "name": "Michałów",
-        "parentCityId": "radom"
-      }
-    ],
     "michalow": [
       {
         "type": "district",
@@ -116996,7 +116016,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "michalow",
         "name": "Michałów",
+        "parentCityId": "myszkow"
+      },
+      {
+        "type": "district",
+        "id": "michalow",
+        "name": "Michałów",
         "parentCityId": "piotrkow-trybunalski"
+      },
+      {
+        "type": "district",
+        "id": "michalow",
+        "name": "Michałów",
+        "parentCityId": "piotrkow-trybunalski"
+      },
+      {
+        "type": "district",
+        "id": "michalow",
+        "name": "Michałów",
+        "parentCityId": "radom"
       },
       {
         "type": "district",
@@ -117005,15 +116043,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "mrzygłodka": [
+    "mrzyglodka": [
       {
         "type": "district",
         "id": "mrzyglodka",
         "name": "Mrzygłódka",
         "parentCityId": "myszkow"
-      }
-    ],
-    "mrzyglodka": [
+      },
       {
         "type": "district",
         "id": "mrzyglodka",
@@ -117035,7 +116071,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "myszkow"
       }
     ],
-    "połomia-myszkow": [
+    "polomia-myszkow": [
       {
         "type": "district",
         "id": "polomia-myszkow",
@@ -117147,14 +116183,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Myszyniec"
       }
     ],
-    "nakło nad notecia": [
+    "naklo nad notecia": [
       {
         "type": "city",
         "id": "naklo-nad-notecia",
         "name": "Nakło nad Notecią"
-      }
-    ],
-    "naklo nad notecia": [
+      },
       {
         "type": "city",
         "id": "naklo-nad-notecia",
@@ -117243,15 +116277,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "urzedow"
       }
     ],
-    "pałuby": [
+    "paluby": [
       {
         "type": "district",
         "id": "paluby",
         "name": "Pałuby",
         "parentCityId": "naleczow"
-      }
-    ],
-    "paluby": [
+      },
       {
         "type": "district",
         "id": "paluby",
@@ -117287,14 +116319,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "naleczow"
       }
     ],
-    "namysłow": [
+    "namyslow": [
       {
         "type": "city",
         "id": "namyslow",
         "name": "Namysłów"
-      }
-    ],
-    "namyslow": [
+      },
       {
         "type": "city",
         "id": "namyslow",
@@ -117489,15 +116519,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nekla"
       }
     ],
-    "targowa gorka mała": [
+    "targowa gorka mala": [
       {
         "type": "district",
         "id": "targowa-gorka-mala",
         "name": "Targowa Górka Mała",
         "parentCityId": "nekla"
-      }
-    ],
-    "targowa gorka mala": [
+      },
       {
         "type": "district",
         "id": "targowa-gorka-mala",
@@ -117543,15 +116571,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "niemcza"
       }
     ],
-    "wojsławice": [
+    "wojslawice": [
       {
         "type": "district",
         "id": "wojslawice",
         "name": "Wojsławice",
         "parentCityId": "niemcza"
-      }
-    ],
-    "wojslawice": [
+      },
       {
         "type": "district",
         "id": "wojslawice",
@@ -117709,14 +116735,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole"
       }
     ],
-    "niepołomice": [
+    "niepolomice": [
       {
         "type": "city",
         "id": "niepolomice",
         "name": "Niepołomice"
-      }
-    ],
-    "niepolomice": [
+      },
       {
         "type": "city",
         "id": "niepolomice",
@@ -117937,15 +116961,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nieszawa"
       }
     ],
-    "przytułek": [
+    "przytulek": [
       {
         "type": "district",
         "id": "przytulek",
         "name": "Przytułek",
         "parentCityId": "nieszawa"
-      }
-    ],
-    "przytulek": [
+      },
       {
         "type": "district",
         "id": "przytulek",
@@ -118047,15 +117069,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nisko"
       }
     ],
-    "warchoły": [
+    "warcholy": [
       {
         "type": "district",
         "id": "warcholy",
         "name": "Warchoły",
         "parentCityId": "nisko"
-      }
-    ],
-    "warcholy": [
+      },
       {
         "type": "district",
         "id": "warcholy",
@@ -118251,15 +117271,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Nowa Ruda"
       }
     ],
-    "drogosław": [
+    "drogoslaw": [
       {
         "type": "district",
         "id": "drogoslaw",
         "name": "Drogosław",
         "parentCityId": "nowa-ruda"
-      }
-    ],
-    "drogoslaw": [
+      },
       {
         "type": "district",
         "id": "drogoslaw",
@@ -118295,15 +117313,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowa-ruda"
       }
     ],
-    "słupiec": [
+    "slupiec": [
       {
         "type": "district",
         "id": "slupiec",
         "name": "Słupiec",
         "parentCityId": "nowa-ruda"
-      }
-    ],
-    "slupiec": [
+      },
       {
         "type": "district",
         "id": "slupiec",
@@ -118421,15 +117437,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "police"
       }
     ],
-    "łezno": [
+    "lezno": [
       {
         "type": "district",
         "id": "lezno",
         "name": "Łężno",
         "parentCityId": "nowa-ruda"
-      }
-    ],
-    "lezno": [
+      },
       {
         "type": "district",
         "id": "lezno",
@@ -118543,15 +117557,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowa-sarzyna"
       }
     ],
-    "osiedle stałe": [
+    "osiedle stale": [
       {
         "type": "district",
         "id": "osiedle-stale",
         "name": "Osiedle Stałe",
         "parentCityId": "nowa-sarzyna"
-      }
-    ],
-    "osiedle stale": [
+      },
       {
         "type": "district",
         "id": "osiedle-stale",
@@ -118573,14 +117585,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowa-sarzyna"
       }
     ],
-    "nowa słupia": [
+    "nowa slupia": [
       {
         "type": "city",
         "id": "nowa-slupia",
         "name": "Nowa Słupia"
-      }
-    ],
-    "nowa slupia": [
+      },
       {
         "type": "city",
         "id": "nowa-slupia",
@@ -118757,15 +117767,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowe-miasto-lubawskie"
       }
     ],
-    "łaki miejskie": [
+    "laki miejskie": [
       {
         "type": "district",
         "id": "laki-miejskie",
         "name": "Łąki Miejskie",
         "parentCityId": "nowe-miasto-lubawskie"
-      }
-    ],
-    "laki miejskie": [
+      },
       {
         "type": "district",
         "id": "laki-miejskie",
@@ -118787,15 +117795,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowe-miasto-lubawskie"
       }
     ],
-    "małe pacołtowo": [
+    "male pacoltowo": [
       {
         "type": "district",
         "id": "male-pacoltowo",
         "name": "Małe Pacołtowo",
         "parentCityId": "nowe-miasto-lubawskie"
-      }
-    ],
-    "male pacoltowo": [
+      },
       {
         "type": "district",
         "id": "male-pacoltowo",
@@ -118937,15 +117943,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowe-warpno"
       }
     ],
-    "małachowo": [
+    "malachowo": [
       {
         "type": "district",
         "id": "malachowo",
         "name": "Małachowo",
         "parentCityId": "nowe-warpno"
-      }
-    ],
-    "malachowo": [
+      },
       {
         "type": "district",
         "id": "malachowo",
@@ -118979,15 +117983,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowogard"
       }
     ],
-    "radosław": [
+    "radoslaw": [
       {
         "type": "district",
         "id": "radoslaw",
         "name": "Radosław",
         "parentCityId": "nowogard"
-      }
-    ],
-    "radoslaw": [
+      },
       {
         "type": "district",
         "id": "radoslaw",
@@ -119073,15 +118075,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Nowogrodziec"
       }
     ],
-    "ołdrzychow": [
+    "oldrzychow": [
       {
         "type": "district",
         "id": "oldrzychow",
         "name": "Ołdrzychów",
         "parentCityId": "nowogrodziec"
-      }
-    ],
-    "oldrzychow": [
+      },
       {
         "type": "district",
         "id": "oldrzychow",
@@ -119113,31 +118113,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Nowy Dwór Mazowiecki"
       }
     ],
-    "nowołeczna": [
-      {
-        "type": "district",
-        "id": "nowoleczna",
-        "name": "Nowołęczna",
-        "parentCityId": "nowy-dwor-mazowiecki"
-      }
-    ],
     "nowoleczna": [
       {
         "type": "district",
         "id": "nowoleczna",
         "name": "Nowołęczna",
         "parentCityId": "nowy-dwor-mazowiecki"
+      },
+      {
+        "type": "district",
+        "id": "nowoleczna",
+        "name": "Nowołęczna",
+        "parentCityId": "nowy-dwor-mazowiecki"
       }
     ],
-    "głasica": [
+    "glasica": [
       {
         "type": "district",
         "id": "glasica",
         "name": "Głasica",
         "parentCityId": "nowy-dwor-mazowiecki"
-      }
-    ],
-    "glasica": [
+      },
       {
         "type": "district",
         "id": "glasica",
@@ -119281,31 +118277,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowy-sacz"
       }
     ],
-    "gorne gołabkowice": [
-      {
-        "type": "district",
-        "id": "gorne-golabkowice",
-        "name": "Górne Gołąbkowice",
-        "parentCityId": "nowy-sacz"
-      }
-    ],
     "gorne golabkowice": [
       {
         "type": "district",
         "id": "gorne-golabkowice",
         "name": "Górne Gołąbkowice",
         "parentCityId": "nowy-sacz"
+      },
+      {
+        "type": "district",
+        "id": "gorne-golabkowice",
+        "name": "Górne Gołąbkowice",
+        "parentCityId": "nowy-sacz"
       }
     ],
-    "na łakach": [
+    "na lakach": [
       {
         "type": "district",
         "id": "na-lakach",
         "name": "Na Łąkach",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "na lakach": [
+      },
       {
         "type": "district",
         "id": "na-lakach",
@@ -119327,31 +118319,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowy-sacz"
       }
     ],
-    "tłoki": [
-      {
-        "type": "district",
-        "id": "tloki",
-        "name": "Tłoki",
-        "parentCityId": "nowy-sacz"
-      }
-    ],
     "tloki": [
       {
         "type": "district",
         "id": "tloki",
         "name": "Tłoki",
         "parentCityId": "nowy-sacz"
+      },
+      {
+        "type": "district",
+        "id": "tloki",
+        "name": "Tłoki",
+        "parentCityId": "nowy-sacz"
       }
     ],
-    "biały klasztor": [
+    "bialy klasztor": [
       {
         "type": "district",
         "id": "bialy-klasztor",
         "name": "Biały Klasztor",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "bialy klasztor": [
+      },
       {
         "type": "district",
         "id": "bialy-klasztor",
@@ -119497,15 +118485,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowy-sacz"
       }
     ],
-    "zabełcze": [
+    "zabelcze": [
       {
         "type": "district",
         "id": "zabelcze",
         "name": "Zabełcze",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "zabelcze": [
+      },
       {
         "type": "district",
         "id": "zabelcze",
@@ -119565,15 +118551,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "załubincze": [
+    "zalubincze": [
       {
         "type": "district",
         "id": "zalubincze",
         "name": "Załubińcze",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "zalubincze": [
+      },
       {
         "type": "district",
         "id": "zalubincze",
@@ -119665,40 +118649,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowy-sacz"
       }
     ],
-    "dolne gołabkowice": [
-      {
-        "type": "district",
-        "id": "dolne-golabkowice",
-        "name": "Dolne Gołąbkowice",
-        "parentCityId": "nowy-sacz"
-      }
-    ],
     "dolne golabkowice": [
       {
         "type": "district",
         "id": "dolne-golabkowice",
         "name": "Dolne Gołąbkowice",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "łany": [
+      },
       {
         "type": "district",
-        "id": "lany",
-        "name": "Łany",
+        "id": "dolne-golabkowice",
+        "name": "Dolne Gołąbkowice",
         "parentCityId": "nowy-sacz"
-      },
-      {
-        "type": "district",
-        "id": "lany",
-        "name": "Łany",
-        "parentCityId": "rzeszow"
-      },
-      {
-        "type": "district",
-        "id": "lany",
-        "name": "Łany",
-        "parentCityId": "tyczyn"
       }
     ],
     "lany": [
@@ -119712,6 +118674,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "lany",
         "name": "Łany",
+        "parentCityId": "nowy-sacz"
+      },
+      {
+        "type": "district",
+        "id": "lany",
+        "name": "Łany",
+        "parentCityId": "rzeszow"
+      },
+      {
+        "type": "district",
+        "id": "lany",
+        "name": "Łany",
         "parentCityId": "rzeszow"
       },
       {
@@ -119719,20 +118693,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lany",
         "name": "Łany",
         "parentCityId": "tyczyn"
-      }
-    ],
-    "łubianka": [
-      {
-        "type": "district",
-        "id": "lubianka",
-        "name": "Łubianka",
-        "parentCityId": "nowy-sacz"
       },
       {
         "type": "district",
-        "id": "lubianka",
-        "name": "Łubianka",
-        "parentCityId": "sulkowice"
+        "id": "lany",
+        "name": "Łany",
+        "parentCityId": "tyczyn"
       }
     ],
     "lubianka": [
@@ -119746,18 +118712,28 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "lubianka",
         "name": "Łubianka",
+        "parentCityId": "nowy-sacz"
+      },
+      {
+        "type": "district",
+        "id": "lubianka",
+        "name": "Łubianka",
+        "parentCityId": "sulkowice"
+      },
+      {
+        "type": "district",
+        "id": "lubianka",
+        "name": "Łubianka",
         "parentCityId": "sulkowice"
       }
     ],
-    "poreba mała": [
+    "poreba mala": [
       {
         "type": "district",
         "id": "poreba-mala",
         "name": "Poręba Mała",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "poreba mala": [
+      },
       {
         "type": "district",
         "id": "poreba-mala",
@@ -119779,15 +118755,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowy-sacz"
       }
     ],
-    "gołabkowice": [
+    "golabkowice": [
       {
         "type": "district",
         "id": "golabkowice",
         "name": "Gołąbkowice",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "golabkowice": [
+      },
       {
         "type": "district",
         "id": "golabkowice",
@@ -119809,15 +118783,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nowy-sacz"
       }
     ],
-    "pod podołami": [
+    "pod podolami": [
       {
         "type": "district",
         "id": "pod-podolami",
         "name": "Pod Podołami",
         "parentCityId": "nowy-sacz"
-      }
-    ],
-    "pod podolami": [
+      },
       {
         "type": "district",
         "id": "pod-podolami",
@@ -120203,12 +119175,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "nysa"
       }
     ],
-    "zamłynie": [
+    "zamlynie": [
       {
         "type": "district",
         "id": "zamlynie",
         "name": "Zamłynie",
         "parentCityId": "nysa"
+      },
+      {
+        "type": "district",
+        "id": "zamlynie",
+        "name": "Zamłynie",
+        "parentCityId": "nysa"
+      },
+      {
+        "type": "district",
+        "id": "zamlynie",
+        "name": "Zamłynie",
+        "parentCityId": "radom"
       },
       {
         "type": "district",
@@ -120221,20 +119205,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "zamlynie",
         "name": "Zamłynie",
         "parentCityId": "sedziszow-malopolski"
-      }
-    ],
-    "zamlynie": [
-      {
-        "type": "district",
-        "id": "zamlynie",
-        "name": "Zamłynie",
-        "parentCityId": "nysa"
-      },
-      {
-        "type": "district",
-        "id": "zamlynie",
-        "name": "Zamłynie",
-        "parentCityId": "radom"
       },
       {
         "type": "district",
@@ -120335,14 +119305,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "odolanow"
       }
     ],
-    "odrzywoł": [
+    "odrzywol": [
       {
         "type": "city",
         "id": "odrzywol",
         "name": "Odrzywół"
-      }
-    ],
-    "odrzywol": [
+      },
       {
         "type": "city",
         "id": "odrzywol",
@@ -120387,14 +119355,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Okonek"
       }
     ],
-    "oława": [
+    "olawa": [
       {
         "type": "city",
         "id": "olawa",
         "name": "Oława"
-      }
-    ],
-    "olawa": [
+      },
       {
         "type": "city",
         "id": "olawa",
@@ -120765,15 +119731,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "olkusz"
       }
     ],
-    "za skałami": [
+    "za skalami": [
       {
         "type": "district",
         "id": "za-skalami",
         "name": "Za Skałami",
         "parentCityId": "olkusz"
-      }
-    ],
-    "za skalami": [
+      },
       {
         "type": "district",
         "id": "za-skalami",
@@ -121279,15 +120243,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawichost"
       }
     ],
-    "gorzałkow": [
+    "gorzalkow": [
       {
         "type": "district",
         "id": "gorzalkow",
         "name": "Gorzałków",
         "parentCityId": "opoczno"
-      }
-    ],
-    "gorzalkow": [
+      },
       {
         "type": "district",
         "id": "gorzalkow",
@@ -121356,15 +120318,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole"
       }
     ],
-    "sławice": [
+    "slawice": [
       {
         "type": "district",
         "id": "slawice",
         "name": "Sławice",
         "parentCityId": "opole"
-      }
-    ],
-    "slawice": [
+      },
       {
         "type": "district",
         "id": "slawice",
@@ -121386,15 +120346,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole"
       }
     ],
-    "kłapacz": [
+    "klapacz": [
       {
         "type": "district",
         "id": "klapacz",
         "name": "Kłapacz",
         "parentCityId": "opole"
-      }
-    ],
-    "klapacz": [
+      },
       {
         "type": "district",
         "id": "klapacz",
@@ -121604,15 +120562,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole"
       }
     ],
-    "kolonia gosławicka": [
+    "kolonia goslawicka": [
       {
         "type": "district",
         "id": "kolonia-goslawicka",
         "name": "Kolonia Gosławicka",
         "parentCityId": "opole"
-      }
-    ],
-    "kolonia goslawicka": [
+      },
       {
         "type": "district",
         "id": "kolonia-goslawicka",
@@ -121648,15 +120604,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole"
       }
     ],
-    "okoł": [
+    "okol": [
       {
         "type": "district",
         "id": "okol",
         "name": "Okół",
         "parentCityId": "opole"
-      }
-    ],
-    "okol": [
+      },
       {
         "type": "district",
         "id": "okol",
@@ -121746,31 +120700,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole"
       }
     ],
-    "połwies": [
-      {
-        "type": "district",
-        "id": "polwies",
-        "name": "Półwieś",
-        "parentCityId": "opole"
-      }
-    ],
     "polwies": [
       {
         "type": "district",
         "id": "polwies",
         "name": "Półwieś",
         "parentCityId": "opole"
+      },
+      {
+        "type": "district",
+        "id": "polwies",
+        "name": "Półwieś",
+        "parentCityId": "opole"
       }
     ],
-    "chwałkowice": [
+    "chwalkowice": [
       {
         "type": "district",
         "id": "chwalkowice",
         "name": "Chwałkowice",
         "parentCityId": "opole"
-      }
-    ],
-    "chwalkowice": [
+      },
       {
         "type": "district",
         "id": "chwalkowice",
@@ -121872,15 +120822,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "opole-lubelskie"
       }
     ],
-    "zagłobin": [
+    "zaglobin": [
       {
         "type": "district",
         "id": "zaglobin",
         "name": "Zagłobin",
         "parentCityId": "opole-lubelskie"
-      }
-    ],
-    "zaglobin": [
+      },
       {
         "type": "district",
         "id": "zaglobin",
@@ -122128,15 +121076,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "orzysz"
       }
     ],
-    "działy orzyskie": [
+    "dzialy orzyskie": [
       {
         "type": "district",
         "id": "dzialy-orzyskie",
         "name": "Działy Orzyskie",
         "parentCityId": "orzysz"
-      }
-    ],
-    "dzialy orzyskie": [
+      },
       {
         "type": "district",
         "id": "dzialy-orzyskie",
@@ -122210,15 +121156,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Osieczna"
       }
     ],
-    "stanisławowka": [
+    "stanislawowka": [
       {
         "type": "district",
         "id": "stanislawowka",
         "name": "Stanisławówka",
         "parentCityId": "osieczna"
-      }
-    ],
-    "stanislawowka": [
+      },
       {
         "type": "district",
         "id": "stanislawowka",
@@ -122352,15 +121296,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "osjakow"
       }
     ],
-    "wesołe katy": [
+    "wesole katy": [
       {
         "type": "district",
         "id": "wesole-katy",
         "name": "Wesołe Kąty",
         "parentCityId": "osjakow"
-      }
-    ],
-    "wesole katy": [
+      },
       {
         "type": "district",
         "id": "wesole-katy",
@@ -122460,14 +121402,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczucin"
       }
     ],
-    "ostrołeka": [
+    "ostroleka": [
       {
         "type": "city",
         "id": "ostroleka",
         "name": "Ostrołęka"
-      }
-    ],
-    "ostroleka": [
+      },
       {
         "type": "city",
         "id": "ostroleka",
@@ -122534,7 +121474,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ostroleka"
       }
     ],
-    "łazek": [
+    "lazek": [
+      {
+        "type": "district",
+        "id": "lazek",
+        "name": "Łazek",
+        "parentCityId": "ostroleka"
+      },
       {
         "type": "district",
         "id": "lazek",
@@ -122546,14 +121492,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lazek",
         "name": "Łążek",
         "parentCityId": "wisla"
-      }
-    ],
-    "lazek": [
-      {
-        "type": "district",
-        "id": "lazek",
-        "name": "Łazek",
-        "parentCityId": "ostroleka"
       },
       {
         "type": "district",
@@ -122576,7 +121514,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ostroleka"
       }
     ],
-    "ostrołeka-stacja": [
+    "ostroleka-stacja": [
       {
         "type": "district",
         "id": "ostroleka-stacja",
@@ -123568,15 +122506,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "otwock"
       }
     ],
-    "jabłonna": [
+    "jablonna": [
       {
         "type": "district",
         "id": "jablonna",
         "name": "Jabłonna",
         "parentCityId": "otwock"
-      }
-    ],
-    "jablonna": [
+      },
       {
         "type": "district",
         "id": "jablonna",
@@ -123750,7 +122686,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "otwock"
       }
     ],
-    "jabłonna-gorki": [
+    "jablonna-gorki": [
       {
         "type": "district",
         "id": "jablonna-gorki",
@@ -124016,31 +122952,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pabianice"
       }
     ],
-    "młodzieniaszek": [
-      {
-        "type": "district",
-        "id": "mlodzieniaszek",
-        "name": "Młodzieniaszek",
-        "parentCityId": "pabianice"
-      }
-    ],
     "mlodzieniaszek": [
       {
         "type": "district",
         "id": "mlodzieniaszek",
         "name": "Młodzieniaszek",
         "parentCityId": "pabianice"
+      },
+      {
+        "type": "district",
+        "id": "mlodzieniaszek",
+        "name": "Młodzieniaszek",
+        "parentCityId": "pabianice"
       }
     ],
-    "rypułtowice": [
+    "rypultowice": [
       {
         "type": "district",
         "id": "rypultowice",
         "name": "Rypułtowice",
         "parentCityId": "pabianice"
-      }
-    ],
-    "rypultowice": [
+      },
       {
         "type": "district",
         "id": "rypultowice",
@@ -124102,15 +123034,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pacanow"
       }
     ],
-    "radziwiłowka": [
+    "radziwilowka": [
       {
         "type": "district",
         "id": "radziwilowka",
         "name": "Radziwiłówka",
         "parentCityId": "pacanow"
-      }
-    ],
-    "radziwilowka": [
+      },
       {
         "type": "district",
         "id": "radziwilowka",
@@ -124262,29 +123192,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Parzęczew"
       }
     ],
-    "pasłek": [
-      {
-        "type": "city",
-        "id": "paslek",
-        "name": "Pasłęk"
-      }
-    ],
     "paslek": [
       {
         "type": "city",
         "id": "paslek",
         "name": "Pasłęk"
+      },
+      {
+        "type": "city",
+        "id": "paslek",
+        "name": "Pasłęk"
       }
     ],
-    "popowe włoki": [
+    "popowe wloki": [
       {
         "type": "district",
         "id": "popowe-wloki",
         "name": "Popowe Włóki",
         "parentCityId": "paslek"
-      }
-    ],
-    "popowe wloki": [
+      },
       {
         "type": "district",
         "id": "popowe-wloki",
@@ -124304,15 +123230,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Pasym"
       }
     ],
-    "słonecznik": [
+    "slonecznik": [
       {
         "type": "district",
         "id": "slonecznik",
         "name": "Słonecznik",
         "parentCityId": "pasym"
-      }
-    ],
-    "slonecznik": [
+      },
       {
         "type": "district",
         "id": "slonecznik",
@@ -124334,29 +123258,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pasym"
       }
     ],
-    "pełczyce": [
-      {
-        "type": "city",
-        "id": "pelczyce",
-        "name": "Pełczyce"
-      }
-    ],
     "pelczyce": [
       {
         "type": "city",
         "id": "pelczyce",
         "name": "Pełczyce"
+      },
+      {
+        "type": "city",
+        "id": "pelczyce",
+        "name": "Pełczyce"
       }
     ],
-    "pełcz": [
+    "pelcz": [
       {
         "type": "district",
         "id": "pelcz",
         "name": "Pełcz",
         "parentCityId": "pelczyce"
-      }
-    ],
-    "pelcz": [
+      },
       {
         "type": "district",
         "id": "pelcz",
@@ -124444,7 +123364,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piaseczno"
       }
     ],
-    "gołkow-letnisko": [
+    "golkow-letnisko": [
       {
         "type": "district",
         "id": "golkow-letnisko",
@@ -124550,15 +123470,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piechowice"
       }
     ],
-    "michałowice": [
+    "michalowice": [
       {
         "type": "district",
         "id": "michalowice",
         "name": "Michałowice",
         "parentCityId": "piechowice"
-      }
-    ],
-    "michalowice": [
+      },
       {
         "type": "district",
         "id": "michalowice",
@@ -124620,15 +123538,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piekary-slaskie"
       }
     ],
-    "kozłowa gora": [
+    "kozlowa gora": [
       {
         "type": "district",
         "id": "kozlowa-gora",
         "name": "Kozłowa Góra",
         "parentCityId": "piekary-slaskie"
-      }
-    ],
-    "kozlowa gora": [
+      },
       {
         "type": "district",
         "id": "kozlowa-gora",
@@ -124694,12 +123610,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piekary-slaskie"
       }
     ],
-    "dołki": [
+    "dolki": [
       {
         "type": "district",
         "id": "dolki",
         "name": "Dołki",
         "parentCityId": "piekary-slaskie"
+      },
+      {
+        "type": "district",
+        "id": "dolki",
+        "name": "Dołki",
+        "parentCityId": "piekary-slaskie"
+      },
+      {
+        "type": "district",
+        "id": "dolki",
+        "name": "Dołki",
+        "parentCityId": "trzebinia"
       },
       {
         "type": "district",
@@ -124712,20 +123640,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "dolki",
         "name": "Dołki",
         "parentCityId": "wodzislaw-slaski"
-      }
-    ],
-    "dolki": [
-      {
-        "type": "district",
-        "id": "dolki",
-        "name": "Dołki",
-        "parentCityId": "piekary-slaskie"
-      },
-      {
-        "type": "district",
-        "id": "dolki",
-        "name": "Dołki",
-        "parentCityId": "trzebinia"
       },
       {
         "type": "district",
@@ -124808,15 +123722,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Pieszyce"
       }
     ],
-    "płotki": [
+    "plotki": [
       {
         "type": "district",
         "id": "plotki",
         "name": "Płotki",
         "parentCityId": "pila"
-      }
-    ],
-    "plotki": [
+      },
       {
         "type": "district",
         "id": "plotki",
@@ -124990,15 +123902,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pila"
       }
     ],
-    "gładyszewo": [
+    "gladyszewo": [
       {
         "type": "district",
         "id": "gladyszewo",
         "name": "Gładyszewo",
         "parentCityId": "pila"
-      }
-    ],
-    "gladyszewo": [
+      },
       {
         "type": "district",
         "id": "gladyszewo",
@@ -125072,15 +123982,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Pilawa"
       }
     ],
-    "zołnierka": [
+    "zolnierka": [
       {
         "type": "district",
         "id": "zolnierka",
         "name": "Żołnierka",
         "parentCityId": "pilawa"
-      }
-    ],
-    "zolnierka": [
+      },
       {
         "type": "district",
         "id": "zolnierka",
@@ -125102,14 +124010,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pilawa"
       }
     ],
-    "piława gorna": [
+    "pilawa gorna": [
       {
         "type": "city",
         "id": "pilawa-gorna",
         "name": "Piława Górna"
-      }
-    ],
-    "pilawa gorna": [
+      },
       {
         "type": "city",
         "id": "pilawa-gorna",
@@ -125380,31 +124286,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Piotrków Trybunalski"
       }
     ],
-    "rakow mały": [
-      {
-        "type": "district",
-        "id": "rakow-maly",
-        "name": "Raków Mały",
-        "parentCityId": "piotrkow-trybunalski"
-      }
-    ],
     "rakow maly": [
       {
         "type": "district",
         "id": "rakow-maly",
         "name": "Raków Mały",
         "parentCityId": "piotrkow-trybunalski"
+      },
+      {
+        "type": "district",
+        "id": "rakow-maly",
+        "name": "Raków Mały",
+        "parentCityId": "piotrkow-trybunalski"
       }
     ],
-    "pawłowka": [
+    "pawlowka": [
       {
         "type": "district",
         "id": "pawlowka",
         "name": "Pawłówka",
         "parentCityId": "piotrkow-trybunalski"
-      }
-    ],
-    "pawlowka": [
+      },
       {
         "type": "district",
         "id": "pawlowka",
@@ -125580,15 +124482,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piotrkow-trybunalski"
       }
     ],
-    "twardosławice": [
+    "twardoslawice": [
       {
         "type": "district",
         "id": "twardoslawice",
         "name": "Twardosławice",
         "parentCityId": "piotrkow-trybunalski"
-      }
-    ],
-    "twardoslawice": [
+      },
       {
         "type": "district",
         "id": "twardoslawice",
@@ -125620,15 +124520,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Piszczac"
       }
     ],
-    "długa": [
+    "dluga": [
       {
         "type": "district",
         "id": "dluga",
         "name": "Długa",
         "parentCityId": "piszczac"
-      }
-    ],
-    "dluga": [
+      },
       {
         "type": "district",
         "id": "dluga",
@@ -125916,15 +124814,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piwniczna-zdroj"
       }
     ],
-    "rewałowka": [
+    "rewalowka": [
       {
         "type": "district",
         "id": "rewalowka",
         "name": "Rewałówka",
         "parentCityId": "piwniczna-zdroj"
-      }
-    ],
-    "rewalowka": [
+      },
       {
         "type": "district",
         "id": "rewalowka",
@@ -126070,15 +124966,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piwniczna-zdroj"
       }
     ],
-    "błankowa": [
+    "blankowa": [
       {
         "type": "district",
         "id": "blankowa",
         "name": "Błankowa",
         "parentCityId": "piwniczna-zdroj"
-      }
-    ],
-    "blankowa": [
+      },
       {
         "type": "district",
         "id": "blankowa",
@@ -126128,15 +125022,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piwniczna-zdroj"
       }
     ],
-    "zatyłki": [
+    "zatylki": [
       {
         "type": "district",
         "id": "zatylki",
         "name": "Zatyłki",
         "parentCityId": "piwniczna-zdroj"
-      }
-    ],
-    "zatylki": [
+      },
       {
         "type": "district",
         "id": "zatylki",
@@ -126158,15 +125050,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piwniczna-zdroj"
       }
     ],
-    "łomnickie": [
+    "lomnickie": [
       {
         "type": "district",
         "id": "lomnickie",
         "name": "Łomnickie",
         "parentCityId": "piwniczna-zdroj"
-      }
-    ],
-    "lomnickie": [
+      },
       {
         "type": "district",
         "id": "lomnickie",
@@ -126326,15 +125216,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "łazarkowka": [
+    "lazarkowka": [
       {
         "type": "district",
         "id": "lazarkowka",
         "name": "Łazarkówka",
         "parentCityId": "piwniczna-zdroj"
-      }
-    ],
-    "lazarkowka": [
+      },
       {
         "type": "district",
         "id": "lazarkowka",
@@ -126426,15 +125314,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "piwniczna-zdroj"
       }
     ],
-    "korpały": [
+    "korpaly": [
       {
         "type": "district",
         "id": "korpaly",
         "name": "Korpały",
         "parentCityId": "piwniczna-zdroj"
-      }
-    ],
-    "korpaly": [
+      },
       {
         "type": "district",
         "id": "korpaly",
@@ -126650,29 +125536,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pleszew"
       }
     ],
-    "płock": [
-      {
-        "type": "city",
-        "id": "plock",
-        "name": "Płock"
-      }
-    ],
     "plock": [
       {
         "type": "city",
         "id": "plock",
         "name": "Płock"
+      },
+      {
+        "type": "city",
+        "id": "plock",
+        "name": "Płock"
       }
     ],
-    "chełpowo": [
+    "chelpowo": [
       {
         "type": "district",
         "id": "chelpowo",
         "name": "Chełpowo",
         "parentCityId": "plock"
-      }
-    ],
-    "chelpowo": [
+      },
       {
         "type": "district",
         "id": "chelpowo",
@@ -126738,15 +125620,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "plock"
       }
     ],
-    "niegłosy": [
+    "nieglosy": [
       {
         "type": "district",
         "id": "nieglosy",
         "name": "Niegłosy",
         "parentCityId": "plock"
-      }
-    ],
-    "nieglosy": [
+      },
       {
         "type": "district",
         "id": "nieglosy",
@@ -126854,15 +125734,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "plock"
       }
     ],
-    "wesołka": [
+    "wesolka": [
       {
         "type": "district",
         "id": "wesolka",
         "name": "Wesółka",
         "parentCityId": "plock"
-      }
-    ],
-    "wesolka": [
+      },
       {
         "type": "district",
         "id": "wesolka",
@@ -126928,27 +125806,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "plock"
       }
     ],
-    "maszewo małe": [
-      {
-        "type": "district",
-        "id": "maszewo-male",
-        "name": "Maszewo Małe",
-        "parentCityId": "plock"
-      }
-    ],
     "maszewo male": [
       {
         "type": "district",
         "id": "maszewo-male",
         "name": "Maszewo Małe",
         "parentCityId": "plock"
-      }
-    ],
-    "płonsk": [
+      },
       {
-        "type": "city",
-        "id": "plonsk",
-        "name": "Płońsk"
+        "type": "district",
+        "id": "maszewo-male",
+        "name": "Maszewo Małe",
+        "parentCityId": "plock"
       }
     ],
     "plonsk": [
@@ -126956,16 +125825,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "plonsk",
         "name": "Płońsk"
+      },
+      {
+        "type": "city",
+        "id": "plonsk",
+        "name": "Płońsk"
       }
     ],
-    "płoty": [
+    "ploty": [
       {
         "type": "city",
         "id": "ploty",
         "name": "Płoty"
-      }
-    ],
-    "ploty": [
+      },
       {
         "type": "city",
         "id": "ploty",
@@ -127174,27 +126046,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Polanica-Zdrój"
       }
     ],
-    "nowy wielisław": [
-      {
-        "type": "district",
-        "id": "nowy-wielislaw",
-        "name": "Nowy Wielisław",
-        "parentCityId": "polanica-zdroj"
-      }
-    ],
     "nowy wielislaw": [
       {
         "type": "district",
         "id": "nowy-wielislaw",
         "name": "Nowy Wielisław",
         "parentCityId": "polanica-zdroj"
-      }
-    ],
-    "sokołowka": [
+      },
       {
         "type": "district",
-        "id": "sokolowka",
-        "name": "Sokołówka",
+        "id": "nowy-wielislaw",
+        "name": "Nowy Wielisław",
         "parentCityId": "polanica-zdroj"
       }
     ],
@@ -127204,13 +126066,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "sokolowka",
         "name": "Sokołówka",
         "parentCityId": "polanica-zdroj"
-      }
-    ],
-    "połaniec": [
+      },
       {
-        "type": "city",
-        "id": "polaniec",
-        "name": "Połaniec"
+        "type": "district",
+        "id": "sokolowka",
+        "name": "Sokołówka",
+        "parentCityId": "polanica-zdroj"
       }
     ],
     "polaniec": [
@@ -127218,17 +126079,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "polaniec",
         "name": "Połaniec"
+      },
+      {
+        "type": "city",
+        "id": "polaniec",
+        "name": "Połaniec"
       }
     ],
-    "kolonia połaniec": [
+    "kolonia polaniec": [
       {
         "type": "district",
         "id": "kolonia-polaniec",
         "name": "Kolonia Połaniec",
         "parentCityId": "polaniec"
-      }
-    ],
-    "kolonia polaniec": [
+      },
       {
         "type": "district",
         "id": "kolonia-polaniec",
@@ -127344,7 +126208,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "polanow"
       }
     ],
-    "połczyn-zdroj": [
+    "polczyn-zdroj": [
       {
         "type": "city",
         "id": "polczyn-zdroj",
@@ -127384,15 +126248,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "police"
       }
     ],
-    "kołpin": [
+    "kolpin": [
       {
         "type": "district",
         "id": "kolpin",
         "name": "Kołpin",
         "parentCityId": "police"
-      }
-    ],
-    "kolpin": [
+      },
       {
         "type": "district",
         "id": "kolpin",
@@ -127779,15 +126641,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "proszkow"
       }
     ],
-    "rudnica mała": [
+    "rudnica mala": [
       {
         "type": "district",
         "id": "rudnica-mala",
         "name": "Rudnica Mała",
         "parentCityId": "proszkow"
-      }
-    ],
-    "rudnica mala": [
+      },
       {
         "type": "district",
         "id": "rudnica-mala",
@@ -127847,15 +126707,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ruda-slaska"
       }
     ],
-    "wybłyszczow": [
+    "wyblyszczow": [
       {
         "type": "district",
         "id": "wyblyszczow",
         "name": "Wybłyszczów",
         "parentCityId": "proszkow"
-      }
-    ],
-    "wyblyszczow": [
+      },
       {
         "type": "district",
         "id": "wyblyszczow",
@@ -128133,15 +126991,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "prudnik"
       }
     ],
-    "młyn czyzyka": [
+    "mlyn czyzyka": [
       {
         "type": "district",
         "id": "mlyn-czyzyka",
         "name": "Młyn Czyżyka",
         "parentCityId": "prudnik"
-      }
-    ],
-    "mlyn czyzyka": [
+      },
       {
         "type": "district",
         "id": "mlyn-czyzyka",
@@ -128347,14 +127203,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "przecław": [
+    "przeclaw": [
       {
         "type": "city",
         "id": "przeclaw",
         "name": "Przecław"
-      }
-    ],
-    "przeclaw": [
+      },
       {
         "type": "city",
         "id": "przeclaw",
@@ -128465,15 +127319,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Przedecz"
       }
     ],
-    "wydrzyłeb": [
+    "wydrzyleb": [
       {
         "type": "district",
         "id": "wydrzyleb",
         "name": "Wydrzyłeb",
         "parentCityId": "przedecz"
-      }
-    ],
-    "wydrzyleb": [
+      },
       {
         "type": "district",
         "id": "wydrzyleb",
@@ -128507,15 +127359,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Przemków"
       }
     ],
-    "młynow": [
+    "mlynow": [
       {
         "type": "district",
         "id": "mlynow",
         "name": "Młynów",
         "parentCityId": "przemkow"
-      }
-    ],
-    "mlynow": [
+      },
       {
         "type": "district",
         "id": "mlynow",
@@ -128607,15 +127457,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "przemysl"
       }
     ],
-    "kruhel mały": [
+    "kruhel maly": [
       {
         "type": "district",
         "id": "kruhel-maly",
         "name": "Kruhel Mały",
         "parentCityId": "przemysl"
-      }
-    ],
-    "kruhel maly": [
+      },
       {
         "type": "district",
         "id": "kruhel-maly",
@@ -128691,15 +127539,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "przemysl"
       }
     ],
-    "budy małe": [
+    "budy male": [
       {
         "type": "district",
         "id": "budy-male",
         "name": "Budy Małe",
         "parentCityId": "przemysl"
-      }
-    ],
-    "budy male": [
+      },
       {
         "type": "district",
         "id": "budy-male",
@@ -128721,15 +127567,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "przemysl"
       }
     ],
-    "prałkowce": [
+    "pralkowce": [
       {
         "type": "district",
         "id": "pralkowce",
         "name": "Prałkowce",
         "parentCityId": "przemysl"
-      }
-    ],
-    "pralkowce": [
+      },
       {
         "type": "district",
         "id": "pralkowce",
@@ -129025,31 +127869,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tyczyn"
       }
     ],
-    "błonie browarne": [
-      {
-        "type": "district",
-        "id": "blonie-browarne",
-        "name": "Błonie Browarne",
-        "parentCityId": "przeworsk"
-      }
-    ],
     "blonie browarne": [
       {
         "type": "district",
         "id": "blonie-browarne",
         "name": "Błonie Browarne",
         "parentCityId": "przeworsk"
+      },
+      {
+        "type": "district",
+        "id": "blonie-browarne",
+        "name": "Błonie Browarne",
+        "parentCityId": "przeworsk"
       }
     ],
-    "błonie rzeznicze": [
+    "blonie rzeznicze": [
       {
         "type": "district",
         "id": "blonie-rzeznicze",
         "name": "Błonie Rzeźnicze",
         "parentCityId": "przeworsk"
-      }
-    ],
-    "blonie rzeznicze": [
+      },
       {
         "type": "district",
         "id": "blonie-rzeznicze",
@@ -129159,15 +127999,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Pszczyna"
       }
     ],
-    "chuchułka": [
+    "chuchulka": [
       {
         "type": "district",
         "id": "chuchulka",
         "name": "Chuchułka",
         "parentCityId": "pszczyna"
-      }
-    ],
-    "chuchulka": [
+      },
       {
         "type": "district",
         "id": "chuchulka",
@@ -129201,15 +128039,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Pszów"
       }
     ],
-    "doły pszowskie": [
+    "doly pszowskie": [
       {
         "type": "district",
         "id": "doly-pszowskie",
         "name": "Doły Pszowskie",
         "parentCityId": "pszow"
-      }
-    ],
-    "doly pszowskie": [
+      },
       {
         "type": "district",
         "id": "doly-pszowskie",
@@ -129271,29 +128107,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "puck"
       }
     ],
-    "puławy": [
-      {
-        "type": "city",
-        "id": "pulawy",
-        "name": "Puławy"
-      }
-    ],
     "pulawy": [
       {
         "type": "city",
         "id": "pulawy",
         "name": "Puławy"
+      },
+      {
+        "type": "city",
+        "id": "pulawy",
+        "name": "Puławy"
       }
     ],
-    "puławska wies": [
+    "pulawska wies": [
       {
         "type": "district",
         "id": "pulawska-wies",
         "name": "Puławska Wieś",
         "parentCityId": "pulawy"
-      }
-    ],
-    "pulawska wies": [
+      },
       {
         "type": "district",
         "id": "pulawska-wies",
@@ -129315,15 +128147,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pulawy"
       }
     ],
-    "włostowice": [
+    "wlostowice": [
       {
         "type": "district",
         "id": "wlostowice",
         "name": "Włostowice",
         "parentCityId": "pulawy"
-      }
-    ],
-    "wlostowice": [
+      },
       {
         "type": "district",
         "id": "wlostowice",
@@ -129345,15 +128175,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pulawy"
       }
     ],
-    "puławy fabryczne": [
+    "pulawy fabryczne": [
       {
         "type": "district",
         "id": "pulawy-fabryczne",
         "name": "Puławy Fabryczne",
         "parentCityId": "pulawy"
-      }
-    ],
-    "pulawy fabryczne": [
+      },
       {
         "type": "district",
         "id": "pulawy-fabryczne",
@@ -129431,15 +128259,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pulawy"
       }
     ],
-    "płuzki": [
+    "pluzki": [
       {
         "type": "district",
         "id": "pluzki",
         "name": "Płużki",
         "parentCityId": "pulawy"
-      }
-    ],
-    "pluzki": [
+      },
       {
         "type": "district",
         "id": "pluzki",
@@ -129477,32 +128303,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "pulawy"
       }
     ],
-    "pułtusk": [
-      {
-        "type": "city",
-        "id": "pultusk",
-        "name": "Pułtusk"
-      }
-    ],
     "pultusk": [
       {
         "type": "city",
         "id": "pultusk",
         "name": "Pułtusk"
-      }
-    ],
-    "popławy": [
-      {
-        "type": "district",
-        "id": "poplawy",
-        "name": "Popławy",
-        "parentCityId": "pultusk"
       },
       {
-        "type": "district",
-        "id": "poplawy",
-        "name": "Popławy",
-        "parentCityId": "szczebrzeszyn"
+        "type": "city",
+        "id": "pultusk",
+        "name": "Pułtusk"
       }
     ],
     "poplawy": [
@@ -129516,10 +128326,22 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "poplawy",
         "name": "Popławy",
+        "parentCityId": "pultusk"
+      },
+      {
+        "type": "district",
+        "id": "poplawy",
+        "name": "Popławy",
+        "parentCityId": "szczebrzeszyn"
+      },
+      {
+        "type": "district",
+        "id": "poplawy",
+        "name": "Popławy",
         "parentCityId": "szczebrzeszyn"
       }
     ],
-    "pułtusk-nadlesnictwo": [
+    "pultusk-nadlesnictwo": [
       {
         "type": "district",
         "id": "pultusk-nadlesnictwo",
@@ -129875,15 +128697,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "ferdułowka": [
+    "ferdulowka": [
       {
         "type": "district",
         "id": "ferdulowka",
         "name": "Ferdułówka",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "ferdulowka": [
+      },
       {
         "type": "district",
         "id": "ferdulowka",
@@ -129905,27 +128725,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "bydłoniowka": [
-      {
-        "type": "district",
-        "id": "bydloniowka",
-        "name": "Bydłoniówka",
-        "parentCityId": "rabka-zdroj"
-      }
-    ],
     "bydloniowka": [
       {
         "type": "district",
         "id": "bydloniowka",
         "name": "Bydłoniówka",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "kudłaniowka": [
+      },
       {
         "type": "district",
-        "id": "kudlaniowka",
-        "name": "Kudłaniówka",
+        "id": "bydloniowka",
+        "name": "Bydłoniówka",
         "parentCityId": "rabka-zdroj"
       }
     ],
@@ -129935,17 +128745,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "kudlaniowka",
         "name": "Kudłaniówka",
         "parentCityId": "rabka-zdroj"
+      },
+      {
+        "type": "district",
+        "id": "kudlaniowka",
+        "name": "Kudłaniówka",
+        "parentCityId": "rabka-zdroj"
       }
     ],
-    "łopatowka": [
+    "lopatowka": [
       {
         "type": "district",
         "id": "lopatowka",
         "name": "Łopatówka",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "lopatowka": [
+      },
       {
         "type": "district",
         "id": "lopatowka",
@@ -130063,15 +128877,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "sołtysowka": [
+    "soltysowka": [
       {
         "type": "district",
         "id": "soltysowka",
         "name": "Sołtysówka",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "soltysowka": [
+      },
       {
         "type": "district",
         "id": "soltysowka",
@@ -130205,15 +129017,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "piłowka": [
+    "pilowka": [
       {
         "type": "district",
         "id": "pilowka",
         "name": "Piłówka",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "pilowka": [
+      },
       {
         "type": "district",
         "id": "pilowka",
@@ -130249,15 +129059,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "poddział": [
+    "poddzial": [
       {
         "type": "district",
         "id": "poddzial",
         "name": "Poddział",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "poddzial": [
+      },
       {
         "type": "district",
         "id": "poddzial",
@@ -130349,7 +129157,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "dział": [
+    "dzial": [
+      {
+        "type": "district",
+        "id": "dzial",
+        "name": "Dział",
+        "parentCityId": "rabka-zdroj"
+      },
       {
         "type": "district",
         "id": "dzial",
@@ -130361,6 +129175,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "dzial",
         "name": "Dział",
         "parentCityId": "ropczyce"
+      },
+      {
+        "type": "district",
+        "id": "dzial",
+        "name": "Dział",
+        "parentCityId": "ropczyce"
+      },
+      {
+        "type": "district",
+        "id": "dzial",
+        "name": "Dział",
+        "parentCityId": "swiatniki-gorne"
       },
       {
         "type": "district",
@@ -130373,26 +129199,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "dzial",
         "name": "Dział",
         "parentCityId": "zagorz"
-      }
-    ],
-    "dzial": [
-      {
-        "type": "district",
-        "id": "dzial",
-        "name": "Dział",
-        "parentCityId": "rabka-zdroj"
-      },
-      {
-        "type": "district",
-        "id": "dzial",
-        "name": "Dział",
-        "parentCityId": "ropczyce"
-      },
-      {
-        "type": "district",
-        "id": "dzial",
-        "name": "Dział",
-        "parentCityId": "swiatniki-gorne"
       },
       {
         "type": "district",
@@ -130527,15 +129333,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rabka-zdroj"
       }
     ],
-    "chałupina": [
+    "chalupina": [
       {
         "type": "district",
         "id": "chalupina",
         "name": "Chałupina",
         "parentCityId": "rabka-zdroj"
-      }
-    ],
-    "chalupina": [
+      },
       {
         "type": "district",
         "id": "chalupina",
@@ -130693,15 +129497,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "raciborz"
       }
     ],
-    "łezczak": [
+    "lezczak": [
       {
         "type": "district",
         "id": "lezczak",
         "name": "Łężczak",
         "parentCityId": "raciborz"
-      }
-    ],
-    "lezczak": [
+      },
       {
         "type": "district",
         "id": "lezczak",
@@ -130819,20 +129621,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "raciborz"
       }
     ],
-    "płonia": [
-      {
-        "type": "district",
-        "id": "plonia",
-        "name": "Płonia",
-        "parentCityId": "raciborz"
-      },
-      {
-        "type": "district",
-        "id": "plonia",
-        "name": "Płonia",
-        "parentCityId": "szczecin"
-      }
-    ],
     "plonia": [
       {
         "type": "district",
@@ -130844,18 +129632,28 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "plonia",
         "name": "Płonia",
+        "parentCityId": "raciborz"
+      },
+      {
+        "type": "district",
+        "id": "plonia",
+        "name": "Płonia",
+        "parentCityId": "szczecin"
+      },
+      {
+        "type": "district",
+        "id": "plonia",
+        "name": "Płonia",
         "parentCityId": "szczecin"
       }
     ],
-    "sudoł": [
+    "sudol": [
       {
         "type": "district",
         "id": "sudol",
         "name": "Sudół",
         "parentCityId": "raciborz"
-      }
-    ],
-    "sudol": [
+      },
       {
         "type": "district",
         "id": "sudol",
@@ -130943,27 +129741,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radlin"
       }
     ],
-    "głozyny": [
-      {
-        "type": "district",
-        "id": "glozyny",
-        "name": "Głożyny",
-        "parentCityId": "radlin"
-      }
-    ],
     "glozyny": [
       {
         "type": "district",
         "id": "glozyny",
         "name": "Głożyny",
         "parentCityId": "radlin"
-      }
-    ],
-    "biertułtowy": [
+      },
       {
         "type": "district",
-        "id": "biertultowy",
-        "name": "Biertułtowy",
+        "id": "glozyny",
+        "name": "Głożyny",
         "parentCityId": "radlin"
       }
     ],
@@ -130973,16 +129761,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "biertultowy",
         "name": "Biertułtowy",
         "parentCityId": "radlin"
+      },
+      {
+        "type": "district",
+        "id": "biertultowy",
+        "name": "Biertułtowy",
+        "parentCityId": "radlin"
       }
     ],
-    "radłow": [
+    "radlow": [
       {
         "type": "city",
         "id": "radlow",
         "name": "Radłów"
-      }
-    ],
-    "radlow": [
+      },
       {
         "type": "city",
         "id": "radlow",
@@ -131029,31 +129821,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "młodzianow": [
-      {
-        "type": "district",
-        "id": "mlodzianow",
-        "name": "Młodzianów",
-        "parentCityId": "radom"
-      }
-    ],
     "mlodzianow": [
       {
         "type": "district",
         "id": "mlodzianow",
         "name": "Młodzianów",
         "parentCityId": "radom"
+      },
+      {
+        "type": "district",
+        "id": "mlodzianow",
+        "name": "Młodzianów",
+        "parentCityId": "radom"
       }
     ],
-    "stara wola gołebiowska": [
+    "stara wola golebiowska": [
       {
         "type": "district",
         "id": "stara-wola-golebiowska",
         "name": "Stara Wola Gołębiowska",
         "parentCityId": "radom"
-      }
-    ],
-    "stara wola golebiowska": [
+      },
       {
         "type": "district",
         "id": "stara-wola-golebiowska",
@@ -131075,15 +129863,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "młynek janiszewski": [
+    "mlynek janiszewski": [
       {
         "type": "district",
         "id": "mlynek-janiszewski",
         "name": "Młynek Janiszewski",
         "parentCityId": "radom"
-      }
-    ],
-    "mlynek janiszewski": [
+      },
       {
         "type": "district",
         "id": "mlynek-janiszewski",
@@ -131147,31 +129933,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "długojow": [
-      {
-        "type": "district",
-        "id": "dlugojow",
-        "name": "Długojów",
-        "parentCityId": "radom"
-      }
-    ],
     "dlugojow": [
       {
         "type": "district",
         "id": "dlugojow",
         "name": "Długojów",
         "parentCityId": "radom"
+      },
+      {
+        "type": "district",
+        "id": "dlugojow",
+        "name": "Długojów",
+        "parentCityId": "radom"
       }
     ],
-    "długojow gorny": [
+    "dlugojow gorny": [
       {
         "type": "district",
         "id": "dlugojow-gorny",
         "name": "Długojów Górny",
         "parentCityId": "radom"
-      }
-    ],
-    "dlugojow gorny": [
+      },
       {
         "type": "district",
         "id": "dlugojow-gorny",
@@ -131233,15 +130015,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "nowa wola gołebiowska": [
+    "nowa wola golebiowska": [
       {
         "type": "district",
         "id": "nowa-wola-golebiowska",
         "name": "Nowa Wola Gołębiowska",
         "parentCityId": "radom"
-      }
-    ],
-    "nowa wola golebiowska": [
+      },
       {
         "type": "district",
         "id": "nowa-wola-golebiowska",
@@ -131277,15 +130057,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "gołebiow": [
+    "golebiow": [
       {
         "type": "district",
         "id": "golebiow",
         "name": "Gołębiów",
         "parentCityId": "radom"
-      }
-    ],
-    "golebiow": [
+      },
       {
         "type": "district",
         "id": "golebiow",
@@ -131403,7 +130181,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "długojow-kolonie": [
+    "dlugojow-kolonie": [
       {
         "type": "district",
         "id": "dlugojow-kolonie",
@@ -131571,15 +130349,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "bronisławow": [
+    "bronislawow": [
       {
         "type": "district",
         "id": "bronislawow",
         "name": "Bronisławów",
         "parentCityId": "radom"
-      }
-    ],
-    "bronislawow": [
+      },
       {
         "type": "district",
         "id": "bronislawow",
@@ -131645,7 +130421,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "młyn-wojtostwo": [
+    "mlyn-wojtostwo": [
       {
         "type": "district",
         "id": "mlyn-wojtostwo",
@@ -131661,15 +130437,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "szczygieł": [
+    "szczygiel": [
       {
         "type": "district",
         "id": "szczygiel",
         "name": "Szczygieł",
         "parentCityId": "radom"
-      }
-    ],
-    "szczygiel": [
+      },
       {
         "type": "district",
         "id": "szczygiel",
@@ -131705,7 +130479,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radom"
       }
     ],
-    "gołebiow-wojtostwo": [
+    "golebiow-wojtostwo": [
       {
         "type": "district",
         "id": "golebiow-wojtostwo",
@@ -131761,15 +130535,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Radomsko"
       }
     ],
-    "bartodzieje włoscianskie": [
+    "bartodzieje wloscianskie": [
       {
         "type": "district",
         "id": "bartodzieje-wloscianskie",
         "name": "Bartodzieje Włościańskie",
         "parentCityId": "radomsko"
-      }
-    ],
-    "bartodzieje wloscianskie": [
+      },
       {
         "type": "district",
         "id": "bartodzieje-wloscianskie",
@@ -131805,31 +130577,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radomsko"
       }
     ],
-    "wymysłowek": [
-      {
-        "type": "district",
-        "id": "wymyslowek",
-        "name": "Wymysłówek",
-        "parentCityId": "radomsko"
-      }
-    ],
     "wymyslowek": [
       {
         "type": "district",
         "id": "wymyslowek",
         "name": "Wymysłówek",
         "parentCityId": "radomsko"
+      },
+      {
+        "type": "district",
+        "id": "wymyslowek",
+        "name": "Wymysłówek",
+        "parentCityId": "radomsko"
       }
     ],
-    "miłaczki": [
+    "milaczki": [
       {
         "type": "district",
         "id": "milaczki",
         "name": "Miłaczki",
         "parentCityId": "radomsko"
-      }
-    ],
-    "milaczki": [
+      },
       {
         "type": "district",
         "id": "milaczki",
@@ -132229,14 +130997,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "radzymin"
       }
     ],
-    "radzyn chełminski": [
+    "radzyn chelminski": [
       {
         "type": "city",
         "id": "radzyn-chelminski",
         "name": "Radzyń Chełmiński"
-      }
-    ],
-    "radzyn chelminski": [
+      },
       {
         "type": "city",
         "id": "radzyn-chelminski",
@@ -132549,15 +131315,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Recz"
       }
     ],
-    "namysłowo": [
+    "namyslowo": [
       {
         "type": "district",
         "id": "namyslowo",
         "name": "Namysłowo",
         "parentCityId": "recz"
-      }
-    ],
-    "namyslowo": [
+      },
       {
         "type": "district",
         "id": "namyslowo",
@@ -132685,15 +131449,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rejowiec-fabryczny"
       }
     ],
-    "złote": [
+    "zlote": [
       {
         "type": "district",
         "id": "zlote",
         "name": "Złote",
         "parentCityId": "rejowiec-fabryczny"
-      }
-    ],
-    "zlote": [
+      },
       {
         "type": "district",
         "id": "zlote",
@@ -132831,15 +131593,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Ropczyce"
       }
     ],
-    "chechły": [
+    "chechly": [
       {
         "type": "district",
         "id": "chechly",
         "name": "Chechły",
         "parentCityId": "ropczyce"
-      }
-    ],
-    "chechly": [
+      },
       {
         "type": "district",
         "id": "chechly",
@@ -132861,15 +131621,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ropczyce"
       }
     ],
-    "głodna gora": [
+    "glodna gora": [
       {
         "type": "district",
         "id": "glodna-gora",
         "name": "Głodna Góra",
         "parentCityId": "ropczyce"
-      }
-    ],
-    "glodna gora": [
+      },
       {
         "type": "district",
         "id": "glodna-gora",
@@ -132975,15 +131733,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ropczyce"
       }
     ],
-    "podsłonce": [
+    "podslonce": [
       {
         "type": "district",
         "id": "podslonce",
         "name": "Podsłońce",
         "parentCityId": "ropczyce"
-      }
-    ],
-    "podslonce": [
+      },
       {
         "type": "district",
         "id": "podslonce",
@@ -133235,15 +131991,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ruda-slaska"
       }
     ],
-    "kochłowice": [
+    "kochlowice": [
       {
         "type": "district",
         "id": "kochlowice",
         "name": "Kochłowice",
         "parentCityId": "ruda-slaska"
-      }
-    ],
-    "kochlowice": [
+      },
       {
         "type": "district",
         "id": "kochlowice",
@@ -133371,31 +132125,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Rumia"
       }
     ],
-    "biała rzeka": [
-      {
-        "type": "district",
-        "id": "biala-rzeka",
-        "name": "Biała Rzeka",
-        "parentCityId": "rumia"
-      }
-    ],
     "biala rzeka": [
       {
         "type": "district",
         "id": "biala-rzeka",
         "name": "Biała Rzeka",
         "parentCityId": "rumia"
+      },
+      {
+        "type": "district",
+        "id": "biala-rzeka",
+        "name": "Biała Rzeka",
+        "parentCityId": "rumia"
       }
     ],
-    "stara piła": [
+    "stara pila": [
       {
         "type": "district",
         "id": "stara-pila",
         "name": "Stara Piła",
         "parentCityId": "rumia"
-      }
-    ],
-    "stara pila": [
+      },
       {
         "type": "district",
         "id": "stara-pila",
@@ -133525,15 +132275,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rybnik"
       }
     ],
-    "chwałowice": [
+    "chwalowice": [
       {
         "type": "district",
         "id": "chwalowice",
         "name": "Chwałowice",
         "parentCityId": "rybnik"
-      }
-    ],
-    "chwalowice": [
+      },
       {
         "type": "district",
         "id": "chwalowice",
@@ -133703,15 +132451,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rybnik"
       }
     ],
-    "brzeziny chwałowickie": [
+    "brzeziny chwalowickie": [
       {
         "type": "district",
         "id": "brzeziny-chwalowickie",
         "name": "Brzeziny Chwałowickie",
         "parentCityId": "rybnik"
-      }
-    ],
-    "brzeziny chwalowickie": [
+      },
       {
         "type": "district",
         "id": "brzeziny-chwalowickie",
@@ -133747,15 +132493,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rybnik"
       }
     ],
-    "zamysłow": [
+    "zamyslow": [
       {
         "type": "district",
         "id": "zamyslow",
         "name": "Zamysłów",
         "parentCityId": "rybnik"
-      }
-    ],
-    "zamyslow": [
+      },
       {
         "type": "district",
         "id": "zamyslow",
@@ -133791,15 +132535,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rybnik"
       }
     ],
-    "stodoły": [
+    "stodoly": [
       {
         "type": "district",
         "id": "stodoly",
         "name": "Stodoły",
         "parentCityId": "rybnik"
-      }
-    ],
-    "stodoly": [
+      },
       {
         "type": "district",
         "id": "stodoly",
@@ -133821,31 +132563,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rybnik"
       }
     ],
-    "chwałecice": [
-      {
-        "type": "district",
-        "id": "chwalecice",
-        "name": "Chwałęcice",
-        "parentCityId": "rybnik"
-      }
-    ],
     "chwalecice": [
       {
         "type": "district",
         "id": "chwalecice",
         "name": "Chwałęcice",
         "parentCityId": "rybnik"
+      },
+      {
+        "type": "district",
+        "id": "chwalecice",
+        "name": "Chwałęcice",
+        "parentCityId": "rybnik"
       }
     ],
-    "kłokocin": [
+    "klokocin": [
       {
         "type": "district",
         "id": "klokocin",
         "name": "Kłokocin",
         "parentCityId": "rybnik"
-      }
-    ],
-    "klokocin": [
+      },
       {
         "type": "district",
         "id": "klokocin",
@@ -133879,14 +132617,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Rychtal"
       }
     ],
-    "rychwał": [
+    "rychwal": [
       {
         "type": "city",
         "id": "rychwal",
         "name": "Rychwał"
-      }
-    ],
-    "rychwal": [
+      },
       {
         "type": "city",
         "id": "rychwal",
@@ -133907,15 +132643,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rychwal"
       }
     ],
-    "sokołow": [
+    "sokolow": [
       {
         "type": "district",
         "id": "sokolow",
         "name": "Sokołów",
         "parentCityId": "rychwal"
-      }
-    ],
-    "sokolow": [
+      },
       {
         "type": "district",
         "id": "sokolow",
@@ -133937,14 +132671,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rychwal"
       }
     ],
-    "rydułtowy": [
+    "rydultowy": [
       {
         "type": "city",
         "id": "rydultowy",
         "name": "Rydułtowy"
-      }
-    ],
-    "rydultowy": [
+      },
       {
         "type": "city",
         "id": "rydultowy",
@@ -134007,15 +132739,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rydultowy"
       }
     ],
-    "orłowiec": [
+    "orlowiec": [
       {
         "type": "district",
         "id": "orlowiec",
         "name": "Orłowiec",
         "parentCityId": "rydultowy"
-      }
-    ],
-    "orlowiec": [
+      },
       {
         "type": "district",
         "id": "orlowiec",
@@ -134197,15 +132927,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Ryki"
       }
     ],
-    "jarmołowka": [
+    "jarmolowka": [
       {
         "type": "district",
         "id": "jarmolowka",
         "name": "Jarmołówka",
         "parentCityId": "ryki"
-      }
-    ],
-    "jarmolowka": [
+      },
       {
         "type": "district",
         "id": "jarmolowka",
@@ -134421,15 +133149,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Ryn"
       }
     ],
-    "ryn mały": [
+    "ryn maly": [
       {
         "type": "district",
         "id": "ryn-maly",
         "name": "Ryn Mały",
         "parentCityId": "ryn"
-      }
-    ],
-    "ryn maly": [
+      },
       {
         "type": "district",
         "id": "ryn-maly",
@@ -134477,15 +133203,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rypin"
       }
     ],
-    "wilcza łapa": [
+    "wilcza lapa": [
       {
         "type": "district",
         "id": "wilcza-lapa",
         "name": "Wilcza Łapa",
         "parentCityId": "rypin"
-      }
-    ],
-    "wilcza lapa": [
+      },
       {
         "type": "district",
         "id": "wilcza-lapa",
@@ -134521,15 +133245,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rypin"
       }
     ],
-    "kostrzał": [
+    "kostrzal": [
       {
         "type": "district",
         "id": "kostrzal",
         "name": "Kostrzał",
         "parentCityId": "rypin"
-      }
-    ],
-    "kostrzal": [
+      },
       {
         "type": "district",
         "id": "kostrzal",
@@ -134603,15 +133325,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "słocina": [
+    "slocina": [
       {
         "type": "district",
         "id": "slocina",
         "name": "Słocina",
         "parentCityId": "rzeszow"
-      }
-    ],
-    "slocina": [
+      },
       {
         "type": "district",
         "id": "slocina",
@@ -134675,15 +133395,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "miłocin": [
+    "milocin": [
       {
         "type": "district",
         "id": "milocin",
         "name": "Miłocin",
         "parentCityId": "rzeszow"
-      }
-    ],
-    "milocin": [
+      },
       {
         "type": "district",
         "id": "milocin",
@@ -134705,15 +133423,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "gorna słocina": [
+    "gorna slocina": [
       {
         "type": "district",
         "id": "gorna-slocina",
         "name": "Górna Słocina",
         "parentCityId": "rzeszow"
-      }
-    ],
-    "gorna slocina": [
+      },
       {
         "type": "district",
         "id": "gorna-slocina",
@@ -134791,15 +133507,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "pod racławowka": [
+    "pod raclawowka": [
       {
         "type": "district",
         "id": "pod-raclawowka",
         "name": "Pod Racławówką",
         "parentCityId": "rzeszow"
-      }
-    ],
-    "pod raclawowka": [
+      },
       {
         "type": "district",
         "id": "pod-raclawowka",
@@ -134891,23 +133605,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "rzeszow"
       }
     ],
-    "podłeze": [
-      {
-        "type": "district",
-        "id": "podleze",
-        "name": "Podłęże",
-        "parentCityId": "rzeszow"
-      }
-    ],
     "podleze": [
       {
         "type": "district",
         "id": "podleze",
         "name": "Podłęże",
         "parentCityId": "rzeszow"
+      },
+      {
+        "type": "district",
+        "id": "podleze",
+        "name": "Podłęże",
+        "parentCityId": "rzeszow"
       }
     ],
-    "połanek": [
+    "polanek": [
+      {
+        "type": "district",
+        "id": "polanek",
+        "name": "Półanek",
+        "parentCityId": "rzeszow"
+      },
       {
         "type": "district",
         "id": "polanek",
@@ -134919,14 +133637,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "polanek",
         "name": "Półanek",
         "parentCityId": "tyczyn"
-      }
-    ],
-    "polanek": [
-      {
-        "type": "district",
-        "id": "polanek",
-        "name": "Półanek",
-        "parentCityId": "rzeszow"
       },
       {
         "type": "district",
@@ -135211,20 +133921,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sandomierz"
       }
     ],
-    "chwałki": [
-      {
-        "type": "district",
-        "id": "chwalki",
-        "name": "Chwałki",
-        "parentCityId": "sandomierz"
-      },
-      {
-        "type": "district",
-        "id": "chwalki",
-        "name": "Chwałki",
-        "parentCityId": "tarnobrzeg"
-      }
-    ],
     "chwalki": [
       {
         "type": "district",
@@ -135236,18 +133932,28 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "district",
         "id": "chwalki",
         "name": "Chwałki",
+        "parentCityId": "sandomierz"
+      },
+      {
+        "type": "district",
+        "id": "chwalki",
+        "name": "Chwałki",
+        "parentCityId": "tarnobrzeg"
+      },
+      {
+        "type": "district",
+        "id": "chwalki",
+        "name": "Chwałki",
         "parentCityId": "tarnobrzeg"
       }
     ],
-    "gołebice": [
+    "golebice": [
       {
         "type": "district",
         "id": "golebice",
         "name": "Gołębice",
         "parentCityId": "sandomierz"
-      }
-    ],
-    "golebice": [
+      },
       {
         "type": "district",
         "id": "golebice",
@@ -135459,15 +134165,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sanok"
       }
     ],
-    "biała gora": [
+    "biala gora": [
       {
         "type": "district",
         "id": "biala-gora",
         "name": "Biała Góra",
         "parentCityId": "sanok"
-      }
-    ],
-    "biala gora": [
+      },
       {
         "type": "district",
         "id": "biala-gora",
@@ -135531,15 +134235,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sanok"
       }
     ],
-    "okołowiczowka": [
+    "okolowiczowka": [
       {
         "type": "district",
         "id": "okolowiczowka",
         "name": "Okołowiczówka",
         "parentCityId": "sanok"
-      }
-    ],
-    "okolowiczowka": [
+      },
       {
         "type": "district",
         "id": "okolowiczowka",
@@ -135697,14 +134399,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sedziszow"
       }
     ],
-    "sedziszow małopolski": [
+    "sedziszow malopolski": [
       {
         "type": "city",
         "id": "sedziszow-malopolski",
         "name": "Sędziszów Małopolski"
-      }
-    ],
-    "sedziszow malopolski": [
+      },
       {
         "type": "city",
         "id": "sedziszow-malopolski",
@@ -135767,15 +134467,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sedziszow-malopolski"
       }
     ],
-    "wolica ługowa": [
+    "wolica lugowa": [
       {
         "type": "district",
         "id": "wolica-lugowa",
         "name": "Wolica Ługowa",
         "parentCityId": "sedziszow-malopolski"
-      }
-    ],
-    "wolica lugowa": [
+      },
       {
         "type": "district",
         "id": "wolica-lugowa",
@@ -135825,15 +134523,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sedziszow-malopolski"
       }
     ],
-    "załuze": [
+    "zaluze": [
       {
         "type": "district",
         "id": "zaluze",
         "name": "Załuże",
         "parentCityId": "sedziszow-malopolski"
-      }
-    ],
-    "zaluze": [
+      },
       {
         "type": "district",
         "id": "zaluze",
@@ -136191,31 +134887,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "siemianowice-slaskie"
       }
     ],
-    "przełajka": [
-      {
-        "type": "district",
-        "id": "przelajka",
-        "name": "Przełajka",
-        "parentCityId": "siemianowice-slaskie"
-      }
-    ],
     "przelajka": [
       {
         "type": "district",
         "id": "przelajka",
         "name": "Przełajka",
         "parentCityId": "siemianowice-slaskie"
+      },
+      {
+        "type": "district",
+        "id": "przelajka",
+        "name": "Przełajka",
+        "parentCityId": "siemianowice-slaskie"
       }
     ],
-    "michałkowice": [
+    "michalkowice": [
       {
         "type": "district",
         "id": "michalkowice",
         "name": "Michałkowice",
         "parentCityId": "siemianowice-slaskie"
-      }
-    ],
-    "michalkowice": [
+      },
       {
         "type": "district",
         "id": "michalkowice",
@@ -136279,31 +134971,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "siemiatycze"
       }
     ],
-    "łojki": [
-      {
-        "type": "district",
-        "id": "lojki",
-        "name": "Łojki",
-        "parentCityId": "siemiatycze"
-      }
-    ],
     "lojki": [
       {
         "type": "district",
         "id": "lojki",
         "name": "Łojki",
         "parentCityId": "siemiatycze"
+      },
+      {
+        "type": "district",
+        "id": "lojki",
+        "name": "Łojki",
+        "parentCityId": "siemiatycze"
       }
     ],
-    "słowiczyn": [
+    "slowiczyn": [
       {
         "type": "district",
         "id": "slowiczyn",
         "name": "Słowiczyn",
         "parentCityId": "siemiatycze"
-      }
-    ],
-    "slowiczyn": [
+      },
       {
         "type": "district",
         "id": "slowiczyn",
@@ -136535,15 +135223,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sieradz"
       }
     ],
-    "mokre wojsławskie": [
+    "mokre wojslawskie": [
       {
         "type": "district",
         "id": "mokre-wojslawskie",
         "name": "Mokre Wojsławskie",
         "parentCityId": "sieradz"
-      }
-    ],
-    "mokre wojslawskie": [
+      },
       {
         "type": "district",
         "id": "mokre-wojslawskie",
@@ -136673,31 +135359,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Woźniki"
       }
     ],
-    "zapusta mała": [
-      {
-        "type": "district",
-        "id": "zapusta-mala",
-        "name": "Zapusta Mała",
-        "parentCityId": "sieradz"
-      }
-    ],
     "zapusta mala": [
       {
         "type": "district",
         "id": "zapusta-mala",
         "name": "Zapusta Mała",
         "parentCityId": "sieradz"
+      },
+      {
+        "type": "district",
+        "id": "zapusta-mala",
+        "name": "Zapusta Mała",
+        "parentCityId": "sieradz"
       }
     ],
-    "olendry małe": [
+    "olendry male": [
       {
         "type": "district",
         "id": "olendry-male",
         "name": "Olendry Małe",
         "parentCityId": "sieradz"
-      }
-    ],
-    "olendry male": [
+      },
       {
         "type": "district",
         "id": "olendry-male",
@@ -136921,15 +135603,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Skalbmierz"
       }
     ],
-    "psie głowki": [
+    "psie glowki": [
       {
         "type": "district",
         "id": "psie-glowki",
         "name": "Psie Główki",
         "parentCityId": "skalbmierz"
-      }
-    ],
-    "psie glowki": [
+      },
       {
         "type": "district",
         "id": "psie-glowki",
@@ -136951,15 +135631,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skalbmierz"
       }
     ],
-    "muły": [
+    "muly": [
       {
         "type": "district",
         "id": "muly",
         "name": "Muły",
         "parentCityId": "skalbmierz"
-      }
-    ],
-    "muly": [
+      },
       {
         "type": "district",
         "id": "muly",
@@ -136993,7 +135671,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Skarszewy"
       }
     ],
-    "młyn-dolina": [
+    "mlyn-dolina": [
       {
         "type": "district",
         "id": "mlyn-dolina",
@@ -137091,15 +135769,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skarzysko-kamienna"
       }
     ],
-    "usłow": [
+    "uslow": [
       {
         "type": "district",
         "id": "uslow",
         "name": "Usłów",
         "parentCityId": "skarzysko-kamienna"
-      }
-    ],
-    "uslow": [
+      },
       {
         "type": "district",
         "id": "uslow",
@@ -137121,31 +135797,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skarzysko-kamienna"
       }
     ],
-    "łyzwy": [
-      {
-        "type": "district",
-        "id": "lyzwy",
-        "name": "Łyżwy",
-        "parentCityId": "skarzysko-kamienna"
-      }
-    ],
     "lyzwy": [
       {
         "type": "district",
         "id": "lyzwy",
         "name": "Łyżwy",
         "parentCityId": "skarzysko-kamienna"
+      },
+      {
+        "type": "district",
+        "id": "lyzwy",
+        "name": "Łyżwy",
+        "parentCityId": "skarzysko-kamienna"
       }
     ],
-    "podemłynek": [
+    "podemlynek": [
       {
         "type": "district",
         "id": "podemlynek",
         "name": "Podemłynek",
         "parentCityId": "skarzysko-kamienna"
-      }
-    ],
-    "podemlynek": [
+      },
       {
         "type": "district",
         "id": "podemlynek",
@@ -137195,15 +135867,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skarzysko-kamienna"
       }
     ],
-    "młodzawy": [
+    "mlodzawy": [
       {
         "type": "district",
         "id": "mlodzawy",
         "name": "Młodzawy",
         "parentCityId": "skarzysko-kamienna"
-      }
-    ],
-    "mlodzawy": [
+      },
       {
         "type": "district",
         "id": "mlodzawy",
@@ -137293,15 +135963,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skarzysko-kamienna"
       }
     ],
-    "pogorzałe": [
+    "pogorzale": [
       {
         "type": "district",
         "id": "pogorzale",
         "name": "Pogorzałe",
         "parentCityId": "skarzysko-kamienna"
-      }
-    ],
-    "pogorzale": [
+      },
       {
         "type": "district",
         "id": "pogorzale",
@@ -137421,7 +136089,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skarzysko-kamienna"
       }
     ],
-    "usłow-place": [
+    "uslow-place": [
       {
         "type": "district",
         "id": "uslow-place",
@@ -137519,15 +136187,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skawina"
       }
     ],
-    "koniaste doły": [
+    "koniaste doly": [
       {
         "type": "district",
         "id": "koniaste-doly",
         "name": "Koniaste Doły",
         "parentCityId": "skawina"
-      }
-    ],
-    "koniaste doly": [
+      },
       {
         "type": "district",
         "id": "koniaste-doly",
@@ -137927,7 +136593,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "piła-młyn": [
+    "pila-mlyn": [
       {
         "type": "district",
         "id": "pila-mlyn",
@@ -138013,27 +136679,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "skwierzyna"
       }
     ],
-    "oberski młyn": [
-      {
-        "type": "district",
-        "id": "oberski-mlyn",
-        "name": "Oberski Młyn",
-        "parentCityId": "skwierzyna"
-      }
-    ],
     "oberski mlyn": [
       {
         "type": "district",
         "id": "oberski-mlyn",
         "name": "Oberski Młyn",
         "parentCityId": "skwierzyna"
-      }
-    ],
-    "sława": [
+      },
       {
-        "type": "city",
-        "id": "slawa",
-        "name": "Sława"
+        "type": "district",
+        "id": "oberski-mlyn",
+        "name": "Oberski Młyn",
+        "parentCityId": "skwierzyna"
       }
     ],
     "slawa": [
@@ -138041,16 +136698,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "slawa",
         "name": "Sława"
+      },
+      {
+        "type": "city",
+        "id": "slawa",
+        "name": "Sława"
       }
     ],
-    "sławkow": [
+    "slawkow": [
       {
         "type": "city",
         "id": "slawkow",
         "name": "Sławków"
-      }
-    ],
-    "slawkow": [
+      },
       {
         "type": "city",
         "id": "slawkow",
@@ -138099,15 +136759,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "slawkow"
       }
     ],
-    "ciołkowizna": [
+    "ciolkowizna": [
       {
         "type": "district",
         "id": "ciolkowizna",
         "name": "Ciołkowizna",
         "parentCityId": "slawkow"
-      }
-    ],
-    "ciolkowizna": [
+      },
       {
         "type": "district",
         "id": "ciolkowizna",
@@ -138155,15 +136813,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "slawkow"
       }
     ],
-    "kołdaczka": [
+    "koldaczka": [
       {
         "type": "district",
         "id": "koldaczka",
         "name": "Kołdaczka",
         "parentCityId": "slawkow"
-      }
-    ],
-    "koldaczka": [
+      },
       {
         "type": "district",
         "id": "koldaczka",
@@ -138213,14 +136869,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "slawkow"
       }
     ],
-    "sławno": [
+    "slawno": [
       {
         "type": "city",
         "id": "slawno",
         "name": "Sławno"
-      }
-    ],
-    "slawno": [
+      },
       {
         "type": "city",
         "id": "slawno",
@@ -138267,14 +136921,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "slesin"
       }
     ],
-    "słomniki": [
+    "slomniki": [
       {
         "type": "city",
         "id": "slomniki",
         "name": "Słomniki"
-      }
-    ],
-    "slomniki": [
+      },
       {
         "type": "city",
         "id": "slomniki",
@@ -138349,25 +137001,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zabno"
       }
     ],
-    "słubice": [
-      {
-        "type": "city",
-        "id": "slubice",
-        "name": "Słubice"
-      }
-    ],
     "slubice": [
       {
         "type": "city",
         "id": "slubice",
         "name": "Słubice"
-      }
-    ],
-    "słupca": [
+      },
       {
         "type": "city",
-        "id": "slupca",
-        "name": "Słupca"
+        "id": "slubice",
+        "name": "Słubice"
       }
     ],
     "slupca": [
@@ -138375,16 +137018,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "slupca",
         "name": "Słupca"
+      },
+      {
+        "type": "city",
+        "id": "slupca",
+        "name": "Słupca"
       }
     ],
-    "słupsk": [
+    "slupsk": [
       {
         "type": "city",
         "id": "slupsk",
         "name": "Słupsk"
-      }
-    ],
-    "slupsk": [
+      },
       {
         "type": "city",
         "id": "slupsk",
@@ -138464,15 +137110,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Sobótka"
       }
     ],
-    "tapadła": [
+    "tapadla": [
       {
         "type": "district",
         "id": "tapadla",
         "name": "Tąpadła",
         "parentCityId": "sobotka"
-      }
-    ],
-    "tapadla": [
+      },
       {
         "type": "district",
         "id": "tapadla",
@@ -138628,7 +137272,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sochaczew"
       }
     ],
-    "majatek-gawłow": [
+    "majatek-gawlow": [
       {
         "type": "district",
         "id": "majatek-gawlow",
@@ -138684,29 +137328,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Sochocin"
       }
     ],
-    "sokołka": [
-      {
-        "type": "city",
-        "id": "sokolka",
-        "name": "Sokółka"
-      }
-    ],
     "sokolka": [
       {
         "type": "city",
         "id": "sokolka",
         "name": "Sokółka"
+      },
+      {
+        "type": "city",
+        "id": "sokolka",
+        "name": "Sokółka"
       }
     ],
-    "buchwałowo": [
+    "buchwalowo": [
       {
         "type": "district",
         "id": "buchwalowo",
         "name": "Buchwałowo",
         "parentCityId": "sokolka"
-      }
-    ],
-    "buchwalowo": [
+      },
       {
         "type": "district",
         "id": "buchwalowo",
@@ -138728,28 +137368,24 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sokolka"
       }
     ],
-    "sokołow małopolski": [
-      {
-        "type": "city",
-        "id": "sokolow-malopolski",
-        "name": "Sokołów Małopolski"
-      }
-    ],
     "sokolow malopolski": [
       {
         "type": "city",
         "id": "sokolow-malopolski",
         "name": "Sokołów Małopolski"
+      },
+      {
+        "type": "city",
+        "id": "sokolow-malopolski",
+        "name": "Sokołów Małopolski"
       }
     ],
-    "sokołow podlaski": [
+    "sokolow podlaski": [
       {
         "type": "city",
         "id": "sokolow-podlaski",
         "name": "Sokołów Podlaski"
-      }
-    ],
-    "sokolow podlaski": [
+      },
       {
         "type": "city",
         "id": "sokolow-podlaski",
@@ -138866,14 +137502,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "solec-kujawski"
       }
     ],
-    "solec nad wisła": [
+    "solec nad wisla": [
       {
         "type": "city",
         "id": "solec-nad-wisla",
         "name": "Solec nad Wisłą"
-      }
-    ],
-    "solec nad wisla": [
+      },
       {
         "type": "city",
         "id": "solec-nad-wisla",
@@ -139054,15 +137688,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sosnowiec"
       }
     ],
-    "ludmiła": [
+    "ludmila": [
       {
         "type": "district",
         "id": "ludmila",
         "name": "Ludmiła",
         "parentCityId": "sosnowiec"
-      }
-    ],
-    "ludmila": [
+      },
       {
         "type": "district",
         "id": "ludmila",
@@ -139154,15 +137786,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sosnowiec"
       }
     ],
-    "kolonia przyszłosc": [
+    "kolonia przyszlosc": [
       {
         "type": "district",
         "id": "kolonia-przyszlosc",
         "name": "Kolonia Przyszłość",
         "parentCityId": "sosnowiec"
-      }
-    ],
-    "kolonia przyszlosc": [
+      },
       {
         "type": "district",
         "id": "kolonia-przyszlosc",
@@ -139356,15 +137986,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "chyły": [
+    "chyly": [
       {
         "type": "district",
         "id": "chyly",
         "name": "Chyły",
         "parentCityId": "stalowa-wola"
-      }
-    ],
-    "chyly": [
+      },
       {
         "type": "district",
         "id": "chyly",
@@ -139386,15 +138014,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "stalowa-wola"
       }
     ],
-    "sudoły": [
+    "sudoly": [
       {
         "type": "district",
         "id": "sudoly",
         "name": "Sudoły",
         "parentCityId": "stalowa-wola"
-      }
-    ],
-    "sudoly": [
+      },
       {
         "type": "district",
         "id": "sudoly",
@@ -139416,15 +138042,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "stalowa-wola"
       }
     ],
-    "swoły": [
+    "swoly": [
       {
         "type": "district",
         "id": "swoly",
         "name": "Swoły",
         "parentCityId": "stalowa-wola"
-      }
-    ],
-    "swoly": [
+      },
       {
         "type": "district",
         "id": "swoly",
@@ -139446,15 +138070,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "stalowa-wola"
       }
     ],
-    "pławo": [
+    "plawo": [
       {
         "type": "district",
         "id": "plawo",
         "name": "Pławo",
         "parentCityId": "stalowa-wola"
-      }
-    ],
-    "plawo": [
+      },
       {
         "type": "district",
         "id": "plawo",
@@ -139516,19 +138138,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "staporkow"
       }
     ],
-    "wołow": [
-      {
-        "type": "district",
-        "id": "wolow",
-        "name": "Wołów",
-        "parentCityId": "staporkow"
-      },
-      {
-        "type": "city",
-        "id": "wolow",
-        "name": "Wołów"
-      }
-    ],
     "wolow": [
       {
         "type": "district",
@@ -139537,17 +138146,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "staporkow"
       },
       {
+        "type": "district",
+        "id": "wolow",
+        "name": "Wołów",
+        "parentCityId": "staporkow"
+      },
+      {
         "type": "city",
         "id": "wolow",
         "name": "Wołów"
-      }
-    ],
-    "miła": [
+      },
       {
-        "type": "district",
-        "id": "mila",
-        "name": "Miła",
-        "parentCityId": "staporkow"
+        "type": "city",
+        "id": "wolow",
+        "name": "Wołów"
       }
     ],
     "mila": [
@@ -139556,17 +138168,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "mila",
         "name": "Miła",
         "parentCityId": "staporkow"
+      },
+      {
+        "type": "district",
+        "id": "mila",
+        "name": "Miła",
+        "parentCityId": "staporkow"
       }
     ],
-    "niekłan": [
+    "nieklan": [
       {
         "type": "district",
         "id": "nieklan",
         "name": "Niekłań",
         "parentCityId": "staporkow"
-      }
-    ],
-    "nieklan": [
+      },
       {
         "type": "district",
         "id": "nieklan",
@@ -139670,15 +138286,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "starachowice"
       }
     ],
-    "lesniczowka michałow": [
+    "lesniczowka michalow": [
       {
         "type": "district",
         "id": "lesniczowka-michalow",
         "name": "Leśniczówka Michałów",
         "parentCityId": "starachowice"
-      }
-    ],
-    "lesniczowka michalow": [
+      },
       {
         "type": "district",
         "id": "lesniczowka-michalow",
@@ -139728,27 +138342,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "starachowice"
       }
     ],
-    "michałow gorny": [
-      {
-        "type": "district",
-        "id": "michalow-gorny",
-        "name": "Michałów Górny",
-        "parentCityId": "starachowice"
-      }
-    ],
     "michalow gorny": [
       {
         "type": "district",
         "id": "michalow-gorny",
         "name": "Michałów Górny",
         "parentCityId": "starachowice"
-      }
-    ],
-    "michałow dolny": [
+      },
       {
         "type": "district",
-        "id": "michalow-dolny",
-        "name": "Michałów Dolny",
+        "id": "michalow-gorny",
+        "name": "Michałów Górny",
         "parentCityId": "starachowice"
       }
     ],
@@ -139758,17 +138362,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "michalow-dolny",
         "name": "Michałów Dolny",
         "parentCityId": "starachowice"
+      },
+      {
+        "type": "district",
+        "id": "michalow-dolny",
+        "name": "Michałów Dolny",
+        "parentCityId": "starachowice"
       }
     ],
-    "michałow fabryczny": [
+    "michalow fabryczny": [
       {
         "type": "district",
         "id": "michalow-fabryczny",
         "name": "Michałów Fabryczny",
         "parentCityId": "starachowice"
-      }
-    ],
-    "michalow fabryczny": [
+      },
       {
         "type": "district",
         "id": "michalow-fabryczny",
@@ -139818,7 +138426,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "starachowice"
       }
     ],
-    "michałow-bloki": [
+    "michalow-bloki": [
       {
         "type": "district",
         "id": "michalow-bloki",
@@ -139874,23 +138482,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "starachowice"
       }
     ],
-    "michałow miejski": [
-      {
-        "type": "district",
-        "id": "michalow-miejski",
-        "name": "Michałów Miejski",
-        "parentCityId": "starachowice"
-      }
-    ],
     "michalow miejski": [
       {
         "type": "district",
         "id": "michalow-miejski",
         "name": "Michałów Miejski",
         "parentCityId": "starachowice"
+      },
+      {
+        "type": "district",
+        "id": "michalow-miejski",
+        "name": "Michałów Miejski",
+        "parentCityId": "starachowice"
       }
     ],
-    "michałow-lecznica": [
+    "michalow-lecznica": [
       {
         "type": "district",
         "id": "michalow-lecznica",
@@ -140300,15 +138906,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Staszów"
       }
     ],
-    "pipała": [
+    "pipala": [
       {
         "type": "district",
         "id": "pipala",
         "name": "Pipała",
         "parentCityId": "staszow"
-      }
-    ],
-    "pipala": [
+      },
       {
         "type": "district",
         "id": "pipala",
@@ -140422,15 +139026,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Stepnica"
       }
     ],
-    "bogusławie": [
+    "boguslawie": [
       {
         "type": "district",
         "id": "boguslawie",
         "name": "Bogusławie",
         "parentCityId": "stepnica"
-      }
-    ],
-    "boguslawie": [
+      },
       {
         "type": "district",
         "id": "boguslawie",
@@ -140464,14 +139066,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Stęszew"
       }
     ],
-    "stoczek łukowski": [
+    "stoczek lukowski": [
       {
         "type": "city",
         "id": "stoczek-lukowski",
         "name": "Stoczek Łukowski"
-      }
-    ],
-    "stoczek lukowski": [
+      },
       {
         "type": "city",
         "id": "stoczek-lukowski",
@@ -140492,15 +139092,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "stoczek-lukowski"
       }
     ],
-    "zatyłek": [
+    "zatylek": [
       {
         "type": "district",
         "id": "zatylek",
         "name": "Zatyłek",
         "parentCityId": "stoczek-lukowski"
-      }
-    ],
-    "zatylek": [
+      },
       {
         "type": "district",
         "id": "zatylek",
@@ -140622,15 +139220,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Strzelce Krajeńskie"
       }
     ],
-    "małe osiedle": [
+    "male osiedle": [
       {
         "type": "district",
         "id": "male-osiedle",
         "name": "Małe Osiedle",
         "parentCityId": "strzelce-krajenskie"
-      }
-    ],
-    "male osiedle": [
+      },
       {
         "type": "district",
         "id": "male-osiedle",
@@ -140664,15 +139260,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "strzelce-opolskie"
       }
     ],
-    "mokre łany": [
+    "mokre lany": [
       {
         "type": "district",
         "id": "mokre-lany",
         "name": "Mokre Łany",
         "parentCityId": "strzelce-opolskie"
-      }
-    ],
-    "mokre lany": [
+      },
       {
         "type": "district",
         "id": "mokre-lany",
@@ -140694,15 +139288,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "strzelce-opolskie"
       }
     ],
-    "suche łany": [
+    "suche lany": [
       {
         "type": "district",
         "id": "suche-lany",
         "name": "Suche Łany",
         "parentCityId": "strzelce-opolskie"
-      }
-    ],
-    "suche lany": [
+      },
       {
         "type": "district",
         "id": "suche-lany",
@@ -140826,31 +139418,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "strzyzow"
       }
     ],
-    "działy zachodnie": [
-      {
-        "type": "district",
-        "id": "dzialy-zachodnie",
-        "name": "Działy Zachodnie",
-        "parentCityId": "strzyzow"
-      }
-    ],
     "dzialy zachodnie": [
       {
         "type": "district",
         "id": "dzialy-zachodnie",
         "name": "Działy Zachodnie",
         "parentCityId": "strzyzow"
+      },
+      {
+        "type": "district",
+        "id": "dzialy-zachodnie",
+        "name": "Działy Zachodnie",
+        "parentCityId": "strzyzow"
       }
     ],
-    "działy wschodnie": [
+    "dzialy wschodnie": [
       {
         "type": "district",
         "id": "dzialy-wschodnie",
         "name": "Działy Wschodnie",
         "parentCityId": "strzyzow"
-      }
-    ],
-    "dzialy wschodnie": [
+      },
       {
         "type": "district",
         "id": "dzialy-wschodnie",
@@ -140982,15 +139570,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sucha-beskidzka"
       }
     ],
-    "hajdyłow": [
+    "hajdylow": [
       {
         "type": "district",
         "id": "hajdylow",
         "name": "Hajdyłów",
         "parentCityId": "sucha-beskidzka"
-      }
-    ],
-    "hajdylow": [
+      },
       {
         "type": "district",
         "id": "hajdylow",
@@ -141136,15 +139722,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sucha-beskidzka"
       }
     ],
-    "kułasowka": [
+    "kulasowka": [
       {
         "type": "district",
         "id": "kulasowka",
         "name": "Kułasówka",
         "parentCityId": "sucha-beskidzka"
-      }
-    ],
-    "kulasowka": [
+      },
       {
         "type": "district",
         "id": "kulasowka",
@@ -141362,15 +139946,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sucha-beskidzka"
       }
     ],
-    "błachuty": [
+    "blachuty": [
       {
         "type": "district",
         "id": "blachuty",
         "name": "Błachuty",
         "parentCityId": "sucha-beskidzka"
-      }
-    ],
-    "blachuty": [
+      },
       {
         "type": "district",
         "id": "blachuty",
@@ -141434,15 +140016,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sucha-beskidzka"
       }
     ],
-    "włochow": [
+    "wlochow": [
       {
         "type": "district",
         "id": "wlochow",
         "name": "Włochów",
         "parentCityId": "sucha-beskidzka"
-      }
-    ],
-    "wlochow": [
+      },
       {
         "type": "district",
         "id": "wlochow",
@@ -141464,27 +140044,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sucha-beskidzka"
       }
     ],
-    "błachutowka": [
-      {
-        "type": "district",
-        "id": "blachutowka",
-        "name": "Błachutówka",
-        "parentCityId": "sucha-beskidzka"
-      }
-    ],
     "blachutowka": [
       {
         "type": "district",
         "id": "blachutowka",
         "name": "Błachutówka",
         "parentCityId": "sucha-beskidzka"
-      }
-    ],
-    "bładzonka": [
+      },
       {
         "type": "district",
-        "id": "bladzonka",
-        "name": "Błądzonka",
+        "id": "blachutowka",
+        "name": "Błachutówka",
         "parentCityId": "sucha-beskidzka"
       }
     ],
@@ -141494,17 +140064,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "bladzonka",
         "name": "Błądzonka",
         "parentCityId": "sucha-beskidzka"
+      },
+      {
+        "type": "district",
+        "id": "bladzonka",
+        "name": "Błądzonka",
+        "parentCityId": "sucha-beskidzka"
       }
     ],
-    "bucałowka": [
+    "bucalowka": [
       {
         "type": "district",
         "id": "bucalowka",
         "name": "Bucałówka",
         "parentCityId": "sucha-beskidzka"
-      }
-    ],
-    "bucalowka": [
+      },
       {
         "type": "district",
         "id": "bucalowka",
@@ -141634,15 +140208,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Suchedniów"
       }
     ],
-    "błoto": [
+    "bloto": [
       {
         "type": "district",
         "id": "bloto",
         "name": "Błoto",
         "parentCityId": "suchedniow"
-      }
-    ],
-    "bloto": [
+      },
       {
         "type": "district",
         "id": "bloto",
@@ -141782,15 +140354,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Sulejów"
       }
     ],
-    "podwłodzimierzow": [
+    "podwlodzimierzow": [
       {
         "type": "district",
         "id": "podwlodzimierzow",
         "name": "Podwłodzimierzów",
         "parentCityId": "sulejow"
-      }
-    ],
-    "podwlodzimierzow": [
+      },
       {
         "type": "district",
         "id": "podwlodzimierzow",
@@ -141852,31 +140422,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Sulejówek"
       }
     ],
-    "długa szlachecka": [
-      {
-        "type": "district",
-        "id": "dluga-szlachecka",
-        "name": "Długa Szlachecka",
-        "parentCityId": "sulejowek"
-      }
-    ],
     "dluga szlachecka": [
       {
         "type": "district",
         "id": "dluga-szlachecka",
         "name": "Długa Szlachecka",
         "parentCityId": "sulejowek"
+      },
+      {
+        "type": "district",
+        "id": "dluga-szlachecka",
+        "name": "Długa Szlachecka",
+        "parentCityId": "sulejowek"
       }
     ],
-    "miłosna": [
+    "milosna": [
       {
         "type": "district",
         "id": "milosna",
         "name": "Miłosna",
         "parentCityId": "sulejowek"
-      }
-    ],
-    "milosna": [
+      },
       {
         "type": "district",
         "id": "milosna",
@@ -141940,14 +140506,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "sulejowek"
       }
     ],
-    "sułkowice": [
+    "sulkowice": [
       {
         "type": "city",
         "id": "sulkowice",
         "name": "Sułkowice"
-      }
-    ],
-    "sulkowice": [
+      },
       {
         "type": "city",
         "id": "sulkowice",
@@ -142126,15 +140690,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "suwalki"
       }
     ],
-    "białorogi": [
+    "bialorogi": [
       {
         "type": "district",
         "id": "bialorogi",
         "name": "Białorogi",
         "parentCityId": "suwalki"
-      }
-    ],
-    "bialorogi": [
+      },
       {
         "type": "district",
         "id": "bialorogi",
@@ -142184,7 +140746,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "suwalki"
       }
     ],
-    "dabrowka-młynek": [
+    "dabrowka-mlynek": [
       {
         "type": "district",
         "id": "dabrowka-mlynek",
@@ -142428,15 +140990,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "swidnik"
       }
     ],
-    "swidnik mały": [
+    "swidnik maly": [
       {
         "type": "district",
         "id": "swidnik-maly",
         "name": "Świdnik Mały",
         "parentCityId": "swidnik"
-      }
-    ],
-    "swidnik maly": [
+      },
       {
         "type": "district",
         "id": "swidnik-maly",
@@ -142566,15 +141126,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Świebodzice"
       }
     ],
-    "pełcznica": [
+    "pelcznica": [
       {
         "type": "district",
         "id": "pelcznica",
         "name": "Pełcznica",
         "parentCityId": "swiebodzice"
-      }
-    ],
-    "pelcznica": [
+      },
       {
         "type": "district",
         "id": "pelcznica",
@@ -142664,15 +141222,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "swieradow-zdroj"
       }
     ],
-    "łeczyna": [
+    "leczyna": [
       {
         "type": "district",
         "id": "leczyna",
         "name": "Łęczyna",
         "parentCityId": "swieradow-zdroj"
-      }
-    ],
-    "leczyna": [
+      },
       {
         "type": "district",
         "id": "leczyna",
@@ -142720,14 +141276,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Świerzawa"
       }
     ],
-    "swietochłowice": [
+    "swietochlowice": [
       {
         "type": "city",
         "id": "swietochlowice",
         "name": "Świętochłowice"
-      }
-    ],
-    "swietochlowice": [
+      },
       {
         "type": "city",
         "id": "swietochlowice",
@@ -142928,15 +141482,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "swinoujscie"
       }
     ],
-    "łunowo": [
+    "lunowo": [
       {
         "type": "district",
         "id": "lunowo",
         "name": "Łunowo",
         "parentCityId": "swinoujscie"
-      }
-    ],
-    "lunowo": [
+      },
       {
         "type": "district",
         "id": "lunowo",
@@ -142958,15 +141510,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "swinoujscie"
       }
     ],
-    "płachcin": [
+    "plachcin": [
       {
         "type": "district",
         "id": "plachcin",
         "name": "Płachcin",
         "parentCityId": "swinoujscie"
-      }
-    ],
-    "plachcin": [
+      },
       {
         "type": "district",
         "id": "plachcin",
@@ -142988,7 +141538,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "swinoujscie"
       }
     ],
-    "łezyca": [
+    "lezyca": [
+      {
+        "type": "district",
+        "id": "lezyca",
+        "name": "Łężyca",
+        "parentCityId": "swinoujscie"
+      },
       {
         "type": "district",
         "id": "lezyca",
@@ -143000,14 +141556,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "lezyca",
         "name": "Łężyca",
         "parentCityId": "zielona-gora"
-      }
-    ],
-    "lezyca": [
-      {
-        "type": "district",
-        "id": "lezyca",
-        "name": "Łężyca",
-        "parentCityId": "swinoujscie"
       },
       {
         "type": "district",
@@ -143262,14 +141810,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szamocin"
       }
     ],
-    "szamotuły": [
+    "szamotuly": [
       {
         "type": "city",
         "id": "szamotuly",
         "name": "Szamotuły"
-      }
-    ],
-    "szamotuly": [
+      },
       {
         "type": "city",
         "id": "szamotuly",
@@ -143290,7 +141836,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szamotuly"
       }
     ],
-    "szamotuły-zamek": [
+    "szamotuly-zamek": [
       {
         "type": "district",
         "id": "szamotuly-zamek",
@@ -143416,27 +141962,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczawnica"
       }
     ],
-    "padołek": [
-      {
-        "type": "district",
-        "id": "padolek",
-        "name": "Padołek",
-        "parentCityId": "szczawnica"
-      }
-    ],
     "padolek": [
       {
         "type": "district",
         "id": "padolek",
         "name": "Padołek",
         "parentCityId": "szczawnica"
-      }
-    ],
-    "podołek": [
+      },
       {
         "type": "district",
-        "id": "podolek",
-        "name": "Podołek",
+        "id": "padolek",
+        "name": "Padołek",
         "parentCityId": "szczawnica"
       }
     ],
@@ -143446,13 +141982,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "podolek",
         "name": "Podołek",
         "parentCityId": "szczawnica"
-      }
-    ],
-    "podoły szczawnickie": [
+      },
       {
         "type": "district",
-        "id": "podoly-szczawnickie",
-        "name": "Podoły Szczawnickie",
+        "id": "podolek",
+        "name": "Podołek",
         "parentCityId": "szczawnica"
       }
     ],
@@ -143462,13 +141996,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "podoly-szczawnickie",
         "name": "Podoły Szczawnickie",
         "parentCityId": "szczawnica"
-      }
-    ],
-    "połoniny": [
+      },
       {
         "type": "district",
-        "id": "poloniny",
-        "name": "Połoniny",
+        "id": "podoly-szczawnickie",
+        "name": "Podoły Szczawnickie",
         "parentCityId": "szczawnica"
       }
     ],
@@ -143478,17 +142010,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "poloniny",
         "name": "Połoniny",
         "parentCityId": "szczawnica"
+      },
+      {
+        "type": "district",
+        "id": "poloniny",
+        "name": "Połoniny",
+        "parentCityId": "szczawnica"
       }
     ],
-    "przysłop": [
+    "przyslop": [
       {
         "type": "district",
         "id": "przyslop",
         "name": "Przysłop",
         "parentCityId": "szczawnica"
-      }
-    ],
-    "przyslop": [
+      },
       {
         "type": "district",
         "id": "przyslop",
@@ -143737,7 +142273,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Szczecin"
       }
     ],
-    "osiedle-załom": [
+    "osiedle-zalom": [
       {
         "type": "district",
         "id": "osiedle-zalom",
@@ -143753,31 +142289,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "łomot": [
-      {
-        "type": "district",
-        "id": "lomot",
-        "name": "Łomot",
-        "parentCityId": "szczecin"
-      }
-    ],
     "lomot": [
       {
         "type": "district",
         "id": "lomot",
         "name": "Łomot",
         "parentCityId": "szczecin"
+      },
+      {
+        "type": "district",
+        "id": "lomot",
+        "name": "Łomot",
+        "parentCityId": "szczecin"
       }
     ],
-    "smiłow": [
+    "smilow": [
       {
         "type": "district",
         "id": "smilow",
         "name": "Śmiłów",
         "parentCityId": "szczecin"
-      }
-    ],
-    "smilow": [
+      },
       {
         "type": "district",
         "id": "smilow",
@@ -143799,15 +142331,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "łekno": [
+    "lekno": [
       {
         "type": "district",
         "id": "lekno",
         "name": "Łekno",
         "parentCityId": "szczecin"
-      }
-    ],
-    "lekno": [
+      },
       {
         "type": "district",
         "id": "lekno",
@@ -143913,15 +142443,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "gocław": [
+    "goclaw": [
       {
         "type": "district",
         "id": "goclaw",
         "name": "Gocław",
         "parentCityId": "szczecin"
-      }
-    ],
-    "goclaw": [
+      },
       {
         "type": "district",
         "id": "goclaw",
@@ -144027,15 +142555,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "sławociesze": [
+    "slawociesze": [
       {
         "type": "district",
         "id": "slawociesze",
         "name": "Sławociesze",
         "parentCityId": "szczecin"
-      }
-    ],
-    "slawociesze": [
+      },
       {
         "type": "district",
         "id": "slawociesze",
@@ -144391,15 +142917,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "głebokie": [
+    "glebokie": [
       {
         "type": "district",
         "id": "glebokie",
         "name": "Głębokie",
         "parentCityId": "szczecin"
-      }
-    ],
-    "glebokie": [
+      },
       {
         "type": "district",
         "id": "glebokie",
@@ -144491,31 +143015,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "słowiensko": [
-      {
-        "type": "district",
-        "id": "slowiensko",
-        "name": "Słowieńsko",
-        "parentCityId": "szczecin"
-      }
-    ],
     "slowiensko": [
       {
         "type": "district",
         "id": "slowiensko",
         "name": "Słowieńsko",
         "parentCityId": "szczecin"
+      },
+      {
+        "type": "district",
+        "id": "slowiensko",
+        "name": "Słowieńsko",
+        "parentCityId": "szczecin"
       }
     ],
-    "stołczyn": [
+    "stolczyn": [
       {
         "type": "district",
         "id": "stolczyn",
         "name": "Stołczyn",
         "parentCityId": "szczecin"
-      }
-    ],
-    "stolczyn": [
+      },
       {
         "type": "district",
         "id": "stolczyn",
@@ -144565,15 +143085,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczecin"
       }
     ],
-    "łasztownia": [
+    "lasztownia": [
       {
         "type": "district",
         "id": "lasztownia",
         "name": "Łasztownia",
         "parentCityId": "szczecin"
-      }
-    ],
-    "lasztownia": [
+      },
       {
         "type": "district",
         "id": "lasztownia",
@@ -145019,15 +143537,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczyrk"
       }
     ],
-    "biła": [
+    "bila": [
       {
         "type": "district",
         "id": "bila",
         "name": "Biła",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "bila": [
+      },
       {
         "type": "district",
         "id": "bila",
@@ -145049,15 +143565,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczyrk"
       }
     ],
-    "płonczycka": [
+    "plonczycka": [
       {
         "type": "district",
         "id": "plonczycka",
         "name": "Płończycka",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "plonczycka": [
+      },
       {
         "type": "district",
         "id": "plonczycka",
@@ -145121,15 +143635,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczyrk"
       }
     ],
-    "biały krzyz": [
+    "bialy krzyz": [
       {
         "type": "district",
         "id": "bialy-krzyz",
         "name": "Biały Krzyż",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "bialy krzyz": [
+      },
       {
         "type": "district",
         "id": "bialy-krzyz",
@@ -145277,15 +143789,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczyrk"
       }
     ],
-    "siodło": [
+    "siodlo": [
       {
         "type": "district",
         "id": "siodlo",
         "name": "Siodło",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "siodlo": [
+      },
       {
         "type": "district",
         "id": "siodlo",
@@ -145307,15 +143817,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczyrk"
       }
     ],
-    "sliwiacka łaka": [
+    "sliwiacka laka": [
       {
         "type": "district",
         "id": "sliwiacka-laka",
         "name": "Śliwiacka Łąka",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "sliwiacka laka": [
+      },
       {
         "type": "district",
         "id": "sliwiacka-laka",
@@ -145573,15 +144081,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szczyrk"
       }
     ],
-    "łaczysko": [
+    "laczysko": [
       {
         "type": "district",
         "id": "laczysko",
         "name": "Łączysko",
         "parentCityId": "szczyrk"
-      }
-    ],
-    "laczysko": [
+      },
       {
         "type": "district",
         "id": "laczysko",
@@ -146057,15 +144563,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szklarska-poreba"
       }
     ],
-    "biała dolina": [
+    "biala dolina": [
       {
         "type": "district",
         "id": "biala-dolina",
         "name": "Biała Dolina",
         "parentCityId": "szklarska-poreba"
-      }
-    ],
-    "biala dolina": [
+      },
       {
         "type": "district",
         "id": "biala-dolina",
@@ -146163,14 +144667,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Szubin"
       }
     ],
-    "szydłow": [
+    "szydlow": [
       {
         "type": "city",
         "id": "szydlow",
         "name": "Szydłów"
-      }
-    ],
-    "szydlow": [
+      },
       {
         "type": "city",
         "id": "szydlow",
@@ -146191,15 +144693,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szydlow"
       }
     ],
-    "doły osowskie": [
+    "doly osowskie": [
       {
         "type": "district",
         "id": "doly-osowskie",
         "name": "Doły Osowskie",
         "parentCityId": "szydlow"
-      }
-    ],
-    "doly osowskie": [
+      },
       {
         "type": "district",
         "id": "doly-osowskie",
@@ -146221,14 +144721,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "szydlow"
       }
     ],
-    "szydłowiec": [
+    "szydlowiec": [
       {
         "type": "city",
         "id": "szydlowiec",
         "name": "Szydłowiec"
-      }
-    ],
-    "szydlowiec": [
+      },
       {
         "type": "city",
         "id": "szydlowiec",
@@ -146467,15 +144965,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tarnogrod"
       }
     ],
-    "płuskie": [
+    "pluskie": [
       {
         "type": "district",
         "id": "pluskie",
         "name": "Płuskie",
         "parentCityId": "tarnogrod"
-      }
-    ],
-    "pluskie": [
+      },
       {
         "type": "district",
         "id": "pluskie",
@@ -146509,15 +145005,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Tarnów"
       }
     ],
-    "dabrowka infułacka": [
+    "dabrowka infulacka": [
       {
         "type": "district",
         "id": "dabrowka-infulacka",
         "name": "Dąbrówka Infułacka",
         "parentCityId": "tarnow"
-      }
-    ],
-    "dabrowka infulacka": [
+      },
       {
         "type": "district",
         "id": "dabrowka-infulacka",
@@ -146873,15 +145367,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tarnowskie-gory"
       }
     ],
-    "płuczki": [
+    "pluczki": [
       {
         "type": "district",
         "id": "pluczki",
         "name": "Płuczki",
         "parentCityId": "tarnowskie-gory"
-      }
-    ],
-    "pluczki": [
+      },
       {
         "type": "district",
         "id": "pluczki",
@@ -146903,15 +145395,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tarnowskie-gory"
       }
     ],
-    "tłuczykat": [
+    "tluczykat": [
       {
         "type": "district",
         "id": "tluczykat",
         "name": "Tłuczykąt",
         "parentCityId": "tarnowskie-gory"
-      }
-    ],
-    "tluczykat": [
+      },
       {
         "type": "district",
         "id": "tluczykat",
@@ -147017,15 +145507,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Terespol"
       }
     ],
-    "błotkow duzy": [
+    "blotkow duzy": [
       {
         "type": "district",
         "id": "blotkow-duzy",
         "name": "Błotków Duży",
         "parentCityId": "terespol"
-      }
-    ],
-    "blotkow duzy": [
+      },
       {
         "type": "district",
         "id": "blotkow-duzy",
@@ -147047,27 +145535,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "terespol"
       }
     ],
-    "ogrodki łobaczewskie": [
-      {
-        "type": "district",
-        "id": "ogrodki-lobaczewskie",
-        "name": "Ogródki Łobaczewskie",
-        "parentCityId": "terespol"
-      }
-    ],
     "ogrodki lobaczewskie": [
       {
         "type": "district",
         "id": "ogrodki-lobaczewskie",
         "name": "Ogródki Łobaczewskie",
         "parentCityId": "terespol"
-      }
-    ],
-    "błotkow mały": [
+      },
       {
         "type": "district",
-        "id": "blotkow-maly",
-        "name": "Błotków Mały",
+        "id": "ogrodki-lobaczewskie",
+        "name": "Ogródki Łobaczewskie",
         "parentCityId": "terespol"
       }
     ],
@@ -147077,13 +145555,11 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "blotkow-maly",
         "name": "Błotków Mały",
         "parentCityId": "terespol"
-      }
-    ],
-    "włoczki": [
+      },
       {
         "type": "district",
-        "id": "wloczki",
-        "name": "Włóczki",
+        "id": "blotkow-maly",
+        "name": "Błotków Mały",
         "parentCityId": "terespol"
       }
     ],
@@ -147093,16 +145569,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "wloczki",
         "name": "Włóczki",
         "parentCityId": "terespol"
+      },
+      {
+        "type": "district",
+        "id": "wloczki",
+        "name": "Włóczki",
+        "parentCityId": "terespol"
       }
     ],
-    "tłuszcz": [
+    "tluszcz": [
       {
         "type": "city",
         "id": "tluszcz",
         "name": "Tłuszcz"
-      }
-    ],
-    "tluszcz": [
+      },
       {
         "type": "city",
         "id": "tluszcz",
@@ -147123,15 +145603,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tluszcz"
       }
     ],
-    "nowy tłuszcz": [
+    "nowy tluszcz": [
       {
         "type": "district",
         "id": "nowy-tluszcz",
         "name": "Nowy Tłuszcz",
         "parentCityId": "tluszcz"
-      }
-    ],
-    "nowy tluszcz": [
+      },
       {
         "type": "district",
         "id": "nowy-tluszcz",
@@ -147205,15 +145683,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tomaszow-lubelski"
       }
     ],
-    "łuski": [
+    "luski": [
       {
         "type": "district",
         "id": "luski",
         "name": "Łuski",
         "parentCityId": "tomaszow-lubelski"
-      }
-    ],
-    "luski": [
+      },
       {
         "type": "district",
         "id": "luski",
@@ -147291,15 +145767,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tomaszow-lubelski"
       }
     ],
-    "szkoci doł": [
+    "szkoci dol": [
       {
         "type": "district",
         "id": "szkoci-dol",
         "name": "Szkoci Dół",
         "parentCityId": "tomaszow-lubelski"
-      }
-    ],
-    "szkoci dol": [
+      },
       {
         "type": "district",
         "id": "szkoci-dol",
@@ -147455,31 +145929,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tomaszow-mazowiecki"
       }
     ],
-    "małe nagorzyce": [
-      {
-        "type": "district",
-        "id": "male-nagorzyce",
-        "name": "Małe Nagórzyce",
-        "parentCityId": "tomaszow-mazowiecki"
-      }
-    ],
     "male nagorzyce": [
       {
         "type": "district",
         "id": "male-nagorzyce",
         "name": "Małe Nagórzyce",
         "parentCityId": "tomaszow-mazowiecki"
+      },
+      {
+        "type": "district",
+        "id": "male-nagorzyce",
+        "name": "Małe Nagórzyce",
+        "parentCityId": "tomaszow-mazowiecki"
       }
     ],
-    "michałowek": [
+    "michalowek": [
       {
         "type": "district",
         "id": "michalowek",
         "name": "Michałówek",
         "parentCityId": "tomaszow-mazowiecki"
-      }
-    ],
-    "michalowek": [
+      },
       {
         "type": "district",
         "id": "michalowek",
@@ -147601,15 +146071,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tomaszow-mazowiecki"
       }
     ],
-    "łaki henrykowskie": [
+    "laki henrykowskie": [
       {
         "type": "district",
         "id": "laki-henrykowskie",
         "name": "Łąki Henrykowskie",
         "parentCityId": "tomaszow-mazowiecki"
-      }
-    ],
-    "laki henrykowskie": [
+      },
       {
         "type": "district",
         "id": "laki-henrykowskie",
@@ -147816,15 +146284,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Torzym"
       }
     ],
-    "łaszewo": [
+    "laszewo": [
       {
         "type": "district",
         "id": "laszewo",
         "name": "Łaszewo",
         "parentCityId": "torzym"
-      }
-    ],
-    "laszewo": [
+      },
       {
         "type": "district",
         "id": "laszewo",
@@ -147940,15 +146406,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Trzebiatów"
       }
     ],
-    "błogecin": [
+    "blogecin": [
       {
         "type": "district",
         "id": "blogecin",
         "name": "Błogęcin",
         "parentCityId": "trzebiatow"
-      }
-    ],
-    "blogecin": [
+      },
       {
         "type": "district",
         "id": "blogecin",
@@ -148012,15 +146476,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "trzebiatow"
       }
     ],
-    "białoboki": [
+    "bialoboki": [
       {
         "type": "district",
         "id": "bialoboki",
         "name": "Białoboki",
         "parentCityId": "trzebiatow"
-      }
-    ],
-    "bialoboki": [
+      },
       {
         "type": "district",
         "id": "bialoboki",
@@ -148068,15 +146530,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "trzebinia"
       }
     ],
-    "płaczki": [
+    "placzki": [
       {
         "type": "district",
         "id": "placzki",
         "name": "Płaczki",
         "parentCityId": "trzebinia"
-      }
-    ],
-    "placzki": [
+      },
       {
         "type": "district",
         "id": "placzki",
@@ -148364,31 +146824,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "trzebinia"
       }
     ],
-    "mała skotnica": [
-      {
-        "type": "district",
-        "id": "mala-skotnica",
-        "name": "Mała Skotnica",
-        "parentCityId": "trzebinia"
-      }
-    ],
     "mala skotnica": [
       {
         "type": "district",
         "id": "mala-skotnica",
         "name": "Mała Skotnica",
         "parentCityId": "trzebinia"
+      },
+      {
+        "type": "district",
+        "id": "mala-skotnica",
+        "name": "Mała Skotnica",
+        "parentCityId": "trzebinia"
       }
     ],
-    "młoszowka": [
+    "mloszowka": [
       {
         "type": "district",
         "id": "mloszowka",
         "name": "Młoszówka",
         "parentCityId": "trzebinia"
-      }
-    ],
-    "mloszowka": [
+      },
       {
         "type": "district",
         "id": "mloszowka",
@@ -148570,15 +147026,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tuchow"
       }
     ],
-    "wołowa": [
+    "wolowa": [
       {
         "type": "district",
         "id": "wolowa",
         "name": "Wołowa",
         "parentCityId": "tuchow"
-      }
-    ],
-    "wolowa": [
+      },
       {
         "type": "district",
         "id": "wolowa",
@@ -148708,14 +147162,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Tuliszków"
       }
     ],
-    "tułowice": [
+    "tulowice": [
       {
         "type": "city",
         "id": "tulowice",
         "name": "Tułowice"
-      }
-    ],
-    "tulowice": [
+      },
       {
         "type": "city",
         "id": "tulowice",
@@ -148978,15 +147430,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tychy"
       }
     ],
-    "makołowiec": [
+    "makolowiec": [
       {
         "type": "district",
         "id": "makolowiec",
         "name": "Mąkołowiec",
         "parentCityId": "tychy"
-      }
-    ],
-    "makolowiec": [
+      },
       {
         "type": "district",
         "id": "makolowiec",
@@ -149050,7 +147500,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tychy"
       }
     ],
-    "czułow-papiernia": [
+    "czulow-papiernia": [
       {
         "type": "district",
         "id": "czulow-papiernia",
@@ -149094,31 +147544,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tychy"
       }
     ],
-    "czułow": [
-      {
-        "type": "district",
-        "id": "czulow",
-        "name": "Czułów",
-        "parentCityId": "tychy"
-      }
-    ],
     "czulow": [
       {
         "type": "district",
         "id": "czulow",
         "name": "Czułów",
         "parentCityId": "tychy"
+      },
+      {
+        "type": "district",
+        "id": "czulow",
+        "name": "Czułów",
+        "parentCityId": "tychy"
       }
     ],
-    "wartogłowiec": [
+    "wartoglowiec": [
       {
         "type": "district",
         "id": "wartoglowiec",
         "name": "Wartogłowiec",
         "parentCityId": "tychy"
-      }
-    ],
-    "wartoglowiec": [
+      },
       {
         "type": "district",
         "id": "wartoglowiec",
@@ -149166,15 +147612,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Tyczyn"
       }
     ],
-    "łany tyczynskie": [
+    "lany tyczynskie": [
       {
         "type": "district",
         "id": "lany-tyczynskie",
         "name": "Łany Tyczyńskie",
         "parentCityId": "tyczyn"
-      }
-    ],
-    "lany tyczynskie": [
+      },
       {
         "type": "district",
         "id": "lany-tyczynskie",
@@ -149276,15 +147720,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "tyszowce"
       }
     ],
-    "zaława": [
+    "zalawa": [
       {
         "type": "district",
         "id": "zalawa",
         "name": "Zaława",
         "parentCityId": "tyszowce"
-      }
-    ],
-    "zalawa": [
+      },
       {
         "type": "district",
         "id": "zalawa",
@@ -149380,7 +147822,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ujscie"
       }
     ],
-    "ujscie-łeg": [
+    "ujscie-leg": [
       {
         "type": "district",
         "id": "ujscie-leg",
@@ -149396,15 +147838,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ujscie"
       }
     ],
-    "złobki": [
+    "zlobki": [
       {
         "type": "district",
         "id": "zlobki",
         "name": "Żłobki",
         "parentCityId": "ujscie"
-      }
-    ],
-    "zlobki": [
+      },
       {
         "type": "district",
         "id": "zlobki",
@@ -149588,15 +148028,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "ustron"
       }
     ],
-    "orłowa": [
+    "orlowa": [
       {
         "type": "district",
         "id": "orlowa",
         "name": "Orłowa",
         "parentCityId": "ustron"
-      }
-    ],
-    "orlowa": [
+      },
       {
         "type": "district",
         "id": "orlowa",
@@ -149962,15 +148400,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wabrzezno"
       }
     ],
-    "pod młynik": [
+    "pod mlynik": [
       {
         "type": "district",
         "id": "pod-mlynik",
         "name": "Pod Młynik",
         "parentCityId": "wabrzezno"
-      }
-    ],
-    "pod mlynik": [
+      },
       {
         "type": "district",
         "id": "pod-mlynik",
@@ -150084,15 +148520,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wadowice"
       }
     ],
-    "łazowka": [
+    "lazowka": [
       {
         "type": "district",
         "id": "lazowka",
         "name": "Łazówka",
         "parentCityId": "wadowice"
-      }
-    ],
-    "lazowka": [
+      },
       {
         "type": "district",
         "id": "lazowka",
@@ -150182,14 +148616,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wagrowiec"
       }
     ],
-    "wałbrzych": [
+    "walbrzych": [
       {
         "type": "city",
         "id": "walbrzych",
         "name": "Wałbrzych"
-      }
-    ],
-    "walbrzych": [
+      },
       {
         "type": "city",
         "id": "walbrzych",
@@ -150203,15 +148635,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Wałbrzych"
       }
     ],
-    "biały kamien": [
+    "bialy kamien": [
       {
         "type": "district",
         "id": "bialy-kamien",
         "name": "Biały Kamień",
         "parentCityId": "walbrzych"
-      }
-    ],
-    "bialy kamien": [
+      },
       {
         "type": "district",
         "id": "bialy-kamien",
@@ -150387,15 +148817,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "walbrzych"
       }
     ],
-    "rozłoga": [
+    "rozloga": [
       {
         "type": "district",
         "id": "rozloga",
         "name": "Rozłoga",
         "parentCityId": "walbrzych"
-      }
-    ],
-    "rozloga": [
+      },
       {
         "type": "district",
         "id": "rozloga",
@@ -150417,14 +148845,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "walbrzych"
       }
     ],
-    "wałcz": [
+    "walcz": [
       {
         "type": "city",
         "id": "walcz",
         "name": "Wałcz"
-      }
-    ],
-    "walcz": [
+      },
       {
         "type": "city",
         "id": "walcz",
@@ -150565,15 +148991,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "warszawa"
       }
     ],
-    "praga-połnoc": [
-      {
-        "type": "district",
-        "id": "praga-polnoc",
-        "name": "Praga-Północ",
-        "parentCityId": "warszawa"
-      }
-    ],
-    "praga połnoc": [
+    "praga-polnoc": [
       {
         "type": "district",
         "id": "praga-polnoc",
@@ -150587,17 +149005,15 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "praga-polnoc",
         "name": "Praga-Północ",
         "parentCityId": "warszawa"
-      }
-    ],
-    "praga-południe": [
+      },
       {
         "type": "district",
-        "id": "praga-poludnie",
-        "name": "Praga-Południe",
+        "id": "praga-polnoc",
+        "name": "Praga-Północ",
         "parentCityId": "warszawa"
       }
     ],
-    "praga południe": [
+    "praga-poludnie": [
       {
         "type": "district",
         "id": "praga-poludnie",
@@ -150606,6 +149022,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
       }
     ],
     "praga poludnie": [
+      {
+        "type": "district",
+        "id": "praga-poludnie",
+        "name": "Praga-Południe",
+        "parentCityId": "warszawa"
+      },
       {
         "type": "district",
         "id": "praga-poludnie",
@@ -150663,15 +149085,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "warszawa"
       }
     ],
-    "białołeka": [
+    "bialoleka": [
       {
         "type": "district",
         "id": "bialoleka",
         "name": "Białołęka",
         "parentCityId": "warszawa"
-      }
-    ],
-    "bialoleka": [
+      },
       {
         "type": "district",
         "id": "bialoleka",
@@ -150721,15 +149141,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "warszawa"
       }
     ],
-    "włochy": [
+    "wlochy": [
       {
         "type": "district",
         "id": "wlochy",
         "name": "Włochy",
         "parentCityId": "warszawa"
-      }
-    ],
-    "wlochy": [
+      },
       {
         "type": "district",
         "id": "wlochy",
@@ -151191,15 +149609,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wielen"
       }
     ],
-    "łazienki": [
+    "lazienki": [
       {
         "type": "district",
         "id": "lazienki",
         "name": "Łazienki",
         "parentCityId": "wielen"
-      }
-    ],
-    "lazienki": [
+      },
       {
         "type": "district",
         "id": "lazienki",
@@ -151223,15 +149639,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wielen"
       }
     ],
-    "wielen połnocny": [
+    "wielen polnocny": [
       {
         "type": "district",
         "id": "wielen-polnocny",
         "name": "Wieleń Północny",
         "parentCityId": "wielen"
-      }
-    ],
-    "wielen polnocny": [
+      },
       {
         "type": "district",
         "id": "wielen-polnocny",
@@ -151263,15 +149677,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Wieliczka"
       }
     ],
-    "kłosow": [
+    "klosow": [
       {
         "type": "district",
         "id": "klosow",
         "name": "Kłosów",
         "parentCityId": "wieliczka"
-      }
-    ],
-    "klosow": [
+      },
       {
         "type": "district",
         "id": "klosow",
@@ -151637,15 +150049,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wilamowice"
       }
     ],
-    "trzynascie chałup": [
+    "trzynascie chalup": [
       {
         "type": "district",
         "id": "trzynascie-chalup",
         "name": "Trzynaście Chałup",
         "parentCityId": "wilamowice"
-      }
-    ],
-    "trzynascie chalup": [
+      },
       {
         "type": "district",
         "id": "trzynascie-chalup",
@@ -151665,14 +150075,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Wiskitki"
       }
     ],
-    "wisła": [
+    "wisla": [
       {
         "type": "city",
         "id": "wisla",
         "name": "Wisła"
-      }
-    ],
-    "wisla": [
+      },
       {
         "type": "city",
         "id": "wisla",
@@ -151693,15 +150101,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "chałupianka": [
+    "chalupianka": [
       {
         "type": "district",
         "id": "chalupianka",
         "name": "Chałupianka",
         "parentCityId": "wisla"
-      }
-    ],
-    "chalupianka": [
+      },
       {
         "type": "district",
         "id": "chalupianka",
@@ -151929,15 +150335,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "obłaziec": [
+    "oblaziec": [
       {
         "type": "district",
         "id": "oblaziec",
         "name": "Obłaziec",
         "parentCityId": "wisla"
-      }
-    ],
-    "oblaziec": [
+      },
       {
         "type": "district",
         "id": "oblaziec",
@@ -151973,15 +150377,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "kopydło": [
+    "kopydlo": [
       {
         "type": "district",
         "id": "kopydlo",
         "name": "Kopydło",
         "parentCityId": "wisla"
-      }
-    ],
-    "kopydlo": [
+      },
       {
         "type": "district",
         "id": "kopydlo",
@@ -152117,15 +150519,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "głebce": [
+    "glebce": [
       {
         "type": "district",
         "id": "glebce",
         "name": "Głębce",
         "parentCityId": "wisla"
-      }
-    ],
-    "glebce": [
+      },
       {
         "type": "district",
         "id": "glebce",
@@ -152175,15 +150575,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wisla"
       }
     ],
-    "łabajow": [
+    "labajow": [
       {
         "type": "district",
         "id": "labajow",
         "name": "Łabajów",
         "parentCityId": "wisla"
-      }
-    ],
-    "labajow": [
+      },
       {
         "type": "district",
         "id": "labajow",
@@ -152401,14 +150799,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Witnica"
       }
     ],
-    "władysławowo": [
+    "wladyslawowo": [
       {
         "type": "city",
         "id": "wladyslawowo",
         "name": "Władysławowo"
-      }
-    ],
-    "wladyslawowo": [
+      },
       {
         "type": "city",
         "id": "wladyslawowo",
@@ -152483,14 +150879,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wlen"
       }
     ],
-    "włocławek": [
+    "wloclawek": [
       {
         "type": "city",
         "id": "wloclawek",
         "name": "Włocławek"
-      }
-    ],
-    "wloclawek": [
+      },
       {
         "type": "city",
         "id": "wloclawek",
@@ -152711,15 +151105,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "mieczysław": [
+    "mieczyslaw": [
       {
         "type": "district",
         "id": "mieczyslaw",
         "name": "Mieczysław",
         "parentCityId": "wloclawek"
-      }
-    ],
-    "mieczyslaw": [
+      },
       {
         "type": "district",
         "id": "mieczyslaw",
@@ -152755,15 +151147,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "łasica": [
+    "lasica": [
       {
         "type": "district",
         "id": "lasica",
         "name": "Łasica",
         "parentCityId": "wloclawek"
-      }
-    ],
-    "lasica": [
+      },
       {
         "type": "district",
         "id": "lasica",
@@ -152841,15 +151231,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "łuba pierwsza": [
+    "luba pierwsza": [
       {
         "type": "district",
         "id": "luba-pierwsza",
         "name": "Łuba Pierwsza",
         "parentCityId": "wloclawek"
-      }
-    ],
-    "luba pierwsza": [
+      },
       {
         "type": "district",
         "id": "luba-pierwsza",
@@ -152971,15 +151359,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "krzywe błota": [
+    "krzywe blota": [
       {
         "type": "district",
         "id": "krzywe-blota",
         "name": "Krzywe Błota",
         "parentCityId": "wloclawek"
-      }
-    ],
-    "krzywe blota": [
+      },
       {
         "type": "district",
         "id": "krzywe-blota",
@@ -153015,31 +151401,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "kapitułka": [
-      {
-        "type": "district",
-        "id": "kapitulka",
-        "name": "Kapitułka",
-        "parentCityId": "wloclawek"
-      }
-    ],
     "kapitulka": [
       {
         "type": "district",
         "id": "kapitulka",
         "name": "Kapitułka",
         "parentCityId": "wloclawek"
+      },
+      {
+        "type": "district",
+        "id": "kapitulka",
+        "name": "Kapitułka",
+        "parentCityId": "wloclawek"
       }
     ],
-    "słodowo": [
+    "slodowo": [
       {
         "type": "district",
         "id": "slodowo",
         "name": "Słodowo",
         "parentCityId": "wloclawek"
-      }
-    ],
-    "slodowo": [
+      },
       {
         "type": "district",
         "id": "slodowo",
@@ -153105,15 +151487,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "odłogi": [
+    "odlogi": [
       {
         "type": "district",
         "id": "odlogi",
         "name": "Odłogi",
         "parentCityId": "wloclawek"
-      }
-    ],
-    "odlogi": [
+      },
       {
         "type": "district",
         "id": "odlogi",
@@ -153149,30 +151529,26 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloclawek"
       }
     ],
-    "łaniewszczyzna": [
-      {
-        "type": "district",
-        "id": "laniewszczyzna",
-        "name": "Łaniewszczyzna",
-        "parentCityId": "wloclawek"
-      }
-    ],
     "laniewszczyzna": [
       {
         "type": "district",
         "id": "laniewszczyzna",
         "name": "Łaniewszczyzna",
         "parentCityId": "wloclawek"
+      },
+      {
+        "type": "district",
+        "id": "laniewszczyzna",
+        "name": "Łaniewszczyzna",
+        "parentCityId": "wloclawek"
       }
     ],
-    "włodawa": [
+    "wlodawa": [
       {
         "type": "city",
         "id": "wlodawa",
         "name": "Włodawa"
-      }
-    ],
-    "wlodawa": [
+      },
       {
         "type": "city",
         "id": "wlodawa",
@@ -153207,15 +151583,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wlodawa"
       }
     ],
-    "koło szpitala": [
+    "kolo szpitala": [
       {
         "type": "district",
         "id": "kolo-szpitala",
         "name": "Koło Szpitala",
         "parentCityId": "wlodawa"
-      }
-    ],
-    "kolo szpitala": [
+      },
       {
         "type": "district",
         "id": "kolo-szpitala",
@@ -153237,31 +151611,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wlodawa"
       }
     ],
-    "stare sioło": [
-      {
-        "type": "district",
-        "id": "stare-siolo",
-        "name": "Stare Sioło",
-        "parentCityId": "wlodawa"
-      }
-    ],
     "stare siolo": [
       {
         "type": "district",
         "id": "stare-siolo",
         "name": "Stare Sioło",
         "parentCityId": "wlodawa"
+      },
+      {
+        "type": "district",
+        "id": "stare-siolo",
+        "name": "Stare Sioło",
+        "parentCityId": "wlodawa"
       }
     ],
-    "płucinskie": [
+    "plucinskie": [
       {
         "type": "district",
         "id": "plucinskie",
         "name": "Płucińskie",
         "parentCityId": "wlodawa"
-      }
-    ],
-    "plucinskie": [
+      },
       {
         "type": "district",
         "id": "plucinskie",
@@ -153297,14 +151667,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wlodawa"
       }
     ],
-    "włodowice": [
+    "wlodowice": [
       {
         "type": "city",
         "id": "wlodowice",
         "name": "Włodowice"
-      }
-    ],
-    "wlodowice": [
+      },
       {
         "type": "city",
         "id": "wlodowice",
@@ -153341,14 +151709,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wlodowice"
       }
     ],
-    "włoszczowa": [
+    "wloszczowa": [
       {
         "type": "city",
         "id": "wloszczowa",
         "name": "Włoszczowa"
-      }
-    ],
-    "wloszczowa": [
+      },
       {
         "type": "city",
         "id": "wloszczowa",
@@ -153439,31 +151805,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloszczowa"
       }
     ],
-    "łachowskie gory": [
-      {
-        "type": "district",
-        "id": "lachowskie-gory",
-        "name": "Łachowskie Góry",
-        "parentCityId": "wloszczowa"
-      }
-    ],
     "lachowskie gory": [
       {
         "type": "district",
         "id": "lachowskie-gory",
         "name": "Łachowskie Góry",
         "parentCityId": "wloszczowa"
+      },
+      {
+        "type": "district",
+        "id": "lachowskie-gory",
+        "name": "Łachowskie Góry",
+        "parentCityId": "wloszczowa"
       }
     ],
-    "włoszczowka": [
+    "wloszczowka": [
       {
         "type": "district",
         "id": "wloszczowka",
         "name": "Włoszczówka",
         "parentCityId": "wloszczowa"
-      }
-    ],
-    "wloszczowka": [
+      },
       {
         "type": "district",
         "id": "wloszczowka",
@@ -153499,26 +151861,16 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wloszczowa"
       }
     ],
-    "wodzisław": [
-      {
-        "type": "city",
-        "id": "wodzislaw",
-        "name": "Wodzisław"
-      }
-    ],
     "wodzislaw": [
       {
         "type": "city",
         "id": "wodzislaw",
         "name": "Wodzisław"
-      }
-    ],
-    "piaski wodzisławskie": [
+      },
       {
-        "type": "district",
-        "id": "piaski-wodzislawskie",
-        "name": "Piaski Wodzisławskie",
-        "parentCityId": "wodzislaw"
+        "type": "city",
+        "id": "wodzislaw",
+        "name": "Wodzisław"
       }
     ],
     "piaski wodzislawskie": [
@@ -153527,16 +151879,20 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "piaski-wodzislawskie",
         "name": "Piaski Wodzisławskie",
         "parentCityId": "wodzislaw"
+      },
+      {
+        "type": "district",
+        "id": "piaski-wodzislawskie",
+        "name": "Piaski Wodzisławskie",
+        "parentCityId": "wodzislaw"
       }
     ],
-    "wodzisław slaski": [
+    "wodzislaw slaski": [
       {
         "type": "city",
         "id": "wodzislaw-slaski",
         "name": "Wodzisław Śląski"
-      }
-    ],
-    "wodzislaw slaski": [
+      },
       {
         "type": "city",
         "id": "wodzislaw-slaski",
@@ -153671,31 +152027,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wodzislaw-slaski"
       }
     ],
-    "jedłownik": [
-      {
-        "type": "district",
-        "id": "jedlownik",
-        "name": "Jedłownik",
-        "parentCityId": "wodzislaw-slaski"
-      }
-    ],
     "jedlownik": [
       {
         "type": "district",
         "id": "jedlownik",
         "name": "Jedłownik",
         "parentCityId": "wodzislaw-slaski"
+      },
+      {
+        "type": "district",
+        "id": "jedlownik",
+        "name": "Jedłownik",
+        "parentCityId": "wodzislaw-slaski"
       }
     ],
-    "stary wodzisław": [
+    "stary wodzislaw": [
       {
         "type": "district",
         "id": "stary-wodzislaw",
         "name": "Stary Wodzisław",
         "parentCityId": "wodzislaw-slaski"
-      }
-    ],
-    "stary wodzislaw": [
+      },
       {
         "type": "district",
         "id": "stary-wodzislaw",
@@ -153935,7 +152287,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Wolbrom"
       }
     ],
-    "nowa łaka-zydy": [
+    "nowa laka-zydy": [
       {
         "type": "district",
         "id": "nowa-laka-zydy",
@@ -153979,14 +152331,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wolbrom"
       }
     ],
-    "wołczyn": [
+    "wolczyn": [
       {
         "type": "city",
         "id": "wolczyn",
         "name": "Wołczyn"
-      }
-    ],
-    "wolczyn": [
+      },
       {
         "type": "city",
         "id": "wolczyn",
@@ -154005,29 +152355,25 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Wolin"
       }
     ],
-    "wołomin": [
-      {
-        "type": "city",
-        "id": "wolomin",
-        "name": "Wołomin"
-      }
-    ],
     "wolomin": [
       {
         "type": "city",
         "id": "wolomin",
         "name": "Wołomin"
+      },
+      {
+        "type": "city",
+        "id": "wolomin",
+        "name": "Wołomin"
       }
     ],
-    "wołominek": [
+    "wolominek": [
       {
         "type": "district",
         "id": "wolominek",
         "name": "Wołominek",
         "parentCityId": "wolomin"
-      }
-    ],
-    "wolominek": [
+      },
       {
         "type": "district",
         "id": "wolominek",
@@ -154063,15 +152409,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wolomin"
       }
     ],
-    "sławek": [
+    "slawek": [
       {
         "type": "district",
         "id": "slawek",
         "name": "Sławek",
         "parentCityId": "wolomin"
-      }
-    ],
-    "slawek": [
+      },
       {
         "type": "district",
         "id": "slawek",
@@ -154093,15 +152437,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wolow"
       }
     ],
-    "krzywy wołow": [
+    "krzywy wolow": [
       {
         "type": "district",
         "id": "krzywy-wolow",
         "name": "Krzywy Wołów",
         "parentCityId": "wolow"
-      }
-    ],
-    "krzywy wolow": [
+      },
       {
         "type": "district",
         "id": "krzywy-wolow",
@@ -154191,15 +152533,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wozniki"
       }
     ],
-    "dabrowa mała": [
+    "dabrowa mala": [
       {
         "type": "district",
         "id": "dabrowa-mala",
         "name": "Dąbrowa Mała",
         "parentCityId": "wozniki"
-      }
-    ],
-    "dabrowa mala": [
+      },
       {
         "type": "district",
         "id": "dabrowa-mala",
@@ -154277,7 +152617,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wozniki"
       }
     ],
-    "wrocław": [
+    "wroclaw": [
+      {
+        "type": "city",
+        "id": "wroclaw",
+        "name": "Wrocław"
+      },
       {
         "type": "city",
         "id": "wroclaw",
@@ -154285,13 +152630,6 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
       }
     ],
     "breslau": [
-      {
-        "type": "city",
-        "id": "wroclaw",
-        "name": "Wrocław"
-      }
-    ],
-    "wroclaw": [
       {
         "type": "city",
         "id": "wroclaw",
@@ -154368,7 +152706,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wrzesnia"
       }
     ],
-    "sokołowo-osiedle": [
+    "sokolowo-osiedle": [
       {
         "type": "district",
         "id": "sokolowo-osiedle",
@@ -154500,15 +152838,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "wyszkow"
       }
     ],
-    "rybienko łochowskie": [
+    "rybienko lochowskie": [
       {
         "type": "district",
         "id": "rybienko-lochowskie",
         "name": "Rybienko Łochowskie",
         "parentCityId": "wyszkow"
-      }
-    ],
-    "rybienko lochowskie": [
+      },
       {
         "type": "district",
         "id": "rybienko-lochowskie",
@@ -154622,14 +152958,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zabkowice-slaskie"
       }
     ],
-    "zabłudow": [
+    "zabludow": [
       {
         "type": "city",
         "id": "zabludow",
         "name": "Zabłudów"
-      }
-    ],
-    "zabludow": [
+      },
       {
         "type": "city",
         "id": "zabludow",
@@ -154662,15 +152996,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zabno"
       }
     ],
-    "chałupki zabienskie": [
+    "chalupki zabienskie": [
       {
         "type": "district",
         "id": "chalupki-zabienskie",
         "name": "Chałupki Żabieńskie",
         "parentCityId": "zabno"
-      }
-    ],
-    "chalupki zabienskie": [
+      },
       {
         "type": "district",
         "id": "chalupki-zabienskie",
@@ -154706,15 +153038,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zabno"
       }
     ],
-    "chałupki biskupickie": [
+    "chalupki biskupickie": [
       {
         "type": "district",
         "id": "chalupki-biskupickie",
         "name": "Chałupki Biskupickie",
         "parentCityId": "zabno"
-      }
-    ],
-    "chalupki biskupickie": [
+      },
       {
         "type": "district",
         "id": "chalupki-biskupickie",
@@ -154769,15 +153099,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zabrze"
       }
     ],
-    "pawłow": [
+    "pawlow": [
       {
         "type": "district",
         "id": "pawlow",
         "name": "Pawłów",
         "parentCityId": "zabrze"
-      }
-    ],
-    "pawlow": [
+      },
       {
         "type": "district",
         "id": "pawlow",
@@ -154905,15 +153233,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zagorz"
       }
     ],
-    "zasław": [
+    "zaslaw": [
       {
         "type": "district",
         "id": "zaslaw",
         "name": "Zasław",
         "parentCityId": "zagorz"
-      }
-    ],
-    "zaslaw": [
+      },
       {
         "type": "district",
         "id": "zaslaw",
@@ -155031,15 +153357,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Zakliczyn"
       }
     ],
-    "łukowka": [
+    "lukowka": [
       {
         "type": "district",
         "id": "lukowka",
         "name": "Łukówka",
         "parentCityId": "zakliczyn"
-      }
-    ],
-    "lukowka": [
+      },
       {
         "type": "district",
         "id": "lukowka",
@@ -155217,15 +153541,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "wojdyły": [
+    "wojdyly": [
       {
         "type": "district",
         "id": "wojdyly",
         "name": "Wojdyły",
         "parentCityId": "zakopane"
-      }
-    ],
-    "wojdyly": [
+      },
       {
         "type": "district",
         "id": "wojdyly",
@@ -155387,15 +153709,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "ciagłowka": [
+    "ciaglowka": [
       {
         "type": "district",
         "id": "ciaglowka",
         "name": "Ciągłówka",
         "parentCityId": "zakopane"
-      }
-    ],
-    "ciaglowka": [
+      },
       {
         "type": "district",
         "id": "ciaglowka",
@@ -155417,15 +153737,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "słodyczki": [
+    "slodyczki": [
       {
         "type": "district",
         "id": "slodyczki",
         "name": "Słodyczki",
         "parentCityId": "zakopane"
-      }
-    ],
-    "slodyczki": [
+      },
       {
         "type": "district",
         "id": "slodyczki",
@@ -155461,15 +153779,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "antałowka": [
+    "antalowka": [
       {
         "type": "district",
         "id": "antalowka",
         "name": "Antałówka",
         "parentCityId": "zakopane"
-      }
-    ],
-    "antalowka": [
+      },
       {
         "type": "district",
         "id": "antalowka",
@@ -155519,15 +153835,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "gładkie": [
+    "gladkie": [
       {
         "type": "district",
         "id": "gladkie",
         "name": "Gładkie",
         "parentCityId": "zakopane"
-      }
-    ],
-    "gladkie": [
+      },
       {
         "type": "district",
         "id": "gladkie",
@@ -155675,31 +153989,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "chłabowka": [
-      {
-        "type": "district",
-        "id": "chlabowka",
-        "name": "Chłabówka",
-        "parentCityId": "zakopane"
-      }
-    ],
     "chlabowka": [
       {
         "type": "district",
         "id": "chlabowka",
         "name": "Chłabówka",
         "parentCityId": "zakopane"
+      },
+      {
+        "type": "district",
+        "id": "chlabowka",
+        "name": "Chłabówka",
+        "parentCityId": "zakopane"
       }
     ],
-    "gubałowka": [
+    "gubalowka": [
       {
         "type": "district",
         "id": "gubalowka",
         "name": "Gubałówka",
         "parentCityId": "zakopane"
-      }
-    ],
-    "gubalowka": [
+      },
       {
         "type": "district",
         "id": "gubalowka",
@@ -155875,15 +154185,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "łosiowki": [
+    "losiowki": [
       {
         "type": "district",
         "id": "losiowki",
         "name": "Łosiówki",
         "parentCityId": "zakopane"
-      }
-    ],
-    "losiowki": [
+      },
       {
         "type": "district",
         "id": "losiowki",
@@ -155905,15 +154213,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakopane"
       }
     ],
-    "pardołowka": [
+    "pardolowka": [
       {
         "type": "district",
         "id": "pardolowka",
         "name": "Pardołówka",
         "parentCityId": "zakopane"
-      }
-    ],
-    "pardolowka": [
+      },
       {
         "type": "district",
         "id": "pardolowka",
@@ -155947,15 +154253,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Zakroczym"
       }
     ],
-    "pieczoługi": [
+    "pieczolugi": [
       {
         "type": "district",
         "id": "pieczolugi",
         "name": "Pieczoługi",
         "parentCityId": "zakroczym"
-      }
-    ],
-    "pieczolugi": [
+      },
       {
         "type": "district",
         "id": "pieczolugi",
@@ -155977,15 +154281,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zakroczym"
       }
     ],
-    "gałachy": [
+    "galachy": [
       {
         "type": "district",
         "id": "galachy",
         "name": "Gałachy",
         "parentCityId": "zakroczym"
-      }
-    ],
-    "galachy": [
+      },
       {
         "type": "district",
         "id": "galachy",
@@ -156087,7 +154389,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Zambrów"
       }
     ],
-    "pruszki-jabłon": [
+    "pruszki-jablon": [
       {
         "type": "district",
         "id": "pruszki-jablon",
@@ -156171,7 +154473,7 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zamosc"
       }
     ],
-    "sitaniec-błonie": [
+    "sitaniec-blonie": [
       {
         "type": "district",
         "id": "sitaniec-blonie",
@@ -156187,15 +154489,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zamosc"
       }
     ],
-    "janowice małe": [
+    "janowice male": [
       {
         "type": "district",
         "id": "janowice-male",
         "name": "Janowice Małe",
         "parentCityId": "zamosc"
-      }
-    ],
-    "janowice male": [
+      },
       {
         "type": "district",
         "id": "janowice-male",
@@ -156269,15 +154569,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zarki"
       }
     ],
-    "połomia zarecka": [
+    "polomia zarecka": [
       {
         "type": "district",
         "id": "polomia-zarecka",
         "name": "Połomia Żarecka",
         "parentCityId": "zarki"
-      }
-    ],
-    "polomia zarecka": [
+      },
       {
         "type": "district",
         "id": "polomia-zarecka",
@@ -156583,15 +154881,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawichost"
       }
     ],
-    "na wałach": [
+    "na walach": [
       {
         "type": "district",
         "id": "na-walach",
         "name": "Na Wałach",
         "parentCityId": "zawichost"
-      }
-    ],
-    "na walach": [
+      },
       {
         "type": "district",
         "id": "na-walach",
@@ -156735,15 +155031,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawiercie"
       }
     ],
-    "kromołow": [
+    "kromolow": [
       {
         "type": "district",
         "id": "kromolow",
         "name": "Kromołów",
         "parentCityId": "zawiercie"
-      }
-    ],
-    "kromolow": [
+      },
       {
         "type": "district",
         "id": "kromolow",
@@ -156821,15 +155115,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zawiercie"
       }
     ],
-    "łosnice": [
+    "losnice": [
       {
         "type": "district",
         "id": "losnice",
         "name": "Łośnice",
         "parentCityId": "zawiercie"
-      }
-    ],
-    "losnice": [
+      },
       {
         "type": "district",
         "id": "losnice",
@@ -157213,15 +155505,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Żerków"
       }
     ],
-    "zołkow": [
+    "zolkow": [
       {
         "type": "district",
         "id": "zolkow",
         "name": "Żółków",
         "parentCityId": "zerkow"
-      }
-    ],
-    "zolkow": [
+      },
       {
         "type": "district",
         "id": "zolkow",
@@ -157353,15 +155643,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zgierz"
       }
     ],
-    "chełmy": [
+    "chelmy": [
       {
         "type": "district",
         "id": "chelmy",
         "name": "Chełmy",
         "parentCityId": "zgierz"
-      }
-    ],
-    "chelmy": [
+      },
       {
         "type": "district",
         "id": "chelmy",
@@ -157463,15 +155751,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Zielona Góra"
       }
     ],
-    "włosan": [
+    "wlosan": [
       {
         "type": "district",
         "id": "wlosan",
         "name": "Włosań",
         "parentCityId": "zielona-gora"
-      }
-    ],
-    "wlosan": [
+      },
       {
         "type": "district",
         "id": "wlosan",
@@ -157535,27 +155821,17 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zielona-gora"
       }
     ],
-    "kiełpin": [
-      {
-        "type": "district",
-        "id": "kielpin",
-        "name": "Kiełpin",
-        "parentCityId": "zielona-gora"
-      }
-    ],
     "kielpin": [
       {
         "type": "district",
         "id": "kielpin",
         "name": "Kiełpin",
         "parentCityId": "zielona-gora"
-      }
-    ],
-    "krepa mała": [
+      },
       {
         "type": "district",
-        "id": "krepa-mala",
-        "name": "Krępa Mała",
+        "id": "kielpin",
+        "name": "Kiełpin",
         "parentCityId": "zielona-gora"
       }
     ],
@@ -157565,17 +155841,21 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "id": "krepa-mala",
         "name": "Krępa Mała",
         "parentCityId": "zielona-gora"
+      },
+      {
+        "type": "district",
+        "id": "krepa-mala",
+        "name": "Krępa Mała",
+        "parentCityId": "zielona-gora"
       }
     ],
-    "ługowo": [
+    "lugowo": [
       {
         "type": "district",
         "id": "lugowo",
         "name": "Ługowo",
         "parentCityId": "zielona-gora"
-      }
-    ],
-    "lugowo": [
+      },
       {
         "type": "district",
         "id": "lugowo",
@@ -157793,14 +156073,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zielonka"
       }
     ],
-    "złocieniec": [
+    "zlocieniec": [
       {
         "type": "city",
         "id": "zlocieniec",
         "name": "Złocieniec"
-      }
-    ],
-    "zlocieniec": [
+      },
       {
         "type": "city",
         "id": "zlocieniec",
@@ -157877,14 +156155,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zlocieniec"
       }
     ],
-    "złoczew": [
+    "zloczew": [
       {
         "type": "city",
         "id": "zloczew",
         "name": "Złoczew"
-      }
-    ],
-    "zloczew": [
+      },
       {
         "type": "city",
         "id": "zloczew",
@@ -157933,15 +156209,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zloczew"
       }
     ],
-    "złoczewska wies": [
+    "zloczewska wies": [
       {
         "type": "district",
         "id": "zloczewska-wies",
         "name": "Złoczewska Wieś",
         "parentCityId": "zloczew"
-      }
-    ],
-    "zloczewska wies": [
+      },
       {
         "type": "district",
         "id": "zloczewska-wies",
@@ -157963,14 +156237,12 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zloczew"
       }
     ],
-    "złotoryja": [
+    "zlotoryja": [
       {
         "type": "city",
         "id": "zlotoryja",
         "name": "Złotoryja"
-      }
-    ],
-    "zlotoryja": [
+      },
       {
         "type": "city",
         "id": "zlotoryja",
@@ -158005,27 +156277,18 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zlotoryja"
       }
     ],
-    "złota": [
-      {
-        "type": "district",
-        "id": "zlota",
-        "name": "Złota",
-        "parentCityId": "zlotoryja"
-      }
-    ],
     "zlota": [
       {
         "type": "district",
         "id": "zlota",
         "name": "Złota",
         "parentCityId": "zlotoryja"
-      }
-    ],
-    "złotow": [
+      },
       {
-        "type": "city",
-        "id": "zlotow",
-        "name": "Złotów"
+        "type": "district",
+        "id": "zlota",
+        "name": "Złota",
+        "parentCityId": "zlotoryja"
       }
     ],
     "zlotow": [
@@ -158033,16 +156296,19 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "type": "city",
         "id": "zlotow",
         "name": "Złotów"
+      },
+      {
+        "type": "city",
+        "id": "zlotow",
+        "name": "Złotów"
       }
     ],
-    "złoty stok": [
+    "zloty stok": [
       {
         "type": "city",
         "id": "zloty-stok",
         "name": "Złoty Stok"
-      }
-    ],
-    "zloty stok": [
+      },
       {
         "type": "city",
         "id": "zloty-stok",
@@ -158073,15 +156339,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "name": "Żnin"
       }
     ],
-    "mała osada": [
+    "mala osada": [
       {
         "type": "district",
         "id": "mala-osada",
         "name": "Mała Osada",
         "parentCityId": "znin"
-      }
-    ],
-    "mala osada": [
+      },
       {
         "type": "district",
         "id": "mala-osada",
@@ -158391,15 +156655,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zwierzyniec"
       }
     ],
-    "biały słup": [
+    "bialy slup": [
       {
         "type": "district",
         "id": "bialy-slup",
         "name": "Biały Słup",
         "parentCityId": "zwierzyniec"
-      }
-    ],
-    "bialy slup": [
+      },
       {
         "type": "district",
         "id": "bialy-slup",
@@ -158447,31 +156709,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zwolen"
       }
     ],
-    "regułt": [
-      {
-        "type": "district",
-        "id": "regult",
-        "name": "Regułt",
-        "parentCityId": "zwolen"
-      }
-    ],
     "regult": [
       {
         "type": "district",
         "id": "regult",
         "name": "Regułt",
         "parentCityId": "zwolen"
+      },
+      {
+        "type": "district",
+        "id": "regult",
+        "name": "Regułt",
+        "parentCityId": "zwolen"
       }
     ],
-    "łysocha": [
+    "lysocha": [
       {
         "type": "district",
         "id": "lysocha",
         "name": "Łysocha",
         "parentCityId": "zwolen"
-      }
-    ],
-    "lysocha": [
+      },
       {
         "type": "district",
         "id": "lysocha",
@@ -158727,15 +156985,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zywiec"
       }
     ],
-    "za łyska": [
+    "za lyska": [
       {
         "type": "district",
         "id": "za-lyska",
         "name": "Za Łyską",
         "parentCityId": "zywiec"
-      }
-    ],
-    "za lyska": [
+      },
       {
         "type": "district",
         "id": "za-lyska",
@@ -158785,15 +157041,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zywiec"
       }
     ],
-    "łyska": [
+    "lyska": [
       {
         "type": "district",
         "id": "lyska",
         "name": "Łyska",
         "parentCityId": "zywiec"
-      }
-    ],
-    "lyska": [
+      },
       {
         "type": "district",
         "id": "lyska",
@@ -158815,31 +157069,27 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zywiec"
       }
     ],
-    "pod łyska": [
-      {
-        "type": "district",
-        "id": "pod-lyska",
-        "name": "Pod Łyską",
-        "parentCityId": "zywiec"
-      }
-    ],
     "pod lyska": [
       {
         "type": "district",
         "id": "pod-lyska",
         "name": "Pod Łyską",
         "parentCityId": "zywiec"
+      },
+      {
+        "type": "district",
+        "id": "pod-lyska",
+        "name": "Pod Łyską",
+        "parentCityId": "zywiec"
       }
     ],
-    "szczałba": [
+    "szczalba": [
       {
         "type": "district",
         "id": "szczalba",
         "name": "Szczałba",
         "parentCityId": "zywiec"
-      }
-    ],
-    "szczalba": [
+      },
       {
         "type": "district",
         "id": "szczalba",
@@ -158861,15 +157111,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zywiec"
       }
     ],
-    "do młyna": [
+    "do mlyna": [
       {
         "type": "district",
         "id": "do-mlyna",
         "name": "Do Młyna",
         "parentCityId": "zywiec"
-      }
-    ],
-    "do mlyna": [
+      },
       {
         "type": "district",
         "id": "do-mlyna",
@@ -159017,15 +157265,13 @@ window.OMAP_SEARCH_V2_LOCATIONS_PL = {
         "parentCityId": "zywiec"
       }
     ],
-    "do białkow": [
+    "do bialkow": [
       {
         "type": "district",
         "id": "do-bialkow",
         "name": "Do Białków",
         "parentCityId": "zywiec"
-      }
-    ],
-    "do bialkow": [
+      },
       {
         "type": "district",
         "id": "do-bialkow",

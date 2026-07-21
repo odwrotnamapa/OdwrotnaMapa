@@ -3056,6 +3056,8 @@
     viewportGap: 8
   });
 
+  const mobilePanelMode = new Map();
+
   function isMobilePanelViewport() {
     return window.matchMedia("(max-width: 600px)").matches;
   }
@@ -3084,7 +3086,7 @@
     panel,
     cssVariable,
     height,
-    { animate = true, collapsed = null } = {}
+    { animate = true, collapsed = null, mode = null } = {}
   ) {
     if (!panel || !isMobilePanelViewport()) return;
 
@@ -3110,6 +3112,13 @@
 
     panel.classList.toggle("is-collapsed", shouldCollapse);
 
+    // Tryb zapisujemy TYLKO wtedy, gdy wywołujący jawnie go poda -
+    // żadnego zgadywania na podstawie wysokości, żeby stan zapisywał
+    // się natychmiast i niezawodnie, a nie dopiero "za drugim razem".
+    if (mode) {
+      mobilePanelMode.set(cssVariable, mode);
+    }
+
     if (animate) {
       requestAnimationFrame(() => {
         panel.classList.remove("is-dragging");
@@ -3121,11 +3130,20 @@
     if (!panel || !isMobilePanelViewport()) return;
 
     panel.hidden = false;
+
+    const rememberedMode = mobilePanelMode.get(cssVariable);
+    const restoreExpanded = rememberedMode === "expanded";
+
     setMobilePanelHeight(
       panel,
       cssVariable,
-      getMobilePanelDefaultHeight(),
-      { collapsed: false }
+      restoreExpanded
+        ? getMobilePanelMaximumHeight()
+        : getMobilePanelDefaultHeight(),
+      {
+        collapsed: false,
+        mode: restoreExpanded ? "expanded" : "default"
+      }
     );
     panel.classList.remove("is-collapsed");
     panel.scrollTop = 0;
@@ -3136,7 +3154,7 @@
       panel,
       cssVariable,
       MOBILE_PANEL_STANDARD.collapsedHeight,
-      { collapsed: true }
+      { collapsed: true, mode: "collapsed" }
     );
   }
 
@@ -3157,11 +3175,19 @@
         !panel.classList.contains("is-dragging") &&
         !panel.classList.contains("is-collapsed")
       ) {
+        const restoreExpanded =
+          mobilePanelMode.get(cssVariable) === "expanded";
+
         setMobilePanelHeight(
           panel,
           cssVariable,
-          getMobilePanelDefaultHeight(),
-          { collapsed: false }
+          restoreExpanded
+            ? getMobilePanelMaximumHeight()
+            : getMobilePanelDefaultHeight(),
+          {
+            collapsed: false,
+            mode: restoreExpanded ? "expanded" : "default"
+          }
         );
       }
     };
@@ -3200,11 +3226,19 @@
         return;
       }
 
+      const restoreExpanded =
+        mobilePanelMode.get(cssVariable) === "expanded";
+
       setMobilePanelHeight(
         panel,
         cssVariable,
-        getMobilePanelDefaultHeight(),
-        { collapsed: false }
+        restoreExpanded
+          ? getMobilePanelMaximumHeight()
+          : getMobilePanelDefaultHeight(),
+        {
+          collapsed: false,
+          mode: restoreExpanded ? "expanded" : "default"
+        }
       );
     };
 
@@ -3245,14 +3279,34 @@
       const height = panel.getBoundingClientRect().height;
       const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
       const defaultHeight = getMobilePanelDefaultHeight();
-      const midpoint = (collapsedHeight + defaultHeight) / 2;
-      const snapToCollapsed = height <= midpoint;
+      const expandedHeight = getMobilePanelMaximumHeight();
+
+      const lowerMidpoint = (collapsedHeight + defaultHeight) / 2;
+      const upperMidpoint = (defaultHeight + expandedHeight) / 2;
+
+      let targetHeight;
+      let collapsed;
+      let mode;
+
+      if (height <= lowerMidpoint) {
+        targetHeight = collapsedHeight;
+        collapsed = true;
+        mode = "collapsed";
+      } else if (height <= upperMidpoint) {
+        targetHeight = defaultHeight;
+        collapsed = false;
+        mode = "default";
+      } else {
+        targetHeight = expandedHeight;
+        collapsed = false;
+        mode = "expanded";
+      }
 
       setMobilePanelHeight(
         panel,
         cssVariable,
-        snapToCollapsed ? collapsedHeight : defaultHeight,
-        { collapsed: snapToCollapsed }
+        targetHeight,
+        { collapsed, mode }
       );
 
       try {
@@ -3267,9 +3321,18 @@
       if (!isMobilePanelViewport() || movedDuringGesture) return;
 
       const height = panel.getBoundingClientRect().height;
+      const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
+      const defaultHeight = getMobilePanelDefaultHeight();
 
-      if (height <= MOBILE_PANEL_STANDARD.collapsedHeight + 8) {
+      if (height <= collapsedHeight + 8) {
         openMobilePanelStandard(panel, cssVariable);
+      } else if (height <= defaultHeight + 8) {
+        setMobilePanelHeight(
+          panel,
+          cssVariable,
+          getMobilePanelMaximumHeight(),
+          { collapsed: false, mode: "expanded" }
+        );
       } else {
         collapseMobilePanelStandard(panel, cssVariable);
       }
@@ -3480,22 +3543,6 @@ el.discoverButton?.setAttribute(
 el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
 
     if (shouldOpen) {
-      if (window.matchMedia("(max-width: 600px)").matches) {
-        const currentHeight = el.routePanel.getBoundingClientRect().height;
-        if (currentHeight < 90) {
-          const height = window.innerHeight * 0.42;
-          el.routePanel.style.setProperty(
-            "--route-sheet-height",
-            `${height}px`
-          );
-          document.documentElement.style.setProperty(
-            "--route-sheet-height",
-            `${height}px`
-          );
-          el.routePanel.classList.remove("is-collapsed");
-        }
-      }
-
       state.routeClickStage = state.routePointA
         ? (state.routePointB ? "move-b" : "b")
         : "a";
@@ -4272,18 +4319,6 @@ function closeRoute() {
       "--discover-sheet-height"
     );
     el.discoverPanel.classList.remove("is-collapsed");
-
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      const height = window.innerHeight * 0.42;
-      el.discoverPanel.style.setProperty(
-        "--discover-sheet-height",
-        `${height}px`
-      );
-      document.documentElement.style.setProperty(
-        "--discover-sheet-height",
-        `${height}px`
-      );
-    }
 
     const scrollTop = target?.scrollTop || 0;
     if (scrollTop) {
@@ -7017,17 +7052,6 @@ function closeRoute() {
     );
     if (el.historySearch) el.historySearch.value = "";
     renderHistoryList();
-
-    if (
-      window.matchMedia("(max-width: 600px)").matches &&
-      el.historyPanel.getBoundingClientRect().height < 90
-    ) {
-      el.historyPanel.style.setProperty(
-        "--history-sheet-height",
-        `${window.innerHeight * 0.42}px`
-      );
-      el.historyPanel.classList.remove("is-collapsed");
-    }
   }
 
   function closeHistory() {
@@ -7163,17 +7187,6 @@ function closeRoute() {
     );
     el.favoritesSearch.value = "";
     renderFavoritesList();
-
-    if (
-      window.matchMedia("(max-width: 600px)").matches &&
-      el.favoritesPanel.getBoundingClientRect().height < 90
-    ) {
-      el.favoritesPanel.style.setProperty(
-        "--favorites-sheet-height",
-        `${window.innerHeight * 0.42}px`
-      );
-      el.favoritesPanel.classList.remove("is-collapsed");
-    }
   }
 
   function closeFavoritesPanel() {
@@ -7785,18 +7798,6 @@ function closeRoute() {
       "--menu-sheet-height"
     );
     el.menuPanel.classList.remove("is-collapsed");
-
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      const height = window.innerHeight * 0.42;
-      el.menuPanel.style.setProperty(
-        "--menu-sheet-height",
-        `${height}px`
-      );
-      document.documentElement.style.setProperty(
-        "--menu-sheet-height",
-        `${height}px`
-      );
-    }
 
     el.menuButton?.setAttribute("aria-expanded", "true");
     el.menuButton?.classList.add("is-active");

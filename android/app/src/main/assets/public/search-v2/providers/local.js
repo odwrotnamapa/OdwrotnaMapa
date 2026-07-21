@@ -2,12 +2,17 @@
   "use strict";
 
   function resultFromEntity(entity, parentCity = null) {
-    if (!entity?.center) return null;
+    const lat = entity?.center?.lat ?? entity?.lat;
+    const lon = entity?.center?.lon ?? entity?.lon;
+
+    if (!Number.isFinite(Number(lat)) || !Number.isFinite(Number(lon))) {
+      return null;
+    }
 
     return {
       place_id: `local:${entity.id}`,
-      lat: String(entity.center.lat),
-      lon: String(entity.center.lon),
+      lat: String(lat),
+      lon: String(lon),
       name: entity.name,
       display_name: [
         entity.name,
