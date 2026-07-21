@@ -56,22 +56,21 @@
     // miejsca otagowane tym miastem jako słowem kluczowym.
     if (queryTokens.length >= 2) {
       const allNames = [...identityNames, ...keywordNames];
-      let matched = 0;
+      const combinedTokens = new Set();
 
       for (const name of allNames) {
-        const nameTokens = tokens(name);
-        const hits = queryTokens.filter(token =>
-          nameTokens.includes(token)
-        ).length;
-
-        if (hits === queryTokens.length) {
-          matched = Math.max(matched, 3000);
+        for (const token of tokens(name)) {
+          combinedTokens.add(token);
         }
       }
 
-      if (matched > 0) {
+      const allPresent = queryTokens.every(token =>
+        combinedTokens.has(token)
+      );
+
+      if (allPresent) {
         return {
-          value: matched + Number(record.priority || 0),
+          value: 3000 + Number(record.priority || 0),
           isIdentity: false
         };
       }
