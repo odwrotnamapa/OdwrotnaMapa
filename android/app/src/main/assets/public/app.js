@@ -222,6 +222,8 @@
       placeOpenOsm: "Otwórz w OpenStreetMap",
       placeError: "Nie udało się pobrać informacji o miejscu.",
       departuresTitle: "Najbliższe odjazdy",
+      wikipediaTitle: "O tym miejscu",
+      wikipediaReadMore: "Czytaj więcej na Wikipedii →",
       departuresLoading: "Pobieranie rozkładu…",
       departuresEmpty: "Brak dostępnego rozkładu dla tego przystanku.",
       departuresError: "Nie udało się pobrać rozkładu.",
@@ -448,6 +450,8 @@
       placeOpenOsm: "Open in OpenStreetMap",
       placeError: "Place information could not be loaded.",
       departuresTitle: "Next departures",
+      wikipediaTitle: "About this place",
+      wikipediaReadMore: "Read more on Wikipedia →",
       departuresLoading: "Loading timetable…",
       departuresEmpty: "No timetable is available for this stop.",
       departuresError: "The timetable could not be loaded.",
@@ -4506,6 +4510,12 @@ function closeRoute() {
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
 
+    if (place?.extratags?.wikipedia || place?.extratags?.wikidata) {
+      const wikipedia = createWikipediaSection();
+      card.appendChild(wikipedia.section);
+      loadWikipediaSummaryForPlace(place, wikipedia);
+    }
+
     const details = document.createElement("div");
     details.className = "place-card-details";
 
@@ -5070,6 +5080,119 @@ function closeRoute() {
     return true;
   }
 
+  async function resolveWikipediaTarget(place) {
+    const preferredLang = state.language === "pl" ? "pl" : "en";
+    const tag = place?.extratags?.wikipedia;
+    const qid = place?.extratags?.wikidata;
+
+    let tagTarget = null;
+    if (tag) {
+      const match = /^([a-z-]+):(.+)$/.exec(tag);
+      tagTarget = match
+        ? { lang: match[1], title: match[2] }
+        : { lang: "en", title: tag };
+    }
+
+    if (tagTarget && tagTarget.lang === preferredLang) {
+      return tagTarget;
+    }
+
+    if (qid) {
+      try {
+        const url = new URL("https://www.wikidata.org/w/api.php");
+        url.searchParams.set("action", "wbgetentities");
+        url.searchParams.set("ids", qid);
+        url.searchParams.set("props", "sitelinks");
+        url.searchParams.set("format", "json");
+        url.searchParams.set("origin", "*");
+
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          const sitelinks = data?.entities?.[qid]?.sitelinks || {};
+          const site = sitelinks[`${preferredLang}wiki`];
+
+          if (site?.title) {
+            return { lang: preferredLang, title: site.title };
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return tagTarget;
+  }
+
+  function createWikipediaSection() {
+    const t = text[state.language];
+
+    const section = document.createElement("section");
+    section.className = "place-wikipedia";
+    section.hidden = true;
+
+    const header = document.createElement("div");
+    header.className = "place-wikipedia-header";
+
+    const title = document.createElement("h4");
+    title.textContent = `📖 ${t.wikipediaTitle}`;
+    header.appendChild(title);
+    section.appendChild(header);
+
+    const thumbnail = document.createElement("img");
+    thumbnail.className = "place-wikipedia-thumbnail";
+    thumbnail.alt = "";
+    thumbnail.hidden = true;
+    section.appendChild(thumbnail);
+
+    const extract = document.createElement("p");
+    extract.className = "place-wikipedia-extract";
+    section.appendChild(extract);
+
+    const link = document.createElement("a");
+    link.className = "place-wikipedia-link";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = t.wikipediaReadMore;
+    section.appendChild(link);
+
+    return { section, thumbnail, extract, link };
+  }
+
+  async function loadWikipediaSummaryForPlace(place, ui) {
+    try {
+      const target = await resolveWikipediaTarget(place);
+      if (!target) return;
+
+      const url =
+        `https://${target.lang}.wikipedia.org/api/rest_v1/page/summary/` +
+        encodeURIComponent(target.title);
+
+      const response = await fetch(url, {
+        headers: { "Accept": "application/json" }
+      });
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (!data.extract || data.type === "disambiguation") return;
+
+      ui.extract.textContent = data.extract;
+
+      if (data.thumbnail?.source) {
+        ui.thumbnail.src = data.thumbnail.source;
+        ui.thumbnail.hidden = false;
+      }
+
+      ui.link.href =
+        data.content_urls?.desktop?.page ||
+        `https://${target.lang}.wikipedia.org/wiki/${encodeURIComponent(target.title)}`;
+
+      ui.section.hidden = false;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function isTransitStopPlace(place) {
     const address = place.address || {};
     const extra = place.extratags || {};
@@ -5521,6 +5644,32 @@ function closeRoute() {
     state.routeClickBusy = false;
   }
 
+  function dismissMobileKeyboard() {
+    const active = document.activeElement;
+    if (!active || typeof active.blur !== "function") return;
+
+    const isTextField =
+      active.tagName === "INPUT" || active.tagName === "TEXTAREA";
+
+    if (!isTextField) {
+      active.blur();
+      return;
+    }
+
+    // iOS Safari often ignores blur() called after an async gap (like
+    // waiting for a route to load) unless the field briefly becomes
+    // non-editable first.
+    const wasReadOnly = active.hasAttribute("readonly");
+    active.setAttribute("readonly", "readonly");
+    active.blur();
+
+    if (!wasReadOnly) {
+      window.setTimeout(() => {
+        active.removeAttribute("readonly");
+      }, 100);
+    }
+  }
+
   async function calculateRouteFromStoredPoints() {
     if (!state.routePointA || !state.routePointB) return;
 
@@ -5538,7 +5687,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
-      document.activeElement?.blur?.();
+      dismissMobileKeyboard();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -5702,7 +5851,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
-      document.activeElement?.blur?.();
+      dismissMobileKeyboard();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);

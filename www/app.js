@@ -531,6 +531,7 @@
     contextPointMarker: null,
     userLocationMarker: null,
     contextMenuLngLat: null,
+    contextMenuPoint: null,
     mapLongPressTimer: null,
     mapLongPressStartPoint: null,
     mapLongPressTriggered: false,
@@ -3668,6 +3669,46 @@ function closeRoute() {
     );
   }
 
+  function findNearestPoiFeature(point) {
+    if (!point) return null;
+
+    const tolerance = 14;
+    const box = [
+      [point.x - tolerance, point.y - tolerance],
+      [point.x + tolerance, point.y + tolerance]
+    ];
+
+    let features;
+    try {
+      features = map.queryRenderedFeatures(box);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+
+    let closest = null;
+    let closestDistance = Infinity;
+
+    for (const feature of features) {
+      if (feature.geometry?.type !== "Point") continue;
+      if (!feature.properties?.name) continue;
+
+      const [lon, lat] = feature.geometry.coordinates;
+      const featurePoint = map.project([lon, lat]);
+      const distance = Math.hypot(
+        featurePoint.x - point.x,
+        featurePoint.y - point.y
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closest = { lon, lat };
+      }
+    }
+
+    return closest;
+  }
+
   function openMapContextMenu(event) {
     event.originalEvent?.preventDefault();
     if (!el.mapContextMenu) return;
@@ -3679,6 +3720,7 @@ function closeRoute() {
       event.lngLat.lng,
       event.lngLat.lat
     );
+    state.contextMenuPoint = event.point || null;
 
     showContextPointMarker(state.contextMenuLngLat);
     updateMapContextMenuLabels();
@@ -3828,8 +3870,13 @@ function closeRoute() {
     if (action === "info") {
       removeContextPointMarker();
 
+      const poi = findNearestPoiFeature(state.contextMenuPoint);
+      const targetLngLat = poi
+        ? new maplibregl.LngLat(poi.lon, poi.lat)
+        : lngLat;
+
       await openMapInformationThroughService(
-        lngLat,
+        targetLngLat,
         {
           origin: "map-context-menu"
         }
