@@ -5521,12 +5521,34 @@ function closeRoute() {
     state.routeClickBusy = false;
   }
 
+  function dismissMobileKeyboard() {
+    const active = document.activeElement;
+    if (!active || typeof active.blur !== "function") return;
+
+    const isTextField =
+      active.tagName === "INPUT" || active.tagName === "TEXTAREA";
+
+    if (!isTextField) {
+      active.blur();
+      return;
+    }
+
+    // iOS Safari often ignores blur() called after an async gap (like
+    // waiting for a route to load) unless the field briefly becomes
+    // non-editable first.
+    const wasReadOnly = active.hasAttribute("readonly");
+    active.setAttribute("readonly", "readonly");
+    active.blur();
+
+    if (!wasReadOnly) {
+      window.setTimeout(() => {
+        active.removeAttribute("readonly");
+      }, 100);
+    }
+  }
+
   async function calculateRouteFromStoredPoints() {
     if (!state.routePointA || !state.routePointB) return;
-
-	// Zamknij klawiaturę od razu
-    document.activeElement?.blur?.();
-
 
     show(text[state.language].routeSearching, 0);
     if (el.routeSubmit) el.routeSubmit.disabled = true;
@@ -5542,6 +5564,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
+      dismissMobileKeyboard();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -5668,25 +5691,20 @@ function closeRoute() {
     else removeRouteMarker("b");
   }
 
-async function planRoute(event) {
-  event.preventDefault();
+  async function planRoute(event) {
+    event.preventDefault();
+    const fromQuery = el.routeFrom.value.trim();
+    const toQuery = el.routeTo.value.trim();
+    if (!fromQuery || !toQuery) return;
 
-  // Zamknij klawiaturę po zatwierdzeniu pól A i B
-  document.activeElement?.blur?.();
+    show(text[state.language].routeSearching, 0);
+    if (el.routeSubmit) el.routeSubmit.disabled = true;
 
-  const fromQuery = el.routeFrom.value.trim();
-  const toQuery = el.routeTo.value.trim();
-
-  if (!fromQuery || !toQuery) return;
-
-  show(text[state.language].routeSearching, 0);
-  if (el.routeSubmit) el.routeSubmit.disabled = true;
-
-  try {
-    const [from, to] = await Promise.all([
-      geocodeRoutePoint(fromQuery),
-      geocodeRoutePoint(toQuery)
-    ]);
+    try {
+      const [from, to] = await Promise.all([
+        geocodeRoutePoint(fromQuery),
+        geocodeRoutePoint(toQuery)
+      ]);
 
       if (!from || !to) {
         show(text[state.language].routePointNotFound);
@@ -5710,7 +5728,7 @@ async function planRoute(event) {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
-      document.activeElement?.blur?.();
+      dismissMobileKeyboard();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);

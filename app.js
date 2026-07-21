@@ -5521,6 +5521,32 @@ function closeRoute() {
     state.routeClickBusy = false;
   }
 
+  function dismissMobileKeyboard() {
+    const active = document.activeElement;
+    if (!active || typeof active.blur !== "function") return;
+
+    const isTextField =
+      active.tagName === "INPUT" || active.tagName === "TEXTAREA";
+
+    if (!isTextField) {
+      active.blur();
+      return;
+    }
+
+    // iOS Safari often ignores blur() called after an async gap (like
+    // waiting for a route to load) unless the field briefly becomes
+    // non-editable first.
+    const wasReadOnly = active.hasAttribute("readonly");
+    active.setAttribute("readonly", "readonly");
+    active.blur();
+
+    if (!wasReadOnly) {
+      window.setTimeout(() => {
+        active.removeAttribute("readonly");
+      }, 100);
+    }
+  }
+
   async function calculateRouteFromStoredPoints() {
     if (!state.routePointA || !state.routePointB) return;
 
@@ -5538,7 +5564,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
-      document.activeElement?.blur?.();
+      dismissMobileKeyboard();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -5702,7 +5728,7 @@ function closeRoute() {
       updateRouteSummary(route.distance, route.duration);
       renderRouteDirections(route.maneuvers);
       hide();
-      document.activeElement?.blur?.();
+      dismissMobileKeyboard();
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
