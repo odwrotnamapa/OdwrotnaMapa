@@ -3295,14 +3295,6 @@ const focusRouteInput = input => {
 
   el.routePanel.classList.remove("is-collapsed");
 
-  setTimeout(() => {
-    input.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
-  }, 300);
-};
-
   el.routeFrom?.addEventListener("focus", () => {
     focusRouteInput(el.routeFrom);
   });
