@@ -3275,14 +3275,40 @@
     setDefaultHeight();
   }
 
-  function initializeRouteBottomSheet() {
-    initializeBottomSheet({
-      panel: el.routePanel,
-      handle: el.routeSheetHandle,
-      close: closeRoute,
-      cssVariable: "--route-sheet-height"
-    });
-  }
+function initializeRouteBottomSheet() {
+  initializeBottomSheet({
+    panel: el.routePanel,
+    handle: el.routeSheetHandle,
+    close: closeRoute,
+    cssVariable: "--route-sheet-height"
+  });
+
+  const focusRouteInput = input => {
+    if (!input || !isMobilePanelViewport()) return;
+
+    // Rozwiń panel po kliknięciu pola
+    openMobilePanelStandard(
+      el.routePanel,
+      "--route-sheet-height"
+    );
+
+    // Poczekaj na otwarcie klawiatury i przesuń pole do widocznego miejsca
+    setTimeout(() => {
+      input.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }, 300);
+  };
+
+  el.routeFrom?.addEventListener("focus", () => {
+    focusRouteInput(el.routeFrom);
+  });
+
+  el.routeTo?.addEventListener("focus", () => {
+    focusRouteInput(el.routeTo);
+  });
+}
 
   function initializeDiscoverBottomSheet() {
     initializeBottomSheet({
