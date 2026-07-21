@@ -3531,22 +3531,6 @@ el.discoverButton?.setAttribute(
 el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
 
     if (shouldOpen) {
-      if (window.matchMedia("(max-width: 600px)").matches) {
-        const currentHeight = el.routePanel.getBoundingClientRect().height;
-        if (currentHeight < 90) {
-          const height = window.innerHeight * 0.42;
-          el.routePanel.style.setProperty(
-            "--route-sheet-height",
-            `${height}px`
-          );
-          document.documentElement.style.setProperty(
-            "--route-sheet-height",
-            `${height}px`
-          );
-          el.routePanel.classList.remove("is-collapsed");
-        }
-      }
-
       state.routeClickStage = state.routePointA
         ? (state.routePointB ? "move-b" : "b")
         : "a";
@@ -4323,18 +4307,6 @@ function closeRoute() {
       "--discover-sheet-height"
     );
     el.discoverPanel.classList.remove("is-collapsed");
-
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      const height = window.innerHeight * 0.42;
-      el.discoverPanel.style.setProperty(
-        "--discover-sheet-height",
-        `${height}px`
-      );
-      document.documentElement.style.setProperty(
-        "--discover-sheet-height",
-        `${height}px`
-      );
-    }
 
     const scrollTop = target?.scrollTop || 0;
     if (scrollTop) {
@@ -7068,22 +7040,6 @@ function closeRoute() {
     );
     if (el.historySearch) el.historySearch.value = "";
     renderHistoryList();
-
-    if (
-      window.matchMedia("(max-width: 600px)").matches &&
-      el.historyPanel.getBoundingClientRect().height < 90
-    ) {
-      const restoreExpanded =
-        mobilePanelExpandedState.has("--history-sheet-height");
-
-      el.historyPanel.style.setProperty(
-        "--history-sheet-height",
-        restoreExpanded
-          ? `${getMobilePanelMaximumHeight()}px`
-          : `${window.innerHeight * 0.42}px`
-      );
-      el.historyPanel.classList.remove("is-collapsed");
-    }
   }
 
   function closeHistory() {
@@ -7219,22 +7175,6 @@ function closeRoute() {
     );
     el.favoritesSearch.value = "";
     renderFavoritesList();
-
-    if (
-      window.matchMedia("(max-width: 600px)").matches &&
-      el.favoritesPanel.getBoundingClientRect().height < 90
-    ) {
-      const restoreExpanded =
-        mobilePanelExpandedState.has("--favorites-sheet-height");
-
-      el.favoritesPanel.style.setProperty(
-        "--favorites-sheet-height",
-        restoreExpanded
-          ? `${getMobilePanelMaximumHeight()}px`
-          : `${window.innerHeight * 0.42}px`
-      );
-      el.favoritesPanel.classList.remove("is-collapsed");
-    }
   }
 
   function closeFavoritesPanel() {
@@ -7846,18 +7786,6 @@ function closeRoute() {
       "--menu-sheet-height"
     );
     el.menuPanel.classList.remove("is-collapsed");
-
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      const height = window.innerHeight * 0.42;
-      el.menuPanel.style.setProperty(
-        "--menu-sheet-height",
-        `${height}px`
-      );
-      document.documentElement.style.setProperty(
-        "--menu-sheet-height",
-        `${height}px`
-      );
-    }
 
     el.menuButton?.setAttribute("aria-expanded", "true");
     el.menuButton?.classList.add("is-active");
