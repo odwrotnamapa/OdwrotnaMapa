@@ -5668,20 +5668,25 @@ function closeRoute() {
     else removeRouteMarker("b");
   }
 
-  async function planRoute(event) {
-    event.preventDefault();
-    const fromQuery = el.routeFrom.value.trim();
-    const toQuery = el.routeTo.value.trim();
-    if (!fromQuery || !toQuery) return;
+async function planRoute(event) {
+  event.preventDefault();
 
-    show(text[state.language].routeSearching, 0);
-    if (el.routeSubmit) el.routeSubmit.disabled = true;
+  // Zamknij klawiaturę po zatwierdzeniu pól A i B
+  document.activeElement?.blur?.();
 
-    try {
-      const [from, to] = await Promise.all([
-        geocodeRoutePoint(fromQuery),
-        geocodeRoutePoint(toQuery)
-      ]);
+  const fromQuery = el.routeFrom.value.trim();
+  const toQuery = el.routeTo.value.trim();
+
+  if (!fromQuery || !toQuery) return;
+
+  show(text[state.language].routeSearching, 0);
+  if (el.routeSubmit) el.routeSubmit.disabled = true;
+
+  try {
+    const [from, to] = await Promise.all([
+      geocodeRoutePoint(fromQuery),
+      geocodeRoutePoint(toQuery)
+    ]);
 
       if (!from || !to) {
         show(text[state.language].routePointNotFound);
