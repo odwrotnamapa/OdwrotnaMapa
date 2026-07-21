@@ -19,7 +19,7 @@
     }
 
     return {
-      points: -60,
+      points: -160,
       reasons: ["niezgodna kategoria"]
     };
   };

@@ -51,7 +51,6 @@
 
     const resultClass = Parser.normalize(result.class);
     const resultType = Parser.normalize(result.type);
-    const resultText = text(result);
 
     return (
       (parsed.category.osm?.classes || [])
@@ -59,10 +58,7 @@
         .includes(resultClass) ||
       (parsed.category.osm?.types || [])
         .map(Parser.normalize)
-        .includes(resultType) ||
-      (parsed.category.variants || []).some(
-        variant => resultText.includes(Parser.normalize(variant))
-      )
+        .includes(resultType)
     );
   }
 

@@ -6047,8 +6047,8 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 53.7762,
-      "lon": 20.474,
+      "lat": 53.7857,
+      "lon": 20.4973,
       "address": {
         "city": "Olsztyn",
         "state": "warminsko-mazurskie",
@@ -6078,8 +6078,8 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 54.3776,
-      "lon": 18.4662,
+      "lat": 54.38,
+      "lon": 18.4703,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
