@@ -2061,13 +2061,14 @@
         });
         button.addEventListener("click", async () => {
           if (result.__myLocationOption) {
+            const select = activeSelect;
             hide();
             show(text[state.language].locatingForRoute, 0);
 
             try {
               const point = await getCurrentPositionAsRoutePoint();
-              hide();
-              activeSelect?.(point);
+              hideStatus();
+              select?.(point);
             } catch (error) {
               console.error(error);
               show(text[state.language].locateError);
@@ -8970,6 +8971,8 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     clearTimeout(state.timer);
     el.status.hidden = true;
   }
+
+  const hideStatus = hide;
 
   function fatal(message) {
     el.fatalText.textContent = message;
