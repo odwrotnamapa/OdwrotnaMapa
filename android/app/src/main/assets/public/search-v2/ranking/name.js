@@ -4,6 +4,15 @@
   const H = window.OMAP_SEARCH_V2_RANKING_HELPERS;
   const P = window.OMAP_SEARCH_V2_PARSER;
 
+  function containsAsWord(text, phrase) {
+    if (!phrase) return false;
+    const escaped = phrase.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+    return new RegExp(`\\b${escaped}\\b`).test(text);
+  }
+
   function withoutGenericWords(value) {
     const generic = new Set([
       "galeria",
@@ -58,7 +67,7 @@
     } else if (name.startsWith(query)) {
       points += 105;
       reasons.push("nazwa zaczyna się od zapytania");
-    } else if (name.includes(query)) {
+    } else if (containsAsWord(name, query)) {
       points += 70;
       reasons.push("nazwa zawiera zapytanie");
 
@@ -93,7 +102,7 @@
       reasons.push("zgodny rdzeń nazwy własnej");
     } else if (
       queryCore.length >= 4 &&
-      nameCore.includes(queryCore)
+      containsAsWord(nameCore, queryCore)
     ) {
       points += 40;
       reasons.push("nazwa własna zawiera rdzeń zapytania");

@@ -3127,15 +3127,17 @@
   }
 
   function openMobilePanelStandard(panel, cssVariable) {
-    if (!panel || !isMobilePanelViewport()) return;
+    if (!panel) return;
 
-    setMobilePanelHeight(
-      panel,
-      cssVariable,
-      getMobilePanelDefaultHeight(),
-      { collapsed: false, mode: "default", animate: false }
-    );
-    panel.classList.remove("is-collapsed");
+    if (isMobilePanelViewport()) {
+      setMobilePanelHeight(
+        panel,
+        cssVariable,
+        getMobilePanelDefaultHeight(),
+        { collapsed: false, mode: "default", animate: false }
+      );
+      panel.classList.remove("is-collapsed");
+    }
 
     panel.hidden = false;
     panel.scrollTop = 0;
@@ -3728,7 +3730,13 @@ function closeRoute() {
 
       if (distance < closestDistance) {
         closestDistance = distance;
-        closest = { lon, lat, name: feature.properties.name };
+        closest = {
+          lon,
+          lat,
+          name: feature.properties.name,
+          sourceLayer: feature.sourceLayer || "",
+          featureClass: feature.properties?.class || ""
+        };
       }
     }
 
@@ -3930,7 +3938,23 @@ function closeRoute() {
       removeContextPointMarker();
 
       const poi = findNearestPoiFeature(state.contextMenuPoint);
-      const localCity = poi ? findLocalCityByName(poi.name) : null;
+      let localCity = null;
+
+      try {
+        const looksLikePlaceLabel =
+          poi &&
+          poi.sourceLayer === "place" &&
+          !/rail|station|stop|dworzec|przystanek|airport|lotnisko/i.test(
+            poi.featureClass || ""
+          );
+
+        localCity = looksLikePlaceLabel
+          ? findLocalCityByName(poi.name)
+          : null;
+      } catch (error) {
+        console.error(error);
+        localCity = null;
+      }
 
       if (localCity) {
         closeMapContextMenu();

@@ -50,19 +50,64 @@
 
         if (sameOsm) return true;
 
+        const existingName = Parser.normalize(
+          existing.name || existing.display_name || ""
+        );
+
+        const nameSimilarity = Ranker.similarity(
+          name,
+          existingName
+        );
+
+        // Granica administracyjna i punkt "miasto" tego samego
+        // miejsca bywają w OSM osobnymi obiektami o odległych od
+        // siebie środkach (środek granicy vs punkt centrum) - przy
+        // dokładnie tej samej nazwie traktujemy je jako duplikat
+        // niezależnie od dystansu.
+        const oneIsAdministrative =
+          Parser.normalize(existing.class) === "boundary" ||
+          Parser.normalize(existing.type) === "administrative";
+        const otherIsAdministrative =
+          Parser.normalize(result.class) === "boundary" ||
+          Parser.normalize(result.type) === "administrative";
+        const onePlaceLike = ["place", "city", "town", "village"]
+          .includes(Parser.normalize(existing.class)) ||
+          ["city", "town", "village", "administrative"]
+            .includes(Parser.normalize(existing.type));
+        const otherPlaceLike = ["place", "city", "town", "village"]
+          .includes(Parser.normalize(result.class)) ||
+          ["city", "town", "village", "administrative"]
+            .includes(Parser.normalize(result.type));
+
+        if (
+          name === existingName &&
+          name.length >= 3 &&
+          ((oneIsAdministrative && otherPlaceLike) ||
+            (otherIsAdministrative && onePlaceLike))
+        ) {
+          return true;
+        }
+
         const distance = Math.hypot(
           Number(existing.lat) - lat,
           Number(existing.lon) - lon
         );
 
+        // Różne źródła (Nominatim, nasza lokalna baza, indeks POI)
+        // mogą mieć nieznacznie inne współrzędne tego samego miejsca
+        // (punkt etykiety miasta, wejście do budynku, adres) - im
+        // silniejsze podobieństwo nazwy, tym większy dopuszczalny
+        // dystans, żeby nie pokazywać tego samego miejsca kilka razy.
+        const distanceTolerance =
+          nameSimilarity >= 0.97
+            ? 0.03
+            : nameSimilarity >= 0.9
+              ? 0.01
+              : 0.00035;
+
         return (
-          distance <= 0.00035 &&
-          Ranker.similarity(
-            name,
-            existing.name ||
-              existing.display_name ||
-              ""
-          ) >= 0.88
+          distance <= distanceTolerance &&
+          nameSimilarity >= 0.88
         );
       });
 

@@ -8,6 +8,8 @@
     return String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ł/g, "l")
+      .replace(/Ł/g, "L")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
@@ -17,6 +19,15 @@
     return normalize(value)
       .split(" ")
       .filter(Boolean);
+  }
+
+  function containsAsWord(name, normalizedQuery) {
+    if (!normalizedQuery) return false;
+    const escaped = normalizedQuery.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+    return new RegExp(`\\b${escaped}\\b`).test(name);
   }
 
   function score(query, record) {
@@ -37,7 +48,7 @@
         exactIdentity = true;
       } else if (name.startsWith(normalizedQuery)) {
         identityBest = Math.max(identityBest, 8000);
-      } else if (name.includes(normalizedQuery)) {
+      } else if (containsAsWord(name, normalizedQuery)) {
         identityBest = Math.max(identityBest, 6500);
       }
     }
