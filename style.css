@@ -681,6 +681,27 @@ body.ui-dark .legend-symbol.osm-buildings {
   color: var(--accent);
 }
 
+.about-github {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+}
+
+.about-github a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about-github a:hover {
+  text-decoration: underline;
+}
+
+.about-github svg {
+  flex: 0 0 auto;
+}
+
 .about-donate {
   display: flex;
   flex-direction: column;

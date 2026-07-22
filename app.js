@@ -70,6 +70,7 @@
       aboutEngine: "Silnik",
       aboutContact: "Kontakt:",
       aboutDonateHeading: "Wesprzyj projekt",
+      aboutGithubLabel: "Kod źródłowy na GitHubie",
       aboutDonateCoffee: "Buy Me a Coffee",
       aboutDonateBtc: "Bitcoin",
       aboutDonateBtcCopied: "Skopiowano adres Bitcoin.",
@@ -344,6 +345,7 @@
       aboutEngine: "Engine",
       aboutContact: "Contact:",
       aboutDonateHeading: "Support the project",
+      aboutGithubLabel: "Source code on GitHub",
       aboutDonateCoffee: "Buy Me a Coffee",
       aboutDonateBtc: "Bitcoin",
       aboutDonateBtcCopied: "Bitcoin address copied.",
@@ -740,6 +742,7 @@
     aboutStyleLabel: $("about-style-label"),
     aboutEngineLabel: $("about-engine-label"),
     aboutContactLabel: $("about-contact-label"),
+    aboutGithubLabel: $("about-github-label"),
     aboutDonateHeading: $("about-donate-heading"),
     aboutDonateCoffee: $("about-donate-coffee-label"),
     aboutDonateCoffeeLink: document.querySelector(".about-donate-coffee"),
@@ -1210,6 +1213,7 @@
     if (el.aboutStyleLabel) el.aboutStyleLabel.textContent = t.aboutStyle;
     if (el.aboutEngineLabel) el.aboutEngineLabel.textContent = t.aboutEngine;
     if (el.aboutContactLabel) el.aboutContactLabel.textContent = t.aboutContact;
+    if (el.aboutGithubLabel) el.aboutGithubLabel.textContent = t.aboutGithubLabel;
     if (el.aboutDonateHeading) el.aboutDonateHeading.textContent = t.aboutDonateHeading;
     if (el.aboutDonateCoffee) el.aboutDonateCoffee.textContent = t.aboutDonateCoffee;
     if (el.aboutDonateBtcHeading) el.aboutDonateBtcHeading.textContent = t.aboutDonateBtc;
@@ -6223,8 +6227,20 @@ function closeRoute() {
   }
 
 
+  function isLocalOrNativeOrigin() {
+    const { hostname, protocol } = window.location;
+    return (
+      protocol === "capacitor:" ||
+      protocol === "file:" ||
+      hostname === "localhost" ||
+      hostname === "127.0.0.1"
+    );
+  }
+
   async function sharePlace(place, lngLat) {
-    const url = new URL(window.location.href);
+    const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
+      ? new URL(CONFIG.publicBaseUrl)
+      : new URL(window.location.href);
     url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
 
     const shareData = {
@@ -7420,7 +7436,9 @@ function closeRoute() {
   async function shareRoute() {
     if (!state.routePointA || !state.routePointB) return;
 
-    const url = new URL(window.location.href);
+    const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
+      ? new URL(CONFIG.publicBaseUrl)
+      : new URL(window.location.href);
     url.searchParams.set(
       "a",
       `${state.routePointA.lat},${state.routePointA.lon}`

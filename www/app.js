@@ -114,6 +114,7 @@
       routeShare: "Udostępnij trasę",
       routeShared: "Link do trasy został skopiowany.",
       placeShared: "Link do miejsca został skopiowany.",
+      shareUnavailable: "Udostępnianie wymaga połączenia HTTPS.",
       routeShareError: "Nie udało się udostępnić trasy.",
       routeWaypointNote: "Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.",
       routeRoundaboutExit: exit => `Na rondzie wybierz ${exit}. zjazd.`,
@@ -271,6 +272,7 @@
       tripLoading: "Wczytywanie przystanków…",
       tripEmpty: "Brak informacji o przystankach dla tego kursu.",
       tripError: "Nie udało się pobrać szczegółów kursu.",
+      tripCurrentStop: "Jesteś tutaj",
       departuresScheduled: "rozkładowo",
       departuresCancelled: "odwołany",
       departuresNow: "teraz",
@@ -386,6 +388,7 @@
       routeShare: "Share route",
       routeShared: "The route link was copied.",
       placeShared: "The place link was copied.",
+      shareUnavailable: "Sharing requires an HTTPS connection.",
       routeShareError: "The route could not be shared.",
       routeWaypointNote: "Click the route line to add a waypoint. You can drag the point.",
       routeRoundaboutExit: exit => `At the roundabout, take exit ${exit}.`,
@@ -543,6 +546,7 @@
       tripLoading: "Loading stops…",
       tripEmpty: "No stop information available for this trip.",
       tripError: "Could not load trip details.",
+      tripCurrentStop: "You are here",
       departuresScheduled: "scheduled",
       departuresCancelled: "cancelled",
       departuresNow: "now",
@@ -5931,6 +5935,58 @@ function closeRoute() {
     return luminance > 150 ? "#111827" : "#ffffff";
   }
 
+  function reopenTripFromContext() {
+    if (!state.lastTripContext || !el.tripPanel) return;
+
+    closeOtherMobilePanels(["trip"]);
+
+    el.tripPanelTitle.textContent = state.lastTripContext.title;
+    el.tripStopsList.replaceChildren();
+    el.tripStatus.hidden = true;
+
+    openMobilePanelStandard(el.tripPanel, "--trip-sheet-height");
+
+    renderTripStops(
+      state.lastTripContext.stops,
+      state.lastTripContext.currentStopPoint
+    );
+  }
+
+  window.OMAP_BACK_NAVIGATION?.register(
+    "trip",
+    () => reopenTripFromContext()
+  );
+
+  function showStopOnMap(stop) {
+    const lat = Number(stop.lat);
+    const lon = Number(stop.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+    closeOtherMobilePanels(["place"]);
+
+    map.flyTo({
+      center: [lon, lat],
+      zoom: Math.max(map.getZoom(), 16)
+    });
+
+    setPlacePanelReturnTarget("trip", {});
+
+    showSelectedPlaceInformation({
+      place_id: `stop:${stop.stopId || stop.name || `${lat},${lon}`}`,
+      name: stop.name || stop.stopName || "—",
+      display_name: [stop.name || stop.stopName, "Polska"]
+        .filter(Boolean)
+        .join(", "),
+      lat,
+      lon,
+      class: "public_transport",
+      type: "platform",
+      importance: 0.6,
+      address: {},
+      provider: "transitous"
+    });
+  }
+
   function closeTrip() {
     if (!el.tripPanel || el.tripPanel.hidden) return;
     el.tripPanel.hidden = true;
@@ -5958,6 +6014,13 @@ function closeRoute() {
     const t = text[state.language];
     const tripId = departure.tripId || departure.tripID;
     if (!tripId || !el.tripPanel) return;
+
+    const currentStopPoint = state.placePanelLngLat
+      ? {
+          lat: state.placePanelLngLat.lat,
+          lon: state.placePanelLngLat.lng
+        }
+      : null;
 
     closeOtherMobilePanels(["trip", "place"]);
     if (el.placePanel) el.placePanel.hidden = true;
@@ -6001,8 +6064,14 @@ function closeRoute() {
         return;
       }
 
-      renderTripStops(stops);
+      renderTripStops(stops, currentStopPoint);
       el.tripStatus.hidden = true;
+
+      state.lastTripContext = {
+        title: el.tripPanelTitle.textContent,
+        stops,
+        currentStopPoint
+      };
     } catch (error) {
       console.error(error);
       el.tripStatus.hidden = false;
@@ -6010,12 +6079,50 @@ function closeRoute() {
     }
   }
 
-  function renderTripStops(stops) {
-    const fragment = document.createDocumentFragment();
+  function findClosestStopIndex(stops, point) {
+    if (!point) return -1;
 
-    stops.forEach(stop => {
+    let closestIndex = -1;
+    let closestDistance = Infinity;
+
+    stops.forEach((stop, index) => {
+      const lat = Number(stop.lat);
+      const lon = Number(stop.lon);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+      const distance = Math.hypot(
+        lat - point.lat,
+        lon - point.lon
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    // Odrzuć dopasowanie, jeśli najbliższy przystanek jest zbyt
+    // daleko (ok. 1 km), żeby nie oznaczać przypadkowego przystanku
+    // jako "obecny".
+    return closestDistance <= 0.01 ? closestIndex : -1;
+  }
+
+  function renderTripStops(stops, currentStopPoint) {
+    const t = text[state.language];
+    const fragment = document.createDocumentFragment();
+    const currentIndex = findClosestStopIndex(
+      stops,
+      currentStopPoint
+    );
+
+    stops.forEach((stop, index) => {
       const item = document.createElement("li");
       item.className = "trip-stop";
+
+      const isCurrent = index === currentIndex;
+      if (isCurrent) {
+        item.className += " is-current-stop";
+      }
 
       const time = document.createElement("span");
       time.className = "trip-stop-time";
@@ -6031,10 +6138,46 @@ function closeRoute() {
       name.textContent = stop.name || stop.stopName || "—";
 
       item.append(time, name);
+
+      if (isCurrent) {
+        const badge = document.createElement("span");
+        badge.className = "trip-stop-badge";
+        badge.textContent = t.tripCurrentStop;
+        item.appendChild(badge);
+      }
+
+      const lat = Number(stop.lat);
+      const lon = Number(stop.lon);
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        item.classList.add("is-clickable");
+        item.setAttribute("role", "button");
+        item.setAttribute("tabindex", "0");
+        const openHandler = () => showStopOnMap(stop);
+        item.addEventListener("click", openHandler);
+        item.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openHandler();
+          }
+        });
+      }
+
       fragment.appendChild(item);
     });
 
     el.tripStopsList.appendChild(fragment);
+
+    const currentEl = el.tripStopsList.querySelector(
+      ".is-current-stop"
+    );
+    if (currentEl) {
+      setTimeout(() => {
+        currentEl.scrollIntoView({
+          block: "center",
+          behavior: "smooth"
+        });
+      }, 120);
+    }
   }
 
   function pointFromPlace(place, lngLat) {
@@ -6080,8 +6223,20 @@ function closeRoute() {
   }
 
 
+  function isLocalOrNativeOrigin() {
+    const { hostname, protocol } = window.location;
+    return (
+      protocol === "capacitor:" ||
+      protocol === "file:" ||
+      hostname === "localhost" ||
+      hostname === "127.0.0.1"
+    );
+  }
+
   async function sharePlace(place, lngLat) {
-    const url = new URL(window.location.href);
+    const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
+      ? new URL(CONFIG.publicBaseUrl)
+      : new URL(window.location.href);
     url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
 
     const shareData = {
@@ -6090,16 +6245,21 @@ function closeRoute() {
       url: url.toString()
     };
 
+    const t = text[state.language];
+
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-      } else {
+      } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(url.toString());
-        show(text[state.language].placeShared);
+        show(t.placeShared);
+      } else {
+        show(t.shareUnavailable);
       }
     } catch (error) {
       if (error?.name !== "AbortError") {
         console.error(error);
+        show(t.shareUnavailable);
       }
     }
   }
@@ -7272,7 +7432,9 @@ function closeRoute() {
   async function shareRoute() {
     if (!state.routePointA || !state.routePointB) return;
 
-    const url = new URL(window.location.href);
+    const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
+      ? new URL(CONFIG.publicBaseUrl)
+      : new URL(window.location.href);
     url.searchParams.set(
       "a",
       `${state.routePointA.lat},${state.routePointA.lon}`

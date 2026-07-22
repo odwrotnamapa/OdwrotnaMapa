@@ -1,4 +1,5 @@
 window.SOUTHMAPS_CONFIG = Object.freeze({
+  publicBaseUrl: "https://odwrotnamapa.pl/",
   map: {
     styleUrl: "https://tiles.openfreemap.org/styles/liberty",
     center: [19.1451, 51.9194],
