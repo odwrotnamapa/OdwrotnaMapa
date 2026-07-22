@@ -114,6 +114,7 @@
       routeShare: "Udostępnij trasę",
       routeShared: "Link do trasy został skopiowany.",
       placeShared: "Link do miejsca został skopiowany.",
+      shareUnavailable: "Udostępnianie wymaga połączenia HTTPS.",
       routeShareError: "Nie udało się udostępnić trasy.",
       routeWaypointNote: "Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.",
       routeRoundaboutExit: exit => `Na rondzie wybierz ${exit}. zjazd.`,
@@ -387,6 +388,7 @@
       routeShare: "Share route",
       routeShared: "The route link was copied.",
       placeShared: "The place link was copied.",
+      shareUnavailable: "Sharing requires an HTTPS connection.",
       routeShareError: "The route could not be shared.",
       routeWaypointNote: "Click the route line to add a waypoint. You can drag the point.",
       routeRoundaboutExit: exit => `At the roundabout, take exit ${exit}.`,
@@ -6231,16 +6233,21 @@ function closeRoute() {
       url: url.toString()
     };
 
+    const t = text[state.language];
+
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-      } else {
+      } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(url.toString());
-        show(text[state.language].placeShared);
+        show(t.placeShared);
+      } else {
+        show(t.shareUnavailable);
       }
     } catch (error) {
       if (error?.name !== "AbortError") {
         console.error(error);
+        show(t.shareUnavailable);
       }
     }
   }
