@@ -267,6 +267,10 @@
       departuresLoading: "Pobieranie rozkładu…",
       departuresEmpty: "Brak dostępnego rozkładu dla tego przystanku.",
       departuresError: "Nie udało się pobrać rozkładu.",
+      tripTitle: "Kurs",
+      tripLoading: "Wczytywanie przystanków…",
+      tripEmpty: "Brak informacji o przystankach dla tego kursu.",
+      tripError: "Nie udało się pobrać szczegółów kursu.",
       departuresScheduled: "rozkładowo",
       departuresCancelled: "odwołany",
       departuresNow: "teraz",
@@ -535,6 +539,10 @@
       departuresLoading: "Loading timetable…",
       departuresEmpty: "No timetable is available for this stop.",
       departuresError: "The timetable could not be loaded.",
+      tripTitle: "Trip",
+      tripLoading: "Loading stops…",
+      tripEmpty: "No stop information available for this trip.",
+      tripError: "Could not load trip details.",
       departuresScheduled: "scheduled",
       departuresCancelled: "cancelled",
       departuresNow: "now",
@@ -654,6 +662,13 @@
     placePanelBack: $("place-panel-back"),
     placePanelClose: $("place-panel-close"),
     placePanelContent: $("place-panel-content"),
+    tripPanel: $("trip-panel"),
+    tripSheetHandle: $("trip-sheet-handle"),
+    tripPanelTitle: $("trip-panel-title"),
+    tripPanelBack: $("trip-panel-back"),
+    tripPanelClose: $("trip-panel-close"),
+    tripStatus: $("trip-status"),
+    tripStopsList: $("trip-stops-list"),
     favoritesCount: $("favorites-count"),
     favoritesOpenButton: $("favorites-open-button"),
     favoritesMenuLabel: $("favorites-menu-label"),
@@ -941,6 +956,14 @@
     returnFromPlacePanel
   );
   el.placePanelClose?.addEventListener("click", closePlacePanel);
+  el.tripPanelBack?.addEventListener(
+    "click",
+    returnFromTripToPlace
+  );
+  el.tripPanelClose?.addEventListener("click", () => {
+    closeTrip();
+    closePlacePanel();
+  });
 
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
@@ -1099,22 +1122,15 @@
   initializeFavoritesBottomSheet();
   initializeHistoryBottomSheet();
   initializePlaceBottomSheet();
+  initializeTripBottomSheet();
   initializeLegendBottomSheet();
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
-      closeLegend();
-      closeAbout();
-      closeBackup();
-      closeDiscover();
       closeMapContextMenu();
-      closeMenu();
-      closeFavoritesPanel();
-      closeHistory();
-      closePlacePanel();
-      closeRoutePanel();
+      closeOtherMobilePanels([]);
     }
   });
   el.searchForm?.addEventListener("submit", search);
@@ -3154,6 +3170,39 @@
 
   const mobilePanelMode = new Map();
 
+  // Centralny rejestr wszystkich paneli mobilnych typu "arkusz z
+  // dołu ekranu". Każdy nowy panel dodajemy TYLKO tutaj - reszta
+  // kodu (zamykanie pozostałych przy otwieraniu jednego) działa
+  // automatycznie, bez potrzeby ręcznego dopisywania go w wielu
+  // miejscach w pliku.
+  const MOBILE_PANELS = [
+    { id: "route", close: () => closeRoute() },
+    { id: "discover", close: () => closeDiscover() },
+    { id: "menu", close: () => closeMenu() },
+    { id: "favorites", close: () => closeFavoritesPanel() },
+    { id: "history", close: () => closeHistory() },
+    { id: "place", close: () => closePlacePanel() },
+    { id: "trip", close: () => closeTrip() },
+    { id: "legend", close: () => closeLegend() },
+    { id: "about", close: () => closeAbout() },
+    { id: "backup", close: () => closeBackup() }
+  ];
+
+  function closeOtherMobilePanels(exceptIds) {
+    const keep = new Set(
+      Array.isArray(exceptIds) ? exceptIds : [exceptIds]
+    );
+
+    for (const entry of MOBILE_PANELS) {
+      if (keep.has(entry.id)) continue;
+      try {
+        entry.close();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   function isMobilePanelViewport() {
     return window.matchMedia("(max-width: 600px)").matches;
   }
@@ -3291,11 +3340,16 @@
   }) {
     if (!handle || !panel) return;
 
+    const header = panel.querySelector(
+      ".app-sheet__header, .panel-shell__header"
+    );
+
     let dragging = false;
     let startY = 0;
     let startHeight = 0;
     let activePointerId = null;
     let movedDuringGesture = false;
+    let dragSource = null;
 
     const setDefaultHeight = () => {
       if (!isMobilePanelViewport()) {
@@ -3320,20 +3374,86 @@
       );
     };
 
-    handle.addEventListener("pointerdown", event => {
+    const beginDrag = (event, source) => {
       if (!isMobilePanelViewport()) return;
 
       dragging = true;
+      dragSource = source;
       movedDuringGesture = false;
       activePointerId = event.pointerId;
       startY = event.clientY;
       startHeight = panel.getBoundingClientRect().height;
       panel.classList.add("is-dragging");
-      handle.setPointerCapture(event.pointerId);
+
+      try {
+        source.setPointerCapture(event.pointerId);
+      } catch (_) {}
+    };
+
+    handle.addEventListener("pointerdown", event => {
+      beginDrag(event, handle);
       event.preventDefault();
     });
 
-    handle.addEventListener("pointermove", event => {
+    if (header) {
+      header.addEventListener("pointerdown", event => {
+        if (
+          event.target.closest(
+            "button, a, input, select, textarea"
+          )
+        ) {
+          return;
+        }
+        beginDrag(event, header);
+      });
+    }
+
+    // Przeciąganie treści jak w Google Maps: gdy lista/treść panelu
+    // jest przewinięta do samej góry, dalsze ciągnięcie w dół
+    // zaczyna rozciągać/zwijać panel zamiast nic nie robić.
+    const content = panel.querySelector(
+      ".app-sheet__body, .panel-shell__body"
+    ) || panel;
+
+    let contentDragCandidate = false;
+    let contentStartY = 0;
+
+    content.addEventListener("pointerdown", event => {
+      if (!isMobilePanelViewport()) return;
+      if (event.target.closest("button, a, input, select, textarea")) {
+        return;
+      }
+
+      contentDragCandidate = true;
+      contentStartY = event.clientY;
+    });
+
+    content.addEventListener("pointermove", event => {
+      if (!contentDragCandidate || dragging) return;
+
+      const scrollable = event.target.closest(
+        ".app-sheet__body, .panel-shell__body"
+      ) || content;
+      const pulledDown = event.clientY - contentStartY > 6;
+      const atTop = scrollable.scrollTop <= 0;
+
+      if (pulledDown && atTop) {
+        contentDragCandidate = false;
+        beginDrag(
+          { pointerId: event.pointerId, clientY: contentStartY },
+          content
+        );
+      }
+    });
+
+    content.addEventListener("pointerup", () => {
+      contentDragCandidate = false;
+    });
+    content.addEventListener("pointercancel", () => {
+      contentDragCandidate = false;
+    });
+
+    document.addEventListener("pointermove", event => {
       if (!dragging || event.pointerId !== activePointerId) return;
 
       const delta = startY - event.clientY;
@@ -3388,12 +3508,14 @@
       );
 
       try {
-        handle.releasePointerCapture(event.pointerId);
+        dragSource?.releasePointerCapture(event.pointerId);
       } catch (_) {}
+
+      dragSource = null;
     };
 
-    handle.addEventListener("pointerup", finishDrag);
-    handle.addEventListener("pointercancel", finishDrag);
+    document.addEventListener("pointerup", finishDrag);
+    document.addEventListener("pointercancel", finishDrag);
 
     handle.addEventListener("click", () => {
       if (!isMobilePanelViewport() || movedDuringGesture) return;
@@ -3475,6 +3597,15 @@
     });
   }
 
+  function initializeTripBottomSheet() {
+    initializeBottomSheet({
+      panel: el.tripPanel,
+      handle: el.tripSheetHandle,
+      close: closeTrip,
+      cssVariable: "--trip-sheet-height"
+    });
+  }
+
   function initializeLegendBottomSheet() {
     initializeBottomSheet({
       panel: el.legendPanel,
@@ -3505,17 +3636,10 @@
 
   function toggleDiscover() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeFavoritesPanel();
-    closeHistory();
-    closeMenu();
     const shouldOpen = el.discoverPanel.hidden;
 
-    closeLegend();
-    closeAbout();
-    closeBackup();
+    closeOtherMobilePanels("discover");
     closeDiscover();
-    closeRoute();
 
     el.discoverPanel.hidden = !shouldOpen;
     if (shouldOpen) {
@@ -3533,15 +3657,8 @@ el.discoverButton?.setAttribute(
   }
 
   function openDiscoverNearPlace(place, lngLat) {
-    closePlacePanel();
     closeMapContextMenu();
-    closeFavoritesPanel();
-    closeHistory();
-    closeMenu();
-    closeLegend();
-    closeAbout();
-    closeBackup();
-    closeRoute();
+    closeOtherMobilePanels("discover");
 
     map.flyTo({
       center: [lngLat.lng, lngLat.lat],
@@ -3594,16 +3711,9 @@ el.discoverButton?.setAttribute(
 
   function toggleRoute() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeFavoritesPanel();
-    closeHistory();
-    closeMenu();
     const shouldOpen = el.routePanel.hidden;
-    closeDiscover();
+    closeOtherMobilePanels("route");
     closePlacePopup();
-    closeLegend();
-    closeAbout();
-    closeBackup();
     if (!shouldOpen) {
       state.routeBackContext = null;
       if (el.routeBack) el.routeBack.hidden = true;
@@ -4547,16 +4657,10 @@ function closeRoute() {
   }
 
   function openPlacePanel() {
-    closeMenu();
-    closeLegend();
-    closeAbout();
-    closeBackup();
+    closeOtherMobilePanels(["place", "discover"]);
     closeDiscover(
       state.placePanelReturnTarget?.type !== "discover"
     );
-    closeFavoritesPanel();
-    closeHistory();
-    closeRoutePanel();
 
     if (!el.placePanel) return;
 
@@ -4567,6 +4671,7 @@ function closeRoute() {
   }
 
   function closePlacePanel() {
+    closeTrip();
     invalidateNamedPoiGuard();
     window.OMAP_SEARCH_SESSION?.cancel?.();
     state.placeRequestController?.abort();
@@ -5629,6 +5734,22 @@ function closeRoute() {
 
         copy.append(direction, timing);
         item.append(badge, copy);
+
+        const tripId = departure.tripId || departure.tripID;
+        if (tripId) {
+          item.classList.add("is-clickable");
+          item.setAttribute("role", "button");
+          item.setAttribute("tabindex", "0");
+          const openHandler = () => openTripDetails(departure);
+          item.addEventListener("click", openHandler);
+          item.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openHandler();
+            }
+          });
+        }
+
         fragment.appendChild(item);
       });
 
@@ -5780,6 +5901,112 @@ function closeRoute() {
       (red * 299 + green * 587 + blue * 114) / 1000;
 
     return luminance > 150 ? "#111827" : "#ffffff";
+  }
+
+  function closeTrip() {
+    if (!el.tripPanel || el.tripPanel.hidden) return;
+    el.tripPanel.hidden = true;
+    el.tripStopsList.replaceChildren();
+  }
+
+  function returnFromTripToPlace() {
+    closeTrip();
+    if (el.placePanel) {
+      openMobilePanelStandard(el.placePanel, "--place-sheet-height");
+    }
+  }
+
+  function formatStopClock(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "—";
+
+    return date.toLocaleTimeString(
+      state.language === "pl" ? "pl-PL" : "en-US",
+      { hour: "2-digit", minute: "2-digit" }
+    );
+  }
+
+  async function openTripDetails(departure) {
+    const t = text[state.language];
+    const tripId = departure.tripId || departure.tripID;
+    if (!tripId || !el.tripPanel) return;
+
+    closeOtherMobilePanels(["trip", "place"]);
+    if (el.placePanel) el.placePanel.hidden = true;
+
+    el.tripPanelTitle.textContent =
+      departure.routeShortName ||
+      departure.displayName ||
+      departure.tripShortName ||
+      t.tripTitle;
+
+    el.tripStopsList.replaceChildren();
+    el.tripStatus.hidden = false;
+    el.tripStatus.textContent = t.tripLoading;
+
+    openMobilePanelStandard(el.tripPanel, "--trip-sheet-height");
+
+    try {
+      const url = new URL(CONFIG.transit.tripEndpoint);
+      url.searchParams.set("tripId", tripId);
+      url.searchParams.set("language", state.language);
+
+      const response = await fetch(url, {
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Transitous HTTP ${response.status}`);
+      }
+
+      const itinerary = await response.json();
+      const leg = (itinerary.legs || [])[0] || itinerary;
+
+      const stops = [
+        leg.from,
+        ...(leg.intermediateStops || []),
+        leg.to
+      ].filter(Boolean);
+
+      if (!stops.length) {
+        el.tripStatus.textContent = t.tripEmpty;
+        return;
+      }
+
+      renderTripStops(stops);
+      el.tripStatus.hidden = true;
+    } catch (error) {
+      console.error(error);
+      el.tripStatus.hidden = false;
+      el.tripStatus.textContent = t.tripError;
+    }
+  }
+
+  function renderTripStops(stops) {
+    const fragment = document.createDocumentFragment();
+
+    stops.forEach(stop => {
+      const item = document.createElement("li");
+      item.className = "trip-stop";
+
+      const time = document.createElement("span");
+      time.className = "trip-stop-time";
+      time.textContent = formatStopClock(
+        stop.departure ||
+          stop.arrival ||
+          stop.scheduledDeparture ||
+          stop.scheduledArrival
+      );
+
+      const name = document.createElement("span");
+      name.className = "trip-stop-name";
+      name.textContent = stop.name || stop.stopName || "—";
+
+      item.append(time, name);
+      fragment.appendChild(item);
+    });
+
+    el.tripStopsList.appendChild(fragment);
   }
 
   function pointFromPlace(place, lngLat) {
@@ -7208,15 +7435,7 @@ function closeRoute() {
 
   function openHistoryPanel() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeMenu();
-    closeLegend();
-    closeRoutePanel();
-    closeDiscover();
-    closeAbout();
-    closeBackup();
-    closeFavoritesPanel();
-    closeHistory();
+    closeOtherMobilePanels("history");
 
     openMobilePanelStandard(
       el.historyPanel,
@@ -7344,13 +7563,7 @@ function closeRoute() {
 
   function openFavoritesPanel() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeMenu();
-    closeLegend();
-    closeRoutePanel();
-    closeDiscover();
-    closeAbout();
-    closeBackup();
+    closeOtherMobilePanels("favorites");
 
     openMobilePanelStandard(
       el.favoritesPanel,
@@ -7952,14 +8165,7 @@ function closeRoute() {
 
   function openMenuHome() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeFavoritesPanel();
-    closeHistory();
-    closeLegend();
-    closeAbout();
-    closeBackup();
-    closeRoutePanel();
-    closeDiscover();
+    closeOtherMobilePanels("menu");
 
     if (!el.menuPanel) return;
 
@@ -7976,13 +8182,7 @@ function closeRoute() {
   }
 
   function openLegendFromMenu() {
-    closeMenu();
-    closeAbout();
-    closeBackup();
-    closeFavoritesPanel();
-    closeHistory();
-    closeRoutePanel();
-    closeDiscover();
+    closeOtherMobilePanels("legend");
 
     openMobilePanelStandard(
       el.legendPanel,
@@ -7992,12 +8192,7 @@ function closeRoute() {
   }
 
   function openAboutFromMenu() {
-    closeMenu();
-    closeLegend();
-    closeFavoritesPanel();
-    closeHistory();
-    closeRoutePanel();
-    closeDiscover();
+    closeOtherMobilePanels("about");
 
     openMobilePanelStandard(
       el.aboutPanel,
@@ -8018,13 +8213,7 @@ function closeRoute() {
   }
 
   function openBackupFromMenu() {
-    closeMenu();
-    closeLegend();
-    closeAbout();
-    closeFavoritesPanel();
-    closeHistory();
-    closeRoutePanel();
-    closeDiscover();
+    closeOtherMobilePanels("backup");
 
     openMobilePanelStandard(
       el.backupPanel,
@@ -8046,19 +8235,12 @@ function closeRoute() {
 
   function toggleMenu() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeFavoritesPanel();
-    closeHistory();
     if (!el.menuPanel || !el.menuButton) return;
 
     const shouldOpen = el.menuPanel.hidden;
 
     if (shouldOpen) {
-      closeLegend();
-      closeRoutePanel();
-      closeDiscover();
-      closeAbout();
-      closeBackup();
+      closeOtherMobilePanels("menu");
     }
 
     el.menuPanel.hidden = !shouldOpen;
@@ -8172,35 +8354,21 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     closeMapContextMenu();
     clearRoute();
     clearDiscoverResults();
-    closePlacePanel();
     removeContextPointMarker();
     removeUserLocationMarker();
     hideAllAutocomplete();
 
-    closeRoute();
-    closeDiscover();
-    closeMenu();
-    closeLegend();
-    closeAbout();
-    closeBackup();
-    closeFavoritesPanel();
-    closeHistory();
+    closeOtherMobilePanels([]);
 
     show(text[state.language].mapCleared);
   }
 
   function toggleAbout() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeFavoritesPanel();
-    closeHistory();
-    closeMenu();
 
     const shouldOpen = el.aboutPanel.hidden;
 
-    closeDiscover();
-    closeLegend();
-    closeRoutePanel();
+    closeOtherMobilePanels("about");
 
     el.aboutPanel.hidden = !shouldOpen;
 
@@ -8231,17 +8399,10 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
   function toggleLegend() {
     closeMapContextMenu();
-    closePlacePanel();
-    closeFavoritesPanel();
-    closeHistory();
-    closeMenu();
 
     const shouldOpen = el.legendPanel.hidden;
 
-    closeDiscover();
-    closeAbout();
-    closeBackup();
-    closeRoute();
+    closeOtherMobilePanels("legend");
 
     el.legendPanel.hidden = !shouldOpen;
 

@@ -1124,7 +1124,7 @@ body.ui-dark .legend-symbol.osm-buildings {
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    transition: height 220ms ease;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .route-panel.is-dragging {
@@ -1819,6 +1819,60 @@ body.ui-dark .legend-symbol.osm-buildings {
 .place-departure.is-cancelled {
   opacity: 0.58;
   text-decoration: line-through;
+}
+
+.place-departure.is-clickable {
+  cursor: pointer;
+}
+
+.place-departure.is-clickable:hover,
+.place-departure.is-clickable:focus-visible {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  outline: none;
+}
+
+.trip-panel-content {
+  padding: 4px 14px 14px;
+}
+
+.trip-status {
+  padding: 14px 6px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.trip-stops-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trip-stop {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  min-height: 38px;
+  padding: 6px;
+  border-left: 2px solid var(--border);
+  margin-left: 6px;
+  padding-left: 12px;
+}
+
+.trip-stop-time {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.trip-stop-name {
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.trip-stop:first-child,
+.trip-stop:last-child {
+  border-left-color: var(--accent);
 }
 
 .place-wikipedia {
@@ -2526,7 +2580,7 @@ a.place-card-row {
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    transition: height 220ms ease;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .discover-panel.is-dragging {
@@ -2796,7 +2850,7 @@ a.place-card-row {
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    transition: height 220ms ease;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .menu-panel.is-dragging {
@@ -3491,7 +3545,7 @@ a.place-card-row {
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    transition: height 220ms ease;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .history-panel {
@@ -3509,7 +3563,7 @@ a.place-card-row {
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    transition: height 220ms ease;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .favorites-panel.is-dragging,
@@ -3625,11 +3679,23 @@ a.place-card-row {
   width: min(390px, calc(100vw - 24px));
 }
 
+.trip-panel {
+  width: min(390px, calc(100vw - 24px));
+}
+
 .place-sheet-handle {
   display: none;
 }
 
+.trip-sheet-handle {
+  display: none;
+}
+
 .place-panel-content {
+  min-height: 76px;
+}
+
+.trip-panel-content {
   min-height: 76px;
 }
 
@@ -3672,7 +3738,25 @@ a.place-card-row {
     overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    transition: height 220ms ease;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .trip-panel {
+    --trip-sheet-height: 42vh;
+    position: absolute;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 74px !important;
+    left: 8px !important;
+    width: auto !important;
+    height: var(--trip-sheet-height);
+    max-height: calc(100vh - 90px) !important;
+    min-height: 48px;
+    padding: 0 14px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .place-panel.is-dragging {
@@ -3680,7 +3764,27 @@ a.place-card-row {
     user-select: none;
   }
 
+  .trip-panel.is-dragging {
+    transition: none;
+    user-select: none;
+  }
+
   .place-sheet-handle {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    border: 0;
+    background: var(--panel);
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .trip-sheet-handle {
     position: sticky;
     top: 0;
     z-index: 5;
@@ -3703,7 +3807,25 @@ a.place-card-row {
       color-mix(in srgb, var(--text) 35%, transparent);
   }
 
+  .trip-sheet-handle span {
+    display: block;
+    width: 44px;
+    height: 5px;
+    background:
+      color-mix(in srgb, var(--text) 35%, transparent);
+  }
+
   .place-panel .legend-header {
+    position: sticky;
+    top: 28px;
+    z-index: 4;
+    margin: 0 -14px 12px;
+    padding: 9px 14px 10px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trip-panel .legend-header {
     position: sticky;
     top: 28px;
     z-index: 4;
@@ -3718,8 +3840,18 @@ a.place-card-row {
     overflow: hidden;
   }
 
+  .trip-panel.is-collapsed {
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
   .place-panel.is-collapsed
   > :not(.place-sheet-handle) {
+    display: none;
+  }
+
+  .trip-panel.is-collapsed
+  > :not(.trip-sheet-handle) {
     display: none;
   }
 
@@ -3728,14 +3860,28 @@ a.place-card-row {
     height: 48px;
   }
 
+  .trip-panel.is-collapsed
+  .trip-sheet-handle {
+    height: 48px;
+  }
+
   .place-panel.is-collapsed
   .place-sheet-handle span {
+    width: 52px;
+  }
+
+  .trip-panel.is-collapsed
+  .trip-sheet-handle span {
     width: 52px;
   }
 
   body:has(.place-panel:not([hidden]))
   .maplibregl-ctrl-bottom-left,
   body:has(.place-panel:not([hidden]))
+  .maplibregl-ctrl-bottom-right,
+  body:has(.trip-panel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.trip-panel:not([hidden]))
   .maplibregl-ctrl-bottom-right {
     opacity: 0;
     pointer-events: none;
@@ -4035,6 +4181,7 @@ a.place-card-row {
   .favorites-panel,
   .history-panel,
   .place-panel,
+  .trip-panel,
   .legend-panel {
     bottom: 130px !important;
     max-height: calc(100vh - 146px) !important;
@@ -4067,6 +4214,7 @@ a.place-card-row {
 .favorites-panel,
 .history-panel,
 .place-panel,
+.trip-panel,
 .about-panel,
 .backup-panel,
 .map-context-menu,
@@ -4094,6 +4242,7 @@ textarea {
 .map-context-separator,
 .route-sheet-handle span,
 .place-sheet-handle span,
+.trip-sheet-handle span,
 .discover-sheet-handle span,
 .menu-sheet-handle span,
 .favorites-sheet-handle span {
@@ -4684,12 +4833,14 @@ textarea {
   body:has(.favorites-panel:not([hidden])) .toolbar,
   body:has(.history-panel:not([hidden])) .toolbar,
   body:has(.place-panel:not([hidden])) .toolbar,
+  body:has(.trip-panel:not([hidden])) .toolbar,
   body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.favorites-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.history-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.place-panel:not([hidden])) .mobile-bottom-nav {
+  body:has(.place-panel:not([hidden])) .mobile-bottom-nav,
+  body:has(.trip-panel:not([hidden])) .mobile-bottom-nav {
     display: none !important;
   }
 
@@ -4698,7 +4849,8 @@ textarea {
   body:has(.menu-panel:not([hidden])) .menu-panel,
   body:has(.favorites-panel:not([hidden])) .favorites-panel,
   body:has(.history-panel:not([hidden])) .history-panel,
-  body:has(.place-panel:not([hidden])) .place-panel {
+  body:has(.place-panel:not([hidden])) .place-panel,
+  body:has(.trip-panel:not([hidden])) .trip-panel {
     bottom: 8px !important;
     max-height: calc(100vh - 16px) !important;
   }
@@ -4708,7 +4860,8 @@ textarea {
   body:has(.menu-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
   body:has(.favorites-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
   body:has(.history-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
-  body:has(.place-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
+  body:has(.place-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
+  body:has(.trip-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
     display: none !important;
   }
 }
@@ -4819,9 +4972,27 @@ textarea {
     overflow-y: auto !important;
   }
 
+  body:has(.trip-panel:not([hidden])) .trip-panel {
+    --trip-sheet-height: 42dvh;
+    height: var(--trip-sheet-height) !important;
+    max-height: calc(100dvh - 16px) !important;
+    min-height: 48px !important;
+    bottom: 8px !important;
+    overflow-y: auto !important;
+  }
+
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed {
     --place-sheet-height: 48px !important;
+    height: 48px !important;
+    max-height: 48px !important;
+    min-height: 48px !important;
+    overflow: hidden !important;
+  }
+
+  body:has(.trip-panel:not([hidden]))
+  .trip-panel.is-collapsed {
+    --trip-sheet-height: 48px !important;
     height: 48px !important;
     max-height: 48px !important;
     min-height: 48px !important;
@@ -4834,9 +5005,21 @@ textarea {
     display: none !important;
   }
 
+  body:has(.trip-panel:not([hidden]))
+  .trip-panel.is-collapsed
+  > :not(.trip-sheet-handle) {
+    display: none !important;
+  }
+
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed
   .place-sheet-handle {
+    height: 48px;
+  }
+
+  body:has(.trip-panel:not([hidden]))
+  .trip-panel.is-collapsed
+  .trip-sheet-handle {
     height: 48px;
   }
 }
@@ -4877,6 +5060,7 @@ textarea {
   .favorites-panel:not([hidden]),
   .history-panel:not([hidden]),
   .place-panel:not([hidden]),
+  .trip-panel:not([hidden]),
   .menu-subpanel:not([hidden]) {
     bottom: var(--mobile-panel-bottom-gap) !important;
     min-height: var(--mobile-panel-collapsed-height) !important;
@@ -4910,12 +5094,17 @@ textarea {
     height: var(--place-sheet-height, var(--mobile-panel-default-height)) !important;
   }
 
+  .trip-panel:not([hidden]) {
+    height: var(--trip-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
   .route-panel.is-collapsed,
   .discover-panel.is-collapsed,
   .menu-panel.is-collapsed,
   .favorites-panel.is-collapsed,
   .history-panel.is-collapsed,
   .place-panel.is-collapsed,
+  .trip-panel.is-collapsed,
   .menu-subpanel.is-collapsed {
     height: var(--mobile-panel-collapsed-height) !important;
     min-height: var(--mobile-panel-collapsed-height) !important;
@@ -4929,6 +5118,7 @@ textarea {
   .favorites-panel.is-dragging,
   .history-panel.is-dragging,
   .place-panel.is-dragging,
+  .trip-panel.is-dragging,
   .menu-subpanel.is-dragging {
     transition: none !important;
   }
@@ -4994,6 +5184,7 @@ textarea {
 .favorites-panel,
 .history-panel,
 .place-panel,
+.trip-panel,
 .about-panel,
 .backup-panel,
 .discover-panel {
@@ -5107,6 +5298,7 @@ textarea,
   .favorites-panel,
   .history-panel,
   .place-panel,
+  .trip-panel,
   .discover-panel,
   .menu-panel,
   .menu-subpanel,

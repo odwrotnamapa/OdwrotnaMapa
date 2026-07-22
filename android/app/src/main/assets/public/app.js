@@ -1692,6 +1692,10 @@
     const root = document.documentElement.style;
     root.setProperty("--accent", palette.uiAccent);
     root.setProperty("--panel", palette.uiPanel);
+    root.setProperty(
+      "--panel-muted",
+      `color-mix(in srgb, ${palette.uiPanel} 94%, black 6%)`
+    );
     root.setProperty("--text", palette.uiText);
     root.setProperty(
       "--muted",
@@ -1703,6 +1707,7 @@
     const root = document.documentElement.style;
     root.removeProperty("--accent");
     root.removeProperty("--panel");
+    root.removeProperty("--panel-muted");
     root.removeProperty("--text");
     root.removeProperty("--muted");
   }
