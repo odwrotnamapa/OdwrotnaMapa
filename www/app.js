@@ -8,7 +8,7 @@
 
   const text = {
     pl: {
-      title: "Odwrotna Mapa - mapa z południem u góry",
+      title: "Odwrotna Mapa - Interaktywna mapa z południem u góry",
       search: "Szukaj miejsca…", button: "Szukaj",
       styles: { default: "Domyślna", satellite: "Satelitarna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
@@ -276,7 +276,7 @@
       departuresShowLess: "Pokaż mniej"
     },
     en: {
-      title: "Odwrotna Mapa - mapa z południem u góry",
+      title: "Odwrotna Mapa - Interaktywna mapa z południem u góry",
       search: "Search for a place…", button: "Search",
       styles: { default: "Default", satellite: "Satellite", custom: "Custom" },
       customMapColorsHeading: "Map colors",
