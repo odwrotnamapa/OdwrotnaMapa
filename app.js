@@ -3405,6 +3405,7 @@
           return;
         }
         beginDrag(event, header);
+        event.preventDefault();
       });
     }
 
@@ -3443,6 +3444,7 @@
           { pointerId: event.pointerId, clientY: contentStartY },
           content
         );
+        event.preventDefault();
       }
     });
 

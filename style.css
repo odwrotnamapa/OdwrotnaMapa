@@ -5205,6 +5205,7 @@ textarea {
   border-bottom: 1px solid var(--border);
   background: var(--panel) !important;
   border-radius: 0 !important;
+  touch-action: none;
 }
 
 .app-sheet__header:not(.has-menu-back)::before {
