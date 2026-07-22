@@ -2133,6 +2133,24 @@ a.place-card-row {
 }
 
 .discover-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 46vh;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.discover-category-group-title {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.discover-category-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
@@ -2165,7 +2183,7 @@ a.place-card-row {
   );
 }
 
-.discover-categories button > :first-child,
+.discover-category-emoji,
 .discover-categories button {
   font-size: 1.05rem;
 }
@@ -2229,6 +2247,10 @@ a.place-card-row {
 
 @media (max-width: 390px) {
   .discover-categories {
+    gap: 6px;
+  }
+
+  .discover-category-grid {
     gap: 6px;
   }
 

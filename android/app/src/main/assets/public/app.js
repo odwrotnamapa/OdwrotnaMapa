@@ -136,21 +136,61 @@
       discoverFound: count => `Znaleziono ${count} miejsc.`,
       discoverEmpty: "Brak wyników w aktualnym widoku.",
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
+      discoverCategoryGroups: {
+        food: "Jedzenie i picie",
+        stay: "Noclegi",
+        shopping: "Zakupy",
+        health: "Zdrowie",
+        services: "Usługi",
+        transport: "Transport",
+        culture: "Kultura i rozrywka",
+        recreation: "Rekreacja",
+        public: "Instytucje"
+      },
       discoverCategories: {
         pizza: "Pizza",
         cafe: "Kawiarnie",
         restaurant: "Restauracje",
         bar: "Bary",
+        fast_food: "Fast food",
+        bakery: "Piekarnie",
+        ice_cream: "Lodziarnie",
         hotel: "Hotele",
+        campsite: "Kempingi",
         fuel: "Paliwo",
         museum: "Muzea",
         park: "Parki",
         pharmacy: "Apteki",
         hospital: "Szpitale",
+        dentist: "Dentyści",
+        vet: "Weterynarze",
         bank: "Banki",
+        post_office: "Poczty",
+        hairdresser: "Fryzjerzy",
+        laundry: "Pralnie",
+        toilets: "Toalety",
         bus_stop: "Przystanki",
+        railway_station: "Dworce",
+        ev_charging: "Ładowarki EV",
+        parking: "Parkingi",
+        car_repair: "Warsztaty",
         shop: "Sklepy",
-        beach: "Plaże"
+        mall: "Centra handlowe",
+        clothes: "Odzież",
+        bookstore: "Księgarnie",
+        kiosk: "Kioski",
+        cinema: "Kina",
+        theatre: "Teatry",
+        library: "Biblioteki",
+        zoo: "Zoo",
+        nightclub: "Kluby nocne",
+        beach: "Plaże",
+        playground: "Place zabaw",
+        gym: "Siłownie",
+        swimming_pool: "Baseny",
+        school: "Szkoły",
+        church: "Kościoły",
+        police: "Policja"
       },
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
@@ -364,21 +404,61 @@
       discoverFound: count => `Found ${count} places.`,
       discoverEmpty: "No results in the current map view.",
       discoverZooming: "Zooming in to the search area…",
+      discoverCategoryGroups: {
+        food: "Food & drink",
+        stay: "Lodging",
+        shopping: "Shopping",
+        health: "Health",
+        services: "Services",
+        transport: "Transport",
+        culture: "Culture & entertainment",
+        recreation: "Recreation",
+        public: "Public"
+      },
       discoverCategories: {
         pizza: "Pizza",
         cafe: "Cafés",
         restaurant: "Restaurants",
         bar: "Bars",
+        fast_food: "Fast food",
+        bakery: "Bakeries",
+        ice_cream: "Ice cream",
         hotel: "Hotels",
+        campsite: "Campsites",
         fuel: "Fuel",
         museum: "Museums",
         park: "Parks",
         pharmacy: "Pharmacies",
         hospital: "Hospitals",
+        dentist: "Dentists",
+        vet: "Vets",
         bank: "Banks",
+        post_office: "Post offices",
+        hairdresser: "Hairdressers",
+        laundry: "Laundries",
+        toilets: "Toilets",
         bus_stop: "Bus stops",
+        railway_station: "Train stations",
+        ev_charging: "EV charging",
+        parking: "Parking",
+        car_repair: "Car repair",
         shop: "Shops",
-        beach: "Beaches"
+        mall: "Shopping malls",
+        clothes: "Clothing",
+        bookstore: "Bookstores",
+        kiosk: "Kiosks",
+        cinema: "Cinemas",
+        theatre: "Theatres",
+        library: "Libraries",
+        zoo: "Zoos",
+        nightclub: "Nightclubs",
+        beach: "Beaches",
+        playground: "Playgrounds",
+        gym: "Gyms",
+        swimming_pool: "Swimming pools",
+        school: "Schools",
+        church: "Churches",
+        police: "Police"
       },
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
@@ -1003,14 +1083,6 @@
     clearDiscoverResults();
   });
 
-  for (const button of el.discoverCategories.querySelectorAll(
-    "[data-discover-category]"
-  )) {
-    button.addEventListener("click", () => {
-      runDiscoverCategory(button.dataset.discoverCategory, button);
-    });
-  }
-
   el.routeClose?.addEventListener("click", closeRoute);
   el.routeSwap?.addEventListener("click", swapRoutePoints);
   el.routeClear?.addEventListener("click", () => {
@@ -1143,9 +1215,27 @@
     ) || []) {
       const label = t.discoverCategories?.[button.dataset.discoverCategory];
       if (!label) continue;
-      const span = button.querySelector("span");
+      const span = button.querySelector("span:last-child");
       if (span) span.textContent = label;
       button.setAttribute("aria-label", label);
+    }
+    if (
+      el.discoverCategories?.querySelector(
+        ".discover-category-group"
+      )
+    ) {
+      const groups = el.discoverCategories.querySelectorAll(
+        ".discover-category-group"
+      );
+      DISCOVER_CATEGORY_GROUPS.forEach((group, index) => {
+        const titleEl = groups[index]?.querySelector(
+          ".discover-category-group-title"
+        );
+        if (titleEl) {
+          titleEl.textContent =
+            t.discoverCategoryGroups?.[group.id] || group.id;
+        }
+      });
     }
     el.routeClose?.setAttribute("aria-label", t.closeRoute);
     el.routeSheetHandle?.setAttribute("aria-label", t.resizeRoutePanel);
@@ -8182,64 +8272,226 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     el.searchInput.dispatchEvent(new Event("focus"));
   }
 
+  const DISCOVER_CATEGORY_GROUPS = [
+    {
+      id: "food",
+      categories: [
+        "restaurant",
+        "cafe",
+        "pizza",
+        "bar",
+        "fast_food",
+        "bakery",
+        "ice_cream"
+      ]
+    },
+    {
+      id: "stay",
+      categories: ["hotel", "campsite"]
+    },
+    {
+      id: "shopping",
+      categories: ["shop", "mall", "clothes", "bookstore", "kiosk"]
+    },
+    {
+      id: "health",
+      categories: ["pharmacy", "hospital", "dentist", "vet"]
+    },
+    {
+      id: "services",
+      categories: [
+        "bank",
+        "post_office",
+        "hairdresser",
+        "laundry",
+        "toilets"
+      ]
+    },
+    {
+      id: "transport",
+      categories: [
+        "bus_stop",
+        "railway_station",
+        "fuel",
+        "ev_charging",
+        "parking",
+        "car_repair"
+      ]
+    },
+    {
+      id: "culture",
+      categories: [
+        "museum",
+        "cinema",
+        "theatre",
+        "library",
+        "nightclub",
+        "zoo"
+      ]
+    },
+    {
+      id: "recreation",
+      categories: [
+        "park",
+        "beach",
+        "playground",
+        "gym",
+        "swimming_pool"
+      ]
+    },
+    {
+      id: "public",
+      categories: ["school", "church", "police"]
+    }
+  ];
+
   const DISCOVER_CATEGORIES = {
-    pizza: {
-      emoji: "🍕",
-      queries: ["pizza", "pizzeria"]
-    },
-    cafe: {
-      emoji: "☕",
-      queries: ["kawiarnia", "cafe"]
-    },
+    pizza: { emoji: "🍕", queries: ["pizza", "pizzeria"] },
+    cafe: { emoji: "☕", queries: ["kawiarnia", "cafe"] },
     restaurant: {
       emoji: "🍽",
       queries: ["restauracja", "restaurant"]
     },
-    bar: {
-      emoji: "🍺",
-      queries: ["bar", "pub"]
+    bar: { emoji: "🍺", queries: ["bar", "pub"] },
+    fast_food: {
+      emoji: "🍔",
+      queries: ["fast food", "kebab", "burger"]
     },
-    hotel: {
-      emoji: "🏨",
-      queries: ["hotel", "hostel"]
+    bakery: { emoji: "🥐", queries: ["piekarnia", "bakery"] },
+    ice_cream: {
+      emoji: "🍦",
+      queries: ["lodziarnia", "ice cream"]
     },
-    fuel: {
-      emoji: "⛽",
-      queries: ["stacja paliw", "fuel"]
+    hotel: { emoji: "🏨", queries: ["hotel", "hostel"] },
+    campsite: {
+      emoji: "⛺",
+      queries: ["kemping", "pole namiotowe", "campsite"]
     },
-    museum: {
-      emoji: "🏛",
-      queries: ["muzeum", "museum"]
+    fuel: { emoji: "⛽", queries: ["stacja paliw", "fuel"] },
+    museum: { emoji: "🏛", queries: ["muzeum", "museum"] },
+    park: { emoji: "🌳", queries: ["park", "ogród"] },
+    pharmacy: { emoji: "💊", queries: ["apteka", "pharmacy"] },
+    hospital: { emoji: "🏥", queries: ["szpital", "hospital"] },
+    dentist: { emoji: "🦷", queries: ["dentysta", "dentist"] },
+    vet: {
+      emoji: "🐾",
+      queries: ["weterynarz", "lecznica dla zwierząt"]
     },
-    park: {
-      emoji: "🌳",
-      queries: ["park", "ogród"]
+    bank: { emoji: "🏦", queries: ["bank", "bankomat"] },
+    post_office: {
+      emoji: "✉️",
+      queries: ["poczta", "post office"]
     },
-    pharmacy: {
-      emoji: "💊",
-      queries: ["apteka", "pharmacy"]
+    hairdresser: {
+      emoji: "💇",
+      queries: ["fryzjer", "salon fryzjerski"]
     },
-    hospital: {
-      emoji: "🏥",
-      queries: ["szpital", "hospital"]
-    },
-    bank: {
-      emoji: "🏦",
-      queries: ["bank", "bankomat"]
-    },
+    laundry: { emoji: "🧺", queries: ["pralnia", "laundry"] },
+    toilets: { emoji: "🚻", queries: ["toaleta publiczna", "toilets"] },
     bus_stop: {
       emoji: "🚏",
       queries: ["przystanek autobusowy", "przystanek"]
     },
-    shop: {
-      emoji: "🛒",
-      queries: ["supermarket", "sklep"]
+    railway_station: {
+      emoji: "🚆",
+      queries: ["dworzec kolejowy", "stacja kolejowa"]
     },
-    beach: {
-      emoji: "🏖",
-      queries: ["plaża", "beach"]
+    ev_charging: {
+      emoji: "🔌",
+      queries: ["ładowarka samochodów elektrycznych", "ev charging"]
+    },
+    parking: { emoji: "🅿️", queries: ["parking", "parking strzeżony"] },
+    car_repair: {
+      emoji: "🔧",
+      queries: ["warsztat samochodowy", "mechanik", "car repair"]
+    },
+    shop: { emoji: "🛒", queries: ["supermarket", "sklep spożywczy"] },
+    mall: {
+      emoji: "🏬",
+      queries: ["centrum handlowe", "galeria handlowa"]
+    },
+    clothes: { emoji: "👕", queries: ["sklep odzieżowy", "odzież"] },
+    bookstore: { emoji: "📚", queries: ["księgarnia", "bookstore"] },
+    kiosk: { emoji: "🗞", queries: ["kiosk", "salonik prasowy"] },
+    cinema: { emoji: "🎬", queries: ["kino", "cinema"] },
+    theatre: { emoji: "🎭", queries: ["teatr", "theatre"] },
+    library: { emoji: "📖", queries: ["biblioteka", "library"] },
+    zoo: { emoji: "🦁", queries: ["zoo", "ogród zoologiczny"] },
+    nightclub: {
+      emoji: "🪩",
+      queries: ["klub nocny", "dyskoteka", "nightclub"]
+    },
+    beach: { emoji: "🏖", queries: ["plaża", "beach"] },
+    playground: {
+      emoji: "🛝",
+      queries: ["plac zabaw", "playground"]
+    },
+    gym: { emoji: "🏋", queries: ["siłownia", "gym", "klub fitness"] },
+    swimming_pool: {
+      emoji: "🏊",
+      queries: ["basen", "pływalnia", "swimming pool"]
+    },
+    school: { emoji: "🏫", queries: ["szkoła", "school"] },
+    church: { emoji: "⛪", queries: ["kościół", "church"] },
+    police: {
+      emoji: "👮",
+      queries: ["komisariat policji", "police station"]
     }
   };
+
+  function renderDiscoverCategoryButtons() {
+    if (!el.discoverCategories) return;
+
+    const t = text[state.language];
+    const fragment = document.createDocumentFragment();
+
+    for (const group of DISCOVER_CATEGORY_GROUPS) {
+      const groupEl = document.createElement("div");
+      groupEl.className = "discover-category-group";
+
+      const title = document.createElement("h4");
+      title.className = "discover-category-group-title";
+      title.textContent =
+        t.discoverCategoryGroups?.[group.id] || group.id;
+      groupEl.appendChild(title);
+
+      const grid = document.createElement("div");
+      grid.className = "discover-category-grid";
+
+      for (const categoryId of group.categories) {
+        const category = DISCOVER_CATEGORIES[categoryId];
+        if (!category) continue;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.discoverCategory = categoryId;
+
+        const emoji = document.createElement("span");
+        emoji.className = "discover-category-emoji";
+        emoji.textContent = category.emoji;
+
+        const label = document.createElement("span");
+        label.textContent =
+          t.discoverCategories?.[categoryId] || categoryId;
+
+        button.append(emoji, label);
+        button.setAttribute("aria-label", label.textContent);
+        button.addEventListener("click", () => {
+          runDiscoverCategory(categoryId, button);
+        });
+
+        grid.appendChild(button);
+      }
+
+      groupEl.appendChild(grid);
+      fragment.appendChild(groupEl);
+    }
+
+    el.discoverCategories.innerHTML = "";
+    el.discoverCategories.appendChild(fragment);
+  }
+
+  renderDiscoverCategoryButtons();
 
   async function runDiscoverCategory(categoryId, sourceButton) {
     const category = DISCOVER_CATEGORIES[categoryId];
