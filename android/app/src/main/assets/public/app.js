@@ -1161,7 +1161,8 @@
     document.title = t.title;
     if (el.searchInput) el.searchInput.placeholder = t.search;
     el.searchInput?.setAttribute("aria-label", t.search);
-    if (el.searchButton) el.searchButton.textContent = t.button;    if (el.locateButton) el.locateButton.title = t.locate;
+    el.searchButton?.setAttribute("aria-label", t.search);
+    if (el.locateButton) el.locateButton.title = t.locate;
     el.locateButton?.setAttribute("aria-label", t.locate);
     if (el.legendButton) el.legendButton.title = t.legend;
     el.legendButton?.setAttribute("aria-label", t.legend);
