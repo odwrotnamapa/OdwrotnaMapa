@@ -1875,6 +1875,41 @@ body.ui-dark .legend-symbol.osm-buildings {
   border-left-color: var(--accent);
 }
 
+.trip-stop.is-current-stop {
+  grid-template-columns: 60px minmax(0, 1fr) auto;
+  border-left-color: var(--accent);
+  border-left-width: 4px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.trip-stop.is-current-stop .trip-stop-name {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.trip-stop.is-clickable {
+  cursor: pointer;
+}
+
+.trip-stop.is-clickable:hover,
+.trip-stop.is-clickable:focus-visible {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  outline: none;
+}
+
+.trip-stop-badge {
+  padding: 3px 8px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--panel-solid);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  align-self: center;
+}
+
 .place-wikipedia {
   margin: 4px 10px 0;
   padding: 12px 6px 6px;

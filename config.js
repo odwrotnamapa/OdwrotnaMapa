@@ -32,7 +32,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     lineLayerId: "odwrotnamapa-route-line",
     highlightSourceId: "odwrotnamapa-route-highlight",
     highlightLayerId: "odwrotnamapa-route-highlight-line",
-    clientId: "odwrotnamapa.github.io"
+    clientId: "odwrotnamapa.pl"
   },
 
   search: {

@@ -271,6 +271,7 @@
       tripLoading: "Wczytywanie przystanków…",
       tripEmpty: "Brak informacji o przystankach dla tego kursu.",
       tripError: "Nie udało się pobrać szczegółów kursu.",
+      tripCurrentStop: "Jesteś tutaj",
       departuresScheduled: "rozkładowo",
       departuresCancelled: "odwołany",
       departuresNow: "teraz",
@@ -543,6 +544,7 @@
       tripLoading: "Loading stops…",
       tripEmpty: "No stop information available for this trip.",
       tripError: "Could not load trip details.",
+      tripCurrentStop: "You are here",
       departuresScheduled: "scheduled",
       departuresCancelled: "cancelled",
       departuresNow: "now",
@@ -5931,6 +5933,58 @@ function closeRoute() {
     return luminance > 150 ? "#111827" : "#ffffff";
   }
 
+  function reopenTripFromContext() {
+    if (!state.lastTripContext || !el.tripPanel) return;
+
+    closeOtherMobilePanels(["trip"]);
+
+    el.tripPanelTitle.textContent = state.lastTripContext.title;
+    el.tripStopsList.replaceChildren();
+    el.tripStatus.hidden = true;
+
+    openMobilePanelStandard(el.tripPanel, "--trip-sheet-height");
+
+    renderTripStops(
+      state.lastTripContext.stops,
+      state.lastTripContext.currentStopPoint
+    );
+  }
+
+  window.OMAP_BACK_NAVIGATION?.register(
+    "trip",
+    () => reopenTripFromContext()
+  );
+
+  function showStopOnMap(stop) {
+    const lat = Number(stop.lat);
+    const lon = Number(stop.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+    closeOtherMobilePanels(["place"]);
+
+    map.flyTo({
+      center: [lon, lat],
+      zoom: Math.max(map.getZoom(), 16)
+    });
+
+    setPlacePanelReturnTarget("trip", {});
+
+    showSelectedPlaceInformation({
+      place_id: `stop:${stop.stopId || stop.name || `${lat},${lon}`}`,
+      name: stop.name || stop.stopName || "—",
+      display_name: [stop.name || stop.stopName, "Polska"]
+        .filter(Boolean)
+        .join(", "),
+      lat,
+      lon,
+      class: "public_transport",
+      type: "platform",
+      importance: 0.6,
+      address: {},
+      provider: "transitous"
+    });
+  }
+
   function closeTrip() {
     if (!el.tripPanel || el.tripPanel.hidden) return;
     el.tripPanel.hidden = true;
@@ -5958,6 +6012,13 @@ function closeRoute() {
     const t = text[state.language];
     const tripId = departure.tripId || departure.tripID;
     if (!tripId || !el.tripPanel) return;
+
+    const currentStopPoint = state.placePanelLngLat
+      ? {
+          lat: state.placePanelLngLat.lat,
+          lon: state.placePanelLngLat.lng
+        }
+      : null;
 
     closeOtherMobilePanels(["trip", "place"]);
     if (el.placePanel) el.placePanel.hidden = true;
@@ -6001,8 +6062,14 @@ function closeRoute() {
         return;
       }
 
-      renderTripStops(stops);
+      renderTripStops(stops, currentStopPoint);
       el.tripStatus.hidden = true;
+
+      state.lastTripContext = {
+        title: el.tripPanelTitle.textContent,
+        stops,
+        currentStopPoint
+      };
     } catch (error) {
       console.error(error);
       el.tripStatus.hidden = false;
@@ -6010,12 +6077,50 @@ function closeRoute() {
     }
   }
 
-  function renderTripStops(stops) {
-    const fragment = document.createDocumentFragment();
+  function findClosestStopIndex(stops, point) {
+    if (!point) return -1;
 
-    stops.forEach(stop => {
+    let closestIndex = -1;
+    let closestDistance = Infinity;
+
+    stops.forEach((stop, index) => {
+      const lat = Number(stop.lat);
+      const lon = Number(stop.lon);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+      const distance = Math.hypot(
+        lat - point.lat,
+        lon - point.lon
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    // Odrzuć dopasowanie, jeśli najbliższy przystanek jest zbyt
+    // daleko (ok. 1 km), żeby nie oznaczać przypadkowego przystanku
+    // jako "obecny".
+    return closestDistance <= 0.01 ? closestIndex : -1;
+  }
+
+  function renderTripStops(stops, currentStopPoint) {
+    const t = text[state.language];
+    const fragment = document.createDocumentFragment();
+    const currentIndex = findClosestStopIndex(
+      stops,
+      currentStopPoint
+    );
+
+    stops.forEach((stop, index) => {
       const item = document.createElement("li");
       item.className = "trip-stop";
+
+      const isCurrent = index === currentIndex;
+      if (isCurrent) {
+        item.className += " is-current-stop";
+      }
 
       const time = document.createElement("span");
       time.className = "trip-stop-time";
@@ -6031,10 +6136,46 @@ function closeRoute() {
       name.textContent = stop.name || stop.stopName || "—";
 
       item.append(time, name);
+
+      if (isCurrent) {
+        const badge = document.createElement("span");
+        badge.className = "trip-stop-badge";
+        badge.textContent = t.tripCurrentStop;
+        item.appendChild(badge);
+      }
+
+      const lat = Number(stop.lat);
+      const lon = Number(stop.lon);
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        item.classList.add("is-clickable");
+        item.setAttribute("role", "button");
+        item.setAttribute("tabindex", "0");
+        const openHandler = () => showStopOnMap(stop);
+        item.addEventListener("click", openHandler);
+        item.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openHandler();
+          }
+        });
+      }
+
       fragment.appendChild(item);
     });
 
     el.tripStopsList.appendChild(fragment);
+
+    const currentEl = el.tripStopsList.querySelector(
+      ".is-current-stop"
+    );
+    if (currentEl) {
+      setTimeout(() => {
+        currentEl.scrollIntoView({
+          block: "center",
+          behavior: "smooth"
+        });
+      }, 120);
+    }
   }
 
   function pointFromPlace(place, lngLat) {

@@ -15,7 +15,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=20260722190000">
+  <link rel="stylesheet" href="style.css?v=20260723210000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -378,6 +378,35 @@
            aria-live="polite"></div>
     </aside>
 
+    <aside id="trip-panel"
+           class="legend-panel trip-panel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="trip-panel-title"
+           hidden>
+      <button id="trip-sheet-handle"
+              class="route-sheet-handle trip-sheet-handle app-sheet__handle panel-shell__handle"
+              type="button"
+              aria-label="Zmień wysokość panelu kursu">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="legend-header place-panel-header app-sheet__header panel-shell__header">
+        <button id="trip-panel-back"
+                class="menu-back-button place-panel-back"
+                type="button"
+                aria-label="Wróć">←</button>
+        <h2 id="trip-panel-title">Kurs</h2>
+        <button id="trip-panel-close"
+                class="legend-close"
+                type="button"
+                aria-label="Zamknij szczegóły kursu">×</button>
+      </div>
+
+      <div id="trip-panel-content" class="trip-panel-content" aria-live="polite">
+        <div id="trip-status" class="trip-status" hidden></div>
+        <ol id="trip-stops-list" class="trip-stops-list"></ol>
+      </div>
+    </aside>
+
     <aside id="about-panel" class="legend-panel about-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
            aria-labelledby="about-title" hidden>
       <button id="about-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
@@ -704,7 +733,7 @@
     </div>
 
   <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
-  <script src="config.js?v=20260721190000"></script>
+  <script src="config.js?v=20260723100000"></script>
   <script src="search-v2/lexicon/data-pl.js?v=20260721190000"></script>
   <script src="search-v2/lexicon/loader.js?v=20260721190000"></script>
   <script src="search-v2/location/compiled/pl-locations.compiled.js?v=20260721190000"></script>
@@ -748,6 +777,6 @@
   <script src="src/services/place-resolver-service.js"></script>
   <script src="src/services/place-service.js"></script>
 
-  <script src="app.js?v=20260721220000"></script>
+  <script src="app.js?v=20260724100000"></script>
 </body>
 </html>

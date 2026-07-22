@@ -19,6 +19,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
   transit: {
     departuresEndpoint: "https://api.transitous.org/api/v6/stoptimes",
     plannerEndpoint: "https://api.transitous.org/api/v6/plan",
+    tripEndpoint: "https://api.transitous.org/api/v6/trip",
     sourcesUrl: "https://transitous.org/sources/",
     radius: 180,
     limit: 24
