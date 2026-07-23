@@ -732,6 +732,7 @@
     historyEmpty: $("history-empty"),
     locateToggleButton: $("locate-toggle-button"),
     toggle3dButton: $("toggle-3d-button"),
+    resetBearingButton: $("reset-bearing-button"),
     zoomInButton: $("zoom-in-button"),
     zoomOutButton: $("zoom-out-button"),
     menuThemeSelect: $("menu-theme-select"),
@@ -864,8 +865,8 @@
     showZoom: true
   }), "bottom-right");
 
-  map.dragRotate.disable();
-  map.touchZoomRotate.disableRotation();
+  map.dragRotate.enable();
+  map.touchZoomRotate.enableRotation();
   map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-left");
 
   map.on("error", event => {
@@ -1097,6 +1098,10 @@
 
   el.locateToggleButton?.addEventListener("click", locateFromMenu);
   el.toggle3dButton?.addEventListener("click", toggle3dView);
+  el.resetBearingButton?.addEventListener("click", () => {
+    map.easeTo({ bearing: 180, duration: 400 });
+  });
+  map.on("rotate", updateResetBearingVisibility);
   el.zoomInButton?.addEventListener("click", () => map.zoomIn());
   el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
   el.menuThemeSelect?.addEventListener("change", () => {
@@ -8799,6 +8804,12 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         maximumAge: 30000
       }
     );
+  }
+
+  function updateResetBearingVisibility() {
+    if (!el.resetBearingButton) return;
+    const isRotated = Math.abs(map.getBearing() - 180) > 1;
+    el.resetBearingButton.hidden = !isRotated;
   }
 
   function toggle3dView() {

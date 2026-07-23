@@ -8,7 +8,7 @@
 
   const text = {
     pl: {
-      title: "Odwrotna Mapa - Odwróć standard myślenia o mapach",
+      title: "Odwrotna Mapa",
       search: "Szukaj miejsca…", button: "Szukaj",
       styles: { default: "Domyślna", satellite: "Satelitarna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
@@ -290,7 +290,7 @@
       departuresShowLess: "Pokaż mniej"
     },
     en: {
-      title: "Odwrotna Mapa - Odwróć standard myślenia o mapach",
+      title: "Odwrotna Mapa",
       search: "Search for a place…", button: "Search",
       styles: { default: "Default", satellite: "Satellite", custom: "Custom" },
       customMapColorsHeading: "Map colors",
@@ -604,10 +604,23 @@
     );
   }
 
+  function detectPreferredLanguage() {
+    const browserLanguages = [
+      navigator.language,
+      ...(navigator.languages || [])
+    ].filter(Boolean);
+
+    const isPolish = browserLanguages.some(lang =>
+      String(lang).toLowerCase().startsWith("pl")
+    );
+
+    return isPolish ? "pl" : "en";
+  }
+
   const state = {
-    language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, "pl"))
-      ? safeGet(CONFIG.storageKeys.language, "pl")
-      : "pl",
+    language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, ""))
+      ? safeGet(CONFIG.storageKeys.language, "")
+      : detectPreferredLanguage(),
     theme: (() => {
       const stored = safeGet(CONFIG.storageKeys.theme, "default");
       if (stored === "light" || stored === "dark") return "default";
@@ -4231,7 +4244,7 @@ function closeRoute() {
     return closest;
   }
 
-  function findLocalCityByName(name) {
+  function findLocalCityByName(name, clickedPoint) {
     const database = window.OMAP_SEARCH_V2_LOCATIONS_PL;
     if (!database || !name) return null;
 
@@ -4246,6 +4259,13 @@ function closeRoute() {
 
     const target = normalizeCityName(name);
 
+    // Dopasowanie samej nazwy nie wystarcza - ta sama nazwa może
+    // należeć zarówno do dzielnicy jednego miasta, jak i zupełnie
+    // innej, niepowiązanej miejscowości setki km dalej (np. Chełm
+    // w Gdańsku vs miasto Chełm). Odrzucamy dopasowanie, jeśli jest
+    // zbyt daleko od miejsca, w które faktycznie kliknięto.
+    const maxDistanceDegrees = 0.3; // ok. 30 km
+
     for (const city of database.cities || []) {
       if (
         typeof city.lat !== "number" ||
@@ -4258,7 +4278,17 @@ function closeRoute() {
         normalizeCityName
       );
 
-      if (names.includes(target)) return city;
+      if (!names.includes(target)) continue;
+
+      if (clickedPoint) {
+        const distance = Math.hypot(
+          city.lat - clickedPoint.lat,
+          city.lon - clickedPoint.lng
+        );
+        if (distance > maxDistanceDegrees) continue;
+      }
+
+      return city;
     }
 
     return null;
@@ -4437,7 +4467,10 @@ function closeRoute() {
           );
 
         localCity = looksLikePlaceLabel
-          ? findLocalCityByName(poi.name)
+          ? findLocalCityByName(poi.name, {
+              lat: poi.lat,
+              lng: poi.lon
+            })
           : null;
       } catch (error) {
         console.error(error);
@@ -4518,6 +4551,30 @@ function closeRoute() {
     collapseMobilePanel(
       el.placePanel,
       "--place-sheet-height"
+    );
+    collapseMobilePanel(
+      el.routePanel,
+      "--route-sheet-height"
+    );
+    collapseMobilePanel(
+      el.historyPanel,
+      "--history-sheet-height"
+    );
+    collapseMobilePanel(
+      el.tripPanel,
+      "--trip-sheet-height"
+    );
+    collapseMobilePanel(
+      el.legendPanel,
+      "--legend-sheet-height"
+    );
+    collapseMobilePanel(
+      el.aboutPanel,
+      "--about-sheet-height"
+    );
+    collapseMobilePanel(
+      el.backupPanel,
+      "--backup-sheet-height"
     );
   }
 
@@ -4954,6 +5011,7 @@ function closeRoute() {
 
   function closePlacePanel() {
     closeTrip();
+    document.title = "Odwrotna Mapa";
     invalidateNamedPoiGuard();
     window.OMAP_SEARCH_SESSION?.cancel?.();
     state.placeRequestController?.abort();
@@ -5075,6 +5133,7 @@ function closeRoute() {
 
   function createPlaceCardLegacy(place, lngLat) {
     const t = text[state.language];
+    document.title = `${getPlaceTitle(place)} - Odwrotna Mapa`;
     const card = document.createElement("article");
     card.className = "place-card";
 
