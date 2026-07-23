@@ -93,7 +93,11 @@ self.addEventListener("activate", event => {
       const keys = await caches.keys();
       await Promise.all(
         keys
-          .filter(key => key !== CACHE_VERSION)
+          .filter(
+            key =>
+              key !== CACHE_VERSION &&
+              key !== "odwrotnamapa-favorites-media"
+          )
           .map(key => caches.delete(key))
       );
       self.clients.claim();
@@ -110,6 +114,33 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
+
+  // Miniatury z Wikipedii zapisane przy dodawaniu do ulubionych -
+  // przy braku sieci sięgamy do tej osobnej pamięci podręcznej.
+  const isWikipediaMedia =
+    url.hostname.endsWith("wikimedia.org") ||
+    url.hostname.endsWith("wikipedia.org");
+
+  if (isWikipediaMedia) {
+    event.respondWith(
+      (async () => {
+        try {
+          return await fetch(request);
+        } catch (error) {
+          const cache = await caches.open(
+            "odwrotnamapa-favorites-media"
+          );
+          const cached = await cache.match(request, {
+            ignoreSearch: true
+          });
+          if (cached) return cached;
+          throw error;
+        }
+      })()
+    );
+    return;
+  }
+
   const isAppShellRequest =
     APP_SHELL_URLS.some(shellUrl => {
       try {
