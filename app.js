@@ -8806,20 +8806,49 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
     try {
       map.once("render", () => {
-        try {
-          const canvas = map.getCanvas();
-          const dataUrl = canvas.toDataURL("image/png");
+        const canvas = map.getCanvas();
 
-          const link = document.createElement("a");
-          link.href = dataUrl;
-          link.download = `odwrotna-mapa-${Date.now()}.png`;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        } catch (error) {
-          console.error(error);
-          show(t.exportPngError);
-        }
+        canvas.toBlob(async blob => {
+          if (!blob) {
+            show(t.exportPngError);
+            return;
+          }
+
+          const fileName = `odwrotna-mapa-${Date.now()}.png`;
+          const file = new File([blob], fileName, {
+            type: "image/png"
+          });
+
+          // Safari na iOS nie obsługuje poprawnie atrybutu
+          // download - tam trzeba użyć natywnego arkusza
+          // udostępniania, żeby dało się zapisać obrazek.
+          if (
+            navigator.canShare &&
+            navigator.canShare({ files: [file] })
+          ) {
+            try {
+              await navigator.share({ files: [file] });
+              return;
+            } catch (error) {
+              if (error?.name === "AbortError") return;
+              console.error(error);
+            }
+          }
+
+          try {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+          } catch (error) {
+            console.error(error);
+            show(t.exportPngError);
+          }
+        }, "image/png");
       });
       map.triggerRepaint();
     } catch (error) {
