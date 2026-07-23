@@ -2790,8 +2790,6 @@ a.place-card-row {
 /* Menu ma taki sam rozmiar jak przycisk nad nim */
 .toolbar-actions,
 #streetview-actions {
-  width: 56px !important;
-  min-width: 56px !important;
   height: 46px;
   min-height: 46px;
   padding: 0 !important;
@@ -2830,12 +2828,9 @@ a.place-card-row {
   min-height:46px !important;
   padding:0 !important;
   margin:0 !important;
-  border:1px solid var(--border) !important;
   border-radius:0 !important;
   display:grid !important;
   place-items:center;
-  background:var(--panel);
-  box-shadow:var(--shadow);
 }
 
 #menu-button:hover,
@@ -5651,20 +5646,117 @@ textarea,
   }
 }
 
+#streetview-toggle-button.is-active {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: var(--panel) !important;
+}
+
+/* =========================================================
+   Wspólny, wielokrotnego użytku wygląd zewnętrznych
+   przycisków przy pasku (streetview, lokalizacja, przyszłe).
+   Nowy przycisk = kontener class="streetview-actions" +
+   wewnątrz <button class="icon-button">.
+   ========================================================= */
+.streetview-actions {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 56px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(10px);
+  flex: 0 0 auto !important;
+}
+
+.streetview-actions .icon-button {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--text) !important;
+  min-width: 46px;
+  width: 46px;
+  height: 100%;
+}
+
+.streetview-actions .icon-button + .icon-button {
+  border-left: 1px solid var(--border) !important;
+}
+
+.streetview-actions .icon-button:hover,
+.streetview-actions .icon-button:focus-visible {
+  background:
+    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
+  color: var(--accent) !important;
+}
+
+.streetview-actions .icon-button.is-active {
+  background: var(--accent) !important;
+  color: var(--panel) !important;
+}
+
+.streetview-actions .icon-button.is-active:hover {
+  background:
+    color-mix(in srgb, var(--accent) 84%, #000) !important;
+  color: var(--panel) !important;
+}
+
 @media (max-width: 600px) {
-  #streetview-actions {
-    display: flex !important;
+  .streetview-actions {
+    flex-direction: column !important;
     position: fixed !important;
     top: 12px !important;
     right: 12px !important;
     left: auto !important;
     bottom: auto !important;
+    width: 46px !important;
+    height: auto !important;
     z-index: 30 !important;
+  }
+
+  .streetview-actions .icon-button {
+    width: 100%;
+    height: 46px;
+  }
+
+  .streetview-actions .icon-button + .icon-button {
+    border-left: 0 !important;
+    border-top: 1px solid var(--border) !important;
   }
 }
 
-#streetview-toggle-button.is-active {
-  background: var(--accent) !important;
-  background-color: var(--accent) !important;
-  color: var(--panel) !important;
+/* Ostateczne rozstrzygnięcie wymiarów przycisków w bloku
+   streetview/lokalizacja - wygrywa ze starszymi, rozproszonymi
+   regułami odziedziczonymi po #menu-button. */
+#streetview-toggle-button,
+#locate-toggle-button {
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 600px) {
+  #streetview-toggle-button,
+  #locate-toggle-button {
+    width: 100% !important;
+    height: 46px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #streetview-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 46px !important;
+    height: auto !important;
+  }
 }

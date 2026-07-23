@@ -8,7 +8,7 @@
 
   const text = {
     pl: {
-      title: "Odwrotna Mapa - Interaktywna mapa z południem u góry",
+      title: "Odwrotna Mapa - Odwróć standardowe myślenie o mapach",
       search: "Szukaj miejsca…", button: "Szukaj",
       styles: { default: "Domyślna", satellite: "Satelitarna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
@@ -70,6 +70,7 @@
       aboutEngine: "Silnik",
       aboutContact: "Kontakt:",
       aboutDonateHeading: "Wesprzyj projekt",
+      aboutGithubLabel: "Kod źródłowy na GitHubie",
       aboutDonateCoffee: "Buy Me a Coffee",
       aboutDonateBtc: "Bitcoin",
       aboutDonateBtcCopied: "Skopiowano adres Bitcoin.",
@@ -232,6 +233,9 @@
       menuLocation: "Moja lokalizacja",
       menuLanguage: "Język",
       menuLegend: "Legenda",
+      menuStreetview: "Widok uliczny",
+      streetviewTitle: "Widok uliczny",
+      streetviewUnavailable: "Widok uliczny nie jest jeszcze skonfigurowany.",
       menuBackup: "Kopia zapasowa",
       menuAbout: "O projekcie",
       contextRouteA: "Ustaw jako punkt A",
@@ -282,7 +286,7 @@
       departuresShowLess: "Pokaż mniej"
     },
     en: {
-      title: "Odwrotna Mapa - Interaktywna mapa z południem u góry",
+      title: "Odwrotna Mapa - Odwróć standardowe myślenie o mapach",
       search: "Search for a place…", button: "Search",
       styles: { default: "Default", satellite: "Satellite", custom: "Custom" },
       customMapColorsHeading: "Map colors",
@@ -344,6 +348,7 @@
       aboutEngine: "Engine",
       aboutContact: "Contact:",
       aboutDonateHeading: "Support the project",
+      aboutGithubLabel: "Source code on GitHub",
       aboutDonateCoffee: "Buy Me a Coffee",
       aboutDonateBtc: "Bitcoin",
       aboutDonateBtcCopied: "Bitcoin address copied.",
@@ -506,6 +511,9 @@
       menuLocation: "My location",
       menuLanguage: "Language",
       menuLegend: "Legend",
+      menuStreetview: "Street view",
+      streetviewTitle: "Street view",
+      streetviewUnavailable: "Street view is not configured yet.",
       menuBackup: "Backup",
       menuAbout: "About",
       contextRouteA: "Set as Point A",
@@ -673,6 +681,13 @@
     tripPanelClose: $("trip-panel-close"),
     tripStatus: $("trip-status"),
     tripStopsList: $("trip-stops-list"),
+    streetviewPanel: $("streetview-panel"),
+    streetviewPanelTitle: $("streetview-panel-title"),
+    streetviewSheetHandle: $("streetview-sheet-handle"),
+    streetviewPanelClose: $("streetview-panel-close"),
+    streetviewFullscreenButton: $("streetview-fullscreen-button"),
+    streetviewContainer: $("streetview-container"),
+    menuStreetviewButton: $("streetview-toggle-button"),
     favoritesCount: $("favorites-count"),
     favoritesOpenButton: $("favorites-open-button"),
     favoritesMenuLabel: $("favorites-menu-label"),
@@ -740,6 +755,7 @@
     aboutStyleLabel: $("about-style-label"),
     aboutEngineLabel: $("about-engine-label"),
     aboutContactLabel: $("about-contact-label"),
+    aboutGithubLabel: $("about-github-label"),
     aboutDonateHeading: $("about-donate-heading"),
     aboutDonateCoffee: $("about-donate-coffee-label"),
     aboutDonateCoffeeLink: document.querySelector(".about-donate-coffee"),
@@ -969,6 +985,16 @@
     closePlacePanel();
   });
 
+  el.streetviewPanelClose?.addEventListener("click", closeStreetView);
+  el.streetviewFullscreenButton?.addEventListener(
+    "click",
+    toggleStreetviewFullscreen
+  );
+  el.menuStreetviewButton?.addEventListener(
+    "click",
+    toggleMapillaryCoverage
+  );
+
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
   el.menuLegendButton?.addEventListener(
@@ -1127,6 +1153,7 @@
   initializeHistoryBottomSheet();
   initializePlaceBottomSheet();
   initializeTripBottomSheet();
+  initializeStreetviewBottomSheet();
   initializeLegendBottomSheet();
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
@@ -1189,6 +1216,16 @@
     if (el.menuLegendLabel) {
       el.menuLegendLabel.textContent = t.menuLegend;
     }
+    if (el.menuStreetviewButton) {
+      el.menuStreetviewButton.title = t.menuStreetview;
+      el.menuStreetviewButton.setAttribute(
+        "aria-label",
+        t.menuStreetview
+      );
+    }
+    if (el.streetviewPanelTitle) {
+      el.streetviewPanelTitle.textContent = t.streetviewTitle;
+    }
     updateMapContextMenuLabels();
     if (el.legendTitle) el.legendTitle.textContent = t.legend;
     el.legendClose?.setAttribute("aria-label", t.closeLegend);
@@ -1210,6 +1247,7 @@
     if (el.aboutStyleLabel) el.aboutStyleLabel.textContent = t.aboutStyle;
     if (el.aboutEngineLabel) el.aboutEngineLabel.textContent = t.aboutEngine;
     if (el.aboutContactLabel) el.aboutContactLabel.textContent = t.aboutContact;
+    if (el.aboutGithubLabel) el.aboutGithubLabel.textContent = t.aboutGithubLabel;
     if (el.aboutDonateHeading) el.aboutDonateHeading.textContent = t.aboutDonateHeading;
     if (el.aboutDonateCoffee) el.aboutDonateCoffee.textContent = t.aboutDonateCoffee;
     if (el.aboutDonateBtcHeading) el.aboutDonateBtcHeading.textContent = t.aboutDonateBtc;
@@ -1330,6 +1368,191 @@
         layout: { visibility: "none" }
       }, firstSymbol ? firstSymbol.id : undefined);
     }
+  }
+
+  function ensureMapillaryCoverage() {
+    if (!CONFIG.mapillary?.accessToken) return false;
+    if (map.getSource(CONFIG.mapillary.sourceId)) return true;
+
+    map.addSource(CONFIG.mapillary.sourceId, {
+      type: "vector",
+      tiles: [
+        `${CONFIG.mapillary.coverageTiles}?access_token=${CONFIG.mapillary.accessToken}`
+      ],
+      minzoom: 6,
+      maxzoom: 14
+    });
+
+    map.addLayer({
+      id: CONFIG.mapillary.coverageLayerId,
+      type: "circle",
+      source: CONFIG.mapillary.sourceId,
+      "source-layer": "image",
+      minzoom: CONFIG.mapillary.minZoom,
+      layout: { visibility: "none" },
+      paint: {
+        "circle-radius": 4,
+        "circle-color": "#00c37a",
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#ffffff"
+      }
+    });
+
+    map.on("click", CONFIG.mapillary.coverageLayerId, event => {
+      const feature = event.features?.[0];
+      const imageId = feature?.properties?.id;
+      if (imageId) openStreetView(imageId);
+    });
+
+    map.on("mouseenter", CONFIG.mapillary.coverageLayerId, () => {
+      map.getCanvas().style.cursor = "pointer";
+    });
+    map.on("mouseleave", CONFIG.mapillary.coverageLayerId, () => {
+      map.getCanvas().style.cursor = "";
+    });
+
+    return true;
+  }
+
+  function toggleMapillaryCoverage() {
+    const t = text[state.language];
+
+    if (!CONFIG.mapillary?.accessToken) {
+      show(t.streetviewUnavailable);
+      return;
+    }
+
+    if (!ensureMapillaryCoverage()) return;
+
+    state.mapillaryCoverageVisible = !state.mapillaryCoverageVisible;
+
+    map.setLayoutProperty(
+      CONFIG.mapillary.coverageLayerId,
+      "visibility",
+      state.mapillaryCoverageVisible ? "visible" : "none"
+    );
+
+    el.menuStreetviewButton?.classList.toggle(
+      "is-active",
+      state.mapillaryCoverageVisible
+    );
+    el.menuStreetviewButton?.setAttribute(
+      "aria-pressed",
+      String(state.mapillaryCoverageVisible)
+    );
+  }
+
+  let mapillaryViewer = null;
+
+  function createMapillaryViewer(imageId) {
+    return new Promise(resolve => {
+      // Tworzenie odtwarzacza WebGL w kontenerze, który jeszcze nie
+      // ma prawdziwych wymiarów (bo panel dopiero co się odkrył),
+      // kończy się niedziałającym odtwarzaczem. Czekamy na dwie
+      // klatki, żeby przeglądarka zdążyła nadać kontenerowi
+      // rzeczywisty rozmiar, zanim go zainicjujemy.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          mapillaryViewer = new mapillary.Viewer({
+            accessToken: CONFIG.mapillary.accessToken,
+            container: el.streetviewContainer,
+            imageId
+          });
+          mapillaryViewer.resize();
+          resolve();
+        });
+      });
+    });
+  }
+
+  async function openStreetView(imageId) {
+    if (!CONFIG.mapillary?.accessToken || !el.streetviewPanel) return;
+
+    closeOtherMobilePanels(["streetview"]);
+
+    if (isMobilePanelViewport()) {
+      setMobilePanelHeight(
+        el.streetviewPanel,
+        "--streetview-sheet-height",
+        getMobilePanelMaximumHeight(),
+        { collapsed: false, mode: "expanded", animate: false }
+      );
+      el.streetviewPanel.classList.remove("is-collapsed");
+    }
+    el.streetviewPanel.hidden = false;
+    el.streetviewPanel.scrollTop = 0;
+
+    if (!mapillaryViewer) {
+      await createMapillaryViewer(imageId);
+      return;
+    }
+
+    try {
+      await mapillaryViewer.moveTo(imageId);
+    } catch (error) {
+      console.error(error);
+      // Odtwarzacz utknął w niedziałającym stanie - usuwamy go
+      // i tworzymy od nowa, zamiast dalej próbować na zepsutej
+      // instancji.
+      try {
+        mapillaryViewer.remove();
+      } catch (removeError) {
+        console.error(removeError);
+      }
+      mapillaryViewer = null;
+      await createMapillaryViewer(imageId);
+    }
+  }
+
+  function isStreetviewFullscreen() {
+    return document.fullscreenElement === el.streetviewPanel;
+  }
+
+  async function toggleStreetviewFullscreen() {
+    if (!el.streetviewPanel) return;
+
+    try {
+      if (isStreetviewFullscreen()) {
+        await document.exitFullscreen();
+      } else {
+        await el.streetviewPanel.requestFullscreen();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  document.addEventListener("fullscreenchange", () => {
+    const active = isStreetviewFullscreen();
+    el.streetviewFullscreenButton?.classList.toggle(
+      "is-active",
+      active
+    );
+    el.streetviewFullscreenButton?.setAttribute(
+      "aria-pressed",
+      String(active)
+    );
+    el.streetviewPanel?.classList.toggle(
+      "is-fullscreen",
+      active
+    );
+    // WebGL potrzebuje jawnej informacji o zmianie rozmiaru
+    // kontenera po wejściu/wyjściu z pełnego ekranu.
+    requestAnimationFrame(() => {
+      try {
+        mapillaryViewer?.resize();
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  });
+
+  function closeStreetView() {
+    if (!el.streetviewPanel || el.streetviewPanel.hidden) return;
+    if (isStreetviewFullscreen()) {
+      document.exitFullscreen().catch(error => console.error(error));
+    }
+    el.streetviewPanel.hidden = true;
   }
 
   function cacheOriginalPaint() {
@@ -3187,6 +3410,7 @@
     { id: "history", close: () => closeHistory() },
     { id: "place", close: () => closePlacePanel() },
     { id: "trip", close: () => closeTrip() },
+    { id: "streetview", close: () => closeStreetView() },
     { id: "legend", close: () => closeLegend() },
     { id: "about", close: () => closeAbout() },
     { id: "backup", close: () => closeBackup() }
@@ -3635,6 +3859,15 @@
       handle: el.tripSheetHandle,
       close: closeTrip,
       cssVariable: "--trip-sheet-height"
+    });
+  }
+
+  function initializeStreetviewBottomSheet() {
+    initializeBottomSheet({
+      panel: el.streetviewPanel,
+      handle: el.streetviewSheetHandle,
+      close: closeStreetView,
+      cssVariable: "--streetview-sheet-height"
     });
   }
 

@@ -64,6 +64,7 @@ button, input, select {
 .brand,
 .search,
 .toolbar-actions,
+#streetview-actions,
 .select-wrap,
 .icon-button {
   background: var(--panel);
@@ -134,7 +135,8 @@ input[type="search"]::-webkit-search-decoration {
   place-items: center;
 }
 
-.toolbar-actions {
+.toolbar-actions,
+#streetview-actions {
   display: flex;
   gap: 6px;
   min-height: 46px;
@@ -248,7 +250,8 @@ body.ui-dark {
     grid-row: 1;
   }
 
-  .toolbar-actions {
+  .toolbar-actions,
+  #streetview-actions {
     grid-column: 1 / -1;
     grid-row: 2;
     justify-self: end;
@@ -679,6 +682,27 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .about-contact a {
   color: var(--accent);
+}
+
+.about-github {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+}
+
+.about-github a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about-github a:hover {
+  text-decoration: underline;
+}
+
+.about-github svg {
+  flex: 0 0 auto;
 }
 
 .about-donate {
@@ -1835,6 +1859,75 @@ body.ui-dark .legend-symbol.osm-buildings {
   padding: 4px 14px 14px;
 }
 
+.streetview-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.streetview-panel .streetview-viewport {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.streetview-viewport {
+  position: relative;
+  width: 100%;
+}
+
+.streetview-container {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  background: #111;
+}
+
+.streetview-fullscreen-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  min-width: 38px;
+  min-height: 38px;
+  display: grid !important;
+  place-items: center;
+  background: var(--panel) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  color: var(--text) !important;
+  font-size: 1.1rem;
+}
+
+.streetview-attribution {
+  flex: 0 0 auto;
+  margin: 6px 14px;
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+.streetview-attribution a {
+  color: var(--muted);
+}
+
+.streetview-fullscreen-button.is-active {
+  color: var(--accent);
+}
+
+.streetview-panel.is-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  z-index: 999;
+}
+
+.menu-action.is-active {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
 .trip-status {
   padding: 14px 6px;
   color: var(--muted);
@@ -2091,6 +2184,7 @@ body.ui-dark .legend-symbol.osm-buildings {
 .brand,
 .search,
 .toolbar-actions,
+#streetview-actions,
 .select-wrap,
 .icon-button,
 select,
@@ -2412,7 +2506,8 @@ a.place-card-row {
   font-weight: 750;
 }
 
-#menu-button {
+#menu-button,
+#streetview-toggle-button {
   margin-left: 6px;
 }
 
@@ -2693,7 +2788,8 @@ a.place-card-row {
 }
 
 /* Menu ma taki sam rozmiar jak przycisk nad nim */
-.toolbar-actions {
+.toolbar-actions,
+#streetview-actions {
   width: 56px !important;
   min-width: 56px !important;
   height: 46px;
@@ -2701,7 +2797,8 @@ a.place-card-row {
   padding: 0 !important;
 }
 
-#menu-button {
+#menu-button,
+#streetview-toggle-button {
   width: 100% !important;
   min-width: 56px !important;
   height: 46px !important;
@@ -2713,7 +2810,8 @@ a.place-card-row {
 
 
 /* ☰ ma identyczny rozmiar jak przyciski Trasa/Odkrywaj */
-.toolbar-actions{
+.toolbar-actions,
+#streetview-actions{
   width:auto !important;
   min-width:0 !important;
   height:auto !important;
@@ -2724,7 +2822,8 @@ a.place-card-row {
   background:transparent !important;
 }
 
-#menu-button{
+#menu-button,
+#streetview-toggle-button{
   width:46px !important;
   min-width:46px !important;
   height:46px !important;
@@ -2739,7 +2838,8 @@ a.place-card-row {
   box-shadow:var(--shadow);
 }
 
-#menu-button:hover{
+#menu-button:hover,
+#streetview-toggle-button:hover{
   background:rgba(127,127,127,.12);
 }
 
@@ -3718,6 +3818,10 @@ a.place-card-row {
   width: min(390px, calc(100vw - 24px));
 }
 
+.streetview-panel {
+  width: min(70vw, 1100px);
+}
+
 .place-sheet-handle {
   display: none;
 }
@@ -3794,12 +3898,35 @@ a.place-card-row {
     transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  .streetview-panel {
+    --streetview-sheet-height: 42vh;
+    position: absolute;
+    top: auto !important;
+    right: 8px !important;
+    bottom: 74px !important;
+    left: 8px !important;
+    width: auto !important;
+    height: var(--streetview-sheet-height);
+    max-height: calc(100vh - 90px) !important;
+    min-height: 48px;
+    padding: 0 14px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    transition: height 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   .place-panel.is-dragging {
     transition: none;
     user-select: none;
   }
 
   .trip-panel.is-dragging {
+    transition: none;
+    user-select: none;
+  }
+
+  .streetview-panel.is-dragging {
     transition: none;
     user-select: none;
   }
@@ -3834,6 +3961,21 @@ a.place-card-row {
     touch-action: none;
   }
 
+  .streetview-sheet-handle {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    border: 0;
+    background: var(--panel);
+    cursor: grab;
+    touch-action: none;
+  }
+
   .place-sheet-handle span {
     display: block;
     width: 44px;
@@ -3843,6 +3985,14 @@ a.place-card-row {
   }
 
   .trip-sheet-handle span {
+    display: block;
+    width: 44px;
+    height: 5px;
+    background:
+      color-mix(in srgb, var(--text) 35%, transparent);
+  }
+
+  .streetview-sheet-handle span {
     display: block;
     width: 44px;
     height: 5px;
@@ -3870,12 +4020,27 @@ a.place-card-row {
     border-bottom: 1px solid var(--border);
   }
 
+  .streetview-panel .legend-header {
+    position: sticky;
+    top: 28px;
+    z-index: 4;
+    margin: 0 -14px 12px;
+    padding: 9px 14px 10px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+
   .place-panel.is-collapsed {
     padding-bottom: 0;
     overflow: hidden;
   }
 
   .trip-panel.is-collapsed {
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  .streetview-panel.is-collapsed {
     padding-bottom: 0;
     overflow: hidden;
   }
@@ -3890,6 +4055,11 @@ a.place-card-row {
     display: none;
   }
 
+  .streetview-panel.is-collapsed
+  > :not(.streetview-sheet-handle) {
+    display: none;
+  }
+
   .place-panel.is-collapsed
   .place-sheet-handle {
     height: 48px;
@@ -3897,6 +4067,11 @@ a.place-card-row {
 
   .trip-panel.is-collapsed
   .trip-sheet-handle {
+    height: 48px;
+  }
+
+  .streetview-panel.is-collapsed
+  .streetview-sheet-handle {
     height: 48px;
   }
 
@@ -3910,6 +4085,11 @@ a.place-card-row {
     width: 52px;
   }
 
+  .streetview-panel.is-collapsed
+  .streetview-sheet-handle span {
+    width: 52px;
+  }
+
   body:has(.place-panel:not([hidden]))
   .maplibregl-ctrl-bottom-left,
   body:has(.place-panel:not([hidden]))
@@ -3917,6 +4097,10 @@ a.place-card-row {
   body:has(.trip-panel:not([hidden]))
   .maplibregl-ctrl-bottom-left,
   body:has(.trip-panel:not([hidden]))
+  .maplibregl-ctrl-bottom-right,
+  body:has(.streetview-panel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.streetview-panel:not([hidden]))
   .maplibregl-ctrl-bottom-right {
     opacity: 0;
     pointer-events: none;
@@ -4217,6 +4401,7 @@ a.place-card-row {
   .history-panel,
   .place-panel,
   .trip-panel,
+  .streetview-panel,
   .legend-panel {
     bottom: 130px !important;
     max-height: calc(100vh - 146px) !important;
@@ -4240,6 +4425,7 @@ a.place-card-row {
 .toolbar-primary .brand,
 .toolbar-primary .search,
 .toolbar-actions,
+#streetview-actions,
 .mobile-bottom-nav,
 .mobile-bottom-action,
 .legend-panel,
@@ -4250,6 +4436,7 @@ a.place-card-row {
 .history-panel,
 .place-panel,
 .trip-panel,
+.streetview-panel,
 .about-panel,
 .backup-panel,
 .map-context-menu,
@@ -4369,6 +4556,7 @@ textarea {
 .toolbar-primary .brand,
 .toolbar-primary .search,
 .toolbar-actions,
+#streetview-actions,
 .mobile-bottom-nav,
 .mobile-bottom-action,
 .legend-panel,
@@ -4819,6 +5007,7 @@ textarea {
   #discover-button.is-active,
   #discover-button[aria-expanded="true"],
   #menu-button.is-active,
+  #streetview-toggle-button.is-active,
   #menu-button[aria-expanded="true"] {
     background: var(--accent) !important;
     background-color: var(--accent) !important;
@@ -4828,10 +5017,12 @@ textarea {
   #discover-button.is-active:hover,
   #discover-button[aria-expanded="true"]:hover,
   #menu-button.is-active:hover,
+  #streetview-toggle-button.is-active:hover,
   #menu-button[aria-expanded="true"]:hover,
   #discover-button.is-active:focus-visible,
   #discover-button[aria-expanded="true"]:focus-visible,
   #menu-button.is-active:focus-visible,
+  #streetview-toggle-button.is-active:focus-visible,
   #menu-button[aria-expanded="true"]:focus-visible {
     background:
       color-mix(in srgb, var(--accent) 84%, #000) !important;
@@ -4869,13 +5060,15 @@ textarea {
   body:has(.history-panel:not([hidden])) .toolbar,
   body:has(.place-panel:not([hidden])) .toolbar,
   body:has(.trip-panel:not([hidden])) .toolbar,
+  body:has(.streetview-panel:not([hidden])) .toolbar,
   body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.favorites-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.history-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.place-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.trip-panel:not([hidden])) .mobile-bottom-nav {
+  body:has(.trip-panel:not([hidden])) .mobile-bottom-nav,
+  body:has(.streetview-panel:not([hidden])) .mobile-bottom-nav {
     display: none !important;
   }
 
@@ -4885,7 +5078,8 @@ textarea {
   body:has(.favorites-panel:not([hidden])) .favorites-panel,
   body:has(.history-panel:not([hidden])) .history-panel,
   body:has(.place-panel:not([hidden])) .place-panel,
-  body:has(.trip-panel:not([hidden])) .trip-panel {
+  body:has(.trip-panel:not([hidden])) .trip-panel,
+  body:has(.streetview-panel:not([hidden])) .streetview-panel {
     bottom: 8px !important;
     max-height: calc(100vh - 16px) !important;
   }
@@ -5016,6 +5210,15 @@ textarea {
     overflow-y: auto !important;
   }
 
+  body:has(.streetview-panel:not([hidden])) .streetview-panel {
+    --streetview-sheet-height: 42dvh;
+    height: var(--streetview-sheet-height) !important;
+    max-height: calc(100dvh - 16px) !important;
+    min-height: 48px !important;
+    bottom: 8px !important;
+    overflow-y: auto !important;
+  }
+
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed {
     --place-sheet-height: 48px !important;
@@ -5026,6 +5229,7 @@ textarea {
   }
 
   body:has(.trip-panel:not([hidden]))
+  body:has(.streetview-panel:not([hidden]))
   .trip-panel.is-collapsed {
     --trip-sheet-height: 48px !important;
     height: 48px !important;
@@ -5041,6 +5245,7 @@ textarea {
   }
 
   body:has(.trip-panel:not([hidden]))
+  body:has(.streetview-panel:not([hidden]))
   .trip-panel.is-collapsed
   > :not(.trip-sheet-handle) {
     display: none !important;
@@ -5053,6 +5258,7 @@ textarea {
   }
 
   body:has(.trip-panel:not([hidden]))
+  body:has(.streetview-panel:not([hidden]))
   .trip-panel.is-collapsed
   .trip-sheet-handle {
     height: 48px;
@@ -5096,6 +5302,7 @@ textarea {
   .history-panel:not([hidden]),
   .place-panel:not([hidden]),
   .trip-panel:not([hidden]),
+  .streetview-panel:not([hidden]),
   .menu-subpanel:not([hidden]) {
     bottom: var(--mobile-panel-bottom-gap) !important;
     min-height: var(--mobile-panel-collapsed-height) !important;
@@ -5133,6 +5340,10 @@ textarea {
     height: var(--trip-sheet-height, var(--mobile-panel-default-height)) !important;
   }
 
+  .streetview-panel:not([hidden]) {
+    height: var(--streetview-sheet-height, var(--mobile-panel-default-height)) !important;
+  }
+
   .route-panel.is-collapsed,
   .discover-panel.is-collapsed,
   .menu-panel.is-collapsed,
@@ -5140,6 +5351,7 @@ textarea {
   .history-panel.is-collapsed,
   .place-panel.is-collapsed,
   .trip-panel.is-collapsed,
+  .streetview-panel.is-collapsed,
   .menu-subpanel.is-collapsed {
     height: var(--mobile-panel-collapsed-height) !important;
     min-height: var(--mobile-panel-collapsed-height) !important;
@@ -5154,6 +5366,7 @@ textarea {
   .history-panel.is-dragging,
   .place-panel.is-dragging,
   .trip-panel.is-dragging,
+  .streetview-panel.is-dragging,
   .menu-subpanel.is-dragging {
     transition: none !important;
   }
@@ -5220,6 +5433,7 @@ textarea {
 .history-panel,
 .place-panel,
 .trip-panel,
+.streetview-panel,
 .about-panel,
 .backup-panel,
 .discover-panel {
@@ -5335,6 +5549,7 @@ textarea,
   .history-panel,
   .place-panel,
   .trip-panel,
+  .streetview-panel,
   .discover-panel,
   .menu-panel,
   .menu-subpanel,
@@ -5434,4 +5649,22 @@ textarea,
   .panel-shell__handle > span {
     width: 52px !important;
   }
+}
+
+@media (max-width: 600px) {
+  #streetview-actions {
+    display: flex !important;
+    position: fixed !important;
+    top: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    bottom: auto !important;
+    z-index: 30 !important;
+  }
+}
+
+#streetview-toggle-button.is-active {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: var(--panel) !important;
 }

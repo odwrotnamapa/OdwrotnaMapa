@@ -17,6 +17,16 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     tileSize: 256,
     attribution: "Tiles © Esri"
   },
+  mapillary: {
+    // Zarejestruj darmowe konto dewelopera na
+    // https://www.mapillary.com/developer i wklej tu swój token.
+    accessToken: "MLY|27879892151642669|4c37c1e745d47de033a7790defae6f2f",
+    coverageTiles:
+      "https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}",
+    sourceId: "odwrotnamapa-mapillary",
+    coverageLayerId: "odwrotnamapa-mapillary-coverage",
+    minZoom: 14
+  },
   transit: {
     departuresEndpoint: "https://api.transitous.org/api/v6/stoptimes",
     plannerEndpoint: "https://api.transitous.org/api/v6/plan",

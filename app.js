@@ -8,7 +8,7 @@
 
   const text = {
     pl: {
-      title: "Odwrotna Mapa - Odwróć standardowe myślenie o mapach",
+      title: "Odwrotna Mapa - Odwróć standard myślenia o mapach",
       search: "Szukaj miejsca…", button: "Szukaj",
       styles: { default: "Domyślna", satellite: "Satelitarna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
@@ -286,7 +286,7 @@
       departuresShowLess: "Pokaż mniej"
     },
     en: {
-      title: "Odwrotna Mapa - Odwróć standardowe myślenie o mapach",
+      title: "Odwrotna Mapa - Odwróć standard myślenia o mapach",
       search: "Search for a place…", button: "Search",
       styles: { default: "Default", satellite: "Satellite", custom: "Custom" },
       customMapColorsHeading: "Map colors",
@@ -709,7 +709,7 @@
     historyClear: $("history-clear"),
     historyList: $("history-list"),
     historyEmpty: $("history-empty"),
-    menuLocationButton: $("menu-location-button"),
+    locateToggleButton: $("locate-toggle-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -733,7 +733,6 @@
     mapContextMenu: $("map-context-menu"),
     clearMapButton: $("clear-map-button"),
     menuAboutButton: $("menu-about-button"),
-    menuLocationLabel: $("menu-location-label"),
     menuLanguageLabel: $("menu-language-label"),
     clearMapLabel: $("clear-map-label"),
     menuAboutLabel: $("menu-about-label"),
@@ -965,10 +964,6 @@
   });
 
   el.locateButton?.addEventListener("click", locate);
-  el.brandButton?.addEventListener("click", event => {
-    event.preventDefault();
-    locate();
-  });
   el.legendButton?.addEventListener("click", toggleLegend);
   el.legendClose?.addEventListener("click", closeLegend);
   el.placePanelBack?.addEventListener(
@@ -1073,7 +1068,7 @@
     return scopes;
   }
 
-  el.menuLocationButton?.addEventListener("click", locateFromMenu);
+  el.locateToggleButton?.addEventListener("click", locateFromMenu);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -1184,7 +1179,10 @@
     }
     if (el.menuTitle) el.menuTitle.textContent = t.menuTitle;
     if (el.menuThemeLabel) el.menuThemeLabel.textContent = t.menuTheme;
-    if (el.menuLocationLabel) el.menuLocationLabel.textContent = t.menuLocation;
+    if (el.locateToggleButton) {
+      el.locateToggleButton.title = t.locate;
+      el.locateToggleButton.setAttribute("aria-label", t.locate);
+    }
     if (el.menuLanguageLabel) el.menuLanguageLabel.textContent = t.menuLanguage;
     if (el.clearMapLabel) el.clearMapLabel.textContent = t.clearMap;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
