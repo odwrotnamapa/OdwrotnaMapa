@@ -1,6 +1,6 @@
 # <a href="https://odwrotnamapa.pl/">Odwrotna Mapa</a>
 
-Interaktywna mapa z południem u góry
+Odwróć standardowe myślenie o mapach
 
 <img width="1870" height="982" alt="Screenshot 2026-07-20 at 15-11-53 Odwrotna Mapa - mapa z południem u góry" src="./screeny/swiat.png" />
 
