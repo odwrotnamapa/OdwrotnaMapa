@@ -710,6 +710,9 @@
     historyList: $("history-list"),
     historyEmpty: $("history-empty"),
     locateToggleButton: $("locate-toggle-button"),
+    toggle3dButton: $("toggle-3d-button"),
+    zoomInButton: $("zoom-in-button"),
+    zoomOutButton: $("zoom-out-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -1069,6 +1072,9 @@
   }
 
   el.locateToggleButton?.addEventListener("click", locateFromMenu);
+  el.toggle3dButton?.addEventListener("click", toggle3dView);
+  el.zoomInButton?.addEventListener("click", () => map.zoomIn());
+  el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -8720,6 +8726,21 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         timeout: 10000,
         maximumAge: 30000
       }
+    );
+  }
+
+  function toggle3dView() {
+    state.is3dView = !state.is3dView;
+
+    map.easeTo({
+      pitch: state.is3dView ? 60 : 0,
+      duration: 500
+    });
+
+    el.toggle3dButton?.classList.toggle("is-active", state.is3dView);
+    el.toggle3dButton?.setAttribute(
+      "aria-pressed",
+      String(state.is3dView)
     );
   }
 

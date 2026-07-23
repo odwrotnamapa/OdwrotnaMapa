@@ -5710,10 +5710,10 @@ textarea,
   .streetview-actions {
     flex-direction: column !important;
     position: fixed !important;
-    top: 12px !important;
-    right: 12px !important;
+    top: auto !important;
+    bottom: 126px !important;
+    right: 8px !important;
     left: auto !important;
-    bottom: auto !important;
     width: 46px !important;
     height: auto !important;
     z-index: 30 !important;

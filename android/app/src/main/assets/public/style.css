@@ -138,9 +138,7 @@ input[type="search"]::-webkit-search-decoration {
 .toolbar-actions,
 #streetview-actions {
   display: flex;
-  gap: 6px;
   min-height: 46px;
-  padding: 5px;
 }
 
 .select-wrap {
@@ -2506,11 +2504,6 @@ a.place-card-row {
   font-weight: 750;
 }
 
-#menu-button,
-#streetview-toggle-button {
-  margin-left: 6px;
-}
-
 #about-button {
   margin-left: 8px;
 }
@@ -2801,15 +2794,13 @@ a.place-card-row {
   min-width: 56px !important;
   height: 46px !important;
   min-height: 46px !important;
-  margin: 0 !important;
   display: grid;
   place-items: center;
 }
 
 
 /* ☰ ma identyczny rozmiar jak przyciski Trasa/Odkrywaj */
-.toolbar-actions,
-#streetview-actions{
+.toolbar-actions{
   width:auto !important;
   min-width:0 !important;
   height:auto !important;
@@ -2827,7 +2818,6 @@ a.place-card-row {
   height:46px !important;
   min-height:46px !important;
   padding:0 !important;
-  margin:0 !important;
   border-radius:0 !important;
   display:grid !important;
   place-items:center;
@@ -5668,7 +5658,7 @@ textarea,
   min-height: 46px !important;
   padding: 0 !important;
   margin: 0 !important;
-  background: var(--panel) !important;
+  background: transparent !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow) !important;
   backdrop-filter: blur(10px);
@@ -5676,17 +5666,26 @@ textarea,
 }
 
 .streetview-actions .icon-button {
-  border: 0 !important;
+  border: 1px solid var(--border) !important;
+  margin-left: -1px;
   background: transparent !important;
   box-shadow: none !important;
   color: var(--text) !important;
   min-width: 46px;
   width: 46px;
   height: 100%;
+  display: grid;
+  place-items: center;
 }
 
-.streetview-actions .icon-button + .icon-button {
-  border-left: 1px solid var(--border) !important;
+.streetview-actions .icon-button:first-child {
+  margin-left: 0;
+}
+
+.text-icon {
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .streetview-actions .icon-button:hover,
@@ -5723,11 +5722,12 @@ textarea,
   .streetview-actions .icon-button {
     width: 100%;
     height: 46px;
+    margin-left: 0;
+    margin-top: -1px;
   }
 
-  .streetview-actions .icon-button + .icon-button {
-    border-left: 0 !important;
-    border-top: 1px solid var(--border) !important;
+  .streetview-actions .icon-button:first-child {
+    margin-top: 0;
   }
 }
 
@@ -5740,14 +5740,13 @@ textarea,
   min-width: 46px !important;
   height: 100% !important;
   min-height: 0 !important;
-  border: 0 !important;
-  margin: 0 !important;
 }
 
 @media (max-width: 600px) {
   #streetview-toggle-button,
   #locate-toggle-button {
     width: 100% !important;
+    min-width: 0 !important;
     height: 46px !important;
   }
 }
@@ -5759,4 +5758,18 @@ textarea,
     width: 46px !important;
     height: auto !important;
   }
+}
+
+.mobile-only-action {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .mobile-only-action {
+    display: grid !important;
+  }
+}
+
+#menu-button {
+  border: 1px solid var(--border) !important;
 }

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
   <link rel="stylesheet" href="https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.css">
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=20260726130000">
+  <link rel="stylesheet" href="style.css?v=20260726200000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -77,6 +77,19 @@
         <button id="locate-toggle-button" class="icon-button" type="button"
                 title="Moja lokalizacja" aria-label="Moja lokalizacja">
           <span aria-hidden="true">🎯</span>
+        </button>
+        <button id="toggle-3d-button" class="icon-button" type="button"
+                title="Widok 3D" aria-label="Widok 3D"
+                aria-pressed="false">
+          <span aria-hidden="true">🧊</span>
+        </button>
+        <button id="zoom-in-button" class="icon-button mobile-only-action" type="button"
+                title="Przybliż" aria-label="Przybliż">
+          <span aria-hidden="true" class="text-icon">+</span>
+        </button>
+        <button id="zoom-out-button" class="icon-button mobile-only-action" type="button"
+                title="Oddal" aria-label="Oddal">
+          <span aria-hidden="true" class="text-icon">−</span>
         </button>
       </div>
 
@@ -833,6 +846,6 @@
   <script src="src/services/place-resolver-service.js"></script>
   <script src="src/services/place-service.js"></script>
 
-  <script src="app.js?v=20260726120000"></script>
+  <script src="app.js?v=20260726140000"></script>
 </body>
 </html>
