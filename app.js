@@ -5222,7 +5222,7 @@ function closeRoute() {
     let reverseZoom;
     if (mapZoom <= 5) {
       reverseZoom = 3; // kraj
-    } else if (mapZoom <= 6) {
+    } else if (mapZoom <= 7) {
       reverseZoom = 5; // województwo
     } else {
       reverseZoom = Math.min(18, Math.max(10, mapZoom)); // miasto i bliżej
