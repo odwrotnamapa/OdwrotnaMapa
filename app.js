@@ -5181,7 +5181,15 @@ function closeRoute() {
     url.searchParams.set("extratags", "1");
     url.searchParams.set("namedetails", "1");
     url.searchParams.set("accept-language", state.language);
-    url.searchParams.set("zoom", "18");
+
+    // Poziom szczegółowości odpowiedzi Nominatim dopasowany do
+    // aktualnego przybliżenia mapy - przy dużym oddaleniu chcemy
+    // nazwy miejscowości, nie najbliższego drobnego obiektu (np.
+    // parkingu). Sztywne "18" powodowało, że kliknięcie w okolicy
+    // miasta pokazywało przypadkowy pobliski punkt zamiast miasta.
+    const mapZoom = Math.round(map.getZoom());
+    const reverseZoom = Math.min(18, Math.max(10, mapZoom));
+    url.searchParams.set("zoom", String(reverseZoom));
 
     const response = await fetch(url, {
       signal,
