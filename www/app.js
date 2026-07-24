@@ -5186,14 +5186,31 @@ function closeRoute() {
   }
 
   async function fetchPlaceInformation(lon, lat, signal) {
-    const url = new URL(CONFIG.search.reverseEndpoint);
-    url.searchParams.set("lat", String(lat));
-    url.searchParams.set("lon", String(lon));
-    url.searchParams.set("format", "jsonv2");
-    url.searchParams.set("addressdetails", "1");
-    url.searchParams.set("extratags", "1");
-    url.searchParams.set("namedetails", "1");
-    url.searchParams.set("accept-language", state.language);
+    const buildUrl = (zoomValue) => {
+      const requestUrl = new URL(CONFIG.search.reverseEndpoint);
+      requestUrl.searchParams.set("lat", String(lat));
+      requestUrl.searchParams.set("lon", String(lon));
+      requestUrl.searchParams.set("format", "jsonv2");
+      requestUrl.searchParams.set("addressdetails", "1");
+      requestUrl.searchParams.set("extratags", "1");
+      requestUrl.searchParams.set("namedetails", "1");
+      requestUrl.searchParams.set("accept-language", state.language);
+      requestUrl.searchParams.set("zoom", String(zoomValue));
+      return requestUrl;
+    };
+
+    const runQuery = async (zoomValue) => {
+      const response = await fetch(buildUrl(zoomValue), {
+        signal,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Nominatim reverse HTTP ${response.status}`);
+      }
+
+      return response.json();
+    };
 
     // Poziom szczegółowości odpowiedzi Nominatim dopasowany do
     // aktualnego przybliżenia mapy - przy dużym oddaleniu chcemy
@@ -5203,25 +5220,49 @@ function closeRoute() {
     // miasta, zamiast zatrzymywać się na tych szczeblach.
     const mapZoom = Math.round(map.getZoom());
     let reverseZoom;
-    if (mapZoom <= 4) {
+    if (mapZoom <= 5) {
       reverseZoom = 3; // kraj
-    } else if (mapZoom <= 8) {
+    } else if (mapZoom <= 7) {
       reverseZoom = 5; // województwo
     } else {
       reverseZoom = Math.min(18, Math.max(10, mapZoom)); // miasto i bliżej
     }
-    url.searchParams.set("zoom", String(reverseZoom));
 
-    const response = await fetch(url, {
-      signal,
-      headers: { "Accept": "application/json" }
-    });
+    const place = await runQuery(reverseZoom);
 
-    if (!response.ok) {
-      throw new Error(`Nominatim reverse HTTP ${response.status}`);
+    // Niektóre kraje (np. Ukraina, Rosja, Szwecja, Dania) nie
+    // wypełniają w odpowiedzi żadnego pola adresu na poziomie
+    // miasta/miejscowości - zamiast tego mają tylko szerszą
+    // jednostkę (gmina/hromada/rejon). W takim wypadku dopiero
+    // wtedy robimy drugie zapytanie, sztywno na poziomie miasta wg
+    // Nominatim. Dla krajów, gdzie pierwsze zapytanie już zwraca
+    // prawdziwe miasto, ten dodatkowy koszt w ogóle nie występuje.
+    const hasSettlementField =
+      reverseZoom >= 10 &&
+      (place.address?.city ||
+        place.address?.town ||
+        place.address?.village ||
+        place.address?.hamlet);
+
+    if (reverseZoom >= 10 && !hasSettlementField) {
+      try {
+        const fallbackPlace = await runQuery(10);
+        const fallbackCity =
+          fallbackPlace.address?.city ||
+          fallbackPlace.address?.town ||
+          fallbackPlace.address?.village ||
+          fallbackPlace.address?.hamlet;
+
+        if (fallbackCity) {
+          place.address = place.address || {};
+          place.address.city = fallbackCity;
+        }
+      } catch (error) {
+        console.warn("Fallback reverse geocoding failed.", error);
+      }
     }
 
-    return response.json();
+    return place;
   }
 
   function createPlaceCardLegacy(place, lngLat) {
@@ -5294,7 +5335,7 @@ function closeRoute() {
     ) {
       const wikipedia = createWikipediaSection();
       card.appendChild(wikipedia.section);
-      loadWikipediaSummaryForPlace(place, wikipedia);
+      loadWikipediaSummaryForPlace(place, wikipedia, heading);
     }
 
     const details = document.createElement("div");
@@ -5560,10 +5601,15 @@ function closeRoute() {
       );
     }
 
+    // Konkretne pola adresu (miasto/miejscowość) stawiamy przed
+    // nazwą "głównego" obiektu zwróconego przez Nominatim - ta
+    // ostatnia bywa nazwą szerszej jednostki administracyjnej
+    // (np. ukraińska "громада" łącząca miasto z okolicą), a to
+    // różni się nieprzewidywalnie między krajami, więc nie da się
+    // tego niezawodnie odfiltrować po samym typie obiektu.
+    const localizedName = names[`name:${state.language}`] || names.name;
+
     return capitalizeFirstLetter(
-      names[`name:${state.language}`] ||
-      names.name ||
-      place.name ||
       address.amenity ||
       address.tourism ||
       address.shop ||
@@ -5573,6 +5619,12 @@ function closeRoute() {
       address.city ||
       address.town ||
       address.village ||
+      address.hamlet ||
+      address.municipality ||
+      address.county ||
+      address.state_district ||
+      localizedName ||
+      place.name ||
       ""
     );
   }
@@ -6047,7 +6099,7 @@ function closeRoute() {
     }
   }
 
-  async function loadWikipediaSummaryForPlace(place, ui) {
+  async function loadWikipediaSummaryForPlace(place, ui, headingElement) {
     // Ulubione miejsca mogą już mieć zapisane dane z Wikipedii
     // (pobrane w momencie dodania do ulubionych) - używamy ich od
     // razu, żeby działało też offline, zamiast dociągać na nowo.
@@ -6076,6 +6128,17 @@ function closeRoute() {
 
     ui.link.href = data.url;
     ui.section.hidden = false;
+
+    // Wikipedia często trafia dokładniej niż nasze zgadywanie po
+    // polach adresu (np. gdy dane administracyjne dla danego kraju
+    // są niekompletne) - jeśli znalazła konkretniejszą nazwę,
+    // podmieniamy widoczny tytuł, żeby panel i Wikipedia zawsze
+    // pokazywały to samo miejsce.
+    if (data.title && headingElement) {
+      const displayTitle = capitalizeFirstLetter(data.title);
+      headingElement.textContent = displayTitle;
+      document.title = `${displayTitle} - Odwrotna Mapa`;
+    }
   }
 
   function isTransitStopPlace(place) {
