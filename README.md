@@ -1,10 +1,11 @@
 # <a href="https://odwrotnamapa.pl/">Odwrotna Mapa</a>
 
-Odwróć standard myślenia o mapach
+**Odwróć swój standard myślenia o mapach**
 
 <img width="1870" height="982" alt="Screenshot 2026-07-20 at 15-11-53 Odwrotna Mapa - mapa z południem u góry" src="./screeny/swiat.png" />
 
 ---
+Apki (beta do testów): https://github.com/odwrotnamapa/OdwrotnaMapa/releases/tag/v1.0
 
 # 🇵🇱 O projekcie
 Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. **Odwrotna Mapa** zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.
@@ -18,7 +19,7 @@ Większość współczesnych map przedstawia północ na górze, więc łatwo za
 - **Własne motywy kolorystyczne** — pełna personalizacja kolorów mapy (woda, zieleń, budynki, drogi) i interfejsu, plus tryb automatyczny podążający za ustawieniem systemu (jasny/ciemny)
 - **Kopia zapasowa** — eksport/import ustawień (ulubione, kolory) do pliku JSON, z wyborem co dokładnie eksportować
 - **Dwa języki** — polski i angielski
-- **Aplikacje na Androida, Windowsa i Linuxa** (niedługo), oprócz wersji przeglądarkowej
+- **Aplikacje na Androida, Windowsa i Linuxa** (beta), oprócz wersji przeglądarkowej
 - W pełni otwarty kod źródłowy (licencja MIT)
 
 # 🇬🇧 About the project
@@ -33,7 +34,7 @@ Most modern maps place north at the top. This is not, however, the only possible
 - **Custom color themes** — full personalization of map colors (water, greenery, buildings, roads) and UI, plus an automatic mode that follows the system's light/dark setting
 - **Backup** — export/import settings (favorites, colors) as a JSON file, with control over what exactly to include
 - **Two languages** — Polish and English
-- **Android, Windows and Linux apps** (soon), in addition to the browser version 
+- **Android, Windows and Linux apps** (beta), in addition to the browser version 
 - Fully open source (MIT license)
 
 ---
