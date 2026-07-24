@@ -5335,7 +5335,7 @@ function closeRoute() {
     ) {
       const wikipedia = createWikipediaSection();
       card.appendChild(wikipedia.section);
-      loadWikipediaSummaryForPlace(place, wikipedia);
+      loadWikipediaSummaryForPlace(place, wikipedia, heading);
     }
 
     const details = document.createElement("div");
@@ -6099,7 +6099,7 @@ function closeRoute() {
     }
   }
 
-  async function loadWikipediaSummaryForPlace(place, ui) {
+  async function loadWikipediaSummaryForPlace(place, ui, headingElement) {
     // Ulubione miejsca mogą już mieć zapisane dane z Wikipedii
     // (pobrane w momencie dodania do ulubionych) - używamy ich od
     // razu, żeby działało też offline, zamiast dociągać na nowo.
@@ -6128,6 +6128,17 @@ function closeRoute() {
 
     ui.link.href = data.url;
     ui.section.hidden = false;
+
+    // Wikipedia często trafia dokładniej niż nasze zgadywanie po
+    // polach adresu (np. gdy dane administracyjne dla danego kraju
+    // są niekompletne) - jeśli znalazła konkretniejszą nazwę,
+    // podmieniamy widoczny tytuł, żeby panel i Wikipedia zawsze
+    // pokazywały to samo miejsce.
+    if (data.title && headingElement) {
+      const displayTitle = capitalizeFirstLetter(data.title);
+      headingElement.textContent = displayTitle;
+      document.title = `${displayTitle} - Odwrotna Mapa`;
+    }
   }
 
   function isTransitStopPlace(place) {
