@@ -32,11 +32,11 @@ export default defineConfig({
   csp: {
     policy: [
       "default-src 'self'",
-      "script-src 'self' https://cdn.jsdelivr.net",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
+      "script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://tiles.openfreemap.org https://server.arcgisonline.com https://upload.wikimedia.org",
-      "connect-src 'self' https://tiles.openfreemap.org https://server.arcgisonline.com https://nominatim.openstreetmap.org https://photon.komoot.io https://valhalla1.openstreetmap.de https://api.transitous.org https://*.wikipedia.org https://www.wikidata.org",
+      "img-src 'self' data: blob: https://tiles.openfreemap.org https://server.arcgisonline.com https://upload.wikimedia.org https://*.mapillary.com https://*.fbcdn.net",
+      "connect-src 'self' https://tiles.openfreemap.org https://server.arcgisonline.com https://nominatim.openstreetmap.org https://photon.komoot.io https://valhalla1.openstreetmap.de https://api.transitous.org https://*.wikipedia.org https://www.wikidata.org https://*.mapillary.com https://*.fbcdn.net",
       "worker-src 'self' blob:",
       "child-src blob:",
     ].join('; '),

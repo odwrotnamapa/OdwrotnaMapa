@@ -1,7 +1,7 @@
 {
   "name": "odwrotna-mapa-electron",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Electron platform project for Odwrotna Mapa.",
   "main": "build/main.js",
   "scripts": {
@@ -18,5 +18,13 @@
   "dependencies": {
     "@capacitor/app": "^8.1.1",
     "@capacitor/core": "^8.4.2"
-  }
+  },
+  "overrides": {
+    "@noble/hashes": "^1.8.0"
+  },
+  "author": {
+    "name": "Odwrotna Mapa",
+    "email": "odwrotnamapa@protonmail.com"
+  },
+  "homepage": "https://odwrotnamapa.pl"
 }

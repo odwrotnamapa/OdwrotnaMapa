@@ -3,6 +3,16 @@
 
   // Architektura 2.0: komponenty i serwisy są ładowane przed app.js.
 
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("sw.js")
+        .catch(error => {
+          console.warn("Rejestracja Service Workera nie powiodła się:", error);
+        });
+    });
+  }
+
   const CONFIG = window.SOUTHMAPS_CONFIG;
   const $ = id => document.getElementById(id);
 
@@ -3751,7 +3761,7 @@
       if (contentGestureMode !== null) return;
 
       const deltaUp = contentGestureStartY - event.clientY;
-      if (Math.abs(deltaUp) < 6) return;
+      if (Math.abs(deltaUp) < 2) return;
 
       const maxHeight = getMobilePanelMaximumHeight();
       const currentHeight = panel.getBoundingClientRect().height;
@@ -5815,7 +5825,42 @@ function closeRoute() {
     state.favorites = state.favorites.slice(0, 100);
     saveFavorites();
     renderFavoritesList();
+
+    cacheWikipediaForFavorite(key, place);
+
     return true;
+  }
+
+  async function cacheWikipediaForFavorite(key, place) {
+    const data = await fetchWikipediaSummaryData(place);
+    if (!data) return;
+
+    // Zapisujemy też sam obrazek miniatury do pamięci podręcznej
+    // przeglądarki (Cache API), żeby faktycznie wyświetlał się
+    // offline, nie tylko sam adres URL, pod którym już nic nie
+    // odpowie bez internetu.
+    if (data.thumbnail && "caches" in window) {
+      try {
+        const cache = await caches.open("odwrotnamapa-favorites-media");
+        await cache.add(data.thumbnail);
+      } catch (error) {
+        console.warn(
+          "Nie udało się zapisać miniatury offline:",
+          error
+        );
+      }
+    }
+
+    const favorite = state.favorites.find(
+      item => item.key === key
+    );
+    if (!favorite) return;
+
+    favorite.wikipediaExtract = data.extract;
+    favorite.wikipediaThumbnail = data.thumbnail;
+    favorite.wikipediaUrl = data.url;
+
+    saveFavorites();
   }
 
   async function resolveWikipediaTarget(place) {
@@ -5910,10 +5955,10 @@ function closeRoute() {
     return { section, thumbnail, extract, link };
   }
 
-  async function loadWikipediaSummaryForPlace(place, ui) {
+  async function fetchWikipediaSummaryData(place) {
     try {
       const target = await resolveWikipediaTarget(place);
-      if (!target) return;
+      if (!target) return null;
 
       const url =
         `https://${target.lang}.wikipedia.org/api/rest_v1/page/summary/` +
@@ -5922,26 +5967,57 @@ function closeRoute() {
       const response = await fetch(url, {
         headers: { "Accept": "application/json" }
       });
-      if (!response.ok) return;
+      if (!response.ok) return null;
 
       const data = await response.json();
-      if (!data.extract || data.type === "disambiguation") return;
+      if (!data.extract || data.type === "disambiguation") {
+        return null;
+      }
 
-      ui.extract.textContent = data.extract;
+      return {
+        lang: target.lang,
+        title: target.title,
+        extract: data.extract,
+        thumbnail: data.thumbnail?.source || "",
+        url:
+          data.content_urls?.desktop?.page ||
+          `https://${target.lang}.wikipedia.org/wiki/${encodeURIComponent(target.title)}`
+      };
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 
-      if (data.thumbnail?.source) {
-        ui.thumbnail.src = data.thumbnail.source;
+  async function loadWikipediaSummaryForPlace(place, ui) {
+    // Ulubione miejsca mogą już mieć zapisane dane z Wikipedii
+    // (pobrane w momencie dodania do ulubionych) - używamy ich od
+    // razu, żeby działało też offline, zamiast dociągać na nowo.
+    if (place.wikipediaExtract) {
+      ui.extract.textContent = place.wikipediaExtract;
+
+      if (place.wikipediaThumbnail) {
+        ui.thumbnail.src = place.wikipediaThumbnail;
         ui.thumbnail.hidden = false;
       }
 
-      ui.link.href =
-        data.content_urls?.desktop?.page ||
-        `https://${target.lang}.wikipedia.org/wiki/${encodeURIComponent(target.title)}`;
-
+      ui.link.href = place.wikipediaUrl || "#";
       ui.section.hidden = false;
-    } catch (error) {
-      console.error(error);
+      return;
     }
+
+    const data = await fetchWikipediaSummaryData(place);
+    if (!data) return;
+
+    ui.extract.textContent = data.extract;
+
+    if (data.thumbnail) {
+      ui.thumbnail.src = data.thumbnail;
+      ui.thumbnail.hidden = false;
+    }
+
+    ui.link.href = data.url;
+    ui.section.hidden = false;
   }
 
   function isTransitStopPlace(place) {

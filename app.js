@@ -80,6 +80,7 @@
       backupTitle: "Kopia zapasowa",
       closeBackup: "Zamknij kopię zapasową",
       aboutIntro: "Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.",
+      aboutIntroAlt: "Niektórzy nazywają to też odwróconą mapą — niezależnie od nazwy, chodzi o to samo: świat pokazany z południem u góry zamiast tradycyjnej północy.",
       aboutData: "Dane mapowe",
       aboutStyle: "Styl mapy",
       aboutEngine: "Silnik",
@@ -367,6 +368,7 @@
       backupTitle: "Backup",
       closeBackup: "Close backup",
       aboutIntro: "Most modern maps place north at the top. This is not, however, the only possible way to represent the world. Odwrotna Mapa was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.",
+      aboutIntroAlt: "Some people call this an inverted map or upside-down map — whatever you call it, it's the same idea: the world shown with south at the top instead of the usual north.",
       aboutData: "Map data",
       aboutStyle: "Map style",
       aboutEngine: "Engine",
@@ -800,6 +802,7 @@
     aboutTitle: $("about-title"),
     backupTitle: $("backup-title"),
     aboutIntro: $("about-intro"),
+    aboutIntroAlt: $("about-intro-alt"),
     aboutDataLabel: $("about-data-label"),
     aboutStyleLabel: $("about-style-label"),
     aboutEngineLabel: $("about-engine-label"),
@@ -1328,6 +1331,7 @@
     if (el.backupTitle) el.backupTitle.textContent = t.backupTitle;
     el.backupClose?.setAttribute("aria-label", t.closeBackup);
     if (el.aboutIntro) el.aboutIntro.textContent = t.aboutIntro;
+    if (el.aboutIntroAlt) el.aboutIntroAlt.textContent = t.aboutIntroAlt;
     if (el.aboutDataLabel) el.aboutDataLabel.textContent = t.aboutData;
     if (el.aboutStyleLabel) el.aboutStyleLabel.textContent = t.aboutStyle;
     if (el.aboutEngineLabel) el.aboutEngineLabel.textContent = t.aboutEngine;
@@ -3761,7 +3765,7 @@
       if (contentGestureMode !== null) return;
 
       const deltaUp = contentGestureStartY - event.clientY;
-      if (Math.abs(deltaUp) < 6) return;
+      if (Math.abs(deltaUp) < 2) return;
 
       const maxHeight = getMobilePanelMaximumHeight();
       const currentHeight = panel.getBoundingClientRect().height;
