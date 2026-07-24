@@ -3170,6 +3170,16 @@
       .trim();
   }
 
+  // Nominatim zwraca nazwę województwa małą literą (np. "pomorskie"),
+  // co jest poprawne gramatycznie w zdaniu, ale wygląda niespójnie
+  // jako samodzielna etykieta w interfejsie. Kapitalizujemy tylko
+  // pierwszą literę, nic więcej.
+  function capitalizeFirstLetter(value) {
+    const text = String(value || "");
+    if (!text) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
   function damerauLevenshtein(left, right) {
     const rows = left.length + 1;
     const columns = right.length + 1;
@@ -3255,11 +3265,12 @@
     const street = [road, number].filter(Boolean).join(" ");
     const location = [street, city].filter(Boolean).join(", ");
 
-    const voivodeship =
+    const voivodeship = capitalizeFirstLetter(
       result.voivodeship ||
       result.teryt?.voivodeship ||
       address.state ||
-      "";
+      ""
+    );
 
     return [type, location, voivodeship]
       .filter(Boolean)
@@ -3387,18 +3398,20 @@
         : streetWithNumber;
     }
 
-    const place =
+    const place = capitalizeFirstLetter(
       city ||
       result.name ||
       address.state ||
       address.county ||
-      "";
+      ""
+    );
 
     if (place) {
-      const secondary =
+      const secondary = capitalizeFirstLetter(
         address.state ||
         address.county ||
-        address.country;
+        address.country
+      );
 
       return secondary && secondary !== place
         ? `${place}, ${secondary}`
@@ -5184,11 +5197,12 @@ function closeRoute() {
 
     // Poziom szczegółowości odpowiedzi Nominatim dopasowany do
     // aktualnego przybliżenia mapy - przy dużym oddaleniu chcemy
-    // nazwy miejscowości, nie najbliższego drobnego obiektu (np.
-    // parkingu). Sztywne "18" powodowało, że kliknięcie w okolicy
-    // miasta pokazywało przypadkowy pobliski punkt zamiast miasta.
+    // nazwy województwa/kraju, nie najbliższego drobnego obiektu
+    // (np. parkingu). Sztywne "18" powodowało, że kliknięcie w
+    // okolicy miasta pokazywało przypadkowy pobliski punkt zamiast
+    // miejscowości.
     const mapZoom = Math.round(map.getZoom());
-    const reverseZoom = Math.min(18, Math.max(10, mapZoom));
+    const reverseZoom = Math.min(18, Math.max(3, mapZoom));
     url.searchParams.set("zoom", String(reverseZoom));
 
     const response = await fetch(url, {
@@ -5514,7 +5528,7 @@ function closeRoute() {
     const names = place.namedetails || {};
     const address = place.address || {};
 
-    return (
+    return capitalizeFirstLetter(
       names[`name:${state.language}`] ||
       names.name ||
       place.name ||

@@ -1,1 +1,1 @@
-Odwrotna Mapa odwraca standardowe podejście do map - południe zamiast północy u góry. Pozwala odkrywać miejsca, planować trasy, mierzyć odległości i zapisywać ulubione punkty, część z nich dostępna również offline.
+Odwrotna Mapa flips the usual map convention, placing south at the top instead of north. Explore places, plan routes, measure distances, and save favorite spots, some available offline as well.

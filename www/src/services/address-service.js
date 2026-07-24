@@ -15,6 +15,15 @@
       .filter(Boolean);
   }
 
+  // Nominatim zwraca nazwę województwa małą literą (np. "pomorskie"),
+  // co jest poprawne gramatycznie w zdaniu, ale wygląda niespójnie
+  // jako samodzielny fragment adresu w interfejsie.
+  function capitalizeFirstLetter(value) {
+    const text = String(value || "").trim();
+    if (!text) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
   function fallback(place = {}) {
     if (
       typeof place.address === "string" &&
@@ -48,7 +57,7 @@
       street,
       address.postcode,
       locality,
-      address.state
+      capitalizeFirstLetter(address.state)
     ]);
 
     if (line.length) {
