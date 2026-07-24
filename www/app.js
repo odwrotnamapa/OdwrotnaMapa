@@ -5225,7 +5225,7 @@ function closeRoute() {
     } else if (mapZoom <= 7) {
       reverseZoom = 5; // województwo
     } else {
-      reverseZoom = Math.min(18, Math.max(10, mapZoom)); // miasto i bliżej
+      reverseZoom = 18; // zawsze maksymalna szczegółowość - nasza własna logika wyboru tytułu i tak cofnie się do ulicy/miasta, jeśli trzeba
     }
 
     const place = await runQuery(reverseZoom);
@@ -5584,7 +5584,7 @@ function closeRoute() {
     // najbliżej klikniętego punktu.
     const currentMapZoom = Math.round(map.getZoom());
 
-    if (currentMapZoom <= 4) {
+    if (currentMapZoom <= 5) {
       return capitalizeFirstLetter(
         address.country ||
         place.name ||
@@ -5592,7 +5592,7 @@ function closeRoute() {
       );
     }
 
-    if (currentMapZoom <= 8) {
+    if (currentMapZoom <= 7) {
       return capitalizeFirstLetter(
         address.state ||
         address.country ||
@@ -5601,15 +5601,21 @@ function closeRoute() {
       );
     }
 
-    // Konkretne pola adresu (miasto/miejscowość) stawiamy przed
-    // nazwą "głównego" obiektu zwróconego przez Nominatim - ta
-    // ostatnia bywa nazwą szerszej jednostki administracyjnej
-    // (np. ukraińska "громада" łącząca miasto z okolicą), a to
-    // różni się nieprzewidywalnie między krajami, więc nie da się
-    // tego niezawodnie odfiltrować po samym typie obiektu.
-    const localizedName = names[`name:${state.language}`] || names.name;
+    // Konkretny obiekt (sklep, paczkomat, usługa) ma pierwszeństwo -
+    // jego własna nazwa z Nominatim jest zwykle dokładniejsza niż
+    // cokolwiek dałoby się złożyć z pól adresu. Pomijamy ją tylko
+    // wtedy, gdy "głównym" trafieniem jest sama granica
+    // administracyjna (np. ukraińska "громада" łącząca miasto z
+    // okolicą) - wtedy wolimy sięgnąć po konkretne miasto/miejscowość
+    // z adresu zamiast nazwy tej szerszej jednostki.
+    const isAdminBoundary =
+      place.class === "boundary" && place.type === "administrative";
+
+    const primaryName =
+      names[`name:${state.language}`] || names.name || place.name;
 
     return capitalizeFirstLetter(
+      (!isAdminBoundary && primaryName) ||
       address.amenity ||
       address.tourism ||
       address.shop ||
@@ -5623,8 +5629,7 @@ function closeRoute() {
       address.municipality ||
       address.county ||
       address.state_district ||
-      localizedName ||
-      place.name ||
+      primaryName ||
       ""
     );
   }

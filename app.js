@@ -5224,8 +5224,10 @@ function closeRoute() {
       reverseZoom = 3; // kraj
     } else if (mapZoom <= 7) {
       reverseZoom = 5; // województwo
+    } else if (mapZoom <= 14) {
+      reverseZoom = 14; // miasto / dzielnica - pozwala Nominatim naturalnie wybrać dzielnicę jako główny wynik
     } else {
-      reverseZoom = 18; // zawsze maksymalna szczegółowość - nasza własna logika wyboru tytułu i tak cofnie się do ulicy/miasta, jeśli trzeba
+      reverseZoom = 18; // blisko - maksymalna szczegółowość, żeby złapać konkretny sklep/paczkomat
     }
 
     const place = await runQuery(reverseZoom);
@@ -5622,6 +5624,11 @@ function closeRoute() {
       address.leisure ||
       address.building ||
       address.road ||
+      address.neighbourhood ||
+      address.quarter ||
+      address.suburb ||
+      address.city_district ||
+      address.borough ||
       address.city ||
       address.town ||
       address.village ||
