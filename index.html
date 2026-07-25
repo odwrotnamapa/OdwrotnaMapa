@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.css">
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
   <link rel="stylesheet" href="style.css?v=20260728150000">
-<style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}</style>
+<style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
 </head>
@@ -113,6 +113,7 @@
       <select id="theme-select">
         <option value="default">Domyślna</option>
         <option value="satellite">Satelitarna</option>
+        <option value="inverted">Odwrotna</option>
         <option value="custom">Własna</option>
       </select>
       <button id="locate-button" type="button">📍</button>
@@ -191,6 +192,59 @@
       <p id="legend-note" class="legend-note">
         Legenda oparta na stylu Liberty OpenFreeMap. Wygląd symboli i kolorów może różnić się w zależności od wybranego motywu mapy.
       </p>
+    </aside>
+
+    <aside id="labels-panel" class="legend-panel labels-panel menu-subpanel app-sheet app-sheet--sharp panel-shell" aria-labelledby="labels-title" hidden>
+      <button id="labels-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
+              aria-label="Zmień wysokość panelu etykiet">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
+        <button id="labels-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
+        <h2 id="labels-title">Etykiety</h2>
+        <button id="labels-close" class="legend-close" type="button"
+                aria-label="Zamknij etykiety">×</button>
+      </div>
+
+      <button type="button" id="labels-toggle-all" class="menu-action">
+        <span id="labels-toggle-all-label">Odznacz wszystko</span>
+      </button>
+
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-poi" checked>
+        <span id="menu-labels-poi-label">Punkty (sklepy, usługi)</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-roads" checked>
+        <span id="menu-labels-roads-label">Nazwy ulic</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-places" checked>
+        <span id="menu-labels-places-label">Miejscowości i dzielnice</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-water" checked>
+        <span id="menu-labels-water-label">Rzeki i morza</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-regions" checked>
+        <span id="menu-labels-regions-label">Województwa / obwody</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-countries" checked>
+        <span id="menu-labels-countries-label">Kraje</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-airports" checked>
+        <span id="menu-labels-airports-label">Lotniska</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-boundaries" checked>
+        <span id="menu-labels-boundaries-label">Granice administracyjne</span>
+      </label>
     </aside>
 
     
@@ -677,6 +731,7 @@
           <select id="menu-theme-select" aria-labelledby="menu-theme-label">
             <option value="default">Domyślna</option>
             <option value="satellite">Satelitarna</option>
+            <option value="inverted">Odwrotna</option>
             <option value="custom">Własna</option>
           </select>
         </label>
@@ -729,40 +784,6 @@
             </label>
           </div>
           <button type="button" id="custom-palette-reset">Resetuj kolory</button>
-
-          <p class="menu-custom-palette-heading" id="menu-custom-labels-heading">Etykiety na mapie</p>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-poi" checked>
-            <span id="menu-labels-poi-label">Punkty (sklepy, usługi)</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-roads" checked>
-            <span id="menu-labels-roads-label">Nazwy ulic</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-places" checked>
-            <span id="menu-labels-places-label">Miejscowości i dzielnice</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-water" checked>
-            <span id="menu-labels-water-label">Rzeki i morza</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-regions" checked>
-            <span id="menu-labels-regions-label">Województwa / obwody</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-countries" checked>
-            <span id="menu-labels-countries-label">Kraje</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-airports" checked>
-            <span id="menu-labels-airports-label">Lotniska</span>
-          </label>
-          <label class="menu-setting">
-            <input type="checkbox" id="menu-labels-boundaries" checked>
-            <span id="menu-labels-boundaries-label">Granice administracyjne</span>
-          </label>
         </div>
 
         <label class="menu-setting">
@@ -773,6 +794,11 @@
             <option value="en">🇬🇧 English</option>
           </select>
         </label>
+
+        <button id="menu-labels-button" class="menu-action" type="button">
+          <span aria-hidden="true">🏷️</span>
+          <span id="menu-labels-menu-label">Etykiety</span>
+        </button>
 
         <button id="menu-legend-button" class="menu-action" type="button">
           <span aria-hidden="true">🗺️</span>
