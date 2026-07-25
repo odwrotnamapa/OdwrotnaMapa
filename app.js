@@ -32,6 +32,7 @@
       labelsRegions: "Województwa / obwody",
       labelsCountries: "Kraje",
       labelsAirports: "Lotniska",
+      labelsBoundaries: "Granice administracyjne",
       customColorLabels: {
         mapBackground: "Tło",
         mapWater: "Woda",
@@ -328,6 +329,7 @@
       labelsRegions: "Regions / provinces",
       labelsCountries: "Countries",
       labelsAirports: "Airports",
+      labelsBoundaries: "Administrative boundaries",
       customColorLabels: {
         mapBackground: "Background",
         mapWater: "Water",
@@ -651,7 +653,8 @@
     ],
     regions: ["label_state"],
     countries: ["label_country_3", "label_country_2", "label_country_1"],
-    airports: ["airport"]
+    airports: ["airport"],
+    boundaries: ["boundary_3", "boundary_2", "boundary_disputed"]
   };
 
   const DEFAULT_LABEL_VISIBILITY = {
@@ -661,7 +664,8 @@
     water: true,
     regions: true,
     countries: true,
-    airports: true
+    airports: true,
+    boundaries: true
   };
   const LABEL_VISIBILITY_STORAGE_KEY = "omapa-label-visibility";
 
@@ -866,6 +870,8 @@
     labelsCountriesToggleLabel: $("menu-labels-countries-label"),
     labelsAirportsToggle: $("menu-labels-airports"),
     labelsAirportsToggleLabel: $("menu-labels-airports-label"),
+    labelsBoundariesToggle: $("menu-labels-boundaries"),
+    labelsBoundariesToggleLabel: $("menu-labels-boundaries-label"),
     menuCustomLabelsHeading: $("menu-custom-labels-heading"),
     menuExportAll: $("menu-export-all"),
     menuExportAllLabel: $("menu-export-all-label"),
@@ -1091,7 +1097,8 @@
       water: el.labelsWaterToggle,
       regions: el.labelsRegionsToggle,
       countries: el.labelsCountriesToggle,
-      airports: el.labelsAirportsToggle
+      airports: el.labelsAirportsToggle,
+      boundaries: el.labelsBoundariesToggle
     };
 
     for (const [group, checkbox] of Object.entries(checkboxByGroup)) {
@@ -1562,6 +1569,7 @@
     if (el.labelsRegionsToggleLabel) el.labelsRegionsToggleLabel.textContent = t.labelsRegions;
     if (el.labelsCountriesToggleLabel) el.labelsCountriesToggleLabel.textContent = t.labelsCountries;
     if (el.labelsAirportsToggleLabel) el.labelsAirportsToggleLabel.textContent = t.labelsAirports;
+    if (el.labelsBoundariesToggleLabel) el.labelsBoundariesToggleLabel.textContent = t.labelsBoundaries;
     for (const [key, label] of Object.entries(t.customColorLabels)) {
       const labelEl = $(`custom-color-${key}-label`);
       if (labelEl) labelEl.textContent = label;
