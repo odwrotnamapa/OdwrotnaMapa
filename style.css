@@ -3067,7 +3067,7 @@ a.place-card-row {
 /* Telefon: zmniejsz odstęp między skalą a dolnym paskiem */
 @media (max-width: 600px) {
   .maplibregl-ctrl-bottom-left {
-    bottom: 62px !important;
+    bottom: 126px !important;
     margin-bottom: 0 !important;
   }
 
@@ -3080,7 +3080,7 @@ a.place-card-row {
 /* Telefon: skala niemal bezpośrednio nad dolnym paskiem */
 @media (max-width: 600px) {
   .maplibregl-ctrl-bottom-left {
-    bottom: 54px !important;
+    bottom: 126px !important;
     margin: 0 !important;
     padding: 0 !important;
   }
@@ -3120,7 +3120,7 @@ a.place-card-row {
   }
 
   .maplibregl-ctrl-bottom-left {
-    bottom: 69px !important;
+    bottom: 126px !important;
     margin: 0 !important;
     padding: 0 !important;
   }
@@ -4395,7 +4395,7 @@ a.place-card-row {
 
   .maplibregl-ctrl-bottom-left,
   .maplibregl-ctrl-bottom-right {
-    bottom: 130px !important;
+    bottom: 126px !important;
   }
 }
 
@@ -5655,7 +5655,8 @@ textarea,
     bottom: 126px !important;
     right: 8px !important;
     left: auto !important;
-    width: 46px !important;
+    width: 52px !important;
+    min-width: 52px !important;
     height: auto !important;
     z-index: 30 !important;
   }
@@ -5677,8 +5678,8 @@ textarea,
    regułami odziedziczonymi po #menu-button. */
 #streetview-toggle-button,
 #locate-toggle-button {
-  width: 46px !important;
-  min-width: 46px !important;
+  width: 52px !important;
+  min-width: 52px !important;
   height: 100% !important;
   min-height: 0 !important;
 }
@@ -5696,7 +5697,7 @@ textarea,
   #streetview-actions {
     display: flex !important;
     flex-direction: column !important;
-    width: 46px !important;
+    width: 52px !important;
     height: auto !important;
   }
 }
