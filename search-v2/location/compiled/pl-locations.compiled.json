@@ -115,7 +115,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8196533,
+      "lon": 19.3035375
     },
     {
       "id": "alwernia",
@@ -149,7 +151,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0690434,
+      "lon": 19.5396737
     },
     {
       "id": "andrychow",
@@ -199,7 +203,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8555791,
+      "lon": 19.3436756
     },
     {
       "id": "annopol",
@@ -233,7 +239,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8851655,
+      "lon": 21.8550836
     },
     {
       "id": "augustow",
@@ -339,7 +347,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.8437331,
+      "lon": 22.9802357
     },
     {
       "id": "babimost",
@@ -348,7 +358,9 @@
         "babimost"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.165312,
+      "lon": 15.8285175
     },
     {
       "id": "baborow",
@@ -366,7 +378,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1563566,
+      "lon": 17.9859393
     },
     {
       "id": "baranow-sandomierski",
@@ -432,7 +446,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4994982,
+      "lon": 21.5417887
     },
     {
       "id": "barcin",
@@ -450,7 +466,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8632346,
+      "lon": 17.9472463
     },
     {
       "id": "barczewo",
@@ -459,7 +477,9 @@
         "barczewo"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8297112,
+      "lon": 20.6911497
     },
     {
       "id": "bardo",
@@ -468,7 +488,9 @@
         "bardo"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.5068014,
+      "lon": 16.7402729
     },
     {
       "id": "barlinek",
@@ -486,7 +508,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.9920762,
+      "lon": 15.2166391
     },
     {
       "id": "bartoszyce",
@@ -504,7 +528,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.2523708,
+      "lon": 20.8143702
     },
     {
       "id": "barwice",
@@ -546,7 +572,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.7445649,
+      "lon": 16.3549399
     },
     {
       "id": "bedzin",
@@ -892,7 +920,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.175063,
+      "lon": 22.2749995
     },
     {
       "id": "biala",
@@ -918,7 +948,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3853609,
+      "lon": 17.6599107
     },
     {
       "id": "biala-piska",
@@ -927,7 +959,9 @@
         "biala piska"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.6113625,
+      "lon": 22.0581433
     },
     {
       "id": "biala-podlaska",
@@ -1100,7 +1134,9 @@
         "biala rawska"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.8075978,
+      "lon": 20.4720942
     },
     {
       "id": "bialaczow",
@@ -1134,7 +1170,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.298466,
+      "lon": 20.2949544
     },
     {
       "id": "bialobrzegi",
@@ -1184,7 +1222,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6482305,
+      "lon": 20.9497458
     },
     {
       "id": "bialogard",
@@ -1242,7 +1282,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.0064367,
+      "lon": 15.9870974
     },
     {
       "id": "bialy-bor",
@@ -1251,7 +1293,9 @@
         "bialy bor"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8987414,
+      "lon": 16.8377275
     },
     {
       "id": "bialystok",
@@ -1569,7 +1613,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7305351,
+      "lon": 21.249421
     },
     {
       "id": "bielawa",
@@ -1578,7 +1624,9 @@
         "bielawa"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.6841718,
+      "lon": 16.6118259
     },
     {
       "id": "bielsk-podlaski",
@@ -1612,7 +1660,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7687555,
+      "lon": 23.1925618
     },
     {
       "id": "bielsko-biala",
@@ -2094,7 +2144,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1252738,
+      "lon": 17.5400351
     },
     {
       "id": "biezun",
@@ -2103,7 +2155,9 @@
         "biezun"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.9617996,
+      "lon": 19.8899936
     },
     {
       "id": "bilgoraj",
@@ -2245,7 +2299,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.691222,
+      "lon": 22.4804308
     },
     {
       "id": "biskupiec",
@@ -2254,7 +2310,9 @@
         "biskupiec"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8637983,
+      "lon": 20.954989
     },
     {
       "id": "bisztynek",
@@ -2263,7 +2321,9 @@
         "bisztynek"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.0866828,
+      "lon": 20.908828
     },
     {
       "id": "blachownia",
@@ -2337,7 +2397,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7820239,
+      "lon": 18.9684255
     },
     {
       "id": "blaszki",
@@ -2363,7 +2425,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6525206,
+      "lon": 18.4333114
     },
     {
       "id": "blazowa",
@@ -2397,7 +2461,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8856022,
+      "lon": 22.1008013
     },
     {
       "id": "blonie",
@@ -2431,7 +2497,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1946065,
+      "lon": 20.6169694
     },
     {
       "id": "bobolice",
@@ -2440,7 +2508,9 @@
         "bobolice"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.954693,
+      "lon": 16.5884779
     },
     {
       "id": "bobowa",
@@ -2554,7 +2624,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7081074,
+      "lon": 20.942002
     },
     {
       "id": "bobrowniki",
@@ -2572,7 +2644,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7792249,
+      "lon": 18.9545437
     },
     {
       "id": "bochnia",
@@ -2782,7 +2856,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9693563,
+      "lon": 20.430541
     },
     {
       "id": "bodzanow",
@@ -2791,7 +2867,9 @@
         "bodzanow"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.5008478,
+      "lon": 20.0299052
     },
     {
       "id": "bodzentyn",
@@ -2800,7 +2878,9 @@
         "bodzentyn"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.9408055,
+      "lon": 20.9582386
     },
     {
       "id": "bogatynia",
@@ -2866,7 +2946,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9077147,
+      "lon": 14.9539185
     },
     {
       "id": "bogoria",
@@ -2892,7 +2974,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6519146,
+      "lon": 21.2601913
     },
     {
       "id": "boguchwala",
@@ -2974,7 +3058,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9806882,
+      "lon": 21.9391822
     },
     {
       "id": "boguszow-gorce",
@@ -3048,7 +3134,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7566795,
+      "lon": 16.2043895
     },
     {
       "id": "bojanowo",
@@ -3082,7 +3170,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7070018,
+      "lon": 16.7487692
     },
     {
       "id": "boleslawiec-dolnoslaskie",
@@ -3130,7 +3220,9 @@
         "bolimow"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0762415,
+      "lon": 20.163478
     },
     {
       "id": "bolkow",
@@ -3139,7 +3231,9 @@
         "bolkow"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.9220033,
+      "lon": 16.100499
     },
     {
       "id": "borek-wielkopolski",
@@ -3148,7 +3242,9 @@
         "borek wielkopolski"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.916153,
+      "lon": 17.2425955
     },
     {
       "id": "borne-sulinowo",
@@ -3157,7 +3253,9 @@
         "borne sulinowo"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.5812939,
+      "lon": 16.538117
     },
     {
       "id": "branice",
@@ -3166,7 +3264,9 @@
         "branice"
       ],
       "voivodeship": "opolskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.0506183,
+      "lon": 17.7944158
     },
     {
       "id": "braniewo",
@@ -3175,7 +3275,9 @@
         "braniewo"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.3825966,
+      "lon": 19.827344
     },
     {
       "id": "bransk",
@@ -3233,7 +3335,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7454145,
+      "lon": 22.8328169
     },
     {
       "id": "brodnica",
@@ -3334,7 +3438,9 @@
         "brody"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7867086,
+      "lon": 14.7743044
     },
     {
       "id": "brok",
@@ -3432,7 +3538,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6989287,
+      "lon": 21.8601815
     },
     {
       "id": "brusy",
@@ -3441,7 +3549,9 @@
         "brusy"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8861557,
+      "lon": 17.7190437
     },
     {
       "id": "brwinow",
@@ -3475,7 +3585,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1425551,
+      "lon": 20.7170701
     },
     {
       "id": "brzeg",
@@ -3537,7 +3649,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2691209,
+      "lon": 16.7081404
     },
     {
       "id": "brzesc-kujawski",
@@ -3635,7 +3749,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6048164,
+      "lon": 18.9015463
     },
     {
       "id": "brzesko",
@@ -3773,7 +3889,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9678396,
+      "lon": 20.6068496
     },
     {
       "id": "brzeszcze",
@@ -3999,7 +4117,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9815881,
+      "lon": 19.1478238
     },
     {
       "id": "brzeziny",
@@ -4008,7 +4128,9 @@
         "brzeziny"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.8004949,
+      "lon": 19.7517694
     },
     {
       "id": "brzostek",
@@ -4050,7 +4172,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8784697,
+      "lon": 21.411865
     },
     {
       "id": "brzozow",
@@ -4116,7 +4240,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6950395,
+      "lon": 22.0196537
     },
     {
       "id": "budzyn",
@@ -4150,7 +4276,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8909489,
+      "lon": 16.9835951
     },
     {
       "id": "buk",
@@ -4159,7 +4287,9 @@
         "buk"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.3573908,
+      "lon": 16.5167014
     },
     {
       "id": "bukowno",
@@ -4353,7 +4483,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2669741,
+      "lon": 19.4613822
     },
     {
       "id": "busko-zdroj",
@@ -4507,7 +4639,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.46759,
+      "lon": 20.71919
     },
     {
       "id": "bychawa",
@@ -4605,7 +4739,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0152225,
+      "lon": 22.534535
     },
     {
       "id": "byczyna",
@@ -4614,7 +4750,9 @@
         "byczyna"
       ],
       "voivodeship": "opolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.1142355,
+      "lon": 18.2143288
     },
     {
       "id": "bydgoszcz",
@@ -4997,7 +5135,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2968684,
+      "lon": 16.652017
     },
     {
       "id": "bytom",
@@ -5147,7 +5287,9 @@
         "bytom odrzanski"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7308267,
+      "lon": 15.826918
     },
     {
       "id": "bytow",
@@ -5156,7 +5298,9 @@
         "bytow"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.1694592,
+      "lon": 17.4890263
     },
     {
       "id": "cedynia",
@@ -5174,7 +5318,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8784024,
+      "lon": 14.2031446
     },
     {
       "id": "ceglow",
@@ -5183,7 +5329,9 @@
         "ceglow"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1470172,
+      "lon": 21.7381713
     },
     {
       "id": "checiny",
@@ -5233,7 +5381,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8000835,
+      "lon": 20.4622228
     },
     {
       "id": "chelm",
@@ -5423,7 +5573,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1003348,
+      "lon": 19.2542585
     },
     {
       "id": "chelmno",
@@ -5569,7 +5721,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6145952,
+      "lon": 20.7510406
     },
     {
       "id": "chocianow",
@@ -5578,7 +5732,9 @@
         "chocianow"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.4168327,
+      "lon": 15.8986889
     },
     {
       "id": "chociwel",
@@ -5604,7 +5760,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4663949,
+      "lon": 15.3314436
     },
     {
       "id": "chocz",
@@ -5613,7 +5771,9 @@
         "chocz"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.9752124,
+      "lon": 17.8706873
     },
     {
       "id": "chodecz",
@@ -5655,7 +5815,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4051735,
+      "lon": 19.0272596
     },
     {
       "id": "chodziez",
@@ -5741,7 +5903,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.9629793,
+      "lon": 14.4314113
     },
     {
       "id": "chojnice",
@@ -5870,7 +6034,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.143925,
+      "lon": 22.9884588
     },
     {
       "id": "chorzele",
@@ -5896,7 +6062,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2610476,
+      "lon": 20.8978631
     },
     {
       "id": "chorzow",
@@ -5998,7 +6166,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1704801,
+      "lon": 15.4167349
     },
     {
       "id": "chrzanow",
@@ -6088,7 +6258,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1411926,
+      "lon": 19.4028502
     },
     {
       "id": "ciechanow",
@@ -6242,7 +6414,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8819798,
+      "lon": 20.6191479
     },
     {
       "id": "ciechanowiec",
@@ -6268,7 +6442,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6787967,
+      "lon": 22.4991103
     },
     {
       "id": "ciechocinek",
@@ -6302,7 +6478,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.882552,
+      "lon": 18.7906883
     },
     {
       "id": "ciepielow",
@@ -6320,7 +6498,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2482289,
+      "lon": 21.5741193
     },
     {
       "id": "cieszanow",
@@ -6346,7 +6526,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2454329,
+      "lon": 23.1301265
     },
     {
       "id": "cieszyn",
@@ -6512,7 +6694,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.786464,
+      "lon": 20.9737542
     },
     {
       "id": "cmielow",
@@ -6554,7 +6738,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8918364,
+      "lon": 21.5100875
     },
     {
       "id": "cybinka",
@@ -6563,7 +6749,9 @@
         "cybinka"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1940293,
+      "lon": 14.7968841
     },
     {
       "id": "czaplinek",
@@ -6581,7 +6769,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.560673,
+      "lon": 16.2319428
     },
     {
       "id": "czarna-bialostocka",
@@ -6615,7 +6805,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2982835,
+      "lon": 23.2851013
     },
     {
       "id": "czarna-woda",
@@ -6624,7 +6816,9 @@
         "czarna woda"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8441983,
+      "lon": 18.0984293
     },
     {
       "id": "czarne",
@@ -6642,7 +6836,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.68353,
+      "lon": 16.94221
     },
     {
       "id": "czarnkow",
@@ -6687,7 +6883,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.440493,
+      "lon": 19.8535612
     },
     {
       "id": "czchow",
@@ -6801,7 +6999,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8339446,
+      "lon": 20.6731487
     },
     {
       "id": "czechowice-dziedzice",
@@ -7003,7 +7203,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9112146,
+      "lon": 19.007564
     },
     {
       "id": "czeladz",
@@ -7064,7 +7266,9 @@
         "czemierniki"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6743703,
+      "lon": 22.6380937
     },
     {
       "id": "czempin",
@@ -7082,7 +7286,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1431479,
+      "lon": 16.7613308
     },
     {
       "id": "czerniejewo",
@@ -7116,7 +7322,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4296119,
+      "lon": 17.489398
     },
     {
       "id": "czersk",
@@ -7125,7 +7333,9 @@
         "czersk"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.796196,
+      "lon": 17.9756228
     },
     {
       "id": "czerwiensk",
@@ -7134,7 +7344,9 @@
         "czerwiensk"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0130585,
+      "lon": 15.4211463
     },
     {
       "id": "czerwinsk-nad-wisla",
@@ -7143,7 +7355,9 @@
         "czerwinsk nad wisla"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.3940182,
+      "lon": 20.3123715
     },
     {
       "id": "czerwionka-leszczyny",
@@ -7209,7 +7423,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1449958,
+      "lon": 18.6531994
     },
     {
       "id": "czestochowa",
@@ -7615,7 +7831,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.0884595,
+      "lon": 16.1201069
     },
     {
       "id": "czluchow",
@@ -7652,7 +7870,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7975512,
+      "lon": 22.3123475
     },
     {
       "id": "dabie",
@@ -7670,7 +7890,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0871691,
+      "lon": 18.8220738
     },
     {
       "id": "dabrowa-bialostocka",
@@ -7736,7 +7958,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.654439,
+      "lon": 23.3485102
     },
     {
       "id": "dabrowa-gornicza",
@@ -8238,7 +8462,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1743495,
+      "lon": 20.9850707
     },
     {
       "id": "dabrowice",
@@ -8296,7 +8522,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3156388,
+      "lon": 19.08451
     },
     {
       "id": "daleszyce",
@@ -8330,7 +8558,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.801991,
+      "lon": 20.8066334
     },
     {
       "id": "darlowo",
@@ -8356,7 +8586,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.42249,
+      "lon": 16.40933
     },
     {
       "id": "debica",
@@ -8570,7 +8802,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.562491,
+      "lon": 21.8654383
     },
     {
       "id": "debno",
@@ -8596,7 +8830,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7396681,
+      "lon": 14.7014522
     },
     {
       "id": "debrzno",
@@ -8605,7 +8841,9 @@
         "debrzno"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.53861,
+      "lon": 17.2338685
     },
     {
       "id": "dobczyce",
@@ -8663,7 +8901,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8803432,
+      "lon": 20.0905415
     },
     {
       "id": "dobiegniew",
@@ -8672,7 +8912,9 @@
         "dobiegniew"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.9667749,
+      "lon": 15.7548055
     },
     {
       "id": "dobra-wielkopolskie",
@@ -8681,7 +8923,9 @@
         "dobra"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.9161774,
+      "lon": 18.6159693
     },
     {
       "id": "dobra-zachodniopomorskie",
@@ -8690,7 +8934,9 @@
         "dobra"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.584659,
+      "lon": 15.3073048
     },
     {
       "id": "dobre",
@@ -8708,7 +8954,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.32171,
+      "lon": 21.67852
     },
     {
       "id": "dobre-miasto",
@@ -8734,7 +8982,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.9868899,
+      "lon": 20.3973402
     },
     {
       "id": "dobrodzien",
@@ -8768,7 +9018,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7288597,
+      "lon": 18.444336
     },
     {
       "id": "dobrzany",
@@ -8777,7 +9029,9 @@
         "dobrzany"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.3582754,
+      "lon": 15.4299315
     },
     {
       "id": "dobrzyca",
@@ -8803,7 +9057,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8668166,
+      "lon": 17.6026387
     },
     {
       "id": "dobrzyn-nad-wisla",
@@ -8869,7 +9125,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6374518,
+      "lon": 19.3213714
     },
     {
       "id": "dolsk",
@@ -8911,7 +9169,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9866,
+      "lon": 17.0653695
     },
     {
       "id": "drawno",
@@ -8953,7 +9213,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2189468,
+      "lon": 15.7580084
     },
     {
       "id": "drawsko-pomorskie",
@@ -8995,7 +9257,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5310786,
+      "lon": 15.8134179
     },
     {
       "id": "drezdenko",
@@ -9045,7 +9309,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8395492,
+      "lon": 15.8306725
     },
     {
       "id": "drobin",
@@ -9071,7 +9337,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7377981,
+      "lon": 19.9893151
     },
     {
       "id": "drohiczyn",
@@ -9105,7 +9373,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.396648,
+      "lon": 22.658812
     },
     {
       "id": "drzewica",
@@ -9114,7 +9384,9 @@
         "drzewica"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.4508384,
+      "lon": 20.4773617
     },
     {
       "id": "dubiecko",
@@ -9123,7 +9395,9 @@
         "dubiecko"
       ],
       "voivodeship": "podkarpackie",
-      "districts": []
+      "districts": [],
+      "lat": 49.8253187,
+      "lon": 22.3916222
     },
     {
       "id": "dukla",
@@ -9189,7 +9463,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.55636,
+      "lon": 21.6847523
     },
     {
       "id": "duszniki-zdroj",
@@ -9247,7 +9523,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4044249,
+      "lon": 16.3901528
     },
     {
       "id": "dynow",
@@ -9385,7 +9663,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8134771,
+      "lon": 22.2338151
     },
     {
       "id": "dzialdowo",
@@ -9471,7 +9751,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3654682,
+      "lon": 20.3521471
     },
     {
       "id": "dzialoszyn",
@@ -9497,7 +9779,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1167859,
+      "lon": 18.8651624
     },
     {
       "id": "dzierzgon",
@@ -9506,7 +9790,9 @@
         "dzierzgon"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.9239051,
+      "lon": 19.3479491
     },
     {
       "id": "dzierzoniow",
@@ -9576,7 +9862,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.0277746,
+      "lon": 14.7603921
     },
     {
       "id": "elblag",
@@ -9747,7 +10035,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.671832,
+      "lon": 22.6698666
     },
     {
       "id": "frombork",
@@ -9756,7 +10046,9 @@
         "frombork"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.3583633,
+      "lon": 19.6823701
     },
     {
       "id": "gabin",
@@ -9798,7 +10090,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.39942,
+      "lon": 19.73072
     },
     {
       "id": "garwolin",
@@ -9880,7 +10174,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8973315,
+      "lon": 21.6149645
     },
     {
       "id": "gasawa",
@@ -9889,7 +10185,9 @@
         "gasawa"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.76856,
+      "lon": 17.75631
     },
     {
       "id": "gdansk",
@@ -11155,7 +11453,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3997224,
+      "lon": 20.4762225
     },
     {
       "id": "gizycko",
@@ -11192,7 +11492,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.819174,
+      "lon": 20.2862655
     },
     {
       "id": "gliwice",
@@ -11547,7 +11849,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1511809,
+      "lon": 21.9627571
     },
     {
       "id": "glogowek",
@@ -11581,7 +11885,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3534373,
+      "lon": 17.8619329
     },
     {
       "id": "glowaczow",
@@ -11590,7 +11896,9 @@
         "glowaczow"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6231797,
+      "lon": 21.3177054
     },
     {
       "id": "glowno",
@@ -11688,7 +11996,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9660873,
+      "lon": 19.7135665
     },
     {
       "id": "glubczyce",
@@ -11706,7 +12016,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2001072,
+      "lon": 17.8301977
     },
     {
       "id": "glucholazy",
@@ -11732,7 +12044,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3170828,
+      "lon": 17.3833809
     },
     {
       "id": "gluszyca",
@@ -11750,7 +12064,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6850304,
+      "lon": 16.3730344
     },
     {
       "id": "gniew",
@@ -11759,7 +12075,9 @@
         "gniew"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8342221,
+      "lon": 18.8251596
     },
     {
       "id": "gniewkowo",
@@ -11801,7 +12119,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.894429,
+      "lon": 18.4066817
     },
     {
       "id": "gniezno",
@@ -11999,7 +12319,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4925107,
+      "lon": 18.0176197
     },
     {
       "id": "golancz",
@@ -12017,7 +12339,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.9431644,
+      "lon": 17.2999756
     },
     {
       "id": "golczewo",
@@ -12051,7 +12375,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.8241081,
+      "lon": 14.9773396
     },
     {
       "id": "goldap",
@@ -12060,7 +12386,9 @@
         "goldap"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.3077084,
+      "lon": 22.3018576
     },
     {
       "id": "goleniow",
@@ -12166,7 +12494,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5656939,
+      "lon": 14.8299285
     },
     {
       "id": "golina",
@@ -12175,7 +12505,9 @@
         "golina"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.24276,
+      "lon": 18.09534
     },
     {
       "id": "golub-dobrzyn",
@@ -12260,7 +12592,9 @@
         "goniadz"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.489222,
+      "lon": 22.7323721
     },
     {
       "id": "gora",
@@ -12286,7 +12620,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6681499,
+      "lon": 16.5393277
     },
     {
       "id": "gora-kalwaria",
@@ -12344,7 +12680,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9843765,
+      "lon": 21.2140226
     },
     {
       "id": "goraj",
@@ -12362,7 +12700,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7212294,
+      "lon": 22.6682146
     },
     {
       "id": "gorlice",
@@ -12563,7 +12903,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1980846,
+      "lon": 19.6445713
     },
     {
       "id": "gorzow-slaski",
@@ -12637,7 +12979,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0281551,
+      "lon": 18.4222682
     },
     {
       "id": "gorzow-wielkopolski",
@@ -12739,7 +13083,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.0515795,
+      "lon": 15.6534004
     },
     {
       "id": "gostyn",
@@ -12757,7 +13103,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8778633,
+      "lon": 17.0167637
     },
     {
       "id": "gostynin",
@@ -12855,7 +13203,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4287607,
+      "lon": 19.4612956
     },
     {
       "id": "gowarczow",
@@ -12864,7 +13214,9 @@
         "gowarczow"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.2784974,
+      "lon": 20.438142
     },
     {
       "id": "gozdnica",
@@ -12882,7 +13234,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4373182,
+      "lon": 15.0960336
     },
     {
       "id": "grabow",
@@ -12932,7 +13286,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.12736,
+      "lon": 19.00855
     },
     {
       "id": "grabow-nad-prosna",
@@ -12941,7 +13297,9 @@
         "grabow nad prosna"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.5060515,
+      "lon": 18.1188808
     },
     {
       "id": "grajewo",
@@ -12970,7 +13328,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.698157,
+      "lon": 17.3849804
     },
     {
       "id": "grodzisk-mazowiecki",
@@ -12988,7 +13348,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1066223,
+      "lon": 20.6313441
     },
     {
       "id": "grodzisk-wielkopolski",
@@ -12997,7 +13359,9 @@
         "grodzisk wielkopolski"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2263198,
+      "lon": 16.3628106
     },
     {
       "id": "grojec",
@@ -13015,7 +13379,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8655126,
+      "lon": 20.8675017
     },
     {
       "id": "grudziadz",
@@ -13222,7 +13588,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6250919,
+      "lon": 20.9446455
     },
     {
       "id": "gryfice",
@@ -13231,7 +13599,9 @@
         "gryfice"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.9148529,
+      "lon": 15.1987062
     },
     {
       "id": "gryfino",
@@ -13249,7 +13619,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2535889,
+      "lon": 14.4924243
     },
     {
       "id": "gryfow-slaski",
@@ -13267,7 +13639,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0281455,
+      "lon": 15.4145051
     },
     {
       "id": "gubin",
@@ -13276,7 +13650,9 @@
         "gubin"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.9509156,
+      "lon": 14.7293172
     },
     {
       "id": "hajnowka",
@@ -13422,7 +13798,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7365783,
+      "lon": 23.5878728
     },
     {
       "id": "halinow",
@@ -13440,7 +13818,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2258575,
+      "lon": 21.3529522
     },
     {
       "id": "hel",
@@ -13449,7 +13829,9 @@
         "hel"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.6066432,
+      "lon": 18.8027076
     },
     {
       "id": "hrubieszow",
@@ -13523,7 +13905,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8047363,
+      "lon": 23.8873816
     },
     {
       "id": "ilawa",
@@ -13569,7 +13953,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5006828,
+      "lon": 15.1984599
     },
     {
       "id": "ilza",
@@ -13691,7 +14077,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1624155,
+      "lon": 21.2373193
     },
     {
       "id": "imielin",
@@ -13793,7 +14181,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5236969,
+      "lon": 20.2228852
     },
     {
       "id": "inowroclaw",
@@ -13911,7 +14301,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.435721,
+      "lon": 15.548315
     },
     {
       "id": "iwaniska",
@@ -13937,7 +14329,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7314289,
+      "lon": 21.281111
     },
     {
       "id": "iwonicz-zdroj",
@@ -13979,7 +14373,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.5696688,
+      "lon": 21.7932328
     },
     {
       "id": "izbica",
@@ -14013,7 +14409,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8927773,
+      "lon": 23.1587974
     },
     {
       "id": "izbica-kujawska",
@@ -14055,7 +14453,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.41925,
+      "lon": 18.76435
     },
     {
       "id": "jablonowo-pomorskie",
@@ -14064,7 +14464,9 @@
         "jablonowo pomorskie"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.387984,
+      "lon": 19.1527034
     },
     {
       "id": "jadow",
@@ -14073,7 +14475,9 @@
         "jadow"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.4783418,
+      "lon": 21.6326999
     },
     {
       "id": "janikowo",
@@ -14123,7 +14527,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7531648,
+      "lon": 18.1141024
     },
     {
       "id": "janow",
@@ -14149,7 +14555,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7222241,
+      "lon": 19.436164
     },
     {
       "id": "janow-lubelski",
@@ -14183,7 +14591,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7065895,
+      "lon": 22.4110663
     },
     {
       "id": "janow-podlaski",
@@ -14192,7 +14602,9 @@
         "janow podlaski"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1971205,
+      "lon": 23.2078844
     },
     {
       "id": "janowiec-wielkopolski",
@@ -14234,7 +14646,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7567264,
+      "lon": 17.4887698
     },
     {
       "id": "jaraczewo",
@@ -14252,7 +14666,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9689115,
+      "lon": 17.2981142
     },
     {
       "id": "jarocin",
@@ -14334,7 +14750,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9739233,
+      "lon": 17.5011254
     },
     {
       "id": "jaroslaw",
@@ -14507,7 +14925,9 @@
         "jasien"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7515442,
+      "lon": 15.0123351
     },
     {
       "id": "jaslo",
@@ -14661,7 +15081,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7470465,
+      "lon": 21.4743139
     },
     {
       "id": "jastarnia",
@@ -14670,7 +15092,9 @@
         "jastarnia"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.702764,
+      "lon": 18.6712892
     },
     {
       "id": "jastrowie",
@@ -14736,7 +15160,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4205494,
+      "lon": 16.8150156
     },
     {
       "id": "jastrzab",
@@ -14754,7 +15180,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2467635,
+      "lon": 20.9468572
     },
     {
       "id": "jastrzebie-zdroj",
@@ -14996,7 +15424,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8886553,
+      "lon": 22.2837088
     },
     {
       "id": "jaworzno",
@@ -15417,7 +15847,9 @@
         "jaworzyna slaska"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.9144217,
+      "lon": 16.4308642
     },
     {
       "id": "jedlicze",
@@ -15555,7 +15987,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.714148,
+      "lon": 21.6421513
     },
     {
       "id": "jedlina-zdroj",
@@ -15613,7 +16047,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7247104,
+      "lon": 16.3479998
     },
     {
       "id": "jedlnia-letnisko",
@@ -15639,7 +16075,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4303531,
+      "lon": 21.3292505
     },
     {
       "id": "jedrzejow",
@@ -15673,7 +16111,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6394435,
+      "lon": 20.3046116
     },
     {
       "id": "jedwabne",
@@ -15691,7 +16131,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2867308,
+      "lon": 22.3021413
     },
     {
       "id": "jelcz-laskowice",
@@ -15725,7 +16167,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0398306,
+      "lon": 17.3499638
     },
     {
       "id": "jelenia-gora",
@@ -15834,7 +16278,9 @@
         "jeziorany"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.9768604,
+      "lon": 20.7459137
     },
     {
       "id": "jezow",
@@ -15852,7 +16298,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.813452,
+      "lon": 19.9687952
     },
     {
       "id": "jordanow",
@@ -16046,7 +16494,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6492876,
+      "lon": 19.8299532
     },
     {
       "id": "jozefow-lubelskie",
@@ -16088,7 +16538,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4808298,
+      "lon": 23.0540591
     },
     {
       "id": "jozefow-mazowieckie",
@@ -16170,7 +16622,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1361065,
+      "lon": 21.234551
     },
     {
       "id": "jozefow-nad-wisla",
@@ -16179,7 +16633,9 @@
         "jozefow nad wisla"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0408518,
+      "lon": 21.8296779
     },
     {
       "id": "jutrosin",
@@ -16188,7 +16644,9 @@
         "jutrosin"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6536197,
+      "lon": 17.1689896
     },
     {
       "id": "kaczory",
@@ -16214,7 +16672,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1020938,
+      "lon": 16.8843061
     },
     {
       "id": "kalety",
@@ -16288,7 +16748,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5636291,
+      "lon": 18.885746
     },
     {
       "id": "kalisz",
@@ -16542,7 +17004,9 @@
         "kalisz pomorski"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.2981616,
+      "lon": 15.9059903
     },
     {
       "id": "kaluszyn",
@@ -16584,7 +17048,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2087832,
+      "lon": 21.811881
     },
     {
       "id": "kalwaria-zebrzydowska",
@@ -16666,7 +17132,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8669482,
+      "lon": 19.6763089
     },
     {
       "id": "kamien-krajenski",
@@ -16684,7 +17152,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5333203,
+      "lon": 17.5199143
     },
     {
       "id": "kamien-pomorski",
@@ -16693,7 +17163,9 @@
         "kamien pomorski"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.9653947,
+      "lon": 14.7728556
     },
     {
       "id": "kamieniec-zabkowicki",
@@ -16711,7 +17183,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5229139,
+      "lon": 16.8736143
     },
     {
       "id": "kamienna-gora",
@@ -16753,7 +17227,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7837361,
+      "lon": 16.0336631
     },
     {
       "id": "kamiensk",
@@ -16771,7 +17247,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.204172,
+      "lon": 19.4970714
     },
     {
       "id": "kamionka",
@@ -16780,7 +17258,9 @@
         "kamionka"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.4711228,
+      "lon": 22.4644249
     },
     {
       "id": "kanczuga",
@@ -16798,7 +17278,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9843732,
+      "lon": 22.4131838
     },
     {
       "id": "karczew",
@@ -16824,7 +17306,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0782795,
+      "lon": 21.2508068
     },
     {
       "id": "kargowa",
@@ -16833,7 +17317,9 @@
         "kargowa"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0719225,
+      "lon": 15.8648044
     },
     {
       "id": "karlino",
@@ -16842,7 +17328,9 @@
         "karlino"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.0410287,
+      "lon": 15.8793019
     },
     {
       "id": "karpacz",
@@ -16892,7 +17380,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7747485,
+      "lon": 15.7542035
     },
     {
       "id": "kartuzy",
@@ -16910,7 +17400,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.3342281,
+      "lon": 18.1973639
     },
     {
       "id": "katowice",
@@ -17259,7 +17751,9 @@
         "katy wroclawskie"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0302656,
+      "lon": 16.7702325
     },
     {
       "id": "kazanow",
@@ -17285,7 +17779,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2749452,
+      "lon": 21.4683529
     },
     {
       "id": "kazimierz-dolny",
@@ -17415,7 +17911,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3220058,
+      "lon": 21.947372
     },
     {
       "id": "kazimierza-wielka",
@@ -17465,7 +17963,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.267489,
+      "lon": 20.4853308
     },
     {
       "id": "kcynia",
@@ -17507,7 +18007,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.9917668,
+      "lon": 17.4873729
     },
     {
       "id": "kedzierzyn-kozle",
@@ -17677,7 +18179,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3448836,
+      "lon": 18.2109594
     },
     {
       "id": "kepice",
@@ -17703,7 +18207,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.2427792,
+      "lon": 16.8896705
     },
     {
       "id": "kepno",
@@ -17745,7 +18251,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2790265,
+      "lon": 17.9866632
     },
     {
       "id": "ketrzyn",
@@ -17894,7 +18402,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.882908,
+      "lon": 19.2239362
     },
     {
       "id": "kielce",
@@ -18500,7 +19010,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2687653,
+      "lon": 19.8710998
     },
     {
       "id": "kietrz",
@@ -18518,7 +19030,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0796271,
+      "lon": 18.0021082
     },
     {
       "id": "kikol",
@@ -18527,7 +19041,9 @@
         "kikol"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.912342,
+      "lon": 19.1203393
     },
     {
       "id": "kisielice",
@@ -18536,7 +19052,9 @@
         "kisielice"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.6076054,
+      "lon": 19.2593923
     },
     {
       "id": "klecko",
@@ -18570,7 +19088,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6324247,
+      "lon": 17.4282911
     },
     {
       "id": "kleczew",
@@ -18588,7 +19108,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3707265,
+      "lon": 18.1779886
     },
     {
       "id": "kleszczele",
@@ -18606,7 +19128,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.574173,
+      "lon": 23.3254851
     },
     {
       "id": "klimontow",
@@ -18624,7 +19148,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6563871,
+      "lon": 21.4506186
     },
     {
       "id": "klobuck",
@@ -18690,7 +19216,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9025547,
+      "lon": 18.93716
     },
     {
       "id": "klodawa",
@@ -18699,7 +19227,9 @@
         "klodawa"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2574519,
+      "lon": 18.911206
     },
     {
       "id": "klodzko",
@@ -18728,7 +19258,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9730701,
+      "lon": 18.2140089
     },
     {
       "id": "knurow",
@@ -18798,7 +19330,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.3122442,
+      "lon": 22.9200387
     },
     {
       "id": "kobylin",
@@ -18807,7 +19341,9 @@
         "kobylin"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7163621,
+      "lon": 17.2247584
     },
     {
       "id": "kobylka",
@@ -18900,7 +19436,9 @@
         "kobylnica"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.4397259,
+      "lon": 16.9968076
     },
     {
       "id": "kock",
@@ -18926,7 +19464,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6383917,
+      "lon": 22.4478158
     },
     {
       "id": "kolaczyce",
@@ -18968,7 +19508,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8076605,
+      "lon": 21.4340516
     },
     {
       "id": "kolbuszowa",
@@ -18977,7 +19519,9 @@
         "kolbuszowa"
       ],
       "voivodeship": "podkarpackie",
-      "districts": []
+      "districts": [],
+      "lat": 50.2433277,
+      "lon": 21.7754563
     },
     {
       "id": "kolno",
@@ -19003,7 +19547,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4109383,
+      "lon": 21.9312439
     },
     {
       "id": "kolo",
@@ -19181,7 +19727,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6528574,
+      "lon": 18.3831071
     },
     {
       "id": "koluszki",
@@ -19271,7 +19819,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7444956,
+      "lon": 19.817966
     },
     {
       "id": "koniecpol",
@@ -19280,7 +19830,9 @@
         "koniecpol"
       ],
       "voivodeship": "śląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.7725294,
+      "lon": 19.6769723
     },
     {
       "id": "konin",
@@ -19606,7 +20158,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1910223,
+      "lon": 20.4071836
     },
     {
       "id": "konskowola",
@@ -19615,7 +20169,9 @@
         "konskowola"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.4091024,
+      "lon": 22.0517983
     },
     {
       "id": "konstancin-jeziorna",
@@ -19753,7 +20309,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0834787,
+      "lon": 21.1208073
     },
     {
       "id": "konstantynow-lodzki",
@@ -19867,7 +20425,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7475546,
+      "lon": 19.3255118
     },
     {
       "id": "koprzywnica",
@@ -19901,7 +20461,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5932218,
+      "lon": 21.5847266
     },
     {
       "id": "korfantow",
@@ -19919,7 +20481,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4879782,
+      "lon": 17.5984184
     },
     {
       "id": "kornik",
@@ -19953,7 +20517,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2492751,
+      "lon": 17.0901242
     },
     {
       "id": "koronowo",
@@ -20035,7 +20601,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.3140636,
+      "lon": 17.9369813
     },
     {
       "id": "korsze",
@@ -20044,7 +20612,9 @@
         "korsze"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.1706702,
+      "lon": 21.1441845
     },
     {
       "id": "koscian",
@@ -20182,7 +20752,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5960805,
+      "lon": 22.1471764
     },
     {
       "id": "kostrzyn",
@@ -20216,7 +20788,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3983662,
+      "lon": 17.2275394
     },
     {
       "id": "kostrzyn-nad-odra",
@@ -20266,7 +20840,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5898737,
+      "lon": 14.6536335
     },
     {
       "id": "koszalin",
@@ -20466,7 +21042,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1669806,
+      "lon": 20.5756459
     },
     {
       "id": "kowal",
@@ -20508,7 +21086,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5308373,
+      "lon": 19.1499427
     },
     {
       "id": "kowalewo-pomorskie",
@@ -20517,7 +21097,9 @@
         "kowalewo pomorskie"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.1543137,
+      "lon": 18.8975473
     },
     {
       "id": "kowary",
@@ -20559,7 +21141,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7937534,
+      "lon": 15.8338236
     },
     {
       "id": "kozieglowy",
@@ -20601,7 +21185,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5978707,
+      "lon": 19.1615203
     },
     {
       "id": "kozienice",
@@ -20675,7 +21261,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5849678,
+      "lon": 21.549883
     },
     {
       "id": "kozmin-wielkopolski",
@@ -20684,7 +21272,9 @@
         "kozmin wielkopolski"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.8256567,
+      "lon": 17.4528473
     },
     {
       "id": "kozminek",
@@ -20718,7 +21308,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.798301,
+      "lon": 18.3383583
     },
     {
       "id": "kozuchow",
@@ -20727,7 +21319,9 @@
         "kozuchow"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7454762,
+      "lon": 15.5944541
     },
     {
       "id": "krajenka",
@@ -20753,7 +21347,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2970851,
+      "lon": 16.9909514
     },
     {
       "id": "krakow",
@@ -20858,7 +21454,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4747406,
+      "lon": 17.9670987
     },
     {
       "id": "krasnik",
@@ -21088,7 +21686,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5460046,
+      "lon": 23.2115593
     },
     {
       "id": "krasnystaw",
@@ -21170,7 +21770,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.982996,
+      "lon": 23.1697933
     },
     {
       "id": "krobia",
@@ -21179,7 +21781,9 @@
         "krobia"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7741006,
+      "lon": 16.9845547
     },
     {
       "id": "krosniewice",
@@ -21188,7 +21792,9 @@
         "krosniewice"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2560639,
+      "lon": 19.1689326
     },
     {
       "id": "krosno",
@@ -21442,7 +22048,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0536361,
+      "lon": 15.0980258
     },
     {
       "id": "krotoszyn",
@@ -21508,7 +22116,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.695926,
+      "lon": 17.4374158
     },
     {
       "id": "kruszwica",
@@ -21558,7 +22168,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6743797,
+      "lon": 18.3254766
     },
     {
       "id": "krynica-morska",
@@ -21592,7 +22204,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.3800071,
+      "lon": 19.4433631
     },
     {
       "id": "krynica-zdroj",
@@ -21690,7 +22304,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.4206138,
+      "lon": 20.9594176
     },
     {
       "id": "krynki",
@@ -21699,7 +22315,9 @@
         "krynki"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.2644419,
+      "lon": 23.7726182
     },
     {
       "id": "krzanowice",
@@ -21708,7 +22326,9 @@
         "krzanowice"
       ],
       "voivodeship": "śląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.017931,
+      "lon": 18.1216249
     },
     {
       "id": "krzepice",
@@ -21774,7 +22394,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9706951,
+      "lon": 18.7255158
     },
     {
       "id": "krzeszowice",
@@ -21872,7 +22494,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1350246,
+      "lon": 19.6320164
     },
     {
       "id": "krzywin",
@@ -21881,7 +22505,9 @@
         "krzywin"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.962928,
+      "lon": 16.819295
     },
     {
       "id": "krzyz-wielkopolski",
@@ -21899,7 +22525,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8796439,
+      "lon": 16.0141705
     },
     {
       "id": "ksiaz-wielki",
@@ -21949,7 +22577,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4429446,
+      "lon": 20.1399453
     },
     {
       "id": "ksiaz-wielkopolski",
@@ -21967,7 +22597,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0623513,
+      "lon": 17.2395591
     },
     {
       "id": "kudowa-zdroj",
@@ -22033,7 +22665,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4420034,
+      "lon": 16.2416299
     },
     {
       "id": "kunow",
@@ -22107,7 +22741,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9541063,
+      "lon": 21.278823
     },
     {
       "id": "kurow",
@@ -22125,7 +22761,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3888553,
+      "lon": 22.1862143
     },
     {
       "id": "kutno",
@@ -22258,7 +22896,9 @@
         "kuznia raciborska"
       ],
       "voivodeship": "śląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.2007002,
+      "lon": 18.3105735
     },
     {
       "id": "kwidzyn",
@@ -22287,7 +22927,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.9528653,
+      "lon": 17.9205877
     },
     {
       "id": "ladek-zdroj",
@@ -22296,7 +22938,9 @@
         "ladek zdroj"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.3458254,
+      "lon": 16.8725948
     },
     {
       "id": "lagow",
@@ -22330,7 +22974,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7754877,
+      "lon": 21.0839837
     },
     {
       "id": "lancut",
@@ -22396,7 +23042,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0690725,
+      "lon": 22.2320924
     },
     {
       "id": "lapy",
@@ -22462,7 +23110,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.9908208,
+      "lon": 22.883005
     },
     {
       "id": "lasin",
@@ -22471,7 +23121,9 @@
         "lasin"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.5196526,
+      "lon": 19.0870311
     },
     {
       "id": "lask",
@@ -22521,7 +23173,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5929947,
+      "lon": 19.1334784
     },
     {
       "id": "laskarzew",
@@ -22563,7 +23217,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7889644,
+      "lon": 21.5921883
     },
     {
       "id": "laszczow",
@@ -22629,7 +23285,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.532615,
+      "lon": 23.7263929
     },
     {
       "id": "latowicz",
@@ -22638,7 +23296,9 @@
         "latowicz"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0262727,
+      "lon": 21.8075415
     },
     {
       "id": "laziska-gorne",
@@ -22764,7 +23424,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4276105,
+      "lon": 19.3948494
     },
     {
       "id": "leba",
@@ -22782,7 +23444,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.7585207,
+      "lon": 17.555417
     },
     {
       "id": "lebork",
@@ -22860,7 +23524,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3002941,
+      "lon": 22.886766
     },
     {
       "id": "leczyca",
@@ -22986,7 +23652,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1379295,
+      "lon": 19.1315264
     },
     {
       "id": "legionowo",
@@ -23140,7 +23808,9 @@
         "leknica"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.538237,
+      "lon": 14.7445378
     },
     {
       "id": "lesko",
@@ -23166,7 +23836,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.4689014,
+      "lon": 22.3303816
     },
     {
       "id": "lesna",
@@ -23192,7 +23864,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0241667,
+      "lon": 15.2636111
     },
     {
       "id": "lesnica",
@@ -23226,7 +23900,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4285562,
+      "lon": 18.1849929
     },
     {
       "id": "leszno",
@@ -23320,7 +23996,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7487107,
+      "lon": 17.616648
     },
     {
       "id": "lezajsk",
@@ -23418,7 +24096,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2621687,
+      "lon": 22.418892
     },
     {
       "id": "libiaz",
@@ -23580,7 +24260,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1030516,
+      "lon": 19.3147486
     },
     {
       "id": "lidzbark",
@@ -23622,7 +24304,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2628043,
+      "lon": 19.8231836
     },
     {
       "id": "lidzbark-warminski",
@@ -23779,7 +24463,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7061713,
+      "lon": 20.4217266
     },
     {
       "id": "lipiany",
@@ -23805,7 +24491,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.002904,
+      "lon": 14.970883
     },
     {
       "id": "lipno",
@@ -23866,7 +24554,9 @@
         "lipsk"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.7335414,
+      "lon": 23.4037394
     },
     {
       "id": "lipsko",
@@ -23908,7 +24598,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.158513,
+      "lon": 21.6490099
     },
     {
       "id": "lobez",
@@ -23950,7 +24642,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.6391189,
+      "lon": 15.6213487
     },
     {
       "id": "lobzenica",
@@ -23959,7 +24653,9 @@
         "lobzenica"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.2602878,
+      "lon": 17.2548401
     },
     {
       "id": "lochow",
@@ -23993,7 +24689,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.53042,
+      "lon": 21.68528
     },
     {
       "id": "lodz",
@@ -24082,7 +24780,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3355273,
+      "lon": 20.895012
     },
     {
       "id": "lomza",
@@ -24192,7 +24892,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.948616,
+      "lon": 20.2505964
     },
     {
       "id": "losice",
@@ -24226,7 +24928,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2115134,
+      "lon": 22.717294
     },
     {
       "id": "lowicz",
@@ -24296,7 +25000,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1574473,
+      "lon": 23.1225859
     },
     {
       "id": "luban",
@@ -24450,7 +25156,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5051482,
+      "lon": 19.7494057
     },
     {
       "id": "lubawka",
@@ -24476,7 +25184,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7070882,
+      "lon": 16.0003894
     },
     {
       "id": "lubien-kujawski",
@@ -24485,7 +25195,9 @@
         "lubien kujawski"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.40736,
+      "lon": 19.16018
     },
     {
       "id": "lubin",
@@ -25287,7 +25999,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.669016,
+      "lon": 18.6825574
     },
     {
       "id": "lubniewice",
@@ -25321,7 +26035,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5119594,
+      "lon": 15.2441003
     },
     {
       "id": "lubomierz",
@@ -25330,7 +26046,9 @@
         "lubomierz"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0124569,
+      "lon": 15.51022
     },
     {
       "id": "lubon",
@@ -25383,7 +26101,9 @@
         "lubowidz"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 53.1216748,
+      "lon": 19.8407986
     },
     {
       "id": "lubraniec",
@@ -25409,7 +26129,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.543083,
+      "lon": 18.8315832
     },
     {
       "id": "lubsko",
@@ -25418,7 +26140,9 @@
         "lubsko"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7881902,
+      "lon": 14.9721266
     },
     {
       "id": "lubycza-krolewska",
@@ -25444,7 +26168,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3411612,
+      "lon": 23.5196564
     },
     {
       "id": "lukow",
@@ -25574,7 +26300,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.93008,
+      "lon": 22.3790669
     },
     {
       "id": "lutomiersk",
@@ -25592,7 +26320,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7550121,
+      "lon": 19.2120994
     },
     {
       "id": "lututow",
@@ -25650,7 +26380,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3712494,
+      "lon": 18.4346007
     },
     {
       "id": "lwowek",
@@ -25659,7 +26391,9 @@
         "lwowek"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.4489307,
+      "lon": 16.1803554
     },
     {
       "id": "lwowek-slaski",
@@ -25677,7 +26411,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1108891,
+      "lon": 15.5850018
     },
     {
       "id": "maciejowice",
@@ -25695,7 +26431,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.692631,
+      "lon": 21.5531323
     },
     {
       "id": "magnuszew",
@@ -25713,7 +26451,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7624237,
+      "lon": 21.3828034
     },
     {
       "id": "makow-mazowiecki",
@@ -25739,7 +26479,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.865678,
+      "lon": 21.101224
     },
     {
       "id": "makow-podhalanski",
@@ -25965,7 +26707,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7298971,
+      "lon": 19.6768803
     },
     {
       "id": "malbork",
@@ -26034,7 +26778,9 @@
         "malkinia gorna"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.6932047,
+      "lon": 22.0351198
     },
     {
       "id": "malogoszcz",
@@ -26068,7 +26814,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8123487,
+      "lon": 20.2648324
     },
     {
       "id": "malomice",
@@ -26077,7 +26825,9 @@
         "malomice"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.5550002,
+      "lon": 15.4472908
     },
     {
       "id": "margonin",
@@ -26086,7 +26836,9 @@
         "margonin"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.9732912,
+      "lon": 17.0948899
     },
     {
       "id": "marki",
@@ -26196,7 +26948,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.496222,
+      "lon": 15.0613549
     },
     {
       "id": "miasteczko-krajenskie",
@@ -26205,7 +26959,9 @@
         "miasteczko krajenskie"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.0976927,
+      "lon": 17.0072985
     },
     {
       "id": "miasteczko-slaskie",
@@ -26279,7 +27035,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4915736,
+      "lon": 18.9230247
     },
     {
       "id": "miastko",
@@ -26288,7 +27046,9 @@
         "miastko"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.0001478,
+      "lon": 16.9774717
     },
     {
       "id": "michalowo",
@@ -26297,7 +27057,9 @@
         "michalowo"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.0328933,
+      "lon": 23.6066858
     },
     {
       "id": "miechow",
@@ -26355,7 +27117,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3566016,
+      "lon": 20.0276912
     },
     {
       "id": "miedzyborz",
@@ -26381,7 +27145,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.397711,
+      "lon": 17.6650165
     },
     {
       "id": "miedzychod",
@@ -26399,7 +27165,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6046468,
+      "lon": 15.8935386
     },
     {
       "id": "miedzylesie",
@@ -26408,7 +27176,9 @@
         "miedzylesie"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.1480131,
+      "lon": 16.6669348
     },
     {
       "id": "miedzyrzec-podlaski",
@@ -26490,7 +27260,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9853172,
+      "lon": 22.7842492
     },
     {
       "id": "miedzyrzecz",
@@ -26516,7 +27288,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4448261,
+      "lon": 15.578637
     },
     {
       "id": "miedzyzdroje",
@@ -26534,7 +27308,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.9282745,
+      "lon": 14.448903
     },
     {
       "id": "miejska-gorka",
@@ -26543,7 +27319,9 @@
         "miejska gorka"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6552093,
+      "lon": 16.9561451
     },
     {
       "id": "miekinia",
@@ -26561,7 +27339,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.190964,
+      "lon": 16.7386851
     },
     {
       "id": "mielec",
@@ -26831,7 +27611,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.2560766,
+      "lon": 16.0520587
     },
     {
       "id": "mieroszow",
@@ -26840,7 +27622,9 @@
         "mieroszow"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.6669858,
+      "lon": 16.1862044
     },
     {
       "id": "miescisko",
@@ -26849,7 +27633,9 @@
         "miescisko"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.7436655,
+      "lon": 17.3294668
     },
     {
       "id": "mieszkowice",
@@ -26883,7 +27669,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.785412,
+      "lon": 14.4954296
     },
     {
       "id": "mikolajki",
@@ -26901,7 +27689,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.7981816,
+      "lon": 21.5772462
     },
     {
       "id": "mikolow",
@@ -27115,7 +27905,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5315251,
+      "lon": 17.9710681
     },
     {
       "id": "milakowo",
@@ -27124,7 +27916,9 @@
         "milakowo"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.0101675,
+      "lon": 20.0711213
     },
     {
       "id": "milanowek",
@@ -27258,7 +28052,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5319957,
+      "lon": 17.2752485
     },
     {
       "id": "milomlyn",
@@ -27308,7 +28104,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.7634,
+      "lon": 19.8413501
     },
     {
       "id": "miloslaw",
@@ -27326,7 +28124,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2023105,
+      "lon": 17.4892236
     },
     {
       "id": "minsk-mazowiecki",
@@ -27387,7 +28187,9 @@
         "miroslawiec"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.3415106,
+      "lon": 16.0881475
     },
     {
       "id": "mirsk",
@@ -27413,7 +28215,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9721836,
+      "lon": 15.3857926
     },
     {
       "id": "mlawa",
@@ -27490,7 +28294,9 @@
         "mlynary"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.1876231,
+      "lon": 19.7229376
     },
     {
       "id": "modliborzyce",
@@ -27499,7 +28305,9 @@
         "modliborzyce"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.7534467,
+      "lon": 22.3291714
     },
     {
       "id": "mogielnica",
@@ -27549,7 +28357,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6929526,
+      "lon": 20.723371
     },
     {
       "id": "mogilno",
@@ -27567,7 +28377,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.657341,
+      "lon": 17.9500677
     },
     {
       "id": "monki",
@@ -27585,7 +28397,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4065738,
+      "lon": 22.7983772
     },
     {
       "id": "morag",
@@ -27619,7 +28433,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.9119982,
+      "lon": 19.9279895
     },
     {
       "id": "morawica",
@@ -27628,7 +28444,9 @@
         "morawica"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.7478149,
+      "lon": 20.618127
     },
     {
       "id": "mordy",
@@ -27637,7 +28455,9 @@
         "mordy"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2112989,
+      "lon": 22.5170678
     },
     {
       "id": "moryn",
@@ -27655,7 +28475,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8558027,
+      "lon": 14.3968046
     },
     {
       "id": "mosina",
@@ -27729,7 +28551,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2455834,
+      "lon": 16.8472591
     },
     {
       "id": "mragowo",
@@ -27767,7 +28591,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2438673,
+      "lon": 17.6068949
     },
     {
       "id": "mrozy",
@@ -27776,7 +28602,9 @@
         "mrozy"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1655506,
+      "lon": 21.8001682
     },
     {
       "id": "mszana-dolna",
@@ -28218,7 +29046,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6779756,
+      "lon": 20.0820073
     },
     {
       "id": "mszczonow",
@@ -28236,7 +29066,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9739985,
+      "lon": 20.5127831
     },
     {
       "id": "murowana-goslina",
@@ -28254,7 +29086,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5758465,
+      "lon": 17.0097914
     },
     {
       "id": "muszyna",
@@ -28456,7 +29290,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.3561684,
+      "lon": 20.8967477
     },
     {
       "id": "myslenice",
@@ -28506,7 +29342,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.834608,
+      "lon": 19.9384283
     },
     {
       "id": "mysliborz",
@@ -28524,7 +29362,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.924825,
+      "lon": 14.8664799
     },
     {
       "id": "myslowice",
@@ -28866,7 +29706,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5736481,
+      "lon": 19.3219413
     },
     {
       "id": "myszyniec",
@@ -28875,7 +29717,9 @@
         "myszyniec"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 53.3831962,
+      "lon": 21.3420723
     },
     {
       "id": "naklo-nad-notecia",
@@ -28901,7 +29745,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1386896,
+      "lon": 17.5998891
     },
     {
       "id": "naleczow",
@@ -28983,7 +29829,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2876064,
+      "lon": 22.214792
     },
     {
       "id": "namyslow",
@@ -28992,7 +29840,9 @@
         "namyslow"
       ],
       "voivodeship": "opolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0766258,
+      "lon": 17.7185619
     },
     {
       "id": "narol",
@@ -29026,7 +29876,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3488112,
+      "lon": 23.3274426
     },
     {
       "id": "nasielsk",
@@ -29076,7 +29928,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5867531,
+      "lon": 20.8130115
     },
     {
       "id": "nekla",
@@ -29126,7 +29980,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3656249,
+      "lon": 17.4144598
     },
     {
       "id": "nidzica",
@@ -29135,7 +29991,9 @@
         "nidzica"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.3613838,
+      "lon": 20.4275719
     },
     {
       "id": "niemcza",
@@ -29225,7 +30083,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.7163426,
+      "lon": 16.8350398
     },
     {
       "id": "niemodlin",
@@ -29251,7 +30111,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6415925,
+      "lon": 17.6211388
     },
     {
       "id": "niepolomice",
@@ -29365,7 +30227,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0331163,
+      "lon": 20.2171599
     },
     {
       "id": "nieszawa",
@@ -29431,7 +30295,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8334518,
+      "lon": 18.9011049
     },
     {
       "id": "nisko",
@@ -29513,7 +30379,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5198985,
+      "lon": 22.139886
     },
     {
       "id": "nowa-deba",
@@ -29547,7 +30415,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.413485,
+      "lon": 21.7541268
     },
     {
       "id": "nowa-ruda",
@@ -29693,7 +30563,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5791982,
+      "lon": 16.5014757
     },
     {
       "id": "nowa-sarzyna",
@@ -29727,7 +30599,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3197908,
+      "lon": 22.3434799
     },
     {
       "id": "nowa-slupia",
@@ -29769,7 +30643,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8640377,
+      "lon": 21.0907296
     },
     {
       "id": "nowa-sol",
@@ -29823,7 +30699,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.6462325,
+      "lon": 18.7290468
     },
     {
       "id": "nowe-brzesko",
@@ -29832,7 +30710,9 @@
         "nowe brzesko"
       ],
       "voivodeship": "małopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.1322823,
+      "lon": 20.3767203
     },
     {
       "id": "nowe-miasteczko",
@@ -29841,7 +30721,9 @@
         "nowe miasteczko"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6908103,
+      "lon": 15.7311977
     },
     {
       "id": "nowe-miasto",
@@ -29875,7 +30757,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6563159,
+      "lon": 20.6307362
     },
     {
       "id": "nowe-miasto-lubawskie",
@@ -29933,7 +30817,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4255933,
+      "lon": 19.5936277
     },
     {
       "id": "nowe-miasto-nad-pilica",
@@ -29951,7 +30837,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.616692,
+      "lon": 20.5796171
     },
     {
       "id": "nowe-skalmierzyce",
@@ -29977,7 +30865,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7109127,
+      "lon": 17.9943345
     },
     {
       "id": "nowe-warpno",
@@ -30043,7 +30933,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.7252503,
+      "lon": 14.2810705
     },
     {
       "id": "nowogard",
@@ -30085,7 +30977,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.6687698,
+      "lon": 15.1225889
     },
     {
       "id": "nowogrod",
@@ -30094,7 +30988,9 @@
         "nowogrod"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.2280804,
+      "lon": 21.8797908
     },
     {
       "id": "nowogrod-bobrzanski",
@@ -30112,7 +31008,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7986474,
+      "lon": 15.2365032
     },
     {
       "id": "nowogrodziec",
@@ -30130,7 +31028,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1971363,
+      "lon": 15.3987046
     },
     {
       "id": "nowy-dwor-gdanski",
@@ -30139,7 +31039,9 @@
         "nowy dwor gdanski"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.2146299,
+      "lon": 19.1150846
     },
     {
       "id": "nowy-dwor-mazowiecki",
@@ -30224,7 +31126,9 @@
         "nowy korczyn"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.2994316,
+      "lon": 20.8090569
     },
     {
       "id": "nowy-sacz",
@@ -30613,7 +31517,9 @@
         "nowy staw"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.1342754,
+      "lon": 19.0086861
     },
     {
       "id": "nowy-targ",
@@ -30799,7 +31705,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.4818229,
+      "lon": 20.030541
     },
     {
       "id": "nowy-tomysl",
@@ -30808,7 +31716,9 @@
         "nowy tomysl"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.3177643,
+      "lon": 16.1291553
     },
     {
       "id": "nowy-wisnicz",
@@ -30834,7 +31744,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9152667,
+      "lon": 20.4621677
     },
     {
       "id": "nysa",
@@ -30876,7 +31788,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4738029,
+      "lon": 17.3324733
     },
     {
       "id": "oborniki",
@@ -30885,7 +31799,9 @@
         "oborniki"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.6455252,
+      "lon": 16.8099756
     },
     {
       "id": "oborniki-slaskie",
@@ -30911,7 +31827,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3010662,
+      "lon": 16.9145509
     },
     {
       "id": "obrzycko",
@@ -30920,7 +31838,9 @@
         "obrzycko"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.7064375,
+      "lon": 16.5252416
     },
     {
       "id": "odolanow",
@@ -30938,7 +31858,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5742177,
+      "lon": 17.673514
     },
     {
       "id": "odrzywol",
@@ -30947,7 +31869,9 @@
         "odrzywol"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 51.5193078,
+      "lon": 20.555818
     },
     {
       "id": "ogrodzieniec",
@@ -30973,7 +31897,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4521463,
+      "lon": 19.5213629
     },
     {
       "id": "okonek",
@@ -30982,7 +31908,9 @@
         "okonek"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.5347646,
+      "lon": 16.8516192
     },
     {
       "id": "olawa",
@@ -31027,7 +31955,9 @@
         "olecko"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.0398024,
+      "lon": 22.4934246
     },
     {
       "id": "olesnica-dolnoslaskie",
@@ -31133,7 +32063,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8766575,
+      "lon": 18.4219452
     },
     {
       "id": "oleszyce",
@@ -31142,7 +32074,9 @@
         "oleszyce"
       ],
       "voivodeship": "podkarpackie",
-      "districts": []
+      "districts": [],
+      "lat": 50.1682003,
+      "lon": 23.0314836
     },
     {
       "id": "olkusz",
@@ -31312,7 +32246,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2788158,
+      "lon": 19.5596307
     },
     {
       "id": "olsztyn-slaskie",
@@ -31443,7 +32379,9 @@
         "olsztynek"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.5834201,
+      "lon": 20.2816198
     },
     {
       "id": "olszyna",
@@ -31461,7 +32399,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0655505,
+      "lon": 15.3753102
     },
     {
       "id": "opalenica",
@@ -31479,7 +32419,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3088119,
+      "lon": 16.4124256
     },
     {
       "id": "opatow",
@@ -31561,7 +32503,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8017661,
+      "lon": 21.4238281
     },
     {
       "id": "opatowek",
@@ -31570,7 +32514,9 @@
         "opatowek"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7394437,
+      "lon": 18.2137254
     },
     {
       "id": "opatowiec",
@@ -31604,7 +32550,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2425871,
+      "lon": 20.7237798
     },
     {
       "id": "opoczno",
@@ -31670,7 +32618,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3782439,
+      "lon": 20.2931754
     },
     {
       "id": "opole",
@@ -32101,7 +33051,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1475365,
+      "lon": 21.9664152
     },
     {
       "id": "orneta",
@@ -32110,7 +33062,9 @@
         "orneta"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.1155533,
+      "lon": 20.1303378
     },
     {
       "id": "orzesze",
@@ -32236,7 +33190,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.809833,
+      "lon": 21.9473601
     },
     {
       "id": "osieck",
@@ -32270,7 +33226,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9662,
+      "lon": 21.41875
     },
     {
       "id": "osieczna",
@@ -32288,7 +33246,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9033938,
+      "lon": 16.6762108
     },
     {
       "id": "osiek",
@@ -32354,7 +33314,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5194515,
+      "lon": 21.4425619
     },
     {
       "id": "osjakow",
@@ -32404,7 +33366,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2889752,
+      "lon": 18.7911041
     },
     {
       "id": "osno-lubuskie",
@@ -32422,7 +33386,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.455132,
+      "lon": 14.8682003
     },
     {
       "id": "ostroda",
@@ -32559,7 +33525,9 @@
         "ostrorog"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.6267433,
+      "lon": 16.4491743
     },
     {
       "id": "ostrow-lubelski",
@@ -32601,7 +33569,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4969068,
+      "lon": 22.8560394
     },
     {
       "id": "ostrow-mazowiecka",
@@ -32651,7 +33621,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8000429,
+      "lon": 21.897638
     },
     {
       "id": "ostrow-wielkopolski",
@@ -33005,7 +33977,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4257664,
+      "lon": 17.9331788
     },
     {
       "id": "oswiecim",
@@ -33211,7 +34185,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.465351,
+      "lon": 17.1730499
     },
     {
       "id": "otwock",
@@ -33357,7 +34333,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1041197,
+      "lon": 21.2681092
     },
     {
       "id": "otyn",
@@ -33366,7 +34344,9 @@
         "otyn"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.8473213,
+      "lon": 15.7104
     },
     {
       "id": "ozarow",
@@ -33375,7 +34355,9 @@
         "ozarow"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.8864089,
+      "lon": 21.6656244
     },
     {
       "id": "ozarow-mazowiecki",
@@ -33401,7 +34383,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2080548,
+      "lon": 20.7941606
     },
     {
       "id": "ozimek",
@@ -33410,7 +34394,9 @@
         "ozimek"
       ],
       "voivodeship": "opolskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.6789196,
+      "lon": 18.2125227
     },
     {
       "id": "ozorkow",
@@ -33604,7 +34590,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3999656,
+      "lon": 21.0409852
     },
     {
       "id": "paczkow",
@@ -33622,7 +34610,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4642876,
+      "lon": 17.0063856
     },
     {
       "id": "pajeczno",
@@ -33648,7 +34638,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1468824,
+      "lon": 18.9956984
     },
     {
       "id": "pakosc",
@@ -33674,7 +34666,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8073319,
+      "lon": 18.0899612
     },
     {
       "id": "parczew",
@@ -33692,7 +34686,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.639,
+      "lon": 22.9
     },
     {
       "id": "parzeczew",
@@ -33701,7 +34697,9 @@
         "parzeczew"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.94893,
+      "lon": 19.20716
     },
     {
       "id": "paslek",
@@ -33735,7 +34733,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.0626346,
+      "lon": 19.6565365
     },
     {
       "id": "pasym",
@@ -33769,7 +34769,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.6521615,
+      "lon": 20.7917422
     },
     {
       "id": "pelczyce",
@@ -33811,7 +34813,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.04218,
+      "lon": 15.30591
     },
     {
       "id": "pelplin",
@@ -33837,7 +34841,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.9283217,
+      "lon": 18.6978494
     },
     {
       "id": "piaseczno",
@@ -33887,7 +34893,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0747377,
+      "lon": 21.0270885
     },
     {
       "id": "piaski",
@@ -33896,7 +34904,9 @@
         "piaski"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.1378115,
+      "lon": 22.8475225
     },
     {
       "id": "piastow",
@@ -33916,7 +34926,9 @@
         "piatek"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0689883,
+      "lon": 19.4799726
     },
     {
       "id": "piechowice",
@@ -33958,7 +34970,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8494747,
+      "lon": 15.5976047
     },
     {
       "id": "piekary-slaskie",
@@ -34068,7 +35082,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.881422,
+      "lon": 20.4642464
     },
     {
       "id": "pieniezno",
@@ -34077,7 +35093,9 @@
         "pieniezno"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.2385662,
+      "lon": 20.1258163
     },
     {
       "id": "piensk",
@@ -34086,7 +35104,9 @@
         "piensk"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.2457834,
+      "lon": 15.0449871
     },
     {
       "id": "pierzchnica",
@@ -34095,7 +35115,9 @@
         "pierzchnica"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.6974266,
+      "lon": 20.7544258
     },
     {
       "id": "pieszyce",
@@ -34104,7 +35126,9 @@
         "pieszyce"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.7124412,
+      "lon": 16.581609
     },
     {
       "id": "pila",
@@ -34290,7 +35314,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1511324,
+      "lon": 16.7380343
     },
     {
       "id": "pilawa",
@@ -34316,7 +35342,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9595452,
+      "lon": 21.5271524
     },
     {
       "id": "pilawa-gorna",
@@ -34350,7 +35378,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6826226,
+      "lon": 16.7435225
     },
     {
       "id": "pilica",
@@ -34368,7 +35398,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4681134,
+      "lon": 19.6573591
     },
     {
       "id": "pilzno",
@@ -34426,7 +35458,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.978578,
+      "lon": 21.2908438
     },
     {
       "id": "pinczow",
@@ -34452,7 +35486,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5201929,
+      "lon": 20.5256241
     },
     {
       "id": "pionki",
@@ -34478,7 +35514,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4730031,
+      "lon": 21.4438404
     },
     {
       "id": "piotrkow-kujawski",
@@ -34496,7 +35534,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.55057,
+      "lon": 18.49872
     },
     {
       "id": "piotrkow-trybunalski",
@@ -34677,7 +35717,9 @@
         "pisz"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.6290631,
+      "lon": 21.8082539
     },
     {
       "id": "piszczac",
@@ -34727,7 +35769,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9804862,
+      "lon": 23.3776226
     },
     {
       "id": "piwniczna-zdroj",
@@ -35313,7 +36357,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.4406462,
+      "lon": 20.7142303
     },
     {
       "id": "pleszew",
@@ -35339,7 +36385,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8960985,
+      "lon": 17.7865673
     },
     {
       "id": "plock",
@@ -35555,7 +36603,9 @@
         "ploty"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.8043384,
+      "lon": 15.2680368
     },
     {
       "id": "pniewy",
@@ -35573,7 +36623,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5089624,
+      "lon": 16.2566411
     },
     {
       "id": "pobiedziska",
@@ -35647,7 +36699,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4773387,
+      "lon": 17.2870352
     },
     {
       "id": "poddebice",
@@ -35681,7 +36735,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8926555,
+      "lon": 18.9518908
     },
     {
       "id": "podkowa-lesna",
@@ -35690,7 +36746,9 @@
         "podkowa lesna"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1217773,
+      "lon": 20.7295541
     },
     {
       "id": "pogorzela",
@@ -35699,7 +36757,9 @@
         "pogorzela"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.8224142,
+      "lon": 17.2310362
     },
     {
       "id": "polanica-zdroj",
@@ -35725,7 +36785,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4079276,
+      "lon": 16.5107431
     },
     {
       "id": "polaniec",
@@ -35783,7 +36845,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4329071,
+      "lon": 21.2810473
     },
     {
       "id": "polanow",
@@ -35809,7 +36873,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.11921,
+      "lon": 16.68725
     },
     {
       "id": "polczyn-zdroj",
@@ -35818,7 +36884,9 @@
         "polczyn zdroj"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.7648981,
+      "lon": 16.0952705
     },
     {
       "id": "police",
@@ -35876,7 +36944,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5486435,
+      "lon": 14.5657399
     },
     {
       "id": "polkowice",
@@ -35894,7 +36964,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5039288,
+      "lon": 16.0713371
     },
     {
       "id": "poniatowa",
@@ -35928,7 +37000,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.19298,
+      "lon": 22.06505
     },
     {
       "id": "poniec",
@@ -35937,7 +37011,9 @@
         "poniec"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7650386,
+      "lon": 16.8059899
     },
     {
       "id": "poreba",
@@ -35987,7 +37063,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4875787,
+      "lon": 19.337879
     },
     {
       "id": "poznan",
@@ -36067,7 +37145,9 @@
         "prabuty"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.755995,
+      "lon": 19.2044449
     },
     {
       "id": "praszka",
@@ -36117,7 +37197,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.05536,
+      "lon": 18.4485221
     },
     {
       "id": "prochowice",
@@ -36135,7 +37217,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.273422,
+      "lon": 16.3644321
     },
     {
       "id": "proszkow",
@@ -36233,7 +37317,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5786696,
+      "lon": 17.8699852
     },
     {
       "id": "proszowice",
@@ -36275,7 +37361,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1926479,
+      "lon": 20.2917555
     },
     {
       "id": "pruchnik",
@@ -36381,7 +37469,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9061358,
+      "lon": 22.5160585
     },
     {
       "id": "prudnik",
@@ -36423,7 +37513,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3217212,
+      "lon": 17.5801041
     },
     {
       "id": "prusice",
@@ -36441,7 +37533,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3713612,
+      "lon": 16.9600731
     },
     {
       "id": "pruszcz",
@@ -36450,7 +37544,9 @@
         "pruszcz"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.3294095,
+      "lon": 18.1993931
     },
     {
       "id": "pruszcz-gdanski",
@@ -36547,7 +37643,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.0190219,
+      "lon": 20.8804028
     },
     {
       "id": "przeclaw",
@@ -36613,7 +37711,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1939186,
+      "lon": 21.4798564
     },
     {
       "id": "przedborz",
@@ -36655,7 +37755,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0868077,
+      "lon": 19.8744414
     },
     {
       "id": "przedecz",
@@ -36697,7 +37799,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3341735,
+      "lon": 18.8985119
     },
     {
       "id": "przemkow",
@@ -36731,7 +37835,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5275418,
+      "lon": 15.7874473
     },
     {
       "id": "przemysl",
@@ -37105,7 +38211,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0601735,
+      "lon": 22.4923769
     },
     {
       "id": "przyrow",
@@ -37114,7 +38222,9 @@
         "przyrow"
       ],
       "voivodeship": "śląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.8051422,
+      "lon": 19.5254207
     },
     {
       "id": "przysucha",
@@ -37156,7 +38266,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3585043,
+      "lon": 20.6285468
     },
     {
       "id": "przytyk",
@@ -37174,7 +38286,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4668994,
+      "lon": 20.9055732
     },
     {
       "id": "pszczyna",
@@ -37232,7 +38346,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9778089,
+      "lon": 18.9423721
     },
     {
       "id": "pszow",
@@ -37266,7 +38382,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0395806,
+      "lon": 18.3949412
     },
     {
       "id": "puck",
@@ -37424,7 +38542,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4171713,
+      "lon": 21.9720582
     },
     {
       "id": "pultusk",
@@ -37450,7 +38570,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.7051109,
+      "lon": 21.0840274
     },
     {
       "id": "puszczykowo",
@@ -37484,7 +38606,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2884282,
+      "lon": 16.8596018
     },
     {
       "id": "pyrzyce",
@@ -37542,7 +38666,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1461083,
+      "lon": 14.8924485
     },
     {
       "id": "pyskowice",
@@ -37612,7 +38738,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1694332,
+      "lon": 17.687134
     },
     {
       "id": "rabka-zdroj",
@@ -38230,7 +39358,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6076663,
+      "lon": 19.9622575
     },
     {
       "id": "raciaz",
@@ -38387,7 +39517,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0917343,
+      "lon": 18.2196766
     },
     {
       "id": "radkow",
@@ -38413,7 +39545,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5042182,
+      "lon": 16.401351
     },
     {
       "id": "radlin",
@@ -38455,7 +39589,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0486957,
+      "lon": 18.4791456
     },
     {
       "id": "radlow",
@@ -38464,7 +39600,9 @@
         "radlow"
       ],
       "voivodeship": "małopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.0830887,
+      "lon": 20.8476617
     },
     {
       "id": "radom",
@@ -39110,7 +40248,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0674769,
+      "lon": 19.4446109
     },
     {
       "id": "radomysl-wielki",
@@ -39152,7 +40292,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1963674,
+      "lon": 21.2761596
     },
     {
       "id": "radoszyce",
@@ -39170,7 +40312,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0736699,
+      "lon": 20.2597677
     },
     {
       "id": "radymno",
@@ -39244,7 +40388,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9517176,
+      "lon": 22.8183129
     },
     {
       "id": "radziejow",
@@ -39294,7 +40440,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6251015,
+      "lon": 18.5269434
     },
     {
       "id": "radzionkow",
@@ -39364,7 +40512,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4176347,
+      "lon": 21.1807836
     },
     {
       "id": "radzyn-chelminski",
@@ -39373,7 +40523,9 @@
         "radzyn chelminski"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.385006,
+      "lon": 18.9351906
     },
     {
       "id": "radzyn-podlaski",
@@ -39431,7 +40583,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7827253,
+      "lon": 22.6208818
     },
     {
       "id": "rajgrod",
@@ -39497,7 +40651,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.7304739,
+      "lon": 22.6976173
     },
     {
       "id": "rakoniewice",
@@ -39515,7 +40671,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.1393485,
+      "lon": 16.2738532
     },
     {
       "id": "raszkow",
@@ -39524,7 +40682,9 @@
         "raszkow"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7182066,
+      "lon": 17.7277057
     },
     {
       "id": "rawa-mazowiecka",
@@ -39594,7 +40754,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6101629,
+      "lon": 16.8583657
     },
     {
       "id": "recz",
@@ -39620,7 +40782,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2601536,
+      "lon": 15.5467648
     },
     {
       "id": "reda",
@@ -39654,7 +40818,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.6043272,
+      "lon": 18.3505191
     },
     {
       "id": "rejowiec",
@@ -39663,7 +40829,9 @@
         "rejowiec"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0945453,
+      "lon": 23.2832851
     },
     {
       "id": "rejowiec-fabryczny",
@@ -39753,7 +40921,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1191844,
+      "lon": 23.2467333
     },
     {
       "id": "resko",
@@ -39762,7 +40932,9 @@
         "resko"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.7733969,
+      "lon": 15.4056058
     },
     {
       "id": "reszel",
@@ -39771,7 +40943,9 @@
         "reszel"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.0482576,
+      "lon": 21.1421611
     },
     {
       "id": "rogozno",
@@ -39780,7 +40954,9 @@
         "rogozno"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.7523023,
+      "lon": 16.9936288
     },
     {
       "id": "ropczyce",
@@ -39990,7 +41166,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0528608,
+      "lon": 21.6116324
     },
     {
       "id": "rozan",
@@ -40016,7 +41194,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8892595,
+      "lon": 21.399349
     },
     {
       "id": "rozprza",
@@ -40025,7 +41205,9 @@
         "rozprza"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.3017158,
+      "lon": 19.6447455
     },
     {
       "id": "ruciane-nida",
@@ -40059,7 +41241,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.65042,
+      "lon": 21.55982
     },
     {
       "id": "ruda-slaska",
@@ -40225,7 +41409,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4447766,
+      "lon": 22.2440326
     },
     {
       "id": "rumia",
@@ -40602,7 +41788,9 @@
         "rychtal"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.1448363,
+      "lon": 17.848494
     },
     {
       "id": "rychwal",
@@ -40644,7 +41832,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0706234,
+      "lon": 18.1668295
     },
     {
       "id": "rydultowy",
@@ -40726,7 +41916,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.058436,
+      "lon": 18.4171831
     },
     {
       "id": "rydzyna",
@@ -40735,7 +41927,9 @@
         "rydzyna"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7863742,
+      "lon": 16.6673223
     },
     {
       "id": "ryglice",
@@ -40825,7 +42019,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8783327,
+      "lon": 21.1380371
     },
     {
       "id": "ryki",
@@ -40955,7 +42151,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6266968,
+      "lon": 21.935696
     },
     {
       "id": "rymanow",
@@ -41029,7 +42227,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.576131,
+      "lon": 21.8676433
     },
     {
       "id": "ryn",
@@ -41047,7 +42247,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.9386839,
+      "lon": 21.5440643
     },
     {
       "id": "rypin",
@@ -41196,7 +42398,9 @@
         "rzepin"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.34432,
+      "lon": 14.8382902
     },
     {
       "id": "rzeszow",
@@ -41641,7 +42845,9 @@
         "rzgow"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6627785,
+      "lon": 19.4908887
     },
     {
       "id": "sandomierz",
@@ -41795,7 +43001,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6793066,
+      "lon": 21.7495055
     },
     {
       "id": "sanniki",
@@ -41813,7 +43021,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.33089,
+      "lon": 19.86693
     },
     {
       "id": "sanok",
@@ -42055,7 +43265,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.5609053,
+      "lon": 22.207028
     },
     {
       "id": "scinawa",
@@ -42064,7 +43276,9 @@
         "scinawa"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.4165346,
+      "lon": 16.4259732
     },
     {
       "id": "sedziszow",
@@ -42130,7 +43344,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.564781,
+      "lon": 20.0538047
     },
     {
       "id": "sedziszow-malopolski",
@@ -42308,7 +43524,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0715996,
+      "lon": 21.7007524
     },
     {
       "id": "sejny",
@@ -42345,7 +43563,9 @@
         "sepolno krajenskie"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.4547434,
+      "lon": 17.5348373
     },
     {
       "id": "sepopol",
@@ -42354,7 +43574,9 @@
         "sepopol"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.2678744,
+      "lon": 21.0144242
     },
     {
       "id": "serock",
@@ -42372,7 +43594,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5135193,
+      "lon": 21.0731162
     },
     {
       "id": "sianow",
@@ -42390,7 +43614,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.228188,
+      "lon": 16.2942839
     },
     {
       "id": "siechnice",
@@ -42408,7 +43634,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0323875,
+      "lon": 17.1507275
     },
     {
       "id": "siedlce",
@@ -42574,7 +43802,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1946235,
+      "lon": 23.1648455
     },
     {
       "id": "siemianowice-slaskie",
@@ -42692,7 +43922,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4278979,
+      "lon": 22.8627258
     },
     {
       "id": "sieniawa",
@@ -42750,7 +43982,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1780728,
+      "lon": 22.6102155
     },
     {
       "id": "siennica",
@@ -42759,7 +43993,9 @@
         "siennica"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0915526,
+      "lon": 21.6193996
     },
     {
       "id": "sienno",
@@ -42817,7 +44053,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.08498,
+      "lon": 21.4734506
     },
     {
       "id": "sieradz",
@@ -43003,7 +44241,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5942475,
+      "lon": 18.7378774
     },
     {
       "id": "sierakow",
@@ -43021,7 +44261,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6513857,
+      "lon": 16.0808137
     },
     {
       "id": "sierpc",
@@ -43055,7 +44297,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8529055,
+      "lon": 19.6675433
     },
     {
       "id": "siewierz",
@@ -43121,7 +44365,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4710097,
+      "lon": 19.2318901
     },
     {
       "id": "skala",
@@ -43130,7 +44376,9 @@
         "skala"
       ],
       "voivodeship": "małopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.2303769,
+      "lon": 19.853537
     },
     {
       "id": "skalbmierz",
@@ -43204,7 +44452,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3170888,
+      "lon": 20.3996843
     },
     {
       "id": "skarszewy",
@@ -43230,7 +44480,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.0717523,
+      "lon": 18.4459951
     },
     {
       "id": "skaryszew",
@@ -43288,7 +44540,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3105682,
+      "lon": 21.2523856
     },
     {
       "id": "skarzysko-kamienna",
@@ -43554,7 +44808,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1138821,
+      "lon": 20.857883
     },
     {
       "id": "skawina",
@@ -43716,7 +44972,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9747508,
+      "lon": 19.8265702
     },
     {
       "id": "skepe",
@@ -43725,7 +44983,9 @@
         "skepe"
       ],
       "voivodeship": "kujawsko-pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.8671562,
+      "lon": 19.3465204
     },
     {
       "id": "skierniewice",
@@ -43859,7 +45119,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7999039,
+      "lon": 18.7877583
     },
     {
       "id": "skoki",
@@ -43893,7 +45155,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6725926,
+      "lon": 17.1531343
     },
     {
       "id": "skorcz",
@@ -43902,7 +45166,9 @@
         "skorcz"
       ],
       "voivodeship": "pomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.79455,
+      "lon": 18.52432
     },
     {
       "id": "skwierzyna",
@@ -43936,7 +45202,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5967483,
+      "lon": 15.5010958
     },
     {
       "id": "slawa",
@@ -43945,7 +45213,9 @@
         "slawa"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.8807001,
+      "lon": 16.0702499
     },
     {
       "id": "slawkow",
@@ -44059,7 +45329,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2984547,
+      "lon": 19.3898475
     },
     {
       "id": "slawno",
@@ -44068,7 +45340,9 @@
         "slawno"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.3629824,
+      "lon": 16.6789071
     },
     {
       "id": "slesin",
@@ -44102,7 +45376,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.37082,
+      "lon": 18.30593
     },
     {
       "id": "slomniki",
@@ -44152,7 +45428,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2403739,
+      "lon": 20.0811369
     },
     {
       "id": "slubice",
@@ -44161,7 +45439,9 @@
         "slubice"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.3557481,
+      "lon": 14.5662367
     },
     {
       "id": "slupca",
@@ -44170,7 +45450,9 @@
         "slupca"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2872924,
+      "lon": 17.8713612
     },
     {
       "id": "slupsk",
@@ -44208,7 +45490,9 @@
         "smigiel"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.012744,
+      "lon": 16.5271118
     },
     {
       "id": "sobkow",
@@ -44226,7 +45510,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6987193,
+      "lon": 20.4543922
     },
     {
       "id": "sobotka",
@@ -44260,7 +45546,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8992535,
+      "lon": 16.7444655
     },
     {
       "id": "sochaczew",
@@ -44369,7 +45657,9 @@
         "sochocin"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.6898865,
+      "lon": 20.4707992
     },
     {
       "id": "sokolka",
@@ -44395,7 +45685,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4049183,
+      "lon": 23.4995562
     },
     {
       "id": "sokolow-malopolski",
@@ -44437,7 +45729,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2311643,
+      "lon": 22.1189272
     },
     {
       "id": "sokolow-podlaski",
@@ -44523,7 +45817,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.0791965,
+      "lon": 18.2246086
     },
     {
       "id": "solec-nad-wisla",
@@ -44549,7 +45845,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1349545,
+      "lon": 21.7654723
     },
     {
       "id": "sompolno",
@@ -44575,7 +45873,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3884355,
+      "lon": 18.5030075
     },
     {
       "id": "sopot",
@@ -44637,7 +45937,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.2722844,
+      "lon": 18.5298588
     },
     {
       "id": "sosnowiec",
@@ -44923,7 +46225,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0893322,
+      "lon": 17.0156809
     },
     {
       "id": "sroda-slaska",
@@ -44957,7 +46261,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1638949,
+      "lon": 16.5942505
     },
     {
       "id": "sroda-wielkopolska",
@@ -44966,7 +46272,9 @@
         "sroda wielkopolska"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2284266,
+      "lon": 17.277827
     },
     {
       "id": "stalowa-wola",
@@ -45072,7 +46380,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5653105,
+      "lon": 22.0644075
     },
     {
       "id": "stanislawow",
@@ -45081,7 +46391,9 @@
         "stanislawow"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2897723,
+      "lon": 21.5471724
     },
     {
       "id": "staporkow",
@@ -45155,7 +46467,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.1380145,
+      "lon": 20.5573073
     },
     {
       "id": "starachowice",
@@ -45592,7 +46906,9 @@
         "starozreby"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.6321617,
+      "lon": 19.9876359
     },
     {
       "id": "stary-sacz",
@@ -45674,7 +46990,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.5640376,
+      "lon": 20.6366038
     },
     {
       "id": "staszow",
@@ -45748,7 +47066,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5612276,
+      "lon": 21.1677849
     },
     {
       "id": "stawiski",
@@ -45766,7 +47086,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.3798382,
+      "lon": 22.1548937
     },
     {
       "id": "stawiszyn",
@@ -45775,7 +47097,9 @@
         "stawiszyn"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.9182364,
+      "lon": 18.1115413
     },
     {
       "id": "stepnica",
@@ -45801,7 +47125,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.651453,
+      "lon": 14.6299527
     },
     {
       "id": "steszew",
@@ -45810,7 +47136,9 @@
         "steszew"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2793539,
+      "lon": 16.6999331
     },
     {
       "id": "stoczek-lukowski",
@@ -45860,7 +47188,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9617406,
+      "lon": 21.9697078
     },
     {
       "id": "stopnica",
@@ -45869,7 +47199,9 @@
         "stopnica"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.4382587,
+      "lon": 20.9385676
     },
     {
       "id": "stronie-slaskie",
@@ -45878,7 +47210,9 @@
         "stronie slaskie"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.2916337,
+      "lon": 16.8736919
     },
     {
       "id": "strumien",
@@ -45904,7 +47238,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9171995,
+      "lon": 18.7634908
     },
     {
       "id": "strykow",
@@ -45922,7 +47258,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9009447,
+      "lon": 19.6036969
     },
     {
       "id": "strzegom",
@@ -45940,7 +47278,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9601066,
+      "lon": 16.3462134
     },
     {
       "id": "strzelce-krajenskie",
@@ -45958,7 +47298,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8785785,
+      "lon": 15.5326861
     },
     {
       "id": "strzelce-opolskie",
@@ -46008,7 +47350,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5109033,
+      "lon": 18.3004547
     },
     {
       "id": "strzeleczki",
@@ -46026,7 +47370,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4594894,
+      "lon": 17.854778
     },
     {
       "id": "strzelin",
@@ -46035,7 +47381,9 @@
         "strzelin"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.78092,
+      "lon": 17.0683947
     },
     {
       "id": "strzelno",
@@ -46053,7 +47401,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6301742,
+      "lon": 18.1733807
     },
     {
       "id": "strzyzow",
@@ -46119,7 +47469,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8702087,
+      "lon": 21.7856291
     },
     {
       "id": "sucha-beskidzka",
@@ -46577,7 +47929,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.74079,
+      "lon": 19.5905975
     },
     {
       "id": "suchan",
@@ -46586,7 +47940,9 @@
         "suchan"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.2799427,
+      "lon": 15.3188331
     },
     {
       "id": "suchedniow",
@@ -46676,7 +48032,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0472338,
+      "lon": 20.8386652
     },
     {
       "id": "suchowola",
@@ -46694,7 +48052,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.578557,
+      "lon": 23.1058224
     },
     {
       "id": "sulechow",
@@ -46703,7 +48063,9 @@
         "sulechow"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0854782,
+      "lon": 15.6259091
     },
     {
       "id": "sulecin",
@@ -46721,7 +48083,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4413768,
+      "lon": 15.1161501
     },
     {
       "id": "sulejow",
@@ -46779,7 +48143,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3549202,
+      "lon": 19.8890802
     },
     {
       "id": "sulejowek",
@@ -46837,7 +48203,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.2433944,
+      "lon": 21.2777123
     },
     {
       "id": "sulkowice",
@@ -46919,7 +48287,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8408265,
+      "lon": 19.8012137
     },
     {
       "id": "sulmierzyce",
@@ -46953,7 +48323,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6064157,
+      "lon": 17.5278074
     },
     {
       "id": "suprasl",
@@ -46979,7 +48351,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.2100391,
+      "lon": 23.3360728
     },
     {
       "id": "suraz",
@@ -46988,7 +48362,9 @@
         "suraz"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.9491665,
+      "lon": 22.9563836
     },
     {
       "id": "susz",
@@ -47006,7 +48382,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.7166619,
+      "lon": 19.3385289
     },
     {
       "id": "suwalki",
@@ -47092,7 +48470,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4103728,
+      "lon": 17.0771038
     },
     {
       "id": "swiatniki-gorne",
@@ -47182,7 +48562,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9346365,
+      "lon": 19.9524965
     },
     {
       "id": "swidnica",
@@ -47328,7 +48710,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.774596,
+      "lon": 15.7767962
     },
     {
       "id": "swiebodzice",
@@ -47354,7 +48738,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.859573,
+      "lon": 16.3196056
     },
     {
       "id": "swiebodzin",
@@ -47363,7 +48749,9 @@
         "swiebodzin"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2498357,
+      "lon": 15.5324973
     },
     {
       "id": "swiecie",
@@ -47397,7 +48785,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.4072518,
+      "lon": 18.4455253
     },
     {
       "id": "swieradow-zdroj",
@@ -47463,7 +48853,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9093388,
+      "lon": 15.3332153
     },
     {
       "id": "swierzawa",
@@ -47472,7 +48864,9 @@
         "swierzawa"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0150774,
+      "lon": 15.8920701
     },
     {
       "id": "swietochlowice",
@@ -47738,7 +49132,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3078551,
+      "lon": 17.7198113
     },
     {
       "id": "szadek",
@@ -47804,7 +49200,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.69175,
+      "lon": 18.97703
     },
     {
       "id": "szamocin",
@@ -47862,7 +49260,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.0290045,
+      "lon": 17.1217202
     },
     {
       "id": "szamotuly",
@@ -47888,7 +49288,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.6120328,
+      "lon": 16.5831241
     },
     {
       "id": "szczawnica",
@@ -48074,7 +49476,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.4266299,
+      "lon": 20.4761439
     },
     {
       "id": "szczawno-zdroj",
@@ -48100,7 +49504,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8008062,
+      "lon": 16.2515692
     },
     {
       "id": "szczebrzeszyn",
@@ -48206,7 +49612,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6946972,
+      "lon": 22.9786754
     },
     {
       "id": "szczecin",
@@ -48969,7 +50377,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6260228,
+      "lon": 19.8195137
     },
     {
       "id": "szczucin",
@@ -49011,7 +50421,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3090256,
+      "lon": 21.075161
     },
     {
       "id": "szczuczyn",
@@ -49061,7 +50473,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5629982,
+      "lon": 22.2855495
     },
     {
       "id": "szczyrk",
@@ -49711,7 +51125,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7165976,
+      "lon": 19.0254613
     },
     {
       "id": "szczytna",
@@ -49793,7 +51209,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4169281,
+      "lon": 16.4408185
     },
     {
       "id": "szczytno",
@@ -49813,7 +51231,9 @@
         "szepietowo"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.8712982,
+      "lon": 22.5474331
     },
     {
       "id": "szklarska-poreba",
@@ -49903,7 +51323,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8268011,
+      "lon": 15.5221261
     },
     {
       "id": "szlichtyngowa",
@@ -49912,7 +51334,9 @@
         "szlichtyngowa"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.7140748,
+      "lon": 16.2445989
     },
     {
       "id": "szprotawa",
@@ -49930,7 +51354,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5650714,
+      "lon": 15.5367584
     },
     {
       "id": "sztum",
@@ -49948,7 +51374,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.9198663,
+      "lon": 19.0305384
     },
     {
       "id": "szubin",
@@ -49982,7 +51410,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.0117503,
+      "lon": 17.7439402
     },
     {
       "id": "szydlow",
@@ -50016,7 +51446,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5907684,
+      "lon": 21.0045698
     },
     {
       "id": "szydlowiec",
@@ -50082,7 +51514,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2238922,
+      "lon": 20.8575141
     },
     {
       "id": "tarczyn",
@@ -50091,7 +51525,9 @@
         "tarczyn"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 51.9802935,
+      "lon": 20.8339613
     },
     {
       "id": "tarnobrzeg",
@@ -50321,7 +51757,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.361309,
+      "lon": 22.7419384
     },
     {
       "id": "tarnow",
@@ -50591,7 +52029,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4445194,
+      "lon": 18.8554757
     },
     {
       "id": "tczew",
@@ -50717,7 +52157,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0756167,
+      "lon": 23.6133645
     },
     {
       "id": "tluszcz",
@@ -50767,7 +52209,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4301697,
+      "lon": 21.4355074
     },
     {
       "id": "tolkmicko",
@@ -50776,7 +52220,9 @@
         "tolkmicko"
       ],
       "voivodeship": "warmińsko-mazurskie",
-      "districts": []
+      "districts": [],
+      "lat": 54.3201802,
+      "lon": 19.5270187
     },
     {
       "id": "tomaszow-lubelski",
@@ -51399,7 +52845,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3138586,
+      "lon": 15.0828279
     },
     {
       "id": "toszek",
@@ -51417,7 +52865,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4551063,
+      "lon": 18.5180604
     },
     {
       "id": "trzcianka",
@@ -51435,7 +52885,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.041755,
+      "lon": 16.4614788
     },
     {
       "id": "trzciel",
@@ -51453,7 +52905,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.365166,
+      "lon": 15.873213
     },
     {
       "id": "trzcinsko-zdroj",
@@ -51462,7 +52916,9 @@
         "trzcinsko zdroj"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.9660381,
+      "lon": 14.6075982
     },
     {
       "id": "trzebiatow",
@@ -51544,7 +53000,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.062627,
+      "lon": 15.2656577
     },
     {
       "id": "trzebinia",
@@ -51858,7 +53316,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1597686,
+      "lon": 19.4709097
     },
     {
       "id": "trzebnica",
@@ -51867,7 +53327,9 @@
         "trzebnica"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.3096424,
+      "lon": 17.062596
     },
     {
       "id": "trzemeszno",
@@ -51876,7 +53338,9 @@
         "trzemeszno"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.5600669,
+      "lon": 17.8208936
     },
     {
       "id": "tuchola",
@@ -51942,7 +53406,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5880901,
+      "lon": 17.8590414
     },
     {
       "id": "tuchow",
@@ -52096,7 +53562,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.895219,
+      "lon": 21.0538362
     },
     {
       "id": "tuczno",
@@ -52105,7 +53573,9 @@
         "tuczno"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.194419,
+      "lon": 16.1548235
     },
     {
       "id": "tuliszkow",
@@ -52114,7 +53584,9 @@
         "tuliszkow"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0770973,
+      "lon": 18.294932
     },
     {
       "id": "tulowice",
@@ -52123,7 +53595,9 @@
         "tulowice"
       ],
       "voivodeship": "opolskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.5954195,
+      "lon": 17.6533063
     },
     {
       "id": "turek",
@@ -52152,7 +53626,9 @@
         "turobin"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.8218458,
+      "lon": 22.7448995
     },
     {
       "id": "tuszyn",
@@ -52234,7 +53710,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.60308,
+      "lon": 19.54454
     },
     {
       "id": "twardogora",
@@ -52268,7 +53746,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.364557,
+      "lon": 17.469599
     },
     {
       "id": "tychowo",
@@ -52277,7 +53757,9 @@
         "tychowo"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.92866,
+      "lon": 16.25668
     },
     {
       "id": "tychy",
@@ -52491,7 +53973,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9637919,
+      "lon": 22.0336719
     },
     {
       "id": "tykocin",
@@ -52525,7 +54009,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.207646,
+      "lon": 22.7730188
     },
     {
       "id": "tyszowce",
@@ -52575,7 +54061,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6172008,
+      "lon": 23.6982172
     },
     {
       "id": "ujazd-lodzkie",
@@ -52584,7 +54072,9 @@
         "ujazd"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.5980362,
+      "lon": 19.9218143
     },
     {
       "id": "ujazd-opolskie",
@@ -52610,7 +54100,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3892513,
+      "lon": 18.3504502
     },
     {
       "id": "ujscie",
@@ -52652,7 +54144,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.0531546,
+      "lon": 16.7324266
     },
     {
       "id": "ulanow",
@@ -52678,7 +54172,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4904352,
+      "lon": 22.2625676
     },
     {
       "id": "uniejow",
@@ -52704,7 +54200,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.9741302,
+      "lon": 18.793245
     },
     {
       "id": "urzedow",
@@ -52738,7 +54236,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.9939046,
+      "lon": 22.1435756
     },
     {
       "id": "ustka",
@@ -52976,7 +54476,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.7181505,
+      "lon": 18.8028338
     },
     {
       "id": "ustrzyki-dolne",
@@ -53042,7 +54544,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.4301874,
+      "lon": 22.5877003
     },
     {
       "id": "wabrzezno",
@@ -53079,7 +54583,9 @@
         "wachock"
       ],
       "voivodeship": "świętokrzyskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.073812,
+      "lon": 21.0116897
     },
     {
       "id": "wadowice",
@@ -53153,7 +54659,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8834484,
+      "lon": 19.4925345
     },
     {
       "id": "wagrowiec",
@@ -53420,7 +54928,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.269745,
+      "lon": 16.4670655
     },
     {
       "id": "warka",
@@ -53478,7 +54988,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7850969,
+      "lon": 21.1833835
     },
     {
       "id": "warszawa",
@@ -53677,7 +55189,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.7081927,
+      "lon": 18.6250791
     },
     {
       "id": "wasilkow",
@@ -53719,7 +55233,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.198684,
+      "lon": 23.2056777
     },
     {
       "id": "wasosz",
@@ -53728,7 +55244,9 @@
         "wasosz"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.5641,
+      "lon": 16.69307
     },
     {
       "id": "wawolnica",
@@ -53737,7 +55255,9 @@
         "wawolnica"
       ],
       "voivodeship": "lubelskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.2935314,
+      "lon": 22.1465024
     },
     {
       "id": "wegliniec",
@@ -53746,7 +55266,9 @@
         "wegliniec"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.2871203,
+      "lon": 15.2241355
     },
     {
       "id": "wegorzewo",
@@ -53764,7 +55286,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.2138162,
+      "lon": 21.7416569
     },
     {
       "id": "wegorzyno",
@@ -53773,7 +55297,9 @@
         "wegorzyno"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.5411822,
+      "lon": 15.5602398
     },
     {
       "id": "wegrow",
@@ -53863,7 +55389,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3989231,
+      "lon": 22.0174472
     },
     {
       "id": "wejherowo",
@@ -53925,7 +55453,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8138794,
+      "lon": 17.2017238
     },
     {
       "id": "wiecbork",
@@ -53967,7 +55497,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.3525453,
+      "lon": 17.4873925
     },
     {
       "id": "wielbark",
@@ -53985,7 +55517,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.3984244,
+      "lon": 20.9462724
     },
     {
       "id": "wielen",
@@ -54059,7 +55593,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8943347,
+      "lon": 16.1712847
     },
     {
       "id": "wielichowo",
@@ -54068,7 +55604,9 @@
         "wielichowo"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1182673,
+      "lon": 16.3521384
     },
     {
       "id": "wieliczka",
@@ -54214,7 +55752,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9823773,
+      "lon": 20.0602114
     },
     {
       "id": "wielun",
@@ -54288,7 +55828,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2204544,
+      "lon": 18.5700965
     },
     {
       "id": "wieruszow",
@@ -54314,7 +55856,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.2951647,
+      "lon": 18.1510623
     },
     {
       "id": "wilamowice",
@@ -54396,7 +55940,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9167395,
+      "lon": 19.1524707
     },
     {
       "id": "wiskitki",
@@ -54405,7 +55951,9 @@
         "wiskitki"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 52.0868993,
+      "lon": 20.3832461
     },
     {
       "id": "wisla",
@@ -54799,7 +56347,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6523647,
+      "lon": 18.8709256
     },
     {
       "id": "wislica",
@@ -54833,7 +56383,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3484831,
+      "lon": 20.6745381
     },
     {
       "id": "witkowo",
@@ -54875,7 +56427,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4395881,
+      "lon": 17.7725138
     },
     {
       "id": "witnica",
@@ -54884,7 +56438,9 @@
         "witnica"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.6729399,
+      "lon": 14.8972121
     },
     {
       "id": "wladyslawowo",
@@ -54910,7 +56466,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.7901316,
+      "lon": 18.4087342
     },
     {
       "id": "wlen",
@@ -54936,7 +56494,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0168814,
+      "lon": 15.6744645
     },
     {
       "id": "wloclawek",
@@ -55542,7 +57102,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5466412,
+      "lon": 23.553219
     },
     {
       "id": "wlodowice",
@@ -55568,7 +57130,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5520931,
+      "lon": 19.4504273
     },
     {
       "id": "wloszczowa",
@@ -55722,7 +57286,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8520727,
+      "lon": 19.9667772
     },
     {
       "id": "wodzislaw",
@@ -55748,7 +57314,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5211403,
+      "lon": 20.1909163
     },
     {
       "id": "wodzislaw-slaski",
@@ -55894,7 +57462,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.0024107,
+      "lon": 18.4630383
     },
     {
       "id": "wojcieszow",
@@ -55903,7 +57473,9 @@
         "wojcieszow"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.9516542,
+      "lon": 15.9217422
     },
     {
       "id": "wojkowice",
@@ -55985,7 +57557,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3652915,
+      "lon": 19.0366218
     },
     {
       "id": "wojnicz",
@@ -56035,7 +57609,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9573496,
+      "lon": 20.8364048
     },
     {
       "id": "wolborz",
@@ -56085,7 +57661,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.5036311,
+      "lon": 19.830319
     },
     {
       "id": "wolbrom",
@@ -56143,7 +57721,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.3848386,
+      "lon": 19.7598844
     },
     {
       "id": "wolczyn",
@@ -56152,7 +57732,9 @@
         "wolczyn"
       ],
       "voivodeship": "opolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.0190253,
+      "lon": 18.049603
     },
     {
       "id": "wolin",
@@ -56161,7 +57743,9 @@
         "wolin"
       ],
       "voivodeship": "zachodniopomorskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.843788,
+      "lon": 14.6157008
     },
     {
       "id": "wolomin",
@@ -56219,7 +57803,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3468689,
+      "lon": 21.2420179
     },
     {
       "id": "wolow",
@@ -56253,7 +57839,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3363841,
+      "lon": 16.6486903
     },
     {
       "id": "wolsztyn",
@@ -56262,7 +57850,9 @@
         "wolsztyn"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.11725,
+      "lon": 16.1126622
     },
     {
       "id": "wozniki",
@@ -56384,7 +57974,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5870812,
+      "lon": 19.0595251
     },
     {
       "id": "wroclaw",
@@ -56464,7 +58056,9 @@
         "wronki"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.7100316,
+      "lon": 16.3742572
     },
     {
       "id": "wrzesnia",
@@ -56498,7 +58092,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3250694,
+      "lon": 17.5652282
     },
     {
       "id": "wschowa",
@@ -56516,7 +58112,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8038354,
+      "lon": 16.3172771
     },
     {
       "id": "wyrzysk",
@@ -56534,7 +58132,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.1569822,
+      "lon": 17.2627004
     },
     {
       "id": "wysmierzyce",
@@ -56576,7 +58176,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6251076,
+      "lon": 20.8119331
     },
     {
       "id": "wysoka",
@@ -56585,7 +58187,9 @@
         "wysoka"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.1829333,
+      "lon": 17.0797137
     },
     {
       "id": "wysokie-mazowieckie",
@@ -56594,7 +58198,9 @@
         "wysokie mazowieckie"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.9154988,
+      "lon": 22.5131199
     },
     {
       "id": "wyszkow",
@@ -56644,7 +58250,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.5928035,
+      "lon": 21.4584581
     },
     {
       "id": "wyszogrod",
@@ -56678,7 +58286,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.3883717,
+      "lon": 20.1913084
     },
     {
       "id": "zabki",
@@ -56716,7 +58326,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.5892698,
+      "lon": 16.8111518
     },
     {
       "id": "zabludow",
@@ -56725,7 +58337,9 @@
         "zabludow"
       ],
       "voivodeship": "podlaskie",
-      "districts": []
+      "districts": [],
+      "lat": 53.0147671,
+      "lon": 23.3379526
     },
     {
       "id": "zabno",
@@ -56791,7 +58405,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.1335155,
+      "lon": 20.8859257
     },
     {
       "id": "zabrze",
@@ -56902,7 +58518,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.6148068,
+      "lon": 15.3203721
     },
     {
       "id": "zagorow",
@@ -56911,7 +58529,9 @@
         "zagorow"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.16899,
+      "lon": 17.90016
     },
     {
       "id": "zagorz",
@@ -57041,7 +58661,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.5098822,
+      "lon": 22.2632894
     },
     {
       "id": "zakliczyn",
@@ -57091,7 +58713,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.8564352,
+      "lon": 20.8086652
     },
     {
       "id": "zaklikow",
@@ -57100,7 +58724,9 @@
         "zaklikow"
       ],
       "voivodeship": "podkarpackie",
-      "districts": []
+      "districts": [],
+      "lat": 50.7554368,
+      "lon": 22.1020214
     },
     {
       "id": "zakopane",
@@ -57662,7 +59288,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.2969114,
+      "lon": 19.9504753
     },
     {
       "id": "zakroczym",
@@ -57736,7 +59364,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.4333534,
+      "lon": 20.6116771
     },
     {
       "id": "zalewo",
@@ -57754,7 +59384,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.8458768,
+      "lon": 19.606118
     },
     {
       "id": "zambrow",
@@ -57915,7 +59547,9 @@
         "zaniemysl"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.1551661,
+      "lon": 17.1618234
     },
     {
       "id": "zarki",
@@ -57965,7 +59599,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6259563,
+      "lon": 19.3645599
     },
     {
       "id": "zarnow",
@@ -57974,7 +59610,9 @@
         "zarnow"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 51.2479931,
+      "lon": 20.1720504
     },
     {
       "id": "zarow",
@@ -57983,7 +59621,9 @@
         "zarow"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.9438416,
+      "lon": 16.4923538
     },
     {
       "id": "zary",
@@ -58061,7 +59701,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.9963053,
+      "lon": 19.4376782
     },
     {
       "id": "zawadzkie",
@@ -58111,7 +59753,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6065834,
+      "lon": 18.4801284
     },
     {
       "id": "zawichost",
@@ -58241,7 +59885,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.8074312,
+      "lon": 21.8523835
     },
     {
       "id": "zawidow",
@@ -58267,7 +59913,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.0257493,
+      "lon": 15.0610053
     },
     {
       "id": "zawiercie",
@@ -58429,7 +60077,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4844179,
+      "lon": 19.4333887
     },
     {
       "id": "zbaszyn",
@@ -58438,7 +60088,9 @@
         "zbaszyn"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2501028,
+      "lon": 15.9209286
     },
     {
       "id": "zbaszynek",
@@ -58447,7 +60099,9 @@
         "zbaszynek"
       ],
       "voivodeship": "lubuskie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2436262,
+      "lon": 15.8138946
     },
     {
       "id": "zdunska-wola",
@@ -58556,7 +60210,9 @@
         "zduny"
       ],
       "voivodeship": "wielkopolskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.6463268,
+      "lon": 17.377617
     },
     {
       "id": "zdzieszowice",
@@ -58590,7 +60246,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.4202928,
+      "lon": 18.1193187
     },
     {
       "id": "zelechow",
@@ -58648,7 +60306,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.8096724,
+      "lon": 21.895505
     },
     {
       "id": "zelow",
@@ -58666,7 +60326,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4650276,
+      "lon": 19.2195805
     },
     {
       "id": "zerkow",
@@ -58692,7 +60354,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.0687117,
+      "lon": 17.5633599
     },
     {
       "id": "zgierz",
@@ -58886,7 +60550,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6007752,
+      "lon": 17.0405633
     },
     {
       "id": "zielona-gora",
@@ -59156,7 +60822,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.310847,
+      "lon": 21.1523199
     },
     {
       "id": "zlocieniec",
@@ -59222,7 +60890,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 53.5310477,
+      "lon": 16.0107245
     },
     {
       "id": "zloczew",
@@ -59312,7 +60982,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.4180515,
+      "lon": 18.6060256
     },
     {
       "id": "zlotoryja",
@@ -59368,7 +61040,9 @@
         "zloty stok"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 50.4429267,
+      "lon": 16.8746559
     },
     {
       "id": "zmigrod",
@@ -59377,7 +61051,9 @@
         "zmigrod"
       ],
       "voivodeship": "dolnośląskie",
-      "districts": []
+      "districts": [],
+      "lat": 51.4717386,
+      "lon": 16.9082719
     },
     {
       "id": "znin",
@@ -59411,7 +61087,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 52.8469452,
+      "lon": 17.72395
     },
     {
       "id": "zory",
@@ -59585,7 +61263,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 54.3458469,
+      "lon": 18.3647494
     },
     {
       "id": "zuromin",
@@ -59594,7 +61274,9 @@
         "zuromin"
       ],
       "voivodeship": "mazowieckie",
-      "districts": []
+      "districts": [],
+      "lat": 53.0671703,
+      "lon": 19.9078353
     },
     {
       "id": "zwierzyniec",
@@ -59652,7 +61334,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 50.6145878,
+      "lon": 22.9706317
     },
     {
       "id": "zwolen",
@@ -59694,7 +61378,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 51.3564745,
+      "lon": 21.5844652
     },
     {
       "id": "zychlin",
@@ -59703,7 +61389,9 @@
         "zychlin"
       ],
       "voivodeship": "łódzkie",
-      "districts": []
+      "districts": [],
+      "lat": 52.2440088,
+      "lon": 19.6260932
     },
     {
       "id": "zyrardow",
@@ -60141,7 +61829,9 @@
           ],
           "type": "district"
         }
-      ]
+      ],
+      "lat": 49.6890338,
+      "lon": 19.20305
     }
   ],
   "tokenIndex": {
