@@ -24,6 +24,14 @@
       customMapColorsHeading: "Kolory mapy",
       customUiColorsHeading: "Kolory interfejsu",
       customColorReset: "Resetuj kolory",
+      customLabelsHeading: "Etykiety na mapie",
+      labelsPoi: "Punkty (sklepy, usługi)",
+      labelsRoads: "Nazwy ulic",
+      labelsPlaces: "Miejscowości i dzielnice",
+      labelsWater: "Rzeki i morza",
+      labelsRegions: "Województwa / obwody",
+      labelsCountries: "Kraje",
+      labelsAirports: "Lotniska",
       customColorLabels: {
         mapBackground: "Tło",
         mapWater: "Woda",
@@ -312,6 +320,14 @@
       customMapColorsHeading: "Map colors",
       customUiColorsHeading: "Interface colors",
       customColorReset: "Reset colors",
+      customLabelsHeading: "Map labels",
+      labelsPoi: "Points (shops, services)",
+      labelsRoads: "Street names",
+      labelsPlaces: "Places and districts",
+      labelsWater: "Rivers and seas",
+      labelsRegions: "Regions / provinces",
+      labelsCountries: "Countries",
+      labelsAirports: "Airports",
       customColorLabels: {
         mapBackground: "Background",
         mapWater: "Water",
@@ -608,6 +624,76 @@
     uiText: "#18212b"
   };
 
+  // Warstwy etykiet ze stylu OpenFreeMap Liberty, pogrupowane pod
+  // przełączniki widoczności w menu. Jeśli styl mapy się kiedyś
+  // zmieni, te ID trzeba będzie zweryfikować względem nowego style.json.
+  const LABEL_LAYER_GROUPS = {
+    poi: ["poi_r20", "poi_r7", "poi_r1", "poi_transit"],
+    roads: [
+      "highway-name-path",
+      "highway-name-minor",
+      "highway-name-major",
+      "highway-shield-non-us",
+      "highway-shield-us-interstate",
+      "road_shield_us"
+    ],
+    places: [
+      "label_other",
+      "label_village",
+      "label_town",
+      "label_city",
+      "label_city_capital"
+    ],
+    water: [
+      "waterway_line_label",
+      "water_name_point_label",
+      "water_name_line_label"
+    ],
+    regions: ["label_state"],
+    countries: ["label_country_3", "label_country_2", "label_country_1"],
+    airports: ["airport"]
+  };
+
+  const DEFAULT_LABEL_VISIBILITY = {
+    poi: true,
+    roads: true,
+    places: true,
+    water: true,
+    regions: true,
+    countries: true,
+    airports: true
+  };
+  const LABEL_VISIBILITY_STORAGE_KEY = "omapa-label-visibility";
+
+  function readLabelVisibility() {
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(LABEL_VISIBILITY_STORAGE_KEY) || "{}"
+      );
+      return { ...DEFAULT_LABEL_VISIBILITY, ...stored };
+    } catch (_) {
+      return { ...DEFAULT_LABEL_VISIBILITY };
+    }
+  }
+
+  function saveLabelVisibility(visibility) {
+    safeSet(LABEL_VISIBILITY_STORAGE_KEY, JSON.stringify(visibility));
+  }
+
+  function applyLabelVisibility() {
+    for (const [group, layerIds] of Object.entries(LABEL_LAYER_GROUPS)) {
+      const visible = state.labelVisibility[group];
+      for (const layerId of layerIds) {
+        if (!map.getLayer(layerId)) continue;
+        map.setLayoutProperty(
+          layerId,
+          "visibility",
+          visible ? "visible" : "none"
+        );
+      }
+    }
+  }
+
   function readCustomPalette() {
     try {
       const stored = JSON.parse(
@@ -651,6 +737,7 @@
         : "default";
     })(),
     customPalette: readCustomPalette(),
+    labelVisibility: readLabelVisibility(),
     timer: null,
     originalPaint: new Map(),
     originalTextFields: new Map(),
@@ -765,6 +852,21 @@
     customMapHeading: $("menu-custom-map-heading"),
     customUiHeading: $("menu-custom-ui-heading"),
     customPaletteReset: $("custom-palette-reset"),
+    labelsPoiToggle: $("menu-labels-poi"),
+    labelsPoiToggleLabel: $("menu-labels-poi-label"),
+    labelsRoadsToggle: $("menu-labels-roads"),
+    labelsRoadsToggleLabel: $("menu-labels-roads-label"),
+    labelsPlacesToggle: $("menu-labels-places"),
+    labelsPlacesToggleLabel: $("menu-labels-places-label"),
+    labelsWaterToggle: $("menu-labels-water"),
+    labelsWaterToggleLabel: $("menu-labels-water-label"),
+    labelsRegionsToggle: $("menu-labels-regions"),
+    labelsRegionsToggleLabel: $("menu-labels-regions-label"),
+    labelsCountriesToggle: $("menu-labels-countries"),
+    labelsCountriesToggleLabel: $("menu-labels-countries-label"),
+    labelsAirportsToggle: $("menu-labels-airports"),
+    labelsAirportsToggleLabel: $("menu-labels-airports-label"),
+    menuCustomLabelsHeading: $("menu-custom-labels-heading"),
     menuExportAll: $("menu-export-all"),
     menuExportAllLabel: $("menu-export-all-label"),
     menuImportAllButton: $("menu-import-all-button"),
@@ -977,6 +1079,32 @@
       syncCustomPaletteInputs();
       if (state.theme === "custom") applyTheme(state.theme);
     });
+  }
+
+  initializeLabelVisibilityToggles();
+
+  function initializeLabelVisibilityToggles() {
+    const checkboxByGroup = {
+      poi: el.labelsPoiToggle,
+      roads: el.labelsRoadsToggle,
+      places: el.labelsPlacesToggle,
+      water: el.labelsWaterToggle,
+      regions: el.labelsRegionsToggle,
+      countries: el.labelsCountriesToggle,
+      airports: el.labelsAirportsToggle
+    };
+
+    for (const [group, checkbox] of Object.entries(checkboxByGroup)) {
+      if (!checkbox) continue;
+
+      checkbox.checked = state.labelVisibility[group];
+
+      checkbox.addEventListener("change", () => {
+        state.labelVisibility[group] = checkbox.checked;
+        saveLabelVisibility(state.labelVisibility);
+        applyLabelVisibility();
+      });
+    }
   }
 
   window.matchMedia?.("(prefers-color-scheme: dark)")
@@ -1426,6 +1554,14 @@
     if (el.customMapHeading) el.customMapHeading.textContent = t.customMapColorsHeading;
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
     if (el.customPaletteReset) el.customPaletteReset.textContent = t.customColorReset;
+    if (el.menuCustomLabelsHeading) el.menuCustomLabelsHeading.textContent = t.customLabelsHeading;
+    if (el.labelsPoiToggleLabel) el.labelsPoiToggleLabel.textContent = t.labelsPoi;
+    if (el.labelsRoadsToggleLabel) el.labelsRoadsToggleLabel.textContent = t.labelsRoads;
+    if (el.labelsPlacesToggleLabel) el.labelsPlacesToggleLabel.textContent = t.labelsPlaces;
+    if (el.labelsWaterToggleLabel) el.labelsWaterToggleLabel.textContent = t.labelsWater;
+    if (el.labelsRegionsToggleLabel) el.labelsRegionsToggleLabel.textContent = t.labelsRegions;
+    if (el.labelsCountriesToggleLabel) el.labelsCountriesToggleLabel.textContent = t.labelsCountries;
+    if (el.labelsAirportsToggleLabel) el.labelsAirportsToggleLabel.textContent = t.labelsAirports;
     for (const [key, label] of Object.entries(t.customColorLabels)) {
       const labelEl = $(`custom-color-${key}-label`);
       if (labelEl) labelEl.textContent = label;
@@ -1806,6 +1942,8 @@
     for (const layer of map.getStyle().layers || []) {
       applyRoadReferenceColors(layer);
     }
+
+    applyLabelVisibility();
   }
 
   function restoreOriginalPaint(layer) {
