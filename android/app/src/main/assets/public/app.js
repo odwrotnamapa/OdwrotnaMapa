@@ -20,7 +20,7 @@
     pl: {
       title: "Odwrotna Mapa",
       search: "Szukaj miejsca…", button: "Szukaj",
-      styles: { default: "Domyślna", satellite: "Satelitarna", custom: "Własna" },
+      styles: { default: "Domyślna", satellite: "Satelitarna", inverted: "Odwrotna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
       customUiColorsHeading: "Kolory interfejsu",
       customColorReset: "Resetuj kolory",
@@ -33,6 +33,11 @@
       labelsCountries: "Kraje",
       labelsAirports: "Lotniska",
       labelsBoundaries: "Granice administracyjne",
+      labelsPanelTitle: "Etykiety",
+      closeLabels: "Zamknij etykiety",
+      menuLabelsMenuLabel: "Etykiety",
+      selectAllLabels: "Zaznacz wszystko",
+      deselectAllLabels: "Odznacz wszystko",
       customColorLabels: {
         mapBackground: "Tło",
         mapWater: "Woda",
@@ -317,7 +322,7 @@
     en: {
       title: "Odwrotna Mapa",
       search: "Search for a place…", button: "Search",
-      styles: { default: "Default", satellite: "Satellite", custom: "Custom" },
+      styles: { default: "Default", satellite: "Satellite", inverted: "Inverted", custom: "Custom" },
       customMapColorsHeading: "Map colors",
       customUiColorsHeading: "Interface colors",
       customColorReset: "Reset colors",
@@ -330,6 +335,11 @@
       labelsCountries: "Countries",
       labelsAirports: "Airports",
       labelsBoundaries: "Administrative boundaries",
+      labelsPanelTitle: "Labels",
+      closeLabels: "Close labels",
+      menuLabelsMenuLabel: "Labels",
+      selectAllLabels: "Select all",
+      deselectAllLabels: "Deselect all",
       customColorLabels: {
         mapBackground: "Background",
         mapWater: "Water",
@@ -736,7 +746,7 @@
     theme: (() => {
       const stored = safeGet(CONFIG.storageKeys.theme, "default");
       if (stored === "light" || stored === "dark") return "default";
-      return ["default", "satellite", "custom"].includes(stored)
+      return ["default", "satellite", "inverted", "custom"].includes(stored)
         ? stored
         : "default";
     })(),
@@ -792,6 +802,15 @@
     legendSheetHandle: $("legend-sheet-handle"),
     legendClose: $("legend-close"),
     legendBack: $("legend-back"),
+    labelsPanel: $("labels-panel"),
+    labelsSheetHandle: $("labels-sheet-handle"),
+    labelsClose: $("labels-close"),
+    labelsBack: $("labels-back"),
+    labelsTitle: $("labels-title"),
+    menuLabelsButton: $("menu-labels-button"),
+    menuLabelsMenuLabel: $("menu-labels-menu-label"),
+    labelsToggleAll: $("labels-toggle-all"),
+    labelsToggleAllLabel: $("labels-toggle-all-label"),
     menuButton: $("menu-button"),
     mobileRouteButton: $("mobile-route-button"),
     mobileDiscoverButton: $("mobile-discover-button"),
@@ -872,7 +891,6 @@
     labelsAirportsToggleLabel: $("menu-labels-airports-label"),
     labelsBoundariesToggle: $("menu-labels-boundaries"),
     labelsBoundariesToggleLabel: $("menu-labels-boundaries-label"),
-    menuCustomLabelsHeading: $("menu-custom-labels-heading"),
     menuExportAll: $("menu-export-all"),
     menuExportAllLabel: $("menu-export-all-label"),
     menuImportAllButton: $("menu-import-all-button"),
@@ -1089,6 +1107,34 @@
 
   initializeLabelVisibilityToggles();
 
+  const LABEL_VISIBILITY_CHECKBOXES = () => ({
+    poi: el.labelsPoiToggle,
+    roads: el.labelsRoadsToggle,
+    places: el.labelsPlacesToggle,
+    water: el.labelsWaterToggle,
+    regions: el.labelsRegionsToggle,
+    countries: el.labelsCountriesToggle,
+    airports: el.labelsAirportsToggle,
+    boundaries: el.labelsBoundariesToggle
+  });
+
+  function syncLabelVisibilityCheckboxes() {
+    const checkboxByGroup = LABEL_VISIBILITY_CHECKBOXES();
+    for (const [group, checkbox] of Object.entries(checkboxByGroup)) {
+      if (checkbox) checkbox.checked = state.labelVisibility[group];
+    }
+    updateLabelsToggleAllButton();
+  }
+
+  function updateLabelsToggleAllButton() {
+    if (!el.labelsToggleAllLabel) return;
+    const t = text[state.language];
+    const allVisible = Object.values(state.labelVisibility).every(Boolean);
+    el.labelsToggleAllLabel.textContent = allVisible
+      ? t.deselectAllLabels
+      : t.selectAllLabels;
+  }
+
   function initializeLabelVisibilityToggles() {
     const checkboxByGroup = {
       poi: el.labelsPoiToggle,
@@ -1110,8 +1156,24 @@
         state.labelVisibility[group] = checkbox.checked;
         saveLabelVisibility(state.labelVisibility);
         applyLabelVisibility();
+        updateLabelsToggleAllButton();
       });
     }
+
+    updateLabelsToggleAllButton();
+
+    el.labelsToggleAll?.addEventListener("click", () => {
+      const allVisible = Object.values(state.labelVisibility).every(Boolean);
+      const nextValue = !allVisible;
+
+      for (const group of Object.keys(state.labelVisibility)) {
+        state.labelVisibility[group] = nextValue;
+      }
+
+      saveLabelVisibility(state.labelVisibility);
+      applyLabelVisibility();
+      syncLabelVisibilityCheckboxes();
+    });
   }
 
   window.matchMedia?.("(prefers-color-scheme: dark)")
@@ -1312,6 +1374,12 @@
     "click",
     returnFromLegendToMenu
   );
+  el.labelsBack?.addEventListener(
+    "click",
+    returnFromLabelsToMenu
+  );
+  el.labelsClose?.addEventListener("click", closeLabels);
+  el.menuLabelsButton?.addEventListener("click", openLabelsFromMenu);
   el.routeButton?.addEventListener("click", toggleRoute);
   el.mobileRouteButton?.addEventListener("click", toggleRoute);
   el.mobileDiscoverButton?.addEventListener("click", toggleDiscover);
@@ -1349,6 +1417,7 @@
   initializeTripBottomSheet();
   initializeStreetviewBottomSheet();
   initializeLegendBottomSheet();
+  initializeLabelsBottomSheet();
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
   initializeAutocomplete();
@@ -1452,7 +1521,12 @@
     updateMapContextMenuLabels();
     if (el.legendTitle) el.legendTitle.textContent = t.legend;
     el.legendClose?.setAttribute("aria-label", t.closeLegend);
+    if (el.labelsTitle) el.labelsTitle.textContent = t.labelsPanelTitle;
+    el.labelsClose?.setAttribute("aria-label", t.closeLabels);
+    if (el.menuLabelsMenuLabel) el.menuLabelsMenuLabel.textContent = t.menuLabelsMenuLabel;
+    updateLabelsToggleAllButton();
     el.legendBack?.setAttribute("aria-label", t.backToMenu);
+    el.labelsBack?.setAttribute("aria-label", t.backToMenu);
     el.aboutBack?.setAttribute("aria-label", t.backToMenu);
     el.discoverBack?.setAttribute("aria-label", t.backToPlace);
     el.routeBack?.setAttribute("aria-label", t.backToPlace);
@@ -1561,7 +1635,6 @@
     if (el.customMapHeading) el.customMapHeading.textContent = t.customMapColorsHeading;
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
     if (el.customPaletteReset) el.customPaletteReset.textContent = t.customColorReset;
-    if (el.menuCustomLabelsHeading) el.menuCustomLabelsHeading.textContent = t.customLabelsHeading;
     if (el.labelsPoiToggleLabel) el.labelsPoiToggleLabel.textContent = t.labelsPoi;
     if (el.labelsRoadsToggleLabel) el.labelsRoadsToggleLabel.textContent = t.labelsRoads;
     if (el.labelsPlacesToggleLabel) el.labelsPlacesToggleLabel.textContent = t.labelsPlaces;
@@ -1706,7 +1779,7 @@
     if (isMobilePanelViewport()) {
       setMobilePanelHeight(
         el.streetviewPanel,
-        "--streetview-sheet-height",
+        "--sheet-height",
         getMobilePanelMaximumHeight(),
         { collapsed: false, mode: "expanded", animate: false }
       );
@@ -1938,6 +2011,8 @@
       effectiveTheme === "dark" ||
       (theme === "satellite" && prefersDarkColorScheme())
     );
+
+    map.getContainer().classList.toggle("theme-inverted", theme === "inverted");
 
     if (effectiveTheme === "custom") {
       applyCustomUiColors(state.customPalette);
@@ -3651,17 +3726,21 @@
   // automatycznie, bez potrzeby ręcznego dopisywania go w wielu
   // miejscach w pliku.
   const MOBILE_PANELS = [
-    { id: "route", close: () => closeRoute() },
-    { id: "discover", close: () => closeDiscover() },
-    { id: "menu", close: () => closeMenu() },
-    { id: "favorites", close: () => closeFavoritesPanel() },
-    { id: "history", close: () => closeHistory() },
-    { id: "place", close: () => closePlacePanel() },
-    { id: "trip", close: () => closeTrip() },
-    { id: "streetview", close: () => closeStreetView() },
-    { id: "legend", close: () => closeLegend() },
-    { id: "about", close: () => closeAbout() },
-    { id: "backup", close: () => closeBackup() }
+    { id: "route", close: () => closeRoute(), panel: el.routePanel, cssVariable: "--sheet-height" },
+    { id: "discover", close: () => closeDiscover(), panel: el.discoverPanel, cssVariable: "--sheet-height" },
+    { id: "menu", close: () => closeMenu(), panel: el.menuPanel, cssVariable: "--sheet-height" },
+    { id: "favorites", close: () => closeFavoritesPanel(), panel: el.favoritesPanel, cssVariable: "--sheet-height" },
+    { id: "history", close: () => closeHistory(), panel: el.historyPanel, cssVariable: "--sheet-height" },
+    { id: "place", close: () => closePlacePanel(), panel: el.placePanel, cssVariable: "--sheet-height" },
+    { id: "trip", close: () => closeTrip(), panel: el.tripPanel, cssVariable: "--sheet-height" },
+    // Widok uliczny celowo nie zwija się przy kliknięciu na mapę -
+    // tam kliknięcie w mapę służy do zmiany lokalizacji widoku, nie
+    // do odrzucenia panelu.
+    { id: "streetview", close: () => closeStreetView(), collapsible: false },
+    { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
+    { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
+    { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
+    { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" }
   ];
 
   function closeOtherMobilePanels(exceptIds) {
@@ -4052,7 +4131,7 @@
       panel: el.routePanel,
       handle: el.routeSheetHandle,
       close: closeRoute,
-      cssVariable: "--route-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4061,7 +4140,7 @@
       panel: el.discoverPanel,
       handle: el.discoverSheetHandle,
       close: closeDiscover,
-      cssVariable: "--discover-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4070,7 +4149,7 @@
       panel: el.menuPanel,
       handle: el.menuSheetHandle,
       close: closeMenu,
-      cssVariable: "--menu-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4079,7 +4158,7 @@
       panel: el.favoritesPanel,
       handle: el.favoritesSheetHandle,
       close: closeFavoritesPanel,
-      cssVariable: "--favorites-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4088,7 +4167,7 @@
       panel: el.historyPanel,
       handle: el.historySheetHandle,
       close: closeHistory,
-      cssVariable: "--history-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4097,7 +4176,7 @@
       panel: el.placePanel,
       handle: el.placeSheetHandle,
       close: closePlacePanel,
-      cssVariable: "--place-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4106,7 +4185,7 @@
       panel: el.tripPanel,
       handle: el.tripSheetHandle,
       close: closeTrip,
-      cssVariable: "--trip-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4115,7 +4194,7 @@
       panel: el.streetviewPanel,
       handle: el.streetviewSheetHandle,
       close: closeStreetView,
-      cssVariable: "--streetview-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4124,7 +4203,16 @@
       panel: el.legendPanel,
       handle: el.legendSheetHandle,
       close: closeLegend,
-      cssVariable: "--legend-sheet-height"
+      cssVariable: "--sheet-height"
+    });
+  }
+
+  function initializeLabelsBottomSheet() {
+    initializeBottomSheet({
+      panel: el.labelsPanel,
+      handle: el.labelsSheetHandle,
+      close: closeLabels,
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4133,7 +4221,7 @@
       panel: el.aboutPanel,
       handle: el.aboutSheetHandle,
       close: closeAbout,
-      cssVariable: "--about-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4142,7 +4230,7 @@
       panel: el.backupPanel,
       handle: el.backupSheetHandle,
       close: closeBackup,
-      cssVariable: "--backup-sheet-height"
+      cssVariable: "--sheet-height"
     });
   }
 
@@ -4156,7 +4244,7 @@
 
     el.discoverPanel.hidden = !shouldOpen;
     if (shouldOpen) {
-      openMobilePanelStandard(el.discoverPanel, "--discover-sheet-height");
+      openMobilePanelStandard(el.discoverPanel, "--sheet-height");
     }
     
     el.discoverButton?.setAttribute("aria-expanded", String(shouldOpen));
@@ -4181,7 +4269,7 @@ el.discoverButton?.setAttribute(
     state.discoverBackContext = { place, lngLat };
     if (el.discoverBack) el.discoverBack.hidden = false;
 
-    openMobilePanelStandard(el.discoverPanel, "--discover-sheet-height");
+    openMobilePanelStandard(el.discoverPanel, "--sheet-height");
     el.discoverButton?.setAttribute("aria-expanded", "true");
     el.discoverButton?.classList.add("is-active");
     el.mobileDiscoverButton?.setAttribute("aria-expanded", "true");
@@ -4233,7 +4321,7 @@ el.discoverButton?.setAttribute(
     }
     el.routePanel.hidden = !shouldOpen;
     if (shouldOpen) {
-      openMobilePanelStandard(el.routePanel, "--route-sheet-height");
+      openMobilePanelStandard(el.routePanel, "--sheet-height");
     }
     
     el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
@@ -4742,58 +4830,23 @@ function closeRoute() {
   function collapseMobileRoutePanel() {
     collapseMobilePanel(
       el.routePanel,
-      "--route-sheet-height"
+      "--sheet-height"
     );
   }
 
   function expandMobileRoutePanel() {
     openMobilePanelStandard(
       el.routePanel,
-      "--route-sheet-height"
+      "--sheet-height"
     );
   }
 
   function collapseMobilePanels() {
-    collapseMobilePanel(
-      el.discoverPanel,
-      "--discover-sheet-height"
-    );
-    collapseMobilePanel(
-      el.menuPanel,
-      "--menu-sheet-height"
-    );
-    collapseMobilePanel(
-      el.favoritesPanel,
-      "--favorites-sheet-height"
-    );
-    collapseMobilePanel(
-      el.placePanel,
-      "--place-sheet-height"
-    );
-    collapseMobilePanel(
-      el.routePanel,
-      "--route-sheet-height"
-    );
-    collapseMobilePanel(
-      el.historyPanel,
-      "--history-sheet-height"
-    );
-    collapseMobilePanel(
-      el.tripPanel,
-      "--trip-sheet-height"
-    );
-    collapseMobilePanel(
-      el.legendPanel,
-      "--legend-sheet-height"
-    );
-    collapseMobilePanel(
-      el.aboutPanel,
-      "--about-sheet-height"
-    );
-    collapseMobilePanel(
-      el.backupPanel,
-      "--backup-sheet-height"
-    );
+    for (const entry of MOBILE_PANELS) {
+      if (entry.collapsible === false) continue;
+      if (!entry.panel || !entry.cssVariable) continue;
+      collapseMobilePanel(entry.panel, entry.cssVariable);
+    }
   }
 
   async function handleMapClick(event) {
@@ -5084,7 +5137,7 @@ function closeRoute() {
   function normalizeMobilePlacePanelHeight() {
     openMobilePanelStandard(
       el.placePanel,
-      "--place-sheet-height"
+      "--sheet-height"
     );
   }
 
@@ -5093,7 +5146,7 @@ function closeRoute() {
   function stabilizeMobilePlacePanelHeight() {
     stabilizeMobilePanelStandard(
       el.placePanel,
-      "--place-sheet-height"
+      "--sheet-height"
     );
   }
 
@@ -5140,7 +5193,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.discoverPanel,
-      "--discover-sheet-height"
+      "--sheet-height"
     );
     el.discoverPanel.classList.remove("is-collapsed");
 
@@ -5228,7 +5281,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.placePanel,
-      "--place-sheet-height"
+      "--sheet-height"
     );
   }
 
@@ -6658,7 +6711,7 @@ function closeRoute() {
     el.tripStopsList.replaceChildren();
     el.tripStatus.hidden = true;
 
-    openMobilePanelStandard(el.tripPanel, "--trip-sheet-height");
+    openMobilePanelStandard(el.tripPanel, "--sheet-height");
 
     renderTripStops(
       state.lastTripContext.stops,
@@ -6710,7 +6763,7 @@ function closeRoute() {
   function returnFromTripToPlace() {
     closeTrip();
     if (el.placePanel) {
-      openMobilePanelStandard(el.placePanel, "--place-sheet-height");
+      openMobilePanelStandard(el.placePanel, "--sheet-height");
     }
   }
 
@@ -6749,7 +6802,7 @@ function closeRoute() {
     el.tripStatus.hidden = false;
     el.tripStatus.textContent = t.tripLoading;
 
-    openMobilePanelStandard(el.tripPanel, "--trip-sheet-height");
+    openMobilePanelStandard(el.tripPanel, "--sheet-height");
 
     try {
       const url = new URL(CONFIG.transit.tripEndpoint);
@@ -8343,7 +8396,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.historyPanel,
-      "--history-sheet-height"
+      "--sheet-height"
     );
     if (el.historySearch) el.historySearch.value = "";
     renderHistoryList();
@@ -8471,7 +8524,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.favoritesPanel,
-      "--favorites-sheet-height"
+      "--sheet-height"
     );
     el.favoritesSearch.value = "";
     renderFavoritesList();
@@ -9075,7 +9128,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.menuPanel,
-      "--menu-sheet-height"
+      "--sheet-height"
     );
     el.menuPanel.classList.remove("is-collapsed");
 
@@ -9090,9 +9143,30 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.legendPanel,
-      "--legend-sheet-height"
+      "--sheet-height"
     );
     el.legendButton?.setAttribute("aria-expanded", "true");
+  }
+
+  function openLabelsFromMenu() {
+    closeOtherMobilePanels("labels");
+
+    openMobilePanelStandard(
+      el.labelsPanel,
+      "--sheet-height"
+    );
+    el.menuLabelsButton?.setAttribute("aria-expanded", "true");
+  }
+
+  function closeLabels() {
+    if (!el.labelsPanel || el.labelsPanel.hidden) return;
+    el.labelsPanel.hidden = true;
+    el.menuLabelsButton?.setAttribute("aria-expanded", "false");
+  }
+
+  function returnFromLabelsToMenu() {
+    closeLabels();
+    openMenuHome();
   }
 
   function openAboutFromMenu() {
@@ -9100,7 +9174,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.aboutPanel,
-      "--about-sheet-height"
+      "--sheet-height"
     );
     el.aboutButton?.setAttribute("aria-expanded", "true");
   }
@@ -9121,7 +9195,7 @@ function closeRoute() {
 
     openMobilePanelStandard(
       el.backupPanel,
-      "--backup-sheet-height"
+      "--sheet-height"
     );
     el.menuBackupButton?.setAttribute("aria-expanded", "true");
   }
@@ -9149,7 +9223,7 @@ function closeRoute() {
 
     el.menuPanel.hidden = !shouldOpen;
     if (shouldOpen) {
-      openMobilePanelStandard(el.menuPanel, "--menu-sheet-height");
+      openMobilePanelStandard(el.menuPanel, "--sheet-height");
     }
     
     el.menuButton?.setAttribute("aria-expanded", String(shouldOpen));
@@ -9532,7 +9606,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     if (shouldOpen) {
       openMobilePanelStandard(
         el.aboutPanel,
-        "--about-sheet-height"
+        "--sheet-height"
       );
     }
 
@@ -9566,7 +9640,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     if (shouldOpen) {
       openMobilePanelStandard(
         el.legendPanel,
-        "--legend-sheet-height"
+        "--sheet-height"
       );
     }
 

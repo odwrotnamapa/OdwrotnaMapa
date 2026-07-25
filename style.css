@@ -5600,7 +5600,7 @@ textarea,
   padding: 0 !important;
   margin: 0 !important;
   background: transparent !important;
-  border: 1px solid var(--border) !important;
+  border: 0 !important;
   box-shadow: var(--shadow) !important;
   backdrop-filter: blur(10px);
   flex: 0 0 auto !important;

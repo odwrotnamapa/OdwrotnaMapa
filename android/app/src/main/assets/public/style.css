@@ -1226,7 +1226,7 @@ body.ui-dark .legend-symbol.osm-buildings {
 
   body:has(.route-panel:not([hidden])) .maplibregl-ctrl-bottom-right,
   body:has(.route-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
-    bottom: calc(var(--route-sheet-height, 42vh) + 18px);
+    bottom: calc(var(--sheet-height, 42vh) + 18px);
   }
 }
 
@@ -2776,7 +2776,7 @@ a.place-card-row {
   body:has(.discover-panel:not([hidden]))
   .maplibregl-ctrl-bottom-left {
     bottom: calc(
-      var(--discover-sheet-height, 42vh) + 18px
+      var(--sheet-height, 42vh) + 18px
     );
   }
 }
@@ -5297,37 +5297,16 @@ textarea {
     overscroll-behavior: contain;
   }
 
-  .route-panel:not([hidden]) {
-    height: var(--route-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
-  .discover-panel:not([hidden]) {
-    height: var(--discover-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
+  .route-panel:not([hidden]),
+  .discover-panel:not([hidden]),
   .menu-panel:not([hidden]),
+  .favorites-panel:not([hidden]),
+  .history-panel:not([hidden]),
+  .place-panel:not([hidden]),
+  .trip-panel:not([hidden]),
+  .streetview-panel:not([hidden]),
   .menu-subpanel:not([hidden]) {
-    height: var(--menu-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
-  .favorites-panel:not([hidden]) {
-    height: var(--favorites-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
-  .history-panel:not([hidden]) {
-    height: var(--history-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
-  .place-panel:not([hidden]) {
-    height: var(--place-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
-  .trip-panel:not([hidden]) {
-    height: var(--trip-sheet-height, var(--mobile-panel-default-height)) !important;
-  }
-
-  .streetview-panel:not([hidden]) {
-    height: var(--streetview-sheet-height, var(--mobile-panel-default-height)) !important;
+    height: var(--sheet-height, var(--mobile-panel-default-height)) !important;
   }
 
   .route-panel.is-collapsed,
@@ -5355,45 +5334,6 @@ textarea {
   .streetview-panel.is-dragging,
   .menu-subpanel.is-dragging {
     transition: none !important;
-  }
-}
-
-
-@media (max-width: 600px) {
-  .legend-panel.menu-subpanel:not([hidden]) {
-    height: var(
-      --legend-sheet-height,
-      var(--mobile-panel-default-height)
-    ) !important;
-  }
-
-  .about-panel.menu-subpanel:not([hidden]) {
-    height: var(
-      --about-sheet-height,
-      var(--mobile-panel-default-height)
-    ) !important;
-  }
-
-  .backup-panel.menu-subpanel:not([hidden]) {
-    height: var(
-      --backup-sheet-height,
-      var(--mobile-panel-default-height)
-    ) !important;
-  }
-
-  .legend-panel.menu-subpanel.is-collapsed,
-  .about-panel.menu-subpanel.is-collapsed,
-  .backup-panel.menu-subpanel.is-collapsed {
-    height: var(
-      --mobile-panel-collapsed-height
-    ) !important;
-    min-height: var(
-      --mobile-panel-collapsed-height
-    ) !important;
-    max-height: var(
-      --mobile-panel-collapsed-height
-    ) !important;
-    overflow: hidden !important;
   }
 }
 
