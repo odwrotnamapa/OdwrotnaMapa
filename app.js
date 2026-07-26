@@ -33,6 +33,12 @@
       labelsCountries: "Kraje",
       labelsAirports: "Lotniska",
       labelsBoundaries: "Granice administracyjne",
+      menuTradingSunday: "Niedziela handlowa",
+      tradingSundayQuestion: "Czy dzisiaj jest niedziela handlowa?",
+      closeTradingSunday: "Zamknij",
+      yes: "TAK",
+      no: "NIE",
+      tradingSundayNotSunday: "Dziś nie jest niedziela.",
       labelsPanelTitle: "Etykiety",
       closeLabels: "Zamknij etykiety",
       menuLabelsMenuLabel: "Etykiety",
@@ -335,6 +341,12 @@
       labelsCountries: "Countries",
       labelsAirports: "Airports",
       labelsBoundaries: "Administrative boundaries",
+      menuTradingSunday: "Trading Sunday (PL)",
+      tradingSundayQuestion: "Is today a trading Sunday in Poland?",
+      closeTradingSunday: "Close",
+      yes: "YES",
+      no: "NO",
+      tradingSundayNotSunday: "Today isn't a Sunday.",
       labelsPanelTitle: "Labels",
       closeLabels: "Close labels",
       menuLabelsMenuLabel: "Labels",
@@ -811,6 +823,16 @@
     menuLabelsMenuLabel: $("menu-labels-menu-label"),
     labelsToggleAll: $("labels-toggle-all"),
     labelsToggleAllLabel: $("labels-toggle-all-label"),
+    tradingSundayPanel: $("trading-sunday-panel"),
+    tradingSundaySheetHandle: $("trading-sunday-sheet-handle"),
+    tradingSundayClose: $("trading-sunday-close"),
+    tradingSundayBack: $("trading-sunday-back"),
+    tradingSundayTitle: $("trading-sunday-title"),
+    menuTradingSundayButton: $("menu-trading-sunday-button"),
+    menuTradingSundayLabel: $("menu-trading-sunday-label"),
+    tradingSundayQuestion: $("trading-sunday-question"),
+    tradingSundayAnswer: $("trading-sunday-answer"),
+    tradingSundayNote: $("trading-sunday-note"),
     menuButton: $("menu-button"),
     mobileRouteButton: $("mobile-route-button"),
     mobileDiscoverButton: $("mobile-discover-button"),
@@ -1381,6 +1403,12 @@
   );
   el.labelsClose?.addEventListener("click", closeLabels);
   el.menuLabelsButton?.addEventListener("click", openLabelsFromMenu);
+  el.tradingSundayBack?.addEventListener(
+    "click",
+    returnFromTradingSundayToMenu
+  );
+  el.tradingSundayClose?.addEventListener("click", closeTradingSunday);
+  el.menuTradingSundayButton?.addEventListener("click", openTradingSundayFromMenu);
   el.routeButton?.addEventListener("click", toggleRoute);
   el.mobileRouteButton?.addEventListener("click", toggleRoute);
   el.mobileDiscoverButton?.addEventListener("click", toggleDiscover);
@@ -1419,6 +1447,7 @@
   initializeStreetviewBottomSheet();
   initializeLegendBottomSheet();
   initializeLabelsBottomSheet();
+  initializeTradingSundayBottomSheet();
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
   initializeAutocomplete();
@@ -1526,8 +1555,14 @@
     el.labelsClose?.setAttribute("aria-label", t.closeLabels);
     if (el.menuLabelsMenuLabel) el.menuLabelsMenuLabel.textContent = t.menuLabelsMenuLabel;
     updateLabelsToggleAllButton();
+    if (el.tradingSundayTitle) el.tradingSundayTitle.textContent = t.menuTradingSunday;
+    if (el.menuTradingSundayLabel) el.menuTradingSundayLabel.textContent = t.menuTradingSunday;
+    if (el.tradingSundayQuestion) el.tradingSundayQuestion.textContent = t.tradingSundayQuestion;
+    el.tradingSundayClose?.setAttribute("aria-label", t.closeTradingSunday);
+    updateTradingSundayAnswer();
     el.legendBack?.setAttribute("aria-label", t.backToMenu);
     el.labelsBack?.setAttribute("aria-label", t.backToMenu);
+    el.tradingSundayBack?.setAttribute("aria-label", t.backToMenu);
     el.aboutBack?.setAttribute("aria-label", t.backToMenu);
     el.discoverBack?.setAttribute("aria-label", t.backToPlace);
     el.routeBack?.setAttribute("aria-label", t.backToPlace);
@@ -3763,6 +3798,7 @@
     { id: "streetview", close: () => closeStreetView(), collapsible: false },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
     { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
+    { id: "tradingSunday", close: () => closeTradingSunday(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
     { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" }
   ];
@@ -4236,6 +4272,15 @@
       panel: el.labelsPanel,
       handle: el.labelsSheetHandle,
       close: closeLabels,
+      cssVariable: "--sheet-height"
+    });
+  }
+
+  function initializeTradingSundayBottomSheet() {
+    initializeBottomSheet({
+      panel: el.tradingSundayPanel,
+      handle: el.tradingSundaySheetHandle,
+      close: closeTradingSunday,
       cssVariable: "--sheet-height"
     });
   }
@@ -9331,6 +9376,46 @@ function closeRoute() {
     openMenuHome();
   }
 
+  function updateTradingSundayAnswer() {
+    const { isSunday, isTrading } = isTodayTradingSundayPL();
+    const t = text[state.language];
+
+    if (el.tradingSundayAnswer) {
+      el.tradingSundayAnswer.textContent = isTrading ? t.yes : t.no;
+      el.tradingSundayAnswer.classList.toggle("is-yes", isTrading);
+      el.tradingSundayAnswer.classList.toggle("is-no", !isTrading);
+    }
+
+    if (el.tradingSundayNote) {
+      el.tradingSundayNote.textContent = isSunday
+        ? ""
+        : t.tradingSundayNotSunday;
+    }
+  }
+
+  function openTradingSundayFromMenu() {
+    closeOtherMobilePanels("tradingSunday");
+
+    updateTradingSundayAnswer();
+
+    openMobilePanelStandard(
+      el.tradingSundayPanel,
+      "--sheet-height"
+    );
+    el.menuTradingSundayButton?.setAttribute("aria-expanded", "true");
+  }
+
+  function closeTradingSunday() {
+    if (!el.tradingSundayPanel || el.tradingSundayPanel.hidden) return;
+    el.tradingSundayPanel.hidden = true;
+    el.menuTradingSundayButton?.setAttribute("aria-expanded", "false");
+  }
+
+  function returnFromTradingSundayToMenu() {
+    closeTradingSunday();
+    openMenuHome();
+  }
+
   function openAboutFromMenu() {
     closeOtherMobilePanels("about");
 
@@ -9409,6 +9494,26 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function useMyLocationForRoute(onResolved) {
+    if (isElectronPlatform()) {
+      show(text[state.language].locatingForRoute, 0);
+
+      fetchLocationByIp()
+        .then(({ latitude, longitude }) => {
+          hide();
+          onResolved({
+            lon: longitude,
+            lat: latitude,
+            label: text[state.language].menuLocation,
+            __resolvedPoint: true
+          });
+        })
+        .catch(error => {
+          console.warn("Lokalizacja po IP nie powiodła się.", error);
+          show(text[state.language].locateError);
+        });
+      return;
+    }
+
     if (!navigator.geolocation) {
       show(
         state.language === "pl"
@@ -9592,6 +9697,35 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function locateFromMenu() {
+    if (isElectronPlatform()) {
+      show(
+        state.language === "pl"
+          ? "Pobieranie lokalizacji…"
+          : "Getting your location…",
+        0
+      );
+
+      fetchLocationByIp()
+        .then(({ latitude, longitude }) => {
+          showUserLocationMarker({ lng: longitude, lat: latitude });
+          map.flyTo({
+            center: [longitude, latitude],
+            zoom: 11,
+            bearing: 180
+          });
+          hide();
+        })
+        .catch(error => {
+          console.warn("Lokalizacja po IP nie powiodła się.", error);
+          show(
+            state.language === "pl"
+              ? "Nie udało się pobrać lokalizacji."
+              : "Your location could not be retrieved."
+          );
+        });
+      return;
+    }
+
     if (!navigator.geolocation) {
       show(
         state.language === "pl"
@@ -11026,8 +11160,120 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     }
   }
 
+  // Oblicza datę pierwszego dnia Wielkanocy (algorytm Meeusa/Jonesa/
+  // Butchera, kalendarz gregoriański) dla danego roku.
+  function calculateEasterSunday(year) {
+    const a = year % 19;
+    const b = Math.floor(year / 100);
+    const c = year % 100;
+    const d = Math.floor(b / 4);
+    const e = b % 4;
+    const f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4);
+    const k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7;
+    const m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const month = Math.floor((h + l - 7 * m + 114) / 31);
+    const day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(year, month - 1, day);
+  }
+
+  // Ostatnia niedziela danego miesiąca (0-indeksowany miesiąc).
+  function lastSundayOfMonth(year, monthIndex) {
+    const lastDay = new Date(year, monthIndex + 1, 0);
+    const offset = lastDay.getDay();
+    lastDay.setDate(lastDay.getDate() - offset);
+    return lastDay;
+  }
+
+  // Zwraca zbiór dat (jako stringi YYYY-MM-DD) niedziel handlowych w
+  // Polsce dla danego roku, zgodnie z ustawą z 10 stycznia 2018 r. o
+  // ograniczeniu handlu w niedziele i święta.
+  function getTradingSundaysForYear(year) {
+    const dates = [];
+    const toKey = date =>
+      `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
+    // Ostatnia niedziela stycznia, kwietnia, czerwca i sierpnia.
+    for (const monthIndex of [0, 3, 5, 7]) {
+      dates.push(lastSundayOfMonth(year, monthIndex));
+    }
+
+    // Niedziela bezpośrednio poprzedzająca pierwszy dzień Wielkanocy.
+    const easter = calculateEasterSunday(year);
+    const beforeEaster = new Date(easter);
+    beforeEaster.setDate(beforeEaster.getDate() - 7);
+    dates.push(beforeEaster);
+
+    // Trzy kolejne niedziele poprzedzające Wigilię (24 grudnia).
+    const christmasEve = new Date(year, 11, 24);
+    let cursor = new Date(christmasEve);
+    cursor.setDate(cursor.getDate() - 1);
+    while (cursor.getDay() !== 0) {
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    for (let i = 0; i < 3; i++) {
+      dates.push(new Date(cursor));
+      cursor.setDate(cursor.getDate() - 7);
+    }
+
+    return new Set(dates.map(toKey));
+  }
+
+  function isTodayTradingSundayPL() {
+    const today = new Date();
+    const isSunday = today.getDay() === 0;
+    const tradingSundays = getTradingSundaysForYear(today.getFullYear());
+    const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    return { isSunday, isTrading: isSunday && tradingSundays.has(todayKey) };
+  }
+
+  function isElectronPlatform() {
+    return (
+      window.CapacitorPlatform === "electron" ||
+      navigator.userAgent.includes("Electron")
+    );
+  }
+
+  // Electron (Chromium bez wbudowanego klucza Google API) nie potrafi
+  // ustalić lokalizacji przez WiFi/IP tak jak zwykła przeglądarka -
+  // to znany, wieloletni problem samego Electrona, nie naszej apki.
+  // Jedyna realistyczna alternatywa na komputerze stacjonarnym to
+  // przybliżona lokalizacja po adresie IP, przez niezależną usługę.
+  async function fetchLocationByIp() {
+    const response = await fetch("https://ipwho.is/");
+    if (!response.ok) {
+      throw new Error(`Zapytanie o lokalizację po IP nie powiodło się (HTTP ${response.status}).`);
+    }
+
+    const data = await response.json();
+    if (!data.success || typeof data.latitude !== "number" || typeof data.longitude !== "number") {
+      throw new Error("Usługa lokalizacji po IP nie zwróciła poprawnych współrzędnych.");
+    }
+
+    return { latitude: data.latitude, longitude: data.longitude };
+  }
+
   function locate() {
     show(text[state.language].locating, 0);
+
+    if (isElectronPlatform()) {
+      fetchLocationByIp()
+        .then(({ latitude, longitude }) => {
+          const point = [longitude, latitude];
+          map.flyTo({ center: point, zoom: 11, bearing: 180 });
+          new maplibregl.Marker().setLngLat(point).addTo(map);
+          hide();
+        })
+        .catch(error => {
+          console.warn("Lokalizacja po IP nie powiodła się.", error);
+          show(text[state.language].locationError);
+        });
+      return;
+    }
+
     navigator.geolocation?.getCurrentPosition(
       pos => {
         const point = [pos.coords.longitude, pos.coords.latitude];

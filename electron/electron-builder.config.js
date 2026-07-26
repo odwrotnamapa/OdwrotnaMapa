@@ -17,6 +17,10 @@ module.exports = {
   linux: {
     target: ['AppImage', 'deb'],
     category: 'Utility',
-    icon: 'assets/icon.png',
+    icon: 'assets/icons',
+  },
+  win: {
+    target: ['nsis'],
+    icon: 'assets/icon.ico',
   },
 };

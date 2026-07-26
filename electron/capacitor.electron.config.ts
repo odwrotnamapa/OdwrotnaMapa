@@ -36,7 +36,7 @@ export default defineConfig({
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://tiles.openfreemap.org https://server.arcgisonline.com https://upload.wikimedia.org https://*.mapillary.com https://*.fbcdn.net",
-      "connect-src 'self' https://tiles.openfreemap.org https://server.arcgisonline.com https://nominatim.openstreetmap.org https://photon.komoot.io https://valhalla1.openstreetmap.de https://api.transitous.org https://*.wikipedia.org https://www.wikidata.org https://*.mapillary.com https://*.fbcdn.net",
+      "connect-src 'self' https://tiles.openfreemap.org https://server.arcgisonline.com https://nominatim.openstreetmap.org https://photon.komoot.io https://valhalla1.openstreetmap.de https://api.transitous.org https://*.wikipedia.org https://www.wikidata.org https://*.mapillary.com https://*.fbcdn.net https://ipwho.is https://overpass-api.de https://overpass.kumi.systems https://overpass.private.coffee",
       "worker-src 'self' blob:",
       "child-src blob:",
     ].join('; '),

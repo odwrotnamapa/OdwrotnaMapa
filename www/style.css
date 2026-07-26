@@ -5648,8 +5648,8 @@ textarea,
     bottom: 126px !important;
     right: 8px !important;
     left: auto !important;
-    width: 52px !important;
-    min-width: 52px !important;
+    width: 53px !important;
+    min-width: 53px !important;
     height: auto !important;
     z-index: 30 !important;
   }
@@ -5671,8 +5671,8 @@ textarea,
    regułami odziedziczonymi po #menu-button. */
 #streetview-toggle-button,
 #locate-toggle-button {
-  width: 52px !important;
-  min-width: 52px !important;
+  width: 53px !important;
+  min-width: 53px !important;
   height: 100% !important;
   min-height: 0 !important;
 }
@@ -5690,7 +5690,7 @@ textarea,
   #streetview-actions {
     display: flex !important;
     flex-direction: column !important;
-    width: 52px !important;
+    width: 53px !important;
     height: auto !important;
   }
 }
