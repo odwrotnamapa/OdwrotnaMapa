@@ -1034,6 +1034,7 @@
     loadSharedRouteFromUrl();
     loadSharedPlaceFromUrl();
     initializeGeoUriHandling();
+    hideDefibrillatorPois();
   });
 
   map.on("moveend", saveView);
@@ -1654,6 +1655,29 @@
     );
     renderFavoritesList();
     renderHistoryList();
+  }
+
+  // Defibrylatory uznaliśmy za zbyt mało istotne, żeby zaśmiecać
+  // mapę własną ikoną - dopisujemy warunek wykluczający je z
+  // istniejących filtrów warstw POI, nie ruszając niczego innego.
+  function hideDefibrillatorPois() {
+    const poiLayerIds = ["poi_r20", "poi_r7", "poi_r1"];
+    const exclusion = ["!=", ["get", "class"], "defibrillator"];
+
+    for (const layerId of poiLayerIds) {
+      if (!map.getLayer(layerId)) continue;
+
+      const existingFilter = map.getFilter(layerId);
+      const combinedFilter = existingFilter
+        ? ["all", existingFilter, exclusion]
+        : exclusion;
+
+      try {
+        map.setFilter(layerId, combinedFilter);
+      } catch (error) {
+        console.warn(`Nie udało się ukryć defibrylatorów w warstwie ${layerId}.`, error);
+      }
+    }
   }
 
   function ensureSatellite() {
@@ -5384,6 +5408,101 @@ function closeRoute() {
     }
   }
 
+  // Nominatim (odwrotne geokodowanie) zwraca tylko JEDEN, najbliższy
+  // obiekt w danym punkcie - jeśli to coś drobnego (np. defibrylator
+  // zamontowany na ścianie sklepu), nie ma sposobu żeby poprosić je
+  // o "następny najbliższy". Overpass API zapytane wprost o nazwane
+  // punkty w małym promieniu potrafi znaleźć faktyczny sklep/budynek
+  // pod spodem.
+  async function fetchNearbyNamedPoiViaOverpass(lat, lon, signal) {
+    const radiusMeters = 25;
+    const query = `[out:json][timeout:10];(nwr["shop"]["name"](around:${radiusMeters},${lat},${lon});nwr["amenity"]["name"](around:${radiusMeters},${lat},${lon});nwr["office"]["name"](around:${radiusMeters},${lat},${lon});nwr["tourism"]["name"](around:${radiusMeters},${lat},${lon}););out center tags;`;
+
+    // Darmowe, publiczne serwery Overpass mają limity zapytań na IP -
+    // przy odrzuceniu (np. 429) próbujemy kolejnego niezależnego
+    // lustra, zanim się poddamy.
+    const endpoints = [
+      "https://overpass-api.de/api/interpreter",
+      "https://overpass.kumi.systems/api/interpreter",
+      "https://overpass.private.coffee/api/interpreter"
+    ];
+
+    let lastError = null;
+    let data = null;
+
+    for (const endpoint of endpoints) {
+      const attemptController = new AbortController();
+      const timeoutId = setTimeout(
+        () => attemptController.abort(),
+        5000
+      );
+      const onOuterAbort = () => attemptController.abort();
+      signal?.addEventListener("abort", onOuterAbort);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          signal: attemptController.signal,
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "data=" + encodeURIComponent(query)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Overpass HTTP ${response.status} (${endpoint})`);
+        }
+
+        data = await response.json();
+        break;
+      } catch (error) {
+        lastError = error;
+        console.warn(`Overpass endpoint failed, trying next.`, error);
+      } finally {
+        clearTimeout(timeoutId);
+        signal?.removeEventListener("abort", onOuterAbort);
+      }
+    }
+
+    if (!data) {
+      throw lastError || new Error("Wszystkie serwery Overpass zawiodły.");
+    }
+
+    const elements = (data.elements || []).filter(
+      element => element.tags?.name && !element.tags?.emergency
+    );
+
+    if (!elements.length) return null;
+
+    const distanceMeters = (elementLat, elementLon) => {
+      const dLat = ((elementLat - lat) * Math.PI) / 180;
+      const dLon = ((elementLon - lon) * Math.PI) / 180;
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos((lat * Math.PI) / 180) *
+          Math.cos((elementLat * Math.PI) / 180) *
+          Math.sin(dLon / 2) ** 2;
+      return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    };
+
+    elements.sort((a, b) => {
+      const aLat = a.center?.lat ?? a.lat;
+      const aLon = a.center?.lon ?? a.lon;
+      const bLat = b.center?.lat ?? b.lat;
+      const bLon = b.center?.lon ?? b.lon;
+      return (
+        distanceMeters(aLat, aLon) - distanceMeters(bLat, bLon)
+      );
+    });
+
+    const nearest = elements[0];
+    return {
+      name: nearest.tags.name,
+      shop: nearest.tags.shop,
+      amenity: nearest.tags.amenity,
+      office: nearest.tags.office,
+      tourism: nearest.tags.tourism
+    };
+  }
+
   async function fetchPlaceInformation(lon, lat, signal) {
     const buildUrl = (zoomValue) => {
       const requestUrl = new URL(CONFIG.search.reverseEndpoint);
@@ -5460,6 +5579,37 @@ function closeRoute() {
         }
       } catch (error) {
         console.warn("Fallback reverse geocoding failed.", error);
+      }
+    }
+
+    const isDefibrillatorPrimary =
+      place.type === "defibrillator" ||
+      place.category === "defibrillator" ||
+      (place.class === "emergency" && place.type === "defibrillator");
+
+    if (reverseZoom >= 15 && isDefibrillatorPrimary) {
+      try {
+        const nearby = await fetchNearbyNamedPoiViaOverpass(lat, lon, signal);
+
+        if (nearby) {
+          place.name = nearby.name;
+          place.type = nearby.shop
+            ? "shop"
+            : nearby.amenity || nearby.office || nearby.tourism || place.type;
+          place.category = undefined;
+          place.class = nearby.shop
+            ? "shop"
+            : nearby.amenity
+              ? "amenity"
+              : nearby.office
+                ? "office"
+                : "tourism";
+          place.address = place.address || {};
+          if (nearby.shop) place.address.shop = nearby.name;
+          if (nearby.amenity) place.address.amenity = nearby.name;
+        }
+      } catch (error) {
+        console.warn("Overpass fallback for defibrillator failed.", error);
       }
     }
 
@@ -5808,16 +5958,28 @@ function closeRoute() {
     // wtedy, gdy "głównym" trafieniem jest sama granica
     // administracyjna (np. ukraińska "громада" łącząca miasto z
     // okolicą) - wtedy wolimy sięgnąć po konkretne miasto/miejscowość
-    // z adresu zamiast nazwy tej szerszej jednostki.
+    // z adresu zamiast nazwy tej szerszej jednostki. Defibrylatory
+    // spychamy na sam koniec priorytetów (nie usuwamy całkiem) -
+    // wygrywają tylko wtedy, gdy naprawdę nic innego nie ma.
     const isAdminBoundary =
       place.class === "boundary" && place.type === "administrative";
+    const isDefibrillator =
+      place.type === "defibrillator" ||
+      place.category === "defibrillator" ||
+      (place.class === "emergency" && place.type === "defibrillator");
 
-    const primaryName =
-      names[`name:${state.language}`] || names.name || place.name;
+    const rawPrimaryName =
+      names[`name:${state.language}`] || names.name || place.name || "";
+    const primaryName = isDefibrillator ? "" : rawPrimaryName;
+
+    const rawAmenity = address.amenity || "";
+    const isAmenityDefibrillator =
+      rawAmenity.toLowerCase() === "defibrillator";
+    const amenity = isAmenityDefibrillator ? "" : rawAmenity;
 
     return capitalizeFirstLetter(
       (!isAdminBoundary && primaryName) ||
-      address.amenity ||
+      amenity ||
       address.tourism ||
       address.shop ||
       address.leisure ||
@@ -5835,7 +5997,7 @@ function closeRoute() {
       address.municipality ||
       address.county ||
       address.state_district ||
-      primaryName ||
+      address.country ||
       ""
     );
   }
