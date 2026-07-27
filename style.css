@@ -3109,6 +3109,16 @@ a.place-card-row {
   }
 }
 
+/* Przechwytujemy główny kontener skali */
+div.maplibregl-ctrl-scale {
+  background-color: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  
+  /* Usuwamy domyślne tło pod tekstem */
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+
 
 /* Telefon: skala niemal bezpośrednio nad dolnym paskiem */
 @media (max-width: 600px) {
