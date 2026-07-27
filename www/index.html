@@ -247,6 +247,26 @@
       </label>
     </aside>
 
+    <aside id="trading-sunday-panel" class="legend-panel trading-sunday-panel menu-subpanel app-sheet app-sheet--sharp panel-shell" aria-labelledby="trading-sunday-title" hidden>
+      <button id="trading-sunday-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
+              aria-label="Zmień wysokość panelu niedzieli handlowej">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
+        <button id="trading-sunday-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
+        <h2 id="trading-sunday-title">Niedziela handlowa</h2>
+        <button id="trading-sunday-close" class="legend-close" type="button"
+                aria-label="Zamknij">×</button>
+      </div>
+
+      <p id="trading-sunday-question" class="trading-sunday-question">Czy dzisiaj jest niedziela handlowa?</p>
+      <p id="trading-sunday-answer" class="trading-sunday-answer">TAK</p>
+      <p id="trading-sunday-note" class="trading-sunday-note"></p>
+    </aside>
+
     
     <aside id="route-panel" class="legend-panel route-panel app-sheet app-sheet--sharp panel-shell"
            aria-labelledby="route-title" hidden>
@@ -723,6 +743,13 @@
                 type="button">
           <span aria-hidden="true">🕘</span>
           <span id="history-menu-label">Historia</span>
+        </button>
+
+        <button id="menu-trading-sunday-button"
+                class="menu-action"
+                type="button">
+          <span aria-hidden="true">🛒</span>
+          <span id="menu-trading-sunday-label">Niedziela handlowa</span>
         </button>
 
         <label class="menu-setting" id="menu-theme-row">

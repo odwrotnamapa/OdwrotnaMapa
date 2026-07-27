@@ -559,6 +559,38 @@ body.ui-dark .legend-symbol.liberty-path::after {
   line-height: 1.5;
 }
 
+.trading-sunday-question {
+  margin: 8px 0 4px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.trading-sunday-answer {
+  margin: 12px 0;
+  text-align: center;
+  font-size: 4.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.trading-sunday-answer.is-yes {
+  color: #1e8e3e;
+}
+
+.trading-sunday-answer.is-no {
+  color: var(--accent, #dc2626);
+}
+
+.trading-sunday-note {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-height: 1.2em;
+}
+
 body.ui-dark .legend-symbol.osm-local::after {
   border-top-color: #e8ecef;
   box-shadow: 0 0 0 1px #747d84;

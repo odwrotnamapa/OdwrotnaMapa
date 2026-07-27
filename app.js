@@ -1028,6 +1028,16 @@
       minZoom: CONFIG.map.minZoom,
       preserveDrawingBuffer: true
     });
+    const logoIcon = document.querySelector('.brand-logo');
+
+    function updateLogoRotation() {
+    if (!logoIcon) return;
+    const currentBearing = map.getBearing(); 
+    logoIcon.style.transform = `rotate(${-currentBearing + 180}deg)`;
+}
+
+map.on('rotate', updateLogoRotation);
+
     window.__omapMap = map;
   } catch (error) {
     fatal(error.message);

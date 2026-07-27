@@ -242,6 +242,7 @@ body.ui-dark {
   .brand-logo {
     width: 31px;
     height: 40px;
+    transition: transform 0.1s ease-out;
   }
 
   .search {
