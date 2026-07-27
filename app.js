@@ -2348,37 +2348,46 @@ map.on('rotate', updateLogoRotation);
     map.once("idle", () => applyLanguage(state.language));
   }
 
-  function applyLanguage(language) {
-    if (!map.isStyleLoaded()) {
-      map.once("styledata", () => applyLanguage(language));
-      return;
+function applyLanguage(language) {
+  // 1. Sztywne zagwarantowanie języka (jeśli language jest undefined, bierze 'pl')
+  const targetLang = language || state?.language || 'pl';
+  if (state) state.language = targetLang;
+
+  // 2. Jeśli mapa jeszcze się ładuje, czekamy na "idle" (stan spoczynku), a NIE na "styledata"
+  // 'idle' odpala się dopiero gdy mapa całkowicie skończy rysować klatkę
+  if (!map || !map.isStyleLoaded()) {
+    map?.once("idle", () => applyLanguage(targetLang));
+    return;
+  }
+
+  // 3. Wymuszana właściwość
+  const preferredField = targetLang === "pl" ? "name:pl" : "name:en";
+
+  const layers = map.getStyle()?.layers || [];
+
+  for (const layer of layers) {
+    if (layer.type !== "symbol" || !layer.layout || layer.layout["text-field"] === undefined) {
+      continue;
     }
 
-    const preferred = language === "pl" ? "name:pl" : "name:en";
-
-    for (const layer of map.getStyle().layers || []) {
-      if (layer.type !== "symbol" || layer.layout?.["text-field"] === undefined) {
+    try {
+      // Ignorujemy tarcze dróg
+      if (typeof isRoadReferenceLayer === "function" && isRoadReferenceLayer(layer)) {
         continue;
       }
 
-      try {
-        // Tarcze dróg krajowych, wojewódzkich i autostrad muszą zachować
-        // oryginalne krótkie oznaczenia (np. A2, S7, 92), a nie nazwy ulic.
-        if (isRoadReferenceLayer(layer)) {
-          restoreOriginalTextField(layer.id);
-          applyRoadReferenceColors(layer);
-          continue;
-        }
-
-        map.setLayoutProperty(layer.id, "text-field", [
-          "coalesce",
-          ["get", preferred],
-          ["get", "name:latin"],
-          ["get", "name"]
-        ]);
-      } catch (_) {}
+      // Wymuszamy język bez sprawdzania 'styledata'
+      map.setLayoutProperty(layer.id, "text-field", [
+        "coalesce",
+        ["get", preferredField],
+        ["get", "name:latin"],
+        ["get", "name"]
+      ]);
+    } catch (e) {
+      // Ignoruj warstwy bez możliwości edycji layoutu
     }
   }
+}
 
   function isRoadReferenceLayer(layer) {
     const id = layer.id.toLowerCase();

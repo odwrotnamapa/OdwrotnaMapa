@@ -242,6 +242,7 @@ body.ui-dark {
   .brand-logo {
     width: 31px;
     height: 40px;
+    transition: transform 0.1s ease-out;
   }
 
   .search {
@@ -3106,6 +3107,16 @@ a.place-card-row {
   .maplibregl-ctrl-scale {
     margin: 0 0 4px 8px !important;
   }
+}
+
+/* Przechwytujemy główny kontener skali */
+div.maplibregl-ctrl-scale {
+  background-color: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  
+  /* Usuwamy domyślne tło pod tekstem */
+  background: rgba(255, 255, 255, 0.35) !important;
 }
 
 
