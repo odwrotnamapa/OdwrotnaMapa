@@ -11278,7 +11278,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       pos => {
         const point = [pos.coords.longitude, pos.coords.latitude];
         map.flyTo({ center: point, zoom: 14, bearing: 180 });
-        new maplibregl.Marker().setLngLat(point).addTo(map);
+        new maplibregl.Marker({ anchor: 'bottom' }).setLngLat(point).addTo(map);
         hide();
       },
       () => show(text[state.language].locationError),
