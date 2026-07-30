@@ -4992,29 +4992,13 @@ async function handleMapClick(event) {
       return;
     }
 
-    if (!el.routePanel.hidden) {
-      const routeStageBeforeClick = state.routeClickStage;
-
+if (!el.routePanel.hidden) {
+      // 1. Obsługujemy kliknięcie na mapie (stawianie punktu A, punktu B lub przesuwanie)
       await handleRouteMapClick(event);
 
-      const routeStageAfterClick = state.routeClickStage;
-
-      const isPointBInteraction =
-        routeStageBeforeClick === "b" ||
-        routeStageBeforeClick === "move-b" ||
-        routeStageAfterClick === "b" ||
-        routeStageAfterClick === "move-b";
-
-      if (isPointBInteraction) {
-        expandMobileRoutePanel();
-      } else {
-        collapseMobileRoutePanel();
-      }
-
-      // Przypisanie aktualizacji kadrów po rozwinięciu/zwinięciu panelu trasy
-      if (map && typeof map.resize === "function") {
-        map.resize();
-      }
+      // 2. Niezależnie od tego, czy to pierwsze, czy kolejne kliknięcie:
+      // ZWIJAMY PANEL, aby odsłonić mapę
+      collapseMobileRoutePanel();
 
       return;
     }
@@ -7433,7 +7417,7 @@ async function handleRouteMapClick(event) {
     }
   }
 
-  async function calculateRouteFromStoredPoints() {
+async function calculateRouteFromStoredPoints() {
     if (!state.routePointA || !state.routePointB) return;
 
     show(text[state.language].routeSearching, 0);
@@ -7451,6 +7435,11 @@ async function handleRouteMapClick(event) {
       renderRouteDirections(route.maneuvers);
       hide();
       dismissMobileKeyboard();
+
+      // Po wyznaczeniu nowej trasy ponownie otwieramy/rozwijamy panel mobilny
+      if (el.routePanel) {
+        openMobilePanelStandard(el.routePanel, "--sheet-height");
+      }
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -8159,7 +8148,7 @@ async function handleRouteMapClick(event) {
     }
   }
 
-  function drawRoute(geometry, from, to, mode) {
+function drawRoute(geometry, from, to, mode) {
     ensureRouteLayers();
     state.routeCoordinates = geometry.coordinates;
     clearManeuverHighlight();
@@ -8201,6 +8190,18 @@ async function handleRouteMapClick(event) {
       padding: { top: 105, right: 45, bottom: 55, left: 45 },
       bearing: 180,
       duration: 900
+    });
+
+    // ZAWSZE otwieraj/rozwijaj panel mobilny po narysowaniu trasy
+    // (używamy requestAnimationFrame/setTimeout, by nie kłóciło się z początkiem fitBounds)
+    requestAnimationFrame(() => {
+      if (el.routePanel) {
+        if (typeof expandMobileRoutePanel === "function") {
+          expandMobileRoutePanel();
+        } else if (typeof openMobilePanelStandard === "function") {
+          openMobilePanelStandard(el.routePanel, "--sheet-height");
+        }
+      }
     });
   }
 
