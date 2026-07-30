@@ -2481,6 +2481,25 @@ function applyLanguage(language) {
     ].includes(layerId);
   }
 
+
+  function encodePlace(label, lat, lon) {
+    try {
+      const data = JSON.stringify({ label, lat, lon });
+      return btoa(unescape(encodeURIComponent(data)));
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function decodePlace(encoded) {
+    try {
+      const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function getSearchHistory() {
     try {
       const stored = JSON.parse(
@@ -2909,6 +2928,17 @@ function applyLanguage(language) {
             zoom: 16,
             bearing: 180
           });
+          
+          // Update URL to show the search (skip if we're restoring from popstate)
+          if (!state.isRestoringFromPopstate) {
+            const historyUrl = new URL(window.location.href);
+            historyUrl.searchParams.set("q", entry.label);
+            historyUrl.searchParams.set("p", encodePlace(entry.label, entry.lat, entry.lon));
+            console.log("PUSHSTATE CALLED:", historyUrl.toString());
+            window.history.pushState({q: entry.label}, entry.label, historyUrl.toString());
+          } else {
+            console.log("Skipped pushState during popstate restore");
+          }
         });
 
         item.appendChild(button);
@@ -11346,4 +11376,85 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     try { localStorage.setItem(key, value); }
     catch (_) {}
   }
+
+// When user clicks browser back/forward, restore and search
+window.addEventListener("popstate", function(event) {
+  const q = new URLSearchParams(window.location.search).get("q");
+  const p = new URLSearchParams(window.location.search).get("p");
+  console.log("popstate fired, q =", q, "p =", p);
+  
+  // If we have encoded place data, use that to navigate directly
+  if (p) {
+    const place = decodePlace(p);
+    if (place && Number.isFinite(place.lat) && Number.isFinite(place.lon)) {
+      console.log("Restoring place from encoded data:", place);
+      map.flyTo({
+        center: [place.lon, place.lat],
+        zoom: 17,
+        bearing: 180
+      });
+      // Don't re-search, just navigate to the exact location
+      if (el.searchInput) {
+        el.searchInput.value = place.label;
+        if (typeof updateSearchClearButton === "function") {
+          updateSearchClearButton();
+        }
+      }
+      // Show the marker at the new location
+      if (typeof showContextPointMarker === "function") {
+        showContextPointMarker({ lat: place.lat, lng: place.lon });
+      }
+      // Close old panel
+      if (el.placePanel) {
+        el.placePanel.hidden = true;
+      }
+      // Open new place info with delay
+      setTimeout(() => {
+        if (typeof showPlaceInformation === "function") {
+          showPlaceInformation({ lngLat: { lat: place.lat, lng: place.lon } }).catch(err => {
+            console.error("Error:", err);
+          });
+        }
+      }, 100);
+      return;
+    }
+  }
+  
+  // Fallback: if no place data, re-search
+  if (q && el.searchInput && typeof search === "function") {
+    el.searchInput.value = q;
+    if (typeof updateSearchClearButton === "function") {
+      updateSearchClearButton();
+    }
+    console.log("Calling search from popstate");
+    state.isRestoringFromPopstate = true;
+    const event = new Event("submit");
+    event.preventDefault = () => {};
+    search(event).catch(err => console.error("Search error:", err));
+    setTimeout(() => { state.isRestoringFromPopstate = false; }, 10);
+  }
+});
+
+
+// Check if page loaded with a ?q= parameter and auto-run search
+(function checkUrlAndSearch() {
+  const q = new URLSearchParams(window.location.search).get("q");
+  if (q && el.searchInput && typeof search === "function") {
+    console.log("Page loaded with query:", q);
+    el.searchInput.value = q;
+    if (typeof updateSearchClearButton === "function") {
+      updateSearchClearButton();
+    }
+    // Delay search to ensure DOM is ready
+    setTimeout(function() {
+      console.log("Auto-running search for:", q);
+      state.isRestoringFromPopstate = true;
+      const event = new Event("submit");
+      event.preventDefault = () => {};
+      search(event).catch(err => console.error("Search error:", err));
+      state.isRestoringFromPopstate = false;
+    }, 100);
+  }
+})();
+
 })();
