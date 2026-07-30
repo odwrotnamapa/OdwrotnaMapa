@@ -5132,13 +5132,12 @@ function closeRoute() {
     showSelectedPlaceMarker(lngLat);
     openPlacePanel();
     renderPlaceInformation(details, lngLat);
-
-    const title = getPlaceTitle(details) || details.name;
-    if (title && !state.isRestoringFromPopstate) {
-      const url = new URL(window.location.href);
-      url.searchParams.set("q", title);
-      window.history.pushState({ query: title }, "", url);
-    }
+const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(details) : "") || String(details.display_name || "").split(",")[0];
+  if (placeTitle && !state.isRestoringFromPopstate) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("q", placeTitle);
+    window.history.pushState({ query: placeTitle }, "", url);
+  }
 
     // Po zamknięciu listy wyników przeglądarka ponownie układa
     // mobilny interfejs, więc utrwalamy tę samą wysokość panelu.
@@ -5472,6 +5471,16 @@ function closeRoute() {
         event.lngLat.lat,
         state.placeRequestController.signal
       );
+
+// Dopisanie nazwy miejsca do adresu URL (?q=...)
+      if (place && !state.isRestoringFromPopstate) {
+        const title = place.name || place.display_name?.split(',')[0] || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(place) : null);
+        if (title) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("q", title);
+          window.history.pushState({ query: title, place }, "", url);
+        }
+      }
 
       if (
         !el.placePanel ||
