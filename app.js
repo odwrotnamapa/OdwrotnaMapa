@@ -5133,6 +5133,13 @@ function closeRoute() {
     openPlacePanel();
     renderPlaceInformation(details, lngLat);
 
+    const title = getPlaceTitle(details) || details.name;
+    if (title && !state.isRestoringFromPopstate) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("q", title);
+      window.history.pushState({ query: title }, "", url);
+    }
+
     // Po zamknięciu listy wyników przeglądarka ponownie układa
     // mobilny interfejs, więc utrwalamy tę samą wysokość panelu.
     stabilizeMobilePlacePanelHeight();
