@@ -5478,12 +5478,15 @@ function showUserLocationMarker(lngLat) {
         state.placeRequestController.signal
       );
 
-// Dopisanie nazwy miejsca do adresu URL (?q=...)
+      // Dopisanie nazwy miejsca do adresu URL (?q=...) i współrzędnych (?place=, ?lat=, ?lng=)
       if (place && !state.isRestoringFromPopstate) {
         const title = place.name || place.display_name?.split(',')[0] || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(place) : null);
         if (title) {
           const url = new URL(window.location.href);
           url.searchParams.set("q", title);
+          url.searchParams.set("place", `${event.lngLat.lat},${event.lngLat.lng}`);
+          url.searchParams.set("lat", event.lngLat.lat);
+          url.searchParams.set("lng", event.lngLat.lng);
           window.history.pushState({ query: title, place }, "", url);
         }
       }
@@ -7299,17 +7302,17 @@ function showUserLocationMarker(lngLat) {
 async function sharePlace(place, lngLat) {
   const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl ? new URL(CONFIG.publicBaseUrl) : new URL(window.location.href);
   
-  // Zapisujemy parametr place (lat,lng) używany przez loadSharedPlaceFromUrl
-  if (lngLat?.lat && lngLat?.lng) {
-    url.searchParams.set("place", `${lngLat.lat.toFixed(6)},${lngLat.lng.toFixed(6)}`);
-    url.searchParams.set("lat", lngLat.lat);
-    url.searchParams.set("lng", lngLat.lng);
-  }
-
-  // Tytuł miejsca dla wyszukiwarki
+  // Zapisujemy parametr place z nazwą
   const placeTitle = getSearchResultTitle(place) || place?.name || place?.display_name?.split(',')[0];
   if (placeTitle) {
     url.searchParams.set("q", placeTitle);
+  }
+  
+  // Zapisujemy współrzędne w parametrach place, lat, lng
+  if (lngLat?.lat && lngLat?.lng) {
+    url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
+    url.searchParams.set("lat", lngLat.lat);
+    url.searchParams.set("lng", lngLat.lng);
   }
 
   const shareData = {
