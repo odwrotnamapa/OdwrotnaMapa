@@ -4967,7 +4967,7 @@ function closeRoute() {
     }
   }
 
-  async function handleMapClick(event) {
+async function handleMapClick(event) {
     if (state.mapLongPressTriggered) {
       state.mapLongPressTriggered = false;
       return;
@@ -4979,7 +4979,13 @@ function closeRoute() {
 
     closeMapContextMenu();
     removeContextPointMarker();
+    
+    // Zwijamy panele i natychmiast odświeżamy wymiary mapy,
+    // aby kliknięcie nie miało przesunięcia w pikselach
     collapseMobilePanels();
+    if (map && typeof map.resize === "function") {
+      map.resize();
+    }
 
     if (state.measureModeActive) {
       addMeasurePoint(event.lngLat);
@@ -4987,13 +4993,11 @@ function closeRoute() {
     }
 
     if (!el.routePanel.hidden) {
-      const routeStageBeforeClick =
-        state.routeClickStage;
+      const routeStageBeforeClick = state.routeClickStage;
 
       await handleRouteMapClick(event);
 
-      const routeStageAfterClick =
-        state.routeClickStage;
+      const routeStageAfterClick = state.routeClickStage;
 
       const isPointBInteraction =
         routeStageBeforeClick === "b" ||
@@ -5001,19 +5005,19 @@ function closeRoute() {
         routeStageAfterClick === "b" ||
         routeStageAfterClick === "move-b";
 
-      // Panel pozostaje otwarty przy pierwszym wyborze B
-      // oraz przy każdym późniejszym przesuwaniu punktu B.
       if (isPointBInteraction) {
         expandMobileRoutePanel();
       } else {
         collapseMobileRoutePanel();
       }
 
+      // Przypisanie aktualizacji kadrów po rozwinięciu/zwinięciu panelu trasy
+      if (map && typeof map.resize === "function") {
+        map.resize();
+      }
+
       return;
     }
-
-    // Zwykłe kliknięcie pustego obszaru mapy nie wykonuje
-    // reverse geocodingu i nie otwiera panelu Informacje.
   }
 
 
@@ -5175,6 +5179,11 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
   function showSelectedPlaceMarker(lngLat) {
     if (!lngLat) return;
 
+    // Resize map canvas to account for any DOM layout shifts (e.g., geolocation UI)
+    if (typeof map.resize === "function") {
+      map.resize();
+    }
+
     if (!state.selectedPlaceMarker) {
       state.selectedPlaceMarker = new maplibregl.Marker({
         element: createSelectedPlaceMarkerElement(),
@@ -5237,8 +5246,20 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
     return element;
   }
 
-  function showUserLocationMarker(lngLat) {
+function showUserLocationMarker(lngLat) {
     if (!lngLat) return;
+
+    // Przeliczenie dowolnego formatu na czystą tablicę [lon, lat]
+    let coords;
+    if (Array.isArray(lngLat)) {
+      coords = [Number(lngLat[0]), Number(lngLat[1])];
+    } else if (typeof lngLat === "object") {
+      const lng = lngLat.lng ?? lngLat.lon;
+      const lat = lngLat.lat;
+      coords = [Number(lng), Number(lat)];
+    }
+
+    if (!coords || isNaN(coords[0]) || isNaN(coords[1])) return;
 
     if (!state.userLocationMarker) {
       state.userLocationMarker = new maplibregl.Marker({
@@ -5247,8 +5268,9 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
       });
     }
 
+    // Ustawiamy pozycję bezpośrednio z tablicy
     state.userLocationMarker
-      .setLngLat(lngLat)
+      .setLngLat(coords)
       .addTo(map);
   }
 
@@ -7003,11 +7025,29 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
 
     closeOtherMobilePanels(["place"]);
 
-    map.flyTo({
-      center: [lon, lat],
-      zoom: Math.max(map.getZoom(), 16)
-    });
+// Pobiegnijmy wysokość dolnego panelu mobilnego (jeśli jest widoczny)
+        const mobilePanelHeight = window.matchMedia("(max-width: 600px)").matches
+          ? (document.querySelector(".mobile-panel:not(.collapsed)")?.offsetHeight || 0)
+          : 0;
 
+        map.flyTo({
+          center: [lon, lat],
+          zoom: Math.max(map.getZoom(), 15),
+          // Skopiowane rozwiązanie z logiki widoku miejsc: przesuwa środek mapy nad dolny panel
+          padding: {
+            top: 20,
+            bottom: mobilePanelHeight + 20,
+            left: 20,
+            right: 20
+          }
+        });
+
+        // Wymuszenie aktualizacji siatki po wycentrowaniu
+        requestAnimationFrame(() => {
+          if (map && typeof map.resize === "function") {
+            map.resize();
+          }
+        });
     setPlacePanelReturnTarget("trip", {});
 
     showSelectedPlaceInformation({
@@ -7311,8 +7351,14 @@ async function sharePlace(place, lngLat) {
   }
 }
 
-  async function handleRouteMapClick(event) {
+async function handleRouteMapClick(event) {
     if (el.routePanel.hidden || state.routeClickBusy) return;
+
+    // 1. Jeśli oba punkty są już ustawione, ignorujemy kliknięcie w wolną przestrzeń mapy.
+    // Dzięki temu punkt B można przesuwać TYLKO przeciągając jego ikonę.
+    if (state.routePointA && state.routePointB) {
+      return;
+    }
 
     if (state.routeCoordinates && isClickOnRoute(event.point)) {
       addRouteWaypoint(event.lngLat);
@@ -9787,6 +9833,9 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
             bearing: 180
           });
           hide();
+          if (map && typeof map.resize === "function") {
+          map.resize();
+}
         })
         .catch(error => {
           console.warn("Lokalizacja po IP nie powiodła się.", error);
@@ -9815,35 +9864,55 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       0
     );
 
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const lon = position.coords.longitude;
-        const lat = position.coords.latitude;
+let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
-        showUserLocationMarker({ lng: lon, lat });
+  if (window.userLocationWatchId) {
+    navigator.geolocation.clearWatch(window.userLocationWatchId);
+  }
+
+  window.userLocationWatchId = navigator.geolocation.watchPosition(
+    position => {
+      const lon = position.coords.longitude;
+      const lat = position.coords.latitude;
+      const lngLat = new maplibregl.LngLat(lon, lat);
+
+      // 1. Zawsze aktualizujemy tylko pozycję samej niebieskiej kropki
+      showUserLocationMarker(lngLat);
+
+      // 2. Mapę centrujemy TYLKO PIERWSZY RAZ!
+      // Gdy GPS skoryguje pozycję po kilku sekundach, kropka się przesunie, ale mapa NIE PRZESKOCZY.
+      if (!hasPannedToUser) {
+        hasPannedToUser = true;
 
         map.flyTo({
           center: [lon, lat],
           zoom: Math.max(map.getZoom(), 15),
-          bearing: 180
+          bearing: map.getBearing() // Utrzymuje obecny obrót (np. 180°), zapobiegając "fikołkowi" mapy
         });
 
         hide();
-      },
-      error => {
-        console.error(error);
-        show(
-          state.language === "pl"
-            ? "Nie udało się pobrać lokalizacji."
-            : "Your location could not be retrieved."
-        );
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 30000
+
+        requestAnimationFrame(() => {
+          if (map && typeof map.resize === "function") {
+            map.resize();
+          }
+        });
       }
-    );
+    },
+    error => {
+      console.error(error);
+      show(
+        state.language === "pl"
+          ? "Nie udało się pobrać lokalizacji."
+          : "Your location could not be retrieved."
+      );
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0 // Zmusza do natychmiastowego pobrania świeżego punktu z czujnika
+    }
+  );
   }
 
   function blobToBase64(blob) {
@@ -11220,7 +11289,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
       map.flyTo({
         center: point,
-        zoom: getSearchResultZoom(result),
+        zoom: Math.max(map.getZoom(), 15),
         bearing: 180
       });
 
@@ -11329,33 +11398,51 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     return { latitude: data.latitude, longitude: data.longitude };
   }
 
-  function locate() {
-    show(text[state.language].locating, 0);
-
-    if (isElectronPlatform()) {
-      fetchLocationByIp()
-        .then(({ latitude, longitude }) => {
-          const point = [longitude, latitude];
-          map.flyTo({ center: point, zoom: 11, bearing: 180 });
-          new maplibregl.Marker().setLngLat(point).addTo(map);
-          hide();
-        })
-        .catch(error => {
-          console.warn("Lokalizacja po IP nie powiodła się.", error);
-          show(text[state.language].locationError);
-        });
+function locate() {
+    if (!navigator.geolocation) {
+      show(text[state.language].locationError);
       return;
     }
 
-    navigator.geolocation?.getCurrentPosition(
-      pos => {
-        const point = [pos.coords.longitude, pos.coords.latitude];
-        map.flyTo({ center: point, zoom: 14, bearing: 180 });
-        new maplibregl.Marker({ anchor: 'bottom' }).setLngLat(point).addTo(map);
+    show(
+      state.language === "pl" ? "Pobieranie lokalizacji…" : "Getting your location…",
+      0
+    );
+
+    // Wyłączamy ewentualne aktywne śledzenie
+    if (window.userLocationWatchId) {
+      navigator.geolocation.clearWatch(window.userLocationWatchId);
+      window.userLocationWatchId = null;
+    }
+
+    // Jednorazowe pobranie pozycji bez watchPosition (brak drugiego przeskoku po 3s)
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lon = position.coords.longitude;
+        const lat = position.coords.latitude;
+        const point = [lon, lat];
+
+        // 1. Stawiamy znacznik
+        showUserLocationMarker(point);
+
+        // 2. Centrujemy mapę z zachowaniem aktualnego obrotu
+        map.flyTo({
+          center: point,
+          zoom: Math.max(map.getZoom(), 15),
+          bearing: map.getBearing()
+        });
+
         hide();
       },
-      () => show(text[state.language].locationError),
-      { enableHighAccuracy: true, timeout: 10000 }
+      error => {
+        console.error("Błąd lokalizacji GPS:", error);
+        show(text[state.language].locationError);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0 // Zmusza urządzenie do podania aktualnej pozycji
+      }
     );
   }
 

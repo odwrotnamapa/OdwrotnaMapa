@@ -2481,6 +2481,25 @@ function applyLanguage(language) {
     ].includes(layerId);
   }
 
+
+  function encodePlace(label, lat, lon) {
+    try {
+      const data = JSON.stringify({ label, lat, lon });
+      return btoa(unescape(encodeURIComponent(data)));
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function decodePlace(encoded) {
+    try {
+      const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function getSearchHistory() {
     try {
       const stored = JSON.parse(
@@ -2909,6 +2928,17 @@ function applyLanguage(language) {
             zoom: 16,
             bearing: 180
           });
+          
+          // Update URL to show the search (skip if we're restoring from popstate)
+          if (!state.isRestoringFromPopstate) {
+            const historyUrl = new URL(window.location.href);
+            historyUrl.searchParams.set("q", entry.label);
+            historyUrl.searchParams.set("p", encodePlace(entry.label, entry.lat, entry.lon));
+            console.log("PUSHSTATE CALLED:", historyUrl.toString());
+            window.history.pushState({q: entry.label}, entry.label, historyUrl.toString());
+          } else {
+            console.log("Skipped pushState during popstate restore");
+          }
         });
 
         item.appendChild(button);
@@ -5102,6 +5132,12 @@ function closeRoute() {
     showSelectedPlaceMarker(lngLat);
     openPlacePanel();
     renderPlaceInformation(details, lngLat);
+const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(details) : "") || String(details.display_name || "").split(",")[0];
+  if (placeTitle && !state.isRestoringFromPopstate) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("q", placeTitle);
+    window.history.pushState({ query: placeTitle }, "", url);
+  }
 
     // Po zamknięciu listy wyników przeglądarka ponownie układa
     // mobilny interfejs, więc utrwalamy tę samą wysokość panelu.
@@ -5435,6 +5471,16 @@ function closeRoute() {
         event.lngLat.lat,
         state.placeRequestController.signal
       );
+
+// Dopisanie nazwy miejsca do adresu URL (?q=...)
+      if (place && !state.isRestoringFromPopstate) {
+        const title = place.name || place.display_name?.split(',')[0] || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(place) : null);
+        if (title) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("q", title);
+          window.history.pushState({ query: title, place }, "", url);
+        }
+      }
 
       if (
         !el.placePanel ||
@@ -7226,36 +7272,44 @@ function closeRoute() {
     );
   }
 
-  async function sharePlace(place, lngLat) {
-    const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
-      ? new URL(CONFIG.publicBaseUrl)
-      : new URL(window.location.href);
-    url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
+async function sharePlace(place, lngLat) {
+  const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl ? new URL(CONFIG.publicBaseUrl) : new URL(window.location.href);
+  
+  // Zapisujemy parametr place (lat,lng) używany przez loadSharedPlaceFromUrl
+  if (lngLat?.lat && lngLat?.lng) {
+    url.searchParams.set("place", `${lngLat.lat.toFixed(6)},${lngLat.lng.toFixed(6)}`);
+    url.searchParams.set("lat", lngLat.lat);
+    url.searchParams.set("lng", lngLat.lng);
+  }
 
-    const shareData = {
-      title: getPlaceTitle(place) || document.title,
-      text: getPlaceAddress(place),
-      url: url.toString()
-    };
+  // Tytuł miejsca dla wyszukiwarki
+  const placeTitle = getSearchResultTitle(place) || place?.name || place?.display_name?.split(',')[0];
+  if (placeTitle) {
+    url.searchParams.set("q", placeTitle);
+  }
 
-    const t = text[state.language];
-
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(url.toString());
-        show(t.placeShared);
-      } else {
-        show(t.shareUnavailable);
-      }
-    } catch (error) {
-      if (error?.name !== "AbortError") {
-        console.error(error);
-        show(t.shareUnavailable);
-      }
+  const shareData = {
+    title: placeTitle || document.title,
+    text: getSearchResultSubtitle(place) || "",
+    url: url.toString()
+  };
+  const t = text[state.language];
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(url.toString());
+      show(t.placeShared);
+    } else {
+      show(t.shareUnavailable);
+    }
+  } catch (error) {
+    if (error?.name !== "AbortError") {
+      console.error(error);
+      show(t.shareUnavailable);
     }
   }
+}
 
   async function handleRouteMapClick(event) {
     if (el.routePanel.hidden || state.routeClickBusy) return;
@@ -11346,4 +11400,113 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     try { localStorage.setItem(key, value); }
     catch (_) {}
   }
+
+// When user clicks browser back/forward, restore and search
+window.addEventListener("popstate", function(event) {
+  const q = new URLSearchParams(window.location.search).get("q");
+  const p = new URLSearchParams(window.location.search).get("p");
+  console.log("popstate fired, q =", q, "p =", p);
+  
+  // If we have encoded place data, use that to navigate directly
+  if (p) {
+    const place = decodePlace(p);
+    if (place && Number.isFinite(place.lat) && Number.isFinite(place.lon)) {
+      console.log("Restoring place from encoded data:", place);
+      map.flyTo({
+        center: [place.lon, place.lat],
+        zoom: 17,
+        bearing: 180
+      });
+      // Don't re-search, just navigate to the exact location
+      if (el.searchInput) {
+        el.searchInput.value = place.label;
+        if (typeof updateSearchClearButton === "function") {
+          updateSearchClearButton();
+        }
+      }
+      // Show the marker at the new location
+      if (typeof showContextPointMarker === "function") {
+        showContextPointMarker({ lat: place.lat, lng: place.lon });
+      }
+      // Close old panel
+      if (el.placePanel) {
+        el.placePanel.hidden = true;
+      }
+      // Open new place info with delay
+      setTimeout(() => {
+        if (typeof showPlaceInformation === "function") {
+          showPlaceInformation({ lngLat: { lat: place.lat, lng: place.lon } }).catch(err => {
+            console.error("Error:", err);
+          });
+        }
+      }, 100);
+      return;
+    }
+  }
+  
+  // Fallback: if no place data, re-search
+  if (q && el.searchInput && typeof search === "function") {
+    el.searchInput.value = q;
+    if (typeof updateSearchClearButton === "function") {
+      updateSearchClearButton();
+    }
+    console.log("Calling search from popstate");
+    state.isRestoringFromPopstate = true;
+    const event = new Event("submit");
+    event.preventDefault = () => {};
+    search(event).catch(err => console.error("Search error:", err));
+    setTimeout(() => { state.isRestoringFromPopstate = false; }, 10);
+  }
+});
+
+
+// Check if page loaded with ?q= or coordinates parameter
+(function checkUrlAndSearch() {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get("q");
+  const placeParam = params.get("place");
+  const lat = parseFloat(params.get("lat"));
+  const lng = parseFloat(params.get("lng"));
+
+  // Wpisz frazę w pole wyszukiwania
+  if (q && el.searchInput) {
+    el.searchInput.value = q;
+    if (typeof updateSearchClearButton === "function") {
+      updateSearchClearButton();
+    }
+  }
+
+  // 1. Jeśli w URL jest parametr place lub lat/lng - użyjemy dedykowanej funkcji wycentrowania
+  if (placeParam || (!isNaN(lat) && !isNaN(lng))) {
+    setTimeout(() => {
+      try {
+        if (typeof loadSharedPlaceFromUrl === "function") {
+          loadSharedPlaceFromUrl();
+        }
+      } catch (err) {
+        console.error("Błąd podczas wczytywania miejsca z URL:", err);
+      }
+    }, 400);
+    return;
+  }
+
+  // 2. Jeśli podano tylko frazę wyszukiwania (?q=)
+  if (q && typeof search === "function") {
+    setTimeout(async function() {
+      console.log("Auto-running search for:", q);
+      state.isRestoringFromPopstate = true;
+      const event = new Event("submit");
+      event.preventDefault = () => {};
+
+      try {
+        await search(event);
+      } catch (err) {
+        console.error("Search error:", err);
+      } finally {
+        state.isRestoringFromPopstate = false;
+      }
+    }, 500);
+  }
+})();
+
 })();
