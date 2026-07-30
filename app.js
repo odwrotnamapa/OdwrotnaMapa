@@ -7276,7 +7276,14 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
     const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
       ? new URL(CONFIG.publicBaseUrl)
       : new URL(window.location.href);
+
+    const placeTitle = place?.name || (typeof getPlaceTitle === "function" ? getPlaceTitle(place) : null) || place?.display_name?.split(',')[0];
+  if (placeTitle) {
+    url.searchParams.set("q", placeTitle);
+    url.searchParams.delete("place");
+  } else {
     url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
+  }
 
     const shareData = {
       title: getPlaceTitle(place) || document.title,
