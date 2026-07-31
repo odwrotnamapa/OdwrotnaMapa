@@ -156,6 +156,9 @@
       routeWaypointNote: "Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.",
       routeRoundaboutExit: exit => `Na rondzie wybierz ${exit}. zjazd.`,
       routeWaypoint: number => `Punkt ${number}`,
+      routeAddWaypoint: "Dodaj przystanek",
+      routeWaypointStopPlaceholder: number => `Przystanek ${number}`,
+      routeRemoveWaypoint: number => `Usuń przystanek ${number}`,
       autocompleteNoResults: "Brak wyników",
       autocompleteLoading: "Szukam…",
       autocompleteError: "Nie udało się pobrać podpowiedzi.",
@@ -464,6 +467,9 @@
       routeWaypointNote: "Click the route line to add a waypoint. You can drag the point.",
       routeRoundaboutExit: exit => `At the roundabout, take exit ${exit}.`,
       routeWaypoint: number => `Waypoint ${number}`,
+      routeAddWaypoint: "Add stop",
+      routeWaypointStopPlaceholder: number => `Stop ${number}`,
+      routeRemoveWaypoint: number => `Remove stop ${number}`,
       autocompleteNoResults: "No results",
       autocompleteLoading: "Searching…",
       autocompleteError: "Suggestions could not be loaded.",
@@ -751,6 +757,10 @@
     return isPolish ? "pl" : "en";
   }
 
+  // Wypełniane przez initializeAutocomplete(); pozwala podpiąć podpowiedzi
+  // wyszukiwania do dynamicznie tworzonych pól przystanków trasy.
+  let registerRouteWaypointAutocomplete = null;
+
   const state = {
     language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, ""))
       ? safeGet(CONFIG.storageKeys.language, "")
@@ -777,6 +787,7 @@
     routeManeuvers: [],
     routeWaypoints: [],
     routeWaypointMarkers: [],
+    routeWaypointSeq: 0,
     selectedManeuverIndex: null,
     placePopup: null,
     placePanelLngLat: null,
@@ -996,6 +1007,9 @@
     routeArrivalLabel: $("route-arrival-label"),
     routeShare: $("route-share"),
     routeWaypointNote: $("route-waypoint-note"),
+    routeWaypointsList: $("route-waypoints-list"),
+    routeAddWaypoint: $("route-add-waypoint"),
+    routeAddWaypointLabel: $("route-add-waypoint-label"),
     routeNote: $("route-note"),
     routeModeLabel: $("route-mode-label"),
     routeClickHint: $("route-click-hint"),
@@ -1439,6 +1453,9 @@ map.on('rotate', updateLogoRotation);
 
   el.routeClose?.addEventListener("click", closeRoute);
   el.routeSwap?.addEventListener("click", swapRoutePoints);
+  el.routeAddWaypoint?.addEventListener("click", () => {
+    addRouteWaypointField();
+  });
   el.routeClear?.addEventListener("click", () => {
     clearRoute();
   });
@@ -1655,6 +1672,9 @@ map.on('rotate', updateLogoRotation);
     if (el.routeArrivalLabel) el.routeArrivalLabel.textContent = t.routeArrival;
     if (el.routeShare) el.routeShare.textContent = t.routeShare;
     if (el.routeWaypointNote) el.routeWaypointNote.textContent = t.routeWaypointNote;
+    if (el.routeAddWaypointLabel) el.routeAddWaypointLabel.textContent = t.routeAddWaypoint;
+    el.routeAddWaypoint?.setAttribute("aria-label", t.routeAddWaypoint);
+    renderRouteWaypoints();
     if (el.routeNote) el.routeNote.textContent = t.routeNote;
     updateRouteClickHint();
     if (el.routeDirectionsTitle) el.routeDirectionsTitle.textContent = t.routeDirections;
@@ -2606,6 +2626,11 @@ function applyLanguage(language) {
     let results = [];
     let activeIndex = -1;
 
+    const isRoutePointInput = input =>
+      input === el.routeFrom ||
+      input === el.routeTo ||
+      Boolean(input?.classList?.contains("route-waypoint-input"));
+
     const controllers = [
       {
         input: el.searchInput,
@@ -2757,8 +2782,7 @@ function applyLanguage(language) {
         ];
       }
 
-      const isRouteInput =
-        activeInput === el.routeFrom || activeInput === el.routeTo;
+      const isRouteInput = isRoutePointInput(activeInput);
 
       if (isRouteInput) {
         items = [{ __myLocationOption: true }, ...items];
@@ -2984,7 +3008,7 @@ function applyLanguage(language) {
       buttons[activeIndex].scrollIntoView({ block: "nearest" });
     };
 
-    for (const controller of controllers) {
+    const wireController = controller => {
       const { input, onSelect } = controller;
 
       input.addEventListener("input", () => {
@@ -3017,10 +3041,7 @@ function applyLanguage(language) {
           return;
         }
 
-        if (
-          (input === el.routeFrom || input === el.routeTo) &&
-          !input.value.trim()
-        ) {
+        if (isRoutePointInput(input) && !input.value.trim()) {
           render([]);
           return;
         }
@@ -3050,7 +3071,35 @@ function applyLanguage(language) {
           hide();
         }
       });
+    };
+
+    for (const controller of controllers) {
+      wireController(controller);
     }
+
+    // Pozwala renderRouteWaypoints() podpiąć podpowiedzi wyszukiwania do
+    // pól przystanków tworzonych dynamicznie, już po inicjalizacji.
+    registerRouteWaypointAutocomplete = (input, waypointId) => {
+      wireController({
+        input,
+        onSelect: result => {
+          const point = resultToRoutePoint(result);
+          const index = state.routeWaypoints.findIndex(
+            item => item.id === waypointId
+          );
+          if (index === -1) return;
+
+          state.routeWaypoints[index] = { ...point, id: waypointId };
+          input.value = point.label;
+          hide();
+          refreshWaypointMarkers();
+
+          if (state.routePointA && state.routePointB) {
+            calculateRouteFromStoredPoints();
+          }
+        }
+      });
+    };
 
     document.addEventListener("pointerdown", event => {
       if (
@@ -7924,11 +7973,13 @@ function updateRouteClickHint() {
     const payload = {
       locations: [
         { lat: from.lat, lon: from.lon, type: "break" },
-        ...state.routeWaypoints.map(point => ({
-          lat: point.lat,
-          lon: point.lon,
-          type: "break"
-        })),
+        ...state.routeWaypoints
+          .filter(point => point.lat != null && point.lon != null)
+          .map(point => ({
+            lat: point.lat,
+            lon: point.lon,
+            type: "break"
+          })),
         { lat: to.lat, lon: to.lon, type: "break" }
       ],
       costing: mode,
@@ -8483,8 +8534,14 @@ function drawRoute(geometry, from, to, mode) {
     }).length > 0;
   }
 
+  function nextWaypointId() {
+    state.routeWaypointSeq += 1;
+    return `wp-${state.routeWaypointSeq}`;
+  }
+
   function addRouteWaypoint(lngLat) {
     const waypoint = {
+      id: nextWaypointId(),
       lon: lngLat.lng,
       lat: lngLat.lat,
       label: formatCoordinates(lngLat.lng, lngLat.lat)
@@ -8492,13 +8549,92 @@ function drawRoute(geometry, from, to, mode) {
 
     state.routeWaypoints.push(waypoint);
     refreshWaypointMarkers();
+    renderRouteWaypoints();
     calculateRouteFromStoredPoints();
+  }
+
+  function addRouteWaypointField() {
+    state.routeWaypoints.push({
+      id: nextWaypointId(),
+      lon: null,
+      lat: null,
+      label: ""
+    });
+    renderRouteWaypoints();
+
+    const list = el.routeWaypointsList;
+    const lastInput = list?.querySelector(
+      ".route-waypoint-row:last-child .route-waypoint-input"
+    );
+    lastInput?.focus();
+  }
+
+  function removeRouteWaypointById(waypointId) {
+    const index = state.routeWaypoints.findIndex(
+      point => point.id === waypointId
+    );
+    if (index === -1) return;
+
+    const [removed] = state.routeWaypoints.splice(index, 1);
+    refreshWaypointMarkers();
+    renderRouteWaypoints();
+
+    const wasResolved = removed && removed.lon != null && removed.lat != null;
+    if (wasResolved && state.routePointA && state.routePointB) {
+      calculateRouteFromStoredPoints();
+    }
+  }
+
+  function renderRouteWaypoints() {
+    const list = el.routeWaypointsList;
+    if (!list) return;
+
+    list.replaceChildren();
+    const t = text[state.language];
+
+    state.routeWaypoints.forEach((point, index) => {
+      const item = document.createElement("li");
+      item.className = "route-waypoint-row";
+
+      const indexBadge = document.createElement("span");
+      indexBadge.className = "route-waypoint-index";
+      indexBadge.setAttribute("aria-hidden", "true");
+      indexBadge.textContent = String(index + 1);
+
+      const input = document.createElement("input");
+      input.type = "search";
+      input.autocomplete = "off";
+      input.className = "route-waypoint-input";
+      input.placeholder = t.routeWaypointStopPlaceholder(index + 1);
+      input.setAttribute("aria-label", t.routeWaypointStopPlaceholder(index + 1));
+      input.value = point.label || "";
+      input.dataset.waypointId = point.id;
+
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "route-waypoint-remove";
+      removeButton.textContent = "×";
+      removeButton.setAttribute(
+        "aria-label",
+        t.routeRemoveWaypoint(index + 1)
+      );
+      removeButton.addEventListener("click", () => {
+        removeRouteWaypointById(point.id);
+      });
+
+      item.append(indexBadge, input, removeButton);
+      list.appendChild(item);
+
+      registerRouteWaypointAutocomplete?.(input, point.id);
+    });
   }
 
   function refreshWaypointMarkers() {
     clearWaypointMarkers();
 
     state.routeWaypoints.forEach((point, index) => {
+      if (point.lon == null || point.lat == null) return;
+
       const element = document.createElement("div");
       element.className = "route-waypoint-marker";
       element.textContent = String(index + 1);
@@ -8520,6 +8656,7 @@ function drawRoute(geometry, from, to, mode) {
           lat: position.lat,
           label: formatCoordinates(position.lng, position.lat)
         };
+        renderRouteWaypoints();
         calculateRouteFromStoredPoints();
       });
 
@@ -8550,10 +8687,14 @@ function drawRoute(geometry, from, to, mode) {
     );
     url.searchParams.set("mode", getSelectedRouteMode());
 
-    if (state.routeWaypoints.length) {
+    const resolvedWaypoints = state.routeWaypoints.filter(
+      point => point.lat != null && point.lon != null
+    );
+
+    if (resolvedWaypoints.length) {
       url.searchParams.set(
         "via",
-        state.routeWaypoints
+        resolvedWaypoints
           .map(point => `${point.lat},${point.lon}`)
           .join(";")
       );
@@ -8599,11 +8740,16 @@ function drawRoute(geometry, from, to, mode) {
 
     const via = params.get("via");
     state.routeWaypoints = via
-      ? via.split(";").map(parseSharedPoint).filter(Boolean)
+      ? via
+          .split(";")
+          .map(parseSharedPoint)
+          .filter(Boolean)
+          .map(point => ({ ...point, id: nextWaypointId() }))
       : [];
 
     refreshRouteMarkers();
     refreshWaypointMarkers();
+    renderRouteWaypoints();
     await calculateRouteFromStoredPoints();
   }
 
@@ -8705,6 +8851,7 @@ function drawRoute(geometry, from, to, mode) {
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
     state.routeWaypoints = [];
     clearWaypointMarkers();
+    renderRouteWaypoints();
     clearManeuverHighlight();
     clearRouteDirections();
 
