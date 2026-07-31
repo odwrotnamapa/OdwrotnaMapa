@@ -1532,7 +1532,8 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .route-share {
-  width: 100%;
+  
+  place-items: center;
   min-height: 40px;
   margin-top: 10px;
   border: 1px solid var(--border);

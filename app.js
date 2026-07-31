@@ -125,6 +125,11 @@
       routeSwap: "Zamień punkty",
       routeSubmit: "Wyznacz trasę",
       routeClear: "Wyczyść",
+      routeExportGpx: "Eksportuj",
+      routeImportGpx: "Importuj",
+      routeGpxExported: "Trasa została wyeksportowana jako GPX.",
+      routeGpxImported: "Trasa została zaimportowana z pliku GPX.",
+      routeGpxImportError: "Nie udało się zaimportować pliku GPX.",
       routeDistance: "Dystans",
       routeDuration: "Czas",
       routeNote: "Trasa jest obliczana na podstawie danych OpenStreetMap.",
@@ -148,7 +153,7 @@
       routeDirections: "Wskazówki",
       routeSteps: "kroków",
       routeArrival: "Przyjazd",
-      routeShare: "Udostępnij trasę",
+      routeShare: "Udostępnij",
       routeShared: "Link do trasy został skopiowany.",
       placeShared: "Link do miejsca został skopiowany.",
       shareUnavailable: "Udostępnianie wymaga połączenia HTTPS.",
@@ -436,6 +441,11 @@
       routeSwap: "Swap points",
       routeSubmit: "Plan route",
       routeClear: "Clear",
+      routeExportGpx: "Export",
+      routeImportGpx: "Import",
+      routeGpxExported: "Route exported as GPX.",
+      routeGpxImported: "Route imported from GPX file.",
+      routeGpxImportError: "Could not import GPX file.",
       routeDistance: "Distance",
       routeDuration: "Time",
       routeNote: "The route is calculated using OpenStreetMap data.",
@@ -459,7 +469,7 @@
       routeDirections: "Directions",
       routeSteps: "steps",
       routeArrival: "Arrival",
-      routeShare: "Share route",
+      routeShare: "Share",
       routeShared: "The route link was copied.",
       placeShared: "The place link was copied.",
       shareUnavailable: "Sharing requires an HTTPS connection.",
@@ -1006,6 +1016,9 @@
     routeArrival: $("route-arrival"),
     routeArrivalLabel: $("route-arrival-label"),
     routeShare: $("route-share"),
+    routeExportGpx: $("route-export-gpx"),
+    routeImportGpx: $("route-import-gpx"),
+    routeImportGpxInput: $("route-import-gpx-input"),
     routeWaypointNote: $("route-waypoint-note"),
     routeWaypointsList: $("route-waypoints-list"),
     routeAddWaypoint: $("route-add-waypoint"),
@@ -1461,6 +1474,23 @@ map.on('rotate', updateLogoRotation);
   });
   el.routeForm?.addEventListener("submit", planRoute);
   el.routeShare?.addEventListener("click", shareRoute);
+
+// Eksport GPX
+    el.routeExportGpx?.addEventListener("click", exportRouteAsGpx);
+    document.getElementById("export-gpx-button")?.addEventListener("click", exportRouteAsGPX);
+
+// Import GPX – kliknięcie w przycisk otwiera okno wyboru pliku
+    el.routeImportGpx?.addEventListener("click", () => {
+    el.routeImportGpxInput?.click();
+});
+
+// Obsługa wybrania pliku
+el.routeImportGpxInput?.addEventListener("change", (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        importRouteFromGpx(file);
+    }
+});
   for (const modeInput of document.querySelectorAll('input[name="route-mode"]')) {
     modeInput.addEventListener("change", handleRouteModeChange);
   }
@@ -1671,6 +1701,8 @@ map.on('rotate', updateLogoRotation);
     if (el.routeDurationLabel) el.routeDurationLabel.textContent = t.routeDuration;
     if (el.routeArrivalLabel) el.routeArrivalLabel.textContent = t.routeArrival;
     if (el.routeShare) el.routeShare.textContent = t.routeShare;
+    if (el.routeExportGpx) el.routeExportGpx.textContent = t.routeExportGpx;
+    if (el.routeImportGpx) el.routeImportGpx.textContent = t.routeImportGpx;
     if (el.routeWaypointNote) el.routeWaypointNote.textContent = t.routeWaypointNote;
     if (el.routeAddWaypointLabel) el.routeAddWaypointLabel.textContent = t.routeAddWaypoint;
     el.routeAddWaypoint?.setAttribute("aria-label", t.routeAddWaypoint);
@@ -8821,6 +8853,8 @@ function drawRoute(geometry, from, to, mode) {
       el.routeSummary
     );
     if (el.routeShare) el.routeShare.hidden = false;
+    if (el.routeExportGpx) el.routeExportGpx.hidden = false;
+    if (el.routeImportGpx) el.routeImportGpx.hidden = false;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = false;
   }
 
@@ -8853,6 +8887,8 @@ function drawRoute(geometry, from, to, mode) {
     el.routeDuration.textContent = "—";
     el.routeArrival.textContent = "—";
     if (el.routeShare) el.routeShare.hidden = true;
+    if (el.routeExportGpx) el.routeExportGpx.hidden = true;
+    if (el.routeImportGpx) el.routeImportGpx.hidden = true;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
     state.routeWaypoints = [];
     clearWaypointMarkers();
@@ -11759,5 +11795,193 @@ window.addEventListener("popstate", function(event) {
     }, 500);
   }
 })();
+
+async function exportRouteAsGpx() {
+    if (!state.routePointA || !state.routePointB) {
+        show("Najpierw wyznacz trasę.");
+        return;
+    }
+
+    const language = state.language || state.ui?.language || "pl";
+    const t = text[language];
+
+    const allPoints = [];
+    
+    allPoints.push({
+        lat: state.routePointA.lat,
+        lon: state.routePointA.lon,
+        name: "Punkt A"
+    });
+
+    if (state.routeWaypoints && state.routeWaypoints.length > 0) {
+        state.routeWaypoints.forEach((wp, i) => {
+            allPoints.push({
+                lat: wp.lat,
+                lon: wp.lon,
+                name: `Przystanek ${i+1}`
+            });
+        });
+    }
+
+    allPoints.push({
+        lat: state.routePointB.lat,
+        lon: state.routePointB.lon,
+        name: "Punkt B"
+    });
+
+    const waypointsXml = allPoints.map((p, i) => {
+        const name = p.name || `Punkt ${i+1}`;
+        return `    <wpt lat="${p.lat}" lon="${p.lon}">
+        <name>${name}</name>
+        <sym>Waypoint</sym>
+      </wpt>`;
+    }).join("\n");
+
+    const routePointsXml = allPoints.map((p) => {
+        return `      <rtept lat="${p.lat}" lon="${p.lon}"/>`;
+    }).join("\n");
+
+    const gpx = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Odwrotna Mapa" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Trasa z Odwrotnej Mapy</name>
+    <time>${new Date().toISOString()}</time>
+  </metadata>
+  ${waypointsXml}
+  <rte>
+    <name>Trasa</name>
+    ${routePointsXml}
+  </rte>
+</gpx>`;
+
+    const blob = new Blob([gpx], { type: "application/gpx+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    
+    // NAZWA PLIKU Z DATĄ I GODZINĄ
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0,10);
+    const timeStr = now.toTimeString().slice(0,8).replace(/:/g, '');
+    link.download = `trasa-${dateStr}_${timeStr}.gpx`;
+    
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    show(t.routeGpxExported || "Trasa została wyeksportowana jako GPX.");
+}
+
+async function importRouteFromGpx(file) {
+    const language = state.language || state.ui?.language || "pl";
+    const t = text[language];
+
+    try {
+        const textContent = await file.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(textContent, "application/xml");
+
+        // Szukamy punktów – najpierw w <wpt>, potem w <rtept>, potem <trkpt>
+        let points = [];
+        
+        const wpts = xml.querySelectorAll("wpt");
+        if (wpts.length > 0) {
+            wpts.forEach(pt => {
+                const lat = parseFloat(pt.getAttribute("lat"));
+                const lon = parseFloat(pt.getAttribute("lon"));
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    points.push({ lat, lon });
+                }
+            });
+        }
+
+        if (points.length === 0) {
+            const rtepts = xml.querySelectorAll("rtept");
+            if (rtepts.length > 0) {
+                rtepts.forEach(pt => {
+                    const lat = parseFloat(pt.getAttribute("lat"));
+                    const lon = parseFloat(pt.getAttribute("lon"));
+                    if (!isNaN(lat) && !isNaN(lon)) {
+                        points.push({ lat, lon });
+                    }
+                });
+            }
+        }
+
+        if (points.length === 0) {
+            const trkpts = xml.querySelectorAll("trkpt");
+            if (trkpts.length > 0) {
+                trkpts.forEach(pt => {
+                    const lat = parseFloat(pt.getAttribute("lat"));
+                    const lon = parseFloat(pt.getAttribute("lon"));
+                    if (!isNaN(lat) && !isNaN(lon)) {
+                        points.push({ lat, lon });
+                    }
+                });
+            }
+        }
+
+        if (points.length < 2) {
+            show(t.routeGpxNoPoints || "Plik GPX musi zawierać co najmniej dwa punkty.");
+            return;
+        }
+
+        // Pierwszy punkt = A, ostatni = B, reszta = waypointy
+        const first = points[0];
+        const last = points[points.length - 1];
+        const waypoints = points.slice(1, -1);
+
+        state.routePointA = {
+            lon: first.lon,
+            lat: first.lat,
+            label: formatCoordinates(first.lon, first.lat)
+        };
+        state.routePointB = {
+            lon: last.lon,
+            lat: last.lat,
+            label: formatCoordinates(last.lon, last.lat)
+        };
+        
+        state.routeWaypoints = waypoints.map((p, i) => ({
+            lon: p.lon,
+            lat: p.lat,
+            label: `Przystanek ${i+1}`
+        }));
+
+        // Odśwież UI
+        if (el.routeFrom) el.routeFrom.value = state.routePointA.label;
+        if (el.routeTo) el.routeTo.value = state.routePointB.label;
+        
+        refreshRouteMarkers();
+        refreshWaypointMarkers();
+        
+        if (typeof renderRouteWaypoints === "function") {
+            renderRouteWaypoints();
+        } else {
+            const list = document.getElementById("route-waypoints-list");
+            if (list) {
+                list.innerHTML = "";
+                state.routeWaypoints.forEach((wp, i) => {
+                    const li = document.createElement("li");
+                    li.textContent = wp.label;
+                    list.appendChild(li);
+                });
+            }
+        }
+        
+        state.routeClickStage = "move-b";
+        updateRouteClickHint();
+
+        // Zamiast rysować geometrię z pliku, przelicz trasę przez silnik routingu
+        await calculateRouteFromStoredPoints();
+
+        // Dopiero po udanym przeliczeniu pokaż komunikat sukcesu
+        show(t.routeGpxImported || "Trasa została zaimportowana z pliku GPX.");
+    } catch (error) {
+        console.error("Błąd importu GPX:", error);
+        show(t.routeGpxImportError || "Nie udało się zaimportować pliku GPX.");
+    }
+}
 
 })();

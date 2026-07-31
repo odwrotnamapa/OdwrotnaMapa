@@ -337,7 +337,10 @@
           <button id="route-clear" class="route-secondary" type="button">
             Wyczyść
           </button>
+
         </div>
+
+
       </form>
 
       <div id="route-summary" class="route-summary" hidden>
@@ -353,11 +356,20 @@
           <strong id="route-arrival">—</strong>
           <span id="route-arrival-label">Przyjazd</span>
         </div>
+   
+    <button id="route-export-gpx" class="route-share" type="button" hidden>
+        Eksportuj
+    </button>
+    <button id="route-import-gpx" class="route-share" type="button" hidden>
+        Importuj
+    </button>
+   <button id="route-share" class="route-share" type="button" hidden>
+        Udostępnij
+      </button>
+    <input id="route-import-gpx-input" type="file" accept=".gpx" hidden>
       </div>
 
-      <button id="route-share" class="route-share" type="button" hidden>
-        Udostępnij trasę
-      </button>
+
 
       <p id="route-waypoint-note" class="route-waypoint-note" hidden>
         Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.
