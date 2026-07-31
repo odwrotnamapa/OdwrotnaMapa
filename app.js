@@ -4548,26 +4548,31 @@ function closeRoute() {
     document.body.classList.remove("map-picking-route");
   }
 
-  function swapRoutePoints() {
+function swapRoutePoints() {
     const value = el.routeFrom.value;
-    if (el.routeFrom) el.routeFrom.value = el.routeTo.value;
-    if (el.routeTo) el.routeTo.value = value;
+    el.routeFrom.value = el.routeTo.value;
+    el.routeTo.value = value;
 
     const point = state.routePointA;
     state.routePointA = state.routePointB;
     state.routePointB = point;
 
+    // ODWRACA KOLEJNOŚĆ PRZYSTANKÓW
+    state.routeWaypoints.reverse();
+
     refreshRouteMarkers();
+    refreshWaypointMarkers();
+    renderRouteWaypoints();
 
     if (state.routePointA && state.routePointB) {
-      calculateRouteFromStoredPoints();
+        calculateRouteFromStoredPoints();
     }
 
     state.routeClickStage = state.routePointA
-      ? (state.routePointB ? "move-b" : "b")
-      : "a";
+        ? (state.routePointB ? "move-b" : "b")
+        : "a";
     updateRouteClickHint();
-  }
+}
 
 
   function cancelMapLongPress() {
