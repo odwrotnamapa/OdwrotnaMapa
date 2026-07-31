@@ -7338,47 +7338,49 @@ async function sharePlace(place, lngLat) {
   }
 }
 
+// ===== ZMODYFIKOWANA FUNKCJA handleRouteMapClick =====
 async function handleRouteMapClick(event) {
     if (el.routePanel.hidden || state.routeClickBusy) return;
 
-    // 1. Jeśli oba punkty są już ustawione, ignorujemy kliknięcie w wolną przestrzeń mapy.
-    // Dzięki temu punkt B można przesuwać TYLKO przeciągając jego ikonę.
+    // Jeśli oba punkty są ustawione – dodaj przystanek w klikniętym miejscu
     if (state.routePointA && state.routePointB) {
-      return;
+        addRouteWaypoint(event.lngLat);
+        return;
     }
 
+    // Jeśli kliknięto na linię trasy (gdy trasa już istnieje) – też dodaj przystanek
     if (state.routeCoordinates && isClickOnRoute(event.point)) {
-      addRouteWaypoint(event.lngLat);
-      return;
+        addRouteWaypoint(event.lngLat);
+        return;
     }
 
     state.routeClickBusy = true;
     const point = {
-      lon: event.lngLat.lng,
-      lat: event.lngLat.lat,
-      label: formatCoordinates(event.lngLat.lng, event.lngLat.lat)
+        lon: event.lngLat.lng,
+        lat: event.lngLat.lat,
+        label: formatCoordinates(event.lngLat.lng, event.lngLat.lat)
     };
 
     try {
-      point.label = await reverseGeocodeRoutePoint(point);
+        point.label = await reverseGeocodeRoutePoint(point);
     } catch (error) {
-      console.error(error);
-      show(text[state.language].routeReverseError);
+        console.error(error);
+        show(text[state.language].routeReverseError);
     }
 
     if (state.routeClickStage === "a") {
-      state.routePointA = point;
-      if (el.routeFrom) el.routeFrom.value = point.label;
-      setRouteMarker("a", point);
-      state.routeClickStage = state.routePointB ? "move-b" : "b";
-      updateRouteClickHint();
+        state.routePointA = point;
+        if (el.routeFrom) el.routeFrom.value = point.label;
+        setRouteMarker("a", point);
+        state.routeClickStage = state.routePointB ? "move-b" : "b";
+        updateRouteClickHint();
 
-      if (state.routePointA && state.routePointB) {
-        await calculateRouteFromStoredPoints();
-      }
+        if (state.routePointA && state.routePointB) {
+            await calculateRouteFromStoredPoints();
+        }
 
-      state.routeClickBusy = false;
-      return;
+        state.routeClickBusy = false;
+        return;
     }
 
     state.routePointB = point;
@@ -7388,11 +7390,12 @@ async function handleRouteMapClick(event) {
     updateRouteClickHint();
 
     if (state.routePointA) {
-      await calculateRouteFromStoredPoints();
+        await calculateRouteFromStoredPoints();
     }
 
     state.routeClickBusy = false;
-  }
+}
+// ===== KONIEC ZMODYFIKOWANEJ FUNKCJI =====
 
   function dismissMobileKeyboard() {
     const active = document.activeElement;
@@ -7474,21 +7477,26 @@ async function calculateRouteFromStoredPoints() {
     return `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
   }
 
-  function updateRouteClickHint() {
+// ===== ZMODYFIKOWANA FUNKCJA updateRouteClickHint =====
+function updateRouteClickHint() {
     if (!el.routeClickHint) return;
     const t = text[state.language];
 
     if (state.routeClickStage === "a") {
-      el.routeClickHint.textContent = t.routePickA;
-      el.routeClickHint.classList.remove("is-complete");
+        el.routeClickHint.textContent = t.routePickA;
+        el.routeClickHint.classList.remove("is-complete");
     } else if (state.routeClickStage === "b") {
-      el.routeClickHint.textContent = t.routePickB;
-      el.routeClickHint.classList.remove("is-complete");
+        el.routeClickHint.textContent = t.routePickB;
+        el.routeClickHint.classList.remove("is-complete");
     } else {
-      el.routeClickHint.textContent = t.routePickMoveB;
-      el.routeClickHint.classList.add("is-complete");
+        // Gdy oba punkty są ustawione – komunikat o dodawaniu przystanków
+        el.routeClickHint.textContent = state.language === "pl"
+            ? "Kliknij na mapie, aby dodać przystanek pośredni."
+            : "Click the map to add a waypoint.";
+        el.routeClickHint.classList.add("is-complete");
     }
-  }
+}
+// ===== KONIEC ZMODYFIKOWANEJ FUNKCJI =====
 
   function createRouteMarkerElement(letter, markerClass) {
     const element = document.createElement("div");
