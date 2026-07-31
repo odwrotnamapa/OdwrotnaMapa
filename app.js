@@ -8855,6 +8855,7 @@ function drawRoute(geometry, from, to, mode) {
     if (el.routeShare) el.routeShare.hidden = false;
     if (el.routeExportGpx) el.routeExportGpx.hidden = false;
     if (el.routeImportGpx) el.routeImportGpx.hidden = false;
+    if (el.routeClear) el.routeClear.hidden = false;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = false;
   }
 
@@ -8889,6 +8890,7 @@ function drawRoute(geometry, from, to, mode) {
     if (el.routeShare) el.routeShare.hidden = true;
     if (el.routeExportGpx) el.routeExportGpx.hidden = true;
     if (el.routeImportGpx) el.routeImportGpx.hidden = true;
+    if (el.routeClear) el.routeClear.hidden = true;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
     state.routeWaypoints = [];
     clearWaypointMarkers();
