@@ -854,6 +854,44 @@ body.ui-dark .legend-symbol.osm-buildings {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
+.route-point-input-wrap {
+  position: relative;
+  display: block;
+}
+
+.route-point-input-wrap input {
+  padding-right: 32px;
+}
+
+.route-point-clear {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.route-point-clear:hover,
+.route-point-clear:focus-visible {
+  background: transparent;
+  color: var(--text);
+}
+
+.route-point-clear[hidden] {
+  display: none;
+}
+
 .route-swap {
   grid-column: 2;
   grid-row: 1 / span 2;

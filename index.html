@@ -307,8 +307,13 @@
         <div class="route-points">
           <label class="route-point route-point-from">
             <span id="route-from-label">Punkt A</span>
-            <input id="route-from" type="search" autocomplete="off"
-                     placeholder="Miejsce początkowe" required>
+            <span class="route-point-input-wrap">
+              <input id="route-from" type="search" autocomplete="off"
+                       placeholder="Miejsce początkowe" required>
+              <button id="route-from-clear" class="route-point-clear" type="button"
+                      title="Wyczyść punkt A"
+                      aria-label="Wyczyść punkt A" hidden>×</button>
+            </span>
           </label>
 
           <ol id="route-waypoints-list" class="route-waypoints-list"
@@ -325,8 +330,13 @@
 
           <label class="route-point route-point-to">
             <span id="route-to-label">Punkt B</span>
-            <input id="route-to" type="search" autocomplete="off"
-                     placeholder="Cel podróży" required>
+            <span class="route-point-input-wrap">
+              <input id="route-to" type="search" autocomplete="off"
+                       placeholder="Cel podróży" required>
+              <button id="route-to-clear" class="route-point-clear" type="button"
+                      title="Wyczyść punkt B"
+                      aria-label="Wyczyść punkt B" hidden>×</button>
+            </span>
           </label>
         </div>
 

@@ -1002,6 +1002,8 @@
     routeForm: $("route-form"),
     routeFrom: $("route-from"),
     routeTo: $("route-to"),
+    routeFromClear: $("route-from-clear"),
+    routeToClear: $("route-to-clear"),
     routeFromLabel: $("route-from-label"),
     routeToLabel: $("route-to-label"),
     routeSwap: $("route-swap"),
@@ -1517,6 +1519,18 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   el.searchForm?.addEventListener("submit", search);
   el.searchInput?.addEventListener("input", updateSearchClearButton);
   el.searchClear?.addEventListener("click", clearMainSearch);
+
+  el.routeFrom?.addEventListener("input", () =>
+    updateRouteClearButton(el.routeFrom, el.routeFromClear)
+  );
+  el.routeTo?.addEventListener("input", () =>
+    updateRouteClearButton(el.routeTo, el.routeToClear)
+  );
+  el.routeFromClear?.addEventListener("click", () => clearRoutePoint("a"));
+  el.routeToClear?.addEventListener("click", () => clearRoutePoint("b"));
+  watchRouteInputValue(el.routeFrom, el.routeFromClear);
+  watchRouteInputValue(el.routeTo, el.routeToClear);
+  updateRouteClearButtons();
 
   function updateUI() {
     const t = text[state.language];
@@ -10308,6 +10322,85 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     updateSearchClearButton();
     el.searchInput.focus();
     el.searchInput.dispatchEvent(new Event("focus"));
+  }
+
+  function updateRouteClearButton(input, btn) {
+    if (!btn || !input) return;
+    btn.hidden = !input.value.trim();
+  }
+
+  function updateRouteClearButtons() {
+    updateRouteClearButton(el.routeFrom, el.routeFromClear);
+    updateRouteClearButton(el.routeTo, el.routeToClear);
+  }
+
+  // Śledzi zarówno wpisywanie przez użytkownika, jak i programowe
+  // ustawianie .value (np. po wyborze podpowiedzi albo przeciągnięciu
+  // znacznika), żeby przycisk (x) zawsze odzwierciedlał zawartość pola.
+  function watchRouteInputValue(input, btn) {
+    if (!input || !btn) return;
+    const proto = Object.getPrototypeOf(input);
+    const descriptor = Object.getOwnPropertyDescriptor(proto, "value");
+    if (!descriptor || !descriptor.configurable) return;
+    Object.defineProperty(input, "value", {
+      get() {
+        return descriptor.get.call(this);
+      },
+      set(v) {
+        descriptor.set.call(this, v);
+        btn.hidden = !this.value.trim();
+      },
+      configurable: true
+    });
+  }
+
+  function clearRoutePoint(key) {
+    const isA = key === "a";
+    const input = isA ? el.routeFrom : el.routeTo;
+    const clearBtn = isA ? el.routeFromClear : el.routeToClear;
+
+    if (isA) state.routePointA = null;
+    else state.routePointB = null;
+
+    if (input) input.value = "";
+    removeRouteMarker(key);
+    hideAllAutocomplete();
+    updateRouteClearButton(input, clearBtn);
+
+    state.routeClickStage = !state.routePointA
+      ? "a"
+      : !state.routePointB
+      ? "b"
+      : "move-b";
+    updateRouteClickHint();
+
+    if (state.routeCoordinates) {
+      state.routeCoordinates = null;
+      if (el.routeSummary) el.routeSummary.hidden = true;
+      if (el.routeShare) el.routeShare.hidden = true;
+      if (el.routeExportGpx) el.routeExportGpx.hidden = true;
+      if (el.routeImportGpx) el.routeImportGpx.hidden = true;
+      if (el.routeClear) el.routeClear.hidden = true;
+      if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
+      clearManeuverHighlight();
+      clearRouteDirections();
+
+      if (map.getSource(CONFIG.routing.sourceId)) {
+        map.getSource(CONFIG.routing.sourceId).setData({
+          type: "Feature",
+          properties: {},
+          geometry: { type: "LineString", coordinates: [] }
+        });
+      }
+      if (map.getLayer(CONFIG.routing.casingLayerId)) {
+        map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "none");
+      }
+      if (map.getLayer(CONFIG.routing.lineLayerId)) {
+        map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "none");
+      }
+    }
+
+    input?.focus();
   }
 
   const DISCOVER_CATEGORY_GROUPS = [
