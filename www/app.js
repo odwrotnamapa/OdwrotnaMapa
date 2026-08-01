@@ -56,6 +56,15 @@
         uiPanel: "Tło paneli",
         uiText: "Tekst"
       },
+      customTexturesHeading: "Tekstury (zdjęcie zamiast koloru)",
+      customTexturesHint: "JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.",
+      customTextureLabels: {
+        mapBackground: "Tło mapy",
+        mapWater: "Woda",
+        mapParks: "Zieleń",
+        mapBuildings: "Budynki",
+        uiPanel: "Tło paneli"
+      },
       locate: "Moja lokalizacja", legend: "Legenda", closeLegend: "Zamknij legendę",
       toggle3d: "Widok 3D",
       measureDistance: "Zmierz odległość",
@@ -371,6 +380,15 @@
         uiAccent: "Accent",
         uiPanel: "Panel background",
         uiText: "Text"
+      },
+      customTexturesHeading: "Textures (image instead of color)",
+      customTexturesHint: "JPG or PNG. Water, greenery and buildings will be tiled as a repeating pattern; map background and panel background will be scaled to fill the whole area.",
+      customTextureLabels: {
+        mapBackground: "Map background",
+        mapWater: "Water",
+        mapParks: "Greenery",
+        mapBuildings: "Buildings",
+        uiPanel: "Panel background"
       },
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
       toggle3d: "3D view",
@@ -1145,6 +1163,8 @@
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
     customUiHeading: $("menu-custom-ui-heading"),
+    customTexturesHeading: $("menu-custom-textures-heading"),
+    customTexturesHint: $("menu-custom-textures-hint"),
     customPaletteReset: $("custom-palette-reset"),
     labelsPoiToggle: $("menu-labels-poi"),
     labelsPoiToggleLabel: $("menu-labels-poi-label"),
@@ -1863,6 +1883,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
     if (el.menuLanguageLabel) el.menuLanguageLabel.textContent = t.menuLanguage;
     if (el.clearMapLabel) el.clearMapLabel.textContent = t.clearMap;
+    if (el.exportPngButton) {
+      el.exportPngButton.title = t.exportPng;
+      el.exportPngButton.setAttribute("aria-label", t.exportPng);
+    }
     if (el.exportPngLabel) el.exportPngLabel.textContent = t.exportPng;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
     if (el.menuBackupLabel) el.menuBackupLabel.textContent = t.menuBackup;
@@ -2030,6 +2054,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.menuLanguageSelect) el.menuLanguageSelect.value = state.language;
     if (el.customMapHeading) el.customMapHeading.textContent = t.customMapColorsHeading;
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
+    if (el.customTexturesHeading) el.customTexturesHeading.textContent = t.customTexturesHeading;
+    if (el.customTexturesHint) el.customTexturesHint.textContent = t.customTexturesHint;
     if (el.customPaletteReset) el.customPaletteReset.textContent = t.customColorReset;
     if (el.labelsPoiToggleLabel) el.labelsPoiToggleLabel.textContent = t.labelsPoi;
     if (el.labelsRoadsToggleLabel) el.labelsRoadsToggleLabel.textContent = t.labelsRoads;
@@ -2041,6 +2067,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.labelsBoundariesToggleLabel) el.labelsBoundariesToggleLabel.textContent = t.labelsBoundaries;
     for (const [key, label] of Object.entries(t.customColorLabels)) {
       const labelEl = $(`custom-color-${key}-label`);
+      if (labelEl) labelEl.textContent = label;
+    }
+    for (const [key, label] of Object.entries(t.customTextureLabels)) {
+      const labelEl = $(`custom-texture-${key}-label`);
       if (labelEl) labelEl.textContent = label;
     }
     document.body.classList.toggle(
