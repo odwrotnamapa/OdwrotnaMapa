@@ -707,7 +707,7 @@
 
         <label class="menu-backup-scope-item">
           <input type="checkbox" id="menu-backup-scope-colors" checked>
-          <span id="menu-backup-scope-colors-label">Kolory</span>
+          <span id="menu-backup-scope-colors-label">Kolory i tekstury</span>
         </label>
       </div>
     </aside>
@@ -842,7 +842,49 @@
               <input type="color" id="custom-color-uiText" value="#18212b">
             </label>
           </div>
-          <button type="button" id="custom-palette-reset">Resetuj kolory</button>
+          <p class="menu-custom-palette-heading" id="menu-custom-textures-heading">Tekstury (zdjęcie zamiast koloru)</p>
+          <p class="menu-custom-palette-hint" id="menu-custom-textures-hint">
+            JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.
+          </p>
+          <div class="menu-custom-palette-grid menu-custom-palette-grid--textures">
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapBackground-label">Tło mapy</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapBackground">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapBackground-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapWater-label">Woda</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapWater">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapWater-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapParks-label">Zieleń</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapParks">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapParks-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapBuildings-label">Budynki</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapBuildings">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapBuildings-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-uiPanel-label">Tło paneli</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-uiPanel">
+                <button type="button" class="custom-texture-clear" id="custom-texture-uiPanel-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" id="custom-palette-reset">Resetuj kolory i tekstury</button>
         </div>
 
         <label class="menu-setting">

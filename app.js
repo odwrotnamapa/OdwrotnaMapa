@@ -23,7 +23,7 @@
       styles: { default: "Domyślna", satellite: "Satelitarna", inverted: "Odwrotna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
       customUiColorsHeading: "Kolory interfejsu",
-      customColorReset: "Resetuj kolory",
+      customColorReset: "Resetuj kolory i tekstury",
       customLabelsHeading: "Etykiety na mapie",
       labelsPoi: "Punkty (sklepy, usługi)",
       labelsRoads: "Nazwy ulic",
@@ -257,7 +257,7 @@
       backupSelectAll: "Zaznacz wszystko",
       backupDeselectAll: "Odznacz wszystko",
       backupScopeFavorites: "Ulubione miejsca",
-      backupScopeColors: "Kolory",
+      backupScopeColors: "Kolory i tekstury",
       colorsImported: "Zaimportowano kolory.",
       backupNothingSelected: "Zaznacz przynajmniej jedną opcję.",
       backupExportError: "Nie udało się wyeksportować pliku.",
@@ -339,7 +339,7 @@
       styles: { default: "Default", satellite: "Satellite", inverted: "Inverted", custom: "Custom" },
       customMapColorsHeading: "Map colors",
       customUiColorsHeading: "Interface colors",
-      customColorReset: "Reset colors",
+      customColorReset: "Reset colors & textures",
       customLabelsHeading: "Map labels",
       labelsPoi: "Points (shops, services)",
       labelsRoads: "Street names",
@@ -573,7 +573,7 @@
       backupSelectAll: "Select all",
       backupDeselectAll: "Deselect all",
       backupScopeFavorites: "Favorite places",
-      backupScopeColors: "Colors",
+      backupScopeColors: "Colors & textures",
       colorsImported: "Colors imported.",
       backupNothingSelected: "Select at least one option.",
       backupExportError: "Could not export the file.",
@@ -663,6 +663,228 @@
     uiPanel: "#ffffff",
     uiText: "#18212b"
   };
+
+  // ---------------------------------------------------------------------
+  // Tekstury (zdjęcia zamiast koloru) dla motywu "custom".
+  //
+  // Warstwy mapy (MapLibre GL, wektorowe kafelki) nie pozwalają po prostu
+  // "wkleić zdjęcia" jako wypełnienia - trzeba zarejestrować obraz przez
+  // map.addImage() i użyć fill-pattern/background-pattern zamiast
+  // fill-color/background-color. Taki wzór jest kafelkowany (powtarzany),
+  // więc nadaje się do tekstur wody/zieleni/budynków/tła mapy, ale nie do
+  // wklejenia jednego dużego, nie powtarzalnego zdjęcia na całą mapę.
+  //
+  // Tło paneli UI to zwykły CSS, więc tam obraz jest dopasowywany przez
+  // background-size: cover (patrz applyUiPanelTexture / style.css).
+  // ---------------------------------------------------------------------
+
+  const MAP_TEXTURE_KEYS = ["mapBackground", "mapWater", "mapParks", "mapBuildings"];
+  const TEXTURE_FIELDS = [...MAP_TEXTURE_KEYS, "uiPanel"];
+  const TEXTURE_IMAGE_PREFIX = "custom-texture-";
+  const TEXTURE_DB_NAME = "odwrotnamapa-textures";
+  const TEXTURE_STORE = "textures";
+  const TEXTURE_MAX_DIMENSION = 1024;
+
+  function textureImageId(key) {
+    return TEXTURE_IMAGE_PREFIX + key;
+  }
+
+  function openTextureDB() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) {
+        reject(new Error("IndexedDB niedostępne"));
+        return;
+      }
+      const request = indexedDB.open(TEXTURE_DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        if (!request.result.objectStoreNames.contains(TEXTURE_STORE)) {
+          request.result.createObjectStore(TEXTURE_STORE);
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function idbGetAllTextures() {
+    try {
+      const db = await openTextureDB();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction(TEXTURE_STORE, "readonly");
+        const store = tx.objectStore(TEXTURE_STORE);
+        const result = {};
+        const cursorRequest = store.openCursor();
+        cursorRequest.onsuccess = event => {
+          const cursor = event.target.result;
+          if (cursor) {
+            result[cursor.key] = cursor.value;
+            cursor.continue();
+          } else {
+            resolve(result);
+          }
+        };
+        cursorRequest.onerror = () => reject(cursorRequest.error);
+      });
+    } catch (_) {
+      return {};
+    }
+  }
+
+  async function idbSetTexture(key, dataUrl) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(TEXTURE_STORE, "readwrite");
+        tx.objectStore(TEXTURE_STORE).put(dataUrl, key);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się zapisać tekstury:", error);
+    }
+  }
+
+  async function idbDeleteTexture(key) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(TEXTURE_STORE, "readwrite");
+        tx.objectStore(TEXTURE_STORE).delete(key);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się usunąć tekstury:", error);
+    }
+  }
+
+  // Zmniejsza wgrany JPG/PNG do rozsądnego rozmiaru (wzory kafelkowane na
+  // mapie i tak są powtarzane, więc olbrzymie zdjęcie tylko spowalniałoby
+  // renderowanie i zajmowało miejsce w IndexedDB).
+  function resizeImageToDataUrl(file, maxDimension = TEXTURE_MAX_DIMENSION, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(reader.error || new Error("Błąd odczytu pliku"));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error("Nieprawidłowy plik graficzny"));
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxDimension || height > maxDimension) {
+            const scale = maxDimension / Math.max(width, height);
+            width = Math.max(1, Math.round(width * scale));
+            height = Math.max(1, Math.round(height * scale));
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
+          try {
+            resolve(canvas.toDataURL(mime, quality));
+          } catch (error) {
+            reject(error);
+          }
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function loadHtmlImage(dataUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("Nie udało się wczytać obrazu tekstury"));
+      img.src = dataUrl;
+    });
+  }
+
+  // Rejestruje obraz w MapLibre pod stałym id, żeby warstwy mogły się do
+  // niego odwoływać przez fill-pattern / background-pattern.
+  async function registerTextureImage(key, dataUrl) {
+    if (!map || !dataUrl) return;
+    const imageId = textureImageId(key);
+    try {
+      const img = await loadHtmlImage(dataUrl);
+      const width = img.naturalWidth || img.width;
+      const height = img.naturalHeight || img.height;
+
+      // WebGL i canvas mają odwrócone układy współrzędnych w pionie
+      // (WebGL czyta teksturę od dołu, canvas rysuje od góry), przez co
+      // obrazy dodane do MapLibre jako fill-pattern/background-pattern
+      // renderują się "do góry nogami". Odwracamy obraz przed
+      // zarejestrowaniem, żeby na mapie wyglądał tak jak w oryginalnym
+      // pliku.
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      // MapLibre nie tylko odwraca teksturę w pionie, ale w praktyce
+      // renderuje ją obróconą o 180 stopni (pion + poziom), dlatego
+      // kompensujemy oba kierunki naraz zamiast samego pionu.
+      ctx.translate(width, height);
+      ctx.scale(-1, -1);
+      ctx.drawImage(img, 0, 0, width, height);
+      const imageData = ctx.getImageData(0, 0, width, height);
+
+      if (map.hasImage(imageId)) map.removeImage(imageId);
+      map.addImage(imageId, imageData);
+    } catch (error) {
+      console.error("Nie udało się zarejestrować tekstury mapy:", error);
+    }
+  }
+
+  function unregisterTextureImage(key) {
+    if (!map) return;
+    const imageId = textureImageId(key);
+    try {
+      if (map.hasImage(imageId)) map.removeImage(imageId);
+    } catch (_) {}
+  }
+
+  // Wczytuje wszystkie zapisane tekstury z IndexedDB i rejestruje w mapie
+  // te, które dotyczą warstw mapy (nie UI). Wołane raz, po starcie mapy.
+  async function initCustomTextures() {
+    state.customTextures = await idbGetAllTextures();
+    for (const key of MAP_TEXTURE_KEYS) {
+      if (state.customTextures[key]) {
+        await registerTextureImage(key, state.customTextures[key]);
+      }
+    }
+  }
+
+  // Jeśli dla danego klucza palety istnieje tekstura, podpina ją pod
+  // warstwę zamiast koloru. Zwraca true, jeśli tekstura została użyta.
+  function applyTextureIfPresent(layer, paletteKey, paintProperty) {
+    if (!MAP_TEXTURE_KEYS.includes(paletteKey)) return false;
+    const dataUrl = state.customTextures?.[paletteKey];
+    if (!dataUrl) return false;
+
+    const imageId = textureImageId(paletteKey);
+    if (!map.hasImage(imageId)) return false;
+
+    try {
+      map.setPaintProperty(layer.id, paintProperty, imageId);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // Tło paneli UI to zwykły CSS (--panel-image, patrz style.css), a nie
+  // warstwa MapLibre, więc obsługujemy je osobno od tekstur mapy.
+  function applyUiPanelTexture() {
+    const root = document.documentElement.style;
+    const dataUrl = state.customTextures?.uiPanel;
+    if (state.theme === "custom" && dataUrl) {
+      root.setProperty("--panel-image", `url(${dataUrl})`);
+    } else {
+      root.removeProperty("--panel-image");
+    }
+  }
 
   // Warstwy etykiet ze stylu OpenFreeMap Liberty, pogrupowane pod
   // przełączniki widoczności w menu. Jeśli styl mapy się kiedyś
@@ -783,6 +1005,12 @@
         : "default";
     })(),
     customPalette: readCustomPalette(),
+    // Wypełniane asynchronicznie przez initCustomTextures() po starcie mapy
+    // (dane obrazów trzymamy w IndexedDB, nie w localStorage - mogą być
+    // zbyt duże). Klucze pokrywają się z CUSTOM_PALETTE_FIELDS, które mają
+    // sens jako tekstura: mapBackground, mapWater, mapParks, mapBuildings,
+    // uiPanel.
+    customTextures: {},
     labelVisibility: readLabelVisibility(),
     timer: null,
     originalPaint: new Map(),
@@ -1086,10 +1314,11 @@ map.on('rotate', updateLogoRotation);
     console.error("MapLibre:", event.error || event);
   });
 
-  map.on("load", () => {
+  map.on("load", async () => {
     ensureSatellite();
     ensureRouteLayers();
     cacheOriginalPaint();
+    await initCustomTextures();
     applyTheme(state.theme);
     applyLanguageAfterStartup();
     loadSharedRouteFromUrl();
@@ -1159,12 +1388,67 @@ map.on('rotate', updateLogoRotation);
       });
     }
 
-    el.customPaletteReset?.addEventListener("click", () => {
+    el.customPaletteReset?.addEventListener("click", async () => {
       state.customPalette = { ...DEFAULT_CUSTOM_PALETTE };
       saveCustomPalette(state.customPalette);
       syncCustomPaletteInputs();
+
+      for (const key of TEXTURE_FIELDS) {
+        state.customTextures[key] = null;
+        await idbDeleteTexture(key);
+        if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
+      }
+
       if (state.theme === "custom") applyTheme(state.theme);
     });
+  }
+
+  initializeTextureEditor();
+
+  function initializeTextureEditor() {
+    for (const key of TEXTURE_FIELDS) {
+      const input = $(`custom-texture-${key}`);
+      const clearBtn = $(`custom-texture-${key}-clear`);
+
+      input?.addEventListener("change", async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+
+        if (!/^image\/(png|jpeg)$/.test(file.type)) {
+          alert("Wybierz plik w formacie JPG lub PNG.");
+          input.value = "";
+          return;
+        }
+
+        try {
+          const dataUrl = await resizeImageToDataUrl(file);
+          state.customTextures[key] = dataUrl;
+          await idbSetTexture(key, dataUrl);
+
+          if (MAP_TEXTURE_KEYS.includes(key)) {
+            await registerTextureImage(key, dataUrl);
+          }
+
+          if (state.theme === "custom") applyTheme(state.theme);
+        } catch (error) {
+          console.error("Nie udało się wczytać tekstury:", error);
+          alert("Nie udało się wczytać tego obrazu.");
+        } finally {
+          input.value = "";
+        }
+      });
+
+      clearBtn?.addEventListener("click", async () => {
+        state.customTextures[key] = null;
+        await idbDeleteTexture(key);
+
+        if (MAP_TEXTURE_KEYS.includes(key)) {
+          unregisterTextureImage(key);
+        }
+
+        if (state.theme === "custom") applyTheme(state.theme);
+      });
+    }
   }
 
   initializeLabelVisibilityToggles();
@@ -2327,12 +2611,19 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
 
     try {
       if (layer.type === "background") {
+        if (applyTextureIfPresent(layer, "mapBackground", "background-pattern")) return;
         map.setPaintProperty(layer.id, "background-color", palette.mapBackground);
         return;
       }
 
       if (layer.type === "fill") {
         const key = CUSTOM_FILL_LAYER_MAP[id] || "mapBackground";
+
+        if (applyTextureIfPresent(layer, key, "fill-pattern")) {
+          map.setPaintProperty(layer.id, "fill-opacity", key === "mapBackground" ? 1 : 0.92);
+          return;
+        }
+
         const color = palette[key];
 
         map.setPaintProperty(layer.id, "fill-color", color);
@@ -2393,10 +2684,12 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       "--muted",
       `color-mix(in srgb, ${palette.uiText} 65%, transparent)`
     );
+    applyUiPanelTexture();
   }
 
   function clearCustomUiColors() {
     const root = document.documentElement.style;
+    root.removeProperty("--panel-image");
     root.removeProperty("--accent");
     root.removeProperty("--panel");
     root.removeProperty("--panel-muted");
@@ -9540,6 +9833,13 @@ function drawRoute(geometry, from, to, mode) {
 
     if (scopes.includes("colors")) {
       payload.customPalette = { ...state.customPalette };
+
+      const textureEntries = Object.entries(state.customTextures || {}).filter(
+        ([, dataUrl]) => Boolean(dataUrl)
+      );
+      if (textureEntries.length > 0) {
+        payload.customTextures = Object.fromEntries(textureEntries);
+      }
     }
 
     const json = JSON.stringify(payload, null, 2);
@@ -9680,8 +9980,32 @@ function drawRoute(geometry, from, to, mode) {
         };
         saveCustomPalette(state.customPalette);
         syncCustomPaletteInputs();
-        if (state.theme === "custom") applyTheme(state.theme);
         colorsImportedFlag = true;
+      }
+
+      if (
+        scopes.includes("colors") &&
+        raw?.customTextures &&
+        typeof raw.customTextures === "object"
+      ) {
+        for (const key of TEXTURE_FIELDS) {
+          const dataUrl = raw.customTextures[key];
+          if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:image/")) {
+            continue;
+          }
+
+          state.customTextures[key] = dataUrl;
+          await idbSetTexture(key, dataUrl);
+
+          if (MAP_TEXTURE_KEYS.includes(key)) {
+            await registerTextureImage(key, dataUrl);
+          }
+        }
+        colorsImportedFlag = true;
+      }
+
+      if (colorsImportedFlag && state.theme === "custom") {
+        applyTheme(state.theme);
       }
 
       const messages = [];
