@@ -15,8 +15,12 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
   <link rel="stylesheet" href="https://unpkg.com/mapillary-js@4.1.2/dist/mapillary.css">
-  <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=20260728150000">
+  <link rel="icon" href="assets/favicon.svg?v=4" type="image/svg+xml">
+<link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="assets/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="manifest" href="assets/site.webmanifest?v=4" />
+  <link rel="stylesheet" href="style.css?v=20260731190000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -303,28 +307,47 @@
         <div class="route-points">
           <label class="route-point route-point-from">
             <span id="route-from-label">Punkt A</span>
-            <input id="route-from" type="search" autocomplete="off"
-                     placeholder="Miejsce początkowe" required>
+            <span class="route-point-input-wrap">
+              <input id="route-from" type="search" autocomplete="off"
+                       placeholder="Miejsce początkowe" required>
+              <button id="route-from-clear" class="route-point-clear" type="button"
+                      title="Wyczyść punkt A"
+                      aria-label="Wyczyść punkt A" hidden>×</button>
+            </span>
           </label>
+
+          <ol id="route-waypoints-list" class="route-waypoints-list"
+              aria-label="Przystanki pośrednie"></ol>
+
+          <button id="route-add-waypoint" class="route-add-waypoint" type="button"
+                  aria-label="Dodaj przystanek">
+            <span class="route-add-waypoint-icon" aria-hidden="true">+</span>
+            <span id="route-add-waypoint-label">Dodaj przystanek</span>
+          </button>
 
           <button id="route-swap" class="route-swap" type="button"
                   title="Zamień punkty" aria-label="Zamień punkty">⇅</button>
 
           <label class="route-point route-point-to">
             <span id="route-to-label">Punkt B</span>
-            <input id="route-to" type="search" autocomplete="off"
-                     placeholder="Cel podróży" required>
+            <span class="route-point-input-wrap">
+              <input id="route-to" type="search" autocomplete="off"
+                       placeholder="Cel podróży" required>
+              <button id="route-to-clear" class="route-point-clear" type="button"
+                      title="Wyczyść punkt B"
+                      aria-label="Wyczyść punkt B" hidden>×</button>
+            </span>
           </label>
         </div>
 
         <div class="route-actions">
-          <button id="route-submit" class="route-primary" type="submit">
-            Wyznacz trasę
-          </button>
-          <button id="route-clear" class="route-secondary" type="button">
+          <button id="route-clear" class="route-secondary" type="button" hidden>
             Wyczyść
           </button>
+
         </div>
+
+
       </form>
 
       <div id="route-summary" class="route-summary" hidden>
@@ -340,11 +363,20 @@
           <strong id="route-arrival">—</strong>
           <span id="route-arrival-label">Przyjazd</span>
         </div>
+   
+    <button id="route-export-gpx" class="route-share" type="button" hidden>
+        Eksportuj
+    </button>
+    <button id="route-import-gpx" class="route-share" type="button" hidden>
+        Importuj
+    </button>
+   <button id="route-share" class="route-share" type="button" hidden>
+        Udostępnij
+      </button>
+    <input id="route-import-gpx-input" type="file" accept=".gpx" hidden>
       </div>
 
-      <button id="route-share" class="route-share" type="button" hidden>
-        Udostępnij trasę
-      </button>
+
 
       <p id="route-waypoint-note" class="route-waypoint-note" hidden>
         Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.
@@ -952,6 +984,6 @@
   <script src="src/services/place-resolver-service.js"></script>
   <script src="src/services/place-service.js"></script>
 
-  <script src="app.js?v=20260729120000"></script>
+  <script src="app.js?v=20260731190000"></script>
 </body>
 </html>

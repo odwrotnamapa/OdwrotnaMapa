@@ -125,6 +125,11 @@
       routeSwap: "Zamień punkty",
       routeSubmit: "Wyznacz trasę",
       routeClear: "Wyczyść",
+      routeExportGpx: "Eksportuj",
+      routeImportGpx: "Importuj",
+      routeGpxExported: "Trasa została wyeksportowana jako GPX.",
+      routeGpxImported: "Trasa została zaimportowana z pliku GPX.",
+      routeGpxImportError: "Nie udało się zaimportować pliku GPX.",
       routeDistance: "Dystans",
       routeDuration: "Czas",
       routeNote: "Trasa jest obliczana na podstawie danych OpenStreetMap.",
@@ -148,7 +153,7 @@
       routeDirections: "Wskazówki",
       routeSteps: "kroków",
       routeArrival: "Przyjazd",
-      routeShare: "Udostępnij trasę",
+      routeShare: "Udostępnij",
       routeShared: "Link do trasy został skopiowany.",
       placeShared: "Link do miejsca został skopiowany.",
       shareUnavailable: "Udostępnianie wymaga połączenia HTTPS.",
@@ -156,6 +161,9 @@
       routeWaypointNote: "Kliknij linię trasy, aby dodać punkt pośredni. Punkt można przeciągać.",
       routeRoundaboutExit: exit => `Na rondzie wybierz ${exit}. zjazd.`,
       routeWaypoint: number => `Punkt ${number}`,
+      routeAddWaypoint: "Dodaj przystanek",
+      routeWaypointStopPlaceholder: number => `Przystanek ${number}`,
+      routeRemoveWaypoint: number => `Usuń przystanek ${number}`,
       autocompleteNoResults: "Brak wyników",
       autocompleteLoading: "Szukam…",
       autocompleteError: "Nie udało się pobrać podpowiedzi.",
@@ -433,6 +441,11 @@
       routeSwap: "Swap points",
       routeSubmit: "Plan route",
       routeClear: "Clear",
+      routeExportGpx: "Export",
+      routeImportGpx: "Import",
+      routeGpxExported: "Route exported as GPX.",
+      routeGpxImported: "Route imported from GPX file.",
+      routeGpxImportError: "Could not import GPX file.",
       routeDistance: "Distance",
       routeDuration: "Time",
       routeNote: "The route is calculated using OpenStreetMap data.",
@@ -456,7 +469,7 @@
       routeDirections: "Directions",
       routeSteps: "steps",
       routeArrival: "Arrival",
-      routeShare: "Share route",
+      routeShare: "Share",
       routeShared: "The route link was copied.",
       placeShared: "The place link was copied.",
       shareUnavailable: "Sharing requires an HTTPS connection.",
@@ -464,6 +477,9 @@
       routeWaypointNote: "Click the route line to add a waypoint. You can drag the point.",
       routeRoundaboutExit: exit => `At the roundabout, take exit ${exit}.`,
       routeWaypoint: number => `Waypoint ${number}`,
+      routeAddWaypoint: "Add stop",
+      routeWaypointStopPlaceholder: number => `Stop ${number}`,
+      routeRemoveWaypoint: number => `Remove stop ${number}`,
       autocompleteNoResults: "No results",
       autocompleteLoading: "Searching…",
       autocompleteError: "Suggestions could not be loaded.",
@@ -751,6 +767,10 @@
     return isPolish ? "pl" : "en";
   }
 
+  // Wypełniane przez initializeAutocomplete(); pozwala podpiąć podpowiedzi
+  // wyszukiwania do dynamicznie tworzonych pól przystanków trasy.
+  let registerRouteWaypointAutocomplete = null;
+
   const state = {
     language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, ""))
       ? safeGet(CONFIG.storageKeys.language, "")
@@ -777,6 +797,7 @@
     routeManeuvers: [],
     routeWaypoints: [],
     routeWaypointMarkers: [],
+    routeWaypointSeq: 0,
     selectedManeuverIndex: null,
     placePopup: null,
     placePanelLngLat: null,
@@ -981,6 +1002,8 @@
     routeForm: $("route-form"),
     routeFrom: $("route-from"),
     routeTo: $("route-to"),
+    routeFromClear: $("route-from-clear"),
+    routeToClear: $("route-to-clear"),
     routeFromLabel: $("route-from-label"),
     routeToLabel: $("route-to-label"),
     routeSwap: $("route-swap"),
@@ -995,7 +1018,13 @@
     routeArrival: $("route-arrival"),
     routeArrivalLabel: $("route-arrival-label"),
     routeShare: $("route-share"),
+    routeExportGpx: $("route-export-gpx"),
+    routeImportGpx: $("route-import-gpx"),
+    routeImportGpxInput: $("route-import-gpx-input"),
     routeWaypointNote: $("route-waypoint-note"),
+    routeWaypointsList: $("route-waypoints-list"),
+    routeAddWaypoint: $("route-add-waypoint"),
+    routeAddWaypointLabel: $("route-add-waypoint-label"),
     routeNote: $("route-note"),
     routeModeLabel: $("route-mode-label"),
     routeClickHint: $("route-click-hint"),
@@ -1439,11 +1468,31 @@ map.on('rotate', updateLogoRotation);
 
   el.routeClose?.addEventListener("click", closeRoute);
   el.routeSwap?.addEventListener("click", swapRoutePoints);
+  el.routeAddWaypoint?.addEventListener("click", () => {
+    addRouteWaypointField();
+  });
   el.routeClear?.addEventListener("click", () => {
     clearRoute();
   });
   el.routeForm?.addEventListener("submit", planRoute);
   el.routeShare?.addEventListener("click", shareRoute);
+
+// Eksport GPX
+    el.routeExportGpx?.addEventListener("click", exportRouteAsGpx);
+    document.getElementById("export-gpx-button")?.addEventListener("click", exportRouteAsGPX);
+
+// Import GPX – kliknięcie w przycisk otwiera okno wyboru pliku
+    el.routeImportGpx?.addEventListener("click", () => {
+    el.routeImportGpxInput?.click();
+});
+
+// Obsługa wybrania pliku
+el.routeImportGpxInput?.addEventListener("change", (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        importRouteFromGpx(file);
+    }
+});
   for (const modeInput of document.querySelectorAll('input[name="route-mode"]')) {
     modeInput.addEventListener("change", handleRouteModeChange);
   }
@@ -1470,6 +1519,18 @@ map.on('rotate', updateLogoRotation);
   el.searchForm?.addEventListener("submit", search);
   el.searchInput?.addEventListener("input", updateSearchClearButton);
   el.searchClear?.addEventListener("click", clearMainSearch);
+
+  el.routeFrom?.addEventListener("input", () =>
+    updateRouteClearButton(el.routeFrom, el.routeFromClear)
+  );
+  el.routeTo?.addEventListener("input", () =>
+    updateRouteClearButton(el.routeTo, el.routeToClear)
+  );
+  el.routeFromClear?.addEventListener("click", () => clearRoutePoint("a"));
+  el.routeToClear?.addEventListener("click", () => clearRoutePoint("b"));
+  watchRouteInputValue(el.routeFrom, el.routeFromClear);
+  watchRouteInputValue(el.routeTo, el.routeToClear);
+  updateRouteClearButtons();
 
   function updateUI() {
     const t = text[state.language];
@@ -1654,7 +1715,12 @@ map.on('rotate', updateLogoRotation);
     if (el.routeDurationLabel) el.routeDurationLabel.textContent = t.routeDuration;
     if (el.routeArrivalLabel) el.routeArrivalLabel.textContent = t.routeArrival;
     if (el.routeShare) el.routeShare.textContent = t.routeShare;
+    if (el.routeExportGpx) el.routeExportGpx.textContent = t.routeExportGpx;
+    if (el.routeImportGpx) el.routeImportGpx.textContent = t.routeImportGpx;
     if (el.routeWaypointNote) el.routeWaypointNote.textContent = t.routeWaypointNote;
+    if (el.routeAddWaypointLabel) el.routeAddWaypointLabel.textContent = t.routeAddWaypoint;
+    el.routeAddWaypoint?.setAttribute("aria-label", t.routeAddWaypoint);
+    renderRouteWaypoints();
     if (el.routeNote) el.routeNote.textContent = t.routeNote;
     updateRouteClickHint();
     if (el.routeDirectionsTitle) el.routeDirectionsTitle.textContent = t.routeDirections;
@@ -2606,6 +2672,11 @@ function applyLanguage(language) {
     let results = [];
     let activeIndex = -1;
 
+    const isRoutePointInput = input =>
+      input === el.routeFrom ||
+      input === el.routeTo ||
+      Boolean(input?.classList?.contains("route-waypoint-input"));
+
     const controllers = [
       {
         input: el.searchInput,
@@ -2757,8 +2828,7 @@ function applyLanguage(language) {
         ];
       }
 
-      const isRouteInput =
-        activeInput === el.routeFrom || activeInput === el.routeTo;
+      const isRouteInput = isRoutePointInput(activeInput);
 
       if (isRouteInput) {
         items = [{ __myLocationOption: true }, ...items];
@@ -2984,7 +3054,7 @@ function applyLanguage(language) {
       buttons[activeIndex].scrollIntoView({ block: "nearest" });
     };
 
-    for (const controller of controllers) {
+    const wireController = controller => {
       const { input, onSelect } = controller;
 
       input.addEventListener("input", () => {
@@ -3017,10 +3087,7 @@ function applyLanguage(language) {
           return;
         }
 
-        if (
-          (input === el.routeFrom || input === el.routeTo) &&
-          !input.value.trim()
-        ) {
+        if (isRoutePointInput(input) && !input.value.trim()) {
           render([]);
           return;
         }
@@ -3050,7 +3117,35 @@ function applyLanguage(language) {
           hide();
         }
       });
+    };
+
+    for (const controller of controllers) {
+      wireController(controller);
     }
+
+    // Pozwala renderRouteWaypoints() podpiąć podpowiedzi wyszukiwania do
+    // pól przystanków tworzonych dynamicznie, już po inicjalizacji.
+    registerRouteWaypointAutocomplete = (input, waypointId) => {
+      wireController({
+        input,
+        onSelect: result => {
+          const point = resultToRoutePoint(result);
+          const index = state.routeWaypoints.findIndex(
+            item => item.id === waypointId
+          );
+          if (index === -1) return;
+
+          state.routeWaypoints[index] = { ...point, id: waypointId };
+          input.value = point.label;
+          hide();
+          refreshWaypointMarkers();
+
+          if (state.routePointA && state.routePointB) {
+            calculateRouteFromStoredPoints();
+          }
+        }
+      });
+    };
 
     document.addEventListener("pointerdown", event => {
       if (
@@ -4499,26 +4594,31 @@ function closeRoute() {
     document.body.classList.remove("map-picking-route");
   }
 
-  function swapRoutePoints() {
+function swapRoutePoints() {
     const value = el.routeFrom.value;
-    if (el.routeFrom) el.routeFrom.value = el.routeTo.value;
-    if (el.routeTo) el.routeTo.value = value;
+    el.routeFrom.value = el.routeTo.value;
+    el.routeTo.value = value;
 
     const point = state.routePointA;
     state.routePointA = state.routePointB;
     state.routePointB = point;
 
+    // ODWRACA KOLEJNOŚĆ PRZYSTANKÓW
+    state.routeWaypoints.reverse();
+
     refreshRouteMarkers();
+    refreshWaypointMarkers();
+    renderRouteWaypoints();
 
     if (state.routePointA && state.routePointB) {
-      calculateRouteFromStoredPoints();
+        calculateRouteFromStoredPoints();
     }
 
     state.routeClickStage = state.routePointA
-      ? (state.routePointB ? "move-b" : "b")
-      : "a";
+        ? (state.routePointB ? "move-b" : "b")
+        : "a";
     updateRouteClickHint();
-  }
+}
 
 
   function cancelMapLongPress() {
@@ -4967,7 +5067,7 @@ function closeRoute() {
     }
   }
 
-  async function handleMapClick(event) {
+async function handleMapClick(event) {
     if (state.mapLongPressTriggered) {
       state.mapLongPressTriggered = false;
       return;
@@ -4979,41 +5079,29 @@ function closeRoute() {
 
     closeMapContextMenu();
     removeContextPointMarker();
+    
+    // Zwijamy panele i natychmiast odświeżamy wymiary mapy,
+    // aby kliknięcie nie miało przesunięcia w pikselach
     collapseMobilePanels();
+    if (map && typeof map.resize === "function") {
+      map.resize();
+    }
 
     if (state.measureModeActive) {
       addMeasurePoint(event.lngLat);
       return;
     }
 
-    if (!el.routePanel.hidden) {
-      const routeStageBeforeClick =
-        state.routeClickStage;
-
+if (!el.routePanel.hidden) {
+      // 1. Obsługujemy kliknięcie na mapie (stawianie punktu A, punktu B lub przesuwanie)
       await handleRouteMapClick(event);
 
-      const routeStageAfterClick =
-        state.routeClickStage;
-
-      const isPointBInteraction =
-        routeStageBeforeClick === "b" ||
-        routeStageBeforeClick === "move-b" ||
-        routeStageAfterClick === "b" ||
-        routeStageAfterClick === "move-b";
-
-      // Panel pozostaje otwarty przy pierwszym wyborze B
-      // oraz przy każdym późniejszym przesuwaniu punktu B.
-      if (isPointBInteraction) {
-        expandMobileRoutePanel();
-      } else {
-        collapseMobileRoutePanel();
-      }
+      // 2. Niezależnie od tego, czy to pierwsze, czy kolejne kliknięcie:
+      // ZWIJAMY PANEL, aby odsłonić mapę
+      collapseMobileRoutePanel();
 
       return;
     }
-
-    // Zwykłe kliknięcie pustego obszaru mapy nie wykonuje
-    // reverse geocodingu i nie otwiera panelu Informacje.
   }
 
 
@@ -5175,6 +5263,11 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
   function showSelectedPlaceMarker(lngLat) {
     if (!lngLat) return;
 
+    // Resize map canvas to account for any DOM layout shifts (e.g., geolocation UI)
+    if (typeof map.resize === "function") {
+      map.resize();
+    }
+
     if (!state.selectedPlaceMarker) {
       state.selectedPlaceMarker = new maplibregl.Marker({
         element: createSelectedPlaceMarkerElement(),
@@ -5237,8 +5330,20 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
     return element;
   }
 
-  function showUserLocationMarker(lngLat) {
+function showUserLocationMarker(lngLat) {
     if (!lngLat) return;
+
+    // Przeliczenie dowolnego formatu na czystą tablicę [lon, lat]
+    let coords;
+    if (Array.isArray(lngLat)) {
+      coords = [Number(lngLat[0]), Number(lngLat[1])];
+    } else if (typeof lngLat === "object") {
+      const lng = lngLat.lng ?? lngLat.lon;
+      const lat = lngLat.lat;
+      coords = [Number(lng), Number(lat)];
+    }
+
+    if (!coords || isNaN(coords[0]) || isNaN(coords[1])) return;
 
     if (!state.userLocationMarker) {
       state.userLocationMarker = new maplibregl.Marker({
@@ -5247,8 +5352,9 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
       });
     }
 
+    // Ustawiamy pozycję bezpośrednio z tablicy
     state.userLocationMarker
-      .setLngLat(lngLat)
+      .setLngLat(coords)
       .addTo(map);
   }
 
@@ -5472,12 +5578,15 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
         state.placeRequestController.signal
       );
 
-// Dopisanie nazwy miejsca do adresu URL (?q=...)
+      // Dopisanie nazwy miejsca do adresu URL (?q=...) i współrzędnych (?place=, ?lat=, ?lng=)
       if (place && !state.isRestoringFromPopstate) {
         const title = place.name || place.display_name?.split(',')[0] || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(place) : null);
         if (title) {
           const url = new URL(window.location.href);
           url.searchParams.set("q", title);
+          url.searchParams.set("place", `${event.lngLat.lat},${event.lngLat.lng}`);
+          url.searchParams.set("lat", event.lngLat.lat);
+          url.searchParams.set("lng", event.lngLat.lng);
           window.history.pushState({ query: title, place }, "", url);
         }
       }
@@ -7003,11 +7112,29 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
 
     closeOtherMobilePanels(["place"]);
 
-    map.flyTo({
-      center: [lon, lat],
-      zoom: Math.max(map.getZoom(), 16)
-    });
+// Pobiegnijmy wysokość dolnego panelu mobilnego (jeśli jest widoczny)
+        const mobilePanelHeight = window.matchMedia("(max-width: 600px)").matches
+          ? (document.querySelector(".mobile-panel:not(.collapsed)")?.offsetHeight || 0)
+          : 0;
 
+        map.flyTo({
+          center: [lon, lat],
+          zoom: Math.max(map.getZoom(), 15),
+          // Skopiowane rozwiązanie z logiki widoku miejsc: przesuwa środek mapy nad dolny panel
+          padding: {
+            top: 20,
+            bottom: mobilePanelHeight + 20,
+            left: 20,
+            right: 20
+          }
+        });
+
+        // Wymuszenie aktualizacji siatki po wycentrowaniu
+        requestAnimationFrame(() => {
+          if (map && typeof map.resize === "function") {
+            map.resize();
+          }
+        });
     setPlacePanelReturnTarget("trip", {});
 
     showSelectedPlaceInformation({
@@ -7275,17 +7402,17 @@ const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? 
 async function sharePlace(place, lngLat) {
   const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl ? new URL(CONFIG.publicBaseUrl) : new URL(window.location.href);
   
-  // Zapisujemy parametr place (lat,lng) używany przez loadSharedPlaceFromUrl
-  if (lngLat?.lat && lngLat?.lng) {
-    url.searchParams.set("place", `${lngLat.lat.toFixed(6)},${lngLat.lng.toFixed(6)}`);
-    url.searchParams.set("lat", lngLat.lat);
-    url.searchParams.set("lng", lngLat.lng);
-  }
-
-  // Tytuł miejsca dla wyszukiwarki
+  // Zapisujemy parametr place z nazwą
   const placeTitle = getSearchResultTitle(place) || place?.name || place?.display_name?.split(',')[0];
   if (placeTitle) {
     url.searchParams.set("q", placeTitle);
+  }
+  
+  // Zapisujemy współrzędne w parametrach place, lat, lng
+  if (lngLat?.lat && lngLat?.lng) {
+    url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
+    url.searchParams.set("lat", lngLat.lat);
+    url.searchParams.set("lng", lngLat.lng);
   }
 
   const shareData = {
@@ -7311,41 +7438,49 @@ async function sharePlace(place, lngLat) {
   }
 }
 
-  async function handleRouteMapClick(event) {
+// ===== ZMODYFIKOWANA FUNKCJA handleRouteMapClick =====
+async function handleRouteMapClick(event) {
     if (el.routePanel.hidden || state.routeClickBusy) return;
 
+    // Jeśli oba punkty są ustawione – dodaj przystanek w klikniętym miejscu
+    if (state.routePointA && state.routePointB) {
+        addRouteWaypoint(event.lngLat);
+        return;
+    }
+
+    // Jeśli kliknięto na linię trasy (gdy trasa już istnieje) – też dodaj przystanek
     if (state.routeCoordinates && isClickOnRoute(event.point)) {
-      addRouteWaypoint(event.lngLat);
-      return;
+        addRouteWaypoint(event.lngLat);
+        return;
     }
 
     state.routeClickBusy = true;
     const point = {
-      lon: event.lngLat.lng,
-      lat: event.lngLat.lat,
-      label: formatCoordinates(event.lngLat.lng, event.lngLat.lat)
+        lon: event.lngLat.lng,
+        lat: event.lngLat.lat,
+        label: formatCoordinates(event.lngLat.lng, event.lngLat.lat)
     };
 
     try {
-      point.label = await reverseGeocodeRoutePoint(point);
+        point.label = await reverseGeocodeRoutePoint(point);
     } catch (error) {
-      console.error(error);
-      show(text[state.language].routeReverseError);
+        console.error(error);
+        show(text[state.language].routeReverseError);
     }
 
     if (state.routeClickStage === "a") {
-      state.routePointA = point;
-      if (el.routeFrom) el.routeFrom.value = point.label;
-      setRouteMarker("a", point);
-      state.routeClickStage = state.routePointB ? "move-b" : "b";
-      updateRouteClickHint();
+        state.routePointA = point;
+        if (el.routeFrom) el.routeFrom.value = point.label;
+        setRouteMarker("a", point);
+        state.routeClickStage = state.routePointB ? "move-b" : "b";
+        updateRouteClickHint();
 
-      if (state.routePointA && state.routePointB) {
-        await calculateRouteFromStoredPoints();
-      }
+        if (state.routePointA && state.routePointB) {
+            await calculateRouteFromStoredPoints();
+        }
 
-      state.routeClickBusy = false;
-      return;
+        state.routeClickBusy = false;
+        return;
     }
 
     state.routePointB = point;
@@ -7355,11 +7490,12 @@ async function sharePlace(place, lngLat) {
     updateRouteClickHint();
 
     if (state.routePointA) {
-      await calculateRouteFromStoredPoints();
+        await calculateRouteFromStoredPoints();
     }
 
     state.routeClickBusy = false;
-  }
+}
+// ===== KONIEC ZMODYFIKOWANEJ FUNKCJI =====
 
   function dismissMobileKeyboard() {
     const active = document.activeElement;
@@ -7387,7 +7523,7 @@ async function sharePlace(place, lngLat) {
     }
   }
 
-  async function calculateRouteFromStoredPoints() {
+async function calculateRouteFromStoredPoints() {
     if (!state.routePointA || !state.routePointB) return;
 
     show(text[state.language].routeSearching, 0);
@@ -7405,6 +7541,11 @@ async function sharePlace(place, lngLat) {
       renderRouteDirections(route.maneuvers);
       hide();
       dismissMobileKeyboard();
+
+      // Po wyznaczeniu nowej trasy ponownie otwieramy/rozwijamy panel mobilny
+      if (el.routePanel) {
+        openMobilePanelStandard(el.routePanel, "--sheet-height");
+      }
     } catch (error) {
       console.error(error);
       show(text[state.language].routeError);
@@ -7436,21 +7577,26 @@ async function sharePlace(place, lngLat) {
     return `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
   }
 
-  function updateRouteClickHint() {
+// ===== ZMODYFIKOWANA FUNKCJA updateRouteClickHint =====
+function updateRouteClickHint() {
     if (!el.routeClickHint) return;
     const t = text[state.language];
 
     if (state.routeClickStage === "a") {
-      el.routeClickHint.textContent = t.routePickA;
-      el.routeClickHint.classList.remove("is-complete");
+        el.routeClickHint.textContent = t.routePickA;
+        el.routeClickHint.classList.remove("is-complete");
     } else if (state.routeClickStage === "b") {
-      el.routeClickHint.textContent = t.routePickB;
-      el.routeClickHint.classList.remove("is-complete");
+        el.routeClickHint.textContent = t.routePickB;
+        el.routeClickHint.classList.remove("is-complete");
     } else {
-      el.routeClickHint.textContent = t.routePickMoveB;
-      el.routeClickHint.classList.add("is-complete");
+        // Gdy oba punkty są ustawione – komunikat o dodawaniu przystanków
+        el.routeClickHint.textContent = state.language === "pl"
+            ? "Kliknij na mapie, aby dodać przystanek pośredni."
+            : "Click the map to add a waypoint.";
+        el.routeClickHint.classList.add("is-complete");
     }
-  }
+}
+// ===== KONIEC ZMODYFIKOWANEJ FUNKCJI =====
 
   function createRouteMarkerElement(letter, markerClass) {
     const element = document.createElement("div");
@@ -7878,11 +8024,13 @@ async function sharePlace(place, lngLat) {
     const payload = {
       locations: [
         { lat: from.lat, lon: from.lon, type: "break" },
-        ...state.routeWaypoints.map(point => ({
-          lat: point.lat,
-          lon: point.lon,
-          type: "break"
-        })),
+        ...state.routeWaypoints
+          .filter(point => point.lat != null && point.lon != null)
+          .map(point => ({
+            lat: point.lat,
+            lon: point.lon,
+            type: "break"
+          })),
         { lat: to.lat, lon: to.lon, type: "break" }
       ],
       costing: mode,
@@ -8113,7 +8261,7 @@ async function sharePlace(place, lngLat) {
     }
   }
 
-  function drawRoute(geometry, from, to, mode) {
+function drawRoute(geometry, from, to, mode) {
     ensureRouteLayers();
     state.routeCoordinates = geometry.coordinates;
     clearManeuverHighlight();
@@ -8155,6 +8303,18 @@ async function sharePlace(place, lngLat) {
       padding: { top: 105, right: 45, bottom: 55, left: 45 },
       bearing: 180,
       duration: 900
+    });
+
+    // ZAWSZE otwieraj/rozwijaj panel mobilny po narysowaniu trasy
+    // (używamy requestAnimationFrame/setTimeout, by nie kłóciło się z początkiem fitBounds)
+    requestAnimationFrame(() => {
+      if (el.routePanel) {
+        if (typeof expandMobileRoutePanel === "function") {
+          expandMobileRoutePanel();
+        } else if (typeof openMobilePanelStandard === "function") {
+          openMobilePanelStandard(el.routePanel, "--sheet-height");
+        }
+      }
     });
   }
 
@@ -8425,8 +8585,14 @@ async function sharePlace(place, lngLat) {
     }).length > 0;
   }
 
+  function nextWaypointId() {
+    state.routeWaypointSeq += 1;
+    return `wp-${state.routeWaypointSeq}`;
+  }
+
   function addRouteWaypoint(lngLat) {
     const waypoint = {
+      id: nextWaypointId(),
       lon: lngLat.lng,
       lat: lngLat.lat,
       label: formatCoordinates(lngLat.lng, lngLat.lat)
@@ -8434,13 +8600,92 @@ async function sharePlace(place, lngLat) {
 
     state.routeWaypoints.push(waypoint);
     refreshWaypointMarkers();
+    renderRouteWaypoints();
     calculateRouteFromStoredPoints();
+  }
+
+  function addRouteWaypointField() {
+    state.routeWaypoints.push({
+      id: nextWaypointId(),
+      lon: null,
+      lat: null,
+      label: ""
+    });
+    renderRouteWaypoints();
+
+    const list = el.routeWaypointsList;
+    const lastInput = list?.querySelector(
+      ".route-waypoint-row:last-child .route-waypoint-input"
+    );
+    lastInput?.focus();
+  }
+
+  function removeRouteWaypointById(waypointId) {
+    const index = state.routeWaypoints.findIndex(
+      point => point.id === waypointId
+    );
+    if (index === -1) return;
+
+    const [removed] = state.routeWaypoints.splice(index, 1);
+    refreshWaypointMarkers();
+    renderRouteWaypoints();
+
+    const wasResolved = removed && removed.lon != null && removed.lat != null;
+    if (wasResolved && state.routePointA && state.routePointB) {
+      calculateRouteFromStoredPoints();
+    }
+  }
+
+  function renderRouteWaypoints() {
+    const list = el.routeWaypointsList;
+    if (!list) return;
+
+    list.replaceChildren();
+    const t = text[state.language];
+
+    state.routeWaypoints.forEach((point, index) => {
+      const item = document.createElement("li");
+      item.className = "route-waypoint-row";
+
+      const indexBadge = document.createElement("span");
+      indexBadge.className = "route-waypoint-index";
+      indexBadge.setAttribute("aria-hidden", "true");
+      indexBadge.textContent = String(index + 1);
+
+      const input = document.createElement("input");
+      input.type = "search";
+      input.autocomplete = "off";
+      input.className = "route-waypoint-input";
+      input.placeholder = t.routeWaypointStopPlaceholder(index + 1);
+      input.setAttribute("aria-label", t.routeWaypointStopPlaceholder(index + 1));
+      input.value = point.label || "";
+      input.dataset.waypointId = point.id;
+
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "route-waypoint-remove";
+      removeButton.textContent = "×";
+      removeButton.setAttribute(
+        "aria-label",
+        t.routeRemoveWaypoint(index + 1)
+      );
+      removeButton.addEventListener("click", () => {
+        removeRouteWaypointById(point.id);
+      });
+
+      item.append(indexBadge, input, removeButton);
+      list.appendChild(item);
+
+      registerRouteWaypointAutocomplete?.(input, point.id);
+    });
   }
 
   function refreshWaypointMarkers() {
     clearWaypointMarkers();
 
     state.routeWaypoints.forEach((point, index) => {
+      if (point.lon == null || point.lat == null) return;
+
       const element = document.createElement("div");
       element.className = "route-waypoint-marker";
       element.textContent = String(index + 1);
@@ -8462,6 +8707,7 @@ async function sharePlace(place, lngLat) {
           lat: position.lat,
           label: formatCoordinates(position.lng, position.lat)
         };
+        renderRouteWaypoints();
         calculateRouteFromStoredPoints();
       });
 
@@ -8492,10 +8738,14 @@ async function sharePlace(place, lngLat) {
     );
     url.searchParams.set("mode", getSelectedRouteMode());
 
-    if (state.routeWaypoints.length) {
+    const resolvedWaypoints = state.routeWaypoints.filter(
+      point => point.lat != null && point.lon != null
+    );
+
+    if (resolvedWaypoints.length) {
       url.searchParams.set(
         "via",
-        state.routeWaypoints
+        resolvedWaypoints
           .map(point => `${point.lat},${point.lon}`)
           .join(";")
       );
@@ -8541,11 +8791,16 @@ async function sharePlace(place, lngLat) {
 
     const via = params.get("via");
     state.routeWaypoints = via
-      ? via.split(";").map(parseSharedPoint).filter(Boolean)
+      ? via
+          .split(";")
+          .map(parseSharedPoint)
+          .filter(Boolean)
+          .map(point => ({ ...point, id: nextWaypointId() }))
       : [];
 
     refreshRouteMarkers();
     refreshWaypointMarkers();
+    renderRouteWaypoints();
     await calculateRouteFromStoredPoints();
   }
 
@@ -8612,6 +8867,9 @@ async function sharePlace(place, lngLat) {
       el.routeSummary
     );
     if (el.routeShare) el.routeShare.hidden = false;
+    if (el.routeExportGpx) el.routeExportGpx.hidden = false;
+    if (el.routeImportGpx) el.routeImportGpx.hidden = false;
+    if (el.routeClear) el.routeClear.hidden = false;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = false;
   }
 
@@ -8644,9 +8902,13 @@ async function sharePlace(place, lngLat) {
     el.routeDuration.textContent = "—";
     el.routeArrival.textContent = "—";
     if (el.routeShare) el.routeShare.hidden = true;
+    if (el.routeExportGpx) el.routeExportGpx.hidden = true;
+    if (el.routeImportGpx) el.routeImportGpx.hidden = true;
+    if (el.routeClear) el.routeClear.hidden = true;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
     state.routeWaypoints = [];
     clearWaypointMarkers();
+    renderRouteWaypoints();
     clearManeuverHighlight();
     clearRouteDirections();
 
@@ -9787,6 +10049,9 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
             bearing: 180
           });
           hide();
+          if (map && typeof map.resize === "function") {
+          map.resize();
+}
         })
         .catch(error => {
           console.warn("Lokalizacja po IP nie powiodła się.", error);
@@ -9815,35 +10080,55 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       0
     );
 
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const lon = position.coords.longitude;
-        const lat = position.coords.latitude;
+let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
-        showUserLocationMarker({ lng: lon, lat });
+  if (window.userLocationWatchId) {
+    navigator.geolocation.clearWatch(window.userLocationWatchId);
+  }
+
+  window.userLocationWatchId = navigator.geolocation.watchPosition(
+    position => {
+      const lon = position.coords.longitude;
+      const lat = position.coords.latitude;
+      const lngLat = new maplibregl.LngLat(lon, lat);
+
+      // 1. Zawsze aktualizujemy tylko pozycję samej niebieskiej kropki
+      showUserLocationMarker(lngLat);
+
+      // 2. Mapę centrujemy TYLKO PIERWSZY RAZ!
+      // Gdy GPS skoryguje pozycję po kilku sekundach, kropka się przesunie, ale mapa NIE PRZESKOCZY.
+      if (!hasPannedToUser) {
+        hasPannedToUser = true;
 
         map.flyTo({
           center: [lon, lat],
           zoom: Math.max(map.getZoom(), 15),
-          bearing: 180
+          bearing: map.getBearing() // Utrzymuje obecny obrót (np. 180°), zapobiegając "fikołkowi" mapy
         });
 
         hide();
-      },
-      error => {
-        console.error(error);
-        show(
-          state.language === "pl"
-            ? "Nie udało się pobrać lokalizacji."
-            : "Your location could not be retrieved."
-        );
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 30000
+
+        requestAnimationFrame(() => {
+          if (map && typeof map.resize === "function") {
+            map.resize();
+          }
+        });
       }
-    );
+    },
+    error => {
+      console.error(error);
+      show(
+        state.language === "pl"
+          ? "Nie udało się pobrać lokalizacji."
+          : "Your location could not be retrieved."
+      );
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0 // Zmusza do natychmiastowego pobrania świeżego punktu z czujnika
+    }
+  );
   }
 
   function blobToBase64(blob) {
@@ -10037,6 +10322,85 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     updateSearchClearButton();
     el.searchInput.focus();
     el.searchInput.dispatchEvent(new Event("focus"));
+  }
+
+  function updateRouteClearButton(input, btn) {
+    if (!btn || !input) return;
+    btn.hidden = !input.value.trim();
+  }
+
+  function updateRouteClearButtons() {
+    updateRouteClearButton(el.routeFrom, el.routeFromClear);
+    updateRouteClearButton(el.routeTo, el.routeToClear);
+  }
+
+  // Śledzi zarówno wpisywanie przez użytkownika, jak i programowe
+  // ustawianie .value (np. po wyborze podpowiedzi albo przeciągnięciu
+  // znacznika), żeby przycisk (x) zawsze odzwierciedlał zawartość pola.
+  function watchRouteInputValue(input, btn) {
+    if (!input || !btn) return;
+    const proto = Object.getPrototypeOf(input);
+    const descriptor = Object.getOwnPropertyDescriptor(proto, "value");
+    if (!descriptor || !descriptor.configurable) return;
+    Object.defineProperty(input, "value", {
+      get() {
+        return descriptor.get.call(this);
+      },
+      set(v) {
+        descriptor.set.call(this, v);
+        btn.hidden = !this.value.trim();
+      },
+      configurable: true
+    });
+  }
+
+  function clearRoutePoint(key) {
+    const isA = key === "a";
+    const input = isA ? el.routeFrom : el.routeTo;
+    const clearBtn = isA ? el.routeFromClear : el.routeToClear;
+
+    if (isA) state.routePointA = null;
+    else state.routePointB = null;
+
+    if (input) input.value = "";
+    removeRouteMarker(key);
+    hideAllAutocomplete();
+    updateRouteClearButton(input, clearBtn);
+
+    state.routeClickStage = !state.routePointA
+      ? "a"
+      : !state.routePointB
+      ? "b"
+      : "move-b";
+    updateRouteClickHint();
+
+    if (state.routeCoordinates) {
+      state.routeCoordinates = null;
+      if (el.routeSummary) el.routeSummary.hidden = true;
+      if (el.routeShare) el.routeShare.hidden = true;
+      if (el.routeExportGpx) el.routeExportGpx.hidden = true;
+      if (el.routeImportGpx) el.routeImportGpx.hidden = true;
+      if (el.routeClear) el.routeClear.hidden = true;
+      if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
+      clearManeuverHighlight();
+      clearRouteDirections();
+
+      if (map.getSource(CONFIG.routing.sourceId)) {
+        map.getSource(CONFIG.routing.sourceId).setData({
+          type: "Feature",
+          properties: {},
+          geometry: { type: "LineString", coordinates: [] }
+        });
+      }
+      if (map.getLayer(CONFIG.routing.casingLayerId)) {
+        map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "none");
+      }
+      if (map.getLayer(CONFIG.routing.lineLayerId)) {
+        map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "none");
+      }
+    }
+
+    input?.focus();
   }
 
   const DISCOVER_CATEGORY_GROUPS = [
@@ -11220,7 +11584,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
       map.flyTo({
         center: point,
-        zoom: getSearchResultZoom(result),
+        zoom: Math.max(map.getZoom(), 15),
         bearing: 180
       });
 
@@ -11329,33 +11693,51 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     return { latitude: data.latitude, longitude: data.longitude };
   }
 
-  function locate() {
-    show(text[state.language].locating, 0);
-
-    if (isElectronPlatform()) {
-      fetchLocationByIp()
-        .then(({ latitude, longitude }) => {
-          const point = [longitude, latitude];
-          map.flyTo({ center: point, zoom: 11, bearing: 180 });
-          new maplibregl.Marker().setLngLat(point).addTo(map);
-          hide();
-        })
-        .catch(error => {
-          console.warn("Lokalizacja po IP nie powiodła się.", error);
-          show(text[state.language].locationError);
-        });
+function locate() {
+    if (!navigator.geolocation) {
+      show(text[state.language].locationError);
       return;
     }
 
-    navigator.geolocation?.getCurrentPosition(
-      pos => {
-        const point = [pos.coords.longitude, pos.coords.latitude];
-        map.flyTo({ center: point, zoom: 14, bearing: 180 });
-        new maplibregl.Marker({ anchor: 'bottom' }).setLngLat(point).addTo(map);
+    show(
+      state.language === "pl" ? "Pobieranie lokalizacji…" : "Getting your location…",
+      0
+    );
+
+    // Wyłączamy ewentualne aktywne śledzenie
+    if (window.userLocationWatchId) {
+      navigator.geolocation.clearWatch(window.userLocationWatchId);
+      window.userLocationWatchId = null;
+    }
+
+    // Jednorazowe pobranie pozycji bez watchPosition (brak drugiego przeskoku po 3s)
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lon = position.coords.longitude;
+        const lat = position.coords.latitude;
+        const point = [lon, lat];
+
+        // 1. Stawiamy znacznik
+        showUserLocationMarker(point);
+
+        // 2. Centrujemy mapę z zachowaniem aktualnego obrotu
+        map.flyTo({
+          center: point,
+          zoom: Math.max(map.getZoom(), 15),
+          bearing: map.getBearing()
+        });
+
         hide();
       },
-      () => show(text[state.language].locationError),
-      { enableHighAccuracy: true, timeout: 10000 }
+      error => {
+        console.error("Błąd lokalizacji GPS:", error);
+        show(text[state.language].locationError);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0 // Zmusza urządzenie do podania aktualnej pozycji
+      }
     );
   }
 
@@ -11508,5 +11890,193 @@ window.addEventListener("popstate", function(event) {
     }, 500);
   }
 })();
+
+async function exportRouteAsGpx() {
+    if (!state.routePointA || !state.routePointB) {
+        show("Najpierw wyznacz trasę.");
+        return;
+    }
+
+    const language = state.language || state.ui?.language || "pl";
+    const t = text[language];
+
+    const allPoints = [];
+    
+    allPoints.push({
+        lat: state.routePointA.lat,
+        lon: state.routePointA.lon,
+        name: "Punkt A"
+    });
+
+    if (state.routeWaypoints && state.routeWaypoints.length > 0) {
+        state.routeWaypoints.forEach((wp, i) => {
+            allPoints.push({
+                lat: wp.lat,
+                lon: wp.lon,
+                name: `Przystanek ${i+1}`
+            });
+        });
+    }
+
+    allPoints.push({
+        lat: state.routePointB.lat,
+        lon: state.routePointB.lon,
+        name: "Punkt B"
+    });
+
+    const waypointsXml = allPoints.map((p, i) => {
+        const name = p.name || `Punkt ${i+1}`;
+        return `    <wpt lat="${p.lat}" lon="${p.lon}">
+        <name>${name}</name>
+        <sym>Waypoint</sym>
+      </wpt>`;
+    }).join("\n");
+
+    const routePointsXml = allPoints.map((p) => {
+        return `      <rtept lat="${p.lat}" lon="${p.lon}"/>`;
+    }).join("\n");
+
+    const gpx = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Odwrotna Mapa" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Trasa z Odwrotnej Mapy</name>
+    <time>${new Date().toISOString()}</time>
+  </metadata>
+  ${waypointsXml}
+  <rte>
+    <name>Trasa</name>
+    ${routePointsXml}
+  </rte>
+</gpx>`;
+
+    const blob = new Blob([gpx], { type: "application/gpx+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    
+    // NAZWA PLIKU Z DATĄ I GODZINĄ
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0,10);
+    const timeStr = now.toTimeString().slice(0,8).replace(/:/g, '');
+    link.download = `trasa-${dateStr}_${timeStr}.gpx`;
+    
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    show(t.routeGpxExported || "Trasa została wyeksportowana jako GPX.");
+}
+
+async function importRouteFromGpx(file) {
+    const language = state.language || state.ui?.language || "pl";
+    const t = text[language];
+
+    try {
+        const textContent = await file.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(textContent, "application/xml");
+
+        // Szukamy punktów – najpierw w <wpt>, potem w <rtept>, potem <trkpt>
+        let points = [];
+        
+        const wpts = xml.querySelectorAll("wpt");
+        if (wpts.length > 0) {
+            wpts.forEach(pt => {
+                const lat = parseFloat(pt.getAttribute("lat"));
+                const lon = parseFloat(pt.getAttribute("lon"));
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    points.push({ lat, lon });
+                }
+            });
+        }
+
+        if (points.length === 0) {
+            const rtepts = xml.querySelectorAll("rtept");
+            if (rtepts.length > 0) {
+                rtepts.forEach(pt => {
+                    const lat = parseFloat(pt.getAttribute("lat"));
+                    const lon = parseFloat(pt.getAttribute("lon"));
+                    if (!isNaN(lat) && !isNaN(lon)) {
+                        points.push({ lat, lon });
+                    }
+                });
+            }
+        }
+
+        if (points.length === 0) {
+            const trkpts = xml.querySelectorAll("trkpt");
+            if (trkpts.length > 0) {
+                trkpts.forEach(pt => {
+                    const lat = parseFloat(pt.getAttribute("lat"));
+                    const lon = parseFloat(pt.getAttribute("lon"));
+                    if (!isNaN(lat) && !isNaN(lon)) {
+                        points.push({ lat, lon });
+                    }
+                });
+            }
+        }
+
+        if (points.length < 2) {
+            show(t.routeGpxNoPoints || "Plik GPX musi zawierać co najmniej dwa punkty.");
+            return;
+        }
+
+        // Pierwszy punkt = A, ostatni = B, reszta = waypointy
+        const first = points[0];
+        const last = points[points.length - 1];
+        const waypoints = points.slice(1, -1);
+
+        state.routePointA = {
+            lon: first.lon,
+            lat: first.lat,
+            label: formatCoordinates(first.lon, first.lat)
+        };
+        state.routePointB = {
+            lon: last.lon,
+            lat: last.lat,
+            label: formatCoordinates(last.lon, last.lat)
+        };
+        
+        state.routeWaypoints = waypoints.map((p, i) => ({
+            lon: p.lon,
+            lat: p.lat,
+            label: `Przystanek ${i+1}`
+        }));
+
+        // Odśwież UI
+        if (el.routeFrom) el.routeFrom.value = state.routePointA.label;
+        if (el.routeTo) el.routeTo.value = state.routePointB.label;
+        
+        refreshRouteMarkers();
+        refreshWaypointMarkers();
+        
+        if (typeof renderRouteWaypoints === "function") {
+            renderRouteWaypoints();
+        } else {
+            const list = document.getElementById("route-waypoints-list");
+            if (list) {
+                list.innerHTML = "";
+                state.routeWaypoints.forEach((wp, i) => {
+                    const li = document.createElement("li");
+                    li.textContent = wp.label;
+                    list.appendChild(li);
+                });
+            }
+        }
+        
+        state.routeClickStage = "move-b";
+        updateRouteClickHint();
+
+        // Zamiast rysować geometrię z pliku, przelicz trasę przez silnik routingu
+        await calculateRouteFromStoredPoints();
+
+        // Dopiero po udanym przeliczeniu pokaż komunikat sukcesu
+        show(t.routeGpxImported || "Trasa została zaimportowana z pliku GPX.");
+    } catch (error) {
+        console.error("Błąd importu GPX:", error);
+        show(t.routeGpxImportError || "Nie udało się zaimportować pliku GPX.");
+    }
+}
 
 })();

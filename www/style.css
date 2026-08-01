@@ -854,6 +854,44 @@ body.ui-dark .legend-symbol.osm-buildings {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
+.route-point-input-wrap {
+  position: relative;
+  display: block;
+}
+
+.route-point-input-wrap input {
+  padding-right: 32px;
+}
+
+.route-point-clear {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.route-point-clear:hover,
+.route-point-clear:focus-visible {
+  background: transparent;
+  color: var(--text);
+}
+
+.route-point-clear[hidden] {
+  display: none;
+}
+
 .route-swap {
   grid-column: 2;
   grid-row: 1 / span 2;
@@ -1045,7 +1083,7 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-points {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 40px;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto auto auto auto;
   gap: 10px 9px;
   align-items: center;
 }
@@ -1061,14 +1099,113 @@ body.ui-dark .legend-symbol.osm-buildings {
   grid-row: 1;
 }
 
-.route-point-to {
+.route-waypoints-list {
   grid-column: 1;
   grid-row: 2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.route-waypoints-list:empty {
+  display: none;
+}
+
+.route-waypoint-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.route-waypoint-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--panel-solid, #fff);
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.route-waypoint-input {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--border);
+  padding: 0 10px;
+  background: rgba(127, 127, 127, 0.07);
+  color: var(--text);
+  outline: none;
+}
+
+.route-waypoint-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.route-waypoint-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(127, 127, 127, 0.12);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.route-waypoint-remove:hover,
+.route-waypoint-remove:focus-visible {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+}
+
+.route-add-waypoint {
+  grid-column: 1;
+  grid-row: 3;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.route-add-waypoint:hover,
+.route-add-waypoint:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.route-add-waypoint-icon {
+  font-weight: 750;
+}
+
+.route-point-to {
+  grid-column: 1;
+  grid-row: 4;
 }
 
 .route-swap {
   grid-column: 2;
-  grid-row: 1 / 3;
+  grid-row: 1 / 5;
   align-self: center;
   justify-self: center;
   width: 36px;
@@ -1433,7 +1570,8 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .route-share {
-  width: 100%;
+  
+  place-items: center;
   min-height: 40px;
   margin-top: 10px;
   border: 1px solid var(--border);

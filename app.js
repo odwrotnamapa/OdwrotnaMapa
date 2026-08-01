@@ -1283,12 +1283,16 @@ map.on('rotate', updateLogoRotation);
     "click",
     returnFromPlacePanel
   );
-  el.placePanelClose?.addEventListener("click", closePlacePanel);
+  el.placePanelClose?.addEventListener("click", () => {
+    state.tripOriginPlace = null;
+    closePlacePanel();
+  });
   el.tripPanelBack?.addEventListener(
     "click",
     returnFromTripToPlace
   );
   el.tripPanelClose?.addEventListener("click", () => {
+    state.tripOriginPlace = null;
     closeTrip();
     closePlacePanel();
   });
@@ -5547,6 +5551,7 @@ function showUserLocationMarker(lngLat) {
   async function showPlaceInformation(event) {
     window.OMAP_SEARCH_SESSION?.cancel?.();
     clearPlacePanelReturnTarget();
+    state.tripOriginPlace = null;
 
     const guardId = state.namedPoiGuardId;
 
@@ -5608,6 +5613,11 @@ function showUserLocationMarker(lngLat) {
       el.placePanelContent.replaceChildren(
         createPlaceCard(place, event.lngLat)
       );
+
+      // Zapisujemy pobrane miejsce w stanie - bez tego funkcje takie jak
+      // powrót z panelu rozkładu (returnFromTripToPlace) nie mają skąd
+      // odtworzyć tego panelu i pokazują pusty widok.
+      state.selectedPlace = place;
 
       stabilizeMobilePlacePanelHeight();
 
@@ -7161,9 +7171,25 @@ function showUserLocationMarker(lngLat) {
 
   function returnFromTripToPlace() {
     closeTrip();
-    if (el.placePanel) {
-      openMobilePanelStandard(el.placePanel, "--sheet-height");
+    if (!el.placePanel) return;
+
+    const origin = state.tripOriginPlace;
+
+    // Panel miejsca mógł zostać w międzyczasie wyczyszczony (np. gdy
+    // wcześniej weszliśmy w inny przystanek z listy rozkładu i raz
+    // się cofnęliśmy) — w takim wypadku odtwarzamy go z zapamiętanego
+    // stanu zamiast otwierać pusty panel.
+    if (origin && origin.details && origin.lngLat) {
+      state.selectedPlace = origin.details;
+      state.placePanelLngLat = origin.lngLat;
+      showSelectedPlaceMarker(origin.lngLat);
+      openPlacePanel();
+      renderPlaceInformation(origin.details, origin.lngLat);
+      stabilizeMobilePlacePanelHeight();
+      return;
     }
+
+    openMobilePanelStandard(el.placePanel, "--sheet-height");
   }
 
   function formatStopClock(value) {
@@ -7187,6 +7213,18 @@ function showUserLocationMarker(lngLat) {
           lon: state.placePanelLngLat.lng
         }
       : null;
+
+    // Zapamiętujemy pełny stan panelu miejsca, z którego otworzono
+    // rozkład, żeby móc go odtworzyć po powrocie z rozkładu — inaczej
+    // po wejściu w inny przystanek z listy i cofnięciu się dwukrotnie
+    // panel informacji zostaje pusty (jego zawartość jest czyszczona
+    // przez closePlacePanel przy pierwszym cofnięciu).
+    if (state.selectedPlace && state.placePanelLngLat) {
+      state.tripOriginPlace = {
+        details: state.selectedPlace,
+        lngLat: state.placePanelLngLat
+      };
+    }
 
     closeOtherMobilePanels(["trip", "place"]);
     if (el.placePanel) el.placePanel.hidden = true;
