@@ -2965,6 +2965,33 @@ a.place-card-row {
   color: var(--accent);
 }
 
+.custom-font-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.custom-font-controls select {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--text);
+  background: transparent;
+}
+
+.custom-font-upload {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.custom-font-upload input[type="file"] {
+  max-width: 190px;
+  font-size: 0.6rem;
+  color: var(--muted);
+}
+
 #custom-palette-reset {
   align-self: flex-start;
   border: 1px solid var(--border);

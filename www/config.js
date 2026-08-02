@@ -60,6 +60,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     searchHistory: "odwrotnamapa.searchHistory",
     favorites: "odwrotnamapa.favorites",
     customPalette: "odwrotnamapa.customPalette",
+    customFont: "odwrotnamapa.customFont",
     customPlaceNames: "odwrotnamapa.customPlaceNames",
     history: "odwrotnamapa.history"
   }

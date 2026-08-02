@@ -23,7 +23,7 @@
       styles: { default: "Domyślna", satellite: "Satelitarna", inverted: "Odwrotna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
       customUiColorsHeading: "Kolory interfejsu",
-      customColorReset: "Resetuj kolory i tekstury",
+      customColorReset: "Resetuj kolory, tekstury i czcionkę",
       customLabelsHeading: "Etykiety na mapie",
       labelsPoi: "Punkty (sklepy, usługi)",
       labelsRoads: "Nazwy ulic",
@@ -58,6 +58,10 @@
       },
       customTexturesHeading: "Tekstury (zdjęcie zamiast koloru)",
       customTexturesHint: "JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.",
+      customFontHeading: "Czcionka",
+      customFontHint: "Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.",
+      customFontDefault: "Domyślna",
+      customFontCustomOption: "Własna (wgraj plik)",
       customTextureLabels: {
         mapBackground: "Tło mapy",
         mapWater: "Woda",
@@ -267,7 +271,7 @@
       backupSelectAll: "Zaznacz wszystko",
       backupDeselectAll: "Odznacz wszystko",
       backupScopeFavorites: "Ulubione miejsca",
-      backupScopeColors: "Kolory i tekstury",
+      backupScopeColors: "Kolory, tekstury i czcionki",
       backupScopePlaceNames: "Własne nazwy miejsc",
       colorsImported: "Zaimportowano kolory.",
       placeNamesImported: "Zaimportowano nazwy miejsc.",
@@ -351,7 +355,7 @@
       styles: { default: "Default", satellite: "Satellite", inverted: "Inverted", custom: "Custom" },
       customMapColorsHeading: "Map colors",
       customUiColorsHeading: "Interface colors",
-      customColorReset: "Reset colors & textures",
+      customColorReset: "Reset colors, textures & font",
       customLabelsHeading: "Map labels",
       labelsPoi: "Points (shops, services)",
       labelsRoads: "Street names",
@@ -386,6 +390,10 @@
       },
       customTexturesHeading: "Textures (image instead of color)",
       customTexturesHint: "JPG or PNG. Water, greenery and buildings will be tiled as a repeating pattern; map background and panel background will be scaled to fill the whole area.",
+      customFontHeading: "Font",
+      customFontHint: "Applies to the interface text (menus, panels, cards) - it does not change the font of labels on the map itself.",
+      customFontDefault: "Default",
+      customFontCustomOption: "Custom (upload a file)",
       customTextureLabels: {
         mapBackground: "Map background",
         mapWater: "Water",
@@ -595,7 +603,7 @@
       backupSelectAll: "Select all",
       backupDeselectAll: "Deselect all",
       backupScopeFavorites: "Favorite places",
-      backupScopeColors: "Colors & textures",
+      backupScopeColors: "Colors, textures & fonts",
       backupScopePlaceNames: "Custom place names",
       colorsImported: "Colors imported.",
       placeNamesImported: "Place names imported.",
@@ -707,6 +715,8 @@
   const TEXTURE_IMAGE_PREFIX = "custom-texture-";
   const TEXTURE_DB_NAME = "odwrotnamapa-textures";
   const TEXTURE_STORE = "textures";
+  const FONT_STORE = "fonts";
+  const TEXTURE_DB_VERSION = 2;
   const TEXTURE_MAX_DIMENSION = 1024;
 
   function textureImageId(key) {
@@ -719,10 +729,14 @@
         reject(new Error("IndexedDB niedostępne"));
         return;
       }
-      const request = indexedDB.open(TEXTURE_DB_NAME, 1);
+      const request = indexedDB.open(TEXTURE_DB_NAME, TEXTURE_DB_VERSION);
       request.onupgradeneeded = () => {
-        if (!request.result.objectStoreNames.contains(TEXTURE_STORE)) {
-          request.result.createObjectStore(TEXTURE_STORE);
+        const db = request.result;
+        if (!db.objectStoreNames.contains(TEXTURE_STORE)) {
+          db.createObjectStore(TEXTURE_STORE);
+        }
+        if (!db.objectStoreNames.contains(FONT_STORE)) {
+          db.createObjectStore(FONT_STORE);
         }
       };
       request.onsuccess = () => resolve(request.result);
@@ -780,6 +794,154 @@
     } catch (error) {
       console.error("Nie udało się usunąć tekstury:", error);
     }
+  }
+
+  // ---------------------------------------------------------------------
+  // Czcionka interfejsu (motyw "custom"). Dwie ścieżki:
+  //  - "google": jedna z kilkunastu wybranych czcionek z Google Fonts,
+  //    doczytywana leniwie przez wstrzyknięty <link> (tak jak domyślna
+  //    "Plus Jakarta Sans" jest już wczytywana w index.html).
+  //  - "custom": własny plik WOFF/WOFF2/TTF/OTF wgrany przez użytkownika,
+  //    zarejestrowany jako @font-face. Sam plik (może być spory) trzymamy
+  //    w IndexedDB, a w localStorage tylko informację "jaki typ czcionki
+  //    jest aktywny" - tak samo jak przy teksturach.
+  //
+  // Dotyczy WYŁĄCZNIE tekstu interfejsu (--font). Etykiety na samej mapie
+  // renderuje MapLibre z glifów wbudowanych w kafelki wektorowe stylu
+  // OpenFreeMap Liberty i nie da się ich podmienić z poziomu przeglądarki.
+  // ---------------------------------------------------------------------
+
+  const CUSTOM_FONT_FAMILY = "OdwrotnaMapaCustomFont";
+  const SYSTEM_FONT_FALLBACK =
+    '"Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  const CUSTOM_FONT_MAX_BYTES = 5 * 1024 * 1024;
+
+  const GOOGLE_FONT_OPTIONS = [
+    "Inter",
+    "IBM Plex Sans",
+    "Space Grotesk",
+    "Poppins",
+    "Comfortaa",
+    "Fraunces",
+    "Playfair Display",
+    "Merriweather",
+    "JetBrains Mono",
+    "Bebas Neue"
+  ];
+
+  let customFontStyleEl = null;
+
+  function registerCustomFontFace(dataUrl) {
+    if (!customFontStyleEl) {
+      customFontStyleEl = document.createElement("style");
+      customFontStyleEl.id = "odwrotnamapa-custom-font-face";
+      document.head.appendChild(customFontStyleEl);
+    }
+    customFontStyleEl.textContent =
+      `@font-face { font-family: "${CUSTOM_FONT_FAMILY}"; src: url(${dataUrl}); font-display: swap; }`;
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error || new Error("Błąd odczytu pliku"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function readCustomFont() {
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.customFont) || "null"
+      );
+      if (stored && typeof stored === "object" && stored.type) return stored;
+    } catch (_) {}
+    return { type: "default" };
+  }
+
+  function saveCustomFont() {
+    safeSet(CONFIG.storageKeys.customFont, JSON.stringify(state.customFont));
+  }
+
+  async function idbGetCustomFont() {
+    try {
+      const db = await openTextureDB();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, "readonly");
+        const req = tx.objectStore(FONT_STORE).get("customFont");
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function idbSetCustomFont(dataUrl) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, "readwrite");
+        tx.objectStore(FONT_STORE).put(dataUrl, "customFont");
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się zapisać czcionki:", error);
+    }
+  }
+
+  async function idbDeleteCustomFont() {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, "readwrite");
+        tx.objectStore(FONT_STORE).delete("customFont");
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się usunąć czcionki:", error);
+    }
+  }
+
+  // Wczytuje wybór czcionki po starcie (plik czcionki z IndexedDB, jeśli
+  // trzeba) i go stosuje. Wołane raz, obok initCustomTextures().
+  async function initCustomFont() {
+    if (state.customFont.type === "custom") {
+      state.customFontDataUrl = await idbGetCustomFont();
+      if (!state.customFontDataUrl) {
+        // Brak pliku w tej przeglądarce (np. inne urządzenie) - wróć do domyślnej.
+        state.customFont = { type: "default" };
+        saveCustomFont();
+      }
+    }
+    applyCustomFont();
+  }
+
+  function applyCustomFont() {
+    const root = document.documentElement.style;
+    const font = state.customFont;
+
+    if (state.theme !== "custom" || !font || font.type === "default") {
+      root.removeProperty("--font");
+      return;
+    }
+
+    if (font.type === "google" && font.googleFont) {
+      // Google Fonts support removed
+      root.removeProperty("--font");
+      return;
+    }
+
+    if (font.type === "custom" && state.customFontDataUrl) {
+      registerCustomFontFace(state.customFontDataUrl);
+      root.setProperty("--font", `"${CUSTOM_FONT_FAMILY}", ${SYSTEM_FONT_FALLBACK}`);
+      return;
+    }
+
+    root.removeProperty("--font");
   }
 
   // Zmniejsza wgrany JPG/PNG do rozsądnego rozmiaru (wzory kafelkowane na
@@ -1077,6 +1239,10 @@
         : "default";
     })(),
     customPalette: readCustomPalette(),
+    customFont: readCustomFont(),
+    // Sam plik czcionki (jeśli type === "custom") wczytywany asynchronicznie
+    // z IndexedDB przez initCustomFont() po starcie.
+    customFontDataUrl: null,
     customPlaceNames: readCustomPlaceNames(),
     // Wypełniane asynchronicznie przez initCustomTextures() po starcie mapy
     // (dane obrazów trzymamy w IndexedDB, nie w localStorage - mogą być
@@ -1220,6 +1386,12 @@
     customUiHeading: $("menu-custom-ui-heading"),
     customTexturesHeading: $("menu-custom-textures-heading"),
     customTexturesHint: $("menu-custom-textures-hint"),
+    customFontHeading: $("menu-custom-font-heading"),
+    customFontHint: $("menu-custom-font-hint"),
+    customFontSelect: $("custom-font-select"),
+    customFontUploadRow: $("custom-font-upload-row"),
+    customFontFile: $("custom-font-file"),
+    customFontFileClear: $("custom-font-file-clear"),
     customPaletteReset: $("custom-palette-reset"),
     labelsPoiToggle: $("menu-labels-poi"),
     labelsPoiToggleLabel: $("menu-labels-poi-label"),
@@ -1396,6 +1568,7 @@ map.on('rotate', updateLogoRotation);
     ensureRouteLayers();
     cacheOriginalPaint();
     await initCustomTextures();
+    await initCustomFont();
     applyTheme(state.theme);
     applyLanguageAfterStartup();
     loadSharedRouteFromUrl();
@@ -1476,11 +1649,98 @@ map.on('rotate', updateLogoRotation);
         if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
       }
 
+      state.customFont = { type: "default" };
+      state.customFontDataUrl = null;
+      saveCustomFont();
+      await idbDeleteCustomFont();
+      syncCustomFontSelect();
+
       if (state.theme === "custom") applyTheme(state.theme);
     });
   }
 
   initializeTextureEditor();
+  initializeFontEditor();
+
+  function syncCustomFontSelect() {
+    if (!el.customFontSelect) return;
+    const font = state.customFont;
+    el.customFontSelect.value =
+      font.type === "google" ? `google:${font.googleFont}` : font.type;
+    if (el.customFontUploadRow) {
+      el.customFontUploadRow.hidden = font.type !== "custom";
+    }
+  }
+
+  function initializeFontEditor() {
+    syncCustomFontSelect();
+
+    el.customFontSelect?.addEventListener("change", async () => {
+      const value = el.customFontSelect.value;
+
+      if (value === "custom") {
+        state.customFont = { type: "custom" };
+        saveCustomFont();
+        if (el.customFontUploadRow) el.customFontUploadRow.hidden = false;
+
+        if (!state.customFontDataUrl) {
+          state.customFontDataUrl = await idbGetCustomFont();
+        }
+
+        if (state.theme === "custom") applyCustomFont();
+        return;
+      }
+
+      if (el.customFontUploadRow) el.customFontUploadRow.hidden = true;
+
+      state.customFont = value.startsWith("google:")
+        ? { type: "google", googleFont: value.slice("google:".length) }
+        : { type: "default" };
+
+      saveCustomFont();
+      if (state.theme === "custom") applyCustomFont();
+    });
+
+    el.customFontFile?.addEventListener("change", async () => {
+      const file = el.customFontFile.files?.[0];
+      if (!file) return;
+
+      if (!/\.(woff2?|ttf|otf)$/i.test(file.name)) {
+        alert("Wybierz plik czcionki w formacie WOFF, WOFF2, TTF lub OTF.");
+        el.customFontFile.value = "";
+        return;
+      }
+
+      if (file.size > CUSTOM_FONT_MAX_BYTES) {
+        alert("Plik czcionki jest za duży (limit 5 MB).");
+        el.customFontFile.value = "";
+        return;
+      }
+
+      try {
+        const dataUrl = await readFileAsDataUrl(file);
+        state.customFontDataUrl = dataUrl;
+        await idbSetCustomFont(dataUrl);
+        state.customFont = { type: "custom" };
+        saveCustomFont();
+        if (state.theme === "custom") applyCustomFont();
+      } catch (error) {
+        console.error("Nie udało się wczytać czcionki:", error);
+        alert("Nie udało się wczytać tego pliku.");
+      } finally {
+        el.customFontFile.value = "";
+      }
+    });
+
+    el.customFontFileClear?.addEventListener("click", async () => {
+      state.customFontDataUrl = null;
+      await idbDeleteCustomFont();
+      state.customFont = { type: "default" };
+      saveCustomFont();
+      syncCustomFontSelect();
+      if (state.theme === "custom") applyCustomFont();
+    });
+  }
 
   function initializeTextureEditor() {
     for (const key of TEXTURE_FIELDS) {
@@ -2120,6 +2380,14 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
     if (el.customTexturesHeading) el.customTexturesHeading.textContent = t.customTexturesHeading;
     if (el.customTexturesHint) el.customTexturesHint.textContent = t.customTexturesHint;
+    if (el.customFontHeading) el.customFontHeading.textContent = t.customFontHeading;
+    if (el.customFontHint) el.customFontHint.textContent = t.customFontHint;
+    if (el.customFontSelect) {
+      const defaultOption = el.customFontSelect.querySelector('option[value="default"]');
+      if (defaultOption) defaultOption.textContent = t.customFontDefault;
+      const customOption = el.customFontSelect.querySelector('option[value="custom"]');
+      if (customOption) customOption.textContent = t.customFontCustomOption;
+    }
     if (el.customPaletteReset) el.customPaletteReset.textContent = t.customColorReset;
     if (el.labelsPoiToggleLabel) el.labelsPoiToggleLabel.textContent = t.labelsPoi;
     if (el.labelsRoadsToggleLabel) el.labelsRoadsToggleLabel.textContent = t.labelsRoads;
@@ -2532,6 +2800,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     } else {
       clearCustomUiColors();
     }
+
+    applyCustomFont();
 
     applyLanguage(state.language);
 
@@ -10117,6 +10387,13 @@ function drawRoute(geometry, from, to, mode) {
       if (textureEntries.length > 0) {
         payload.customTextures = Object.fromEntries(textureEntries);
       }
+
+      if (state.customFont && state.customFont.type !== "default") {
+        payload.customFont = { ...state.customFont };
+        if (state.customFont.type === "custom" && state.customFontDataUrl) {
+          payload.customFontData = state.customFontDataUrl;
+        }
+      }
     }
 
     if (scopes.includes("placeNames")) {
@@ -10288,6 +10565,31 @@ function drawRoute(geometry, from, to, mode) {
           }
         }
         colorsImportedFlag = true;
+      }
+
+      if (
+        scopes.includes("colors") &&
+        raw?.customFont &&
+        typeof raw.customFont === "object" &&
+        typeof raw.customFont.type === "string"
+      ) {
+        if (raw.customFont.type === "google" && raw.customFont.googleFont) {
+          state.customFont = { type: "google", googleFont: raw.customFont.googleFont };
+          state.customFontDataUrl = null;
+          saveCustomFont();
+          colorsImportedFlag = true;
+        } else if (
+          raw.customFont.type === "custom" &&
+          typeof raw.customFontData === "string" &&
+          raw.customFontData.startsWith("data:")
+        ) {
+          state.customFont = { type: "custom" };
+          state.customFontDataUrl = raw.customFontData;
+          await idbSetCustomFont(raw.customFontData);
+          saveCustomFont();
+          colorsImportedFlag = true;
+        }
+        syncCustomFontSelect();
       }
 
       if (colorsImportedFlag && state.theme === "custom") {
