@@ -9579,9 +9579,15 @@ function drawRoute(geometry, from, to, mode) {
       const copy = document.createElement("span");
 
       const title = document.createElement("strong");
-      title.textContent =
-        entry.title ||
-        (state.language === "pl" ? "Miejsce" : "Place");
+      // Pobierz custom name jeśli istnieje
+      const lat = Number(entry.lat);
+      const lon = Number(entry.lon);
+      let displayTitle = entry.title || (state.language === "pl" ? "Miejsce" : "Place");
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+        displayTitle = state.customPlaceNames[placeNameKey] || displayTitle;
+      }
+      title.textContent = displayTitle;
 
       const address = document.createElement("small");
       address.textContent =
