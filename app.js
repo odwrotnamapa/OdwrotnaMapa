@@ -3253,9 +3253,16 @@ function applyLanguage(language) {
           title.textContent = text[state.language].menuLocation;
         } else {
           icon.textContent = getSearchResultEmoji(result);
-          title.textContent =
-            getSearchResultTitle(result) ||
+          // Pobierz custom name jeśli istnieje
+          const lat = Number(result?.lat);
+          const lon = Number(result?.lon);
+          let displayTitle = getSearchResultTitle(result) ||
             getPreferredPlaceLabel(result);
+          if (Number.isFinite(lat) && Number.isFinite(lon)) {
+            const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+            displayTitle = state.customPlaceNames[placeNameKey] || displayTitle;
+          }
+          title.textContent = displayTitle;
           details.textContent =
             getSearchResultSubtitle(result) ||
             result.display_name ||
@@ -3335,7 +3342,15 @@ function applyLanguage(language) {
         copy.className = "autocomplete-history-copy";
 
         const label = document.createElement("strong");
-        label.textContent = entry.label;
+        // Pobierz custom name jeśli istnieje
+        const lat = Number(entry.lat);
+        const lon = Number(entry.lon);
+        let displayLabel = entry.label;
+        if (Number.isFinite(lat) && Number.isFinite(lon)) {
+          const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+          displayLabel = state.customPlaceNames[placeNameKey] || displayLabel;
+        }
+        label.textContent = displayLabel;
 
         const details = document.createElement("span");
         details.textContent = entry.displayName || entry.label;
