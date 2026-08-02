@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-19T12:48:44.111Z",
+  "generatedAt": "2026-08-02T05:26:19.989Z",
   "parser": {
     "total": 145,
     "passed": 145,
     "failures": [],
-    "averageMs": 12.047863441379306,
-    "maximumMs": 323.514788
+    "averageMs": 27.0635425310325,
+    "maximumMs": 651.4889819999225
   },
   "ranking": {
     "total": 7,

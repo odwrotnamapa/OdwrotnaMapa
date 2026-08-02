@@ -253,6 +253,7 @@
       favoritesEmpty: "Brak ulubionych miejsc.",
       favoriteEdit: "Edytuj",
       favoriteEditTitle: "Edytuj miejsce",
+      placeRename: "Zmień nazwę miejsca",
       favoriteCustomNameLabel: "Własna nazwa",
       favoriteCustomNamePlaceholder: "np. Ulubiona kawiarnia",
       favoriteNoteLabel: "Notatka",
@@ -267,7 +268,9 @@
       backupDeselectAll: "Odznacz wszystko",
       backupScopeFavorites: "Ulubione miejsca",
       backupScopeColors: "Kolory i tekstury",
+      backupScopePlaceNames: "Własne nazwy miejsc",
       colorsImported: "Zaimportowano kolory.",
+      placeNamesImported: "Zaimportowano nazwy miejsc.",
       backupNothingSelected: "Zaznacz przynajmniej jedną opcję.",
       backupExportError: "Nie udało się wyeksportować pliku.",
       menuHistory: "Historia",
@@ -578,6 +581,7 @@
       favoritesEmpty: "No favorite places yet.",
       favoriteEdit: "Edit",
       favoriteEditTitle: "Edit place",
+      placeRename: "Rename place",
       favoriteCustomNameLabel: "Custom name",
       favoriteCustomNamePlaceholder: "e.g. Favorite cafe",
       favoriteNoteLabel: "Note",
@@ -592,7 +596,9 @@
       backupDeselectAll: "Deselect all",
       backupScopeFavorites: "Favorite places",
       backupScopeColors: "Colors & textures",
+      backupScopePlaceNames: "Custom place names",
       colorsImported: "Colors imported.",
+      placeNamesImported: "Place names imported.",
       backupNothingSelected: "Select at least one option.",
       backupExportError: "Could not export the file.",
       menuHistory: "History",
@@ -994,6 +1000,54 @@
     );
   }
 
+  // Własne nazwy miejsc wpisane w panelu informacji - przechowywane lokalnie,
+  // niezależnie od ulubionych (favorite.customName), bo dotyczą DOWOLNEGO
+  // miejsca pokazanego na mapie, nie tylko zapisanych do ulubionych.
+  function readCustomPlaceNames() {
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.customPlaceNames) || "{}"
+      );
+      return stored && typeof stored === "object" ? stored : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function saveCustomPlaceNames() {
+    safeSet(
+      CONFIG.storageKeys.customPlaceNames,
+      JSON.stringify(state.customPlaceNames)
+    );
+  }
+
+  function setCustomPlaceName(key, rawName, fallbackTitle, headingEl, place, lngLat) {
+    const trimmed = (rawName || "").trim();
+
+    if (!trimmed || trimmed === fallbackTitle) {
+      delete state.customPlaceNames[key];
+    } else {
+      state.customPlaceNames[key] = trimmed;
+    }
+
+    saveCustomPlaceNames();
+
+    // Synchronizuj z Ulubionymi: jeśli miejsce jest w Ulubionych, zaktualizuj jego customName
+    if (place && lngLat) {
+      const favoriteKey = getFavoriteKey(place, lngLat);
+      const favorite = state.favorites.find(item => item.key === favoriteKey);
+      if (favorite) {
+        favorite.customName = state.customPlaceNames[key] || "";
+        saveFavorites();
+        renderFavoritesList();
+      }
+    }
+
+    const displayTitle = state.customPlaceNames[key] || fallbackTitle;
+    if (headingEl) headingEl.textContent = displayTitle;
+    document.title = `${displayTitle} - Odwrotna Mapa`;
+  }
+
   function detectPreferredLanguage() {
     const browserLanguages = [
       navigator.language,
@@ -1023,6 +1077,7 @@
         : "default";
     })(),
     customPalette: readCustomPalette(),
+    customPlaceNames: readCustomPlaceNames(),
     // Wypełniane asynchronicznie przez initCustomTextures() po starcie mapy
     // (dane obrazów trzymamy w IndexedDB, nie w localStorage - mogą być
     // zbyt duże). Klucze pokrywają się z CUSTOM_PALETTE_FIELDS, które mają
@@ -1192,6 +1247,8 @@
     backupScopeFavoritesLabel: $("menu-backup-scope-favorites-label"),
     backupScopeColors: $("menu-backup-scope-colors"),
     backupScopeColorsLabel: $("menu-backup-scope-colors-label"),
+    backupScopePlaceNames: $("menu-backup-scope-place-names"),
+    backupScopePlaceNamesLabel: $("menu-backup-scope-place-names-label"),
     menuThemeLabel: $("menu-theme-label"),
     menuLanguageSelect: $("menu-language-select"),
     menuLegendButton: $("menu-legend-button"),
@@ -1663,17 +1720,18 @@ map.on('rotate', updateLogoRotation);
   });
   el.menuImportAllInput?.addEventListener("change", importAllSettingsJson);
   el.backupSelectAll?.addEventListener("click", () => {
-    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors].filter(Boolean);
+    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors, el.backupScopePlaceNames].filter(Boolean);
     const allChecked = checkboxes.every(box => box.checked);
     for (const box of checkboxes) box.checked = !allChecked;
     updateBackupSelectAllLabel();
   });
   el.backupScopeFavorites?.addEventListener("change", updateBackupSelectAllLabel);
   el.backupScopeColors?.addEventListener("change", updateBackupSelectAllLabel);
+  el.backupScopePlaceNames?.addEventListener("change", updateBackupSelectAllLabel);
 
   function updateBackupSelectAllLabel() {
     if (!el.backupSelectAll) return;
-    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors].filter(Boolean);
+    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors, el.backupScopePlaceNames].filter(Boolean);
     const allChecked = checkboxes.every(box => box.checked);
     el.backupSelectAll.textContent = allChecked
       ? text[state.language].backupDeselectAll
@@ -1686,6 +1744,7 @@ map.on('rotate', updateLogoRotation);
     const scopes = [];
     if (el.backupScopeFavorites?.checked) scopes.push("favorites");
     if (el.backupScopeColors?.checked) scopes.push("colors");
+    if (el.backupScopePlaceNames?.checked) scopes.push("placeNames");
     return scopes;
   }
 
@@ -1907,6 +1966,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.menuImportAllLabel) el.menuImportAllLabel.textContent = t.menuImportAll;
     if (el.backupScopeFavoritesLabel) el.backupScopeFavoritesLabel.textContent = t.backupScopeFavorites;
     if (el.backupScopeColorsLabel) el.backupScopeColorsLabel.textContent = t.backupScopeColors;
+    if (el.backupScopePlaceNamesLabel) el.backupScopePlaceNamesLabel.textContent = t.backupScopePlaceNames;
     updateBackupSelectAllLabel();
     if (el.favoritesCountLabel) el.favoritesCountLabel.textContent = t.favoritesCountLabel;
     document.documentElement.lang = state.language;
@@ -6170,7 +6230,9 @@ function showUserLocationMarker(lngLat) {
 
   function createPlaceCardLegacy(place, lngLat) {
     const t = text[state.language];
-    document.title = `${getPlaceTitle(place)} - Odwrotna Mapa`;
+    const placeNameKey = getPlaceNameKey(place, lngLat);
+    const originalPlaceTitle = getPlaceTitle(place) || t.placeUnknown;
+    document.title = `${state.customPlaceNames[placeNameKey] || originalPlaceTitle} - Odwrotna Mapa`;
     const card = document.createElement("article");
     card.className = "place-card";
 
@@ -6215,13 +6277,81 @@ function showUserLocationMarker(lngLat) {
 
     const heading = document.createElement("h3");
     heading.className = "place-card-title";
-    heading.textContent = getPlaceTitle(place) || t.placeUnknown;
+
+    const titleButton = document.createElement("button");
+    titleButton.type = "button";
+    titleButton.className = "place-card-title-button";
+    titleButton.textContent = state.customPlaceNames[placeNameKey] || originalPlaceTitle;
+    titleButton.title = t.placeRename;
+    titleButton.setAttribute("aria-label", t.placeRename);
+
+    heading.appendChild(titleButton);
+
+    const renameForm = document.createElement("div");
+    renameForm.className = "place-card-rename-form";
+    renameForm.hidden = true;
+    renameForm.addEventListener("click", (e) => e.stopPropagation());
+    renameForm.addEventListener("mousedown", (e) => e.stopPropagation());
+
+    const renameInput = document.createElement("input");
+    renameInput.type = "text";
+    renameInput.className = "place-card-rename-input";
+    renameInput.placeholder = originalPlaceTitle;
+    renameInput.value = state.customPlaceNames[placeNameKey] || "";
+    renameInput.addEventListener("click", (e) => e.stopPropagation());
+    renameInput.addEventListener("mousedown", (e) => e.stopPropagation());
+
+    const renameActions = document.createElement("div");
+    renameActions.className = "place-card-rename-actions";
+
+    const renameSave = document.createElement("button");
+    renameSave.type = "button";
+    renameSave.className = "place-card-rename-save";
+    renameSave.textContent = t.favoriteSave;
+    renameSave.addEventListener("click", (e) => e.stopPropagation());
+
+    const renameCancel = document.createElement("button");
+    renameCancel.type = "button";
+    renameCancel.className = "place-card-rename-cancel";
+    renameCancel.textContent = t.favoriteCancelEdit;
+    renameCancel.addEventListener("click", (e) => e.stopPropagation());
+
+    renameActions.append(renameSave, renameCancel);
+    renameForm.append(renameInput, renameActions);
+
+    titleButton.addEventListener("click", () => {
+      renameForm.hidden = !renameForm.hidden;
+      if (!renameForm.hidden) {
+        // Wstaw albo custom name, albo obecną nazwę
+        renameInput.value = state.customPlaceNames[placeNameKey] || titleButton.textContent || "";
+        renameInput.focus();
+        renameInput.select();
+      }
+    });
+
+    renameCancel.addEventListener("click", () => {
+      renameForm.hidden = true;
+    });
+
+    renameSave.addEventListener("click", () => {
+      setCustomPlaceName(placeNameKey, renameInput.value, originalPlaceTitle, titleButton, place, lngLat);
+      renameForm.hidden = true;
+    });
+
+    renameInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        renameSave.click();
+      } else if (event.key === "Escape") {
+        renameCancel.click();
+      }
+    });
 
     const type = document.createElement("p");
     type.className = "place-card-type";
     type.textContent = getPlaceTypeLabel(place);
 
-    headingCopy.appendChild(heading);
+    headingCopy.append(heading, renameForm);
     if (type.textContent) headingCopy.appendChild(type);
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
@@ -6769,7 +6899,27 @@ function showUserLocationMarker(lngLat) {
       osm_type: place.osm_type || "",
       osm_id: place.osm_id || "",
       namedPoiId: place.namedPoiId || "",
-      provider: place.provider || ""
+      provider: place.provider || "",
+      providers: place.providers || [],
+      source: place.source || "",
+      exactLocalIdentity: Boolean(
+        place._exactLocalIdentity ||
+        place.exactLocalIdentity
+      ),
+      aliases: place.aliases || [],
+      keywords: place.keywords || [],
+      type: place.type || "",
+      category: place.category || "",
+      class: place.class || "",
+      addressDetails: {
+        ...(place.address || {})
+      },
+      extratags: {
+        ...(place.extratags || {})
+      },
+      namedetails: {
+        ...(place.namedetails || {})
+      }
     };
 
     state.history = [
@@ -6805,6 +6955,25 @@ function showUserLocationMarker(lngLat) {
       `${Number(lngLat.lat).toFixed(6)},${Number(lngLat.lng).toFixed(6)}`;
   }
 
+  function getPlaceNameKey(place, lngLat) {
+    // Zawsze użyj współrzędnych jako głównego klucza
+    // (są najstabilniejsze i zawsze dostępne)
+    const lat = Number(place?.lat ?? lngLat?.lat);
+    const lon = Number(place?.lon ?? lngLat?.lng);
+
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      return `${lat.toFixed(5)},${lon.toFixed(5)}`;
+    }
+
+    // Fallback na OSM ID tylko jeśli nie ma współrzędnych
+    if (place?.osm_type && place?.osm_id) {
+      return `${place.osm_type}:${place.osm_id}`;
+    }
+
+    // Ostateczny fallback
+    return getFavoriteKey(place, lngLat);
+  }
+
   function isFavorite(key) {
     return state.favorites.some(item => item.key === key);
   }
@@ -6820,6 +6989,9 @@ function showUserLocationMarker(lngLat) {
       renderFavoritesList();
       return false;
     }
+
+    const placeNameKey = getPlaceNameKey(place, lngLat);
+    const customName = state.customPlaceNames[placeNameKey] || "";
 
     state.favorites.unshift({
       key,
@@ -6854,7 +7026,8 @@ function showUserLocationMarker(lngLat) {
       },
       namedetails: {
         ...(place.namedetails || {})
-      }
+      },
+      customName: customName
     });
 
     state.favorites = state.favorites.slice(0, 100);
@@ -7059,10 +7232,30 @@ function showUserLocationMarker(lngLat) {
     // są niekompletne) - jeśli znalazła konkretniejszą nazwę,
     // podmieniamy widoczny tytuł, żeby panel i Wikipedia zawsze
     // pokazywały to samo miejsce.
+    // ALE: nie resetujemy, jeśli użytkownik ustawił custom name
     if (data.title && headingElement) {
-      const displayTitle = capitalizeFirstLetter(data.title);
-      headingElement.textContent = displayTitle;
-      document.title = `${displayTitle} - Odwrotna Mapa`;
+      const lat = Number(place?.lat);
+      const lon = Number(place?.lon);
+      let placeNameKey = null;
+      
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      }
+      
+      // Nie nadpisuj jeśli istnieje custom name
+      const hasCustomName = placeNameKey && state.customPlaceNames[placeNameKey];
+      if (!hasCustomName) {
+        const displayTitle = capitalizeFirstLetter(data.title);
+        // Zmień TYLKO titleButton, nie cały headingElement
+        const titleButton = headingElement.querySelector(".place-card-title-button");
+        if (titleButton) {
+          titleButton.textContent = displayTitle;
+        } else {
+          // Fallback jeśli struktura się zmieniła
+          headingElement.textContent = displayTitle;
+        }
+        document.title = `${displayTitle} - Odwrotna Mapa`;
+      }
     }
   }
 
@@ -9316,7 +9509,19 @@ function drawRoute(geometry, from, to, mode) {
   }
 
   function openHistoryPlace(entry) {
-    return window.OMAP_PLACE_SERVICE.open(entry, {
+    const lat = Number(entry?.lat);
+    const lon = Number(entry?.lon);
+    let payload = entry;
+    
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      const customName = state.customPlaceNames[placeNameKey];
+      if (customName) {
+        payload = { ...entry, customName, name: customName };
+      }
+    }
+    
+    return window.OMAP_PLACE_SERVICE.open(payload, {
       source: "history"
     });
   }
@@ -9583,8 +9788,21 @@ function drawRoute(geometry, from, to, mode) {
       origin = "search"
     } = {}
   ) {
+    // Dołącz custom name jeśli istnieje
+    const lat = Number(result?.lat);
+    const lon = Number(result?.lon);
+    let payload = result;
+    
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      const customName = state.customPlaceNames[placeNameKey];
+      if (customName) {
+        payload = { ...result, customName, name: customName };
+      }
+    }
+    
     return window.OMAP_PLACE_SERVICE.open(
-      result,
+      payload,
       {
         source:
           origin === "search-history"
@@ -9606,14 +9824,22 @@ function drawRoute(geometry, from, to, mode) {
       origin = "map-context-menu"
     } = {}
   ) {
+    // Pobierz custom name jeśli istnieje
+    const lat = Number(lngLat.lat);
+    const lon = Number(lngLat.lng);
+    const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+    const customName = state.customPlaceNames[placeNameKey];
+    const displayName = customName || "Wybrane miejsce";
+    
     return window.OMAP_PLACE_SERVICE.open(
       {
-        name: "Wybrane miejsce",
-        lat: Number(lngLat.lat),
-        lon: Number(lngLat.lng),
+        name: displayName,
+        lat,
+        lon,
         category: "place",
         source: "map-info",
-        provider: "map"
+        provider: "map",
+        customName: customName
       },
       {
         source: "map-info",
@@ -9872,6 +10098,15 @@ function drawRoute(geometry, from, to, mode) {
       }
     }
 
+    if (scopes.includes("placeNames")) {
+      const nameEntries = Object.entries(state.customPlaceNames || {}).filter(
+        ([, name]) => Boolean(name)
+      );
+      if (nameEntries.length > 0) {
+        payload.customPlaceNames = Object.fromEntries(nameEntries);
+      }
+    }
+
     const json = JSON.stringify(payload, null, 2);
     const filename =
       `odwrotna-mapa-ustawienia-${new Date()
@@ -10038,12 +10273,32 @@ function drawRoute(geometry, from, to, mode) {
         applyTheme(state.theme);
       }
 
+      let placeNamesImportedFlag = false;
+
+      if (
+        scopes.includes("placeNames") &&
+        raw?.customPlaceNames &&
+        typeof raw.customPlaceNames === "object"
+      ) {
+        for (const [key, name] of Object.entries(raw.customPlaceNames)) {
+          const trimmed = String(name || "").trim();
+          if (typeof key === "string" && key && trimmed) {
+            state.customPlaceNames[key] = trimmed;
+          }
+        }
+        saveCustomPlaceNames();
+        placeNamesImportedFlag = true;
+      }
+
       const messages = [];
       if (favoritesImportedFlag) {
         messages.push(text[state.language].favoritesImported(importedCount));
       }
       if (colorsImportedFlag) {
         messages.push(text[state.language].colorsImported);
+      }
+      if (placeNamesImportedFlag) {
+        messages.push(text[state.language].placeNamesImported);
       }
 
       show(messages.join(" ") || text[state.language].favoritesImportError);
@@ -11365,6 +11620,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
           source: "discover",
           provider: "discover"
         };
+
+        // Dołącz custom name jeśli istnieje
+        const placeNameKey = `${Number(place.lat).toFixed(5)},${Number(place.lon).toFixed(5)}`;
+        const customName = state.customPlaceNames[placeNameKey];
+        if (customName) {
+          rawPlace.customName = customName;
+          rawPlace.name = customName;
+        }
 
         window.OMAP_PLACE_SERVICE.open(
           rawPlace,
