@@ -23,7 +23,7 @@
       styles: { default: "Domyślna", satellite: "Satelitarna", inverted: "Odwrotna", custom: "Własna" },
       customMapColorsHeading: "Kolory mapy",
       customUiColorsHeading: "Kolory interfejsu",
-      customColorReset: "Resetuj kolory",
+      customColorReset: "Resetuj kolory, tekstury i czcionkę",
       customLabelsHeading: "Etykiety na mapie",
       labelsPoi: "Punkty (sklepy, usługi)",
       labelsRoads: "Nazwy ulic",
@@ -55,6 +55,19 @@
         uiAccent: "Akcent",
         uiPanel: "Tło paneli",
         uiText: "Tekst"
+      },
+      customTexturesHeading: "Tekstury (zdjęcie zamiast koloru)",
+      customTexturesHint: "JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.",
+      customFontHeading: "Czcionka",
+      customFontHint: "Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.",
+      customFontDefault: "Domyślna",
+      customFontCustomOption: "Własna (wgraj plik)",
+      customTextureLabels: {
+        mapBackground: "Tło mapy",
+        mapWater: "Woda",
+        mapParks: "Zieleń",
+        mapBuildings: "Budynki",
+        uiPanel: "Tło paneli"
       },
       locate: "Moja lokalizacja", legend: "Legenda", closeLegend: "Zamknij legendę",
       toggle3d: "Widok 3D",
@@ -244,6 +257,7 @@
       favoritesEmpty: "Brak ulubionych miejsc.",
       favoriteEdit: "Edytuj",
       favoriteEditTitle: "Edytuj miejsce",
+      placeRename: "Zmień nazwę miejsca",
       favoriteCustomNameLabel: "Własna nazwa",
       favoriteCustomNamePlaceholder: "np. Ulubiona kawiarnia",
       favoriteNoteLabel: "Notatka",
@@ -257,8 +271,10 @@
       backupSelectAll: "Zaznacz wszystko",
       backupDeselectAll: "Odznacz wszystko",
       backupScopeFavorites: "Ulubione miejsca",
-      backupScopeColors: "Kolory",
+      backupScopeColors: "Kolory, tekstury i czcionki",
+      backupScopePlaceNames: "Własne nazwy miejsc",
       colorsImported: "Zaimportowano kolory.",
+      placeNamesImported: "Zaimportowano nazwy miejsc.",
       backupNothingSelected: "Zaznacz przynajmniej jedną opcję.",
       backupExportError: "Nie udało się wyeksportować pliku.",
       menuHistory: "Historia",
@@ -339,7 +355,7 @@
       styles: { default: "Default", satellite: "Satellite", inverted: "Inverted", custom: "Custom" },
       customMapColorsHeading: "Map colors",
       customUiColorsHeading: "Interface colors",
-      customColorReset: "Reset colors",
+      customColorReset: "Reset colors, textures & font",
       customLabelsHeading: "Map labels",
       labelsPoi: "Points (shops, services)",
       labelsRoads: "Street names",
@@ -371,6 +387,19 @@
         uiAccent: "Accent",
         uiPanel: "Panel background",
         uiText: "Text"
+      },
+      customTexturesHeading: "Textures (image instead of color)",
+      customTexturesHint: "JPG or PNG. Water, greenery and buildings will be tiled as a repeating pattern; map background and panel background will be scaled to fill the whole area.",
+      customFontHeading: "Font",
+      customFontHint: "Applies to the interface text (menus, panels, cards) - it does not change the font of labels on the map itself.",
+      customFontDefault: "Default",
+      customFontCustomOption: "Custom (upload a file)",
+      customTextureLabels: {
+        mapBackground: "Map background",
+        mapWater: "Water",
+        mapParks: "Greenery",
+        mapBuildings: "Buildings",
+        uiPanel: "Panel background"
       },
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
       toggle3d: "3D view",
@@ -560,6 +589,7 @@
       favoritesEmpty: "No favorite places yet.",
       favoriteEdit: "Edit",
       favoriteEditTitle: "Edit place",
+      placeRename: "Rename place",
       favoriteCustomNameLabel: "Custom name",
       favoriteCustomNamePlaceholder: "e.g. Favorite cafe",
       favoriteNoteLabel: "Note",
@@ -573,8 +603,10 @@
       backupSelectAll: "Select all",
       backupDeselectAll: "Deselect all",
       backupScopeFavorites: "Favorite places",
-      backupScopeColors: "Colors",
+      backupScopeColors: "Colors, textures & fonts",
+      backupScopePlaceNames: "Custom place names",
       colorsImported: "Colors imported.",
+      placeNamesImported: "Place names imported.",
       backupNothingSelected: "Select at least one option.",
       backupExportError: "Could not export the file.",
       menuHistory: "History",
@@ -663,6 +695,382 @@
     uiPanel: "#ffffff",
     uiText: "#18212b"
   };
+
+  // ---------------------------------------------------------------------
+  // Tekstury (zdjęcia zamiast koloru) dla motywu "custom".
+  //
+  // Warstwy mapy (MapLibre GL, wektorowe kafelki) nie pozwalają po prostu
+  // "wkleić zdjęcia" jako wypełnienia - trzeba zarejestrować obraz przez
+  // map.addImage() i użyć fill-pattern/background-pattern zamiast
+  // fill-color/background-color. Taki wzór jest kafelkowany (powtarzany),
+  // więc nadaje się do tekstur wody/zieleni/budynków/tła mapy, ale nie do
+  // wklejenia jednego dużego, nie powtarzalnego zdjęcia na całą mapę.
+  //
+  // Tło paneli UI to zwykły CSS, więc tam obraz jest dopasowywany przez
+  // background-size: cover (patrz applyUiPanelTexture / style.css).
+  // ---------------------------------------------------------------------
+
+  const MAP_TEXTURE_KEYS = ["mapBackground", "mapWater", "mapParks", "mapBuildings"];
+  const TEXTURE_FIELDS = [...MAP_TEXTURE_KEYS, "uiPanel"];
+  const TEXTURE_IMAGE_PREFIX = "custom-texture-";
+  const TEXTURE_DB_NAME = "odwrotnamapa-textures";
+  const TEXTURE_STORE = "textures";
+  const FONT_STORE = "fonts";
+  const TEXTURE_DB_VERSION = 2;
+  const TEXTURE_MAX_DIMENSION = 1024;
+
+  function textureImageId(key) {
+    return TEXTURE_IMAGE_PREFIX + key;
+  }
+
+  function openTextureDB() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) {
+        reject(new Error("IndexedDB niedostępne"));
+        return;
+      }
+      const request = indexedDB.open(TEXTURE_DB_NAME, TEXTURE_DB_VERSION);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(TEXTURE_STORE)) {
+          db.createObjectStore(TEXTURE_STORE);
+        }
+        if (!db.objectStoreNames.contains(FONT_STORE)) {
+          db.createObjectStore(FONT_STORE);
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function idbGetAllTextures() {
+    try {
+      const db = await openTextureDB();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction(TEXTURE_STORE, "readonly");
+        const store = tx.objectStore(TEXTURE_STORE);
+        const result = {};
+        const cursorRequest = store.openCursor();
+        cursorRequest.onsuccess = event => {
+          const cursor = event.target.result;
+          if (cursor) {
+            result[cursor.key] = cursor.value;
+            cursor.continue();
+          } else {
+            resolve(result);
+          }
+        };
+        cursorRequest.onerror = () => reject(cursorRequest.error);
+      });
+    } catch (_) {
+      return {};
+    }
+  }
+
+  async function idbSetTexture(key, dataUrl) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(TEXTURE_STORE, "readwrite");
+        tx.objectStore(TEXTURE_STORE).put(dataUrl, key);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się zapisać tekstury:", error);
+    }
+  }
+
+  async function idbDeleteTexture(key) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(TEXTURE_STORE, "readwrite");
+        tx.objectStore(TEXTURE_STORE).delete(key);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się usunąć tekstury:", error);
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Czcionka interfejsu (motyw "custom"). Dwie ścieżki:
+  //  - "google": jedna z kilkunastu wybranych czcionek z Google Fonts,
+  //    doczytywana leniwie przez wstrzyknięty <link> (tak jak domyślna
+  //    "Plus Jakarta Sans" jest już wczytywana w index.html).
+  //  - "custom": własny plik WOFF/WOFF2/TTF/OTF wgrany przez użytkownika,
+  //    zarejestrowany jako @font-face. Sam plik (może być spory) trzymamy
+  //    w IndexedDB, a w localStorage tylko informację "jaki typ czcionki
+  //    jest aktywny" - tak samo jak przy teksturach.
+  //
+  // Dotyczy WYŁĄCZNIE tekstu interfejsu (--font). Etykiety na samej mapie
+  // renderuje MapLibre z glifów wbudowanych w kafelki wektorowe stylu
+  // OpenFreeMap Liberty i nie da się ich podmienić z poziomu przeglądarki.
+  // ---------------------------------------------------------------------
+
+  const CUSTOM_FONT_FAMILY = "OdwrotnaMapaCustomFont";
+  const SYSTEM_FONT_FALLBACK =
+    '"Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  const CUSTOM_FONT_MAX_BYTES = 5 * 1024 * 1024;
+
+  const GOOGLE_FONT_OPTIONS = [
+    "Inter",
+    "IBM Plex Sans",
+    "Space Grotesk",
+    "Poppins",
+    "Comfortaa",
+    "Fraunces",
+    "Playfair Display",
+    "Merriweather",
+    "JetBrains Mono",
+    "Bebas Neue"
+  ];
+
+  let customFontStyleEl = null;
+
+  function registerCustomFontFace(dataUrl) {
+    if (!customFontStyleEl) {
+      customFontStyleEl = document.createElement("style");
+      customFontStyleEl.id = "odwrotnamapa-custom-font-face";
+      document.head.appendChild(customFontStyleEl);
+    }
+    customFontStyleEl.textContent =
+      `@font-face { font-family: "${CUSTOM_FONT_FAMILY}"; src: url(${dataUrl}); font-display: swap; }`;
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error || new Error("Błąd odczytu pliku"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function readCustomFont() {
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.customFont) || "null"
+      );
+      if (stored && typeof stored === "object" && stored.type) return stored;
+    } catch (_) {}
+    return { type: "default" };
+  }
+
+  function saveCustomFont() {
+    safeSet(CONFIG.storageKeys.customFont, JSON.stringify(state.customFont));
+  }
+
+  async function idbGetCustomFont() {
+    try {
+      const db = await openTextureDB();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, "readonly");
+        const req = tx.objectStore(FONT_STORE).get("customFont");
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function idbSetCustomFont(dataUrl) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, "readwrite");
+        tx.objectStore(FONT_STORE).put(dataUrl, "customFont");
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się zapisać czcionki:", error);
+    }
+  }
+
+  async function idbDeleteCustomFont() {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, "readwrite");
+        tx.objectStore(FONT_STORE).delete("customFont");
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się usunąć czcionki:", error);
+    }
+  }
+
+  // Wczytuje wybór czcionki po starcie (plik czcionki z IndexedDB, jeśli
+  // trzeba) i go stosuje. Wołane raz, obok initCustomTextures().
+  async function initCustomFont() {
+    if (state.customFont.type === "custom") {
+      state.customFontDataUrl = await idbGetCustomFont();
+      if (!state.customFontDataUrl) {
+        // Brak pliku w tej przeglądarce (np. inne urządzenie) - wróć do domyślnej.
+        state.customFont = { type: "default" };
+        saveCustomFont();
+      }
+    }
+    applyCustomFont();
+  }
+
+  function applyCustomFont() {
+    const root = document.documentElement.style;
+    const font = state.customFont;
+
+    if (state.theme !== "custom" || !font || font.type === "default") {
+      root.removeProperty("--font");
+      return;
+    }
+
+    if (font.type === "google" && font.googleFont) {
+      // Google Fonts support removed
+      root.removeProperty("--font");
+      return;
+    }
+
+    if (font.type === "custom" && state.customFontDataUrl) {
+      registerCustomFontFace(state.customFontDataUrl);
+      root.setProperty("--font", `"${CUSTOM_FONT_FAMILY}", ${SYSTEM_FONT_FALLBACK}`);
+      return;
+    }
+
+    root.removeProperty("--font");
+  }
+
+  // Zmniejsza wgrany JPG/PNG do rozsądnego rozmiaru (wzory kafelkowane na
+  // mapie i tak są powtarzane, więc olbrzymie zdjęcie tylko spowalniałoby
+  // renderowanie i zajmowało miejsce w IndexedDB).
+  function resizeImageToDataUrl(file, maxDimension = TEXTURE_MAX_DIMENSION, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(reader.error || new Error("Błąd odczytu pliku"));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error("Nieprawidłowy plik graficzny"));
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxDimension || height > maxDimension) {
+            const scale = maxDimension / Math.max(width, height);
+            width = Math.max(1, Math.round(width * scale));
+            height = Math.max(1, Math.round(height * scale));
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
+          try {
+            resolve(canvas.toDataURL(mime, quality));
+          } catch (error) {
+            reject(error);
+          }
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function loadHtmlImage(dataUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("Nie udało się wczytać obrazu tekstury"));
+      img.src = dataUrl;
+    });
+  }
+
+  // Rejestruje obraz w MapLibre pod stałym id, żeby warstwy mogły się do
+  // niego odwoływać przez fill-pattern / background-pattern.
+  async function registerTextureImage(key, dataUrl) {
+    if (!map || !dataUrl) return;
+    const imageId = textureImageId(key);
+    try {
+      const img = await loadHtmlImage(dataUrl);
+      const width = img.naturalWidth || img.width;
+      const height = img.naturalHeight || img.height;
+
+      // WebGL i canvas mają odwrócone układy współrzędnych w pionie
+      // (WebGL czyta teksturę od dołu, canvas rysuje od góry), przez co
+      // obrazy dodane do MapLibre jako fill-pattern/background-pattern
+      // renderują się "do góry nogami". Odwracamy obraz przed
+      // zarejestrowaniem, żeby na mapie wyglądał tak jak w oryginalnym
+      // pliku.
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      // MapLibre nie tylko odwraca teksturę w pionie, ale w praktyce
+      // renderuje ją obróconą o 180 stopni (pion + poziom), dlatego
+      // kompensujemy oba kierunki naraz zamiast samego pionu.
+      ctx.translate(width, height);
+      ctx.scale(-1, -1);
+      ctx.drawImage(img, 0, 0, width, height);
+      const imageData = ctx.getImageData(0, 0, width, height);
+
+      if (map.hasImage(imageId)) map.removeImage(imageId);
+      map.addImage(imageId, imageData);
+    } catch (error) {
+      console.error("Nie udało się zarejestrować tekstury mapy:", error);
+    }
+  }
+
+  function unregisterTextureImage(key) {
+    if (!map) return;
+    const imageId = textureImageId(key);
+    try {
+      if (map.hasImage(imageId)) map.removeImage(imageId);
+    } catch (_) {}
+  }
+
+  // Wczytuje wszystkie zapisane tekstury z IndexedDB i rejestruje w mapie
+  // te, które dotyczą warstw mapy (nie UI). Wołane raz, po starcie mapy.
+  async function initCustomTextures() {
+    state.customTextures = await idbGetAllTextures();
+    for (const key of MAP_TEXTURE_KEYS) {
+      if (state.customTextures[key]) {
+        await registerTextureImage(key, state.customTextures[key]);
+      }
+    }
+  }
+
+  // Jeśli dla danego klucza palety istnieje tekstura, podpina ją pod
+  // warstwę zamiast koloru. Zwraca true, jeśli tekstura została użyta.
+  function applyTextureIfPresent(layer, paletteKey, paintProperty) {
+    if (!MAP_TEXTURE_KEYS.includes(paletteKey)) return false;
+    const dataUrl = state.customTextures?.[paletteKey];
+    if (!dataUrl) return false;
+
+    const imageId = textureImageId(paletteKey);
+    if (!map.hasImage(imageId)) return false;
+
+    try {
+      map.setPaintProperty(layer.id, paintProperty, imageId);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // Tło paneli UI to zwykły CSS (--panel-image, patrz style.css), a nie
+  // warstwa MapLibre, więc obsługujemy je osobno od tekstur mapy.
+  function applyUiPanelTexture() {
+    const root = document.documentElement.style;
+    const dataUrl = state.customTextures?.uiPanel;
+    if (state.theme === "custom" && dataUrl) {
+      root.setProperty("--panel-image", `url(${dataUrl})`);
+    } else {
+      root.removeProperty("--panel-image");
+    }
+  }
 
   // Warstwy etykiet ze stylu OpenFreeMap Liberty, pogrupowane pod
   // przełączniki widoczności w menu. Jeśli styl mapy się kiedyś
@@ -754,6 +1162,54 @@
     );
   }
 
+  // Własne nazwy miejsc wpisane w panelu informacji - przechowywane lokalnie,
+  // niezależnie od ulubionych (favorite.customName), bo dotyczą DOWOLNEGO
+  // miejsca pokazanego na mapie, nie tylko zapisanych do ulubionych.
+  function readCustomPlaceNames() {
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.customPlaceNames) || "{}"
+      );
+      return stored && typeof stored === "object" ? stored : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function saveCustomPlaceNames() {
+    safeSet(
+      CONFIG.storageKeys.customPlaceNames,
+      JSON.stringify(state.customPlaceNames)
+    );
+  }
+
+  function setCustomPlaceName(key, rawName, fallbackTitle, headingEl, place, lngLat) {
+    const trimmed = (rawName || "").trim();
+
+    if (!trimmed || trimmed === fallbackTitle) {
+      delete state.customPlaceNames[key];
+    } else {
+      state.customPlaceNames[key] = trimmed;
+    }
+
+    saveCustomPlaceNames();
+
+    // Synchronizuj z Ulubionymi: jeśli miejsce jest w Ulubionych, zaktualizuj jego customName
+    if (place && lngLat) {
+      const favoriteKey = getFavoriteKey(place, lngLat);
+      const favorite = state.favorites.find(item => item.key === favoriteKey);
+      if (favorite) {
+        favorite.customName = state.customPlaceNames[key] || "";
+        saveFavorites();
+        renderFavoritesList();
+      }
+    }
+
+    const displayTitle = state.customPlaceNames[key] || fallbackTitle;
+    if (headingEl) headingEl.textContent = displayTitle;
+    document.title = `${displayTitle} - Odwrotna Mapa`;
+  }
+
   function detectPreferredLanguage() {
     const browserLanguages = [
       navigator.language,
@@ -783,6 +1239,17 @@
         : "default";
     })(),
     customPalette: readCustomPalette(),
+    customFont: readCustomFont(),
+    // Sam plik czcionki (jeśli type === "custom") wczytywany asynchronicznie
+    // z IndexedDB przez initCustomFont() po starcie.
+    customFontDataUrl: null,
+    customPlaceNames: readCustomPlaceNames(),
+    // Wypełniane asynchronicznie przez initCustomTextures() po starcie mapy
+    // (dane obrazów trzymamy w IndexedDB, nie w localStorage - mogą być
+    // zbyt duże). Klucze pokrywają się z CUSTOM_PALETTE_FIELDS, które mają
+    // sens jako tekstura: mapBackground, mapWater, mapParks, mapBuildings,
+    // uiPanel.
+    customTextures: {},
     labelVisibility: readLabelVisibility(),
     timer: null,
     originalPaint: new Map(),
@@ -917,6 +1384,14 @@
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
     customUiHeading: $("menu-custom-ui-heading"),
+    customTexturesHeading: $("menu-custom-textures-heading"),
+    customTexturesHint: $("menu-custom-textures-hint"),
+    customFontHeading: $("menu-custom-font-heading"),
+    customFontHint: $("menu-custom-font-hint"),
+    customFontSelect: $("custom-font-select"),
+    customFontUploadRow: $("custom-font-upload-row"),
+    customFontFile: $("custom-font-file"),
+    customFontFileClear: $("custom-font-file-clear"),
     customPaletteReset: $("custom-palette-reset"),
     labelsPoiToggle: $("menu-labels-poi"),
     labelsPoiToggleLabel: $("menu-labels-poi-label"),
@@ -944,6 +1419,8 @@
     backupScopeFavoritesLabel: $("menu-backup-scope-favorites-label"),
     backupScopeColors: $("menu-backup-scope-colors"),
     backupScopeColorsLabel: $("menu-backup-scope-colors-label"),
+    backupScopePlaceNames: $("menu-backup-scope-place-names"),
+    backupScopePlaceNamesLabel: $("menu-backup-scope-place-names-label"),
     menuThemeLabel: $("menu-theme-label"),
     menuLanguageSelect: $("menu-language-select"),
     menuLegendButton: $("menu-legend-button"),
@@ -1086,10 +1563,12 @@ map.on('rotate', updateLogoRotation);
     console.error("MapLibre:", event.error || event);
   });
 
-  map.on("load", () => {
+  map.on("load", async () => {
     ensureSatellite();
     ensureRouteLayers();
     cacheOriginalPaint();
+    await initCustomTextures();
+    await initCustomFont();
     applyTheme(state.theme);
     applyLanguageAfterStartup();
     loadSharedRouteFromUrl();
@@ -1159,12 +1638,154 @@ map.on('rotate', updateLogoRotation);
       });
     }
 
-    el.customPaletteReset?.addEventListener("click", () => {
+    el.customPaletteReset?.addEventListener("click", async () => {
       state.customPalette = { ...DEFAULT_CUSTOM_PALETTE };
       saveCustomPalette(state.customPalette);
       syncCustomPaletteInputs();
+
+      for (const key of TEXTURE_FIELDS) {
+        state.customTextures[key] = null;
+        await idbDeleteTexture(key);
+        if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
+      }
+
+      state.customFont = { type: "default" };
+      state.customFontDataUrl = null;
+      saveCustomFont();
+      await idbDeleteCustomFont();
+      syncCustomFontSelect();
+
       if (state.theme === "custom") applyTheme(state.theme);
     });
+  }
+
+  initializeTextureEditor();
+  initializeFontEditor();
+
+  function syncCustomFontSelect() {
+    if (!el.customFontSelect) return;
+    const font = state.customFont;
+    el.customFontSelect.value =
+      font.type === "google" ? `google:${font.googleFont}` : font.type;
+    if (el.customFontUploadRow) {
+      el.customFontUploadRow.hidden = font.type !== "custom";
+    }
+  }
+
+  function initializeFontEditor() {
+    syncCustomFontSelect();
+
+    el.customFontSelect?.addEventListener("change", async () => {
+      const value = el.customFontSelect.value;
+
+      if (value === "custom") {
+        state.customFont = { type: "custom" };
+        saveCustomFont();
+        if (el.customFontUploadRow) el.customFontUploadRow.hidden = false;
+
+        if (!state.customFontDataUrl) {
+          state.customFontDataUrl = await idbGetCustomFont();
+        }
+
+        if (state.theme === "custom") applyCustomFont();
+        return;
+      }
+
+      if (el.customFontUploadRow) el.customFontUploadRow.hidden = true;
+
+      state.customFont = value.startsWith("google:")
+        ? { type: "google", googleFont: value.slice("google:".length) }
+        : { type: "default" };
+
+      saveCustomFont();
+      if (state.theme === "custom") applyCustomFont();
+    });
+
+    el.customFontFile?.addEventListener("change", async () => {
+      const file = el.customFontFile.files?.[0];
+      if (!file) return;
+
+      if (!/\.(woff2?|ttf|otf)$/i.test(file.name)) {
+        alert("Wybierz plik czcionki w formacie WOFF, WOFF2, TTF lub OTF.");
+        el.customFontFile.value = "";
+        return;
+      }
+
+      if (file.size > CUSTOM_FONT_MAX_BYTES) {
+        alert("Plik czcionki jest za duży (limit 5 MB).");
+        el.customFontFile.value = "";
+        return;
+      }
+
+      try {
+        const dataUrl = await readFileAsDataUrl(file);
+        state.customFontDataUrl = dataUrl;
+        await idbSetCustomFont(dataUrl);
+        state.customFont = { type: "custom" };
+        saveCustomFont();
+        if (state.theme === "custom") applyCustomFont();
+      } catch (error) {
+        console.error("Nie udało się wczytać czcionki:", error);
+        alert("Nie udało się wczytać tego pliku.");
+      } finally {
+        el.customFontFile.value = "";
+      }
+    });
+
+    el.customFontFileClear?.addEventListener("click", async () => {
+      state.customFontDataUrl = null;
+      await idbDeleteCustomFont();
+      state.customFont = { type: "default" };
+      saveCustomFont();
+      syncCustomFontSelect();
+      if (state.theme === "custom") applyCustomFont();
+    });
+  }
+
+  function initializeTextureEditor() {
+    for (const key of TEXTURE_FIELDS) {
+      const input = $(`custom-texture-${key}`);
+      const clearBtn = $(`custom-texture-${key}-clear`);
+
+      input?.addEventListener("change", async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+
+        if (!/^image\/(png|jpeg)$/.test(file.type)) {
+          alert("Wybierz plik w formacie JPG lub PNG.");
+          input.value = "";
+          return;
+        }
+
+        try {
+          const dataUrl = await resizeImageToDataUrl(file);
+          state.customTextures[key] = dataUrl;
+          await idbSetTexture(key, dataUrl);
+
+          if (MAP_TEXTURE_KEYS.includes(key)) {
+            await registerTextureImage(key, dataUrl);
+          }
+
+          if (state.theme === "custom") applyTheme(state.theme);
+        } catch (error) {
+          console.error("Nie udało się wczytać tekstury:", error);
+          alert("Nie udało się wczytać tego obrazu.");
+        } finally {
+          input.value = "";
+        }
+      });
+
+      clearBtn?.addEventListener("click", async () => {
+        state.customTextures[key] = null;
+        await idbDeleteTexture(key);
+
+        if (MAP_TEXTURE_KEYS.includes(key)) {
+          unregisterTextureImage(key);
+        }
+
+        if (state.theme === "custom") applyTheme(state.theme);
+      });
+    }
   }
 
   initializeLabelVisibilityToggles();
@@ -1283,12 +1904,16 @@ map.on('rotate', updateLogoRotation);
     "click",
     returnFromPlacePanel
   );
-  el.placePanelClose?.addEventListener("click", closePlacePanel);
+  el.placePanelClose?.addEventListener("click", () => {
+    state.tripOriginPlace = null;
+    closePlacePanel();
+  });
   el.tripPanelBack?.addEventListener(
     "click",
     returnFromTripToPlace
   );
   el.tripPanelClose?.addEventListener("click", () => {
+    state.tripOriginPlace = null;
     closeTrip();
     closePlacePanel();
   });
@@ -1355,17 +1980,18 @@ map.on('rotate', updateLogoRotation);
   });
   el.menuImportAllInput?.addEventListener("change", importAllSettingsJson);
   el.backupSelectAll?.addEventListener("click", () => {
-    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors].filter(Boolean);
+    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors, el.backupScopePlaceNames].filter(Boolean);
     const allChecked = checkboxes.every(box => box.checked);
     for (const box of checkboxes) box.checked = !allChecked;
     updateBackupSelectAllLabel();
   });
   el.backupScopeFavorites?.addEventListener("change", updateBackupSelectAllLabel);
   el.backupScopeColors?.addEventListener("change", updateBackupSelectAllLabel);
+  el.backupScopePlaceNames?.addEventListener("change", updateBackupSelectAllLabel);
 
   function updateBackupSelectAllLabel() {
     if (!el.backupSelectAll) return;
-    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors].filter(Boolean);
+    const checkboxes = [el.backupScopeFavorites, el.backupScopeColors, el.backupScopePlaceNames].filter(Boolean);
     const allChecked = checkboxes.every(box => box.checked);
     el.backupSelectAll.textContent = allChecked
       ? text[state.language].backupDeselectAll
@@ -1378,6 +2004,7 @@ map.on('rotate', updateLogoRotation);
     const scopes = [];
     if (el.backupScopeFavorites?.checked) scopes.push("favorites");
     if (el.backupScopeColors?.checked) scopes.push("colors");
+    if (el.backupScopePlaceNames?.checked) scopes.push("placeNames");
     return scopes;
   }
 
@@ -1579,6 +2206,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
     if (el.menuLanguageLabel) el.menuLanguageLabel.textContent = t.menuLanguage;
     if (el.clearMapLabel) el.clearMapLabel.textContent = t.clearMap;
+    if (el.exportPngButton) {
+      el.exportPngButton.title = t.exportPng;
+      el.exportPngButton.setAttribute("aria-label", t.exportPng);
+    }
     if (el.exportPngLabel) el.exportPngLabel.textContent = t.exportPng;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
     if (el.menuBackupLabel) el.menuBackupLabel.textContent = t.menuBackup;
@@ -1595,6 +2226,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.menuImportAllLabel) el.menuImportAllLabel.textContent = t.menuImportAll;
     if (el.backupScopeFavoritesLabel) el.backupScopeFavoritesLabel.textContent = t.backupScopeFavorites;
     if (el.backupScopeColorsLabel) el.backupScopeColorsLabel.textContent = t.backupScopeColors;
+    if (el.backupScopePlaceNamesLabel) el.backupScopePlaceNamesLabel.textContent = t.backupScopePlaceNames;
     updateBackupSelectAllLabel();
     if (el.favoritesCountLabel) el.favoritesCountLabel.textContent = t.favoritesCountLabel;
     document.documentElement.lang = state.language;
@@ -1746,6 +2378,16 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.menuLanguageSelect) el.menuLanguageSelect.value = state.language;
     if (el.customMapHeading) el.customMapHeading.textContent = t.customMapColorsHeading;
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
+    if (el.customTexturesHeading) el.customTexturesHeading.textContent = t.customTexturesHeading;
+    if (el.customTexturesHint) el.customTexturesHint.textContent = t.customTexturesHint;
+    if (el.customFontHeading) el.customFontHeading.textContent = t.customFontHeading;
+    if (el.customFontHint) el.customFontHint.textContent = t.customFontHint;
+    if (el.customFontSelect) {
+      const defaultOption = el.customFontSelect.querySelector('option[value="default"]');
+      if (defaultOption) defaultOption.textContent = t.customFontDefault;
+      const customOption = el.customFontSelect.querySelector('option[value="custom"]');
+      if (customOption) customOption.textContent = t.customFontCustomOption;
+    }
     if (el.customPaletteReset) el.customPaletteReset.textContent = t.customColorReset;
     if (el.labelsPoiToggleLabel) el.labelsPoiToggleLabel.textContent = t.labelsPoi;
     if (el.labelsRoadsToggleLabel) el.labelsRoadsToggleLabel.textContent = t.labelsRoads;
@@ -1757,6 +2399,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.labelsBoundariesToggleLabel) el.labelsBoundariesToggleLabel.textContent = t.labelsBoundaries;
     for (const [key, label] of Object.entries(t.customColorLabels)) {
       const labelEl = $(`custom-color-${key}-label`);
+      if (labelEl) labelEl.textContent = label;
+    }
+    for (const [key, label] of Object.entries(t.customTextureLabels)) {
+      const labelEl = $(`custom-texture-${key}-label`);
       if (labelEl) labelEl.textContent = label;
     }
     document.body.classList.toggle(
@@ -2155,6 +2801,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       clearCustomUiColors();
     }
 
+    applyCustomFont();
+
     applyLanguage(state.language);
 
     for (const layer of map.getStyle().layers || []) {
@@ -2323,12 +2971,19 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
 
     try {
       if (layer.type === "background") {
+        if (applyTextureIfPresent(layer, "mapBackground", "background-pattern")) return;
         map.setPaintProperty(layer.id, "background-color", palette.mapBackground);
         return;
       }
 
       if (layer.type === "fill") {
         const key = CUSTOM_FILL_LAYER_MAP[id] || "mapBackground";
+
+        if (applyTextureIfPresent(layer, key, "fill-pattern")) {
+          map.setPaintProperty(layer.id, "fill-opacity", key === "mapBackground" ? 1 : 0.92);
+          return;
+        }
+
         const color = palette[key];
 
         map.setPaintProperty(layer.id, "fill-color", color);
@@ -2389,10 +3044,12 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       "--muted",
       `color-mix(in srgb, ${palette.uiText} 65%, transparent)`
     );
+    applyUiPanelTexture();
   }
 
   function clearCustomUiColors() {
     const root = document.documentElement.style;
+    root.removeProperty("--panel-image");
     root.removeProperty("--accent");
     root.removeProperty("--panel");
     root.removeProperty("--panel-muted");
@@ -2866,9 +3523,16 @@ function applyLanguage(language) {
           title.textContent = text[state.language].menuLocation;
         } else {
           icon.textContent = getSearchResultEmoji(result);
-          title.textContent =
-            getSearchResultTitle(result) ||
+          // Pobierz custom name jeśli istnieje
+          const lat = Number(result?.lat);
+          const lon = Number(result?.lon);
+          let displayTitle = getSearchResultTitle(result) ||
             getPreferredPlaceLabel(result);
+          if (Number.isFinite(lat) && Number.isFinite(lon)) {
+            const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+            displayTitle = state.customPlaceNames[placeNameKey] || displayTitle;
+          }
+          title.textContent = displayTitle;
           details.textContent =
             getSearchResultSubtitle(result) ||
             result.display_name ||
@@ -2948,7 +3612,15 @@ function applyLanguage(language) {
         copy.className = "autocomplete-history-copy";
 
         const label = document.createElement("strong");
-        label.textContent = entry.label;
+        // Pobierz custom name jeśli istnieje
+        const lat = Number(entry.lat);
+        const lon = Number(entry.lon);
+        let displayLabel = entry.label;
+        if (Number.isFinite(lat) && Number.isFinite(lon)) {
+          const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+          displayLabel = state.customPlaceNames[placeNameKey] || displayLabel;
+        }
+        label.textContent = displayLabel;
 
         const details = document.createElement("span");
         details.textContent = entry.displayName || entry.label;
@@ -5547,6 +6219,7 @@ function showUserLocationMarker(lngLat) {
   async function showPlaceInformation(event) {
     window.OMAP_SEARCH_SESSION?.cancel?.();
     clearPlacePanelReturnTarget();
+    state.tripOriginPlace = null;
 
     const guardId = state.namedPoiGuardId;
 
@@ -5608,6 +6281,11 @@ function showUserLocationMarker(lngLat) {
       el.placePanelContent.replaceChildren(
         createPlaceCard(place, event.lngLat)
       );
+
+      // Zapisujemy pobrane miejsce w stanie - bez tego funkcje takie jak
+      // powrót z panelu rozkładu (returnFromTripToPlace) nie mają skąd
+      // odtworzyć tego panelu i pokazują pusty widok.
+      state.selectedPlace = place;
 
       stabilizeMobilePlacePanelHeight();
 
@@ -5837,7 +6515,9 @@ function showUserLocationMarker(lngLat) {
 
   function createPlaceCardLegacy(place, lngLat) {
     const t = text[state.language];
-    document.title = `${getPlaceTitle(place)} - Odwrotna Mapa`;
+    const placeNameKey = getPlaceNameKey(place, lngLat);
+    const originalPlaceTitle = getPlaceTitle(place) || t.placeUnknown;
+    document.title = `${state.customPlaceNames[placeNameKey] || originalPlaceTitle} - Odwrotna Mapa`;
     const card = document.createElement("article");
     card.className = "place-card";
 
@@ -5882,13 +6562,81 @@ function showUserLocationMarker(lngLat) {
 
     const heading = document.createElement("h3");
     heading.className = "place-card-title";
-    heading.textContent = getPlaceTitle(place) || t.placeUnknown;
+
+    const titleButton = document.createElement("button");
+    titleButton.type = "button";
+    titleButton.className = "place-card-title-button";
+    titleButton.textContent = state.customPlaceNames[placeNameKey] || originalPlaceTitle;
+    titleButton.title = t.placeRename;
+    titleButton.setAttribute("aria-label", t.placeRename);
+
+    heading.appendChild(titleButton);
+
+    const renameForm = document.createElement("div");
+    renameForm.className = "place-card-rename-form";
+    renameForm.hidden = true;
+    renameForm.addEventListener("click", (e) => e.stopPropagation());
+    renameForm.addEventListener("mousedown", (e) => e.stopPropagation());
+
+    const renameInput = document.createElement("input");
+    renameInput.type = "text";
+    renameInput.className = "place-card-rename-input";
+    renameInput.placeholder = originalPlaceTitle;
+    renameInput.value = state.customPlaceNames[placeNameKey] || "";
+    renameInput.addEventListener("click", (e) => e.stopPropagation());
+    renameInput.addEventListener("mousedown", (e) => e.stopPropagation());
+
+    const renameActions = document.createElement("div");
+    renameActions.className = "place-card-rename-actions";
+
+    const renameSave = document.createElement("button");
+    renameSave.type = "button";
+    renameSave.className = "place-card-rename-save";
+    renameSave.textContent = t.favoriteSave;
+    renameSave.addEventListener("click", (e) => e.stopPropagation());
+
+    const renameCancel = document.createElement("button");
+    renameCancel.type = "button";
+    renameCancel.className = "place-card-rename-cancel";
+    renameCancel.textContent = t.favoriteCancelEdit;
+    renameCancel.addEventListener("click", (e) => e.stopPropagation());
+
+    renameActions.append(renameSave, renameCancel);
+    renameForm.append(renameInput, renameActions);
+
+    titleButton.addEventListener("click", () => {
+      renameForm.hidden = !renameForm.hidden;
+      if (!renameForm.hidden) {
+        // Wstaw albo custom name, albo obecną nazwę
+        renameInput.value = state.customPlaceNames[placeNameKey] || titleButton.textContent || "";
+        renameInput.focus();
+        renameInput.select();
+      }
+    });
+
+    renameCancel.addEventListener("click", () => {
+      renameForm.hidden = true;
+    });
+
+    renameSave.addEventListener("click", () => {
+      setCustomPlaceName(placeNameKey, renameInput.value, originalPlaceTitle, titleButton, place, lngLat);
+      renameForm.hidden = true;
+    });
+
+    renameInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        renameSave.click();
+      } else if (event.key === "Escape") {
+        renameCancel.click();
+      }
+    });
 
     const type = document.createElement("p");
     type.className = "place-card-type";
     type.textContent = getPlaceTypeLabel(place);
 
-    headingCopy.appendChild(heading);
+    headingCopy.append(heading, renameForm);
     if (type.textContent) headingCopy.appendChild(type);
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
@@ -6436,7 +7184,27 @@ function showUserLocationMarker(lngLat) {
       osm_type: place.osm_type || "",
       osm_id: place.osm_id || "",
       namedPoiId: place.namedPoiId || "",
-      provider: place.provider || ""
+      provider: place.provider || "",
+      providers: place.providers || [],
+      source: place.source || "",
+      exactLocalIdentity: Boolean(
+        place._exactLocalIdentity ||
+        place.exactLocalIdentity
+      ),
+      aliases: place.aliases || [],
+      keywords: place.keywords || [],
+      type: place.type || "",
+      category: place.category || "",
+      class: place.class || "",
+      addressDetails: {
+        ...(place.address || {})
+      },
+      extratags: {
+        ...(place.extratags || {})
+      },
+      namedetails: {
+        ...(place.namedetails || {})
+      }
     };
 
     state.history = [
@@ -6472,6 +7240,25 @@ function showUserLocationMarker(lngLat) {
       `${Number(lngLat.lat).toFixed(6)},${Number(lngLat.lng).toFixed(6)}`;
   }
 
+  function getPlaceNameKey(place, lngLat) {
+    // Zawsze użyj współrzędnych jako głównego klucza
+    // (są najstabilniejsze i zawsze dostępne)
+    const lat = Number(place?.lat ?? lngLat?.lat);
+    const lon = Number(place?.lon ?? lngLat?.lng);
+
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      return `${lat.toFixed(5)},${lon.toFixed(5)}`;
+    }
+
+    // Fallback na OSM ID tylko jeśli nie ma współrzędnych
+    if (place?.osm_type && place?.osm_id) {
+      return `${place.osm_type}:${place.osm_id}`;
+    }
+
+    // Ostateczny fallback
+    return getFavoriteKey(place, lngLat);
+  }
+
   function isFavorite(key) {
     return state.favorites.some(item => item.key === key);
   }
@@ -6487,6 +7274,9 @@ function showUserLocationMarker(lngLat) {
       renderFavoritesList();
       return false;
     }
+
+    const placeNameKey = getPlaceNameKey(place, lngLat);
+    const customName = state.customPlaceNames[placeNameKey] || "";
 
     state.favorites.unshift({
       key,
@@ -6521,7 +7311,8 @@ function showUserLocationMarker(lngLat) {
       },
       namedetails: {
         ...(place.namedetails || {})
-      }
+      },
+      customName: customName
     });
 
     state.favorites = state.favorites.slice(0, 100);
@@ -6726,10 +7517,30 @@ function showUserLocationMarker(lngLat) {
     // są niekompletne) - jeśli znalazła konkretniejszą nazwę,
     // podmieniamy widoczny tytuł, żeby panel i Wikipedia zawsze
     // pokazywały to samo miejsce.
+    // ALE: nie resetujemy, jeśli użytkownik ustawił custom name
     if (data.title && headingElement) {
-      const displayTitle = capitalizeFirstLetter(data.title);
-      headingElement.textContent = displayTitle;
-      document.title = `${displayTitle} - Odwrotna Mapa`;
+      const lat = Number(place?.lat);
+      const lon = Number(place?.lon);
+      let placeNameKey = null;
+      
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      }
+      
+      // Nie nadpisuj jeśli istnieje custom name
+      const hasCustomName = placeNameKey && state.customPlaceNames[placeNameKey];
+      if (!hasCustomName) {
+        const displayTitle = capitalizeFirstLetter(data.title);
+        // Zmień TYLKO titleButton, nie cały headingElement
+        const titleButton = headingElement.querySelector(".place-card-title-button");
+        if (titleButton) {
+          titleButton.textContent = displayTitle;
+        } else {
+          // Fallback jeśli struktura się zmieniła
+          headingElement.textContent = displayTitle;
+        }
+        document.title = `${displayTitle} - Odwrotna Mapa`;
+      }
     }
   }
 
@@ -7161,9 +7972,25 @@ function showUserLocationMarker(lngLat) {
 
   function returnFromTripToPlace() {
     closeTrip();
-    if (el.placePanel) {
-      openMobilePanelStandard(el.placePanel, "--sheet-height");
+    if (!el.placePanel) return;
+
+    const origin = state.tripOriginPlace;
+
+    // Panel miejsca mógł zostać w międzyczasie wyczyszczony (np. gdy
+    // wcześniej weszliśmy w inny przystanek z listy rozkładu i raz
+    // się cofnęliśmy) — w takim wypadku odtwarzamy go z zapamiętanego
+    // stanu zamiast otwierać pusty panel.
+    if (origin && origin.details && origin.lngLat) {
+      state.selectedPlace = origin.details;
+      state.placePanelLngLat = origin.lngLat;
+      showSelectedPlaceMarker(origin.lngLat);
+      openPlacePanel();
+      renderPlaceInformation(origin.details, origin.lngLat);
+      stabilizeMobilePlacePanelHeight();
+      return;
     }
+
+    openMobilePanelStandard(el.placePanel, "--sheet-height");
   }
 
   function formatStopClock(value) {
@@ -7187,6 +8014,18 @@ function showUserLocationMarker(lngLat) {
           lon: state.placePanelLngLat.lng
         }
       : null;
+
+    // Zapamiętujemy pełny stan panelu miejsca, z którego otworzono
+    // rozkład, żeby móc go odtworzyć po powrocie z rozkładu — inaczej
+    // po wejściu w inny przystanek z listy i cofnięciu się dwukrotnie
+    // panel informacji zostaje pusty (jego zawartość jest czyszczona
+    // przez closePlacePanel przy pierwszym cofnięciu).
+    if (state.selectedPlace && state.placePanelLngLat) {
+      state.tripOriginPlace = {
+        details: state.selectedPlace,
+        lngLat: state.placePanelLngLat
+      };
+    }
 
     closeOtherMobilePanels(["trip", "place"]);
     if (el.placePanel) el.placePanel.hidden = true;
@@ -8955,7 +9794,19 @@ function drawRoute(geometry, from, to, mode) {
   }
 
   function openHistoryPlace(entry) {
-    return window.OMAP_PLACE_SERVICE.open(entry, {
+    const lat = Number(entry?.lat);
+    const lon = Number(entry?.lon);
+    let payload = entry;
+    
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      const customName = state.customPlaceNames[placeNameKey];
+      if (customName) {
+        payload = { ...entry, customName, name: customName };
+      }
+    }
+    
+    return window.OMAP_PLACE_SERVICE.open(payload, {
       source: "history"
     });
   }
@@ -9013,9 +9864,15 @@ function drawRoute(geometry, from, to, mode) {
       const copy = document.createElement("span");
 
       const title = document.createElement("strong");
-      title.textContent =
-        entry.title ||
-        (state.language === "pl" ? "Miejsce" : "Place");
+      // Pobierz custom name jeśli istnieje
+      const lat = Number(entry.lat);
+      const lon = Number(entry.lon);
+      let displayTitle = entry.title || (state.language === "pl" ? "Miejsce" : "Place");
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+        displayTitle = state.customPlaceNames[placeNameKey] || displayTitle;
+      }
+      title.textContent = displayTitle;
 
       const address = document.createElement("small");
       address.textContent =
@@ -9222,8 +10079,21 @@ function drawRoute(geometry, from, to, mode) {
       origin = "search"
     } = {}
   ) {
+    // Dołącz custom name jeśli istnieje
+    const lat = Number(result?.lat);
+    const lon = Number(result?.lon);
+    let payload = result;
+    
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      const customName = state.customPlaceNames[placeNameKey];
+      if (customName) {
+        payload = { ...result, customName, name: customName };
+      }
+    }
+    
     return window.OMAP_PLACE_SERVICE.open(
-      result,
+      payload,
       {
         source:
           origin === "search-history"
@@ -9245,14 +10115,22 @@ function drawRoute(geometry, from, to, mode) {
       origin = "map-context-menu"
     } = {}
   ) {
+    // Pobierz custom name jeśli istnieje
+    const lat = Number(lngLat.lat);
+    const lon = Number(lngLat.lng);
+    const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+    const customName = state.customPlaceNames[placeNameKey];
+    const displayName = customName || "Wybrane miejsce";
+    
     return window.OMAP_PLACE_SERVICE.open(
       {
-        name: "Wybrane miejsce",
-        lat: Number(lngLat.lat),
-        lon: Number(lngLat.lng),
+        name: displayName,
+        lat,
+        lon,
         category: "place",
         source: "map-info",
-        provider: "map"
+        provider: "map",
+        customName: customName
       },
       {
         source: "map-info",
@@ -9502,6 +10380,29 @@ function drawRoute(geometry, from, to, mode) {
 
     if (scopes.includes("colors")) {
       payload.customPalette = { ...state.customPalette };
+
+      const textureEntries = Object.entries(state.customTextures || {}).filter(
+        ([, dataUrl]) => Boolean(dataUrl)
+      );
+      if (textureEntries.length > 0) {
+        payload.customTextures = Object.fromEntries(textureEntries);
+      }
+
+      if (state.customFont && state.customFont.type !== "default") {
+        payload.customFont = { ...state.customFont };
+        if (state.customFont.type === "custom" && state.customFontDataUrl) {
+          payload.customFontData = state.customFontDataUrl;
+        }
+      }
+    }
+
+    if (scopes.includes("placeNames")) {
+      const nameEntries = Object.entries(state.customPlaceNames || {}).filter(
+        ([, name]) => Boolean(name)
+      );
+      if (nameEntries.length > 0) {
+        payload.customPlaceNames = Object.fromEntries(nameEntries);
+      }
     }
 
     const json = JSON.stringify(payload, null, 2);
@@ -9642,8 +10543,74 @@ function drawRoute(geometry, from, to, mode) {
         };
         saveCustomPalette(state.customPalette);
         syncCustomPaletteInputs();
-        if (state.theme === "custom") applyTheme(state.theme);
         colorsImportedFlag = true;
+      }
+
+      if (
+        scopes.includes("colors") &&
+        raw?.customTextures &&
+        typeof raw.customTextures === "object"
+      ) {
+        for (const key of TEXTURE_FIELDS) {
+          const dataUrl = raw.customTextures[key];
+          if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:image/")) {
+            continue;
+          }
+
+          state.customTextures[key] = dataUrl;
+          await idbSetTexture(key, dataUrl);
+
+          if (MAP_TEXTURE_KEYS.includes(key)) {
+            await registerTextureImage(key, dataUrl);
+          }
+        }
+        colorsImportedFlag = true;
+      }
+
+      if (
+        scopes.includes("colors") &&
+        raw?.customFont &&
+        typeof raw.customFont === "object" &&
+        typeof raw.customFont.type === "string"
+      ) {
+        if (raw.customFont.type === "google" && raw.customFont.googleFont) {
+          state.customFont = { type: "google", googleFont: raw.customFont.googleFont };
+          state.customFontDataUrl = null;
+          saveCustomFont();
+          colorsImportedFlag = true;
+        } else if (
+          raw.customFont.type === "custom" &&
+          typeof raw.customFontData === "string" &&
+          raw.customFontData.startsWith("data:")
+        ) {
+          state.customFont = { type: "custom" };
+          state.customFontDataUrl = raw.customFontData;
+          await idbSetCustomFont(raw.customFontData);
+          saveCustomFont();
+          colorsImportedFlag = true;
+        }
+        syncCustomFontSelect();
+      }
+
+      if (colorsImportedFlag && state.theme === "custom") {
+        applyTheme(state.theme);
+      }
+
+      let placeNamesImportedFlag = false;
+
+      if (
+        scopes.includes("placeNames") &&
+        raw?.customPlaceNames &&
+        typeof raw.customPlaceNames === "object"
+      ) {
+        for (const [key, name] of Object.entries(raw.customPlaceNames)) {
+          const trimmed = String(name || "").trim();
+          if (typeof key === "string" && key && trimmed) {
+            state.customPlaceNames[key] = trimmed;
+          }
+        }
+        saveCustomPlaceNames();
+        placeNamesImportedFlag = true;
       }
 
       const messages = [];
@@ -9652,6 +10619,9 @@ function drawRoute(geometry, from, to, mode) {
       }
       if (colorsImportedFlag) {
         messages.push(text[state.language].colorsImported);
+      }
+      if (placeNamesImportedFlag) {
+        messages.push(text[state.language].placeNamesImported);
       }
 
       show(messages.join(" ") || text[state.language].favoritesImportError);
@@ -10973,6 +11943,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
           source: "discover",
           provider: "discover"
         };
+
+        // Dołącz custom name jeśli istnieje
+        const placeNameKey = `${Number(place.lat).toFixed(5)},${Number(place.lon).toFixed(5)}`;
+        const customName = state.customPlaceNames[placeNameKey];
+        if (customName) {
+          rawPlace.customName = customName;
+          rawPlace.name = customName;
+        }
 
         window.OMAP_PLACE_SERVICE.open(
           rawPlace,
