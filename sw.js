@@ -4,7 +4,29 @@
 // wyszukiwania/trasowania - to wymagałoby dużo większego
 // projektu (limity pamięci, dobór obszaru do zapisania itd.).
 
-const CACHE_VERSION = "shell-v1-20260729";
+const CACHE_VERSION = "shell-v2-20260803";
+
+// Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
+// z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do
+// powłoki apki, kafelków może być teoretycznie nieskończenie wiele,
+// więc trzymamy tylko ostatnio używane (LRU wg kolejności zapisu)
+// i przycinamy pamięć podręczną do rozsądnego rozmiaru.
+const TILE_CACHE = "odwrotnamapa-tiles-v1";
+const TILE_CACHE_MAX_ENTRIES = 300;
+const TILE_HOSTS = [
+  "tiles.openfreemap.org",
+  "server.arcgisonline.com"
+];
+
+async function trimCache(cacheName, maxEntries) {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  if (keys.length <= maxEntries) return;
+  // caches.keys() zwraca w kolejności zapisu, więc najstarsze są
+  // na początku - usuwamy nadmiar od nich (proste LRU).
+  const toDelete = keys.slice(0, keys.length - maxEntries);
+  await Promise.all(toDelete.map(request => cache.delete(request)));
+}
 
 const APP_SHELL_URLS = [
   "./",
@@ -52,6 +74,7 @@ const APP_SHELL_URLS = [
   "./src/services/photo-service.js",
   "./src/services/place-resolver-service.js",
   "./src/services/place-service.js",
+  "./src/services/url-state-service.js",
   "./assets/build-info.js",
   "./assets/capacitor-bridge.js",
   "./assets/logo.svg",
@@ -96,7 +119,8 @@ self.addEventListener("activate", event => {
           .filter(
             key =>
               key !== CACHE_VERSION &&
-              key !== "odwrotnamapa-favorites-media"
+              key !== "odwrotnamapa-favorites-media" &&
+              key !== TILE_CACHE
           )
           .map(key => caches.delete(key))
       );
@@ -136,6 +160,32 @@ self.addEventListener("fetch", event => {
           if (cached) return cached;
           throw error;
         }
+      })()
+    );
+    return;
+  }
+
+  const isTileRequest = TILE_HOSTS.includes(url.hostname);
+
+  if (isTileRequest) {
+    // Stale-while-revalidate: od razu oddajemy to, co mamy w
+    // pamięci (jeśli offline - to jedyna szansa na kafelek), a w tle
+    // i tak próbujemy dociągnąć świeższą wersję na przyszłość.
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(TILE_CACHE);
+        const cached = await cache.match(request);
+        const networkFetch = fetch(request)
+          .then(response => {
+            if (response && response.ok) {
+              cache.put(request, response.clone());
+              trimCache(TILE_CACHE, TILE_CACHE_MAX_ENTRIES);
+            }
+            return response;
+          })
+          .catch(() => null);
+
+        return cached || (await networkFetch) || Response.error();
       })()
     );
     return;

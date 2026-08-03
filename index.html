@@ -19,7 +19,12 @@
 <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
 <link rel="shortcut icon" href="assets/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-<link rel="manifest" href="assets/site.webmanifest?v=4" />
+<link rel="manifest" href="assets/site.webmanifest?v=5" />
+  <meta name="theme-color" content="#111315">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
   <link rel="stylesheet" href="style.css?v=20260731190000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
@@ -935,6 +940,11 @@
           <span id="menu-backup-label">Kopia zapasowa</span>
         </button>
 
+        <button id="menu-install-button" class="menu-action" type="button" hidden>
+          <span aria-hidden="true">⬇️</span>
+          <span id="menu-install-label">Zainstaluj aplikację</span>
+        </button>
+
         <button id="menu-about-button" class="menu-action" type="button">
           <span aria-hidden="true">ⓘ</span>
           <span id="menu-about-label">O projekcie</span>
@@ -1039,6 +1049,7 @@
   <script src="src/services/photo-service.js"></script>
   <script src="src/services/place-resolver-service.js"></script>
   <script src="src/services/place-service.js"></script>
+  <script src="src/services/url-state-service.js"></script>
 
   <script src="app.js?v=20260731190000"></script>
 </body>

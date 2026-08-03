@@ -13,6 +13,41 @@
     });
   }
 
+  // Obsługa instalacji PWA: pokazujemy własny przycisk w menu zamiast
+  // polegać na natywnym UI przeglądarki, które nie na każdej
+  // platformie pojawia się w widocznym miejscu.
+  (function initInstallPrompt() {
+    let deferredInstallPrompt = null;
+    const isStandalone = () =>
+      window.matchMedia?.("(display-mode: standalone)")?.matches ||
+      window.navigator.standalone === true;
+
+    window.addEventListener("beforeinstallprompt", event => {
+      event.preventDefault();
+      if (isStandalone()) return;
+      deferredInstallPrompt = event;
+      const btn = document.getElementById("menu-install-button");
+      if (btn) btn.hidden = false;
+    });
+
+    document.addEventListener("click", event => {
+      if (event.target.closest?.("#menu-install-button") && deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.finally(() => {
+          deferredInstallPrompt = null;
+          const btn = document.getElementById("menu-install-button");
+          if (btn) btn.hidden = true;
+        });
+      }
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      const btn = document.getElementById("menu-install-button");
+      if (btn) btn.hidden = true;
+    });
+  })();
+
   const CONFIG = window.SOUTHMAPS_CONFIG;
   const $ = id => document.getElementById(id);
 
@@ -297,6 +332,7 @@
       streetviewTitle: "Widok uliczny",
       streetviewUnavailable: "Widok uliczny nie jest jeszcze skonfigurowany.",
       menuBackup: "Kopia zapasowa",
+      menuInstall: "Zainstaluj aplikację",
       menuAbout: "O projekcie",
       contextRouteA: "Ustaw jako punkt A",
       contextRouteB: "Ustaw jako punkt B",
@@ -629,6 +665,7 @@
       streetviewTitle: "Street view",
       streetviewUnavailable: "Street view is not configured yet.",
       menuBackup: "Backup",
+      menuInstall: "Install app",
       menuAbout: "About",
       contextRouteA: "Set as Point A",
       contextRouteB: "Set as Point B",
@@ -1441,6 +1478,8 @@
     aboutBack: $("about-back"),
     menuBackupButton: $("menu-backup-button"),
     menuBackupLabel: $("menu-backup-label"),
+    menuInstallButton: $("menu-install-button"),
+    menuInstallLabel: $("menu-install-label"),
     backupPanel: $("backup-panel"),
     backupSheetHandle: $("backup-sheet-handle"),
     backupClose: $("backup-close"),
@@ -2213,6 +2252,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.exportPngLabel) el.exportPngLabel.textContent = t.exportPng;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
     if (el.menuBackupLabel) el.menuBackupLabel.textContent = t.menuBackup;
+    if (el.menuInstallLabel) el.menuInstallLabel.textContent = t.menuInstall;
     if (el.favoritesMenuLabel) el.favoritesMenuLabel.textContent = t.favoritesTitle;
     if (el.favoritesTitle) el.favoritesTitle.textContent = t.favoritesTitle;
     if (el.historyMenuLabel) el.historyMenuLabel.textContent = t.menuHistory;
@@ -3204,24 +3244,11 @@ function applyLanguage(language) {
     ].includes(layerId);
   }
 
-
-  function encodePlace(label, lat, lon) {
-    try {
-      const data = JSON.stringify({ label, lat, lon });
-      return btoa(unescape(encodeURIComponent(data)));
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function decodePlace(encoded) {
-    try {
-      const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
-      return data;
-    } catch (e) {
-      return null;
-    }
-  }
+  // Uwaga: dawne encodePlace()/decodePlace() (kodowały punkt do base64
+  // dla parametru ?p=) zostały zastąpione przez ujednolicony
+  // window.OMAP_URL_STATE (src/services/url-state-service.js), który
+  // używa czytelnego formatu "lat,lon" zamiast base64 i jest jedynym
+  // miejscem odpowiedzialnym za odczyt/zapis stanu miejsca w URL-u.
 
   function getSearchHistory() {
     try {
@@ -3287,37 +3314,35 @@ function applyLanguage(language) {
   }
 
   function loadSharedPlaceFromUrl() {
-    const url = new URL(window.location.href);
-    const point = parseSharedPoint(
-      url.searchParams.get("place")
-    );
-
-    if (!point) return;
+    const shared = window.OMAP_URL_STATE?.readPlaceFromUrl();
+    if (!shared || !Number.isFinite(shared.lat) || !Number.isFinite(shared.lon)) return;
 
     // Otwórz udostępniony punkt natychmiast. Nie zostawiaj
     // jednorazowego callbacku moveend, który mógłby uruchomić
     // się dopiero podczas pierwszego późniejszego wyszukiwania.
     showPlaceInformation({
       lngLat: new maplibregl.LngLat(
-        point.lon,
-        point.lat
+        shared.lon,
+        shared.lat
       )
     });
 
     map.flyTo({
-      center: [point.lon, point.lat],
+      center: [shared.lon, shared.lat],
       zoom: 17,
       bearing: 180
     });
 
-    // Parametr jest jednorazowy. Usunięcie go zapobiega
-    // ponownemu uzbrojeniu tego przepływu po odświeżeniu.
-    url.searchParams.delete("place");
-    window.history.replaceState(
-      null,
-      "",
-      url.pathname + url.search + url.hash
-    );
+    // Normalizujemy URL do jednego, kanonicznego formatu (?q=&p=)
+    // przez replaceState (bez dokładania nowego wpisu do historii),
+    // żeby link/zakładka nadal wskazywały na ten sam punkt zamiast
+    // znikać po odświeżeniu jak w poprzedniej, jednorazowej wersji.
+    window.OMAP_URL_STATE?.setPlaceUrl({
+      label: shared.label || formatCoordinates(shared.lon, shared.lat),
+      lat: shared.lat,
+      lon: shared.lon,
+      replace: true
+    });
   }
 
   function initializeAutocomplete() {
@@ -3673,13 +3698,13 @@ function applyLanguage(language) {
           
           // Update URL to show the search (skip if we're restoring from popstate)
           if (!state.isRestoringFromPopstate) {
-            const historyUrl = new URL(window.location.href);
-            historyUrl.searchParams.set("q", entry.label);
-            historyUrl.searchParams.set("p", encodePlace(entry.label, entry.lat, entry.lon));
-            console.log("PUSHSTATE CALLED:", historyUrl.toString());
-            window.history.pushState({q: entry.label}, entry.label, historyUrl.toString());
-          } else {
-            console.log("Skipped pushState during popstate restore");
+            window.OMAP_URL_STATE?.setPlaceUrl({
+              label: entry.label,
+              lat: entry.lat,
+              lon: entry.lon,
+              osmType: entry.osm_type,
+              osmId: entry.osm_id
+            });
           }
         });
 
@@ -5894,9 +5919,13 @@ if (!el.routePanel.hidden) {
     renderPlaceInformation(details, lngLat);
 const placeTitle = details.name || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(details) : "") || String(details.display_name || "").split(",")[0];
   if (placeTitle && !state.isRestoringFromPopstate) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("q", placeTitle);
-    window.history.pushState({ query: placeTitle }, "", url);
+    window.OMAP_URL_STATE?.setPlaceUrl({
+      label: placeTitle,
+      lat: lngLat.lat,
+      lon: lngLat.lng,
+      osmType: details.osm_type,
+      osmId: details.osm_id
+    });
   }
 
     // Po zamknięciu listy wyników przeglądarka ponownie układa
@@ -6251,16 +6280,17 @@ function showUserLocationMarker(lngLat) {
         state.placeRequestController.signal
       );
 
-      // Dopisanie nazwy miejsca do adresu URL (?q=...) i współrzędnych (?place=, ?lat=, ?lng=)
+      // Dopisanie nazwy miejsca i współrzędnych do adresu URL (?q=&p=)
       if (place && !state.isRestoringFromPopstate) {
         const title = place.name || place.display_name?.split(',')[0] || (typeof getPrimaryPlaceName === "function" ? getPrimaryPlaceName(place) : null);
         if (title) {
-          const url = new URL(window.location.href);
-          url.searchParams.set("q", title);
-          url.searchParams.set("place", `${event.lngLat.lat},${event.lngLat.lng}`);
-          url.searchParams.set("lat", event.lngLat.lat);
-          url.searchParams.set("lng", event.lngLat.lng);
-          window.history.pushState({ query: title, place }, "", url);
+          window.OMAP_URL_STATE?.setPlaceUrl({
+            label: title,
+            lat: event.lngLat.lat,
+            lon: event.lngLat.lng,
+            osmType: place.osm_type,
+            osmId: place.osm_id
+          });
         }
       }
 
@@ -8239,20 +8269,18 @@ function showUserLocationMarker(lngLat) {
   }
 
 async function sharePlace(place, lngLat) {
-  const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl ? new URL(CONFIG.publicBaseUrl) : new URL(window.location.href);
-  
-  // Zapisujemy parametr place z nazwą
+  const baseUrl = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl ? CONFIG.publicBaseUrl : window.location.href;
+
   const placeTitle = getSearchResultTitle(place) || place?.name || place?.display_name?.split(',')[0];
-  if (placeTitle) {
-    url.searchParams.set("q", placeTitle);
-  }
-  
-  // Zapisujemy współrzędne w parametrach place, lat, lng
-  if (lngLat?.lat && lngLat?.lng) {
-    url.searchParams.set("place", `${lngLat.lat},${lngLat.lng}`);
-    url.searchParams.set("lat", lngLat.lat);
-    url.searchParams.set("lng", lngLat.lng);
-  }
+
+  const url = window.OMAP_URL_STATE?.buildPlaceUrl({
+    label: placeTitle,
+    lat: lngLat?.lat,
+    lon: lngLat?.lng,
+    osmType: place?.osm_type,
+    osmId: place?.osm_id,
+    baseUrl
+  }) || new URL(baseUrl);
 
   const shareData = {
     title: placeTitle || document.title,
@@ -12763,54 +12791,44 @@ function locate() {
 
 // When user clicks browser back/forward, restore and search
 window.addEventListener("popstate", function(event) {
-  const q = new URLSearchParams(window.location.search).get("q");
-  const p = new URLSearchParams(window.location.search).get("p");
-  console.log("popstate fired, q =", q, "p =", p);
-  
-  // If we have encoded place data, use that to navigate directly
-  if (p) {
-    const place = decodePlace(p);
-    if (place && Number.isFinite(place.lat) && Number.isFinite(place.lon)) {
-      console.log("Restoring place from encoded data:", place);
-      map.flyTo({
-        center: [place.lon, place.lat],
-        zoom: 17,
-        bearing: 180
-      });
-      // Don't re-search, just navigate to the exact location
-      if (el.searchInput) {
-        el.searchInput.value = place.label;
-        if (typeof updateSearchClearButton === "function") {
-          updateSearchClearButton();
-        }
+  const shared = window.OMAP_URL_STATE?.readPlaceFromUrl();
+
+  // If we have coordinates, navigate directly to the exact location
+  if (shared && Number.isFinite(shared.lat) && Number.isFinite(shared.lon)) {
+    map.flyTo({
+      center: [shared.lon, shared.lat],
+      zoom: 17,
+      bearing: 180
+    });
+    if (el.searchInput) {
+      el.searchInput.value = shared.label;
+      if (typeof updateSearchClearButton === "function") {
+        updateSearchClearButton();
       }
-      // Show the marker at the new location
-      if (typeof showContextPointMarker === "function") {
-        showContextPointMarker({ lat: place.lat, lng: place.lon });
-      }
-      // Close old panel
-      if (el.placePanel) {
-        el.placePanel.hidden = true;
-      }
-      // Open new place info with delay
-      setTimeout(() => {
-        if (typeof showPlaceInformation === "function") {
-          showPlaceInformation({ lngLat: { lat: place.lat, lng: place.lon } }).catch(err => {
-            console.error("Error:", err);
-          });
-        }
-      }, 100);
-      return;
     }
+    if (typeof showContextPointMarker === "function") {
+      showContextPointMarker({ lat: shared.lat, lng: shared.lon });
+    }
+    if (el.placePanel) {
+      el.placePanel.hidden = true;
+    }
+    setTimeout(() => {
+      if (typeof showPlaceInformation === "function") {
+        showPlaceInformation({ lngLat: { lat: shared.lat, lng: shared.lon } }).catch(err => {
+          console.error("Error:", err);
+        });
+      }
+    }, 100);
+    return;
   }
-  
-  // Fallback: if no place data, re-search
+
+  // Fallback: only a search phrase, no coordinates - re-search
+  const q = shared?.label;
   if (q && el.searchInput && typeof search === "function") {
     el.searchInput.value = q;
     if (typeof updateSearchClearButton === "function") {
       updateSearchClearButton();
     }
-    console.log("Calling search from popstate");
     state.isRestoringFromPopstate = true;
     const event = new Event("submit");
     event.preventDefault = () => {};
@@ -12820,13 +12838,10 @@ window.addEventListener("popstate", function(event) {
 });
 
 
-// Check if page loaded with ?q= or coordinates parameter
+// Check if page loaded with a place/search URL (?q=, ?p=, or legacy ?place=/?lat=/?lng=)
 (function checkUrlAndSearch() {
-  const params = new URLSearchParams(window.location.search);
-  const q = params.get("q");
-  const placeParam = params.get("place");
-  const lat = parseFloat(params.get("lat"));
-  const lng = parseFloat(params.get("lng"));
+  const shared = window.OMAP_URL_STATE?.readPlaceFromUrl();
+  const q = shared?.label;
 
   // Wpisz frazę w pole wyszukiwania
   if (q && el.searchInput) {
@@ -12836,8 +12851,8 @@ window.addEventListener("popstate", function(event) {
     }
   }
 
-  // 1. Jeśli w URL jest parametr place lub lat/lng - użyjemy dedykowanej funkcji wycentrowania
-  if (placeParam || (!isNaN(lat) && !isNaN(lng))) {
+  // 1. Jeśli w URL są współrzędne - użyjemy dedykowanej funkcji wycentrowania
+  if (shared && Number.isFinite(shared.lat) && Number.isFinite(shared.lon)) {
     setTimeout(() => {
       try {
         if (typeof loadSharedPlaceFromUrl === "function") {
@@ -12853,7 +12868,6 @@ window.addEventListener("popstate", function(event) {
   // 2. Jeśli podano tylko frazę wyszukiwania (?q=)
   if (q && typeof search === "function") {
     setTimeout(async function() {
-      console.log("Auto-running search for:", q);
       state.isRestoringFromPopstate = true;
       const event = new Event("submit");
       event.preventDefault = () => {};
