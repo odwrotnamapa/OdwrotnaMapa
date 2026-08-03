@@ -7,7 +7,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Odwrotna Mapa, znana też jako odwrócona mapa - interaktywna mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap.">
-  <title>Odwrotna Mapa</title>
+  <title>Odwrotna Mapa — interaktywna mapa z południem u góry (OpenStreetMap)</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Odwrotna Mapa">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://odwrotnamapa.pl">
+  <meta property="og:title" content="Odwrotna Mapa — interaktywna mapa z południem u góry">
+  <meta property="og:description" content="Mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap. Wyszukiwarka miejsc, trasy, ulubione, motywy kolorystyczne i tryb offline.">
+  <meta property="og:image" content="https://odwrotnamapa.pl/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Zrzut ekranu Odwrotnej Mapy — mapa świata z południem u góry">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Odwrotna Mapa — interaktywna mapa z południem u góry">
+  <meta name="twitter:description" content="Mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap. Wyszukiwarka miejsc, trasy, ulubione, motywy kolorystyczne i tryb offline.">
+  <meta name="twitter:image" content="https://odwrotnamapa.pl/assets/og-image.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Odwrotna Mapa",
+    "alternateName": "OdwrotnaMapa",
+    "url": "https://odwrotnamapa.pl",
+    "description": "Interaktywna mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap. Wyszukiwarka miejsc i adresów, wyznaczanie tras, ulubione miejsca, widok satelitarny, własne motywy kolorystyczne.",
+    "applicationCategory": "TravelApplication",
+    "operatingSystem": "Any (przeglądarka), Android, Windows, Linux",
+    "inLanguage": ["pl", "en"],
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "PLN"
+    },
+    "image": "https://odwrotnamapa.pl/assets/og-image.jpg"
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +70,7 @@
 </head>
 <body>
   <main id="app">
+    <h1 class="sr-only">Odwrotna Mapa — interaktywna mapa z południem u góry, oparta na OpenStreetMap</h1>
     <div id="map" aria-label="Interaktywna mapa"></div>
 
     <section id="fatal-error" class="fatal-error" hidden>
