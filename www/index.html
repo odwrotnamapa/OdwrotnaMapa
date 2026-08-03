@@ -69,8 +69,18 @@
   <script src="assets/capacitor-bridge.js"></script>
 </head>
 <body>
+  <noscript>
+    <style>#app { display: none !important; }</style>
+    <div style="max-width:640px;margin:10vh auto;padding:24px;font-family:sans-serif;line-height:1.5;color:#111315;">
+      <h1>Odwrotna Mapa</h1>
+      <p>Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.</p>
+      <p>Ta strona jest interaktywną aplikacją mapową (mapa, wyszukiwarka miejsc, trasy, ulubione miejsca) opartą na MapLibre GL JS i danych OpenStreetMap — do jej działania niezbędny jest włączony JavaScript. Włącz go w ustawieniach przeglądarki, aby skorzystać z mapy.</p>
+      <p>Kontakt: <a href="mailto:odwrotnamapa@protonmail.com">odwrotnamapa@protonmail.com</a> · <a href="https://github.com/odwrotnamapa/OdwrotnaMapa">Kod źródłowy na GitHubie</a></p>
+    </div>
+  </noscript>
   <main id="app">
     <h1 class="sr-only">Odwrotna Mapa — interaktywna mapa z południem u góry, oparta na OpenStreetMap</h1>
+    <p class="sr-only">Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy. Aplikacja oferuje wyszukiwarkę miejsc i adresów, wyznaczanie tras pieszo/rowerem/samochodem/komunikacją miejską, zapisywanie ulubionych miejsc, widok satelitarny oraz własne motywy kolorystyczne mapy.</p>
     <div id="map" aria-label="Interaktywna mapa"></div>
 
     <section id="fatal-error" class="fatal-error" hidden>
