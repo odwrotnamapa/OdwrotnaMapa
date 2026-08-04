@@ -6477,6 +6477,7 @@ function showUserLocationMarker(lngLat) {
   function closePlacePanel() {
     closeTrip();
     document.title = "Odwrotna Mapa";
+    window.OMAP_URL_STATE?.clearPlaceUrl();
     invalidateNamedPoiGuard();
     window.OMAP_SEARCH_SESSION?.cancel?.();
     state.placeRequestController?.abort();
