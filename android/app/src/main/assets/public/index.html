@@ -493,6 +493,20 @@
         </label>
       </div>
 
+      <div class="favorites-folders">
+        <div id="favorites-folder-chips" class="favorites-folder-chips"></div>
+        <button id="favorites-add-folder-button" type="button" class="favorites-add-folder-button">
+          + Folder
+        </button>
+      </div>
+
+      <div id="favorites-new-folder-form" class="favorites-new-folder-form" hidden>
+        <input type="text" id="favorites-new-folder-input" class="favorites-new-folder-input"
+               maxlength="30" placeholder="Nazwa folderu">
+        <button id="favorites-new-folder-save" type="button" class="account-name-edit-save">Zapisz</button>
+        <button id="favorites-new-folder-cancel" type="button" class="account-name-edit-cancel">Anuluj</button>
+      </div>
+
       <div class="favorites-summary">
         <span id="favorites-count">0</span>
         <span id="favorites-count-label">zapisanych miejsc</span>
@@ -1257,8 +1271,18 @@
     } catch (error) {
       console.warn("Nie udało się załadować biblioteki nostr-tools (brak internetu?):", error);
     }
+
+    try {
+      // Prawdziwa kompresja czcionek (TTF/OTF -> WOFF2) przed
+      // synchronizacją, tym samym mechanizmem co reszta bibliotek:
+      // https://github.com/itskyedo/woff2-encoder
+      const { compress } = await import("https://esm.sh/woff2-encoder");
+      window.OMAP_FONT_LIB = { compress };
+    } catch (error) {
+      console.warn("Nie udało się załadować biblioteki do kompresji czcionek (brak internetu?):", error);
+    }
   </script>
 
-  <script src="app.js?v=20260803290000"></script>
+  <script src="app.js?v=20260803360000"></script>
 </body>
 </html>

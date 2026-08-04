@@ -46,6 +46,13 @@ button, input, select {
   font: inherit;
 }
 
+button,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .toolbar {
   position: absolute;
   z-index: 5;
