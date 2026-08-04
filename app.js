@@ -11557,9 +11557,20 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     const lastSyncedAt = safeGet(CONFIG.storageKeys.syncLastSyncedAt, "");
     const formatted = formatSyncTimestamp(lastSyncedAt);
     if (el.accountStatusText) {
-      el.accountStatusText.textContent = formatted
+      let text = formatted
         ? `Konto aktywne. Ostatnia synchronizacja: ${formatted}.`
         : "Konto aktywne. Jeszcze nie synchronizowano na tym urządzeniu.";
+
+      try {
+        const lastSkipped = JSON.parse(safeGet(CONFIG.storageKeys.syncLastSkipped, "[]"));
+        if (Array.isArray(lastSkipped) && lastSkipped.length) {
+          text += ` ⚠️ Nie udało się wysłać: ${lastSkipped.join(", ")} (prawdopodobnie za duże jak na limity przekaźników - dotyczy to również automatycznej synchronizacji w tle).`;
+        }
+      } catch (_) {
+        // ignoruj uszkodzone dane
+      }
+
+      el.accountStatusText.textContent = text;
     }
 
     if (el.accountAutoSyncCheckbox) el.accountAutoSyncCheckbox.checked = isAutoSyncEnabled();
@@ -11751,7 +11762,9 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     const attempts = [
       [1024, 0.72],
       [768, 0.6],
-      [512, 0.5]
+      [512, 0.5],
+      [384, 0.4],
+      [320, 0.32]
     ];
     for (const [maxDim, quality] of attempts) {
       try {
@@ -11948,6 +11961,16 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     let skippedMedia = [];
     if (scopes.includes("colors")) {
       skippedMedia = await pushColorMedia(cryptoApi, encKey, transport, nostrPrivKeyBytes);
+    }
+
+    // Zapisujemy to trwale (nie tylko w komunikacie na ekranie), żeby
+    // było widać nawet po cichej, automatycznej wysyłce w tle -
+    // wcześniej informacja o pominiętych elementach ginęła bezpowrotnie,
+    // jeśli wysyłka nie była ręczna.
+    if (skippedMedia.length) {
+      safeSet(CONFIG.storageKeys.syncLastSkipped, JSON.stringify(skippedMedia));
+    } else {
+      localStorage.removeItem(CONFIG.storageKeys.syncLastSkipped);
     }
 
     safeSet(CONFIG.storageKeys.syncLastSyncedAt, result.updatedAt || new Date().toISOString());
@@ -12154,8 +12177,19 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   el.accountPushButton?.addEventListener("click", handlePushToCloud);
   el.accountPullButton?.addEventListener("click", handlePullFromCloud);
   el.accountAutoSyncCheckbox?.addEventListener("change", () => {
-    safeSet(CONFIG.storageKeys.syncAutoEnabled, el.accountAutoSyncCheckbox.checked ? "1" : "0");
+    const enabled = el.accountAutoSyncCheckbox.checked;
+    safeSet(CONFIG.storageKeys.syncAutoEnabled, enabled ? "1" : "0");
     updatePullButtonVisibility();
+
+    if (enabled) {
+      // Odpal od razu, zamiast czekać do 5 minut na kolejny cykl
+      // interwału (który wcześniej mógł już zostać zatrzymany).
+      scheduleAutoSyncCheck();
+    } else {
+      // Realnie zatrzymaj timer, zamiast pozwolić mu dalej tykać co
+      // 5 minut w tle i za każdym razem cichaczem nic nie robić.
+      stopAutoSyncTimer();
+    }
   });
 
   async function saveProfile(name, avatar) {

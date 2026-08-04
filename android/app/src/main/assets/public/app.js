@@ -12154,8 +12154,19 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   el.accountPushButton?.addEventListener("click", handlePushToCloud);
   el.accountPullButton?.addEventListener("click", handlePullFromCloud);
   el.accountAutoSyncCheckbox?.addEventListener("change", () => {
-    safeSet(CONFIG.storageKeys.syncAutoEnabled, el.accountAutoSyncCheckbox.checked ? "1" : "0");
+    const enabled = el.accountAutoSyncCheckbox.checked;
+    safeSet(CONFIG.storageKeys.syncAutoEnabled, enabled ? "1" : "0");
     updatePullButtonVisibility();
+
+    if (enabled) {
+      // Odpal od razu, zamiast czekać do 5 minut na kolejny cykl
+      // interwału (który wcześniej mógł już zostać zatrzymany).
+      scheduleAutoSyncCheck();
+    } else {
+      // Realnie zatrzymaj timer, zamiast pozwolić mu dalej tykać co
+      // 5 minut w tle i za każdym razem cichaczem nic nie robić.
+      stopAutoSyncTimer();
+    }
   });
 
   async function saveProfile(name, avatar) {
