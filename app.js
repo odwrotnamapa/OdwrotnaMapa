@@ -1424,6 +1424,8 @@
     favorites: readFavorites(),
     favoriteFolders: readFavoriteFolders(),
     activeFavoriteFolder: "",
+    tripOriginStack: [],
+    tripContextStack: [],
     history: readHistory()
   };
 
@@ -2104,7 +2106,8 @@ map.on('rotate', updateLogoRotation);
     returnFromPlacePanel
   );
   el.placePanelClose?.addEventListener("click", () => {
-    state.tripOriginPlace = null;
+    state.tripOriginStack = [];
+    state.tripContextStack = [];
     closePlacePanel();
   });
   el.tripPanelBack?.addEventListener(
@@ -2112,7 +2115,8 @@ map.on('rotate', updateLogoRotation);
     returnFromTripToPlace
   );
   el.tripPanelClose?.addEventListener("click", () => {
-    state.tripOriginPlace = null;
+    state.tripOriginStack = [];
+    state.tripContextStack = [];
     closeTrip();
     closePlacePanel();
   });
@@ -6507,7 +6511,8 @@ function showUserLocationMarker(lngLat) {
   async function showPlaceInformation(event) {
     window.OMAP_SEARCH_SESSION?.cancel?.();
     clearPlacePanelReturnTarget();
-    state.tripOriginPlace = null;
+    state.tripOriginStack = [];
+    state.tripContextStack = [];
 
     const guardId = state.namedPoiGuardId;
 
@@ -8202,19 +8207,21 @@ function showUserLocationMarker(lngLat) {
   }
 
   function reopenTripFromContext() {
-    if (!state.lastTripContext || !el.tripPanel) return;
+    if (!el.tripPanel) return;
+    const context = state.tripContextStack?.pop();
+    if (!context) return;
 
     closeOtherMobilePanels(["trip"]);
 
-    el.tripPanelTitle.textContent = state.lastTripContext.title;
+    el.tripPanelTitle.textContent = context.title;
     el.tripStopsList.replaceChildren();
     el.tripStatus.hidden = true;
 
     openMobilePanelStandard(el.tripPanel, "--sheet-height");
 
     renderTripStops(
-      state.lastTripContext.stops,
-      state.lastTripContext.currentStopPoint
+      context.stops,
+      context.currentStopPoint
     );
   }
 
@@ -8281,7 +8288,7 @@ function showUserLocationMarker(lngLat) {
     closeTrip();
     if (!el.placePanel) return;
 
-    const origin = state.tripOriginPlace;
+    const origin = state.tripOriginStack?.pop();
 
     // Panel miejsca mógł zostać w międzyczasie wyczyszczony (np. gdy
     // wcześniej weszliśmy w inny przystanek z listy rozkładu i raz
@@ -8294,6 +8301,34 @@ function showUserLocationMarker(lngLat) {
       openPlacePanel();
       renderPlaceInformation(origin.details, origin.lngLat);
       stabilizeMobilePlacePanelHeight();
+
+      // Panel i marker same w sobie nie przesuwają kamery mapy -
+      // bez tego po cofnięciu widać poprawne informacje, ale mapa
+      // zostaje tam, gdzie akurat była (np. przy innym przystanku).
+      const mobilePanelHeight = window.matchMedia("(max-width: 600px)").matches
+        ? (document.querySelector(".mobile-panel:not(.collapsed)")?.offsetHeight || 0)
+        : 0;
+
+      map.flyTo({
+        center: [origin.lngLat.lng, origin.lngLat.lat],
+        zoom: Math.max(map.getZoom(), 15),
+        padding: {
+          top: 20,
+          bottom: mobilePanelHeight + 20,
+          left: 20,
+          right: 20
+        }
+      });
+
+      // Bez tego przycisk "wstecz" na przywróconym właśnie miejscu
+      // milczałby (nie prowadziłby nigdzie) - a przecież to miejsce
+      // mogło samo zostać otwarte z wcześniejszego rozkładu.
+      if (origin.returnTarget?.type) {
+        setPlacePanelReturnTarget(origin.returnTarget.type, origin.returnTarget);
+      } else {
+        clearPlacePanelReturnTarget();
+      }
+
       return;
     }
 
@@ -8323,15 +8358,20 @@ function showUserLocationMarker(lngLat) {
       : null;
 
     // Zapamiętujemy pełny stan panelu miejsca, z którego otworzono
-    // rozkład, żeby móc go odtworzyć po powrocie z rozkładu — inaczej
-    // po wejściu w inny przystanek z listy i cofnięciu się dwukrotnie
-    // panel informacji zostaje pusty (jego zawartość jest czyszczona
-    // przez closePlacePanel przy pierwszym cofnięciu).
+    // rozkład, żeby móc go odtworzyć po powrocie z rozkładu - na
+    // stosie, a nie w jednym nadpisywanym polu, żeby cofanie
+    // pamiętało cały łańcuch (przystanek → rozkład → przystanek →
+    // rozkład → ...), a nie tylko ostatni krok. Zapamiętujemy też,
+    // dokąd prowadził przycisk "wstecz" NA TYM miejscu (np. do
+    // wcześniejszego rozkładu) - inaczej po przywróceniu miejsca
+    // jego "wstecz" nie prowadziłoby już nigdzie.
     if (state.selectedPlace && state.placePanelLngLat) {
-      state.tripOriginPlace = {
+      if (!Array.isArray(state.tripOriginStack)) state.tripOriginStack = [];
+      state.tripOriginStack.push({
         details: state.selectedPlace,
-        lngLat: state.placePanelLngLat
-      };
+        lngLat: state.placePanelLngLat,
+        returnTarget: window.OMAP_BACK_NAVIGATION?.get() || null
+      });
     }
 
     closeOtherMobilePanels(["trip", "place"]);
@@ -8379,11 +8419,12 @@ function showUserLocationMarker(lngLat) {
       renderTripStops(stops, currentStopPoint);
       el.tripStatus.hidden = true;
 
-      state.lastTripContext = {
+      if (!Array.isArray(state.tripContextStack)) state.tripContextStack = [];
+      state.tripContextStack.push({
         title: el.tripPanelTitle.textContent,
         stops,
         currentStopPoint
-      };
+      });
     } catch (error) {
       console.error(error);
       el.tripStatus.hidden = false;
