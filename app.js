@@ -3910,7 +3910,7 @@ function applyLanguage(language) {
           icon.textContent = "📍";
           title.textContent = text[state.language].menuLocation;
         } else {
-          icon.textContent = getSearchResultEmoji(result);
+          icon.textContent = result.__isFavorite ? "⭐" : getSearchResultEmoji(result);
           // Pobierz custom name jeśli istnieje
           const lat = Number(result?.lat);
           const lon = Number(result?.lon);
@@ -3955,12 +3955,97 @@ function applyLanguage(language) {
 
     const renderHistory = () => {
       const history = getSearchHistory();
+      const pinnedFavorites = state.favorites.slice(0, 5);
 
       floatingList.replaceChildren();
       activeIndex = -1;
 
-      if (!history.length) {
+      if (!history.length && !pinnedFavorites.length) {
         hide();
+        return;
+      }
+
+      if (pinnedFavorites.length) {
+        const favHeader = document.createElement("li");
+        favHeader.className = "autocomplete-history-header";
+        const favTitle = document.createElement("span");
+        favTitle.textContent = text[state.language].favoritesTitle;
+        favHeader.append(favTitle);
+        floatingList.appendChild(favHeader);
+
+        const favFragment = document.createDocumentFragment();
+        pinnedFavorites.forEach(favorite => {
+          const item = document.createElement("li");
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "autocomplete-option autocomplete-history-option";
+
+          const icon = document.createElement("span");
+          icon.className = "autocomplete-history-icon";
+          icon.setAttribute("aria-hidden", "true");
+          icon.textContent = "⭐";
+
+          const copy = document.createElement("span");
+          copy.className = "autocomplete-history-copy";
+
+          const label = document.createElement("strong");
+          label.textContent = favorite.customName || favorite.title || "";
+
+          const details = document.createElement("span");
+          details.textContent = favorite.address || "";
+
+          copy.append(label, details);
+          button.append(icon, copy);
+
+          button.addEventListener("pointerdown", event => {
+            event.preventDefault();
+          });
+
+          button.addEventListener("click", () => {
+            const displayLabel = favorite.customName || favorite.title || "";
+            if (el.searchInput) el.searchInput.value = displayLabel;
+            updateSearchClearButton();
+            hide();
+
+            window.OMAP_SEARCH_SESSION?.cancel?.();
+            setPlacePanelReturnTarget("search", { query: displayLabel });
+            prepareMobilePlacePanelAfterSearch();
+
+            openSearchPlaceThroughService(
+              { ...favorite, name: displayLabel },
+              {
+                query: displayLabel,
+                reverse: !(favorite.exactLocalIdentity || Boolean(favorite.osm_type && favorite.osm_id)),
+                origin: "favorites"
+              }
+            );
+
+            map.flyTo({
+              center: [favorite.lon, favorite.lat],
+              zoom: 16,
+              bearing: 180
+            });
+
+            if (!state.isRestoringFromPopstate) {
+              window.OMAP_URL_STATE?.setPlaceUrl({
+                label: displayLabel,
+                lat: favorite.lat,
+                lon: favorite.lon,
+                osmType: favorite.osm_type,
+                osmId: favorite.osm_id
+              });
+            }
+          });
+
+          item.appendChild(button);
+          favFragment.appendChild(item);
+        });
+        floatingList.appendChild(favFragment);
+      }
+
+      if (!history.length) {
+        floatingList.hidden = false;
+        positionList();
         return;
       }
 
@@ -4084,7 +4169,18 @@ function applyLanguage(language) {
       abortController?.abort();
       abortController = new AbortController();
 
-      showMessage(text[state.language].autocompleteLoading);
+      const isMainSearch = activeInput === el.searchInput;
+      const favoriteMatches = isMainSearch
+        ? getMatchingFavoritePlaces(query)
+        : [];
+
+      // Ulubione są lokalne (bez sieci) - pokazujemy je od razu,
+      // zanim jeszcze dotrze odpowiedź z wyszukiwarki geograficznej.
+      if (favoriteMatches.length) {
+        render(favoriteMatches);
+      } else {
+        showMessage(text[state.language].autocompleteLoading);
+      }
 
       try {
         const items = await findPlacesWithFallback(
@@ -4093,11 +4189,13 @@ function applyLanguage(language) {
           abortController.signal
         );
 
-        render(items);
+        render([...favoriteMatches, ...items]);
       } catch (error) {
         if (error.name === "AbortError") return;
         console.error(error);
-        showMessage(text[state.language].autocompleteError);
+        if (!favoriteMatches.length) {
+          showMessage(text[state.language].autocompleteError);
+        }
       }
     };
 
@@ -4652,6 +4750,31 @@ function applyLanguage(language) {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
+  }
+
+  // Ulubione miejsca mają praktycznie ten sam kształt co wynik
+  // wyszukiwania (lat/lon/title/osm_type/address itd. - bo z takiego
+  // wyniku pierwotnie powstały), więc można je wstawić bezpośrednio
+  // do tej samej listy podpowiedzi bez osobnej ścieżki wyboru.
+  function getMatchingFavoritePlaces(query, limit = 5) {
+    const q = normalizeSearchText(query);
+    if (!q) return [];
+
+    return state.favorites
+      .filter(favorite => {
+        const haystack = normalizeSearchText(
+          [favorite.customName, favorite.title, favorite.address]
+            .filter(Boolean)
+            .join(" ")
+        );
+        return haystack.includes(q);
+      })
+      .slice(0, limit)
+      .map(favorite => ({
+        ...favorite,
+        name: favorite.customName || favorite.name || favorite.title,
+        __isFavorite: true
+      }));
   }
 
   // Współdzielona logika sortowania dla ulubionych miejsc i tras.
