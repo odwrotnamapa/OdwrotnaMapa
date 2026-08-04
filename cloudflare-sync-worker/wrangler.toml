@@ -1,0 +1,10 @@
+name = "odwrotnamapa-sync"
+main = "sync-worker.js"
+compatibility_date = "2026-08-01"
+
+# Utwórz namespace poleceniem:
+#   wrangler kv namespace create SYNC_KV
+# a następnie wklej zwrócony "id" poniżej.
+kv_namespaces = [
+  { binding = "SYNC_KV", id = "WKLEJ_TU_ID_NAMESPACE" }
+]

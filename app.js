@@ -1478,6 +1478,49 @@
     aboutBack: $("about-back"),
     menuBackupButton: $("menu-backup-button"),
     menuBackupLabel: $("menu-backup-label"),
+    menuAccountButton: $("menu-account-button"),
+    menuAccountLabel: $("menu-account-label"),
+    accountPanel: $("account-panel"),
+    accountBack: $("account-back"),
+    accountClose: $("account-close"),
+    accountMessage: $("account-message"),
+    accountScreenHome: $("account-screen-home"),
+    accountGotoLoginButton: $("account-goto-login-button"),
+    accountGotoRegisterButton: $("account-goto-register-button"),
+    accountScreenLogin: $("account-screen-login"),
+    accountLoginBackButton: $("account-login-back-button"),
+    accountSeedInput: $("account-seed-input"),
+    accountLoginButton: $("account-login-button"),
+    accountScreenRegister: $("account-screen-register"),
+    accountRegisterBackButton: $("account-register-back-button"),
+    accountSeedWords: $("account-seed-words"),
+    accountSeedCopyButton: $("account-seed-copy-button"),
+    accountSeedConfirmCheckbox: $("account-seed-confirm-checkbox"),
+    accountSeedConfirmButton: $("account-seed-confirm-button"),
+    accountScreenLoggedIn: $("account-screen-loggedin"),
+    accountAvatarButton: $("account-avatar-button"),
+    accountAvatarPreview: $("account-avatar-preview"),
+    accountAvatarPlaceholder: $("account-avatar-placeholder"),
+    accountDisplayNameButton: $("account-display-name-button"),
+    accountDisplayName: $("account-display-name"),
+    accountPublicId: $("account-public-id"),
+    accountNameEditForm: $("account-name-edit-form"),
+    accountProfileNameInput: $("account-profile-name-input"),
+    accountProfileAvatarInput: $("account-profile-avatar-input"),
+    accountNameSaveButton: $("account-name-save-button"),
+    accountNameCancelButton: $("account-name-cancel-button"),
+    accountStatusText: $("account-status-text"),
+    accountAutoSyncCheckbox: $("account-auto-sync-checkbox"),
+    accountSyncScopeFavorites: $("account-sync-scope-favorites"),
+    accountSyncScopeColors: $("account-sync-scope-colors"),
+    accountSyncScopePlaceNames: $("account-sync-scope-place-names"),
+    accountSyncScopeHistory: $("account-sync-scope-history"),
+    accountPushButton: $("account-push-button"),
+    accountPullButton: $("account-pull-button"),
+    accountLogoutButton: $("account-logout-button"),
+    accountRevealDetails: $("account-reveal-details"),
+    accountSeedRevealWords: $("account-seed-reveal-words"),
+    accountSeedRevealCopyButton: $("account-seed-reveal-copy-button"),
     menuInstallButton: $("menu-install-button"),
     menuInstallLabel: $("menu-install-label"),
     backupPanel: $("backup-panel"),
@@ -2082,6 +2125,16 @@ map.on('rotate', updateLogoRotation);
   el.backupBack?.addEventListener(
     "click",
     returnFromBackupToMenu
+  );
+
+  el.menuAccountButton?.addEventListener(
+    "click",
+    openAccountFromMenu
+  );
+  el.accountClose?.addEventListener("click", closeAccount);
+  el.accountBack?.addEventListener(
+    "click",
+    returnFromAccountToMenu
   );
 
   el.aboutButton?.addEventListener("click", toggleAbout);
@@ -4641,7 +4694,8 @@ function applyLanguage(language) {
     { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
     { id: "tradingSunday", close: () => closeTradingSunday(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
-    { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" }
+    { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" },
+    { id: "account", close: () => closeAccount(), panel: el.accountPanel, cssVariable: "--sheet-height" }
   ];
 
   function closeOtherMobilePanels(exceptIds) {
@@ -11279,6 +11333,900 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     el.backupPanel.hidden = true;
     el.menuBackupButton?.setAttribute("aria-expanded", "false");
   }
+
+  function openAccountFromMenu() {
+    closeOtherMobilePanels("account");
+
+    openMobilePanelStandard(
+      el.accountPanel,
+      "--sheet-height"
+    );
+    el.menuAccountButton?.setAttribute("aria-expanded", "true");
+    refreshAccountUI();
+  }
+
+  function returnFromAccountToMenu() {
+    closeAccount();
+    openMenuHome();
+  }
+
+  function closeAccount() {
+    if (!el.accountPanel || el.accountPanel.hidden) return;
+    el.accountPanel.hidden = true;
+    el.menuAccountButton?.setAttribute("aria-expanded", "false");
+  }
+
+  // ===== Konto i synchronizacja (seed-fraza + Web Crypto, bez blockchaina) =====
+
+  function getStoredSeedWords() {
+    try {
+      const raw = localStorage.getItem(CONFIG.storageKeys.syncSeed);
+      const parsed = raw ? JSON.parse(raw) : null;
+      return Array.isArray(parsed) && parsed.length ? parsed : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function storeSeedWords(words) {
+    safeSet(CONFIG.storageKeys.syncSeed, JSON.stringify(words));
+  }
+
+  function clearStoredSeedWords() {
+    localStorage.removeItem(CONFIG.storageKeys.syncSeed);
+    localStorage.removeItem(CONFIG.storageKeys.syncLastSyncedAt);
+  }
+
+  function showAccountMessage(message, kind) {
+    if (!el.accountMessage) return;
+    el.accountMessage.textContent = message;
+    el.accountMessage.hidden = false;
+    el.accountMessage.classList.remove(
+      "account-message--error",
+      "account-message--success"
+    );
+    if (kind) el.accountMessage.classList.add(`account-message--${kind}`);
+  }
+
+  function clearAccountMessage() {
+    if (!el.accountMessage) return;
+    el.accountMessage.hidden = true;
+    el.accountMessage.textContent = "";
+  }
+
+  function renderSeedWordsGrid(container, words) {
+    if (!container) return;
+    container.innerHTML = "";
+    words.forEach(word => {
+      const chip = document.createElement("span");
+      chip.className = "account-seed-word";
+      chip.textContent = word;
+      container.appendChild(chip);
+    });
+  }
+
+  async function copyWordsToClipboard(words) {
+    const phrase = words.join(" ");
+    try {
+      await navigator.clipboard.writeText(phrase);
+      showAccountMessage("Fraza skopiowana do schowka.", "success");
+    } catch (error) {
+      console.error(error);
+      showAccountMessage("Nie udało się skopiować - zaznacz i skopiuj słowa ręcznie.", "error");
+    }
+  }
+
+  function formatSyncTimestamp(iso) {
+    if (!iso) return null;
+    try {
+      const date = new Date(iso);
+      return date.toLocaleString(state.language === "pl" ? "pl-PL" : "en-US");
+    } catch (_) {
+      return null;
+    }
+  }
+
+  const ACCOUNT_SCREENS = ["home", "login", "register", "loggedin"];
+
+  function showAccountScreen(name) {
+    const map = {
+      home: el.accountScreenHome,
+      login: el.accountScreenLogin,
+      register: el.accountScreenRegister,
+      loggedin: el.accountScreenLoggedIn
+    };
+    for (const key of ACCOUNT_SCREENS) {
+      if (map[key]) map[key].hidden = key !== name;
+    }
+    clearAccountMessage();
+  }
+
+  function isAutoSyncEnabled() {
+    const stored = safeGet(CONFIG.storageKeys.syncAutoEnabled, "");
+    return stored === "" ? true : stored === "1";
+  }
+
+  function updatePullButtonVisibility() {
+    // Skoro synchronizacja w tle sama pobiera nowsze dane, ręczny
+    // przycisk "Pobierz" jest zbędny w typowym przypadku - pokazujemy
+    // go tylko wtedy, gdy auto-sync jest wyłączony (żeby nie zostać
+    // bez żadnej możliwości ręcznego pobrania).
+    if (el.accountPullButton) el.accountPullButton.hidden = isAutoSyncEnabled();
+  }
+
+  // Jednorazowo wyprowadza komplet materiału potrzebnego do rozmowy
+  // z przekaźnikami (klucze + identyfikator publiczny), żeby nie
+  // powtarzać tego samego, dość kosztownego (PBKDF2) wyprowadzania
+  // kluczy w kilku miejscach osobno.
+  async function deriveAccountContext(words) {
+    const cryptoApi = window.OMAP_SYNC_CRYPTO;
+    const transport = window.OMAP_SYNC_TRANSPORT;
+    if (!cryptoApi || !transport || !words) return null;
+    const nostrLib = await transport.waitForNostrLib();
+    const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
+    const nostrPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
+    return { cryptoApi, transport, nostrLib, encKey, nostrPrivKeyBytes, nostrPubKeyHex };
+  }
+
+  async function computeAndShowIdentity() {
+    const words = getStoredSeedWords();
+    if (!words) return;
+    try {
+      const ctx = await deriveAccountContext(words);
+      if (!ctx) return;
+      const npub = ctx.nostrLib.npubEncode
+        ? ctx.nostrLib.npubEncode(ctx.nostrPubKeyHex)
+        : ctx.nostrPubKeyHex;
+      if (el.accountPublicId) {
+        // Pełny npub bywa długi (63 znaki) - do samego rozpoznania "czy
+        // to na pewno to samo konto" wystarczy garść znaków, długości
+        // zbliżonej do identyfikatora filmu na YouTube. Pełny
+        // identyfikator nadal kopiuje przycisk "Kopiuj".
+        el.accountPublicId.textContent = npub.slice(0, 11);
+        el.accountPublicId.dataset.fullId = npub;
+      }
+    } catch (error) {
+      console.error("Nie udało się wyznaczyć identyfikatora konta:", error);
+    }
+  }
+
+  function getStoredProfile() {
+    return {
+      name: safeGet(CONFIG.storageKeys.syncProfileName, ""),
+      avatar: safeGet(CONFIG.storageKeys.syncProfileAvatar, "")
+    };
+  }
+
+  function storeProfileLocally(profile) {
+    safeSet(CONFIG.storageKeys.syncProfileName, profile.name || "");
+    safeSet(CONFIG.storageKeys.syncProfileAvatar, profile.avatar || "");
+  }
+
+  function renderProfileUI() {
+    const profile = getStoredProfile();
+    if (el.accountProfileNameInput) el.accountProfileNameInput.value = profile.name || "";
+    if (el.accountDisplayName) {
+      el.accountDisplayName.textContent = profile.name || "Bez nazwy";
+    }
+    if (el.accountAvatarPreview && el.accountAvatarPlaceholder) {
+      if (profile.avatar) {
+        el.accountAvatarPreview.src = profile.avatar;
+        el.accountAvatarPreview.hidden = false;
+        el.accountAvatarPlaceholder.hidden = true;
+      } else {
+        el.accountAvatarPreview.hidden = true;
+        el.accountAvatarPreview.removeAttribute("src");
+        el.accountAvatarPlaceholder.hidden = false;
+      }
+    }
+  }
+
+  async function pullProfile(ctx) {
+    if (!ctx) return;
+    try {
+      const remote = await ctx.transport.pullBlob(ctx.nostrPubKeyHex, "profile");
+      if (!remote) return;
+      const profile = await ctx.cryptoApi.decryptPayload(remote.blob, ctx.encKey);
+      storeProfileLocally({ name: profile.name || "", avatar: profile.avatar || "" });
+      renderProfileUI();
+    } catch (error) {
+      console.error("Nie udało się pobrać profilu:", error);
+    }
+  }
+
+  function refreshAccountUI() {
+    const words = getStoredSeedWords();
+
+    if (!words) {
+      stopAutoSyncTimer();
+      showAccountScreen("home");
+      return;
+    }
+
+    const lastSyncedAt = safeGet(CONFIG.storageKeys.syncLastSyncedAt, "");
+    const formatted = formatSyncTimestamp(lastSyncedAt);
+    if (el.accountStatusText) {
+      el.accountStatusText.textContent = formatted
+        ? `Konto aktywne. Ostatnia synchronizacja: ${formatted}.`
+        : "Konto aktywne. Jeszcze nie synchronizowano na tym urządzeniu.";
+    }
+
+    if (el.accountAutoSyncCheckbox) el.accountAutoSyncCheckbox.checked = isAutoSyncEnabled();
+    updatePullButtonVisibility();
+    renderProfileUI();
+    computeAndShowIdentity();
+
+    if (el.accountSeedRevealWords) {
+      renderSeedWordsGrid(el.accountSeedRevealWords, words);
+    }
+    if (el.accountRevealDetails) el.accountRevealDetails.open = false;
+    if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
+
+    showAccountScreen("loggedin");
+    scheduleAutoSyncCheck();
+  }
+
+  function handleCreateAccount() {
+    const cryptoApi = window.OMAP_SYNC_CRYPTO;
+    if (!cryptoApi) return;
+
+    const words = cryptoApi.generateSeedWords(CONFIG.sync?.wordCount || 16);
+    renderSeedWordsGrid(el.accountSeedWords, words);
+    el.accountScreenRegister.dataset.pendingWords = JSON.stringify(words);
+
+    if (el.accountSeedConfirmCheckbox) el.accountSeedConfirmCheckbox.checked = false;
+    if (el.accountSeedConfirmButton) el.accountSeedConfirmButton.disabled = true;
+
+    showAccountScreen("register");
+  }
+
+  function handleConfirmSeed() {
+    try {
+      const words = JSON.parse(
+        el.accountScreenRegister.dataset.pendingWords || "[]"
+      );
+      if (!Array.isArray(words) || !words.length) return;
+      storeSeedWords(words);
+      delete el.accountScreenRegister.dataset.pendingWords;
+      refreshAccountUI();
+      showAccountMessage("Konto aktywowane na tym urządzeniu.", "success");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleLoginWithSeed() {
+    const cryptoApi = window.OMAP_SYNC_CRYPTO;
+    if (!cryptoApi) return;
+
+    const words = cryptoApi.normalizeSeedInput(el.accountSeedInput?.value || "");
+    const validation = cryptoApi.validateSeedWords(words);
+
+    if (!validation.valid) {
+      if (validation.error === "toKrotko") {
+        showAccountMessage("Fraza jest za krótka - potrzeba przynajmniej 12 słów.", "error");
+      } else {
+        showAccountMessage(`Nierozpoznane słowo we frazie: „${validation.word}”. Sprawdź pisownię.`, "error");
+      }
+      return;
+    }
+
+    storeSeedWords(words);
+    if (el.accountSeedInput) el.accountSeedInput.value = "";
+
+    if (el.accountLoginButton) el.accountLoginButton.disabled = true;
+    showAccountMessage("Zalogowano - pobieranie zapisanych ustawień z chmury…", null);
+
+    try {
+      // Celowo NIE wołamy tu jeszcze refreshAccountUI()/auto-sync - to
+      // pierwsze pobranie musi się zakończyć jako pierwsze, zanim
+      // cokolwiek (łącznie z auto-synchronizacją w tle) miałoby szansę
+      // wysłać stan tego (nowego dla tego konta) urządzenia do chmury
+      // i przypadkiem nadpisać to, co tam już jest.
+      const scopes = getCheckedSyncScopes();
+      const result = await performPull(scopes, { silent: true });
+
+      const ctx = await deriveAccountContext(words);
+      await pullProfile(ctx);
+
+      refreshAccountUI();
+      if (result?.applied) {
+        showAccountMessage("Zalogowano i pobrano zapisane ustawienia z chmury.", "success");
+      } else {
+        showAccountMessage("Zalogowano. Nie znaleziono jeszcze zapisanych ustawień w chmurze dla tej frazy - to normalne przy pierwszej synchronizacji.", "success");
+      }
+    } catch (error) {
+      console.error(error);
+      refreshAccountUI();
+      showAccountMessage("Zalogowano, ale automatyczne pobranie się nie powiodło. Spróbuj ręcznie „Pobierz zaznaczone”.", "error");
+    } finally {
+      if (el.accountLoginButton) el.accountLoginButton.disabled = false;
+    }
+  }
+
+  function handleLogoutAccount() {
+    stopAutoSyncTimer();
+    clearStoredSeedWords();
+    if (el.accountSeedInput) el.accountSeedInput.value = "";
+    refreshAccountUI();
+  }
+
+  function getCheckedSyncScopes() {
+    const scopes = [];
+    if (el.accountSyncScopeFavorites?.checked) scopes.push("favorites");
+    if (el.accountSyncScopeColors?.checked) scopes.push("colors");
+    if (el.accountSyncScopePlaceNames?.checked) scopes.push("placeNames");
+    if (el.accountSyncScopeHistory?.checked) scopes.push("history");
+    return scopes;
+  }
+
+  function buildSyncPayload(scopes) {
+    const payload = {
+      version: 2,
+      exportedAt: new Date().toISOString()
+    };
+
+    if (scopes.includes("favorites")) {
+      payload.favorites = state.favorites.map(favorite => ({
+        ...favorite,
+        key: favorite.key,
+        title: favorite.title || "",
+        address: favorite.address || "",
+        lat: Number(favorite.lat),
+        lon: Number(favorite.lon)
+      }));
+    }
+
+    if (scopes.includes("colors")) {
+      payload.theme = state.theme;
+      payload.language = state.language;
+      payload.customPalette = { ...state.customPalette };
+      if (state.customFont?.type === "google") {
+        payload.customFont = { type: "google", googleFont: state.customFont.googleFont };
+      } else if (state.customFont?.type === "custom") {
+        // Same bajty czcionki jadą osobnym, małym zdarzeniem (patrz
+        // pushColorMedia) - tu zostawiamy tylko znacznik typu.
+        payload.customFont = { type: "custom" };
+      }
+    }
+
+    if (scopes.includes("placeNames")) {
+      payload.customPlaceNames = { ...(state.customPlaceNames || {}) };
+    }
+
+    if (scopes.includes("history")) {
+      payload.history = state.history.map(entry => ({ ...entry }));
+    }
+
+    return payload;
+  }
+
+  // Tekstury (zdjęcia) i wgrany plik czcionki to duże dane binarne, więc
+  // zamiast wrzucać je do jednego dużego zdarzenia (ryzyko przekroczenia
+  // limitów rozmiaru wielu publicznych przekaźników), publikujemy je
+  // jako osobne, małe zdarzenia - jedno na slot. Puste sloty też
+  // publikujemy (jako pusty ciąg) - to sygnał "wyczyszczone", inaczej
+  // usunięta lokalnie tekstura "wróciłaby" przy kolejnym pobraniu.
+  // Wiele publicznych przekaźników Nostr odrzuca zbyt duże zdarzenia
+  // (typowo limit rzędu 64-256 KB) - zdjęcie jako base64 łatwo to
+  // przekracza i przekaźnik po prostu je odrzuca. Dlatego przed
+  // wysyłką przeskalowujemy/kompresujemy teksturę do rozsądnego
+  // rozmiaru (jakość lokalnej kopii się nie zmienia - to dotyczy
+  // tylko wersji wysyłanej do synchronizacji).
+  const MEDIA_SIZE_LIMIT = 180000; // ~180 KB zakodowanego tekstu (base64) - bezpieczny margines
+
+  function downscaleImageDataUrl(dataUrl, maxDim, quality) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        const width = Math.max(1, Math.round(img.width * scale));
+        const height = Math.max(1, Math.round(img.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = () => reject(new Error("Nie udało się wczytać obrazu do przeskalowania."));
+      img.src = dataUrl;
+    });
+  }
+
+  async function prepareTextureForSync(dataUrl) {
+    if (!dataUrl) return "";
+    // Coraz mocniejsza kompresja, aż zmieści się w limicie - albo się poddajemy.
+    const attempts = [
+      [1024, 0.72],
+      [768, 0.6],
+      [512, 0.5]
+    ];
+    for (const [maxDim, quality] of attempts) {
+      try {
+        const resized = await downscaleImageDataUrl(dataUrl, maxDim, quality);
+        if (resized.length <= MEDIA_SIZE_LIMIT) return resized;
+      } catch (error) {
+        console.error("Przeskalowanie tekstury nie powiodło się:", error);
+        break;
+      }
+    }
+    return null; // za duże nawet po maksymalnej kompresji
+  }
+
+  async function pushColorMedia(cryptoApi, encKey, transport, nostrPrivKeyBytes) {
+    const skipped = [];
+
+    const textureJobs = TEXTURE_FIELDS.map(async key => {
+      const original = state.customTextures?.[key] || "";
+      if (!original) {
+        await pushOneMediaSlot(`texture:${key}`, "");
+        return;
+      }
+      const prepared = await prepareTextureForSync(original);
+      if (prepared === null) {
+        skipped.push(`tekstura „${key}”`);
+        return;
+      }
+      await pushOneMediaSlot(`texture:${key}`, prepared);
+    });
+
+    const fontValue =
+      state.customFont?.type === "custom" && state.customFontDataUrl
+        ? state.customFontDataUrl
+        : "";
+    if (fontValue && fontValue.length > MEDIA_SIZE_LIMIT) {
+      skipped.push("własna czcionka");
+    } else {
+      textureJobs.push(pushOneMediaSlot("font:custom", fontValue));
+    }
+
+    await Promise.allSettled(textureJobs);
+    return skipped;
+
+    async function pushOneMediaSlot(topic, value) {
+      try {
+        const blob = await cryptoApi.encryptPayload({ value }, encKey);
+        await transport.pushBlob(nostrPrivKeyBytes, blob, topic);
+      } catch (error) {
+        // Pojedynczy nieudany slot (np. przekaźnik i tak odrzucił
+        // dane) nie powinien przerywać reszty wysyłki, ale ma trafić
+        // do listy "skipped", żeby user zobaczył, że coś nie doszło.
+        console.error(`Synchronizacja: nie udało się wysłać "${topic}"`, error);
+        skipped.push(topic);
+      }
+    }
+  }
+
+  async function pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex) {
+    for (const key of TEXTURE_FIELDS) {
+      await pullOneMediaSlot(`texture:${key}`, async value => {
+        if (value) {
+          state.customTextures[key] = value;
+          await idbSetTexture(key, value);
+          if (MAP_TEXTURE_KEYS.includes(key)) await registerTextureImage(key, value);
+        } else {
+          state.customTextures[key] = null;
+          await idbDeleteTexture(key);
+          if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
+        }
+      });
+    }
+
+    await pullOneMediaSlot("font:custom", async value => {
+      if (value) {
+        state.customFont = { type: "custom" };
+        state.customFontDataUrl = value;
+        await idbSetCustomFont(value);
+        saveCustomFont();
+        syncCustomFontSelect();
+      } else if (state.customFont?.type === "custom") {
+        state.customFont = { type: "default" };
+        state.customFontDataUrl = null;
+        await idbDeleteCustomFont();
+        saveCustomFont();
+        syncCustomFontSelect();
+      }
+    });
+
+    async function pullOneMediaSlot(topic, apply) {
+      try {
+        const remote = await transport.pullBlob(nostrPubKeyHex, topic);
+        if (!remote) return;
+        const { value } = await cryptoApi.decryptPayload(remote.blob, encKey);
+        await apply(value || "");
+      } catch (error) {
+        console.error(`Synchronizacja: nie udało się pobrać "${topic}"`, error);
+      }
+    }
+  }
+
+  async function applySyncPayload(payload, scopes) {
+    if (!payload || typeof payload !== "object") return;
+
+    if (scopes.includes("favorites") && Array.isArray(payload.favorites)) {
+      state.favorites = payload.favorites
+        .map(entry => {
+          const lat = Number(entry.lat);
+          const lon = Number(entry.lon);
+          if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+          return {
+            ...entry,
+            key: String(entry.key || "").trim() || `${lat.toFixed(6)},${lon.toFixed(6)}`,
+            title: String(entry.title || "").trim(),
+            address: String(entry.address || "").trim(),
+            lat,
+            lon
+          };
+        })
+        .filter(Boolean)
+        .slice(0, 1000);
+      saveFavorites();
+      renderFavoritesList();
+    }
+
+    if (scopes.includes("colors")) {
+      if (payload.customPalette && typeof payload.customPalette === "object") {
+        state.customPalette = { ...DEFAULT_CUSTOM_PALETTE, ...payload.customPalette };
+        saveCustomPalette(state.customPalette);
+        syncCustomPaletteInputs();
+      }
+
+      if (payload.customFont?.type === "google" && payload.customFont.googleFont) {
+        state.customFont = { type: "google", googleFont: payload.customFont.googleFont };
+        state.customFontDataUrl = null;
+        await idbDeleteCustomFont();
+        saveCustomFont();
+        syncCustomFontSelect();
+      }
+      // Typ "custom" (wgrany plik czcionki) jest dociągany i stosowany
+      // osobno przez pullColorMedia (bajty czcionki jadą jako osobne,
+      // małe zdarzenie Nostr) - patrz wywołanie w performPull.
+
+      if (payload.theme) {
+        state.theme = payload.theme;
+        safeSet(CONFIG.storageKeys.theme, state.theme);
+        if (el.themeSelect) el.themeSelect.value = state.theme;
+        if (el.menuThemeSelect) el.menuThemeSelect.value = state.theme;
+        applyTheme(state.theme);
+      }
+
+      if (payload.language && payload.language !== state.language) {
+        state.language = payload.language;
+        safeSet(CONFIG.storageKeys.language, state.language);
+        if (el.languageSelect) el.languageSelect.value = state.language;
+        updateUI();
+        applyLanguage(state.language);
+      }
+    }
+
+    if (scopes.includes("placeNames") && payload.customPlaceNames && typeof payload.customPlaceNames === "object") {
+      state.customPlaceNames = { ...payload.customPlaceNames };
+      saveCustomPlaceNames();
+    }
+
+    if (scopes.includes("history") && Array.isArray(payload.history)) {
+      state.history = payload.history
+        .map(entry => {
+          const lat = Number(entry.lat);
+          const lon = Number(entry.lon);
+          if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+          return { ...entry, lat, lon };
+        })
+        .filter(Boolean)
+        .slice(0, HISTORY_LIMIT);
+      saveHistory();
+      renderHistoryList();
+    }
+  }
+
+  async function performPush(scopes, options) {
+    const silent = options?.silent;
+    const cryptoApi = window.OMAP_SYNC_CRYPTO;
+    const transport = window.OMAP_SYNC_TRANSPORT;
+    const words = getStoredSeedWords();
+    if (!cryptoApi || !transport || !words || !scopes.length) return null;
+
+    if (!silent) showAccountMessage("Wysyłanie do publicznych przekaźników…", null);
+
+    const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
+    const payload = buildSyncPayload(scopes);
+    const blob = await cryptoApi.encryptPayload(payload, encKey);
+    const result = await transport.pushBlob(nostrPrivKeyBytes, blob, "main");
+
+    let skippedMedia = [];
+    if (scopes.includes("colors")) {
+      skippedMedia = await pushColorMedia(cryptoApi, encKey, transport, nostrPrivKeyBytes);
+    }
+
+    safeSet(CONFIG.storageKeys.syncLastSyncedAt, result.updatedAt || new Date().toISOString());
+    return { ...result, skippedMedia };
+  }
+
+  async function performPull(scopes, options) {
+    const silent = options?.silent;
+    const onlyIfNewer = options?.onlyIfNewer;
+    const cryptoApi = window.OMAP_SYNC_CRYPTO;
+    const transport = window.OMAP_SYNC_TRANSPORT;
+    const words = getStoredSeedWords();
+    if (!cryptoApi || !transport || !words || !scopes.length) return null;
+
+    if (!silent) showAccountMessage("Pobieranie z publicznych przekaźników…", null);
+
+    const nostrLib = await transport.waitForNostrLib();
+    const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
+    const nostrPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
+    const remote = await transport.pullBlob(nostrPubKeyHex, "main");
+
+    if (!remote) {
+      if (!silent) showAccountMessage("Nie znaleziono jeszcze żadnych danych dla tej frazy na przekaźnikach.", "error");
+      return null;
+    }
+
+    if (onlyIfNewer) {
+      const lastKnown = safeGet(CONFIG.storageKeys.syncLastSyncedAt, "");
+      if (lastKnown && new Date(remote.updatedAt) <= new Date(lastKnown)) {
+        return { applied: false };
+      }
+    }
+
+    const payload = await cryptoApi.decryptPayload(remote.blob, encKey);
+
+    // Ważna kolejność: tekstury/czcionkę ustawiamy PRZED zastosowaniem
+    // metadanych (motyw/paleta), bo to applySyncPayload wykonuje
+    // ostateczne przemalowanie (applyTheme) - jeśli tekstury nie są
+    // jeszcze zarejestrowane w tym momencie, przemalowanie użyje
+    // samego koloru zamiast tekstury dla danej warstwy.
+    if (scopes.includes("colors")) {
+      await pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex);
+    }
+
+    await applySyncPayload(payload, scopes);
+
+    if (scopes.includes("colors")) {
+      // Ostateczny krok: ponownie rejestrujemy obrazy tekstur (na
+      // wypadek gdyby wcześniejsze przemalowanie/reset stylu mapy
+      // "zgubiło" wcześniej dodane obrazy) i dopiero na końcu
+      // przemalowujemy motyw - tak, żeby tekstura, jeśli jest
+      // ustawiona, zawsze miała ostatnie słowo nad samym kolorem.
+      for (const key of TEXTURE_FIELDS) {
+        const value = state.customTextures?.[key];
+        if (value && MAP_TEXTURE_KEYS.includes(key)) {
+          await registerTextureImage(key, value);
+        }
+      }
+      applyTheme(state.theme);
+    }
+
+    safeSet(CONFIG.storageKeys.syncLastSyncedAt, remote.updatedAt || new Date().toISOString());
+    return { applied: true, updatedAt: remote.updatedAt };
+  }
+
+  async function handlePushToCloud() {
+    const scopes = getCheckedSyncScopes();
+    if (scopes.length === 0) {
+      showAccountMessage("Zaznacz przynajmniej jedną kategorię do wysłania.", "error");
+      return;
+    }
+
+    if (el.accountPushButton) el.accountPushButton.disabled = true;
+    try {
+      const result = await performPush(scopes, { silent: false });
+      refreshAccountUI();
+
+      let message = `Wysłano (potwierdziło ${result.relaysOk}/${result.relaysTotal} przekaźników).`;
+      if (result.skippedMedia?.length) {
+        message += ` Uwaga: nie udało się wysłać: ${result.skippedMedia.join(", ")} - prawdopodobnie za duże jak na limity publicznych przekaźników.`;
+      }
+      showAccountMessage(message, result.skippedMedia?.length ? "error" : "success");
+    } catch (error) {
+      console.error(error);
+      showAccountMessage("Nie udało się wysłać danych. Sprawdź połączenie i spróbuj ponownie.", "error");
+    } finally {
+      if (el.accountPushButton) el.accountPushButton.disabled = false;
+    }
+  }
+
+  async function handlePullFromCloud() {
+    const scopes = getCheckedSyncScopes();
+    if (scopes.length === 0) {
+      showAccountMessage("Zaznacz przynajmniej jedną kategorię do pobrania.", "error");
+      return;
+    }
+
+    if (el.accountPullButton) el.accountPullButton.disabled = true;
+    try {
+      const result = await performPull(scopes, { silent: false });
+      if (result) {
+        refreshAccountUI();
+        showAccountMessage("Pobrano i zastosowano zaznaczone ustawienia.", "success");
+      }
+    } catch (error) {
+      console.error(error);
+      showAccountMessage("Nie udało się pobrać lub odszyfrować danych. Sprawdź frazę i połączenie.", "error");
+    } finally {
+      if (el.accountPullButton) el.accountPullButton.disabled = false;
+    }
+  }
+
+  // ===== Automatyczna synchronizacja w tle =====
+  // Co kilka minut, o ile jest włączona: najpierw sprawdzamy, czy w
+  // chmurze jest coś NOWSZEGO niż nasza ostatnia znana synchronizacja
+  // (i jeśli tak - stosujemy to lokalnie); jeśli nie ma nic nowszego,
+  // wysyłamy bieżący stan tego urządzenia. Dzięki sprawdzaniu znacznika
+  // czasu nie nadpisujemy świeższych lokalnych zmian starszymi danymi
+  // z chmury.
+  let autoSyncTimer = null;
+  let autoSyncInitialTimeout = null;
+  let autoSyncScheduled = false;
+
+  function stopAutoSyncTimer() {
+    if (autoSyncTimer) {
+      clearInterval(autoSyncTimer);
+      autoSyncTimer = null;
+    }
+    if (autoSyncInitialTimeout) {
+      clearTimeout(autoSyncInitialTimeout);
+      autoSyncInitialTimeout = null;
+    }
+    autoSyncScheduled = false;
+  }
+
+  function scheduleAutoSyncCheck() {
+    if (autoSyncScheduled) return;
+    autoSyncScheduled = true;
+    autoSyncInitialTimeout = window.setTimeout(() => {
+      autoSyncScheduled = false;
+      autoSyncInitialTimeout = null;
+      autoSyncTick();
+    }, 1500);
+
+    if (!autoSyncTimer) {
+      autoSyncTimer = window.setInterval(autoSyncTick, 5 * 60 * 1000);
+    }
+  }
+
+  async function autoSyncTick() {
+    if (document.hidden) return;
+    const words = getStoredSeedWords();
+    if (!words) return;
+    if (!isAutoSyncEnabled()) return;
+
+    try {
+      const ctx = await deriveAccountContext(words);
+      await pullProfile(ctx);
+    } catch (error) {
+      console.error("Automatyczne pobranie profilu nie powiodło się:", error);
+    }
+
+    const scopes = getCheckedSyncScopes();
+    if (!scopes.length) return;
+
+    try {
+      // Celowo bez żadnego widocznego komunikatu/powiadomienia - to ma
+      // działać niewidocznie w tle. Jedyny ślad to zaktualizowany
+      // status ("Ostatnia synchronizacja: ...") widoczny po otwarciu
+      // panelu Konto.
+      const pullResult = await performPull(scopes, { silent: true, onlyIfNewer: true });
+      if (pullResult?.applied) {
+        refreshAccountUI();
+        return;
+      }
+      await performPush(scopes, { silent: true });
+      refreshAccountUI();
+    } catch (error) {
+      console.error("Automatyczna synchronizacja nie powiodła się:", error);
+    }
+  }
+
+  el.accountGotoLoginButton?.addEventListener("click", () => showAccountScreen("login"));
+  el.accountGotoRegisterButton?.addEventListener("click", handleCreateAccount);
+  el.accountLoginBackButton?.addEventListener("click", () => showAccountScreen("home"));
+  el.accountRegisterBackButton?.addEventListener("click", () => showAccountScreen("home"));
+  el.accountSeedCopyButton?.addEventListener("click", () => {
+    try {
+      const words = JSON.parse(el.accountScreenRegister.dataset.pendingWords || "[]");
+      if (words.length) copyWordsToClipboard(words);
+    } catch (_) {}
+  });
+  el.accountSeedRevealCopyButton?.addEventListener("click", () => {
+    const words = getStoredSeedWords();
+    if (words) copyWordsToClipboard(words);
+  });
+  el.accountSeedConfirmCheckbox?.addEventListener("change", () => {
+    if (el.accountSeedConfirmButton) {
+      el.accountSeedConfirmButton.disabled = !el.accountSeedConfirmCheckbox.checked;
+    }
+  });
+  el.accountSeedConfirmButton?.addEventListener("click", handleConfirmSeed);
+  el.accountLoginButton?.addEventListener("click", handleLoginWithSeed);
+  el.accountPushButton?.addEventListener("click", handlePushToCloud);
+  el.accountPullButton?.addEventListener("click", handlePullFromCloud);
+  el.accountAutoSyncCheckbox?.addEventListener("change", () => {
+    safeSet(CONFIG.storageKeys.syncAutoEnabled, el.accountAutoSyncCheckbox.checked ? "1" : "0");
+    updatePullButtonVisibility();
+  });
+
+  async function saveProfile(name, avatar) {
+    const words = getStoredSeedWords();
+    if (!words) return;
+
+    storeProfileLocally({ name, avatar });
+    renderProfileUI();
+
+    showAccountMessage("Zapisywanie profilu…", null);
+    try {
+      const ctx = await deriveAccountContext(words);
+      if (!ctx) return;
+      const blob = await ctx.cryptoApi.encryptPayload({ name, avatar }, ctx.encKey);
+      await ctx.transport.pushBlob(ctx.nostrPrivKeyBytes, blob, "profile");
+      showAccountMessage("Profil zapisany.", "success");
+    } catch (error) {
+      console.error(error);
+      showAccountMessage("Zapisano lokalnie, ale nie udało się wysłać profilu do przekaźników.", "error");
+    }
+  }
+
+  el.accountAvatarButton?.addEventListener("click", () => {
+    el.accountProfileAvatarInput?.click();
+  });
+
+  el.accountProfileAvatarInput?.addEventListener("change", async () => {
+    const file = el.accountProfileAvatarInput.files?.[0];
+    if (!file) return;
+    try {
+      const rawDataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Nie udało się wczytać pliku."));
+        reader.readAsDataURL(file);
+      });
+      // Ten sam mechanizm zmniejszania co przy teksturach, tylko do
+      // mniejszego rozmiaru - to nadal tylko mały awatar, ale trochę
+      // większy niż poprzednio.
+      const resized = await downscaleImageDataUrl(rawDataUrl, 192, 0.7);
+      el.accountProfileAvatarInput.value = "";
+      await saveProfile(getStoredProfile().name, resized);
+    } catch (error) {
+      console.error(error);
+      showAccountMessage("Nie udało się wczytać zdjęcia.", "error");
+    }
+  });
+
+  el.accountDisplayNameButton?.addEventListener("click", () => {
+    if (!el.accountNameEditForm) return;
+    const willOpen = el.accountNameEditForm.hidden;
+    el.accountNameEditForm.hidden = !willOpen;
+    if (willOpen) {
+      el.accountProfileNameInput.value = getStoredProfile().name || "";
+      el.accountProfileNameInput.focus();
+      el.accountProfileNameInput.select();
+    }
+  });
+
+  el.accountNameCancelButton?.addEventListener("click", () => {
+    if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
+  });
+
+  el.accountNameSaveButton?.addEventListener("click", async () => {
+    const name = (el.accountProfileNameInput?.value || "").trim().slice(0, 40);
+    if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
+    await saveProfile(name, getStoredProfile().avatar);
+  });
+
+  el.accountPublicId?.addEventListener("click", async () => {
+    const fullId = el.accountPublicId?.dataset.fullId;
+    if (!fullId) return;
+    try {
+      await navigator.clipboard.writeText(fullId);
+      showAccountMessage("Identyfikator skopiowany.", "success");
+    } catch (error) {
+      console.error(error);
+      showAccountMessage("Nie udało się skopiować identyfikatora.", "error");
+    }
+  });
+
+  el.accountLogoutButton?.addEventListener("click", handleLogoutAccount);
 
   function toggleLegend() {
     closeMapContextMenu();

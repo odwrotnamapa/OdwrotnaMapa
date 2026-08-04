@@ -53,6 +53,19 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     exploreLimit: 25,
     limit: 5
   },
+  sync: {
+    // Publiczne przekaźniki Nostr używane do synchronizacji ustawień -
+    // w pełni zdecentralizowane, bez konieczności zakładania konta
+    // gdziekolwiek (ani przez Ciebie, ani przez użytkowników appki).
+    // Można dodać/zmienić listę bez zmiany kodu.
+    relays: [
+      "wss://relay.damus.io",
+      "wss://nos.lol",
+      "wss://relay.nostr.band",
+      "wss://relay.primal.net"
+    ],
+    wordCount: 16
+  },
   storageKeys: {
     language: "odwrotnamapa.language",
     theme: "odwrotnamapa.theme",
@@ -62,6 +75,11 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     customPalette: "odwrotnamapa.customPalette",
     customFont: "odwrotnamapa.customFont",
     customPlaceNames: "odwrotnamapa.customPlaceNames",
-    history: "odwrotnamapa.history"
+    history: "odwrotnamapa.history",
+    syncSeed: "odwrotnamapa.sync.seed",
+    syncLastSyncedAt: "odwrotnamapa.sync.lastSyncedAt",
+    syncAutoEnabled: "odwrotnamapa.sync.autoEnabled",
+    syncProfileName: "odwrotnamapa.sync.profileName",
+    syncProfileAvatar: "odwrotnamapa.sync.profileAvatar"
   }
 });

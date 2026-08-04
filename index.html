@@ -47,6 +47,7 @@
     "image": "https://odwrotnamapa.pl/assets/og-image.jpg"
   }
   </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -779,6 +780,142 @@
       </div>
     </aside>
 
+    <aside id="account-panel" class="legend-panel account-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="account-title" hidden>
+      <button id="account-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
+              aria-label="Zmień wysokość panelu konta">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
+        <button id="account-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
+        <h2 id="account-title">Konto i synchronizacja</h2>
+        <button id="account-close" class="legend-close" type="button"
+                aria-label="Zamknij Konto">×</button>
+      </div>
+
+      <p id="account-message" class="account-message" hidden></p>
+
+      <!-- Ekran startowy: wybór między logowaniem a założeniem konta -->
+      <section id="account-screen-home" class="account-screen">
+        <p class="account-intro">
+          Zsynchronizuj ulubione miejsca, motyw i inne ustawienia między urządzeniami za pomocą frazy-hasła (16 słów) - bez ręcznego eksportu/importu pliku JSON.
+        </p>
+        <button id="account-goto-login-button" type="button" class="account-primary-button">
+          Zaloguj
+        </button>
+        <button id="account-goto-register-button" type="button" class="account-secondary-button">
+          Załóż nowe konto
+        </button>
+      </section>
+
+      <!-- Ekran logowania istniejącą frazą -->
+      <section id="account-screen-login" class="account-screen" hidden>
+        <button id="account-login-back-button" type="button" class="account-subback-button">← Wstecz</button>
+        <p class="account-screen-heading">Zaloguj się frazą</p>
+        <textarea id="account-seed-input" class="account-seed-textarea"
+                  placeholder="wpisz lub wklej 16 słów oddzielonych spacją"
+                  rows="3"></textarea>
+        <button id="account-login-button" type="button" class="account-primary-button">
+          Zaloguj
+        </button>
+      </section>
+
+      <!-- Ekran zakładania konta: generowanie i potwierdzenie frazy -->
+      <section id="account-screen-register" class="account-screen" hidden>
+        <button id="account-register-back-button" type="button" class="account-subback-button">← Wstecz</button>
+        <p class="account-warning">
+          Zapisz te 16 słów w bezpiecznym miejscu (np. na kartce), w tej dokładnie kolejności. To jedyne hasło do tego konta - bez niego nikt, łącznie z nami, nie odzyska Twoich ustawień.
+        </p>
+        <div id="account-seed-words" class="account-seed-words"></div>
+        <button id="account-seed-copy-button" type="button" class="account-secondary-button">
+          Kopiuj frazę
+        </button>
+        <label class="account-confirm-row">
+          <input type="checkbox" id="account-seed-confirm-checkbox">
+          <span id="account-seed-confirm-label">Zapisałem/-am frazę w bezpiecznym miejscu</span>
+        </label>
+        <button id="account-seed-confirm-button" type="button" class="account-primary-button" disabled>
+          Zapisz i aktywuj konto
+        </button>
+      </section>
+
+      <!-- Strona konta: widoczna od razu po zalogowaniu -->
+      <section id="account-screen-loggedin" class="account-screen" hidden>
+        <div class="account-identity">
+          <button id="account-avatar-button" type="button" class="account-avatar-button" aria-label="Zmień zdjęcie profilowe">
+            <img id="account-avatar-preview" class="account-avatar" alt="" hidden>
+            <span id="account-avatar-placeholder" class="account-avatar-placeholder" aria-hidden="true">＋</span>
+          </button>
+          <input type="file" id="account-profile-avatar-input" accept="image/png,image/jpeg" hidden>
+
+          <div class="account-identity-text">
+            <button id="account-display-name-button" type="button" class="account-display-name-button">
+              <span id="account-display-name">Bez nazwy</span>
+            </button>
+
+            <div id="account-name-edit-form" class="account-name-edit-form" hidden>
+              <input type="text" id="account-profile-name-input" class="account-name-edit-input"
+                     maxlength="40" placeholder="Twoja nazwa">
+              <div class="account-name-edit-actions">
+                <button id="account-name-save-button" type="button" class="account-name-edit-save">Zapisz</button>
+                <button id="account-name-cancel-button" type="button" class="account-name-edit-cancel">Anuluj</button>
+              </div>
+            </div>
+
+            <button id="account-public-id" type="button" class="account-public-id" title="Kliknij, aby skopiować"></button>
+          </div>
+        </div>
+
+        <p id="account-status-text" class="account-status-text"></p>
+
+        <label class="account-sync-scope-item">
+          <input type="checkbox" id="account-auto-sync-checkbox" checked>
+          <span>Synchronizuj automatycznie w tle</span>
+        </label>
+
+        <div class="account-sync-scope">
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-favorites" checked>
+            <span>Ulubione miejsca</span>
+          </label>
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-colors" checked>
+            <span>Motyw, kolory i język</span>
+          </label>
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-place-names" checked>
+            <span>Własne nazwy miejsc</span>
+          </label>
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-history" checked>
+            <span>Historia przeglądanych miejsc</span>
+          </label>
+        </div>
+
+        <button id="account-push-button" type="button" class="account-primary-button">
+          ⬆ Wyślij zaznaczone z tego urządzenia
+        </button>
+        <button id="account-pull-button" type="button" class="account-secondary-button" hidden>
+          ⬇ Pobierz zaznaczone na to urządzenie
+        </button>
+
+        <button id="account-logout-button" type="button" class="account-danger-button">
+          Wyloguj z tego urządzenia
+        </button>
+
+        <details id="account-reveal-details" class="account-login-details">
+          <summary id="account-reveal-summary">Pokaż frazę seed</summary>
+          <div id="account-seed-reveal-words" class="account-seed-words"></div>
+          <button id="account-seed-reveal-copy-button" type="button" class="account-secondary-button">
+            Kopiuj frazę
+          </button>
+        </details>
+      </section>
+    </aside>
+
     <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
 
     
@@ -829,6 +966,13 @@
       </div>
 
       <div class="menu-actions">
+
+        <button id="menu-account-button"
+                class="menu-action"
+                type="button">
+          <span aria-hidden="true">👤</span>
+          <span id="menu-account-label">Konto i synchronizacja</span>
+        </button>
 
         <button id="favorites-open-button"
                 class="menu-action"
@@ -989,11 +1133,6 @@
           <span id="menu-backup-label">Kopia zapasowa</span>
         </button>
 
-        <button id="menu-install-button" class="menu-action" type="button" hidden>
-          <span aria-hidden="true">⬇️</span>
-          <span id="menu-install-label">Zainstaluj aplikację</span>
-        </button>
-
         <button id="menu-about-button" class="menu-action" type="button">
           <span aria-hidden="true">ⓘ</span>
           <span id="menu-about-label">O projekcie</span>
@@ -1099,7 +1238,27 @@
   <script src="src/services/place-resolver-service.js"></script>
   <script src="src/services/place-service.js"></script>
   <script src="src/services/url-state-service.js"></script>
+  <script src="src/services/sync-crypto-service.js"></script>
+  <script src="src/services/sync-transport-service.js"></script>
+  <script type="module">
+    // Ładujemy nostr-tools jako moduł ES z CDN (esm.sh) - tak samo jak
+    // MapLibre GL JS jest już ładowany z unpkg. Nie wymaga to żadnej
+    // rejestracji ani konta - to zwykła, publicznie dostępna biblioteka.
+    // Wystawiamy potrzebne funkcje jako zwykły obiekt globalny, żeby
+    // klasyczny (nie-modułowy) sync-transport-service.js mógł z nich
+    // skorzystać.
+    try {
+      const [{ finalizeEvent, verifyEvent, getPublicKey }, { SimplePool }, { npubEncode }] = await Promise.all([
+        import("https://esm.sh/nostr-tools@2/pure"),
+        import("https://esm.sh/nostr-tools@2/pool"),
+        import("https://esm.sh/nostr-tools@2/nip19")
+      ]);
+      window.OMAP_NOSTR_LIB = { finalizeEvent, verifyEvent, getPublicKey, SimplePool, npubEncode };
+    } catch (error) {
+      console.warn("Nie udało się załadować biblioteki nostr-tools (brak internetu?):", error);
+    }
+  </script>
 
-  <script src="app.js?v=20260731190000"></script>
+  <script src="app.js?v=20260803230000"></script>
 </body>
 </html>
