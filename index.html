@@ -64,7 +64,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260804150000">
+  <link rel="stylesheet" href="style.css?v=20260804170000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -167,6 +167,8 @@
 
       <div id="measure-distance-badge" class="measure-distance-badge" hidden>
         <span id="measure-distance-value">0 m</span>
+        <button id="measure-mode-switch-button" type="button" class="measure-mode-switch"
+                aria-label="Przełącz na pomiar powierzchni">📐</button>
         <button id="measure-clear-button" type="button" aria-label="Wyczyść pomiar">×</button>
       </div>
 
@@ -1292,6 +1294,6 @@
     }
   </script>
 
-  <script src="app.js?v=20260804140000"></script>
+  <script src="app.js?v=20260804170000"></script>
 </body>
 </html>

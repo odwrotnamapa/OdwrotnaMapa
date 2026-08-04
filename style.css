@@ -6835,6 +6835,24 @@ textarea,
   display: none;
 }
 
+.measure-mode-switch {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.measure-mode-switch:hover,
+.measure-mode-switch:focus-visible {
+  color: var(--accent);
+}
+
 #measure-clear-button {
   display: grid;
   place-items: center;

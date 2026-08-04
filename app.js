@@ -35,6 +35,10 @@
   const MEASURE_SOURCE_ID = "odwrotnamapa-measure";
   const MEASURE_LINE_LAYER_ID = "odwrotnamapa-measure-line";
   const MEASURE_POINTS_LAYER_ID = "odwrotnamapa-measure-points";
+  const MEASURE_AREA_SOURCE_ID = "odwrotnamapa-measure-area";
+  const MEASURE_AREA_FILL_LAYER_ID = "odwrotnamapa-measure-area-fill";
+  const MEASURE_AREA_LINE_LAYER_ID = "odwrotnamapa-measure-area-line";
+  const MEASURE_AREA_POINTS_LAYER_ID = "odwrotnamapa-measure-area-points";
 
   const text = {
     pl: {
@@ -92,6 +96,10 @@
       locate: "Moja lokalizacja", legend: "Legenda", closeLegend: "Zamknij legendę",
       toggle3d: "Widok 3D",
       measureDistance: "Zmierz odległość",
+      measureArea: "Zmierz powierzchnię",
+      measureAreaClear: "Wyczyść pomiar powierzchni",
+      measureSwitchToArea: "Przełącz na pomiar powierzchni",
+      measureSwitchToDistance: "Przełącz na pomiar odległości",
       measureClear: "Wyczyść pomiar",
       zoomIn: "Przybliż",
       zoomOut: "Oddal",
@@ -504,6 +512,10 @@
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
       toggle3d: "3D view",
       measureDistance: "Measure distance",
+      measureArea: "Measure area",
+      measureAreaClear: "Clear area measurement",
+      measureSwitchToArea: "Switch to area measurement",
+      measureSwitchToDistance: "Switch to distance measurement",
       measureClear: "Clear measurement",
       zoomIn: "Zoom in",
       zoomOut: "Zoom out",
@@ -1603,6 +1615,7 @@
     measureDistanceBadge: $("measure-distance-badge"),
     measureDistanceValue: $("measure-distance-value"),
     measureClearButton: $("measure-clear-button"),
+    measureModeSwitchButton: $("measure-mode-switch-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -2337,7 +2350,15 @@ map.on('rotate', updateLogoRotation);
   el.zoomInButton?.addEventListener("click", () => map.zoomIn());
   el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
   el.measureToggleButton?.addEventListener("click", toggleMeasureMode);
-  el.measureClearButton?.addEventListener("click", clearMeasurement);
+  el.measureClearButton?.addEventListener("click", () => {
+    if (state.measureIsArea) {
+      clearMeasureAreaMeasurement();
+      updateMeasureAreaDisplay();
+    } else {
+      clearMeasurement();
+    }
+  });
+  el.measureModeSwitchButton?.addEventListener("click", switchMeasureMode);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2521,6 +2542,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
         t.measureDistance
       );
     }
+    updateMeasureModeSwitchUi();
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -3457,6 +3479,16 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
     if (map.getLayer(MEASURE_POINTS_LAYER_ID)) {
       map.setPaintProperty(MEASURE_POINTS_LAYER_ID, "circle-stroke-color", accent);
+    }
+
+    if (map.getLayer(MEASURE_AREA_FILL_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_AREA_FILL_LAYER_ID, "fill-color", accent);
+    }
+    if (map.getLayer(MEASURE_AREA_LINE_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_AREA_LINE_LAYER_ID, "line-color", accent);
+    }
+    if (map.getLayer(MEASURE_AREA_POINTS_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_AREA_POINTS_LAYER_ID, "circle-stroke-color", accent);
     }
 
     // Kolor trasy koduje też tryb podróży (rower/pieszo mają swoje
@@ -6337,7 +6369,11 @@ async function handleMapClick(event) {
     }
 
     if (state.measureModeActive) {
-      addMeasurePoint(event.lngLat);
+      if (state.measureIsArea) {
+        addMeasureAreaPoint(event.lngLat);
+      } else {
+        addMeasurePoint(event.lngLat);
+      }
       return;
     }
 
@@ -12655,6 +12691,53 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     return `${Math.round(meters)} m`;
   }
 
+  // Rzutujemy punkty na lokalną płaszczyznę styczną (przybliżenie
+  // równoodległościowe wyśrodkowane na średniej szerokości
+  // geograficznej wielokąta) i liczymy powierzchnię wzorem Gaussa
+  // (shoelace). To standardowe podejście w konsumenckich narzędziach
+  // do pomiaru powierzchni w przeglądarce - dokładność rzędu ułamka
+  // procenta dla obszarów wielkości miasta/regionu, więc w zupełności
+  // wystarczające (to nie narzędzie geodezyjne).
+  function polygonAreaSquareMeters(points) {
+    if (points.length < 3) return 0;
+
+    const R = 6371000;
+    const toRad = deg => (deg * Math.PI) / 180;
+    const meanLat = points.reduce((sum, p) => sum + p.lat, 0) / points.length;
+    const cosMeanLat = Math.cos(toRad(meanLat));
+
+    const projected = points.map(p => ({
+      x: R * toRad(p.lng) * cosMeanLat,
+      y: R * toRad(p.lat)
+    }));
+
+    let sum = 0;
+    for (let i = 0; i < projected.length; i++) {
+      const a = projected[i];
+      const b = projected[(i + 1) % projected.length];
+      sum += a.x * b.y - b.x * a.y;
+    }
+
+    return Math.abs(sum) / 2;
+  }
+
+  function formatMeasureArea(squareMeters) {
+    const locale = state.language === "pl" ? "pl-PL" : "en-US";
+    if (squareMeters >= 1000000) {
+      return `${(squareMeters / 1000000).toLocaleString(
+        locale,
+        { maximumFractionDigits: 2 }
+      )} km²`;
+    }
+    if (squareMeters >= 10000) {
+      return `${(squareMeters / 10000).toLocaleString(
+        locale,
+        { maximumFractionDigits: 2 }
+      )} ha`;
+    }
+    return `${Math.round(squareMeters).toLocaleString(locale)} m²`;
+  }
+
   function ensureMeasureLayers() {
     if (map.getSource(MEASURE_SOURCE_ID)) return;
 
@@ -12680,6 +12763,52 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       id: MEASURE_POINTS_LAYER_ID,
       type: "circle",
       source: MEASURE_SOURCE_ID,
+      filter: ["==", ["geometry-type"], "Point"],
+      paint: {
+        "circle-radius": 5,
+        "circle-color": "#ffffff",
+        "circle-stroke-width": 2,
+        "circle-stroke-color": getAccentColor()
+      }
+    });
+  }
+
+  function ensureMeasureAreaLayers() {
+    if (map.getSource(MEASURE_AREA_SOURCE_ID)) return;
+
+    map.addSource(MEASURE_AREA_SOURCE_ID, {
+      type: "geojson",
+      data: { type: "FeatureCollection", features: [] }
+    });
+
+    map.addLayer({
+      id: MEASURE_AREA_FILL_LAYER_ID,
+      type: "fill",
+      source: MEASURE_AREA_SOURCE_ID,
+      filter: ["==", ["geometry-type"], "Polygon"],
+      paint: {
+        "fill-color": getAccentColor(),
+        "fill-opacity": 0.2
+      }
+    });
+
+    map.addLayer({
+      id: MEASURE_AREA_LINE_LAYER_ID,
+      type: "line",
+      source: MEASURE_AREA_SOURCE_ID,
+      filter: ["!=", ["geometry-type"], "Point"],
+      layout: { "line-cap": "round", "line-join": "round" },
+      paint: {
+        "line-color": getAccentColor(),
+        "line-width": 3,
+        "line-dasharray": [2, 1]
+      }
+    });
+
+    map.addLayer({
+      id: MEASURE_AREA_POINTS_LAYER_ID,
+      type: "circle",
+      source: MEASURE_AREA_SOURCE_ID,
       filter: ["==", ["geometry-type"], "Point"],
       paint: {
         "circle-radius": 5,
@@ -12740,14 +12869,21 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     updateMeasureDisplay();
   }
 
+  // Jeden przycisk w pasku narzędzi włącza/wyłącza tryb pomiaru.
+  // Wewnątrz plakietki jest mały przełącznik odległość/powierzchnia
+  // (measureModeSwitchButton) - to on decyduje, co aktualnie mierzą
+  // kliknięcia na mapie, żeby nie mnożyć ikon w pasku narzędzi.
   function toggleMeasureMode() {
     state.measureModeActive = !state.measureModeActive;
 
     if (state.measureModeActive) {
+      state.measureIsArea = false;
       ensureMeasureLayers();
       closeOtherMobilePanels([]);
+      updateMeasureModeSwitchUi();
     } else {
       clearMeasurement();
+      clearMeasureAreaMeasurement();
     }
 
     el.measureToggleButton?.classList.toggle(
@@ -12758,6 +12894,100 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       "aria-pressed",
       String(state.measureModeActive)
     );
+  }
+
+  function updateMeasureAreaDisplay() {
+    const points = state.measureAreaPoints || [];
+    const area = polygonAreaSquareMeters(points);
+
+    if (el.measureDistanceValue) {
+      el.measureDistanceValue.textContent = formatMeasureArea(area);
+    }
+    if (el.measureDistanceBadge) {
+      el.measureDistanceBadge.hidden = points.length === 0;
+    }
+
+    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
+    if (!source) return;
+
+    const pointFeatures = points.map(p => ({
+      type: "Feature",
+      geometry: { type: "Point", coordinates: [p.lng, p.lat] },
+      properties: {}
+    }));
+
+    const features = [...pointFeatures];
+    if (points.length === 2) {
+      features.push({
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: points.map(p => [p.lng, p.lat])
+        },
+        properties: {}
+      });
+    } else if (points.length > 2) {
+      const ring = points.map(p => [p.lng, p.lat]);
+      ring.push(ring[0]);
+      features.push({
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [ring]
+        },
+        properties: {}
+      });
+    }
+
+    source.setData({ type: "FeatureCollection", features });
+  }
+
+  function addMeasureAreaPoint(lngLat) {
+    if (!state.measureAreaPoints) state.measureAreaPoints = [];
+    state.measureAreaPoints.push({ lat: lngLat.lat, lng: lngLat.lng });
+    updateMeasureAreaDisplay();
+  }
+
+  function clearMeasureAreaMeasurement() {
+    state.measureAreaPoints = [];
+    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
+    if (source) source.setData({ type: "FeatureCollection", features: [] });
+  }
+
+  function updateMeasureModeSwitchUi() {
+    if (!el.measureModeSwitchButton) return;
+    const t = text[state.language];
+    if (state.measureIsArea) {
+      el.measureModeSwitchButton.textContent = "📏";
+      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToDistance);
+      el.measureModeSwitchButton.title = t.measureSwitchToDistance;
+    } else {
+      el.measureModeSwitchButton.textContent = "📐";
+      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToArea);
+      el.measureModeSwitchButton.title = t.measureSwitchToArea;
+    }
+  }
+
+  function switchMeasureMode() {
+    if (!state.measureModeActive) return;
+
+    // Nie da się sensownie mieszać otwartej linii (odległość) z
+    // zamkniętym wielokątem (powierzchnia) - przy przełączaniu
+    // czyścimy oba, żeby uniknąć niespójnego stanu.
+    clearMeasurement();
+    clearMeasureAreaMeasurement();
+
+    state.measureIsArea = !state.measureIsArea;
+    if (state.measureIsArea) {
+      ensureMeasureAreaLayers();
+      updateMeasureAreaDisplay();
+    } else {
+      ensureMeasureLayers();
+      updateMeasureDisplay();
+    }
+
+    if (el.measureDistanceBadge) el.measureDistanceBadge.hidden = true;
+    updateMeasureModeSwitchUi();
   }
 
   function toggle3dView() {
