@@ -81,6 +81,8 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     customFont: "odwrotnamapa.customFont",
     customPlaceNames: "odwrotnamapa.customPlaceNames",
     history: "odwrotnamapa.history",
+    routeHistory: "odwrotnamapa.routeHistory",
+    routeFavorites: "odwrotnamapa.routeFavorites",
     syncSeed: "odwrotnamapa.sync.seed",
     syncLastSyncedAt: "odwrotnamapa.sync.lastSyncedAt",
     syncAutoEnabled: "odwrotnamapa.sync.autoEnabled",

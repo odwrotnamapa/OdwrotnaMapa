@@ -22,6 +22,17 @@
   // ReferenceError i wywala całą inicjalizację skryptu.
   const UNFILED_FOLDER = "__unfiled__";
 
+  // Ta sama zasada co wyżej: musi być zadeklarowane wcześnie, bo
+  // updateUI() (wołane już przy starcie) renderuje też listy tras,
+  // które się do tego odwołują.
+  const ROUTE_HISTORY_LIMIT = 50;
+  const ROUTE_MODE_ICONS = {
+    auto: "🚗",
+    bicycle: "🚲",
+    pedestrian: "🚶",
+    transit: "🚌"
+  };
+
   const text = {
     pl: {
       title: "Odwrotna Mapa",
@@ -163,6 +174,21 @@
       routePointNotFound: "Nie znaleziono jednego z podanych punktów.",
       routeError: "Nie udało się wyznaczyć trasy.",
       transitRouteError: "Nie znaleziono połączenia transportem publicznym.",
+      routeSaveFavorite: "Zapisz trasę",
+      routeSavedFavorite: "Zapisano",
+      favoriteRemove: "Usuń",
+      savedTabPlaces: "Miejsca",
+      savedTabRoutes: "Trasy",
+      routeFavoritesCountLabel: "zapisanych tras",
+      routeFavoritesEmpty: "Brak zapisanych tras.",
+      routeHistoryEmpty: "Historia tras jest pusta.",
+      routeHistoryClear: "Wyczyść historię tras",
+      routeSearchPlaceholder: "Szukaj tras…",
+      sortAriaLabel: "Sortuj",
+      sortNewest: "Od najnowszych",
+      sortOldest: "Od najstarszych",
+      sortAZ: "Od A do Z",
+      sortZA: "Od Z do A",
       routePickA: "Kliknij na mapie, aby wybrać punkt początkowy.",
       routePickB: "Kliknij na mapie, aby wybrać punkt docelowy.",
       routePickMoveB: "Kliknij na mapie, aby zmienić punkt docelowy.",
@@ -260,7 +286,7 @@
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
       favoritesTitle: "Ulubione",
-      favoritesEmpty: "Brak ulubionych miejsc.",
+      favoritesEmpty: "Brak ulubionych.",
       favoriteEdit: "Edytuj",
       favoriteEditTitle: "Edytuj miejsce",
       placeRename: "Zmień nazwę miejsca",
@@ -277,7 +303,7 @@
       favoriteFolderAddButton: "+ Folder",
       favoriteFolderNamePlaceholder: "Nazwa folderu",
       favoritesSearch: "Szukaj ulubionych…",
-      favoritesCountLabel: "zapisanych miejsc",
+      favoritesCountLabel: "zapisanych",
       menuExportAll: "Eksportuj JSON",
       menuImportAll: "Importuj JSON",
       backupSelectAll: "Zaznacz wszystko",
@@ -560,6 +586,21 @@
       routePointNotFound: "One of the entered points could not be found.",
       routeError: "The route could not be calculated.",
       transitRouteError: "No public transport connection was found.",
+      routeSaveFavorite: "Save route",
+      routeSavedFavorite: "Saved",
+      favoriteRemove: "Remove",
+      savedTabPlaces: "Places",
+      savedTabRoutes: "Routes",
+      routeFavoritesCountLabel: "saved routes",
+      routeFavoritesEmpty: "No saved routes yet.",
+      routeHistoryEmpty: "Route history is empty.",
+      routeHistoryClear: "Clear route history",
+      routeSearchPlaceholder: "Search routes…",
+      sortAriaLabel: "Sort",
+      sortNewest: "Newest first",
+      sortOldest: "Oldest first",
+      sortAZ: "A to Z",
+      sortZA: "Z to A",
       routePickA: "Click the map to choose the starting point.",
       routePickB: "Click the map to choose the destination.",
       routePickMoveB: "Click the map to move the destination.",
@@ -657,7 +698,7 @@
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
       favoritesTitle: "Favorites",
-      favoritesEmpty: "No favorite places yet.",
+      favoritesEmpty: "No favorites yet.",
       favoriteEdit: "Edit",
       favoriteEditTitle: "Edit place",
       placeRename: "Rename place",
@@ -674,7 +715,7 @@
       favoriteFolderAddButton: "+ Folder",
       favoriteFolderNamePlaceholder: "Folder name",
       favoritesSearch: "Search favorites…",
-      favoritesCountLabel: "saved places",
+      favoritesCountLabel: "saved",
       menuExportAll: "Export JSON",
       menuImportAll: "Import JSON",
       backupSelectAll: "Select all",
@@ -1424,9 +1465,16 @@
     favorites: readFavorites(),
     favoriteFolders: readFavoriteFolders(),
     activeFavoriteFolder: "",
+    activeRouteFolder: "",
+    favoritesSortOrder: "newest",
+    routeFavoritesSortOrder: "newest",
     tripOriginStack: [],
     tripContextStack: [],
-    history: readHistory()
+    history: readHistory(),
+    routeHistory: readRouteHistory(),
+    routeFavorites: readRouteFavorites(),
+    activeFavoritesTab: "places",
+    activeHistoryTab: "places"
   };
 
   const el = {
@@ -1500,6 +1548,7 @@
     favoritesBack: $("favorites-back"),
     favoritesTitle: $("favorites-title"),
     favoritesSearch: $("favorites-search"),
+    favoritesSortSelect: $("favorites-sort-select"),
     favoritesCountLabel: $("favorites-count-label"),
     favoritesFolderChips: $("favorites-folder-chips"),
     favoritesAddFolderButton: $("favorites-add-folder-button"),
@@ -1518,6 +1567,31 @@
     historyClear: $("history-clear"),
     historyList: $("history-list"),
     historyEmpty: $("history-empty"),
+    favoritesTabPlaces: $("favorites-tab-places"),
+    favoritesTabRoutes: $("favorites-tab-routes"),
+    favoritesPlacesTab: $("favorites-places-tab"),
+    favoritesRoutesTab: $("favorites-routes-tab"),
+    routeFavoritesList: $("route-favorites-list"),
+    routeFavoritesEmpty: $("route-favorites-empty"),
+    routeFavoritesCount: $("route-favorites-count"),
+    routeFavoritesCountLabel: $("route-favorites-count-label"),
+    historyTabPlaces: $("history-tab-places"),
+    historyTabRoutes: $("history-tab-routes"),
+    historyPlacesTab: $("history-places-tab"),
+    historyRoutesTab: $("history-routes-tab"),
+    routeHistoryList: $("route-history-list"),
+    routeHistoryEmpty: $("route-history-empty"),
+    routeHistoryClear: $("route-history-clear"),
+    routeSaveFavoriteButton: $("route-save-favorite"),
+    routeFavoritesSearch: $("route-favorites-search"),
+    routeFavoritesSortSelect: $("route-favorites-sort-select"),
+    routeFavoritesFolderChips: $("route-favorites-folder-chips"),
+    routeFavoritesAddFolderButton: $("route-favorites-add-folder-button"),
+    routeFavoritesNewFolderForm: $("route-favorites-new-folder-form"),
+    routeFavoritesNewFolderInput: $("route-favorites-new-folder-input"),
+    routeFavoritesNewFolderSave: $("route-favorites-new-folder-save"),
+    routeFavoritesNewFolderCancel: $("route-favorites-new-folder-cancel"),
+    routeHistorySearch: $("route-history-search"),
     locateToggleButton: $("locate-toggle-button"),
     toggle3dButton: $("toggle-3d-button"),
     zoomInButton: $("zoom-in-button"),
@@ -2163,6 +2237,10 @@ map.on('rotate', updateLogoRotation);
     returnFromFavoritesToMenu
   );
   el.favoritesSearch?.addEventListener("input", renderFavoritesList);
+  el.favoritesSortSelect?.addEventListener("change", () => {
+    state.favoritesSortOrder = el.favoritesSortSelect.value;
+    renderFavoritesList();
+  });
 
   el.favoritesAddFolderButton?.addEventListener("click", () => {
     if (!el.favoritesNewFolderForm) return;
@@ -2508,6 +2586,15 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.historySearch) el.historySearch.placeholder = t.historySearch;
     el.historySearch?.setAttribute("aria-label", t.historySearch);
     if (el.historyClear) el.historyClear.textContent = t.historyClear;
+    if (el.favoritesTabPlaces) el.favoritesTabPlaces.textContent = `📍 ${t.savedTabPlaces}`;
+    if (el.favoritesTabRoutes) el.favoritesTabRoutes.textContent = `🧭 ${t.savedTabRoutes}`;
+    if (el.historyTabPlaces) el.historyTabPlaces.textContent = `📍 ${t.savedTabPlaces}`;
+    if (el.historyTabRoutes) el.historyTabRoutes.textContent = `🧭 ${t.savedTabRoutes}`;
+    if (el.routeFavoritesCountLabel) el.routeFavoritesCountLabel.textContent = t.routeFavoritesCountLabel;
+    if (el.routeFavoritesEmpty) el.routeFavoritesEmpty.textContent = t.routeFavoritesEmpty;
+    if (el.routeHistoryEmpty) el.routeHistoryEmpty.textContent = t.routeHistoryEmpty;
+    if (el.routeHistoryClear) el.routeHistoryClear.textContent = t.routeHistoryClear;
+    updateRouteSaveFavoriteButton();
     if (el.menuExportAllLabel) el.menuExportAllLabel.textContent = t.menuExportAll;
     if (el.menuImportAllLabel) el.menuImportAllLabel.textContent = t.menuImportAll;
     if (el.backupScopeFavoritesLabel) el.backupScopeFavoritesLabel.textContent = t.backupScopeFavorites;
@@ -2699,11 +2786,35 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     renderFolderChips();
     renderFavoritesList();
     renderHistoryList();
+    renderRouteFolderChips();
+    renderRouteFavoritesList();
+    renderRouteHistoryList();
 
     if (el.favoritesAddFolderButton) el.favoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
     if (el.favoritesNewFolderInput) el.favoritesNewFolderInput.placeholder = t.favoriteFolderNamePlaceholder;
     if (el.favoritesNewFolderSave) el.favoritesNewFolderSave.textContent = t.favoriteSave;
     if (el.favoritesNewFolderCancel) el.favoritesNewFolderCancel.textContent = t.favoriteCancelEdit;
+    if (el.routeFavoritesSearch) el.routeFavoritesSearch.placeholder = t.routeSearchPlaceholder;
+    el.routeFavoritesSearch?.setAttribute("aria-label", t.routeSearchPlaceholder);
+    if (el.routeHistorySearch) el.routeHistorySearch.placeholder = t.routeSearchPlaceholder;
+    el.routeHistorySearch?.setAttribute("aria-label", t.routeSearchPlaceholder);
+    if (el.routeFavoritesAddFolderButton) el.routeFavoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
+    if (el.routeFavoritesNewFolderInput) el.routeFavoritesNewFolderInput.placeholder = t.favoriteFolderNamePlaceholder;
+    if (el.routeFavoritesNewFolderSave) el.routeFavoritesNewFolderSave.textContent = t.favoriteSave;
+    if (el.routeFavoritesNewFolderCancel) el.routeFavoritesNewFolderCancel.textContent = t.favoriteCancelEdit;
+
+    [el.favoritesSortSelect, el.routeFavoritesSortSelect].forEach(select => {
+      if (!select) return;
+      select.setAttribute("aria-label", t.sortAriaLabel);
+      const setOption = (value, label) => {
+        const option = select.querySelector(`option[value="${value}"]`);
+        if (option) option.textContent = label;
+      };
+      setOption("newest", t.sortNewest);
+      setOption("oldest", t.sortOldest);
+      setOption("az", t.sortAZ);
+      setOption("za", t.sortZA);
+    });
   }
 
   // Defibrylatory uznaliśmy za zbyt mało istotne, żeby zaśmiecać
@@ -4541,6 +4652,27 @@ function applyLanguage(language) {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
+  }
+
+  // Współdzielona logika sortowania dla ulubionych miejsc i tras.
+  // "newest"/"oldest" opiera się na kolejności w tablicy - nowe
+  // wpisy są zawsze dokładane na początek (unshift), więc naturalna
+  // kolejność tablicy JUŻ jest "od najnowszych" bez potrzeby
+  // osobnego pola z datą.
+  function sortByOrder(list, order, getLabel) {
+    const arr = [...list];
+    const locale = state.language === "pl" ? "pl" : "en";
+    switch (order) {
+      case "oldest":
+        return arr.reverse();
+      case "az":
+        return arr.sort((a, b) => getLabel(a).localeCompare(getLabel(b), locale));
+      case "za":
+        return arr.sort((a, b) => getLabel(b).localeCompare(getLabel(a), locale));
+      case "newest":
+      default:
+        return arr;
+    }
   }
 
   // Nominatim zwraca nazwę województwa małą literą (np. "pomorskie"),
@@ -7461,6 +7593,604 @@ function showUserLocationMarker(lngLat) {
     );
   }
 
+  function readRouteHistory() {
+    try {
+      const value = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.routeHistory) || "[]"
+      );
+      return Array.isArray(value) ? value : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function saveRouteHistory() {
+    safeSet(
+      CONFIG.storageKeys.routeHistory,
+      JSON.stringify(state.routeHistory)
+    );
+  }
+
+  function readRouteFavorites() {
+    try {
+      const value = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.routeFavorites) || "[]"
+      );
+      return Array.isArray(value) ? value : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function saveRouteFavorites() {
+    safeSet(
+      CONFIG.storageKeys.routeFavorites,
+      JSON.stringify(state.routeFavorites)
+    );
+  }
+
+  function buildRouteKey(pointA, pointB, mode) {
+    return `${Number(pointA.lat).toFixed(5)},${Number(pointA.lon).toFixed(5)}` +
+      `->${Number(pointB.lat).toFixed(5)},${Number(pointB.lon).toFixed(5)}:${mode}`;
+  }
+
+  function recordRouteHistory(pointA, pointB, mode, distance, duration) {
+    if (!pointA || !pointB) return;
+
+    const key = buildRouteKey(pointA, pointB, mode);
+    const entry = {
+      key,
+      fromLabel: pointA.label || "",
+      toLabel: pointB.label || "",
+      fromLat: Number(pointA.lat),
+      fromLon: Number(pointA.lon),
+      toLat: Number(pointB.lat),
+      toLon: Number(pointB.lon),
+      mode,
+      distance: Number(distance) || 0,
+      duration: Number(duration) || 0,
+      viewedAt: new Date().toISOString()
+    };
+
+    state.routeHistory = [
+      entry,
+      ...state.routeHistory.filter(item => item.key !== key)
+    ].slice(0, ROUTE_HISTORY_LIMIT);
+
+    saveRouteHistory();
+
+    if (!el.historyPanel?.hidden) {
+      renderHistoryList();
+    }
+  }
+
+  function formatRouteSummaryShort(distance, duration) {
+    const km = distance ? (distance / 1000).toFixed(distance >= 10000 ? 0 : 1) : "0";
+    const minutes = duration ? Math.round(duration / 60) : 0;
+    return `${km} km · ${minutes} min`;
+  }
+
+  function loadRouteFromEntry(entry) {
+    const pointA = { lat: entry.fromLat, lon: entry.fromLon, label: entry.fromLabel };
+    const pointB = { lat: entry.toLat, lon: entry.toLon, label: entry.toLabel };
+
+    state.routePointA = pointA;
+    state.routePointB = pointB;
+    if (el.routeFrom) el.routeFrom.value = pointA.label;
+    if (el.routeTo) el.routeTo.value = pointB.label;
+
+    const modeInput = document.querySelector(
+      `input[name="route-mode"][value="${entry.mode}"]`
+    );
+    if (modeInput) modeInput.checked = true;
+
+    closeFavoritesPanel();
+    closeHistory();
+    calculateRouteFromStoredPoints();
+  }
+
+  function attachRouteFolderDropTarget(node, folderValue) {
+    node.addEventListener("dragover", event => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+      node.classList.add("is-drag-over");
+    });
+    node.addEventListener("dragleave", () => {
+      node.classList.remove("is-drag-over");
+    });
+    node.addEventListener("drop", event => {
+      event.preventDefault();
+      node.classList.remove("is-drag-over");
+      const key = event.dataTransfer.getData("text/plain");
+      if (key) moveRouteToFolder(key, folderValue);
+    });
+  }
+
+  function moveRouteToFolder(key, folderValue) {
+    const route = state.routeFavorites.find(item => item.key === key);
+    if (!route) return;
+    route.folder = folderValue;
+    saveRouteFavorites();
+    renderRouteFolderChips();
+    renderRouteFavoritesList();
+  }
+
+  function renderRouteFolderChips() {
+    if (!el.routeFavoritesFolderChips) return;
+    const t = text[state.language];
+    el.routeFavoritesFolderChips.innerHTML = "";
+
+    const makeChip = (value, label, isDropTarget) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "favorites-folder-chip";
+      chip.classList.toggle("is-active", state.activeRouteFolder === value);
+      chip.textContent = label;
+      chip.addEventListener("click", () => {
+        state.activeRouteFolder = value;
+        renderRouteFolderChips();
+        renderRouteFavoritesList();
+      });
+      if (isDropTarget) {
+        attachRouteFolderDropTarget(chip, value === UNFILED_FOLDER ? "" : value);
+      }
+      el.routeFavoritesFolderChips.appendChild(chip);
+    };
+
+    makeChip("", t.favoriteFolderAll);
+    makeChip(UNFILED_FOLDER, t.favoriteFolderUnfiled, true);
+    state.favoriteFolders.forEach(folder => makeChip(folder, folder, true));
+  }
+
+  function renderRouteItemsInto(container, emptyEl, entries, options) {
+    if (!container || !emptyEl) return;
+    const t = text[state.language];
+
+    container
+      .querySelectorAll(".route-item, .favorite-folder-row")
+      .forEach(item => item.remove());
+
+    // Tekst pustego stanu (nic zapisanego / brak wyników wyszukiwania)
+    // ustawia wołający (zna różnicę między "brak w ogóle" a "brak
+    // pasujących do wyszukiwania") - tu decydujemy tylko o widoczności.
+    const hasContent = entries.length > 0 ||
+      (Boolean(options.showFolderRows) && state.favoriteFolders.length > 0) ||
+      Boolean(options.showBackRow);
+    emptyEl.hidden = hasContent;
+    if (!hasContent) return;
+
+    const fragment = document.createDocumentFragment();
+
+    if (options.showFolderRows) {
+      state.favoriteFolders.forEach(folder => {
+        const count = entries.filter(r => r.folder === folder).length;
+        const row = document.createElement("div");
+        row.className = "favorite-folder-row";
+
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "favorite-folder-row-open";
+        const icon = document.createElement("span");
+        icon.className = "favorite-folder-row-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = "📁";
+        const name = document.createElement("span");
+        name.className = "favorite-folder-row-name";
+        name.textContent = folder;
+        const countEl = document.createElement("span");
+        countEl.className = "favorite-folder-row-count";
+        countEl.textContent = String(count);
+        openButton.append(icon, name, countEl);
+        openButton.addEventListener("click", () => {
+          state.activeRouteFolder = folder;
+          renderRouteFolderChips();
+          renderRouteFavoritesList();
+        });
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "favorite-place-edit-toggle";
+        editButton.textContent = "✎";
+        editButton.title = t.favoriteEdit;
+        editButton.setAttribute("aria-label", t.favoriteEdit);
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title = t.favoriteFolderDelete;
+        removeButton.setAttribute("aria-label", t.favoriteFolderDelete);
+        removeButton.addEventListener("click", () => deleteFavoriteFolder(folder));
+
+        const actions = document.createElement("div");
+        actions.className = "favorite-place-actions";
+        actions.append(editButton, removeButton);
+
+        const topRow = document.createElement("div");
+        topRow.className = "favorite-place-row";
+        topRow.append(openButton, actions);
+
+        const renameForm = document.createElement("div");
+        renameForm.className = "account-name-edit-form";
+        renameForm.hidden = true;
+        const renameInput = document.createElement("input");
+        renameInput.type = "text";
+        renameInput.className = "account-name-edit-input";
+        renameInput.maxLength = 30;
+        renameInput.value = folder;
+        const renameActions = document.createElement("div");
+        renameActions.className = "account-name-edit-actions";
+        const renameSave = document.createElement("button");
+        renameSave.type = "button";
+        renameSave.className = "account-name-edit-save";
+        renameSave.textContent = t.favoriteSave;
+        renameSave.addEventListener("click", () => renameFavoriteFolder(folder, renameInput.value));
+        const renameCancel = document.createElement("button");
+        renameCancel.type = "button";
+        renameCancel.className = "account-name-edit-cancel";
+        renameCancel.textContent = t.favoriteCancelEdit;
+        renameCancel.addEventListener("click", () => { renameForm.hidden = true; });
+        renameActions.append(renameSave, renameCancel);
+        renameForm.append(renameInput, renameActions);
+        editButton.addEventListener("click", () => {
+          renameForm.hidden = !renameForm.hidden;
+          if (!renameForm.hidden) { renameInput.value = folder; renameInput.focus(); renameInput.select(); }
+        });
+
+        row.append(topRow, renameForm);
+        attachRouteFolderDropTarget(row, folder);
+        fragment.appendChild(row);
+      });
+    } else if (options.showBackRow) {
+      const backRow = document.createElement("button");
+      backRow.type = "button";
+      backRow.className = "favorite-folder-back-row";
+      backRow.textContent = `← ${t.favoriteFolderAll}`;
+      backRow.addEventListener("click", () => {
+        state.activeRouteFolder = "";
+        renderRouteFolderChips();
+        renderRouteFavoritesList();
+      });
+      attachRouteFolderDropTarget(backRow, "");
+      fragment.appendChild(backRow);
+    }
+
+    const visibleEntries = options.showFolderRows
+      ? entries.filter(r => !r.folder)
+      : entries;
+
+    visibleEntries.forEach(entry => {
+      const item = document.createElement("div");
+      item.className = "route-item";
+      if (options.draggable) {
+        item.draggable = true;
+        item.addEventListener("dragstart", event => {
+          event.dataTransfer.setData("text/plain", entry.key);
+          event.dataTransfer.effectAllowed = "move";
+          item.classList.add("is-dragging");
+        });
+        item.addEventListener("dragend", () => item.classList.remove("is-dragging"));
+      }
+
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.className = "route-item-open";
+
+      const icon = document.createElement("span");
+      icon.className = "route-item-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = ROUTE_MODE_ICONS[entry.mode] || "🧭";
+
+      const copy = document.createElement("span");
+      copy.className = "route-item-copy";
+
+      const title = document.createElement("strong");
+      title.textContent = entry.customName ||
+        `${entry.fromLabel || "?"} → ${entry.toLabel || "?"}`;
+
+      const summary = document.createElement("small");
+      summary.textContent = formatRouteSummaryShort(entry.distance, entry.duration);
+
+      copy.append(title, summary);
+      openButton.append(icon, copy);
+      openButton.addEventListener("click", () => loadRouteFromEntry(entry));
+
+      const actionButtons = [];
+
+      if (options.editable) {
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "favorite-place-edit-toggle";
+        editButton.textContent = "✎";
+        editButton.title = t.favoriteEdit;
+        editButton.setAttribute("aria-label", t.favoriteEdit);
+        actionButtons.push(editButton);
+
+        var editForm = document.createElement("div");
+        editForm.className = "favorite-place-edit-form";
+        editForm.hidden = true;
+
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = t.favoriteCustomNameLabel;
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.placeholder = t.favoriteCustomNamePlaceholder;
+        nameInput.value = entry.customName || "";
+        nameLabel.append(nameInput);
+
+        const folderLabel = document.createElement("label");
+        folderLabel.textContent = t.favoriteFolderLabel;
+        const folderSelect = document.createElement("select");
+        folderSelect.className = "favorite-folder-select";
+        const unfiledOption = document.createElement("option");
+        unfiledOption.value = "";
+        unfiledOption.textContent = t.favoriteFolderUnfiled;
+        folderSelect.appendChild(unfiledOption);
+        state.favoriteFolders.forEach(folderName => {
+          const option = document.createElement("option");
+          option.value = folderName;
+          option.textContent = folderName;
+          folderSelect.appendChild(option);
+        });
+        folderSelect.value = entry.folder || "";
+        folderLabel.append(folderSelect);
+
+        const editActions = document.createElement("div");
+        editActions.className = "favorite-place-edit-actions";
+        const saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.className = "favorite-place-edit-save";
+        saveButton.textContent = t.favoriteSave;
+        saveButton.addEventListener("click", () => {
+          entry.customName = (nameInput.value || "").trim();
+          entry.folder = folderSelect.value || "";
+          saveRouteFavorites();
+          renderRouteFolderChips();
+          renderRouteFavoritesList();
+        });
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.className = "favorite-place-edit-cancel";
+        cancelButton.textContent = t.favoriteCancelEdit;
+        cancelButton.addEventListener("click", () => { editForm.hidden = true; });
+        editActions.append(saveButton, cancelButton);
+        editForm.append(nameLabel, folderLabel, editActions);
+        editButton.addEventListener("click", () => { editForm.hidden = !editForm.hidden; });
+      }
+
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "favorite-place-remove";
+      removeButton.textContent = "×";
+      removeButton.title = t.favoriteRemove || "×";
+      removeButton.setAttribute("aria-label", removeButton.title);
+      removeButton.addEventListener("click", () => options.onRemove(entry.key));
+      actionButtons.push(removeButton);
+
+      const actions = document.createElement("div");
+      actions.className = "favorite-place-actions";
+      actions.append(...actionButtons);
+
+      const row = document.createElement("div");
+      row.className = "route-item-row";
+      row.append(openButton, actions);
+
+      item.append(row);
+      if (options.editable) item.append(editForm);
+      fragment.appendChild(item);
+    });
+
+    container.appendChild(fragment);
+  }
+
+  function filterRouteEntries(entries, query) {
+    if (!query) return entries;
+    const q = normalizeSearchText(query);
+    return entries.filter(entry => {
+      const haystack = normalizeSearchText(
+        [entry.fromLabel, entry.toLabel, entry.customName]
+          .filter(Boolean)
+          .join(" ")
+      );
+      return haystack.includes(q);
+    });
+  }
+
+  function renderRouteHistoryList() {
+    const query = el.routeHistorySearch?.value || "";
+    const filtered = filterRouteEntries(state.routeHistory, query);
+    if (el.routeHistoryEmpty) {
+      el.routeHistoryEmpty.textContent = state.routeHistory.length
+        ? text[state.language].favoritesNoMatch
+        : text[state.language].routeHistoryEmpty;
+    }
+    renderRouteItemsInto(
+      el.routeHistoryList,
+      el.routeHistoryEmpty,
+      filtered,
+      {
+        onRemove: key => {
+          state.routeHistory = state.routeHistory.filter(item => item.key !== key);
+          saveRouteHistory();
+          renderRouteHistoryList();
+        }
+      }
+    );
+  }
+
+  function renderRouteFavoritesList() {
+    if (el.routeFavoritesCount) {
+      el.routeFavoritesCount.textContent = String(state.routeFavorites.length);
+    }
+
+    const query = el.routeFavoritesSearch?.value || "";
+    const activeFolder = state.activeRouteFolder || "";
+    let filtered = filterRouteEntries(state.routeFavorites, query);
+
+    if (activeFolder === UNFILED_FOLDER) {
+      filtered = filtered.filter(r => !r.folder);
+    } else if (activeFolder) {
+      filtered = filtered.filter(r => r.folder === activeFolder);
+    }
+
+    filtered = sortByOrder(
+      filtered,
+      state.routeFavoritesSortOrder,
+      r => (r.customName || `${r.fromLabel || ""} ${r.toLabel || ""}`).toLowerCase()
+    );
+
+    if (el.routeFavoritesEmpty) {
+      el.routeFavoritesEmpty.textContent = state.routeFavorites.length
+        ? text[state.language].favoritesNoMatch
+        : text[state.language].routeFavoritesEmpty;
+    }
+
+    renderRouteItemsInto(
+      el.routeFavoritesList,
+      el.routeFavoritesEmpty,
+      filtered,
+      {
+        editable: true,
+        draggable: true,
+        showFolderRows: !query && !activeFolder,
+        showBackRow: !query && Boolean(activeFolder),
+        onRemove: key => {
+          state.routeFavorites = state.routeFavorites.filter(item => item.key !== key);
+          saveRouteFavorites();
+          renderRouteFolderChips();
+          renderRouteFavoritesList();
+          updateRouteSaveFavoriteButton();
+        }
+      }
+    );
+  }
+
+  function currentRouteFavoriteKey() {
+    if (!state.routePointA || !state.routePointB) return null;
+    return buildRouteKey(state.routePointA, state.routePointB, getSelectedRouteMode());
+  }
+
+  function updateRouteSaveFavoriteButton() {
+    if (!el.routeSaveFavoriteButton) return;
+    const key = currentRouteFavoriteKey();
+    const isSaved = key && state.routeFavorites.some(item => item.key === key);
+    const t = text[state.language];
+    el.routeSaveFavoriteButton.textContent = isSaved
+      ? `★ ${t.routeSavedFavorite}`
+      : `☆ ${t.routeSaveFavorite}`;
+    el.routeSaveFavoriteButton.classList.toggle("is-active", Boolean(isSaved));
+  }
+
+  function toggleCurrentRouteFavorite() {
+    const key = currentRouteFavoriteKey();
+    if (!key) return;
+
+    const existingIndex = state.routeFavorites.findIndex(item => item.key === key);
+    if (existingIndex !== -1) {
+      state.routeFavorites.splice(existingIndex, 1);
+    } else {
+      state.routeFavorites = [
+        {
+          key,
+          fromLabel: state.routePointA.label || "",
+          toLabel: state.routePointB.label || "",
+          fromLat: Number(state.routePointA.lat),
+          fromLon: Number(state.routePointA.lon),
+          toLat: Number(state.routePointB.lat),
+          toLon: Number(state.routePointB.lon),
+          mode: getSelectedRouteMode(),
+          distance: state.lastRouteDistance || 0,
+          duration: state.lastRouteDuration || 0,
+          customName: "",
+          folder: "",
+          savedAt: new Date().toISOString()
+        },
+        ...state.routeFavorites
+      ];
+    }
+
+    saveRouteFavorites();
+    renderFolderChips();
+    renderFavoritesList();
+    updateRouteSaveFavoriteButton();
+  }
+
+  function switchFavoritesTab(tab) {
+    state.activeFavoritesTab = tab;
+    const isRoutes = tab === "routes";
+    if (el.favoritesTabPlaces) el.favoritesTabPlaces.classList.toggle("is-active", !isRoutes);
+    if (el.favoritesTabRoutes) el.favoritesTabRoutes.classList.toggle("is-active", isRoutes);
+    if (el.favoritesPlacesTab) el.favoritesPlacesTab.hidden = isRoutes;
+    if (el.favoritesRoutesTab) el.favoritesRoutesTab.hidden = !isRoutes;
+    if (isRoutes) {
+      renderRouteFolderChips();
+      renderRouteFavoritesList();
+    }
+  }
+
+  function switchHistoryTab(tab) {
+    state.activeHistoryTab = tab;
+    const isRoutes = tab === "routes";
+    if (el.historyTabPlaces) el.historyTabPlaces.classList.toggle("is-active", !isRoutes);
+    if (el.historyTabRoutes) el.historyTabRoutes.classList.toggle("is-active", isRoutes);
+    if (el.historyPlacesTab) el.historyPlacesTab.hidden = isRoutes;
+    if (el.historyRoutesTab) el.historyRoutesTab.hidden = !isRoutes;
+    if (isRoutes) renderRouteHistoryList();
+  }
+
+  el.favoritesTabPlaces?.addEventListener("click", () => switchFavoritesTab("places"));
+  el.favoritesTabRoutes?.addEventListener("click", () => switchFavoritesTab("routes"));
+  el.historyTabPlaces?.addEventListener("click", () => switchHistoryTab("places"));
+  el.historyTabRoutes?.addEventListener("click", () => switchHistoryTab("routes"));
+
+  el.routeSaveFavoriteButton?.addEventListener("click", toggleCurrentRouteFavorite);
+  el.routeFavoritesSearch?.addEventListener("input", renderRouteFavoritesList);
+  el.routeFavoritesSortSelect?.addEventListener("change", () => {
+    state.routeFavoritesSortOrder = el.routeFavoritesSortSelect.value;
+    renderRouteFavoritesList();
+  });
+  el.routeHistorySearch?.addEventListener("input", renderRouteHistoryList);
+
+  el.routeFavoritesAddFolderButton?.addEventListener("click", () => {
+    if (!el.routeFavoritesNewFolderForm) return;
+    el.routeFavoritesNewFolderForm.hidden = false;
+    el.routeFavoritesNewFolderInput.value = "";
+    el.routeFavoritesNewFolderInput.focus();
+  });
+
+  el.routeFavoritesNewFolderCancel?.addEventListener("click", () => {
+    if (el.routeFavoritesNewFolderForm) el.routeFavoritesNewFolderForm.hidden = true;
+  });
+
+  function createRouteFolder() {
+    const name = (el.routeFavoritesNewFolderInput?.value || "").trim();
+    if (!name) return;
+    const exists = state.favoriteFolders.some(f => f.toLowerCase() === name.toLowerCase());
+    if (!exists) {
+      state.favoriteFolders.push(name);
+      saveFavoriteFolders();
+    }
+    state.activeRouteFolder = name;
+    if (el.routeFavoritesNewFolderForm) el.routeFavoritesNewFolderForm.hidden = true;
+    renderFolderChips();
+    renderRouteFolderChips();
+    renderRouteFavoritesList();
+  }
+
+  el.routeFavoritesNewFolderSave?.addEventListener("click", createRouteFolder);
+  el.routeFavoritesNewFolderInput?.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      createRouteFolder();
+    }
+  });
+
+  el.routeHistoryClear?.addEventListener("click", () => {
+    state.routeHistory = [];
+    saveRouteHistory();
+    renderRouteHistoryList();
+  });
+
   function recordPlaceHistory(place, lngLat) {
     if (!place || !lngLat) return;
 
@@ -7592,6 +8322,7 @@ function showUserLocationMarker(lngLat) {
 
     state.favorites.unshift({
       key,
+      savedAt: new Date().toISOString(),
       title: getPlaceTitle(place),
       address: getPlaceAddress(place),
       lat: Number(lngLat.lat),
@@ -8723,6 +9454,13 @@ async function calculateRouteFromStoredPoints() {
         getSelectedRouteMode()
       );
       updateRouteSummary(route.distance, route.duration);
+      recordRouteHistory(
+        state.routePointA,
+        state.routePointB,
+        getSelectedRouteMode(),
+        route.distance,
+        route.duration
+      );
       renderRouteDirections(route.maneuvers);
       hide();
       dismissMobileKeyboard();
@@ -8897,6 +9635,13 @@ function updateRouteClickHint() {
       );
       updateRouteClickHint();
       updateRouteSummary(route.distance, route.duration);
+      recordRouteHistory(
+        from,
+        to,
+        getSelectedRouteMode(),
+        route.distance,
+        route.duration
+      );
       renderRouteDirections(route.maneuvers);
       hide();
       dismissMobileKeyboard();
@@ -10040,6 +10785,9 @@ function drawRoute(geometry, from, to, mode) {
     el.routeDistance.textContent = formatDistance(distanceMeters);
     el.routeDuration.textContent = formatDuration(durationSeconds);
 
+    state.lastRouteDistance = distanceMeters;
+    state.lastRouteDuration = durationSeconds;
+
     const arrival = new Date(Date.now() + durationSeconds * 1000);
     el.routeArrival.textContent = arrival.toLocaleTimeString(
       state.language === "pl" ? "pl-PL" : "en-US",
@@ -10055,6 +10803,8 @@ function drawRoute(geometry, from, to, mode) {
     if (el.routeExportGpx) el.routeExportGpx.hidden = false;
     if (el.routeImportGpx) el.routeImportGpx.hidden = false;
     if (el.routeClear) el.routeClear.hidden = false;
+    if (el.routeSaveFavoriteButton) el.routeSaveFavoriteButton.hidden = false;
+    updateRouteSaveFavoriteButton();
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = false;
   }
 
@@ -10090,6 +10840,7 @@ function drawRoute(geometry, from, to, mode) {
     if (el.routeExportGpx) el.routeExportGpx.hidden = true;
     if (el.routeImportGpx) el.routeImportGpx.hidden = true;
     if (el.routeClear) el.routeClear.hidden = true;
+    if (el.routeSaveFavoriteButton) el.routeSaveFavoriteButton.hidden = true;
     if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
     state.routeWaypoints = [];
     clearWaypointMarkers();
@@ -10160,6 +10911,8 @@ function drawRoute(geometry, from, to, mode) {
   function clearHistoryList() {
     state.history = [];
     saveHistory();
+    state.routeHistory = [];
+    saveRouteHistory();
     renderHistoryList();
   }
 
@@ -10181,82 +10934,138 @@ function drawRoute(geometry, from, to, mode) {
       return haystack.includes(query);
     });
 
+    const matchingRoutes = filterRouteEntries(state.routeHistory, el.historySearch?.value || "");
+
     el.historyList
-      .querySelectorAll(".favorite-place-item")
+      .querySelectorAll(".favorite-place-item, .route-item")
       .forEach(node => node.remove());
 
+    const hasContent = matching.length > 0 || matchingRoutes.length > 0;
     if (el.historyEmpty) {
-      el.historyEmpty.hidden = matching.length > 0;
-      el.historyEmpty.textContent = state.history.length === 0
+      el.historyEmpty.hidden = hasContent;
+      el.historyEmpty.textContent = (state.history.length === 0 && state.routeHistory.length === 0)
         ? text[state.language].historyEmpty
         : text[state.language].historyNoMatch;
     }
+    if (!hasContent) return;
 
-    matching.forEach(entry => {
-      const item = document.createElement("div");
-      item.className = "favorite-place-item";
+    const combined = [
+      ...matching.map(entry => ({ type: "place", entry })),
+      ...matchingRoutes.map(entry => ({ type: "route", entry }))
+    ].sort((a, b) => new Date(b.entry.viewedAt || 0) - new Date(a.entry.viewedAt || 0));
 
-      const row = document.createElement("div");
-      row.className = "favorite-place-row";
+    combined.forEach(({ type, entry }) => {
+      if (type === "place") {
+        const item = document.createElement("div");
+        item.className = "favorite-place-item";
 
-      const openButton = document.createElement("button");
-      openButton.type = "button";
-      openButton.className = "favorite-place-open";
+        const row = document.createElement("div");
+        row.className = "favorite-place-row";
 
-      const icon = document.createElement("span");
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = "🕘";
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "favorite-place-open";
 
-      const copy = document.createElement("span");
+        const icon = document.createElement("span");
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = "🕘";
 
-      const title = document.createElement("strong");
-      // Pobierz custom name jeśli istnieje
-      const lat = Number(entry.lat);
-      const lon = Number(entry.lon);
-      let displayTitle = entry.title || (state.language === "pl" ? "Miejsce" : "Place");
-      if (Number.isFinite(lat) && Number.isFinite(lon)) {
-        const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
-        displayTitle = state.customPlaceNames[placeNameKey] || displayTitle;
-      }
-      title.textContent = displayTitle;
+        const copy = document.createElement("span");
 
-      const address = document.createElement("small");
-      address.textContent =
-        entry.address ||
-        `${Number(entry.lat).toFixed(5)}, ${Number(entry.lon).toFixed(5)}`;
+        const title = document.createElement("strong");
+        // Pobierz custom name jeśli istnieje
+        const lat = Number(entry.lat);
+        const lon = Number(entry.lon);
+        let displayTitle = entry.title || (state.language === "pl" ? "Miejsce" : "Place");
+        if (Number.isFinite(lat) && Number.isFinite(lon)) {
+          const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+          displayTitle = state.customPlaceNames[placeNameKey] || displayTitle;
+        }
+        title.textContent = displayTitle;
 
-      copy.append(title, address);
-      openButton.append(icon, copy);
+        const address = document.createElement("small");
+        address.textContent =
+          entry.address ||
+          `${Number(entry.lat).toFixed(5)}, ${Number(entry.lon).toFixed(5)}`;
 
-      openButton.addEventListener("click", () => {
-        openHistoryPlace(entry);
-      });
+        copy.append(title, address);
+        openButton.append(icon, copy);
 
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "favorite-place-remove";
-      removeButton.textContent = "×";
-      removeButton.title = text[state.language].historyRemove;
-      removeButton.setAttribute(
-        "aria-label",
-        text[state.language].historyRemove
-      );
+        openButton.addEventListener("click", () => {
+          openHistoryPlace(entry);
+        });
 
-      removeButton.addEventListener("click", () => {
-        state.history = state.history.filter(
-          item => item.key !== entry.key
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title = text[state.language].historyRemove;
+        removeButton.setAttribute(
+          "aria-label",
+          text[state.language].historyRemove
         );
-        saveHistory();
-        renderHistoryList();
-      });
 
-      const actions = document.createElement("div");
-      actions.className = "favorite-place-actions";
-      actions.append(removeButton);
+        removeButton.addEventListener("click", () => {
+          state.history = state.history.filter(
+            item => item.key !== entry.key
+          );
+          saveHistory();
+          renderHistoryList();
+        });
 
-      row.append(openButton, actions);
-      item.append(row);
-      fragment.appendChild(item);
+        const actions = document.createElement("div");
+        actions.className = "favorite-place-actions";
+        actions.append(removeButton);
+
+        row.append(openButton, actions);
+        item.append(row);
+        fragment.appendChild(item);
+      } else {
+        const item = document.createElement("div");
+        item.className = "route-item";
+
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "route-item-open";
+
+        const icon = document.createElement("span");
+        icon.className = "route-item-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = ROUTE_MODE_ICONS[entry.mode] || "🧭";
+
+        const copy = document.createElement("span");
+        copy.className = "route-item-copy";
+
+        const title = document.createElement("strong");
+        title.textContent = entry.customName ||
+          `${entry.fromLabel || "?"} → ${entry.toLabel || "?"}`;
+
+        const summary = document.createElement("small");
+        summary.textContent = formatRouteSummaryShort(entry.distance, entry.duration);
+
+        copy.append(title, summary);
+        openButton.append(icon, copy);
+        openButton.addEventListener("click", () => loadRouteFromEntry(entry));
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title = text[state.language].historyRemove;
+        removeButton.setAttribute("aria-label", text[state.language].historyRemove);
+        removeButton.addEventListener("click", () => {
+          state.routeHistory = state.routeHistory.filter(r => r.key !== entry.key);
+          saveRouteHistory();
+          renderHistoryList();
+        });
+
+        const routeRow = document.createElement("div");
+        routeRow.className = "route-item-row";
+        routeRow.append(openButton, removeButton);
+
+        item.append(routeRow);
+        fragment.appendChild(item);
+      }
     });
 
     el.historyList.appendChild(fragment);
@@ -10489,12 +11298,22 @@ function drawRoute(geometry, from, to, mode) {
 
   function moveFavoriteToFolder(key, folderValue) {
     const favorite = state.favorites.find(item => item.key === key);
-    if (!favorite) return;
-    updateFavoriteDetails(key, {
-      customName: favorite.customName || "",
-      note: favorite.note || "",
-      folder: folderValue
-    });
+    if (favorite) {
+      updateFavoriteDetails(key, {
+        customName: favorite.customName || "",
+        note: favorite.note || "",
+        folder: folderValue
+      });
+      return;
+    }
+
+    const route = state.routeFavorites.find(item => item.key === key);
+    if (route) {
+      route.folder = folderValue;
+      saveRouteFavorites();
+      renderFolderChips();
+      renderFavoritesList();
+    }
   }
 
   function attachFolderDropTarget(node, folderValue) {
@@ -10554,9 +11373,21 @@ function drawRoute(geometry, from, to, mode) {
     });
     if (changed) saveFavorites();
 
+    let routesChanged = false;
+    state.routeFavorites.forEach(route => {
+      if (route.folder === folder) {
+        route.folder = "";
+        routesChanged = true;
+      }
+    });
+    if (routesChanged) saveRouteFavorites();
+
     if (state.activeFavoriteFolder === folder) state.activeFavoriteFolder = "";
+    if (state.activeRouteFolder === folder) state.activeRouteFolder = "";
     renderFolderChips();
     renderFavoritesList();
+    renderRouteFolderChips();
+    renderRouteFavoritesList();
   }
 
   function renameFavoriteFolder(oldName, newName) {
@@ -10580,9 +11411,21 @@ function drawRoute(geometry, from, to, mode) {
     });
     if (changed) saveFavorites();
 
+    let routesChanged = false;
+    state.routeFavorites.forEach(route => {
+      if (route.folder === oldName) {
+        route.folder = trimmed;
+        routesChanged = true;
+      }
+    });
+    if (routesChanged) saveRouteFavorites();
+
     if (state.activeFavoriteFolder === oldName) state.activeFavoriteFolder = trimmed;
+    if (state.activeRouteFolder === oldName) state.activeRouteFolder = trimmed;
     renderFolderChips();
     renderFavoritesList();
+    renderRouteFolderChips();
+    renderRouteFavoritesList();
   }
 
   function renderFavoritesList() {
@@ -10595,7 +11438,7 @@ function drawRoute(geometry, from, to, mode) {
     }
 
     el.favoritesList
-      .querySelectorAll(".favorite-place-item, .favorite-folder-row, .favorite-folder-back-row")
+      .querySelectorAll(".favorite-place-item, .route-item, .favorite-folder-row, .favorite-folder-back-row")
       .forEach(item => item.remove());
 
     const query = normalizeSearchText(
@@ -10605,7 +11448,7 @@ function drawRoute(geometry, from, to, mode) {
     const activeFolder = state.activeFavoriteFolder || "";
     const t = text[state.language];
 
-    const favorites = (
+    const filteredFavorites = (
       Array.isArray(state.favorites)
         ? state.favorites
         : []
@@ -10632,16 +11475,35 @@ function drawRoute(geometry, from, to, mode) {
       return haystack.includes(query);
     });
 
+    const favorites = sortByOrder(
+      filteredFavorites,
+      state.favoritesSortOrder,
+      f => (f.customName || f.title || "").toLowerCase()
+    );
+
+    let filteredRoutes = filterRouteEntries(state.routeFavorites, el.favoritesSearch?.value || "");
+    if (activeFolder === UNFILED_FOLDER) {
+      filteredRoutes = filteredRoutes.filter(r => !r.folder);
+    } else if (activeFolder) {
+      filteredRoutes = filteredRoutes.filter(r => r.folder === activeFolder);
+    }
+    const routes = sortByOrder(
+      filteredRoutes,
+      state.favoritesSortOrder,
+      r => (r.customName || `${r.fromLabel || ""} ${r.toLabel || ""}`).toLowerCase()
+    );
+
     el.favoritesCount.textContent =
-      String(state.favorites.length);
+      String(state.favorites.length + state.routeFavorites.length);
 
     // Widoczne foldery (jako klikalne wiersze) liczymy niezależnie od
     // wyszukiwania tekstowego - pusty, dopiero co utworzony folder ma
     // się dać zobaczyć i "wejść w niego", zanim cokolwiek do niego
     // trafi, zamiast znikać z listy aż coś w nim wyląduje.
     const showFolderRows = !query && !activeFolder;
-    const hasAny = state.favorites.length > 0 || (showFolderRows && state.favoriteFolders.length > 0);
-    const hasMatches = favorites.length > 0 || showFolderRows;
+    const hasAny = state.favorites.length > 0 || state.routeFavorites.length > 0 ||
+      (showFolderRows && state.favoriteFolders.length > 0);
+    const hasMatches = favorites.length > 0 || routes.length > 0 || showFolderRows;
 
     el.favoritesEmpty.hidden = hasMatches;
     el.favoritesEmpty.textContent = hasAny
@@ -10654,7 +11516,8 @@ function drawRoute(geometry, from, to, mode) {
 
     if (showFolderRows) {
       state.favoriteFolders.forEach(folder => {
-        const count = state.favorites.filter(f => f.folder === folder).length;
+        const count = state.favorites.filter(f => f.folder === folder).length +
+          state.routeFavorites.filter(r => r.folder === folder).length;
         const row = document.createElement("div");
         row.className = "favorite-folder-row";
 
@@ -10939,6 +11802,128 @@ function drawRoute(geometry, from, to, mode) {
         fragment.appendChild(item);
     });
 
+    const visibleRoutes = showFolderRows
+      ? routes.filter(r => !r.folder)
+      : routes;
+
+    visibleRoutes.forEach(entry => {
+      const item = document.createElement("div");
+      item.className = "route-item";
+      item.draggable = true;
+      item.addEventListener("dragstart", event => {
+        event.dataTransfer.setData("text/plain", entry.key);
+        event.dataTransfer.effectAllowed = "move";
+        item.classList.add("is-dragging");
+      });
+      item.addEventListener("dragend", () => item.classList.remove("is-dragging"));
+
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.className = "route-item-open";
+
+      const icon = document.createElement("span");
+      icon.className = "route-item-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = ROUTE_MODE_ICONS[entry.mode] || "🧭";
+
+      const copy = document.createElement("span");
+      copy.className = "route-item-copy";
+
+      const title = document.createElement("strong");
+      title.textContent = entry.customName ||
+        `${entry.fromLabel || "?"} → ${entry.toLabel || "?"}`;
+
+      const summary = document.createElement("small");
+      summary.textContent = formatRouteSummaryShort(entry.distance, entry.duration);
+
+      copy.append(title, summary);
+      openButton.append(icon, copy);
+      openButton.addEventListener("click", () => loadRouteFromEntry(entry));
+
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.className = "favorite-place-edit-toggle";
+      editButton.textContent = "✎";
+      editButton.title = t.favoriteEdit;
+      editButton.setAttribute("aria-label", t.favoriteEdit);
+
+      const routeEditForm = document.createElement("div");
+      routeEditForm.className = "favorite-place-edit-form";
+      routeEditForm.hidden = true;
+
+      const routeNameLabel = document.createElement("label");
+      routeNameLabel.textContent = t.favoriteCustomNameLabel;
+      const routeNameInput = document.createElement("input");
+      routeNameInput.type = "text";
+      routeNameInput.placeholder = t.favoriteCustomNamePlaceholder;
+      routeNameInput.value = entry.customName || "";
+      routeNameLabel.append(routeNameInput);
+
+      const routeFolderLabel = document.createElement("label");
+      routeFolderLabel.textContent = t.favoriteFolderLabel;
+      const routeFolderSelect = document.createElement("select");
+      routeFolderSelect.className = "favorite-folder-select";
+      const routeUnfiledOption = document.createElement("option");
+      routeUnfiledOption.value = "";
+      routeUnfiledOption.textContent = t.favoriteFolderUnfiled;
+      routeFolderSelect.appendChild(routeUnfiledOption);
+      state.favoriteFolders.forEach(folderName => {
+        const option = document.createElement("option");
+        option.value = folderName;
+        option.textContent = folderName;
+        routeFolderSelect.appendChild(option);
+      });
+      routeFolderSelect.value = entry.folder || "";
+      routeFolderLabel.append(routeFolderSelect);
+
+      const routeEditActions = document.createElement("div");
+      routeEditActions.className = "favorite-place-edit-actions";
+      const routeSaveButton = document.createElement("button");
+      routeSaveButton.type = "button";
+      routeSaveButton.className = "favorite-place-edit-save";
+      routeSaveButton.textContent = t.favoriteSave;
+      routeSaveButton.addEventListener("click", () => {
+        entry.customName = (routeNameInput.value || "").trim();
+        entry.folder = routeFolderSelect.value || "";
+        saveRouteFavorites();
+        renderFolderChips();
+        renderFavoritesList();
+      });
+      const routeCancelButton = document.createElement("button");
+      routeCancelButton.type = "button";
+      routeCancelButton.className = "favorite-place-edit-cancel";
+      routeCancelButton.textContent = t.favoriteCancelEdit;
+      routeCancelButton.addEventListener("click", () => { routeEditForm.hidden = true; });
+      routeEditActions.append(routeSaveButton, routeCancelButton);
+      routeEditForm.append(routeNameLabel, routeFolderLabel, routeEditActions);
+      editButton.addEventListener("click", () => { routeEditForm.hidden = !routeEditForm.hidden; });
+
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "favorite-place-remove";
+      removeButton.textContent = "×";
+      removeButton.title = t.favoriteRemove || "×";
+      removeButton.setAttribute("aria-label", removeButton.title);
+      removeButton.addEventListener("click", () => {
+        state.routeFavorites = state.routeFavorites.filter(r => r.key !== entry.key);
+        saveRouteFavorites();
+        renderFolderChips();
+        renderFavoritesList();
+        updateRouteSaveFavoriteButton();
+      });
+
+      const actions = document.createElement("div");
+      actions.className = "favorite-place-actions";
+      actions.append(editButton, removeButton);
+
+      const routeRow = document.createElement("div");
+      routeRow.className = "route-item-row";
+      routeRow.append(openButton, actions);
+
+      item.append(routeRow, routeEditForm);
+      fragment.appendChild(item);
+    });
+
     el.favoritesList.appendChild(fragment);
   }
 
@@ -10951,6 +11936,7 @@ function drawRoute(geometry, from, to, mode) {
     if (folder !== undefined) favorite.folder = folder || "";
 
     saveFavorites();
+    renderFolderChips();
     renderFavoritesList();
   }
 
@@ -10984,6 +11970,7 @@ function drawRoute(geometry, from, to, mode) {
         lon: Number(favorite.lon)
       }));
       payload.favoriteFolders = [...state.favoriteFolders];
+      payload.routeFavorites = [...state.routeFavorites];
     }
 
     if (scopes.includes("colors")) {
@@ -11145,6 +12132,18 @@ function drawRoute(geometry, from, to, mode) {
             }
           }
           saveFavoriteFolders();
+        }
+
+        if (Array.isArray(raw?.routeFavorites)) {
+          const existingKeys = new Set(state.routeFavorites.map(r => r.key));
+          const importedRoutes = raw.routeFavorites.filter(
+            r => r && r.key && !existingKeys.has(r.key)
+          );
+          if (importedRoutes.length) {
+            state.routeFavorites = [...state.routeFavorites, ...importedRoutes];
+            saveRouteFavorites();
+            renderRouteFavoritesList();
+          }
         }
 
         renderFolderChips();
@@ -12238,6 +13237,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         lon: Number(favorite.lon)
       }));
       payload.favoriteFolders = [...state.favoriteFolders];
+      payload.routeFavorites = [...state.routeFavorites];
     }
 
     if (scopes.includes("colors")) {
@@ -12259,6 +13259,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
     if (scopes.includes("history")) {
       payload.history = state.history.map(entry => ({ ...entry }));
+      payload.routeHistory = state.routeHistory.map(entry => ({ ...entry }));
     }
 
     return payload;
@@ -12509,6 +13510,12 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         saveFavoriteFolders();
       }
 
+      if (Array.isArray(payload.routeFavorites)) {
+        state.routeFavorites = payload.routeFavorites.filter(entry => entry && entry.key);
+        saveRouteFavorites();
+        renderRouteFavoritesList();
+      }
+
       renderFolderChips();
       renderFavoritesList();
     }
@@ -12564,6 +13571,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         .filter(Boolean)
         .slice(0, HISTORY_LIMIT);
       saveHistory();
+      renderHistoryList();
+    }
+
+    if (scopes.includes("history") && Array.isArray(payload.routeHistory)) {
+      state.routeHistory = payload.routeHistory
+        .filter(entry => entry && entry.key)
+        .slice(0, ROUTE_HISTORY_LIMIT);
+      saveRouteHistory();
       renderHistoryList();
     }
   }
