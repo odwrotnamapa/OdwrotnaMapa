@@ -2832,10 +2832,6 @@ a.place-card-row {
   text-align: left;
 }
 
-.menu-action {
-  cursor: pointer;
-}
-
 .menu-action:hover,
 .menu-action:focus-visible {
   border-color: var(--accent);
