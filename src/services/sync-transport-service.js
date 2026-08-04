@@ -58,54 +58,68 @@
     return true;
   }
 
+  // WAŻNE: SimplePool z nostr-tools jest zaprojektowany jako
+  // długożyjąca, WSPÓŁDZIELONA pula połączeń WebSocket - nie coś, co
+  // tworzy się i zamyka przy każdym pojedynczym wywołaniu. Wcześniej
+  // każda funkcja (pushBlob/pullBlob) tworzyła WŁASNY nowy SimplePool
+  // i zamykała go zaraz po użyciu (`pool.close(relays)`). Przy kilku
+  // równoległych wywołaniach naraz (np. synchronizacja tekstur - 5
+  // slotów + czcionka wysyłane jednocześnie) prowadziło to do
+  // wyścigu: jedno zamknięcie potrafiło zerwać współdzielone pod
+  // spodem połączenie do danego przekaźnika, na którego odpowiedź
+  // ("OK") czekało akurat inne, równoległe wywołanie - stąd losowe,
+  // niedeterministyczne niepowodzenia pojedynczych slotów. Rozwiązanie:
+  // jedna, wspólna pula na całą sesję karty, nigdy nie zamykana
+  // między wywołaniami.
+  let sharedPool = null;
+
+  async function getSharedPool() {
+    const lib = await waitForNostrLib();
+    if (!sharedPool) {
+      sharedPool = new lib.SimplePool();
+    }
+    return sharedPool;
+  }
+
   async function pushBlob(nostrPrivKeyBytes, blobContent, topic = "main") {
     const lib = await waitForNostrLib();
     const { finalizeEvent } = lib;
-    const pool = new lib.SimplePool();
+    const pool = await getSharedPool();
     const relays = getRelays();
 
-    try {
-      const template = {
-        kind: SYNC_KIND,
-        created_at: Math.floor(Date.now() / 1000),
-        tags: [["d", `${SYNC_D_TAG}:${topic}`]],
-        content: blobContent
-      };
-      const event = finalizeEvent(template, nostrPrivKeyBytes);
+    const template = {
+      kind: SYNC_KIND,
+      created_at: Math.floor(Date.now() / 1000),
+      tags: [["d", `${SYNC_D_TAG}:${topic}`]],
+      content: blobContent
+    };
+    const event = finalizeEvent(template, nostrPrivKeyBytes);
 
-      const results = await Promise.allSettled(pool.publish(relays, event));
-      const okCount = results.filter(r => r.status === "fulfilled").length;
+    const results = await Promise.allSettled(pool.publish(relays, event));
+    const okCount = results.filter(r => r.status === "fulfilled").length;
 
-      if (okCount === 0) {
-        throw new Error("push_failed_all_relays");
-      }
-
-      return {
-        updatedAt: new Date(event.created_at * 1000).toISOString(),
-        relaysOk: okCount,
-        relaysTotal: relays.length
-      };
-    } finally {
-      pool.close(relays);
+    if (okCount === 0) {
+      throw new Error("push_failed_all_relays");
     }
+
+    return {
+      updatedAt: new Date(event.created_at * 1000).toISOString(),
+      relaysOk: okCount,
+      relaysTotal: relays.length
+    };
   }
 
   async function pullBlob(nostrPubKeyHex, topic = "main") {
     const lib = await waitForNostrLib();
     const { verifyEvent } = lib;
-    const pool = new lib.SimplePool();
+    const pool = await getSharedPool();
     const relays = getRelays();
 
-    let events;
-    try {
-      events = await pool.querySync(relays, {
-        kinds: [SYNC_KIND],
-        authors: [nostrPubKeyHex],
-        "#d": [`${SYNC_D_TAG}:${topic}`]
-      });
-    } finally {
-      pool.close(relays);
-    }
+    const events = await pool.querySync(relays, {
+      kinds: [SYNC_KIND],
+      authors: [nostrPubKeyHex],
+      "#d": [`${SYNC_D_TAG}:${topic}`]
+    });
 
     if (!events || !events.length) return null;
 

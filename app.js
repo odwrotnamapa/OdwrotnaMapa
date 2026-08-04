@@ -13,41 +13,6 @@
     });
   }
 
-  // Obsługa instalacji PWA: pokazujemy własny przycisk w menu zamiast
-  // polegać na natywnym UI przeglądarki, które nie na każdej
-  // platformie pojawia się w widocznym miejscu.
-  (function initInstallPrompt() {
-    let deferredInstallPrompt = null;
-    const isStandalone = () =>
-      window.matchMedia?.("(display-mode: standalone)")?.matches ||
-      window.navigator.standalone === true;
-
-    window.addEventListener("beforeinstallprompt", event => {
-      event.preventDefault();
-      if (isStandalone()) return;
-      deferredInstallPrompt = event;
-      const btn = document.getElementById("menu-install-button");
-      if (btn) btn.hidden = false;
-    });
-
-    document.addEventListener("click", event => {
-      if (event.target.closest?.("#menu-install-button") && deferredInstallPrompt) {
-        deferredInstallPrompt.prompt();
-        deferredInstallPrompt.userChoice.finally(() => {
-          deferredInstallPrompt = null;
-          const btn = document.getElementById("menu-install-button");
-          if (btn) btn.hidden = true;
-        });
-      }
-    });
-
-    window.addEventListener("appinstalled", () => {
-      deferredInstallPrompt = null;
-      const btn = document.getElementById("menu-install-button");
-      if (btn) btn.hidden = true;
-    });
-  })();
-
   const CONFIG = window.SOUTHMAPS_CONFIG;
   const $ = id => document.getElementById(id);
 
@@ -332,7 +297,6 @@
       streetviewTitle: "Widok uliczny",
       streetviewUnavailable: "Widok uliczny nie jest jeszcze skonfigurowany.",
       menuBackup: "Kopia zapasowa",
-      menuInstall: "Zainstaluj aplikację",
       menuAbout: "O projekcie",
       contextRouteA: "Ustaw jako punkt A",
       contextRouteB: "Ustaw jako punkt B",
@@ -665,7 +629,6 @@
       streetviewTitle: "Street view",
       streetviewUnavailable: "Street view is not configured yet.",
       menuBackup: "Backup",
-      menuInstall: "Install app",
       menuAbout: "About",
       contextRouteA: "Set as Point A",
       contextRouteB: "Set as Point B",
@@ -1521,8 +1484,6 @@
     accountRevealDetails: $("account-reveal-details"),
     accountSeedRevealWords: $("account-seed-reveal-words"),
     accountSeedRevealCopyButton: $("account-seed-reveal-copy-button"),
-    menuInstallButton: $("menu-install-button"),
-    menuInstallLabel: $("menu-install-label"),
     backupPanel: $("backup-panel"),
     backupSheetHandle: $("backup-sheet-handle"),
     accountSheetHandle: $("account-sheet-handle"),
@@ -2307,7 +2268,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.exportPngLabel) el.exportPngLabel.textContent = t.exportPng;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
     if (el.menuBackupLabel) el.menuBackupLabel.textContent = t.menuBackup;
-    if (el.menuInstallLabel) el.menuInstallLabel.textContent = t.menuInstall;
     if (el.favoritesMenuLabel) el.favoritesMenuLabel.textContent = t.favoritesTitle;
     if (el.favoritesTitle) el.favoritesTitle.textContent = t.favoritesTitle;
     if (el.historyMenuLabel) el.historyMenuLabel.textContent = t.menuHistory;
@@ -11457,12 +11417,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     return stored === "" ? true : stored === "1";
   }
 
-  function updatePullButtonVisibility() {
-    // Skoro synchronizacja w tle sama pobiera nowsze dane, ręczny
-    // przycisk "Pobierz" jest zbędny w typowym przypadku - pokazujemy
-    // go tylko wtedy, gdy auto-sync jest wyłączony (żeby nie zostać
-    // bez żadnej możliwości ręcznego pobrania).
-    if (el.accountPullButton) el.accountPullButton.hidden = isAutoSyncEnabled();
+  function updateManualSyncButtonsVisibility() {
+    // Skoro synchronizacja w tle sama pobiera i wysyła dane, ręczne
+    // przyciski są zbędne w typowym przypadku - pokazujemy je tylko
+    // wtedy, gdy auto-sync jest wyłączony (żeby nie zostać bez żadnej
+    // możliwości ręcznej synchronizacji).
+    const auto = isAutoSyncEnabled();
+    if (el.accountPullButton) el.accountPullButton.hidden = auto;
+    if (el.accountPushButton) el.accountPushButton.hidden = auto;
   }
 
   // Jednorazowo wyprowadza komplet materiału potrzebnego do rozmowy
@@ -11574,7 +11536,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     }
 
     if (el.accountAutoSyncCheckbox) el.accountAutoSyncCheckbox.checked = isAutoSyncEnabled();
-    updatePullButtonVisibility();
+    updateManualSyncButtonsVisibility();
     renderProfileUI();
     computeAndShowIdentity();
 
@@ -12179,7 +12141,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   el.accountAutoSyncCheckbox?.addEventListener("change", () => {
     const enabled = el.accountAutoSyncCheckbox.checked;
     safeSet(CONFIG.storageKeys.syncAutoEnabled, enabled ? "1" : "0");
-    updatePullButtonVisibility();
+    updateManualSyncButtonsVisibility();
 
     if (enabled) {
       // Odpal od razu, zamiast czekać do 5 minut na kolejny cykl
