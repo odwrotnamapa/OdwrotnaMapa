@@ -4385,36 +4385,6 @@ div.maplibregl-ctrl-scale {
   padding: 0 0 4px;
 }
 
-.saved-tabs {
-  display: flex;
-  gap: 6px;
-  padding: 10px 12px 0;
-  margin-bottom: 10px;
-}
-
-.saved-tab {
-  flex: 1;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  font: inherit;
-  font-size: 0.74rem;
-  font-weight: 700;
-  padding: 7px 8px;
-  cursor: pointer;
-}
-
-.saved-tab:hover,
-.saved-tab:focus-visible {
-  border-color: var(--accent);
-}
-
-.saved-tab.is-active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
 .route-item {
   border: 1px solid var(--border);
   padding: 8px 10px;
@@ -5694,30 +5664,6 @@ textarea {
    Dokładne markery punktów trasy
    Współrzędna znajduje się w geometrycznym środku znacznika.
    ========================================================= */
-.route-letter-marker {
-  display: grid !important;
-  place-items: center !important;
-  width: 24px !important;
-  height: 24px !important;
-  margin: 0 !important;
-  border: 3px solid #fff !important;
-  border-radius: 50% !important;
-  color: var(--text) !important;
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 0.2),
-    0 2px 8px rgb(0 0 0 / 0.3) !important;
-
-}
-
-.route-letter-marker > span {
-  display: grid !important;
-  place-items: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  
-  line-height: 1 !important;
-}
-
 .maplibregl-marker:has(.route-letter-marker) {
   margin: 0 !important;
 }
