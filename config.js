@@ -62,7 +62,11 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
       "wss://relay.damus.io",
       "wss://nos.lol",
       "wss://relay.nostr.band",
-      "wss://relay.primal.net"
+      "wss://relay.primal.net",
+      "wss://nostr.mom",
+      "wss://offchain.pub",
+      "wss://relay.snort.social",
+      "wss://nostr.oxtr.dev"
     ],
     wordCount: 16
   },
