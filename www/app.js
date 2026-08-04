@@ -297,6 +297,65 @@
       streetviewTitle: "Widok uliczny",
       streetviewUnavailable: "Widok uliczny nie jest jeszcze skonfigurowany.",
       menuBackup: "Kopia zapasowa",
+      accountMenuLabel: "Konto i synchronizacja",
+      accountTitle: "Konto i synchronizacja",
+      accountBackAria: "Wróć do menu",
+      accountCloseAria: "Zamknij Konto",
+      accountSheetHandleAria: "Zmień wysokość panelu konta",
+      accountIntro: "Zsynchronizuj ulubione miejsca, motyw i inne ustawienia między urządzeniami za pomocą frazy-hasła (16 słów) - bez ręcznego eksportu/importu pliku JSON.",
+      accountGotoLogin: "Zaloguj",
+      accountGotoRegister: "Załóż nowe konto",
+      accountBack: "← Wstecz",
+      accountLoginHeading: "Zaloguj się frazą",
+      accountSeedInputPlaceholder: "wpisz lub wklej 16 słów oddzielonych spacją",
+      accountLoginButton: "Zaloguj",
+      accountRegisterWarning: "Zapisz te 16 słów w bezpiecznym miejscu (np. na kartce), w tej dokładnie kolejności. To jedyne hasło do tego konta - bez niego nikt, łącznie z nami, nie odzyska Twoich ustawień.",
+      accountSeedCopy: "Kopiuj frazę",
+      accountSeedConfirmLabel: "Zapisałem/-am frazę w bezpiecznym miejscu",
+      accountSeedConfirmButton: "Zapisz i aktywuj konto",
+      accountAvatarAria: "Zmień zdjęcie profilowe",
+      accountNoName: "Bez nazwy",
+      accountNameInputPlaceholder: "Twoja nazwa",
+      accountNameSave: "Zapisz",
+      accountNameCancel: "Anuluj",
+      accountPublicIdTitle: "Kliknij, aby skopiować",
+      accountAutoSyncLabel: "Synchronizuj automatycznie w tle",
+      accountScopeFavorites: "Ulubione miejsca",
+      accountScopeColors: "Motyw, kolory i język",
+      accountScopePlaceNames: "Własne nazwy miejsc",
+      accountScopeHistory: "Historia przeglądanych miejsc",
+      accountPush: "⬆ Wyślij zaznaczone",
+      accountPull: "⬇ Pobierz zaznaczone",
+      accountLogout: "Wyloguj",
+      accountRevealSummary: "Pokaż frazę seed",
+      accountActivated: "Konto aktywowane na tym urządzeniu.",
+      accountLoggedInPulling: "Zalogowano - pobieranie zapisanych ustawień z chmury…",
+      accountLoggedInApplied: "Zalogowano i pobrano zapisane ustawienia z chmury.",
+      accountLoggedInNothingFound: "Zalogowano. Nie znaleziono jeszcze zapisanych ustawień w chmurze dla tej frazy - to normalne przy pierwszej synchronizacji.",
+      accountLoggedInPullFailed: "Zalogowano, ale automatyczne pobranie się nie powiodło. Spróbuj ręcznie „Pobierz zaznaczone”.",
+      accountSeedTooShort: "Fraza jest za krótka - potrzeba przynajmniej 12 słów.",
+      accountSeedUnknownWord: "Nierozpoznane słowo we frazie: „{word}”. Sprawdź pisownię.",
+      accountNoScopesPush: "Zaznacz przynajmniej jedną kategorię do wysłania.",
+      accountNoScopesPull: "Zaznacz przynajmniej jedną kategorię do pobrania.",
+      accountSending: "Wysyłanie do publicznych przekaźników…",
+      accountSentResult: "Wysłano (potwierdziło {ok}/{total} przekaźników).",
+      accountSentWithSkips: " Uwaga: nie udało się wysłać: {items} - prawdopodobnie za duże jak na limity publicznych przekaźników.",
+      accountSendFailed: "Nie udało się wysłać danych. Sprawdź połączenie i spróbuj ponownie.",
+      accountReceiving: "Pobieranie z publicznych przekaźników…",
+      accountNothingFoundOnRelays: "Nie znaleziono jeszcze żadnych danych dla tej frazy na przekaźnikach.",
+      accountReceived: "Pobrano i zastosowano zaznaczone ustawienia.",
+      accountReceiveFailed: "Nie udało się pobrać lub odszyfrować danych. Sprawdź frazę i połączenie.",
+      accountCopiedPhrase: "Fraza skopiowana do schowka.",
+      accountCopyPhraseFailed: "Nie udało się skopiować - zaznacz i skopiuj słowa ręcznie.",
+      accountCopiedId: "Identyfikator skopiowany.",
+      accountCopyIdFailed: "Nie udało się skopiować identyfikatora.",
+      accountAvatarLoadFailed: "Nie udało się wczytać zdjęcia.",
+      accountProfileSaving: "Zapisywanie profilu…",
+      accountProfileSaved: "Profil zapisany.",
+      accountProfileSaveFailed: "Zapisano lokalnie, ale nie udało się wysłać profilu do przekaźników.",
+      accountStatusActive: "Konto aktywne. Ostatnia synchronizacja: {time}.",
+      accountStatusActiveNever: "Konto aktywne. Jeszcze nie synchronizowano na tym urządzeniu.",
+      accountStatusSkippedWarning: " ⚠️ Nie udało się wysłać: {items} (prawdopodobnie za duże jak na limity przekaźników - dotyczy to również automatycznej synchronizacji w tle).",
       menuAbout: "O projekcie",
       contextRouteA: "Ustaw jako punkt A",
       contextRouteB: "Ustaw jako punkt B",
@@ -629,6 +688,65 @@
       streetviewTitle: "Street view",
       streetviewUnavailable: "Street view is not configured yet.",
       menuBackup: "Backup",
+      accountMenuLabel: "Account & sync",
+      accountTitle: "Account & sync",
+      accountBackAria: "Back to menu",
+      accountCloseAria: "Close Account",
+      accountSheetHandleAria: "Resize the account panel",
+      accountIntro: "Sync your favorites, theme and other settings between devices using a passphrase (16 words) - no manual JSON export/import needed.",
+      accountGotoLogin: "Log in",
+      accountGotoRegister: "Create new account",
+      accountBack: "← Back",
+      accountLoginHeading: "Log in with your phrase",
+      accountSeedInputPlaceholder: "type or paste your 16 words separated by spaces",
+      accountLoginButton: "Log in",
+      accountRegisterWarning: "Save these 16 words somewhere safe (e.g. on paper), in this exact order. This is the only password for this account - without it, no one, including us, can recover your settings.",
+      accountSeedCopy: "Copy phrase",
+      accountSeedConfirmLabel: "I've saved the phrase somewhere safe",
+      accountSeedConfirmButton: "Save and activate account",
+      accountAvatarAria: "Change profile picture",
+      accountNoName: "No name",
+      accountNameInputPlaceholder: "Your name",
+      accountNameSave: "Save",
+      accountNameCancel: "Cancel",
+      accountPublicIdTitle: "Click to copy",
+      accountAutoSyncLabel: "Sync automatically in the background",
+      accountScopeFavorites: "Favorite places",
+      accountScopeColors: "Theme, colors and language",
+      accountScopePlaceNames: "Custom place names",
+      accountScopeHistory: "Browsing history",
+      accountPush: "⬆ Send selected",
+      accountPull: "⬇ Pull selected",
+      accountLogout: "Log out",
+      accountRevealSummary: "Show seed phrase",
+      accountActivated: "Account activated on this device.",
+      accountLoggedInPulling: "Logged in - fetching your saved settings from the cloud…",
+      accountLoggedInApplied: "Logged in and fetched your saved settings from the cloud.",
+      accountLoggedInNothingFound: "Logged in. No saved settings found in the cloud for this phrase yet - that's normal on the first sync.",
+      accountLoggedInPullFailed: "Logged in, but the automatic fetch failed. Try \"Pull selected\" manually.",
+      accountSeedTooShort: "The phrase is too short - you need at least 12 words.",
+      accountSeedUnknownWord: "Unrecognized word in the phrase: “{word}”. Check the spelling.",
+      accountNoScopesPush: "Select at least one category to send.",
+      accountNoScopesPull: "Select at least one category to pull.",
+      accountSending: "Sending to public relays…",
+      accountSentResult: "Sent (confirmed by {ok}/{total} relays).",
+      accountSentWithSkips: " Note: failed to send: {items} - probably too large for the public relay limits.",
+      accountSendFailed: "Couldn't send the data. Check your connection and try again.",
+      accountReceiving: "Fetching from public relays…",
+      accountNothingFoundOnRelays: "No data found on the relays for this phrase yet.",
+      accountReceived: "Fetched and applied the selected settings.",
+      accountReceiveFailed: "Couldn't fetch or decrypt the data. Check the phrase and your connection.",
+      accountCopiedPhrase: "Phrase copied to clipboard.",
+      accountCopyPhraseFailed: "Couldn't copy - select and copy the words manually.",
+      accountCopiedId: "Identifier copied.",
+      accountCopyIdFailed: "Couldn't copy the identifier.",
+      accountAvatarLoadFailed: "Couldn't load the picture.",
+      accountProfileSaving: "Saving profile…",
+      accountProfileSaved: "Profile saved.",
+      accountProfileSaveFailed: "Saved locally, but couldn't send the profile to the relays.",
+      accountStatusActive: "Account active. Last synced: {time}.",
+      accountStatusActiveNever: "Account active. Not synced yet on this device.",
+      accountStatusSkippedWarning: " ⚠️ Failed to send: {items} (probably too large for relay limits - this also applies to automatic background sync).",
       menuAbout: "About",
       contextRouteA: "Set as Point A",
       contextRouteB: "Set as Point B",
@@ -1444,21 +1562,26 @@
     menuAccountButton: $("menu-account-button"),
     menuAccountLabel: $("menu-account-label"),
     accountPanel: $("account-panel"),
+    accountTitle: $("account-title"),
     accountBack: $("account-back"),
     accountClose: $("account-close"),
     accountMessage: $("account-message"),
     accountScreenHome: $("account-screen-home"),
+    accountIntroText: $("account-intro-text"),
     accountGotoLoginButton: $("account-goto-login-button"),
     accountGotoRegisterButton: $("account-goto-register-button"),
     accountScreenLogin: $("account-screen-login"),
     accountLoginBackButton: $("account-login-back-button"),
+    accountLoginHeading: $("account-login-heading"),
     accountSeedInput: $("account-seed-input"),
     accountLoginButton: $("account-login-button"),
     accountScreenRegister: $("account-screen-register"),
     accountRegisterBackButton: $("account-register-back-button"),
+    accountRegisterWarning: $("account-register-warning"),
     accountSeedWords: $("account-seed-words"),
     accountSeedCopyButton: $("account-seed-copy-button"),
     accountSeedConfirmCheckbox: $("account-seed-confirm-checkbox"),
+    accountSeedConfirmLabel: $("account-seed-confirm-label"),
     accountSeedConfirmButton: $("account-seed-confirm-button"),
     accountScreenLoggedIn: $("account-screen-loggedin"),
     accountAvatarButton: $("account-avatar-button"),
@@ -1474,14 +1597,20 @@
     accountNameCancelButton: $("account-name-cancel-button"),
     accountStatusText: $("account-status-text"),
     accountAutoSyncCheckbox: $("account-auto-sync-checkbox"),
+    accountAutoSyncLabel: $("account-auto-sync-label"),
     accountSyncScopeFavorites: $("account-sync-scope-favorites"),
+    accountScopeFavoritesLabel: $("account-scope-favorites-label"),
     accountSyncScopeColors: $("account-sync-scope-colors"),
+    accountScopeColorsLabel: $("account-scope-colors-label"),
     accountSyncScopePlaceNames: $("account-sync-scope-place-names"),
+    accountScopePlaceNamesLabel: $("account-scope-placenames-label"),
     accountSyncScopeHistory: $("account-sync-scope-history"),
+    accountScopeHistoryLabel: $("account-scope-history-label"),
     accountPushButton: $("account-push-button"),
     accountPullButton: $("account-pull-button"),
     accountLogoutButton: $("account-logout-button"),
     accountRevealDetails: $("account-reveal-details"),
+    accountRevealSummary: $("account-reveal-summary"),
     accountSeedRevealWords: $("account-seed-reveal-words"),
     accountSeedRevealCopyButton: $("account-seed-reveal-copy-button"),
     backupPanel: $("backup-panel"),
@@ -2268,6 +2397,42 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.exportPngLabel) el.exportPngLabel.textContent = t.exportPng;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
     if (el.menuBackupLabel) el.menuBackupLabel.textContent = t.menuBackup;
+
+    if (el.menuAccountLabel) el.menuAccountLabel.textContent = t.accountMenuLabel;
+    if (el.accountTitle) el.accountTitle.textContent = t.accountTitle;
+    if (el.accountBack) el.accountBack.setAttribute("aria-label", t.accountBackAria);
+    if (el.accountClose) el.accountClose.setAttribute("aria-label", t.accountCloseAria);
+    if (el.accountSheetHandle) el.accountSheetHandle.setAttribute("aria-label", t.accountSheetHandleAria);
+    if (el.accountIntroText) el.accountIntroText.textContent = t.accountIntro;
+    if (el.accountGotoLoginButton) el.accountGotoLoginButton.textContent = t.accountGotoLogin;
+    if (el.accountGotoRegisterButton) el.accountGotoRegisterButton.textContent = t.accountGotoRegister;
+    if (el.accountLoginBackButton) el.accountLoginBackButton.textContent = t.accountBack;
+    if (el.accountRegisterBackButton) el.accountRegisterBackButton.textContent = t.accountBack;
+    if (el.accountLoginHeading) el.accountLoginHeading.textContent = t.accountLoginHeading;
+    if (el.accountSeedInput) el.accountSeedInput.placeholder = t.accountSeedInputPlaceholder;
+    if (el.accountLoginButton) el.accountLoginButton.textContent = t.accountLoginButton;
+    if (el.accountRegisterWarning) el.accountRegisterWarning.textContent = t.accountRegisterWarning;
+    if (el.accountSeedCopyButton) el.accountSeedCopyButton.textContent = t.accountSeedCopy;
+    if (el.accountSeedConfirmLabel) el.accountSeedConfirmLabel.textContent = t.accountSeedConfirmLabel;
+    if (el.accountSeedConfirmButton) el.accountSeedConfirmButton.textContent = t.accountSeedConfirmButton;
+    if (el.accountAvatarButton) el.accountAvatarButton.setAttribute("aria-label", t.accountAvatarAria);
+    if (el.accountProfileNameInput) el.accountProfileNameInput.placeholder = t.accountNameInputPlaceholder;
+    if (el.accountNameSaveButton) el.accountNameSaveButton.textContent = t.accountNameSave;
+    if (el.accountNameCancelButton) el.accountNameCancelButton.textContent = t.accountNameCancel;
+    if (el.accountPublicId) el.accountPublicId.title = t.accountPublicIdTitle;
+    if (el.accountAutoSyncLabel) el.accountAutoSyncLabel.textContent = t.accountAutoSyncLabel;
+    if (el.accountScopeFavoritesLabel) el.accountScopeFavoritesLabel.textContent = t.accountScopeFavorites;
+    if (el.accountScopeColorsLabel) el.accountScopeColorsLabel.textContent = t.accountScopeColors;
+    if (el.accountScopePlaceNamesLabel) el.accountScopePlaceNamesLabel.textContent = t.accountScopePlaceNames;
+    if (el.accountScopeHistoryLabel) el.accountScopeHistoryLabel.textContent = t.accountScopeHistory;
+    if (el.accountPushButton) el.accountPushButton.textContent = t.accountPush;
+    if (el.accountPullButton) el.accountPullButton.textContent = t.accountPull;
+    if (el.accountLogoutButton) el.accountLogoutButton.textContent = t.accountLogout;
+    if (el.accountRevealSummary) el.accountRevealSummary.textContent = t.accountRevealSummary;
+    if (el.accountSeedRevealCopyButton) el.accountSeedRevealCopyButton.textContent = t.accountSeedCopy;
+    if (el.accountDisplayName && !el.accountDisplayName.dataset.hasCustomName) {
+      el.accountDisplayName.textContent = t.accountNoName;
+    }
     if (el.favoritesMenuLabel) el.favoritesMenuLabel.textContent = t.favoritesTitle;
     if (el.favoritesTitle) el.favoritesTitle.textContent = t.favoritesTitle;
     if (el.historyMenuLabel) el.historyMenuLabel.textContent = t.menuHistory;
@@ -11377,13 +11542,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   }
 
   async function copyWordsToClipboard(words) {
+    const t = text[state.language];
     const phrase = words.join(" ");
     try {
       await navigator.clipboard.writeText(phrase);
-      showAccountMessage("Fraza skopiowana do schowka.", "success");
+      showAccountMessage(t.accountCopiedPhrase, "success");
     } catch (error) {
       console.error(error);
-      showAccountMessage("Nie udało się skopiować - zaznacz i skopiuj słowa ręcznie.", "error");
+      showAccountMessage(t.accountCopyPhraseFailed, "error");
     }
   }
 
@@ -11477,9 +11643,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
   function renderProfileUI() {
     const profile = getStoredProfile();
+    const t = text[state.language];
     if (el.accountProfileNameInput) el.accountProfileNameInput.value = profile.name || "";
     if (el.accountDisplayName) {
-      el.accountDisplayName.textContent = profile.name || "Bez nazwy";
+      el.accountDisplayName.textContent = profile.name || t.accountNoName;
+      if (profile.name) {
+        el.accountDisplayName.dataset.hasCustomName = "1";
+      } else {
+        delete el.accountDisplayName.dataset.hasCustomName;
+      }
     }
     if (el.accountAvatarPreview && el.accountAvatarPlaceholder) {
       if (profile.avatar) {
@@ -11516,23 +11688,24 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       return;
     }
 
+    const t = text[state.language];
     const lastSyncedAt = safeGet(CONFIG.storageKeys.syncLastSyncedAt, "");
     const formatted = formatSyncTimestamp(lastSyncedAt);
     if (el.accountStatusText) {
-      let text = formatted
-        ? `Konto aktywne. Ostatnia synchronizacja: ${formatted}.`
-        : "Konto aktywne. Jeszcze nie synchronizowano na tym urządzeniu.";
+      let statusText = formatted
+        ? t.accountStatusActive.replace("{time}", formatted)
+        : t.accountStatusActiveNever;
 
       try {
         const lastSkipped = JSON.parse(safeGet(CONFIG.storageKeys.syncLastSkipped, "[]"));
         if (Array.isArray(lastSkipped) && lastSkipped.length) {
-          text += ` ⚠️ Nie udało się wysłać: ${lastSkipped.join(", ")} (prawdopodobnie za duże jak na limity przekaźników - dotyczy to również automatycznej synchronizacji w tle).`;
+          statusText += t.accountStatusSkippedWarning.replace("{items}", lastSkipped.join(", "));
         }
       } catch (_) {
         // ignoruj uszkodzone dane
       }
 
-      el.accountStatusText.textContent = text;
+      el.accountStatusText.textContent = statusText;
     }
 
     if (el.accountAutoSyncCheckbox) el.accountAutoSyncCheckbox.checked = isAutoSyncEnabled();
@@ -11565,6 +11738,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   }
 
   function handleConfirmSeed() {
+    const t = text[state.language];
     try {
       const words = JSON.parse(
         el.accountScreenRegister.dataset.pendingWords || "[]"
@@ -11573,13 +11747,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       storeSeedWords(words);
       delete el.accountScreenRegister.dataset.pendingWords;
       refreshAccountUI();
-      showAccountMessage("Konto aktywowane na tym urządzeniu.", "success");
+      showAccountMessage(t.accountActivated, "success");
     } catch (error) {
       console.error(error);
     }
   }
 
   async function handleLoginWithSeed() {
+    const t = text[state.language];
     const cryptoApi = window.OMAP_SYNC_CRYPTO;
     if (!cryptoApi) return;
 
@@ -11588,9 +11763,9 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
     if (!validation.valid) {
       if (validation.error === "toKrotko") {
-        showAccountMessage("Fraza jest za krótka - potrzeba przynajmniej 12 słów.", "error");
+        showAccountMessage(t.accountSeedTooShort, "error");
       } else {
-        showAccountMessage(`Nierozpoznane słowo we frazie: „${validation.word}”. Sprawdź pisownię.`, "error");
+        showAccountMessage(t.accountSeedUnknownWord.replace("{word}", validation.word), "error");
       }
       return;
     }
@@ -11599,7 +11774,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     if (el.accountSeedInput) el.accountSeedInput.value = "";
 
     if (el.accountLoginButton) el.accountLoginButton.disabled = true;
-    showAccountMessage("Zalogowano - pobieranie zapisanych ustawień z chmury…", null);
+    showAccountMessage(t.accountLoggedInPulling, null);
 
     try {
       // Celowo NIE wołamy tu jeszcze refreshAccountUI()/auto-sync - to
@@ -11615,14 +11790,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
       refreshAccountUI();
       if (result?.applied) {
-        showAccountMessage("Zalogowano i pobrano zapisane ustawienia z chmury.", "success");
+        showAccountMessage(t.accountLoggedInApplied, "success");
       } else {
-        showAccountMessage("Zalogowano. Nie znaleziono jeszcze zapisanych ustawień w chmurze dla tej frazy - to normalne przy pierwszej synchronizacji.", "success");
+        showAccountMessage(t.accountLoggedInNothingFound, "success");
       }
     } catch (error) {
       console.error(error);
       refreshAccountUI();
-      showAccountMessage("Zalogowano, ale automatyczne pobranie się nie powiodło. Spróbuj ręcznie „Pobierz zaznaczone”.", "error");
+      showAccountMessage(t.accountLoggedInPullFailed, "error");
     } finally {
       if (el.accountLoginButton) el.accountLoginButton.disabled = false;
     }
@@ -11908,12 +12083,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
   async function performPush(scopes, options) {
     const silent = options?.silent;
+    const t = text[state.language];
     const cryptoApi = window.OMAP_SYNC_CRYPTO;
     const transport = window.OMAP_SYNC_TRANSPORT;
     const words = getStoredSeedWords();
     if (!cryptoApi || !transport || !words || !scopes.length) return null;
 
-    if (!silent) showAccountMessage("Wysyłanie do publicznych przekaźników…", null);
+    if (!silent) showAccountMessage(t.accountSending, null);
 
     const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
     const payload = buildSyncPayload(scopes);
@@ -11942,12 +12118,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   async function performPull(scopes, options) {
     const silent = options?.silent;
     const onlyIfNewer = options?.onlyIfNewer;
+    const t = text[state.language];
     const cryptoApi = window.OMAP_SYNC_CRYPTO;
     const transport = window.OMAP_SYNC_TRANSPORT;
     const words = getStoredSeedWords();
     if (!cryptoApi || !transport || !words || !scopes.length) return null;
 
-    if (!silent) showAccountMessage("Pobieranie z publicznych przekaźników…", null);
+    if (!silent) showAccountMessage(t.accountReceiving, null);
 
     const nostrLib = await transport.waitForNostrLib();
     const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
@@ -11955,7 +12132,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     const remote = await transport.pullBlob(nostrPubKeyHex, "main");
 
     if (!remote) {
-      if (!silent) showAccountMessage("Nie znaleziono jeszcze żadnych danych dla tej frazy na przekaźnikach.", "error");
+      if (!silent) showAccountMessage(t.accountNothingFoundOnRelays, "error");
       return null;
     }
 
@@ -11999,9 +12176,10 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   }
 
   async function handlePushToCloud() {
+    const t = text[state.language];
     const scopes = getCheckedSyncScopes();
     if (scopes.length === 0) {
-      showAccountMessage("Zaznacz przynajmniej jedną kategorię do wysłania.", "error");
+      showAccountMessage(t.accountNoScopesPush, "error");
       return;
     }
 
@@ -12010,23 +12188,26 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       const result = await performPush(scopes, { silent: false });
       refreshAccountUI();
 
-      let message = `Wysłano (potwierdziło ${result.relaysOk}/${result.relaysTotal} przekaźników).`;
+      let message = t.accountSentResult
+        .replace("{ok}", result.relaysOk)
+        .replace("{total}", result.relaysTotal);
       if (result.skippedMedia?.length) {
-        message += ` Uwaga: nie udało się wysłać: ${result.skippedMedia.join(", ")} - prawdopodobnie za duże jak na limity publicznych przekaźników.`;
+        message += t.accountSentWithSkips.replace("{items}", result.skippedMedia.join(", "));
       }
       showAccountMessage(message, result.skippedMedia?.length ? "error" : "success");
     } catch (error) {
       console.error(error);
-      showAccountMessage("Nie udało się wysłać danych. Sprawdź połączenie i spróbuj ponownie.", "error");
+      showAccountMessage(t.accountSendFailed, "error");
     } finally {
       if (el.accountPushButton) el.accountPushButton.disabled = false;
     }
   }
 
   async function handlePullFromCloud() {
+    const t = text[state.language];
     const scopes = getCheckedSyncScopes();
     if (scopes.length === 0) {
-      showAccountMessage("Zaznacz przynajmniej jedną kategorię do pobrania.", "error");
+      showAccountMessage(t.accountNoScopesPull, "error");
       return;
     }
 
@@ -12035,11 +12216,11 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       const result = await performPull(scopes, { silent: false });
       if (result) {
         refreshAccountUI();
-        showAccountMessage("Pobrano i zastosowano zaznaczone ustawienia.", "success");
+        showAccountMessage(t.accountReceived, "success");
       }
     } catch (error) {
       console.error(error);
-      showAccountMessage("Nie udało się pobrać lub odszyfrować danych. Sprawdź frazę i połączenie.", "error");
+      showAccountMessage(t.accountReceiveFailed, "error");
     } finally {
       if (el.accountPullButton) el.accountPullButton.disabled = false;
     }
@@ -12155,22 +12336,23 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   });
 
   async function saveProfile(name, avatar) {
+    const t = text[state.language];
     const words = getStoredSeedWords();
     if (!words) return;
 
     storeProfileLocally({ name, avatar });
     renderProfileUI();
 
-    showAccountMessage("Zapisywanie profilu…", null);
+    showAccountMessage(t.accountProfileSaving, null);
     try {
       const ctx = await deriveAccountContext(words);
       if (!ctx) return;
       const blob = await ctx.cryptoApi.encryptPayload({ name, avatar }, ctx.encKey);
       await ctx.transport.pushBlob(ctx.nostrPrivKeyBytes, blob, "profile");
-      showAccountMessage("Profil zapisany.", "success");
+      showAccountMessage(t.accountProfileSaved, "success");
     } catch (error) {
       console.error(error);
-      showAccountMessage("Zapisano lokalnie, ale nie udało się wysłać profilu do przekaźników.", "error");
+      showAccountMessage(t.accountProfileSaveFailed, "error");
     }
   }
 
@@ -12196,7 +12378,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       await saveProfile(getStoredProfile().name, resized);
     } catch (error) {
       console.error(error);
-      showAccountMessage("Nie udało się wczytać zdjęcia.", "error");
+      showAccountMessage(text[state.language].accountAvatarLoadFailed, "error");
     }
   });
 
@@ -12224,12 +12406,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   el.accountPublicId?.addEventListener("click", async () => {
     const fullId = el.accountPublicId?.dataset.fullId;
     if (!fullId) return;
+    const t = text[state.language];
     try {
       await navigator.clipboard.writeText(fullId);
-      showAccountMessage("Identyfikator skopiowany.", "success");
+      showAccountMessage(t.accountCopiedId, "success");
     } catch (error) {
       console.error(error);
-      showAccountMessage("Nie udało się skopiować identyfikatora.", "error");
+      showAccountMessage(t.accountCopyIdFailed, "error");
     }
   });
 

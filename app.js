@@ -16,6 +16,12 @@
   const CONFIG = window.SOUTHMAPS_CONFIG;
   const $ = id => document.getElementById(id);
 
+  // Musi być zadeklarowane wcześnie (przed updateUI/renderFolderChips,
+  // które są wołane już przy starcie) - const ma "temporal dead zone",
+  // więc odwołanie się do niej przed wykonaniem tej linii rzuca
+  // ReferenceError i wywala całą inicjalizację skryptu.
+  const UNFILED_FOLDER = "__unfiled__";
+
   const text = {
     pl: {
       title: "Odwrotna Mapa",
@@ -264,6 +270,12 @@
       favoriteNotePlaceholder: "np. otwarte do 22, wejście od podwórka",
       favoriteSave: "Zapisz",
       favoriteCancelEdit: "Anuluj",
+      favoriteFolderLabel: "Folder",
+      favoriteFolderAll: "Wszystkie",
+      favoriteFolderUnfiled: "Bez folderu",
+      favoriteFolderDelete: "Usuń folder",
+      favoriteFolderAddButton: "+ Folder",
+      favoriteFolderNamePlaceholder: "Nazwa folderu",
       favoritesSearch: "Szukaj ulubionych…",
       favoritesCountLabel: "zapisanych miejsc",
       menuExportAll: "Eksportuj JSON",
@@ -655,6 +667,12 @@
       favoriteNotePlaceholder: "e.g. open until 10pm, entrance from the yard",
       favoriteSave: "Save",
       favoriteCancelEdit: "Cancel",
+      favoriteFolderLabel: "Folder",
+      favoriteFolderAll: "All",
+      favoriteFolderUnfiled: "No folder",
+      favoriteFolderDelete: "Delete folder",
+      favoriteFolderAddButton: "+ Folder",
+      favoriteFolderNamePlaceholder: "Folder name",
       favoritesSearch: "Search favorites…",
       favoritesCountLabel: "saved places",
       menuExportAll: "Export JSON",
@@ -1404,6 +1422,8 @@
     exploreMarkers: [],
     exploreRequestController: null,
     favorites: readFavorites(),
+    favoriteFolders: readFavoriteFolders(),
+    activeFavoriteFolder: "",
     history: readHistory()
   };
 
@@ -1479,6 +1499,12 @@
     favoritesTitle: $("favorites-title"),
     favoritesSearch: $("favorites-search"),
     favoritesCountLabel: $("favorites-count-label"),
+    favoritesFolderChips: $("favorites-folder-chips"),
+    favoritesAddFolderButton: $("favorites-add-folder-button"),
+    favoritesNewFolderForm: $("favorites-new-folder-form"),
+    favoritesNewFolderInput: $("favorites-new-folder-input"),
+    favoritesNewFolderSave: $("favorites-new-folder-save"),
+    favoritesNewFolderCancel: $("favorites-new-folder-cancel"),
     historyOpenButton: $("history-open-button"),
     historyMenuLabel: $("history-menu-label"),
     historyPanel: $("history-panel"),
@@ -2133,6 +2159,42 @@ map.on('rotate', updateLogoRotation);
     returnFromFavoritesToMenu
   );
   el.favoritesSearch?.addEventListener("input", renderFavoritesList);
+
+  el.favoritesAddFolderButton?.addEventListener("click", () => {
+    if (!el.favoritesNewFolderForm) return;
+    el.favoritesNewFolderForm.hidden = false;
+    el.favoritesNewFolderInput.value = "";
+    el.favoritesNewFolderInput.focus();
+  });
+
+  el.favoritesNewFolderCancel?.addEventListener("click", () => {
+    if (el.favoritesNewFolderForm) el.favoritesNewFolderForm.hidden = true;
+  });
+
+  function createFavoriteFolder() {
+    const name = (el.favoritesNewFolderInput?.value || "").trim();
+    if (!name) return;
+    const exists = state.favoriteFolders.some(
+      f => f.toLowerCase() === name.toLowerCase()
+    );
+    if (!exists) {
+      state.favoriteFolders.push(name);
+      saveFavoriteFolders();
+    }
+    state.activeFavoriteFolder = name;
+    if (el.favoritesNewFolderForm) el.favoritesNewFolderForm.hidden = true;
+    renderFolderChips();
+    renderFavoritesList();
+  }
+
+  el.favoritesNewFolderSave?.addEventListener("click", createFavoriteFolder);
+  el.favoritesNewFolderInput?.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      createFavoriteFolder();
+    }
+  });
+
   el.historyOpenButton?.addEventListener(
     "click",
     openHistoryPanel
@@ -2630,8 +2692,14 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       resolveTheme(state.theme) === "dark" ||
       (state.theme === "satellite" && prefersDarkColorScheme())
     );
+    renderFolderChips();
     renderFavoritesList();
     renderHistoryList();
+
+    if (el.favoritesAddFolderButton) el.favoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
+    if (el.favoritesNewFolderInput) el.favoritesNewFolderInput.placeholder = t.favoriteFolderNamePlaceholder;
+    if (el.favoritesNewFolderSave) el.favoritesNewFolderSave.textContent = t.favoriteSave;
+    if (el.favoritesNewFolderCancel) el.favoritesNewFolderCancel.textContent = t.favoriteCancelEdit;
   }
 
   // Defibrylatory uznaliśmy za zbyt mało istotne, żeby zaśmiecać
@@ -7450,6 +7518,24 @@ function showUserLocationMarker(lngLat) {
     }
   }
 
+  function readFavoriteFolders() {
+    try {
+      const value = JSON.parse(
+        localStorage.getItem(CONFIG.storageKeys.favoriteFolders) || "[]"
+      );
+      return Array.isArray(value) ? value.filter(v => typeof v === "string" && v.trim()) : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function saveFavoriteFolders() {
+    safeSet(
+      CONFIG.storageKeys.favoriteFolders,
+      JSON.stringify(state.favoriteFolders)
+    );
+  }
+
   function getFavoriteKey(place, lngLat) {
     const osmKey =
       place.osm_type && place.osm_id
@@ -10359,6 +10445,104 @@ function drawRoute(geometry, from, to, mode) {
     );
   }
 
+  function moveFavoriteToFolder(key, folderValue) {
+    const favorite = state.favorites.find(item => item.key === key);
+    if (!favorite) return;
+    updateFavoriteDetails(key, {
+      customName: favorite.customName || "",
+      note: favorite.note || "",
+      folder: folderValue
+    });
+  }
+
+  function attachFolderDropTarget(node, folderValue) {
+    node.addEventListener("dragover", event => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+      node.classList.add("is-drag-over");
+    });
+    node.addEventListener("dragleave", () => {
+      node.classList.remove("is-drag-over");
+    });
+    node.addEventListener("drop", event => {
+      event.preventDefault();
+      node.classList.remove("is-drag-over");
+      const key = event.dataTransfer.getData("text/plain");
+      if (key) moveFavoriteToFolder(key, folderValue);
+    });
+  }
+
+  function renderFolderChips() {
+    if (!el.favoritesFolderChips) return;
+    const t = text[state.language];
+    el.favoritesFolderChips.innerHTML = "";
+
+    const makeChip = (value, label, isDropTarget) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "favorites-folder-chip";
+      chip.classList.toggle("is-active", state.activeFavoriteFolder === value);
+      chip.textContent = label;
+      chip.addEventListener("click", () => {
+        state.activeFavoriteFolder = value;
+        renderFolderChips();
+        renderFavoritesList();
+      });
+      if (isDropTarget) {
+        attachFolderDropTarget(chip, value === UNFILED_FOLDER ? "" : value);
+      }
+      el.favoritesFolderChips.appendChild(chip);
+    };
+
+    makeChip("", t.favoriteFolderAll);
+    makeChip(UNFILED_FOLDER, t.favoriteFolderUnfiled, true);
+    state.favoriteFolders.forEach(folder => makeChip(folder, folder, true));
+  }
+
+  function deleteFavoriteFolder(folder) {
+    state.favoriteFolders = state.favoriteFolders.filter(f => f !== folder);
+    saveFavoriteFolders();
+
+    let changed = false;
+    state.favorites.forEach(favorite => {
+      if (favorite.folder === folder) {
+        favorite.folder = "";
+        changed = true;
+      }
+    });
+    if (changed) saveFavorites();
+
+    if (state.activeFavoriteFolder === folder) state.activeFavoriteFolder = "";
+    renderFolderChips();
+    renderFavoritesList();
+  }
+
+  function renameFavoriteFolder(oldName, newName) {
+    const trimmed = newName.trim();
+    if (!trimmed || trimmed === oldName) return;
+
+    const collision = state.favoriteFolders.some(
+      f => f !== oldName && f.toLowerCase() === trimmed.toLowerCase()
+    );
+    if (collision) return;
+
+    state.favoriteFolders = state.favoriteFolders.map(f => (f === oldName ? trimmed : f));
+    saveFavoriteFolders();
+
+    let changed = false;
+    state.favorites.forEach(favorite => {
+      if (favorite.folder === oldName) {
+        favorite.folder = trimmed;
+        changed = true;
+      }
+    });
+    if (changed) saveFavorites();
+
+    if (state.activeFavoriteFolder === oldName) state.activeFavoriteFolder = trimmed;
+    renderFolderChips();
+    renderFavoritesList();
+  }
+
   function renderFavoritesList() {
     if (
       !el.favoritesList ||
@@ -10369,18 +10553,24 @@ function drawRoute(geometry, from, to, mode) {
     }
 
     el.favoritesList
-      .querySelectorAll(".favorite-place-item")
+      .querySelectorAll(".favorite-place-item, .favorite-folder-row, .favorite-folder-back-row")
       .forEach(item => item.remove());
 
     const query = normalizeSearchText(
       el.favoritesSearch?.value || ""
     );
 
+    const activeFolder = state.activeFavoriteFolder || "";
+    const t = text[state.language];
+
     const favorites = (
       Array.isArray(state.favorites)
         ? state.favorites
         : []
     ).filter(favorite => {
+      if (activeFolder === UNFILED_FOLDER && favorite.folder) return false;
+      if (activeFolder && activeFolder !== UNFILED_FOLDER && favorite.folder !== activeFolder) return false;
+
       if (!query) return true;
 
       const haystack = normalizeSearchText(
@@ -10389,6 +10579,7 @@ function drawRoute(geometry, from, to, mode) {
           favorite.address,
           favorite.customName,
           favorite.note,
+          favorite.folder,
           favorite.lat,
           favorite.lon
         ]
@@ -10402,8 +10593,13 @@ function drawRoute(geometry, from, to, mode) {
     el.favoritesCount.textContent =
       String(state.favorites.length);
 
-    const hasAny = state.favorites.length > 0;
-    const hasMatches = favorites.length > 0;
+    // Widoczne foldery (jako klikalne wiersze) liczymy niezależnie od
+    // wyszukiwania tekstowego - pusty, dopiero co utworzony folder ma
+    // się dać zobaczyć i "wejść w niego", zanim cokolwiek do niego
+    // trafi, zamiast znikać z listy aż coś w nim wyląduje.
+    const showFolderRows = !query && !activeFolder;
+    const hasAny = state.favorites.length > 0 || (showFolderRows && state.favoriteFolders.length > 0);
+    const hasMatches = favorites.length > 0 || showFolderRows;
 
     el.favoritesEmpty.hidden = hasMatches;
     el.favoritesEmpty.textContent = hasAny
@@ -10414,152 +10610,303 @@ function drawRoute(geometry, from, to, mode) {
 
     const fragment = document.createDocumentFragment();
 
-    favorites.forEach(favorite => {
-      const item = document.createElement("div");
-      item.className = "favorite-place-item";
+    if (showFolderRows) {
+      state.favoriteFolders.forEach(folder => {
+        const count = state.favorites.filter(f => f.folder === folder).length;
+        const row = document.createElement("div");
+        row.className = "favorite-folder-row";
 
-      const openButton = document.createElement("button");
-      openButton.type = "button";
-      openButton.className = "favorite-place-open";
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "favorite-folder-row-open";
 
-      const icon = document.createElement("span");
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = "⭐";
+        const icon = document.createElement("span");
+        icon.className = "favorite-folder-row-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = "📁";
 
-      const copy = document.createElement("span");
+        const name = document.createElement("span");
+        name.className = "favorite-folder-row-name";
+        name.textContent = folder;
 
-      const title = document.createElement("strong");
-      title.textContent =
-        favorite.customName ||
-        favorite.title ||
-        (state.language === "pl"
-          ? "Ulubione miejsce"
-          : "Favorite place");
+        const countEl = document.createElement("span");
+        countEl.className = "favorite-folder-row-count";
+        countEl.textContent = String(count);
 
-      const address = document.createElement("small");
-      address.textContent =
-        favorite.address ||
-        `${Number(favorite.lat).toFixed(5)}, ${Number(favorite.lon).toFixed(5)}`;
+        openButton.append(icon, name, countEl);
+        openButton.addEventListener("click", () => {
+          state.activeFavoriteFolder = folder;
+          renderFolderChips();
+          renderFavoritesList();
+        });
 
-      copy.append(title, address);
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "favorite-place-edit-toggle";
+        editButton.textContent = "✎";
+        editButton.title = text[state.language].favoriteEdit;
+        editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
 
-      if (favorite.note) {
-        const note = document.createElement("small");
-        note.className = "favorite-place-note";
-        note.textContent = favorite.note;
-        copy.append(note);
-      }
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title = t.favoriteFolderDelete;
+        removeButton.setAttribute("aria-label", t.favoriteFolderDelete);
+        removeButton.addEventListener("click", () => deleteFavoriteFolder(folder));
 
-      openButton.append(icon, copy);
+        const actions = document.createElement("div");
+        actions.className = "favorite-place-actions";
+        actions.append(editButton, removeButton);
 
-      openButton.addEventListener(
-        "click",
-        () => {
-          openFavoritePlace(favorite);
+        const topRow = document.createElement("div");
+        topRow.className = "favorite-place-row";
+        topRow.append(openButton, actions);
 
-          // Panel Ulubione celowo pozostaje otwarty.
-        }
-      );
+        const renameForm = document.createElement("div");
+        renameForm.className = "account-name-edit-form";
+        renameForm.hidden = true;
 
-      const editButton = document.createElement("button");
-      editButton.type = "button";
-      editButton.className = "favorite-place-edit-toggle";
-      editButton.textContent = "✎";
-      editButton.title = text[state.language].favoriteEdit;
-      editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
+        const renameInput = document.createElement("input");
+        renameInput.type = "text";
+        renameInput.className = "account-name-edit-input";
+        renameInput.maxLength = 30;
+        renameInput.value = folder;
 
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "favorite-place-remove";
-      removeButton.textContent = "×";
-      removeButton.title =
-        state.language === "pl"
-          ? "Usuń z ulubionych"
-          : "Remove from favorites";
-      removeButton.setAttribute(
-        "aria-label",
-        removeButton.title
-      );
+        const renameActions = document.createElement("div");
+        renameActions.className = "account-name-edit-actions";
 
-      removeButton.addEventListener("click", () => {
-        state.favorites = state.favorites.filter(
-          entry => entry.key !== favorite.key
-        );
+        const renameSave = document.createElement("button");
+        renameSave.type = "button";
+        renameSave.className = "account-name-edit-save";
+        renameSave.textContent = text[state.language].favoriteSave;
+        renameSave.addEventListener("click", () => {
+          renameFavoriteFolder(folder, renameInput.value);
+        });
 
-        saveFavorites();
+        const renameCancel = document.createElement("button");
+        renameCancel.type = "button";
+        renameCancel.className = "account-name-edit-cancel";
+        renameCancel.textContent = text[state.language].favoriteCancelEdit;
+        renameCancel.addEventListener("click", () => {
+          renameForm.hidden = true;
+        });
+
+        renameActions.append(renameSave, renameCancel);
+        renameForm.append(renameInput, renameActions);
+
+        editButton.addEventListener("click", () => {
+          renameForm.hidden = !renameForm.hidden;
+          if (!renameForm.hidden) {
+            renameInput.value = folder;
+            renameInput.focus();
+            renameInput.select();
+          }
+        });
+
+        row.append(topRow, renameForm);
+        attachFolderDropTarget(row, folder);
+
+        fragment.appendChild(row);
+      });
+    } else if (activeFolder) {
+      const backRow = document.createElement("button");
+      backRow.type = "button";
+      backRow.className = "favorite-folder-back-row";
+      backRow.textContent = `← ${t.favoriteFolderAll}`;
+      backRow.addEventListener("click", () => {
+        state.activeFavoriteFolder = "";
+        renderFolderChips();
         renderFavoritesList();
       });
+      attachFolderDropTarget(backRow, "");
+      fragment.appendChild(backRow);
+    }
 
-      const editForm = document.createElement("div");
-      editForm.className = "favorite-place-edit-form";
-      editForm.hidden = true;
+    // Miejsca bez folderu pokazujemy bezpośrednio na liście głównej
+    // (nie jako osobny folder do "wejścia") - żeby nie trzeba było
+    // klikać nigdzie, aby zobaczyć zwykłe, nieposegregowane ulubione.
+    const visibleFavorites = showFolderRows
+      ? favorites.filter(favorite => !favorite.folder)
+      : favorites;
 
-      const nameLabel = document.createElement("label");
-      nameLabel.textContent = text[state.language].favoriteCustomNameLabel;
-      const nameInput = document.createElement("input");
-      nameInput.type = "text";
-      nameInput.placeholder = text[state.language].favoriteCustomNamePlaceholder;
-      nameInput.value = favorite.customName || "";
-      nameLabel.append(nameInput);
+    visibleFavorites.forEach(favorite => {
+        const item = document.createElement("div");
+        item.className = "favorite-place-item";
+        item.draggable = true;
 
-      const noteLabel = document.createElement("label");
-      noteLabel.textContent = text[state.language].favoriteNoteLabel;
-      const noteInput = document.createElement("textarea");
-      noteInput.rows = 2;
-      noteInput.placeholder = text[state.language].favoriteNotePlaceholder;
-      noteInput.value = favorite.note || "";
-      noteLabel.append(noteInput);
-
-      const editActions = document.createElement("div");
-      editActions.className = "favorite-place-edit-actions";
-
-      const saveButton = document.createElement("button");
-      saveButton.type = "button";
-      saveButton.className = "favorite-place-edit-save";
-      saveButton.textContent = text[state.language].favoriteSave;
-      saveButton.addEventListener("click", () => {
-        updateFavoriteDetails(favorite.key, {
-          customName: nameInput.value,
-          note: noteInput.value
+        item.addEventListener("dragstart", event => {
+          event.dataTransfer.setData("text/plain", favorite.key);
+          event.dataTransfer.effectAllowed = "move";
+          item.classList.add("is-dragging");
         });
-      });
+        item.addEventListener("dragend", () => {
+          item.classList.remove("is-dragging");
+        });
 
-      const cancelButton = document.createElement("button");
-      cancelButton.type = "button";
-      cancelButton.className = "favorite-place-edit-cancel";
-      cancelButton.textContent = text[state.language].favoriteCancelEdit;
-      cancelButton.addEventListener("click", () => {
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "favorite-place-open";
+
+        const icon = document.createElement("span");
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = "⭐";
+
+        const copy = document.createElement("span");
+
+        const title = document.createElement("strong");
+        title.textContent =
+          favorite.customName ||
+          favorite.title ||
+          (state.language === "pl"
+            ? "Ulubione miejsce"
+            : "Favorite place");
+
+        const address = document.createElement("small");
+        address.textContent =
+          favorite.address ||
+          `${Number(favorite.lat).toFixed(5)}, ${Number(favorite.lon).toFixed(5)}`;
+
+        copy.append(title, address);
+
+        if (favorite.note) {
+          const note = document.createElement("small");
+          note.className = "favorite-place-note";
+          note.textContent = favorite.note;
+          copy.append(note);
+        }
+
+        openButton.append(icon, copy);
+
+        openButton.addEventListener(
+          "click",
+          () => {
+            openFavoritePlace(favorite);
+
+            // Panel Ulubione celowo pozostaje otwarty.
+          }
+        );
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "favorite-place-edit-toggle";
+        editButton.textContent = "✎";
+        editButton.title = text[state.language].favoriteEdit;
+        editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title =
+          state.language === "pl"
+            ? "Usuń z ulubionych"
+            : "Remove from favorites";
+        removeButton.setAttribute(
+          "aria-label",
+          removeButton.title
+        );
+
+        removeButton.addEventListener("click", () => {
+          state.favorites = state.favorites.filter(
+            entry => entry.key !== favorite.key
+          );
+
+          saveFavorites();
+          renderFolderChips();
+          renderFavoritesList();
+        });
+
+        const editForm = document.createElement("div");
+        editForm.className = "favorite-place-edit-form";
         editForm.hidden = true;
-      });
 
-      editActions.append(saveButton, cancelButton);
-      editForm.append(nameLabel, noteLabel, editActions);
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = text[state.language].favoriteCustomNameLabel;
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.placeholder = text[state.language].favoriteCustomNamePlaceholder;
+        nameInput.value = favorite.customName || "";
+        nameLabel.append(nameInput);
 
-      editButton.addEventListener("click", () => {
-        editForm.hidden = !editForm.hidden;
-      });
+        const noteLabel = document.createElement("label");
+        noteLabel.textContent = text[state.language].favoriteNoteLabel;
+        const noteInput = document.createElement("textarea");
+        noteInput.rows = 2;
+        noteInput.placeholder = text[state.language].favoriteNotePlaceholder;
+        noteInput.value = favorite.note || "";
+        noteLabel.append(noteInput);
 
-      const actions = document.createElement("div");
-      actions.className = "favorite-place-actions";
-      actions.append(editButton, removeButton);
+        const folderLabel = document.createElement("label");
+        folderLabel.textContent = t.favoriteFolderLabel;
+        const folderSelect = document.createElement("select");
+        folderSelect.className = "favorite-folder-select";
+        const unfiledOption = document.createElement("option");
+        unfiledOption.value = "";
+        unfiledOption.textContent = t.favoriteFolderUnfiled;
+        folderSelect.appendChild(unfiledOption);
+        state.favoriteFolders.forEach(folderName => {
+          const option = document.createElement("option");
+          option.value = folderName;
+          option.textContent = folderName;
+          folderSelect.appendChild(option);
+        });
+        folderSelect.value = favorite.folder || "";
+        folderLabel.append(folderSelect);
 
-      const row = document.createElement("div");
-      row.className = "favorite-place-row";
-      row.append(openButton, actions);
+        const editActions = document.createElement("div");
+        editActions.className = "favorite-place-edit-actions";
 
-      item.append(row, editForm);
-      fragment.appendChild(item);
+        const saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.className = "favorite-place-edit-save";
+        saveButton.textContent = text[state.language].favoriteSave;
+        saveButton.addEventListener("click", () => {
+          updateFavoriteDetails(favorite.key, {
+            customName: nameInput.value,
+            note: noteInput.value,
+            folder: folderSelect.value
+          });
+          renderFolderChips();
+        });
+
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.className = "favorite-place-edit-cancel";
+        cancelButton.textContent = text[state.language].favoriteCancelEdit;
+        cancelButton.addEventListener("click", () => {
+          editForm.hidden = true;
+        });
+
+        editActions.append(saveButton, cancelButton);
+        editForm.append(nameLabel, noteLabel, folderLabel, editActions);
+
+        editButton.addEventListener("click", () => {
+          editForm.hidden = !editForm.hidden;
+        });
+
+        const actions = document.createElement("div");
+        actions.className = "favorite-place-actions";
+        actions.append(editButton, removeButton);
+
+        const row = document.createElement("div");
+        row.className = "favorite-place-row";
+        row.append(openButton, actions);
+
+        item.append(row, editForm);
+        fragment.appendChild(item);
     });
 
     el.favoritesList.appendChild(fragment);
   }
 
-  function updateFavoriteDetails(key, { customName, note }) {
+  function updateFavoriteDetails(key, { customName, note, folder }) {
     const favorite = state.favorites.find(item => item.key === key);
     if (!favorite) return;
 
     favorite.customName = (customName || "").trim();
     favorite.note = (note || "").trim();
+    if (folder !== undefined) favorite.folder = folder || "";
 
     saveFavorites();
     renderFavoritesList();
@@ -10594,6 +10941,7 @@ function drawRoute(geometry, from, to, mode) {
         lat: Number(favorite.lat),
         lon: Number(favorite.lon)
       }));
+      payload.favoriteFolders = [...state.favoriteFolders];
     }
 
     if (scopes.includes("colors")) {
@@ -10745,6 +11093,19 @@ function drawRoute(geometry, from, to, mode) {
         ].slice(0, 1000);
 
         saveFavorites();
+
+        if (Array.isArray(raw?.favoriteFolders)) {
+          const existingLower = new Set(state.favoriteFolders.map(f => f.toLowerCase()));
+          for (const folder of raw.favoriteFolders) {
+            if (typeof folder === "string" && folder.trim() && !existingLower.has(folder.trim().toLowerCase())) {
+              state.favoriteFolders.push(folder.trim());
+              existingLower.add(folder.trim().toLowerCase());
+            }
+          }
+          saveFavoriteFolders();
+        }
+
+        renderFolderChips();
         renderFavoritesList();
         importedCount = imported.length;
         favoritesImportedFlag = true;
@@ -11834,6 +12195,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         lat: Number(favorite.lat),
         lon: Number(favorite.lon)
       }));
+      payload.favoriteFolders = [...state.favoriteFolders];
     }
 
     if (scopes.includes("colors")) {
@@ -11873,6 +12235,11 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   // rozmiaru (jakość lokalnej kopii się nie zmienia - to dotyczy
   // tylko wersji wysyłanej do synchronizacji).
   const MEDIA_SIZE_LIMIT = 180000; // ~180 KB zakodowanego tekstu (base64) - bezpieczny margines
+  // Czcionek (w przeciwieństwie do zdjęć) nie da się dalej "dokręcić"
+  // po konwersji do WOFF2 - to już najlepsza możliwa kompresja. Dajemy
+  // im więc więcej luzu niż teksturom, tym bardziej że mamy 8
+  // przekaźników naraz i wystarczy, że przyjmie choć jeden.
+  const FONT_SIZE_LIMIT = 350000; // ~350 KB zakodowanego tekstu (base64)
 
   function downscaleImageDataUrl(dataUrl, maxDim, quality) {
     return new Promise((resolve, reject) => {
@@ -11915,6 +12282,64 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     return null; // za duże nawet po maksymalnej kompresji
   }
 
+  function dataUrlToBytes(dataUrl) {
+    const base64 = dataUrl.split(",")[1] || "";
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  function bytesToDataUrl(bytes, mime) {
+    let binary = "";
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return `data:${mime};base64,${btoa(binary)}`;
+  }
+
+  // Czcionek nie da się "zmniejszyć" wizualnie jak zdjęć, ale TTF/OTF
+  // można realnie skompresować do formatu WOFF2 (specjalnie do tego
+  // zaprojektowany, kompresja Brotli) - to zwykle 30-50% mniej danych
+  // za darmo, bez utraty ani jednego glifu. Jeśli plik jest już WOFF2
+  // (rozpoznajemy po sygnaturze "wOF2" na początku pliku) albo
+  // biblioteka nie zdążyła się załadować, wysyłamy oryginał bez zmian.
+  async function prepareFontForSync(dataUrl) {
+    if (!dataUrl) return "";
+
+    let finalDataUrl = dataUrl;
+    let compressedOk = false;
+    const originalKB = Math.round(dataUrl.length / 1024);
+
+    try {
+      const bytes = dataUrlToBytes(dataUrl);
+      const isAlreadyWoff2 =
+        bytes.length >= 4 &&
+        bytes[0] === 0x77 && bytes[1] === 0x4f && bytes[2] === 0x46 && bytes[3] === 0x32; // "wOF2"
+
+      if (isAlreadyWoff2) {
+        console.log("Synchronizacja: czcionka jest już w formacie WOFF2, bez dalszej kompresji.");
+      } else if (!window.OMAP_FONT_LIB?.compress) {
+        console.warn("Synchronizacja: biblioteka do kompresji czcionek (woff2-encoder) nie jest załadowana - wysyłam oryginał bez kompresji.");
+      } else {
+        try {
+          const compressed = await window.OMAP_FONT_LIB.compress(bytes);
+          finalDataUrl = bytesToDataUrl(compressed, "font/woff2");
+          compressedOk = true;
+        } catch (error) {
+          console.error("Kompresja czcionki do WOFF2 nie powiodła się, wysyłam oryginał:", error);
+        }
+      }
+    } catch (error) {
+      console.error("Nie udało się przeanalizować pliku czcionki:", error);
+    }
+
+    const finalKB = Math.round(finalDataUrl.length / 1024);
+    console.log(
+      `Synchronizacja czcionki: oryginał ${originalKB} KB${compressedOk ? `, po kompresji WOFF2 ${finalKB} KB` : ""}, limit ${Math.round(FONT_SIZE_LIMIT / 1024)} KB.`
+    );
+
+    return finalDataUrl.length <= FONT_SIZE_LIMIT ? finalDataUrl : null;
+  }
+
   async function pushColorMedia(cryptoApi, encKey, transport, nostrPrivKeyBytes) {
     const skipped = [];
 
@@ -11932,14 +12357,25 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       await pushOneMediaSlot(`texture:${key}`, prepared);
     });
 
-    const fontValue =
+    const fontOriginal =
       state.customFont?.type === "custom" && state.customFontDataUrl
         ? state.customFontDataUrl
         : "";
-    if (fontValue && fontValue.length > MEDIA_SIZE_LIMIT) {
-      skipped.push("własna czcionka");
+
+    if (fontOriginal) {
+      textureJobs.push(
+        (async () => {
+          const prepared = await prepareFontForSync(fontOriginal);
+          if (prepared === null) {
+            const sizeKB = Math.round(fontOriginal.length / 1024);
+            skipped.push(`własna czcionka (oryginał ~${sizeKB} KB - zobacz konsolę przeglądarki po szczegóły kompresji)`);
+            return;
+          }
+          await pushOneMediaSlot("font:custom", prepared);
+        })()
+      );
     } else {
-      textureJobs.push(pushOneMediaSlot("font:custom", fontValue));
+      textureJobs.push(pushOneMediaSlot("font:custom", ""));
     }
 
     await Promise.allSettled(textureJobs);
@@ -12023,6 +12459,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         .filter(Boolean)
         .slice(0, 1000);
       saveFavorites();
+
+      if (Array.isArray(payload.favoriteFolders)) {
+        state.favoriteFolders = payload.favoriteFolders.filter(
+          f => typeof f === "string" && f.trim()
+        );
+        saveFavoriteFolders();
+      }
+
+      renderFolderChips();
       renderFavoritesList();
     }
 

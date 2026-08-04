@@ -4367,6 +4367,187 @@ div.maplibregl-ctrl-scale {
   padding: 0 0 4px;
 }
 
+.favorites-folders {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.favorites-folder-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.favorites-folder-chip {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.68rem;
+  padding: 4px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.favorites-folder-chip:hover,
+.favorites-folder-chip:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.favorites-folder-chip.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.favorites-folder-chip-delete {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  margin-left: 5px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.favorites-folder-chip-delete:hover {
+  opacity: 1;
+}
+
+.favorites-add-folder-button {
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.68rem;
+  padding: 4px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.favorites-add-folder-button:hover,
+.favorites-add-folder-button:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.favorites-new-folder-form:not([hidden]) {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.favorites-new-folder-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 6px 8px;
+  box-sizing: border-box;
+}
+
+.favorite-folder-row {
+  border: 1px solid var(--border);
+  margin: 6px 0;
+}
+
+.favorite-folder-row-open {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.favorite-folder-row-open:hover,
+.favorite-folder-row-open:focus-visible {
+  color: var(--accent);
+}
+
+.favorite-folder-row-icon {
+  font-size: 1rem;
+}
+
+.favorite-folder-row-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  font-size: 0.78rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favorite-folder-row-count {
+  font-size: 0.68rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.favorite-folder-back-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-align: left;
+  padding: 4px 2px 8px;
+  cursor: pointer;
+}
+
+.favorite-folder-back-row:hover,
+.favorite-folder-back-row:focus-visible {
+  color: var(--accent);
+}
+
+.favorite-folder-select {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 5px 6px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.favorite-place-item[draggable="true"] {
+  cursor: grab;
+}
+
+.favorite-place-item.is-dragging {
+  opacity: 0.4;
+}
+
+.favorite-folder-row.is-drag-over,
+.favorite-folder-chip.is-drag-over,
+.favorite-folder-back-row.is-drag-over {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+
 .favorites-summary {
   display: flex;
   gap: 5px;

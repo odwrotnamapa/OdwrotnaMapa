@@ -76,6 +76,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     view: "odwrotnamapa.view",
     searchHistory: "odwrotnamapa.searchHistory",
     favorites: "odwrotnamapa.favorites",
+    favoriteFolders: "odwrotnamapa.favoriteFolders",
     customPalette: "odwrotnamapa.customPalette",
     customFont: "odwrotnamapa.customFont",
     customPlaceNames: "odwrotnamapa.customPlaceNames",
