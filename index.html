@@ -800,7 +800,7 @@
 
       <!-- Ekran startowy: wybór między logowaniem a założeniem konta -->
       <section id="account-screen-home" class="account-screen">
-        <p class="account-intro">
+        <p id="account-intro-text" class="account-intro">
           Zsynchronizuj ulubione miejsca, motyw i inne ustawienia między urządzeniami za pomocą frazy-hasła (16 słów) - bez ręcznego eksportu/importu pliku JSON.
         </p>
         <button id="account-goto-login-button" type="button" class="account-primary-button">
@@ -814,7 +814,7 @@
       <!-- Ekran logowania istniejącą frazą -->
       <section id="account-screen-login" class="account-screen" hidden>
         <button id="account-login-back-button" type="button" class="account-subback-button">← Wstecz</button>
-        <p class="account-screen-heading">Zaloguj się frazą</p>
+        <p id="account-login-heading" class="account-screen-heading">Zaloguj się frazą</p>
         <textarea id="account-seed-input" class="account-seed-textarea"
                   placeholder="wpisz lub wklej 16 słów oddzielonych spacją"
                   rows="3"></textarea>
@@ -826,7 +826,7 @@
       <!-- Ekran zakładania konta: generowanie i potwierdzenie frazy -->
       <section id="account-screen-register" class="account-screen" hidden>
         <button id="account-register-back-button" type="button" class="account-subback-button">← Wstecz</button>
-        <p class="account-warning">
+        <p id="account-register-warning" class="account-warning">
           Zapisz te 16 słów w bezpiecznym miejscu (np. na kartce), w tej dokładnie kolejności. To jedyne hasło do tego konta - bez niego nikt, łącznie z nami, nie odzyska Twoich ustawień.
         </p>
         <div id="account-seed-words" class="account-seed-words"></div>
@@ -873,25 +873,25 @@
 
         <label class="account-sync-scope-item">
           <input type="checkbox" id="account-auto-sync-checkbox" checked>
-          <span>Synchronizuj automatycznie w tle</span>
+          <span id="account-auto-sync-label">Synchronizuj automatycznie w tle</span>
         </label>
 
         <div class="account-sync-scope">
           <label class="account-sync-scope-item">
             <input type="checkbox" id="account-sync-scope-favorites" checked>
-            <span>Ulubione miejsca</span>
+            <span id="account-scope-favorites-label">Ulubione miejsca</span>
           </label>
           <label class="account-sync-scope-item">
             <input type="checkbox" id="account-sync-scope-colors" checked>
-            <span>Motyw, kolory i język</span>
+            <span id="account-scope-colors-label">Motyw, kolory i język</span>
           </label>
           <label class="account-sync-scope-item">
             <input type="checkbox" id="account-sync-scope-place-names" checked>
-            <span>Własne nazwy miejsc</span>
+            <span id="account-scope-placenames-label">Własne nazwy miejsc</span>
           </label>
           <label class="account-sync-scope-item">
             <input type="checkbox" id="account-sync-scope-history" checked>
-            <span>Historia przeglądanych miejsc</span>
+            <span id="account-scope-history-label">Historia przeglądanych miejsc</span>
           </label>
         </div>
 
@@ -1259,6 +1259,6 @@
     }
   </script>
 
-  <script src="app.js?v=20260803280000"></script>
+  <script src="app.js?v=20260803290000"></script>
 </body>
 </html>

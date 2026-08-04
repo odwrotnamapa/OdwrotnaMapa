@@ -84,6 +84,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     syncLastSyncedAt: "odwrotnamapa.sync.lastSyncedAt",
     syncAutoEnabled: "odwrotnamapa.sync.autoEnabled",
     syncProfileName: "odwrotnamapa.sync.profileName",
-    syncProfileAvatar: "odwrotnamapa.sync.profileAvatar"
+    syncProfileAvatar: "odwrotnamapa.sync.profileAvatar",
+    syncLastSkipped: "odwrotnamapa.sync.lastSkipped"
   }
 });
