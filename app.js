@@ -1525,6 +1525,7 @@
     menuInstallLabel: $("menu-install-label"),
     backupPanel: $("backup-panel"),
     backupSheetHandle: $("backup-sheet-handle"),
+    accountSheetHandle: $("account-sheet-handle"),
     backupClose: $("backup-close"),
     backupBack: $("backup-back"),
     aboutTitle: $("about-title"),
@@ -2228,6 +2229,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   initializeTradingSundayBottomSheet();
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
+  initializeAccountBottomSheet();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -5194,6 +5196,15 @@ function applyLanguage(language) {
       panel: el.backupPanel,
       handle: el.backupSheetHandle,
       close: closeBackup,
+      cssVariable: "--sheet-height"
+    });
+  }
+
+  function initializeAccountBottomSheet() {
+    initializeBottomSheet({
+      panel: el.accountPanel,
+      handle: el.accountSheetHandle,
+      close: closeAccount,
       cssVariable: "--sheet-height"
     });
   }

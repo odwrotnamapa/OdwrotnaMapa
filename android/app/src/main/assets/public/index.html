@@ -7,7 +7,46 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Odwrotna Mapa, znana też jako odwrócona mapa - interaktywna mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap.">
-  <title>Odwrotna Mapa</title>
+  <title>Odwrotna Mapa — interaktywna mapa z południem u góry (OpenStreetMap)</title>
+  <link rel="canonical" href="https://odwrotnamapa.pl" />
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Odwrotna Mapa">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://odwrotnamapa.pl">
+  <meta property="og:title" content="Odwrotna Mapa — interaktywna mapa z południem u góry">
+  <meta property="og:description" content="Mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap. Wyszukiwarka miejsc, trasy, ulubione, motywy kolorystyczne i tryb offline.">
+  <meta property="og:image" content="https://odwrotnamapa.pl/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Zrzut ekranu Odwrotnej Mapy — mapa świata z południem u góry">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Odwrotna Mapa — interaktywna mapa z południem u góry">
+  <meta name="twitter:description" content="Mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap. Wyszukiwarka miejsc, trasy, ulubione, motywy kolorystyczne i tryb offline.">
+  <meta name="twitter:image" content="https://odwrotnamapa.pl/assets/og-image.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Odwrotna Mapa",
+    "alternateName": "OdwrotnaMapa",
+    "url": "https://odwrotnamapa.pl",
+    "description": "Interaktywna mapa z południem u góry, oparta na MapLibre GL JS i danych OpenStreetMap. Wyszukiwarka miejsc i adresów, wyznaczanie tras, ulubione miejsca, widok satelitarny, własne motywy kolorystyczne.",
+    "applicationCategory": "TravelApplication",
+    "operatingSystem": "Any (przeglądarka), Android, Windows, Linux",
+    "inLanguage": ["pl", "en"],
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "PLN"
+    },
+    "image": "https://odwrotnamapa.pl/assets/og-image.jpg"
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,14 +58,30 @@
 <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
 <link rel="shortcut icon" href="assets/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-<link rel="manifest" href="assets/site.webmanifest?v=4" />
+<link rel="manifest" href="assets/site.webmanifest?v=5" />
+  <meta name="theme-color" content="#111315">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
   <link rel="stylesheet" href="style.css?v=20260731190000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
 </head>
 <body>
+  <noscript>
+    <style>#app { display: none !important; }</style>
+    <div style="max-width:640px;margin:10vh auto;padding:24px;font-family:sans-serif;line-height:1.5;color:#111315;">
+      <h1>Odwrotna Mapa</h1>
+      <p>Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.</p>
+      <p>Ta strona jest interaktywną aplikacją mapową (mapa, wyszukiwarka miejsc, trasy, ulubione miejsca) opartą na MapLibre GL JS i danych OpenStreetMap — do jej działania niezbędny jest włączony JavaScript. Włącz go w ustawieniach przeglądarki, aby skorzystać z mapy.</p>
+      <p>Kontakt: <a href="mailto:odwrotnamapa@protonmail.com">odwrotnamapa@protonmail.com</a> · <a href="https://github.com/odwrotnamapa/OdwrotnaMapa">Kod źródłowy na GitHubie</a></p>
+    </div>
+  </noscript>
   <main id="app">
+    <h1 class="sr-only">Odwrotna Mapa — interaktywna mapa z południem u góry, oparta na OpenStreetMap</h1>
+    <p class="sr-only">Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy. Aplikacja oferuje wyszukiwarkę miejsc i adresów, wyznaczanie tras pieszo/rowerem/samochodem/komunikacją miejską, zapisywanie ulubionych miejsc, widok satelitarny oraz własne motywy kolorystyczne mapy.</p>
     <div id="map" aria-label="Interaktywna mapa"></div>
 
     <section id="fatal-error" class="fatal-error" hidden>
@@ -725,6 +780,142 @@
       </div>
     </aside>
 
+    <aside id="account-panel" class="legend-panel account-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="account-title" hidden>
+      <button id="account-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
+              aria-label="Zmień wysokość panelu konta">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
+        <button id="account-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
+        <h2 id="account-title">Konto i synchronizacja</h2>
+        <button id="account-close" class="legend-close" type="button"
+                aria-label="Zamknij Konto">×</button>
+      </div>
+
+      <p id="account-message" class="account-message" hidden></p>
+
+      <!-- Ekran startowy: wybór między logowaniem a założeniem konta -->
+      <section id="account-screen-home" class="account-screen">
+        <p class="account-intro">
+          Zsynchronizuj ulubione miejsca, motyw i inne ustawienia między urządzeniami za pomocą frazy-hasła (16 słów) - bez ręcznego eksportu/importu pliku JSON.
+        </p>
+        <button id="account-goto-login-button" type="button" class="account-primary-button">
+          Zaloguj
+        </button>
+        <button id="account-goto-register-button" type="button" class="account-secondary-button">
+          Załóż nowe konto
+        </button>
+      </section>
+
+      <!-- Ekran logowania istniejącą frazą -->
+      <section id="account-screen-login" class="account-screen" hidden>
+        <button id="account-login-back-button" type="button" class="account-subback-button">← Wstecz</button>
+        <p class="account-screen-heading">Zaloguj się frazą</p>
+        <textarea id="account-seed-input" class="account-seed-textarea"
+                  placeholder="wpisz lub wklej 16 słów oddzielonych spacją"
+                  rows="3"></textarea>
+        <button id="account-login-button" type="button" class="account-primary-button">
+          Zaloguj
+        </button>
+      </section>
+
+      <!-- Ekran zakładania konta: generowanie i potwierdzenie frazy -->
+      <section id="account-screen-register" class="account-screen" hidden>
+        <button id="account-register-back-button" type="button" class="account-subback-button">← Wstecz</button>
+        <p class="account-warning">
+          Zapisz te 16 słów w bezpiecznym miejscu (np. na kartce), w tej dokładnie kolejności. To jedyne hasło do tego konta - bez niego nikt, łącznie z nami, nie odzyska Twoich ustawień.
+        </p>
+        <div id="account-seed-words" class="account-seed-words"></div>
+        <button id="account-seed-copy-button" type="button" class="account-secondary-button">
+          Kopiuj frazę
+        </button>
+        <label class="account-confirm-row">
+          <input type="checkbox" id="account-seed-confirm-checkbox">
+          <span id="account-seed-confirm-label">Zapisałem/-am frazę w bezpiecznym miejscu</span>
+        </label>
+        <button id="account-seed-confirm-button" type="button" class="account-primary-button" disabled>
+          Zapisz i aktywuj konto
+        </button>
+      </section>
+
+      <!-- Strona konta: widoczna od razu po zalogowaniu -->
+      <section id="account-screen-loggedin" class="account-screen" hidden>
+        <div class="account-identity">
+          <button id="account-avatar-button" type="button" class="account-avatar-button" aria-label="Zmień zdjęcie profilowe">
+            <img id="account-avatar-preview" class="account-avatar" alt="" hidden>
+            <span id="account-avatar-placeholder" class="account-avatar-placeholder" aria-hidden="true">＋</span>
+          </button>
+          <input type="file" id="account-profile-avatar-input" accept="image/png,image/jpeg" hidden>
+
+          <div class="account-identity-text">
+            <button id="account-display-name-button" type="button" class="account-display-name-button">
+              <span id="account-display-name">Bez nazwy</span>
+            </button>
+
+            <div id="account-name-edit-form" class="account-name-edit-form" hidden>
+              <input type="text" id="account-profile-name-input" class="account-name-edit-input"
+                     maxlength="40" placeholder="Twoja nazwa">
+              <div class="account-name-edit-actions">
+                <button id="account-name-save-button" type="button" class="account-name-edit-save">Zapisz</button>
+                <button id="account-name-cancel-button" type="button" class="account-name-edit-cancel">Anuluj</button>
+              </div>
+            </div>
+
+            <button id="account-public-id" type="button" class="account-public-id" title="Kliknij, aby skopiować"></button>
+          </div>
+        </div>
+
+        <p id="account-status-text" class="account-status-text"></p>
+
+        <label class="account-sync-scope-item">
+          <input type="checkbox" id="account-auto-sync-checkbox" checked>
+          <span>Synchronizuj automatycznie w tle</span>
+        </label>
+
+        <div class="account-sync-scope">
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-favorites" checked>
+            <span>Ulubione miejsca</span>
+          </label>
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-colors" checked>
+            <span>Motyw, kolory i język</span>
+          </label>
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-place-names" checked>
+            <span>Własne nazwy miejsc</span>
+          </label>
+          <label class="account-sync-scope-item">
+            <input type="checkbox" id="account-sync-scope-history" checked>
+            <span>Historia przeglądanych miejsc</span>
+          </label>
+        </div>
+
+        <button id="account-push-button" type="button" class="account-primary-button">
+          ⬆ Wyślij zaznaczone z tego urządzenia
+        </button>
+        <button id="account-pull-button" type="button" class="account-secondary-button" hidden>
+          ⬇ Pobierz zaznaczone na to urządzenie
+        </button>
+
+        <button id="account-logout-button" type="button" class="account-danger-button">
+          Wyloguj z tego urządzenia
+        </button>
+
+        <details id="account-reveal-details" class="account-login-details">
+          <summary id="account-reveal-summary">Pokaż frazę seed</summary>
+          <div id="account-seed-reveal-words" class="account-seed-words"></div>
+          <button id="account-seed-reveal-copy-button" type="button" class="account-secondary-button">
+            Kopiuj frazę
+          </button>
+        </details>
+      </section>
+    </aside>
+
     <ul id="autocomplete-floating" class="autocomplete-list autocomplete-floating" hidden></ul>
 
     
@@ -775,6 +966,13 @@
       </div>
 
       <div class="menu-actions">
+
+        <button id="menu-account-button"
+                class="menu-action"
+                type="button">
+          <span aria-hidden="true">👤</span>
+          <span id="menu-account-label">Konto i synchronizacja</span>
+        </button>
 
         <button id="favorites-open-button"
                 class="menu-action"
@@ -1039,7 +1237,28 @@
   <script src="src/services/photo-service.js"></script>
   <script src="src/services/place-resolver-service.js"></script>
   <script src="src/services/place-service.js"></script>
+  <script src="src/services/url-state-service.js"></script>
+  <script src="src/services/sync-crypto-service.js"></script>
+  <script src="src/services/sync-transport-service.js"></script>
+  <script type="module">
+    // Ładujemy nostr-tools jako moduł ES z CDN (esm.sh) - tak samo jak
+    // MapLibre GL JS jest już ładowany z unpkg. Nie wymaga to żadnej
+    // rejestracji ani konta - to zwykła, publicznie dostępna biblioteka.
+    // Wystawiamy potrzebne funkcje jako zwykły obiekt globalny, żeby
+    // klasyczny (nie-modułowy) sync-transport-service.js mógł z nich
+    // skorzystać.
+    try {
+      const [{ finalizeEvent, verifyEvent, getPublicKey }, { SimplePool }, { npubEncode }] = await Promise.all([
+        import("https://esm.sh/nostr-tools@2/pure"),
+        import("https://esm.sh/nostr-tools@2/pool"),
+        import("https://esm.sh/nostr-tools@2/nip19")
+      ]);
+      window.OMAP_NOSTR_LIB = { finalizeEvent, verifyEvent, getPublicKey, SimplePool, npubEncode };
+    } catch (error) {
+      console.warn("Nie udało się załadować biblioteki nostr-tools (brak internetu?):", error);
+    }
+  </script>
 
-  <script src="app.js?v=20260731190000"></script>
+  <script src="app.js?v=20260803230000"></script>
 </body>
 </html>
