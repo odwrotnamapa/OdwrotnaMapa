@@ -1284,7 +1284,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   width: 30px;
   height: 30px;
   border: 3px solid #ffffff;
-  color: #ffffff;
+  color: var(--text);
   font-family: var(--font);
   font-size: 0.82rem;
   font-weight: 850;
@@ -1296,12 +1296,9 @@ body.ui-dark .legend-symbol.osm-buildings {
   transform: rotate(45deg);
 }
 
-.route-letter-marker.route-a {
-  background: #16a34a;
-}
-
+.route-letter-marker.route-a,
 .route-letter-marker.route-b {
-  background: #dc2626;
+  background: var(--panel);
 }
 
 
@@ -1630,14 +1627,14 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-waypoint-marker {
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 3px solid #fff;
-  background: #7c3aed;
-  color: #fff;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--panel);
+  background: var(--accent);
+  color: transparent;
   font-size: 0.68rem;
   font-weight: 850;
-  box-shadow: 0 3px 10px rgba(0,0,0,.34);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.34);
   cursor: grab;
 }
 
@@ -5705,7 +5702,7 @@ textarea {
   margin: 0 !important;
   border: 3px solid #fff !important;
   border-radius: 50% !important;
-  color: var(--panel) !important;
+  color: var(--text) !important;
   box-shadow:
     0 0 0 1px rgb(0 0 0 / 0.2),
     0 2px 8px rgb(0 0 0 / 0.3) !important;
@@ -5884,7 +5881,7 @@ textarea {
   padding: 0 !important;
   border: 3px solid #fff !important;
   border-radius: 50% !important;
-  color: var(--panel) !important;
+  color: var(--text) !important;
   font-size: 0.78rem !important;
   font-weight: 850 !important;
   line-height: 1 !important;
@@ -5896,15 +5893,11 @@ textarea {
 }
 
 .route-letter-marker.route-a,
-.route-letter-marker.route-a.maplibregl-marker {
-  background: #16a34a !important;
-  background-color: #16a34a !important;
-}
-
+.route-letter-marker.route-a.maplibregl-marker,
 .route-letter-marker.route-b,
 .route-letter-marker.route-b.maplibregl-marker {
-  background: #dc2626 !important;
-  background-color: #dc2626 !important;
+  background: var(--panel) !important;
+  background-color: var(--panel) !important;
 }
 
 .route-letter-marker > span {
@@ -5912,7 +5905,7 @@ textarea {
   place-items: center !important;
   width: 100% !important;
   height: 100% !important;
-  color: var(--panel) !important;
+  color: var(--text) !important;
   
   line-height: 1 !important;
 }

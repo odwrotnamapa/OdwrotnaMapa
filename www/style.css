@@ -46,6 +46,13 @@ button, input, select {
   font: inherit;
 }
 
+button,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .toolbar {
   position: absolute;
   z-index: 5;
@@ -3895,7 +3902,21 @@ div.maplibregl-ctrl-scale {
 
 .favorites-toolbar {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 9px;
+}
+
+.favorites-sort-select {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.72rem;
+  padding: 8px 6px;
+  height: 42px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .favorites-search-wrap {
@@ -4367,6 +4388,88 @@ div.maplibregl-ctrl-scale {
   padding: 0 0 4px;
 }
 
+.saved-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px 0;
+  margin-bottom: 10px;
+}
+
+.saved-tab {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 7px 8px;
+  cursor: pointer;
+}
+
+.saved-tab:hover,
+.saved-tab:focus-visible {
+  border-color: var(--accent);
+}
+
+.saved-tab.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.route-item {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  margin: 6px 0;
+}
+
+.route-item-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.route-item-open {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.route-item-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.route-item-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.route-item-copy strong {
+  font-size: 0.78rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.route-item-copy small {
+  font-size: 0.68rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .favorites-folders {
   display: flex;
   align-items: center;
@@ -4556,7 +4659,8 @@ div.maplibregl-ctrl-scale {
   font-size: 0.7rem;
 }
 
-#history-clear {
+#history-clear,
+#route-history-clear {
   border: 1px solid var(--border);
   border-radius: 0;
   padding: 5px 12px;
@@ -4567,7 +4671,9 @@ div.maplibregl-ctrl-scale {
 }
 
 #history-clear:hover,
-#history-clear:focus-visible {
+#history-clear:focus-visible,
+#route-history-clear:hover,
+#route-history-clear:focus-visible {
   border-color: var(--accent);
   color: var(--accent);
 }

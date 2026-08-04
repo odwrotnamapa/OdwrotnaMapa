@@ -32,6 +32,9 @@
     pedestrian: "🚶",
     transit: "🚌"
   };
+  const MEASURE_SOURCE_ID = "odwrotnamapa-measure";
+  const MEASURE_LINE_LAYER_ID = "odwrotnamapa-measure-line";
+  const MEASURE_POINTS_LAYER_ID = "odwrotnamapa-measure-points";
 
   const text = {
     pl: {
@@ -3434,6 +3437,36 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     } catch (_) {}
   }
 
+  function getAccentColor() {
+    return state.theme === "custom" && state.customPalette?.uiAccent
+      ? state.customPalette.uiAccent
+      : "#dc2626";
+  }
+
+  // Elementy rysowane bezpośrednio na płótnie mapy (linia trasy,
+  // linia pomiaru odległości) NIE reagują na zmienne CSS (--accent) -
+  // MapLibre wymaga jawnego ustawienia koloru przez JS. Dlatego przy
+  // każdej zmianie koloru akcentu trzeba je też ręcznie odświeżyć,
+  // inaczej zostają przy starym, domyślnym czerwonym bez względu na
+  // wybraną paletę.
+  function updateAccentDependentMapLayers() {
+    const accent = getAccentColor();
+
+    if (map.getLayer(MEASURE_LINE_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_LINE_LAYER_ID, "line-color", accent);
+    }
+    if (map.getLayer(MEASURE_POINTS_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_POINTS_LAYER_ID, "circle-stroke-color", accent);
+    }
+
+    // Kolor trasy koduje też tryb podróży (rower/pieszo mają swoje
+    // własne, stałe kolory) - akcent dotyczy tylko trybu domyślnego
+    // ("auto"), żeby nie zaburzać tego rozróżnienia.
+    if (map.getLayer(CONFIG.routing.lineLayerId) && getSelectedRouteMode() === "auto") {
+      map.setPaintProperty(CONFIG.routing.lineLayerId, "line-color", accent);
+    }
+  }
+
   function applyCustomUiColors(palette) {
     const root = document.documentElement.style;
     root.setProperty("--accent", palette.uiAccent);
@@ -3448,6 +3481,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       `color-mix(in srgb, ${palette.uiText} 65%, transparent)`
     );
     applyUiPanelTexture();
+    updateAccentDependentMapLayers();
   }
 
   function clearCustomUiColors() {
@@ -3458,6 +3492,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     root.removeProperty("--panel-muted");
     root.removeProperty("--text");
     root.removeProperty("--muted");
+    updateAccentDependentMapLayers();
   }
 
   function hasPaint(layer, key) {
@@ -10288,7 +10323,7 @@ function updateRouteClickHint() {
           visibility: "none"
         },
         paint: {
-          "line-color": "#dc2626",
+          "line-color": getAccentColor(),
           "line-width": 5.5,
           "line-opacity": 0.96
         }
@@ -10329,7 +10364,7 @@ function drawRoute(geometry, from, to, mode) {
     map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "visible");
 
     const routeColors = {
-      auto: "#dc2626",
+      auto: getAccentColor(),
       bicycle: "#16a34a",
       pedestrian: "#ea580c"
     };
@@ -12595,10 +12630,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     );
   }
 
-  const MEASURE_SOURCE_ID = "odwrotnamapa-measure";
-  const MEASURE_LINE_LAYER_ID = "odwrotnamapa-measure-line";
-  const MEASURE_POINTS_LAYER_ID = "odwrotnamapa-measure-points";
-
   function haversineDistanceMeters(a, b) {
     const R = 6371000;
     const toRad = deg => (deg * Math.PI) / 180;
@@ -12639,7 +12670,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       filter: ["==", ["geometry-type"], "LineString"],
       layout: { "line-cap": "round", "line-join": "round" },
       paint: {
-        "line-color": "#dc2626",
+        "line-color": getAccentColor(),
         "line-width": 3,
         "line-dasharray": [2, 1]
       }
@@ -12654,7 +12685,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         "circle-radius": 5,
         "circle-color": "#ffffff",
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#dc2626"
+        "circle-stroke-color": getAccentColor()
       }
     });
   }
