@@ -4,7 +4,7 @@
 // wyszukiwania/trasowania - to wymagałoby dużo większego
 // projektu (limity pamięci, dobór obszaru do zapisania itd.).
 
-const CACHE_VERSION = "shell-v45-20260804";
+const CACHE_VERSION = "shell-v66-20260804";
 
 // Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
 // z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do
@@ -209,10 +209,15 @@ self.addEventListener("fetch", event => {
 
   // Najpierw sieć (żeby zawsze dostawać najświeższą wersję, gdy
   // jest internet), a dopiero gdy sieć zawiedzie - zapisana kopia.
+  // "cache: no-store" jest tu kluczowe: bez tego zwykły fetch()
+  // potrafi po cichu oddać odpowiedź z WŁASNEGO cache HTTP
+  // przeglądarki (zgodnie z nagłówkami Cache-Control z hostingu),
+  // więc "sieć" wcale nie musi oznaczać świeżych danych - trzeba to
+  // jawnie wymusić.
   event.respondWith(
     (async () => {
       try {
-        const response = await fetch(request);
+        const response = await fetch(request, { cache: "no-store" });
         if (response && response.ok) {
           const cache = await caches.open(CACHE_VERSION);
           cache.put(request, response.clone());

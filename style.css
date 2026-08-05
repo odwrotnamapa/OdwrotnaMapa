@@ -2061,6 +2061,87 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 
+.place-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  margin: 6px 10px;
+}
+
+.place-rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.place-rating-star {
+  position: relative;
+  display: inline-block;
+  width: 1.3rem;
+  height: 1.3rem;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.place-rating-star-track {
+  color: var(--border);
+}
+
+.place-rating-star-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--muted);
+  pointer-events: none;
+  transition: width 80ms ease;
+}
+
+.place-rating-star-fill.is-mine {
+  color: var(--accent);
+}
+
+.place-rating-star-hit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.place-rating-star-hit-half {
+  left: 0;
+}
+
+.place-rating-star-hit-full {
+  left: 50%;
+}
+
+.place-rating-summary {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.place-rating-delete {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.place-rating-delete:hover,
+.place-rating-delete:focus-visible {
+  color: var(--accent);
+}
+
 .place-departures {
   margin: 4px 10px 0;
   padding: 12px 6px 6px;
@@ -4070,6 +4151,70 @@ div.maplibregl-ctrl-scale {
   font-size: 0.82rem;
   color: var(--text);
   margin: 0;
+}
+
+.account-activity-status {
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 8px 0;
+}
+
+.account-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-activity-item {
+  border: 1px solid var(--border);
+}
+
+.account-activity-item-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.account-activity-item-open {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  padding: 8px 10px;
+  cursor: default;
+}
+
+button.account-activity-item-open {
+  cursor: pointer;
+}
+
+button.account-activity-item-open:hover,
+button.account-activity-item-open:focus-visible {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.account-activity-item-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.account-activity-item-stars {
+  flex-shrink: 0;
+  font-size: 0.74rem;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 .account-sync-scope {

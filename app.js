@@ -290,6 +290,17 @@
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
       favoritesTitle: "Ulubione",
+      ratingStars: "gwiazdek",
+      ratingLoading: "Wczytywanie ocen…",
+      ratingNone: "Brak ocen - bądź pierwszy/a",
+      ratingError: "Nie udało się wczytać ocen.",
+      ratingSaving: "Zapisywanie oceny…",
+      ratingDelete: "Usuń ocenę",
+      ratingLoginHint: "Zaloguj się (Konto), żeby ocenić to miejsce",
+      activityLoading: "Wczytywanie…",
+      activityLoginNeeded: "Zaloguj się, żeby zobaczyć swoją aktywność.",
+      activityEmpty: "Nie oceniłeś/aś jeszcze żadnego miejsca.",
+      activityError: "Nie udało się wczytać aktywności.",
       favoritesEmpty: "Brak ulubionych.",
       favoriteEdit: "Edytuj",
       favoriteEditTitle: "Edytuj miejsce",
@@ -369,6 +380,7 @@
       accountPush: "⬆ Wyślij zaznaczone",
       accountPull: "⬇ Pobierz zaznaczone",
       accountLogout: "Wyloguj",
+      accountActivity: "Aktywność",
       accountRevealSummary: "Pokaż frazę seed",
       accountActivated: "Konto aktywowane na tym urządzeniu.",
       accountLoggedInPulling: "Zalogowano - pobieranie zapisanych ustawień z chmury…",
@@ -699,6 +711,17 @@
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
       favoritesTitle: "Favorites",
+      ratingStars: "stars",
+      ratingLoading: "Loading ratings…",
+      ratingNone: "No ratings yet - be the first",
+      ratingError: "Couldn't load ratings.",
+      ratingSaving: "Saving rating…",
+      ratingDelete: "Delete rating",
+      ratingLoginHint: "Log in (Account) to rate this place",
+      activityLoading: "Loading…",
+      activityLoginNeeded: "Log in to see your activity.",
+      activityEmpty: "You haven't rated any places yet.",
+      activityError: "Couldn't load your activity.",
       favoritesEmpty: "No favorites yet.",
       favoriteEdit: "Edit",
       favoriteEditTitle: "Edit place",
@@ -778,6 +801,7 @@
       accountPush: "⬆ Send selected",
       accountPull: "⬇ Pull selected",
       accountLogout: "Log out",
+      accountActivity: "Activity",
       accountRevealSummary: "Show seed phrase",
       accountActivated: "Account activated on this device.",
       accountLoggedInPulling: "Logged in - fetching your saved settings from the cloud…",
@@ -1689,6 +1713,11 @@
     accountPushButton: $("account-push-button"),
     accountPullButton: $("account-pull-button"),
     accountLogoutButton: $("account-logout-button"),
+    accountActivityButton: $("account-activity-button"),
+    accountScreenActivity: $("account-screen-activity"),
+    accountActivityBackButton: $("account-activity-back-button"),
+    accountActivityStatus: $("account-activity-status"),
+    accountActivityList: $("account-activity-list"),
     accountRevealDetails: $("account-reveal-details"),
     accountRevealSummary: $("account-reveal-summary"),
     accountSeedRevealWords: $("account-seed-reveal-words"),
@@ -2559,6 +2588,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.accountPushButton) el.accountPushButton.textContent = t.accountPush;
     if (el.accountPullButton) el.accountPullButton.textContent = t.accountPull;
     if (el.accountLogoutButton) el.accountLogoutButton.textContent = t.accountLogout;
+    if (el.accountActivityButton) el.accountActivityButton.textContent = `📋 ${t.accountActivity}`;
     if (el.accountRevealSummary) el.accountRevealSummary.textContent = t.accountRevealSummary;
     if (el.accountSeedRevealCopyButton) el.accountSeedRevealCopyButton.textContent = t.accountSeedCopy;
     if (el.accountDisplayName && !el.accountDisplayName.dataset.hasCustomName) {
@@ -6776,6 +6806,51 @@ function showUserLocationMarker(lngLat) {
   }
 
   // Wywoływana tylko dla świadomie wybranego miejsca.
+  // Otwiera panel miejsca Z GOTOWYMI danymi (bez żadnego wyszukiwania
+  // w sieci) - dokładnie ta sama sekwencja co przy kliknięciu na
+  // mapę (showPlaceInformation), tylko pomijamy fetchPlaceInformation
+  // (odwrotne geokodowanie), które i tak zwróciłoby cokolwiek innego
+  // najbliższego tym współrzędnym, a nie dokładnie to miejsce.
+  function openKnownPlaceOnMap(place, lngLat) {
+    window.OMAP_SEARCH_SESSION?.cancel?.();
+    state.tripOriginStack = [];
+    state.tripContextStack = [];
+    state.selectedPlace = null;
+    state.placeRequestController?.abort();
+    state.placeRequestController = null;
+    state.placePanelLngLat = lngLat;
+
+    showSelectedPlaceMarker(lngLat);
+    openPlacePanel();
+
+    if (el.placePanelContent) {
+      el.placePanelContent.replaceChildren(
+        createPlaceCard(place, lngLat)
+      );
+    }
+
+    state.selectedPlace = place;
+    stabilizeMobilePlacePanelHeight();
+
+    if (!state.isRestoringFromPopstate) {
+      const title = place.name || place.display_name?.split(",")[0] || "";
+      if (title) {
+        window.OMAP_URL_STATE?.setPlaceUrl({
+          label: title,
+          lat: lngLat.lat,
+          lon: lngLat.lng,
+          osmType: place.osm_type,
+          osmId: place.osm_id
+        });
+      }
+    }
+
+    el.placePanel?.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
   async function showPlaceInformation(event) {
     window.OMAP_SEARCH_SESSION?.cancel?.();
     clearPlacePanelReturnTarget();
@@ -6960,6 +7035,60 @@ function showUserLocationMarker(lngLat) {
       office: nearest.tags.office,
       tourism: nearest.tags.tourism
     };
+  }
+
+  // Fallback dla wpisów bez osm_type/osm_id (np. miasta z lokalnego
+  // indeksu miast, albo charakterystyczne miejsca z indeksu "named
+  // POI" - żadne z tych dwóch źródeł w ogóle nie przypisuje
+  // identyfikatorów OSM) - reverse geocoding, ale ze SZTYWNYM,
+  // dobranym poziomem przybliżenia (zoom w skali Nominatim), zamiast
+  // domyślnego maksimum, które łapało przypadkowy sklep/restaurację
+  // obok zamiast właściwego miejsca.
+  async function fetchPlaceByReverseAtZoom(lat, lon, zoom, signal) {
+    const requestUrl = new URL(CONFIG.search.reverseEndpoint);
+    requestUrl.searchParams.set("lat", String(lat));
+    requestUrl.searchParams.set("lon", String(lon));
+    requestUrl.searchParams.set("format", "jsonv2");
+    requestUrl.searchParams.set("addressdetails", "1");
+    requestUrl.searchParams.set("extratags", "1");
+    requestUrl.searchParams.set("namedetails", "1");
+    requestUrl.searchParams.set("accept-language", state.language);
+    requestUrl.searchParams.set("zoom", String(zoom));
+
+    const response = await fetch(requestUrl, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Nominatim reverse (zoom ${zoom}) HTTP ${response.status}`);
+    return response.json();
+  }
+
+  // W przeciwieństwie do fetchPlaceInformation (reverse - "co jest
+  // najbliżej tych współrzędnych") to pyta o KONKRETNY, znany obiekt
+  // OSM po jego typie+id - zero niejednoznaczności, a mimo to daje
+  // te same bogate dane (kategoria, Wikipedia, strona itd.).
+  async function fetchPlaceByOsmId(osmType, osmId, signal) {
+    const prefix = { node: "N", way: "W", relation: "R" }[osmType];
+    if (!prefix || !osmId) return null;
+
+    const requestUrl = new URL(
+      CONFIG.search.reverseEndpoint.replace(/\/reverse$/, "/lookup")
+    );
+    requestUrl.searchParams.set("osm_ids", `${prefix}${osmId}`);
+    requestUrl.searchParams.set("format", "jsonv2");
+    requestUrl.searchParams.set("addressdetails", "1");
+    requestUrl.searchParams.set("extratags", "1");
+    requestUrl.searchParams.set("namedetails", "1");
+    requestUrl.searchParams.set("accept-language", state.language);
+
+    const response = await fetch(requestUrl, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Nominatim lookup HTTP ${response.status}`);
+
+    const results = await response.json();
+    return Array.isArray(results) && results.length ? results[0] : null;
   }
 
   async function fetchPlaceInformation(lon, lat, signal) {
@@ -7202,6 +7331,30 @@ function showUserLocationMarker(lngLat) {
     if (type.textContent) headingCopy.appendChild(type);
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
+
+    const ratingUi = createRatingSection(
+      getFavoriteKey(place, lngLat),
+      {
+        label: state.customPlaceNames[placeNameKey] || originalPlaceTitle,
+        lat: Number(lngLat.lat),
+        lon: Number(lngLat.lng),
+        osmType: place.osm_type || "",
+        osmId: place.osm_id || "",
+        placeType: place.type || "",
+        placeSnapshot: {
+          name: place.name,
+          display_name: place.display_name,
+          type: place.type,
+          category: place.category,
+          class: place.class,
+          address: place.address,
+          extratags: place.extratags,
+          namedetails: place.namedetails
+        }
+      }
+    );
+    card.appendChild(ratingUi.section);
+    loadPlaceRatingsForPlace(getFavoriteKey(place, lngLat), ratingUi);
 
     const isNamedSettlement =
       ["city", "town", "village"].includes(
@@ -8319,6 +8472,205 @@ function showUserLocationMarker(lngLat) {
       "subway_entrance",
       "railway"
     ].some(token => joined.includes(token));
+  }
+
+  function createRatingSection(placeKey, placeMeta) {
+    const t = text[state.language];
+
+    const section = document.createElement("section");
+    section.className = "place-rating";
+
+    const starsRow = document.createElement("div");
+    starsRow.className = "place-rating-stars";
+    starsRow.setAttribute("role", "group");
+    starsRow.setAttribute("aria-label", t.ratingStars);
+
+    // Każda gwiazdka to dwie nałożone kopie glifu (szare tło +
+    // kolorowe wypełnienie przycinane szerokością 0/50/100%) plus
+    // dwie niewidoczne strefy kliknięcia (lewa/prawa połówka) - to
+    // pozwala ocenić na pełne i połówkowe wartości (np. 2,5).
+    const stars = [];
+    for (let value = 1; value <= 5; value++) {
+      const star = document.createElement("span");
+      star.className = "place-rating-star";
+
+      const track = document.createElement("span");
+      track.className = "place-rating-star-track";
+      track.textContent = "★";
+      track.setAttribute("aria-hidden", "true");
+
+      const fill = document.createElement("span");
+      fill.className = "place-rating-star-fill";
+      fill.textContent = "★";
+      fill.style.width = "0%";
+      fill.setAttribute("aria-hidden", "true");
+
+      const hitHalf = document.createElement("button");
+      hitHalf.type = "button";
+      hitHalf.className = "place-rating-star-hit place-rating-star-hit-half";
+      hitHalf.setAttribute("aria-label", `${value - 0.5} ${t.ratingStars}`);
+
+      const hitFull = document.createElement("button");
+      hitFull.type = "button";
+      hitFull.className = "place-rating-star-hit place-rating-star-hit-full";
+      hitFull.setAttribute("aria-label", `${value} ${t.ratingStars}`);
+
+      star.append(track, fill, hitHalf, hitFull);
+      starsRow.appendChild(star);
+      stars.push({ fill });
+
+      hitHalf.addEventListener("mouseenter", () => previewRatingStars(stars, value - 0.5));
+      hitFull.addEventListener("mouseenter", () => previewRatingStars(stars, value));
+
+      hitHalf.addEventListener("click", () => {
+        submitPlaceRating(placeKey, placeMeta, value - 0.5, { stars, summary });
+      });
+      hitFull.addEventListener("click", () => {
+        submitPlaceRating(placeKey, placeMeta, value, { stars, summary });
+      });
+    }
+
+    starsRow.addEventListener("mouseleave", () => restoreRatingStars(stars));
+
+    const summary = document.createElement("span");
+    summary.className = "place-rating-summary";
+    summary.textContent = t.ratingLoading;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "place-rating-delete";
+    deleteButton.textContent = "🗑";
+    deleteButton.title = t.ratingDelete;
+    deleteButton.setAttribute("aria-label", t.ratingDelete);
+    deleteButton.hidden = true;
+
+    section.append(starsRow, summary, deleteButton);
+
+    deleteButton.addEventListener("click", () => {
+      deletePlaceRating(placeKey, { stars, summary, deleteButton });
+    });
+
+    return { section, stars, summary, deleteButton };
+  }
+
+  function paintRatingStars(stars, value, isMine) {
+    stars.forEach((star, index) => {
+      const starPosition = index + 1;
+      let fillPercent = 0;
+      if (value >= starPosition) fillPercent = 100;
+      else if (value >= starPosition - 0.5) fillPercent = 50;
+
+      star.fill.style.width = `${fillPercent}%`;
+      star.fill.classList.toggle("is-mine", isMine && fillPercent > 0);
+    });
+    // Zapamiętujemy "prawdziwy" stan bezpośrednio na tablicy gwiazdek,
+    // żeby po zjechaniu myszką (mouseleave) było do czego wrócić -
+    // podgląd na hover nie może nadpisać tego na stałe.
+    stars.committedValue = value;
+    stars.committedIsMine = isMine;
+  }
+
+  function previewRatingStars(stars, value) {
+    stars.forEach((star, index) => {
+      const starPosition = index + 1;
+      let fillPercent = 0;
+      if (value >= starPosition) fillPercent = 100;
+      else if (value >= starPosition - 0.5) fillPercent = 50;
+
+      star.fill.style.width = `${fillPercent}%`;
+      star.fill.classList.toggle("is-mine", fillPercent > 0);
+    });
+  }
+
+  function restoreRatingStars(stars) {
+    paintRatingStars(stars, stars.committedValue || 0, Boolean(stars.committedIsMine));
+  }
+
+  async function loadPlaceRatingsForPlace(placeKey, ui) {
+    const t = text[state.language];
+    const transport = window.OMAP_SYNC_TRANSPORT;
+    if (!transport) {
+      ui.summary.textContent = "";
+      return;
+    }
+
+    try {
+      const seedWords = getStoredSeedWords();
+      let myPubKeyHex = null;
+      if (seedWords) {
+        const cryptoApi = window.OMAP_SYNC_CRYPTO;
+        const nostrLib = await transport.waitForNostrLib();
+        const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+        myPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
+      }
+
+      const result = await transport.fetchRatings(placeKey, myPubKeyHex);
+
+      if (result.count > 0) {
+        ui.summary.textContent = `${result.average.toFixed(1)} ★ (${result.count})`;
+        paintRatingStars(ui.stars, result.average, false);
+      } else {
+        ui.summary.textContent = t.ratingNone;
+      }
+
+      if (result.myRating) {
+        paintRatingStars(ui.stars, result.myRating, true);
+      }
+      if (ui.deleteButton) ui.deleteButton.hidden = !result.myRating;
+
+      ui.summary.title = seedWords ? "" : t.ratingLoginHint;
+    } catch (error) {
+      console.error("Nie udało się pobrać ocen miejsca:", error);
+      ui.summary.textContent = t.ratingError;
+    }
+  }
+
+  async function submitPlaceRating(placeKey, placeMeta, value, ui) {
+    const t = text[state.language];
+    const seedWords = getStoredSeedWords();
+
+    if (!seedWords) {
+      openAccountFromMenu();
+      return;
+    }
+
+    ui.summary.textContent = t.ratingSaving;
+
+    try {
+      const cryptoApi = window.OMAP_SYNC_CRYPTO;
+      const transport = window.OMAP_SYNC_TRANSPORT;
+      const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+
+      await transport.publishRating(nostrPrivKeyBytes, placeKey, value, placeMeta);
+      paintRatingStars(ui.stars, value, true);
+      await loadPlaceRatingsForPlace(placeKey, ui);
+    } catch (error) {
+      console.error("Nie udało się wysłać oceny:", error);
+      ui.summary.textContent = t.ratingError;
+    }
+  }
+
+  async function deletePlaceRating(placeKey, ui) {
+    const t = text[state.language];
+    const seedWords = getStoredSeedWords();
+    if (!seedWords) return;
+
+    ui.summary.textContent = t.ratingSaving;
+    if (ui.deleteButton) ui.deleteButton.hidden = true;
+
+    try {
+      const cryptoApi = window.OMAP_SYNC_CRYPTO;
+      const transport = window.OMAP_SYNC_TRANSPORT;
+      const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+
+      await transport.deleteRating(nostrPrivKeyBytes, placeKey);
+      paintRatingStars(ui.stars, 0, false);
+      await loadPlaceRatingsForPlace(placeKey, ui);
+    } catch (error) {
+      console.error("Nie udało się usunąć oceny:", error);
+      ui.summary.textContent = t.ratingError;
+      if (ui.deleteButton) ui.deleteButton.hidden = false;
+    }
   }
 
   function createDeparturesSection() {
@@ -12848,14 +13200,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     }
   }
 
-  const ACCOUNT_SCREENS = ["home", "login", "register", "loggedin"];
+  const ACCOUNT_SCREENS = ["home", "login", "register", "loggedin", "activity"];
 
   function showAccountScreen(name) {
     const map = {
       home: el.accountScreenHome,
       login: el.accountScreenLogin,
       register: el.accountScreenRegister,
-      loggedin: el.accountScreenLoggedIn
+      loggedin: el.accountScreenLoggedIn,
+      activity: el.accountScreenActivity
     };
     for (const key of ACCOUNT_SCREENS) {
       if (map[key]) map[key].hidden = key !== name;
@@ -13004,7 +13357,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     if (el.accountRevealDetails) el.accountRevealDetails.open = false;
     if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
 
-    showAccountScreen("loggedin");
+    // Nie wyrzucamy z ekranu "Aktywność", jeśli użytkownik akurat go
+    // przegląda - w przeciwnym razie cicha synchronizacja w tle (co
+    // kilka minut) resetowałaby widok bez żadnego powodu.
+    const isBrowsingActivity = el.accountScreenActivity && !el.accountScreenActivity.hidden;
+    if (!isBrowsingActivity) {
+      showAccountScreen("loggedin");
+    }
     scheduleAutoSyncCheck();
   }
 
@@ -13801,6 +14160,173 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   });
 
   el.accountLogoutButton?.addEventListener("click", handleLogoutAccount);
+  el.accountActivityBackButton?.addEventListener("click", () => showAccountScreen("loggedin"));
+  el.accountActivityButton?.addEventListener("click", () => {
+    showAccountScreen("activity");
+    loadMyRatingsActivity();
+  });
+
+  async function loadMyRatingsActivity() {
+    const t = text[state.language];
+    if (!el.accountActivityStatus || !el.accountActivityList) return;
+
+    el.accountActivityList.replaceChildren();
+    el.accountActivityStatus.hidden = false;
+    el.accountActivityStatus.textContent = t.activityLoading;
+
+    const seedWords = getStoredSeedWords();
+    if (!seedWords) {
+      el.accountActivityStatus.textContent = t.activityLoginNeeded;
+      return;
+    }
+
+    try {
+      const cryptoApi = window.OMAP_SYNC_CRYPTO;
+      const transport = window.OMAP_SYNC_TRANSPORT;
+      const nostrLib = await transport.waitForNostrLib();
+      const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+      const myPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
+
+      const ratings = await transport.fetchMyRatings(myPubKeyHex);
+
+      if (!ratings.length) {
+        el.accountActivityStatus.textContent = t.activityEmpty;
+        return;
+      }
+
+      el.accountActivityStatus.hidden = true;
+      const fragment = document.createDocumentFragment();
+
+      ratings.forEach(entry => {
+        const item = document.createElement("li");
+        item.className = "account-activity-item";
+
+        const hasCoords = Number.isFinite(entry.lat) && Number.isFinite(entry.lon);
+
+        const button = document.createElement(hasCoords ? "button" : "div");
+        button.className = "account-activity-item-open";
+        if (hasCoords) button.type = "button";
+
+        const label = document.createElement("span");
+        label.className = "account-activity-item-label";
+        label.textContent = entry.label || entry.placeKey;
+
+        const stars = document.createElement("span");
+        stars.className = "account-activity-item-stars";
+        const fullStars = Math.floor(entry.rating);
+        const hasHalf = entry.rating - fullStars === 0.5;
+        stars.textContent =
+          "★".repeat(fullStars) +
+          (hasHalf ? "⯨" : "") +
+          "☆".repeat(5 - fullStars - (hasHalf ? 1 : 0)) +
+          ` ${entry.rating}`;
+
+        button.append(label, stars);
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title = t.ratingDelete;
+        removeButton.setAttribute("aria-label", t.ratingDelete);
+        removeButton.addEventListener("click", async () => {
+          const seedWordsForDelete = getStoredSeedWords();
+          if (!seedWordsForDelete) return;
+
+          removeButton.disabled = true;
+          try {
+            const cryptoApi = window.OMAP_SYNC_CRYPTO;
+            const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWordsForDelete);
+            await transport.deleteRating(nostrPrivKeyBytes, entry.placeKey);
+            item.remove();
+            if (!el.accountActivityList.children.length) {
+              el.accountActivityStatus.hidden = false;
+              el.accountActivityStatus.textContent = t.activityEmpty;
+            }
+          } catch (error) {
+            console.error("Nie udało się usunąć oceny:", error);
+            removeButton.disabled = false;
+          }
+        });
+
+        const row = document.createElement("div");
+        row.className = "account-activity-item-row";
+        row.append(button, removeButton);
+        item.append(row);
+
+        if (hasCoords) {
+          button.addEventListener("click", async () => {
+            const displayLabel = entry.label || entry.placeKey;
+            closeAccount();
+
+            const lngLat = { lat: entry.lat, lng: entry.lon };
+            const minimalPlace = {
+              name: displayLabel,
+              display_name: displayLabel,
+              lat: entry.lat,
+              lon: entry.lon,
+              osm_type: entry.osmType || undefined,
+              osm_id: entry.osmId || undefined,
+              address: {},
+              extratags: {}
+            };
+
+            // Pokazujemy od razu (bez czekania na sieć), a jeśli mamy
+            // OSM id - dociągamy w tle pełne dane (kategoria, Wikipedia,
+            // strona) precyzyjnym zapytaniem PO ID, nie po współrzędnych,
+            // więc nie ma ryzyka trafienia w inny obiekt.
+            openKnownPlaceOnMap(minimalPlace, lngLat);
+
+            map.flyTo({
+              center: [entry.lon, entry.lat],
+              zoom: 16,
+              bearing: 180
+            });
+
+            if (entry.placeSnapshot && entry.placeSnapshot.name) {
+              // Migawka zapisana w momencie oceniania - dokładnie te
+              // same dane, które wtedy pokazała karta miejsca. Zero
+              // zapytań do sieci, zero zgadywania.
+              openKnownPlaceOnMap(entry.placeSnapshot, lngLat);
+              return;
+            }
+
+            try {
+              const isCityLike = ["city", "town", "village"].includes(
+                String(entry.placeType || "").toLowerCase()
+              );
+              const fullPlace = entry.osmType && entry.osmId
+                ? await fetchPlaceByOsmId(entry.osmType, entry.osmId)
+                : await fetchPlaceByReverseAtZoom(
+                    entry.lat,
+                    entry.lon,
+                    isCityLike ? 10 : 18
+                  );
+
+              if (
+                fullPlace &&
+                state.placePanelLngLat === lngLat &&
+                !el.placePanel?.hidden
+              ) {
+                openKnownPlaceOnMap(fullPlace, lngLat);
+              }
+            } catch (error) {
+              console.error("Nie udało się dociągnąć pełnych danych miejsca:", error);
+            }
+          });
+        }
+
+        fragment.appendChild(item);
+      });
+
+      el.accountActivityList.appendChild(fragment);
+    } catch (error) {
+      console.error("Nie udało się wczytać aktywności:", error);
+      el.accountActivityStatus.hidden = false;
+      el.accountActivityStatus.textContent = t.activityError;
+    }
+  }
+
 
   function toggleLegend() {
     closeMapContextMenu();
