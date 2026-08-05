@@ -27,3 +27,6 @@ android/app/*.iml
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Jednorazowe narzędzia diagnostyczne, nie część appki
+liczba-kont.html
