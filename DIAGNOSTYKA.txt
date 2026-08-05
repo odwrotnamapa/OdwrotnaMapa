@@ -1,14 +1,102 @@
-Wersja diagnostyczna oparta bezpośrednio na przesłanym archiwum OdwrotnaMapa(3).zip.
+Znane wzorce błędów — Odwrotna Mapa
+(Ostatnia aktualizacja: 2026-08-05)
 
-Nie zmieniono:
-- rankingu,
-- providerów,
-- inicjalizacji,
-- wyboru wyniku,
-- panelu informacji.
+Ten plik zastąpił starą, jednorazową notatkę diagnostyczną z sesji
+GPT (opisywała dodane logi konsoli do debugowania wyszukiwarki -
+nieaktualne, usunięte). Teraz to log POWTARZALNYCH KLAS błędów
+złapanych podczas pracy nad tą appką - żeby nie tracić czasu na
+odkrywanie tego samego drugi raz. Dopisuj tu, kiedy trafisz na coś,
+co się już kiedyś zdarzyło w innej formie.
 
-Dodano wyłącznie logi konsoli:
-- [OMapa diagnostyka] wyszukiwanie
-- wyniki wyszukiwarki
-- wybrany wynik
-- [OMapa diagnostyka] panel dostał
+---
+
+1. ReferenceError zatrzymujący cały skrypt (temporal dead zone)
+
+Objaw: mapa się ładuje, ale ŻADEN przycisk/panel nie reaguje.
+Konsola może (ale nie musi) pokazać "Cannot access 'X' before
+initialization" - zależy, czy zdążyłeś ją otworzyć przed
+odświeżeniem.
+
+Przyczyna: nowa stała (const/let) zadeklarowana nisko w app.js, ale
+używana przez coś wywoływane już przy starcie (typowo: wewnątrz
+updateUI() albo funkcji przez nią wołanych). JS wykonuje plik od
+góry do dołu - odwołanie się do stałej PRZED jej deklaracją rzuca
+błąd i zatrzymuje cały dalszy skrypt, w tym podpięcie wszystkich
+przycisków.
+
+Naprawa: nowe stałe używane wcześnie w cyklu życia appki (np.
+identyfikatory warstw mapy, limity, mapy ikon) deklarować blisko
+góry pliku, obok UNFILED_FOLDER/MEASURE_*/ROUTE_*.
+
+Trafialiśmy na to min. 3 razy przy rozwoju folderów/tras/pomiaru
+powierzchni.
+
+---
+
+2. CSS [hidden] przegrywa z unconditional display:
+
+Objaw: element, który JS poprawnie ukrywa (`el.x.hidden = true`),
+mimo to jest widoczny. Zwykle wygląda jak "wszystko pokazuje się
+naraz" albo "ten element wisi na stałe".
+
+Przyczyna: reguła CSS ustawiająca `display: flex/grid/block` na tej
+klasie BEZ selektora `:not([hidden])` przebija natywne zachowanie
+atrybutu `hidden` (które samo w sobie ustawia `display: none`).
+
+Naprawa: `.klasa:not([hidden]) { display: ...; }` zamiast
+`.klasa { display: ...; }`, ALBO jawne `.klasa[hidden] { display:
+none; }` obok.
+
+Złapane w: panelu konta (account-screen), formularzu nowego folderu,
+menu przenoszenia ulubionych (to ostatnie ostatecznie usunięte na
+rzecz drag & drop).
+
+---
+
+3. Cichy fallback nie do odróżnienia od "naprawdę pusto"
+
+Objaw: dane WYGLĄDAJĄ jakby zniknęły (np. "wszystkie oceny
+zniknęły"), choć nic ich realnie nie usunęło.
+
+Przyczyna: kod przy timeout/błędzie sieci cicho zwraca pustą
+tablicę/null zamiast rzucić błąd - a to jest wizualnie identyczne z
+"naprawdę nic tu nie ma". Jeśli taki wynik dodatkowo trafia do
+cache'a, złudzenie utraty danych utrzymuje się długo.
+
+Naprawa: przy timeout/błędzie RZUCAJ błąd (żeby trafił do istniejącej
+obsługi błędów pokazującej "nie udało się wczytać"), nie zwracaj
+cichego pustego wyniku. Nigdy nie cache'uj wyniku ze ścieżki błędu.
+
+Złapane w: fetchRatings/fetchMyRatings (limit czasu 2,5s zwracał []
+zamiast rzucać błąd).
+
+---
+
+4. Dwa niezależne numery wersji cache - łatwo podbić tylko jeden
+
+sw.js ma CACHE_VERSION, ALE index.html ma OSOBNY, niezależny numer
+`?v=...` przy app.js i style.css. Podbicie tylko jednego z nich
+oznacza, że przeglądarka może dalej serwować starą wersję drugiego
+pliku spod tego samego adresu URL (bez zmiany URL, browser cache HTTP
+nie ma powodu uznać zasobu za nieaktualny).
+
+Naprawa: przy każdej zmianie app.js/style.css podbijaj OBA numery, i
+weryfikuj bezpośrednio w wysyłanym pliku (nie tylko w katalogu
+roboczym), że faktycznie się zmieniły - `sed`/regex bez dopasowania
+cicho nic nie robi, jeśli szukany stary string już nie pasuje do
+rzeczywistości w pliku.
+
+---
+
+5. Root vs www/ - łatwo edytować jedno, wysłać drugie
+
+Katalog roboczy do edycji to www/ (albo odwrotnie, zależnie od
+przyjętej konwencji w danej sesji) - ale pliki faktycznie wysyłane
+usera muszą pochodzić z ROOT. Kilka razy zdarzyło się skopiować
+app.js/style.css do root, ale zapomnieć o index.html (bo zmiana
+"czuła się" jak zmiana w JS, a nie w HTML), przez co user dostawał
+plik bez nowo dodanych elementów DOM mimo poprawnego JS.
+
+Naprawa: po KAŻDEJ zmianie dotykającej HTML, jawnie zweryfikować
+grep-em w PLIKU W /mnt/user-data/outputs (nie w katalogu roboczym),
+że nowy element faktycznie tam jest, zanim ogłosisz gotowość.
