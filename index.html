@@ -64,7 +64,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260804400000">
+  <link rel="stylesheet" href="style.css?v=20260804410000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -946,7 +946,10 @@
 
       <section id="account-screen-activity" class="account-screen" hidden>
         <button id="account-activity-back-button" type="button" class="account-subback-button">← Wstecz</button>
-        <p class="account-screen-heading">Twoje oceny</p>
+        <div class="account-activity-heading-row">
+          <p class="account-screen-heading">Twoje oceny</p>
+          <button id="account-activity-refresh-button" type="button" class="account-activity-refresh" aria-label="Odśwież">🔄</button>
+        </div>
         <div id="account-activity-status" class="account-activity-status"></div>
         <ul id="account-activity-list" class="account-activity-list"></ul>
       </section>
@@ -1305,6 +1308,6 @@
     }
   </script>
 
-  <script src="app.js?v=20260804400000"></script>
+  <script src="app.js?v=20260804410000"></script>
 </body>
 </html>

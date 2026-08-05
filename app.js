@@ -381,6 +381,7 @@
       accountPull: "⬇ Pobierz zaznaczone",
       accountLogout: "Wyloguj",
       accountActivity: "Aktywność",
+      activityRefresh: "Odśwież",
       accountRevealSummary: "Pokaż frazę seed",
       accountActivated: "Konto aktywowane na tym urządzeniu.",
       accountLoggedInPulling: "Zalogowano - pobieranie zapisanych ustawień z chmury…",
@@ -802,6 +803,7 @@
       accountPull: "⬇ Pull selected",
       accountLogout: "Log out",
       accountActivity: "Activity",
+      activityRefresh: "Refresh",
       accountRevealSummary: "Show seed phrase",
       accountActivated: "Account activated on this device.",
       accountLoggedInPulling: "Logged in - fetching your saved settings from the cloud…",
@@ -1716,6 +1718,7 @@
     accountActivityButton: $("account-activity-button"),
     accountScreenActivity: $("account-screen-activity"),
     accountActivityBackButton: $("account-activity-back-button"),
+    accountActivityRefreshButton: $("account-activity-refresh-button"),
     accountActivityStatus: $("account-activity-status"),
     accountActivityList: $("account-activity-list"),
     accountRevealDetails: $("account-reveal-details"),
@@ -2589,6 +2592,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.accountPullButton) el.accountPullButton.textContent = t.accountPull;
     if (el.accountLogoutButton) el.accountLogoutButton.textContent = t.accountLogout;
     if (el.accountActivityButton) el.accountActivityButton.textContent = `📋 ${t.accountActivity}`;
+    el.accountActivityRefreshButton?.setAttribute("aria-label", t.activityRefresh);
     if (el.accountRevealSummary) el.accountRevealSummary.textContent = t.accountRevealSummary;
     if (el.accountSeedRevealCopyButton) el.accountSeedRevealCopyButton.textContent = t.accountSeedCopy;
     if (el.accountDisplayName && !el.accountDisplayName.dataset.hasCustomName) {
@@ -14165,11 +14169,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     showAccountScreen("activity");
     loadMyRatingsActivity();
   });
+  el.accountActivityRefreshButton?.addEventListener("click", () => {
+    loadMyRatingsActivity();
+  });
 
   async function loadMyRatingsActivity() {
     const t = text[state.language];
     if (!el.accountActivityStatus || !el.accountActivityList) return;
 
+    el.accountActivityRefreshButton?.classList.add("is-spinning");
     el.accountActivityList.replaceChildren();
     el.accountActivityStatus.hidden = false;
     el.accountActivityStatus.textContent = t.activityLoading;
@@ -14177,6 +14185,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     const seedWords = getStoredSeedWords();
     if (!seedWords) {
       el.accountActivityStatus.textContent = t.activityLoginNeeded;
+      el.accountActivityRefreshButton?.classList.remove("is-spinning");
       return;
     }
 
@@ -14324,6 +14333,8 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       console.error("Nie udało się wczytać aktywności:", error);
       el.accountActivityStatus.hidden = false;
       el.accountActivityStatus.textContent = t.activityError;
+    } finally {
+      el.accountActivityRefreshButton?.classList.remove("is-spinning");
     }
   }
 

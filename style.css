@@ -4153,6 +4153,36 @@ div.maplibregl-ctrl-scale {
   margin: 0;
 }
 
+.account-activity-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.account-activity-refresh {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.account-activity-refresh:hover,
+.account-activity-refresh:focus-visible {
+  color: var(--accent);
+}
+
+.account-activity-refresh.is-spinning {
+  animation: omap-spin 0.7s linear infinite;
+}
+
+@keyframes omap-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .account-activity-status {
   font-size: 0.78rem;
   color: var(--muted);
