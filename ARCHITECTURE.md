@@ -223,6 +223,36 @@ pilnować przy każdej zmianie:**
   reguły tego samego selektora. Znalezione i naprawione:
   `.route-letter-marker` (potrójna definicja), `.menu-action`
   (podwójna) - reszta nieprzejrzana
+- **`npm run release:check` (35 skryptów w `tools/test-*.cjs`) w
+  obecnym stanie NIE jest wiarygodnym miernikiem** (sprawdzone
+  2026-08-05, uruchomione pojedynczo z pominięciem `&&`, żeby
+  zobaczyć wszystkie wyniki naraz, nie tylko pierwszy fail):
+  - `test-search.cjs` ma sztywny próg 10ms na średni czas
+    parsowania - w praktyce wynik skacze 7,9-11ms między
+    uruchomieniami na tym samym kodzie (potwierdzone: 4 uruchomienia
+    pod rząd, różne wyniki). To test wydajności zależny od
+    obciążenia maszyny, nie test poprawności - fałszywie
+    czerwony/zielony losowo.
+  - `test-architecture-2-final.cjs` i
+    `test-place-engine-complete-migration.cjs` sprawdzają dosłownie
+    obecność frazy "Zakończenie migracji Place Engine" / "stan
+    końcowy" w tym pliku. Odkąd ten opis jest uczciwy (patrz sekcja
+    "Place Engine" wyżej), te dwa checki celowo pokazują FAIL - to
+    nie regresja, to potwierdzenie że dokumentacja już nie kłamie.
+  - Reszta (~9 testów, m.in. `test-route-b-panel-open.cjs`,
+    `test-legend-about-mobile-standard.cjs`,
+    `test-unified-mobile-panel-standard.cjs`) wycina regexem
+    KONKRETNY fragment `app.js` i sprawdza w nim dokładne nazwy
+    zmiennych/kolejność linii, zamiast uruchamiać kod i sprawdzać
+    zachowanie. Zweryfikowane na jednym przykładzie
+    (`test-route-b-panel-open`): szukane zmienne
+    (`routeStageBeforeClick` itd.) wciąż istnieją w `app.js`, tylko
+    przeniosły się do innej funkcji przy wcześniejszych refaktorach
+    - test tego nie widzi, bo nie uruchamia kodu, tylko dopasowuje
+    tekst. Pozostałe faile NIE zostały jeszcze zweryfikowane
+    pojedynczo (możliwe, że część łapie coś realnego) - to
+    następny krok, jeśli komuś zależy na 100% pewności zamiast
+    samej diagnozy.
 - Brak prawdziwych testów jednostkowych/e2e dla `app.js` — cała
   weryfikacja w praktyce to `node --check` (sama składnia) + ręczne
   testowanie. Pliki w `tools/test-*.cjs` to głównie sprawdzanie
