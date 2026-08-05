@@ -23,7 +23,7 @@ Większość współczesnych map przedstawia północ na górze, więc łatwo za
 - W pełni otwarty kod źródłowy (licencja MIT)
 
 # 🇬🇧 About the project
-Most modern maps place north at the top. This is not, however, the only possible way to represent the world. **Odwrotna Mapa** (literally "Reverse Map") was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.
+Most modern maps place north at the top. This is not, however, the only possible way to represent the world. **Odwrotna Mapa** (literally "Inverted Map") was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.
 
 ...but I'd be lying if I said that's the only thing that defines this app — it offers much more value and a wealth of features, including:
 - **Place and address search** (Nominatim, Photon)
