@@ -14827,7 +14827,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       emoji: "🔧",
       queries: ["warsztat samochodowy", "mechanik", "car repair"]
     },
-    shop: { emoji: "🛒", queries: ["supermarket", "sklep spożywczy"] },
+    shop: {
+      emoji: "🛒",
+      queries: ["supermarket", "sklep spożywczy"],
+      overpassTags: [
+        [["shop", "supermarket"]],
+        [["shop", "convenience"]],
+        [["shop", "grocery"]]
+      ]
+    },
     mall: {
       emoji: "🏬",
       queries: ["centrum handlowe", "galeria handlowa"]
