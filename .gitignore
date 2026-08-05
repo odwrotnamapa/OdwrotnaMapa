@@ -4,6 +4,14 @@ npm-debug.log*
 yarn-error.log*
 package-lock.json.bak
 
+# Kopie zapasowe zostawione przypadkiem w katalogu roboczym - do
+# tego jest kontrola wersji, nie powinny trafiać do repo/deployu
+*.backup
+*.bak
+
+# Pliki blokady LibreOffice/OpenOffice
+.~lock.*#
+
 # Android / Gradle build output — regenerowane, nie powinno być w repo
 android/local.properties
 android/.gradle/
