@@ -237,22 +237,43 @@ pilnować przy każdej zmianie:**
     `test-place-engine-complete-migration.cjs` sprawdzają dosłownie
     obecność frazy "Zakończenie migracji Place Engine" / "stan
     końcowy" w tym pliku. Odkąd ten opis jest uczciwy (patrz sekcja
-    "Place Engine" wyżej), te dwa checki celowo pokazują FAIL - to
-    nie regresja, to potwierdzenie że dokumentacja już nie kłamie.
-  - Reszta (~9 testów, m.in. `test-route-b-panel-open.cjs`,
-    `test-legend-about-mobile-standard.cjs`,
-    `test-unified-mobile-panel-standard.cjs`) wycina regexem
-    KONKRETNY fragment `app.js` i sprawdza w nim dokładne nazwy
-    zmiennych/kolejność linii, zamiast uruchamiać kod i sprawdzać
-    zachowanie. Zweryfikowane na jednym przykładzie
-    (`test-route-b-panel-open`): szukane zmienne
-    (`routeStageBeforeClick` itd.) wciąż istnieją w `app.js`, tylko
-    przeniosły się do innej funkcji przy wcześniejszych refaktorach
-    - test tego nie widzi, bo nie uruchamia kodu, tylko dopasowuje
-    tekst. Pozostałe faile NIE zostały jeszcze zweryfikowane
-    pojedynczo (możliwe, że część łapie coś realnego) - to
-    następny krok, jeśli komuś zależy na 100% pewności zamiast
-    samej diagnozy.
+    "Place Engine" wyżej), pierwszy z nich celowo pokazuje FAIL - to
+    potwierdzenie, że dokumentacja już nie kłamie, nie regresja.
+    Drugi (`test-place-engine-complete-migration.cjs`) akurat
+    przechodzi, ale z niewłaściwego powodu: ten akapit, który właśnie
+    czytasz, opisuje szukaną przez niego frazę wprost, więc
+    przypadkiem zawiera dokładnie to, czego szuka - nieświadomy
+    dowód, jak zawodne jest to podejście do testowania w obie strony.
+  - **Pozostałe 9 testów (~20 pojedynczych sprawdzeń) zweryfikowane
+    JEDNO PO DRUGIM (2026-08-05) - wszystkie potwierdzone jako
+    fałszywe alarmy, żaden nie łapie realnej regresji:**
+    `test-search-session` (regex wycinający blok w ogóle się nie
+    dopasowuje - nowa funkcja wstawiona między starymi granicami),
+    `test-stale-moveend-callbacks` (jedno sprawdzenie szuka
+    świadomie zastąpionego starego schematu URL `?place=`, drugie to
+    regex bez granic łapiący dwa niepowiązane fragmenty pliku razem),
+    `test-global-named-poi-guard` + `test-place-panel-back-fix`
+    (`invalidateNamedPoiGuard()` nadal wołane w `closePlacePanel()`,
+    tylko jako 4. linijka nie 1., odkąd doszło czyszczenie URL),
+    `test-unified-mobile-panel-standard` +
+    `test-legend-about-mobile-standard` (świadoma konsolidacja -
+    WSZYSTKIE panele dolnych arkuszy współdzielą jedną zmienną CSS
+    `--sheet-height` zamiast osobnej per panel), `test-route-b-panel-open`
+    + `test-mobile-panel-replacement` + `test-route-b-persistent-menu-height`
+    (mechanizm różnicujący rozwijanie panelu trasy wg stage'u A/B
+    kliknięcia został zastąpiony prostszym, potwierdzonym z
+    użytkownikiem jako zamierzone: panel ZAWSZE rozwija się i
+    przewija do statystyk po wyznaczeniu trasy, niezależnie który
+    punkt był klikany).
+
+    **Wniosek: w obecnej formie ten zestaw testów nie wykrył ani
+    jednej prawdziwej regresji na 12 failach - same fałszywe alarmy
+    z powodu sprawdzania dokładnego kształtu starego kodu zamiast
+    zachowania. Nie jest wart utrzymywania w obecnej formie; albo
+    przepisać na sprawdzanie zachowania (uruchamianie kodu, nie
+    dopasowywanie tekstu), albo świadomie zarchiwizować/oznaczyć
+    jako nieaktualne, żeby nie mylić przyszłych sesji fałszywymi
+    czerwonymi wynikami.**
 - Brak prawdziwych testów jednostkowych/e2e dla `app.js` — cała
   weryfikacja w praktyce to `node --check` (sama składnia) + ręczne
   testowanie. Pliki w `tools/test-*.cjs` to głównie sprawdzanie

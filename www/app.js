@@ -32,6 +32,13 @@
     pedestrian: "🚶",
     transit: "🚌"
   };
+  const MEASURE_SOURCE_ID = "odwrotnamapa-measure";
+  const MEASURE_LINE_LAYER_ID = "odwrotnamapa-measure-line";
+  const MEASURE_POINTS_LAYER_ID = "odwrotnamapa-measure-points";
+  const MEASURE_AREA_SOURCE_ID = "odwrotnamapa-measure-area";
+  const MEASURE_AREA_FILL_LAYER_ID = "odwrotnamapa-measure-area-fill";
+  const MEASURE_AREA_LINE_LAYER_ID = "odwrotnamapa-measure-area-line";
+  const MEASURE_AREA_POINTS_LAYER_ID = "odwrotnamapa-measure-area-points";
 
   const text = {
     pl: {
@@ -89,6 +96,10 @@
       locate: "Moja lokalizacja", legend: "Legenda", closeLegend: "Zamknij legendę",
       toggle3d: "Widok 3D",
       measureDistance: "Zmierz odległość",
+      measureArea: "Zmierz powierzchnię",
+      measureAreaClear: "Wyczyść pomiar powierzchni",
+      measureSwitchToArea: "Przełącz na pomiar powierzchni",
+      measureSwitchToDistance: "Przełącz na pomiar odległości",
       measureClear: "Wyczyść pomiar",
       zoomIn: "Przybliż",
       zoomOut: "Oddal",
@@ -177,13 +188,6 @@
       routeSaveFavorite: "Zapisz trasę",
       routeSavedFavorite: "Zapisano",
       favoriteRemove: "Usuń",
-      savedTabPlaces: "Miejsca",
-      savedTabRoutes: "Trasy",
-      routeFavoritesCountLabel: "zapisanych tras",
-      routeFavoritesEmpty: "Brak zapisanych tras.",
-      routeHistoryEmpty: "Historia tras jest pusta.",
-      routeHistoryClear: "Wyczyść historię tras",
-      routeSearchPlaceholder: "Szukaj tras…",
       sortAriaLabel: "Sortuj",
       sortNewest: "Od najnowszych",
       sortOldest: "Od najstarszych",
@@ -286,6 +290,17 @@
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
       favoritesTitle: "Ulubione",
+      ratingStars: "gwiazdek",
+      ratingLoading: "Wczytywanie ocen…",
+      ratingNone: "Brak ocen - bądź pierwszy/a",
+      ratingError: "Nie udało się wczytać ocen.",
+      ratingSaving: "Zapisywanie oceny…",
+      ratingDelete: "Usuń ocenę",
+      ratingLoginHint: "Zaloguj się (Konto), żeby ocenić to miejsce",
+      activityLoading: "Wczytywanie…",
+      activityLoginNeeded: "Zaloguj się, żeby zobaczyć swoją aktywność.",
+      activityEmpty: "Nie oceniłeś/aś jeszcze żadnego miejsca.",
+      activityError: "Nie udało się wczytać aktywności.",
       favoritesEmpty: "Brak ulubionych.",
       favoriteEdit: "Edytuj",
       favoriteEditTitle: "Edytuj miejsce",
@@ -365,6 +380,8 @@
       accountPush: "⬆ Wyślij zaznaczone",
       accountPull: "⬇ Pobierz zaznaczone",
       accountLogout: "Wyloguj",
+      accountActivity: "Aktywność",
+      activityRefresh: "Odśwież",
       accountRevealSummary: "Pokaż frazę seed",
       accountActivated: "Konto aktywowane na tym urządzeniu.",
       accountLoggedInPulling: "Zalogowano - pobieranie zapisanych ustawień z chmury…",
@@ -501,6 +518,10 @@
       locate: "My location", legend: "Legend", closeLegend: "Close legend",
       toggle3d: "3D view",
       measureDistance: "Measure distance",
+      measureArea: "Measure area",
+      measureAreaClear: "Clear area measurement",
+      measureSwitchToArea: "Switch to area measurement",
+      measureSwitchToDistance: "Switch to distance measurement",
       measureClear: "Clear measurement",
       zoomIn: "Zoom in",
       zoomOut: "Zoom out",
@@ -589,13 +610,6 @@
       routeSaveFavorite: "Save route",
       routeSavedFavorite: "Saved",
       favoriteRemove: "Remove",
-      savedTabPlaces: "Places",
-      savedTabRoutes: "Routes",
-      routeFavoritesCountLabel: "saved routes",
-      routeFavoritesEmpty: "No saved routes yet.",
-      routeHistoryEmpty: "Route history is empty.",
-      routeHistoryClear: "Clear route history",
-      routeSearchPlaceholder: "Search routes…",
       sortAriaLabel: "Sort",
       sortNewest: "Newest first",
       sortOldest: "Oldest first",
@@ -698,6 +712,17 @@
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
       favoritesTitle: "Favorites",
+      ratingStars: "stars",
+      ratingLoading: "Loading ratings…",
+      ratingNone: "No ratings yet - be the first",
+      ratingError: "Couldn't load ratings.",
+      ratingSaving: "Saving rating…",
+      ratingDelete: "Delete rating",
+      ratingLoginHint: "Log in (Account) to rate this place",
+      activityLoading: "Loading…",
+      activityLoginNeeded: "Log in to see your activity.",
+      activityEmpty: "You haven't rated any places yet.",
+      activityError: "Couldn't load your activity.",
       favoritesEmpty: "No favorites yet.",
       favoriteEdit: "Edit",
       favoriteEditTitle: "Edit place",
@@ -777,6 +802,8 @@
       accountPush: "⬆ Send selected",
       accountPull: "⬇ Pull selected",
       accountLogout: "Log out",
+      accountActivity: "Activity",
+      activityRefresh: "Refresh",
       accountRevealSummary: "Show seed phrase",
       accountActivated: "Account activated on this device.",
       accountLoggedInPulling: "Logged in - fetching your saved settings from the cloud…",
@@ -1567,31 +1594,7 @@
     historyClear: $("history-clear"),
     historyList: $("history-list"),
     historyEmpty: $("history-empty"),
-    favoritesTabPlaces: $("favorites-tab-places"),
-    favoritesTabRoutes: $("favorites-tab-routes"),
-    favoritesPlacesTab: $("favorites-places-tab"),
-    favoritesRoutesTab: $("favorites-routes-tab"),
-    routeFavoritesList: $("route-favorites-list"),
-    routeFavoritesEmpty: $("route-favorites-empty"),
-    routeFavoritesCount: $("route-favorites-count"),
-    routeFavoritesCountLabel: $("route-favorites-count-label"),
-    historyTabPlaces: $("history-tab-places"),
-    historyTabRoutes: $("history-tab-routes"),
-    historyPlacesTab: $("history-places-tab"),
-    historyRoutesTab: $("history-routes-tab"),
-    routeHistoryList: $("route-history-list"),
-    routeHistoryEmpty: $("route-history-empty"),
-    routeHistoryClear: $("route-history-clear"),
     routeSaveFavoriteButton: $("route-save-favorite"),
-    routeFavoritesSearch: $("route-favorites-search"),
-    routeFavoritesSortSelect: $("route-favorites-sort-select"),
-    routeFavoritesFolderChips: $("route-favorites-folder-chips"),
-    routeFavoritesAddFolderButton: $("route-favorites-add-folder-button"),
-    routeFavoritesNewFolderForm: $("route-favorites-new-folder-form"),
-    routeFavoritesNewFolderInput: $("route-favorites-new-folder-input"),
-    routeFavoritesNewFolderSave: $("route-favorites-new-folder-save"),
-    routeFavoritesNewFolderCancel: $("route-favorites-new-folder-cancel"),
-    routeHistorySearch: $("route-history-search"),
     locateToggleButton: $("locate-toggle-button"),
     toggle3dButton: $("toggle-3d-button"),
     zoomInButton: $("zoom-in-button"),
@@ -1600,6 +1603,7 @@
     measureDistanceBadge: $("measure-distance-badge"),
     measureDistanceValue: $("measure-distance-value"),
     measureClearButton: $("measure-clear-button"),
+    measureModeSwitchButton: $("measure-mode-switch-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -1711,6 +1715,12 @@
     accountPushButton: $("account-push-button"),
     accountPullButton: $("account-pull-button"),
     accountLogoutButton: $("account-logout-button"),
+    accountActivityButton: $("account-activity-button"),
+    accountScreenActivity: $("account-screen-activity"),
+    accountActivityBackButton: $("account-activity-back-button"),
+    accountActivityRefreshButton: $("account-activity-refresh-button"),
+    accountActivityStatus: $("account-activity-status"),
+    accountActivityList: $("account-activity-list"),
     accountRevealDetails: $("account-reveal-details"),
     accountRevealSummary: $("account-reveal-summary"),
     accountSeedRevealWords: $("account-seed-reveal-words"),
@@ -2334,7 +2344,15 @@ map.on('rotate', updateLogoRotation);
   el.zoomInButton?.addEventListener("click", () => map.zoomIn());
   el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
   el.measureToggleButton?.addEventListener("click", toggleMeasureMode);
-  el.measureClearButton?.addEventListener("click", clearMeasurement);
+  el.measureClearButton?.addEventListener("click", () => {
+    if (state.measureIsArea) {
+      clearMeasureAreaMeasurement();
+      updateMeasureAreaDisplay();
+    } else {
+      clearMeasurement();
+    }
+  });
+  el.measureModeSwitchButton?.addEventListener("click", switchMeasureMode);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2518,6 +2536,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
         t.measureDistance
       );
     }
+    updateMeasureModeSwitchUi();
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -2572,6 +2591,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.accountPushButton) el.accountPushButton.textContent = t.accountPush;
     if (el.accountPullButton) el.accountPullButton.textContent = t.accountPull;
     if (el.accountLogoutButton) el.accountLogoutButton.textContent = t.accountLogout;
+    if (el.accountActivityButton) el.accountActivityButton.textContent = `📋 ${t.accountActivity}`;
+    el.accountActivityRefreshButton?.setAttribute("aria-label", t.activityRefresh);
     if (el.accountRevealSummary) el.accountRevealSummary.textContent = t.accountRevealSummary;
     if (el.accountSeedRevealCopyButton) el.accountSeedRevealCopyButton.textContent = t.accountSeedCopy;
     if (el.accountDisplayName && !el.accountDisplayName.dataset.hasCustomName) {
@@ -2586,14 +2607,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.historySearch) el.historySearch.placeholder = t.historySearch;
     el.historySearch?.setAttribute("aria-label", t.historySearch);
     if (el.historyClear) el.historyClear.textContent = t.historyClear;
-    if (el.favoritesTabPlaces) el.favoritesTabPlaces.textContent = `📍 ${t.savedTabPlaces}`;
-    if (el.favoritesTabRoutes) el.favoritesTabRoutes.textContent = `🧭 ${t.savedTabRoutes}`;
-    if (el.historyTabPlaces) el.historyTabPlaces.textContent = `📍 ${t.savedTabPlaces}`;
-    if (el.historyTabRoutes) el.historyTabRoutes.textContent = `🧭 ${t.savedTabRoutes}`;
-    if (el.routeFavoritesCountLabel) el.routeFavoritesCountLabel.textContent = t.routeFavoritesCountLabel;
-    if (el.routeFavoritesEmpty) el.routeFavoritesEmpty.textContent = t.routeFavoritesEmpty;
-    if (el.routeHistoryEmpty) el.routeHistoryEmpty.textContent = t.routeHistoryEmpty;
-    if (el.routeHistoryClear) el.routeHistoryClear.textContent = t.routeHistoryClear;
     updateRouteSaveFavoriteButton();
     if (el.menuExportAllLabel) el.menuExportAllLabel.textContent = t.menuExportAll;
     if (el.menuImportAllLabel) el.menuImportAllLabel.textContent = t.menuImportAll;
@@ -2786,35 +2799,23 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     renderFolderChips();
     renderFavoritesList();
     renderHistoryList();
-    renderRouteFolderChips();
-    renderRouteFavoritesList();
-    renderRouteHistoryList();
 
     if (el.favoritesAddFolderButton) el.favoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
     if (el.favoritesNewFolderInput) el.favoritesNewFolderInput.placeholder = t.favoriteFolderNamePlaceholder;
     if (el.favoritesNewFolderSave) el.favoritesNewFolderSave.textContent = t.favoriteSave;
     if (el.favoritesNewFolderCancel) el.favoritesNewFolderCancel.textContent = t.favoriteCancelEdit;
-    if (el.routeFavoritesSearch) el.routeFavoritesSearch.placeholder = t.routeSearchPlaceholder;
-    el.routeFavoritesSearch?.setAttribute("aria-label", t.routeSearchPlaceholder);
-    if (el.routeHistorySearch) el.routeHistorySearch.placeholder = t.routeSearchPlaceholder;
-    el.routeHistorySearch?.setAttribute("aria-label", t.routeSearchPlaceholder);
-    if (el.routeFavoritesAddFolderButton) el.routeFavoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
-    if (el.routeFavoritesNewFolderInput) el.routeFavoritesNewFolderInput.placeholder = t.favoriteFolderNamePlaceholder;
-    if (el.routeFavoritesNewFolderSave) el.routeFavoritesNewFolderSave.textContent = t.favoriteSave;
-    if (el.routeFavoritesNewFolderCancel) el.routeFavoritesNewFolderCancel.textContent = t.favoriteCancelEdit;
 
-    [el.favoritesSortSelect, el.routeFavoritesSortSelect].forEach(select => {
-      if (!select) return;
-      select.setAttribute("aria-label", t.sortAriaLabel);
+    if (el.favoritesSortSelect) {
+      el.favoritesSortSelect.setAttribute("aria-label", t.sortAriaLabel);
       const setOption = (value, label) => {
-        const option = select.querySelector(`option[value="${value}"]`);
+        const option = el.favoritesSortSelect.querySelector(`option[value="${value}"]`);
         if (option) option.textContent = label;
       };
       setOption("newest", t.sortNewest);
       setOption("oldest", t.sortOldest);
       setOption("az", t.sortAZ);
       setOption("za", t.sortZA);
-    });
+    }
   }
 
   // Defibrylatory uznaliśmy za zbyt mało istotne, żeby zaśmiecać
@@ -3434,6 +3435,46 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     } catch (_) {}
   }
 
+  function getAccentColor() {
+    return state.theme === "custom" && state.customPalette?.uiAccent
+      ? state.customPalette.uiAccent
+      : "#dc2626";
+  }
+
+  // Elementy rysowane bezpośrednio na płótnie mapy (linia trasy,
+  // linia pomiaru odległości) NIE reagują na zmienne CSS (--accent) -
+  // MapLibre wymaga jawnego ustawienia koloru przez JS. Dlatego przy
+  // każdej zmianie koloru akcentu trzeba je też ręcznie odświeżyć,
+  // inaczej zostają przy starym, domyślnym czerwonym bez względu na
+  // wybraną paletę.
+  function updateAccentDependentMapLayers() {
+    const accent = getAccentColor();
+
+    if (map.getLayer(MEASURE_LINE_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_LINE_LAYER_ID, "line-color", accent);
+    }
+    if (map.getLayer(MEASURE_POINTS_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_POINTS_LAYER_ID, "circle-stroke-color", accent);
+    }
+
+    if (map.getLayer(MEASURE_AREA_FILL_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_AREA_FILL_LAYER_ID, "fill-color", accent);
+    }
+    if (map.getLayer(MEASURE_AREA_LINE_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_AREA_LINE_LAYER_ID, "line-color", accent);
+    }
+    if (map.getLayer(MEASURE_AREA_POINTS_LAYER_ID)) {
+      map.setPaintProperty(MEASURE_AREA_POINTS_LAYER_ID, "circle-stroke-color", accent);
+    }
+
+    // Kolor trasy koduje też tryb podróży (rower/pieszo mają swoje
+    // własne, stałe kolory) - akcent dotyczy tylko trybu domyślnego
+    // ("auto"), żeby nie zaburzać tego rozróżnienia.
+    if (map.getLayer(CONFIG.routing.lineLayerId) && getSelectedRouteMode() === "auto") {
+      map.setPaintProperty(CONFIG.routing.lineLayerId, "line-color", accent);
+    }
+  }
+
   function applyCustomUiColors(palette) {
     const root = document.documentElement.style;
     root.setProperty("--accent", palette.uiAccent);
@@ -3448,6 +3489,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       `color-mix(in srgb, ${palette.uiText} 65%, transparent)`
     );
     applyUiPanelTexture();
+    updateAccentDependentMapLayers();
   }
 
   function clearCustomUiColors() {
@@ -3458,6 +3500,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     root.removeProperty("--panel-muted");
     root.removeProperty("--text");
     root.removeProperty("--muted");
+    updateAccentDependentMapLayers();
   }
 
   function hasPaint(layer, key) {
@@ -6302,7 +6345,11 @@ async function handleMapClick(event) {
     }
 
     if (state.measureModeActive) {
-      addMeasurePoint(event.lngLat);
+      if (state.measureIsArea) {
+        addMeasureAreaPoint(event.lngLat);
+      } else {
+        addMeasurePoint(event.lngLat);
+      }
       return;
     }
 
@@ -6763,6 +6810,51 @@ function showUserLocationMarker(lngLat) {
   }
 
   // Wywoływana tylko dla świadomie wybranego miejsca.
+  // Otwiera panel miejsca Z GOTOWYMI danymi (bez żadnego wyszukiwania
+  // w sieci) - dokładnie ta sama sekwencja co przy kliknięciu na
+  // mapę (showPlaceInformation), tylko pomijamy fetchPlaceInformation
+  // (odwrotne geokodowanie), które i tak zwróciłoby cokolwiek innego
+  // najbliższego tym współrzędnym, a nie dokładnie to miejsce.
+  function openKnownPlaceOnMap(place, lngLat) {
+    window.OMAP_SEARCH_SESSION?.cancel?.();
+    state.tripOriginStack = [];
+    state.tripContextStack = [];
+    state.selectedPlace = null;
+    state.placeRequestController?.abort();
+    state.placeRequestController = null;
+    state.placePanelLngLat = lngLat;
+
+    showSelectedPlaceMarker(lngLat);
+    openPlacePanel();
+
+    if (el.placePanelContent) {
+      el.placePanelContent.replaceChildren(
+        createPlaceCard(place, lngLat)
+      );
+    }
+
+    state.selectedPlace = place;
+    stabilizeMobilePlacePanelHeight();
+
+    if (!state.isRestoringFromPopstate) {
+      const title = place.name || place.display_name?.split(",")[0] || "";
+      if (title) {
+        window.OMAP_URL_STATE?.setPlaceUrl({
+          label: title,
+          lat: lngLat.lat,
+          lon: lngLat.lng,
+          osmType: place.osm_type,
+          osmId: place.osm_id
+        });
+      }
+    }
+
+    el.placePanel?.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
   async function showPlaceInformation(event) {
     window.OMAP_SEARCH_SESSION?.cancel?.();
     clearPlacePanelReturnTarget();
@@ -6947,6 +7039,60 @@ function showUserLocationMarker(lngLat) {
       office: nearest.tags.office,
       tourism: nearest.tags.tourism
     };
+  }
+
+  // Fallback dla wpisów bez osm_type/osm_id (np. miasta z lokalnego
+  // indeksu miast, albo charakterystyczne miejsca z indeksu "named
+  // POI" - żadne z tych dwóch źródeł w ogóle nie przypisuje
+  // identyfikatorów OSM) - reverse geocoding, ale ze SZTYWNYM,
+  // dobranym poziomem przybliżenia (zoom w skali Nominatim), zamiast
+  // domyślnego maksimum, które łapało przypadkowy sklep/restaurację
+  // obok zamiast właściwego miejsca.
+  async function fetchPlaceByReverseAtZoom(lat, lon, zoom, signal) {
+    const requestUrl = new URL(CONFIG.search.reverseEndpoint);
+    requestUrl.searchParams.set("lat", String(lat));
+    requestUrl.searchParams.set("lon", String(lon));
+    requestUrl.searchParams.set("format", "jsonv2");
+    requestUrl.searchParams.set("addressdetails", "1");
+    requestUrl.searchParams.set("extratags", "1");
+    requestUrl.searchParams.set("namedetails", "1");
+    requestUrl.searchParams.set("accept-language", state.language);
+    requestUrl.searchParams.set("zoom", String(zoom));
+
+    const response = await fetch(requestUrl, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Nominatim reverse (zoom ${zoom}) HTTP ${response.status}`);
+    return response.json();
+  }
+
+  // W przeciwieństwie do fetchPlaceInformation (reverse - "co jest
+  // najbliżej tych współrzędnych") to pyta o KONKRETNY, znany obiekt
+  // OSM po jego typie+id - zero niejednoznaczności, a mimo to daje
+  // te same bogate dane (kategoria, Wikipedia, strona itd.).
+  async function fetchPlaceByOsmId(osmType, osmId, signal) {
+    const prefix = { node: "N", way: "W", relation: "R" }[osmType];
+    if (!prefix || !osmId) return null;
+
+    const requestUrl = new URL(
+      CONFIG.search.reverseEndpoint.replace(/\/reverse$/, "/lookup")
+    );
+    requestUrl.searchParams.set("osm_ids", `${prefix}${osmId}`);
+    requestUrl.searchParams.set("format", "jsonv2");
+    requestUrl.searchParams.set("addressdetails", "1");
+    requestUrl.searchParams.set("extratags", "1");
+    requestUrl.searchParams.set("namedetails", "1");
+    requestUrl.searchParams.set("accept-language", state.language);
+
+    const response = await fetch(requestUrl, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Nominatim lookup HTTP ${response.status}`);
+
+    const results = await response.json();
+    return Array.isArray(results) && results.length ? results[0] : null;
   }
 
   async function fetchPlaceInformation(lon, lat, signal) {
@@ -7189,6 +7335,30 @@ function showUserLocationMarker(lngLat) {
     if (type.textContent) headingCopy.appendChild(type);
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
+
+    const ratingUi = createRatingSection(
+      getFavoriteKey(place, lngLat),
+      {
+        label: state.customPlaceNames[placeNameKey] || originalPlaceTitle,
+        lat: Number(lngLat.lat),
+        lon: Number(lngLat.lng),
+        osmType: place.osm_type || "",
+        osmId: place.osm_id || "",
+        placeType: place.type || "",
+        placeSnapshot: {
+          name: place.name,
+          display_name: place.display_name,
+          type: place.type,
+          category: place.category,
+          class: place.class,
+          address: place.address,
+          extratags: place.extratags,
+          namedetails: place.namedetails
+        }
+      }
+    );
+    card.appendChild(ratingUi.section);
+    loadPlaceRatingsForPlace(getFavoriteKey(place, lngLat), ratingUi);
 
     const isNamedSettlement =
       ["city", "town", "village"].includes(
@@ -7812,300 +7982,6 @@ function showUserLocationMarker(lngLat) {
     calculateRouteFromStoredPoints();
   }
 
-  function attachRouteFolderDropTarget(node, folderValue) {
-    node.addEventListener("dragover", event => {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = "move";
-      node.classList.add("is-drag-over");
-    });
-    node.addEventListener("dragleave", () => {
-      node.classList.remove("is-drag-over");
-    });
-    node.addEventListener("drop", event => {
-      event.preventDefault();
-      node.classList.remove("is-drag-over");
-      const key = event.dataTransfer.getData("text/plain");
-      if (key) moveRouteToFolder(key, folderValue);
-    });
-  }
-
-  function moveRouteToFolder(key, folderValue) {
-    const route = state.routeFavorites.find(item => item.key === key);
-    if (!route) return;
-    route.folder = folderValue;
-    saveRouteFavorites();
-    renderRouteFolderChips();
-    renderRouteFavoritesList();
-  }
-
-  function renderRouteFolderChips() {
-    if (!el.routeFavoritesFolderChips) return;
-    const t = text[state.language];
-    el.routeFavoritesFolderChips.innerHTML = "";
-
-    const makeChip = (value, label, isDropTarget) => {
-      const chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "favorites-folder-chip";
-      chip.classList.toggle("is-active", state.activeRouteFolder === value);
-      chip.textContent = label;
-      chip.addEventListener("click", () => {
-        state.activeRouteFolder = value;
-        renderRouteFolderChips();
-        renderRouteFavoritesList();
-      });
-      if (isDropTarget) {
-        attachRouteFolderDropTarget(chip, value === UNFILED_FOLDER ? "" : value);
-      }
-      el.routeFavoritesFolderChips.appendChild(chip);
-    };
-
-    makeChip("", t.favoriteFolderAll);
-    makeChip(UNFILED_FOLDER, t.favoriteFolderUnfiled, true);
-    state.favoriteFolders.forEach(folder => makeChip(folder, folder, true));
-  }
-
-  function renderRouteItemsInto(container, emptyEl, entries, options) {
-    if (!container || !emptyEl) return;
-    const t = text[state.language];
-
-    container
-      .querySelectorAll(".route-item, .favorite-folder-row")
-      .forEach(item => item.remove());
-
-    // Tekst pustego stanu (nic zapisanego / brak wyników wyszukiwania)
-    // ustawia wołający (zna różnicę między "brak w ogóle" a "brak
-    // pasujących do wyszukiwania") - tu decydujemy tylko o widoczności.
-    const hasContent = entries.length > 0 ||
-      (Boolean(options.showFolderRows) && state.favoriteFolders.length > 0) ||
-      Boolean(options.showBackRow);
-    emptyEl.hidden = hasContent;
-    if (!hasContent) return;
-
-    const fragment = document.createDocumentFragment();
-
-    if (options.showFolderRows) {
-      state.favoriteFolders.forEach(folder => {
-        const count = entries.filter(r => r.folder === folder).length;
-        const row = document.createElement("div");
-        row.className = "favorite-folder-row";
-
-        const openButton = document.createElement("button");
-        openButton.type = "button";
-        openButton.className = "favorite-folder-row-open";
-        const icon = document.createElement("span");
-        icon.className = "favorite-folder-row-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = "📁";
-        const name = document.createElement("span");
-        name.className = "favorite-folder-row-name";
-        name.textContent = folder;
-        const countEl = document.createElement("span");
-        countEl.className = "favorite-folder-row-count";
-        countEl.textContent = String(count);
-        openButton.append(icon, name, countEl);
-        openButton.addEventListener("click", () => {
-          state.activeRouteFolder = folder;
-          renderRouteFolderChips();
-          renderRouteFavoritesList();
-        });
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "favorite-place-edit-toggle";
-        editButton.textContent = "✎";
-        editButton.title = t.favoriteEdit;
-        editButton.setAttribute("aria-label", t.favoriteEdit);
-
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.className = "favorite-place-remove";
-        removeButton.textContent = "×";
-        removeButton.title = t.favoriteFolderDelete;
-        removeButton.setAttribute("aria-label", t.favoriteFolderDelete);
-        removeButton.addEventListener("click", () => deleteFavoriteFolder(folder));
-
-        const actions = document.createElement("div");
-        actions.className = "favorite-place-actions";
-        actions.append(editButton, removeButton);
-
-        const topRow = document.createElement("div");
-        topRow.className = "favorite-place-row";
-        topRow.append(openButton, actions);
-
-        const renameForm = document.createElement("div");
-        renameForm.className = "account-name-edit-form";
-        renameForm.hidden = true;
-        const renameInput = document.createElement("input");
-        renameInput.type = "text";
-        renameInput.className = "account-name-edit-input";
-        renameInput.maxLength = 30;
-        renameInput.value = folder;
-        const renameActions = document.createElement("div");
-        renameActions.className = "account-name-edit-actions";
-        const renameSave = document.createElement("button");
-        renameSave.type = "button";
-        renameSave.className = "account-name-edit-save";
-        renameSave.textContent = t.favoriteSave;
-        renameSave.addEventListener("click", () => renameFavoriteFolder(folder, renameInput.value));
-        const renameCancel = document.createElement("button");
-        renameCancel.type = "button";
-        renameCancel.className = "account-name-edit-cancel";
-        renameCancel.textContent = t.favoriteCancelEdit;
-        renameCancel.addEventListener("click", () => { renameForm.hidden = true; });
-        renameActions.append(renameSave, renameCancel);
-        renameForm.append(renameInput, renameActions);
-        editButton.addEventListener("click", () => {
-          renameForm.hidden = !renameForm.hidden;
-          if (!renameForm.hidden) { renameInput.value = folder; renameInput.focus(); renameInput.select(); }
-        });
-
-        row.append(topRow, renameForm);
-        attachRouteFolderDropTarget(row, folder);
-        fragment.appendChild(row);
-      });
-    } else if (options.showBackRow) {
-      const backRow = document.createElement("button");
-      backRow.type = "button";
-      backRow.className = "favorite-folder-back-row";
-      backRow.textContent = `← ${t.favoriteFolderAll}`;
-      backRow.addEventListener("click", () => {
-        state.activeRouteFolder = "";
-        renderRouteFolderChips();
-        renderRouteFavoritesList();
-      });
-      attachRouteFolderDropTarget(backRow, "");
-      fragment.appendChild(backRow);
-    }
-
-    const visibleEntries = options.showFolderRows
-      ? entries.filter(r => !r.folder)
-      : entries;
-
-    visibleEntries.forEach(entry => {
-      const item = document.createElement("div");
-      item.className = "route-item";
-      if (options.draggable) {
-        item.draggable = true;
-        item.addEventListener("dragstart", event => {
-          event.dataTransfer.setData("text/plain", entry.key);
-          event.dataTransfer.effectAllowed = "move";
-          item.classList.add("is-dragging");
-        });
-        item.addEventListener("dragend", () => item.classList.remove("is-dragging"));
-      }
-
-      const openButton = document.createElement("button");
-      openButton.type = "button";
-      openButton.className = "route-item-open";
-
-      const icon = document.createElement("span");
-      icon.className = "route-item-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = ROUTE_MODE_ICONS[entry.mode] || "🧭";
-
-      const copy = document.createElement("span");
-      copy.className = "route-item-copy";
-
-      const title = document.createElement("strong");
-      title.textContent = entry.customName ||
-        `${entry.fromLabel || "?"} → ${entry.toLabel || "?"}`;
-
-      const summary = document.createElement("small");
-      summary.textContent = formatRouteSummaryShort(entry.distance, entry.duration);
-
-      copy.append(title, summary);
-      openButton.append(icon, copy);
-      openButton.addEventListener("click", () => loadRouteFromEntry(entry));
-
-      const actionButtons = [];
-
-      if (options.editable) {
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "favorite-place-edit-toggle";
-        editButton.textContent = "✎";
-        editButton.title = t.favoriteEdit;
-        editButton.setAttribute("aria-label", t.favoriteEdit);
-        actionButtons.push(editButton);
-
-        var editForm = document.createElement("div");
-        editForm.className = "favorite-place-edit-form";
-        editForm.hidden = true;
-
-        const nameLabel = document.createElement("label");
-        nameLabel.textContent = t.favoriteCustomNameLabel;
-        const nameInput = document.createElement("input");
-        nameInput.type = "text";
-        nameInput.placeholder = t.favoriteCustomNamePlaceholder;
-        nameInput.value = entry.customName || "";
-        nameLabel.append(nameInput);
-
-        const folderLabel = document.createElement("label");
-        folderLabel.textContent = t.favoriteFolderLabel;
-        const folderSelect = document.createElement("select");
-        folderSelect.className = "favorite-folder-select";
-        const unfiledOption = document.createElement("option");
-        unfiledOption.value = "";
-        unfiledOption.textContent = t.favoriteFolderUnfiled;
-        folderSelect.appendChild(unfiledOption);
-        state.favoriteFolders.forEach(folderName => {
-          const option = document.createElement("option");
-          option.value = folderName;
-          option.textContent = folderName;
-          folderSelect.appendChild(option);
-        });
-        folderSelect.value = entry.folder || "";
-        folderLabel.append(folderSelect);
-
-        const editActions = document.createElement("div");
-        editActions.className = "favorite-place-edit-actions";
-        const saveButton = document.createElement("button");
-        saveButton.type = "button";
-        saveButton.className = "favorite-place-edit-save";
-        saveButton.textContent = t.favoriteSave;
-        saveButton.addEventListener("click", () => {
-          entry.customName = (nameInput.value || "").trim();
-          entry.folder = folderSelect.value || "";
-          saveRouteFavorites();
-          renderRouteFolderChips();
-          renderRouteFavoritesList();
-        });
-        const cancelButton = document.createElement("button");
-        cancelButton.type = "button";
-        cancelButton.className = "favorite-place-edit-cancel";
-        cancelButton.textContent = t.favoriteCancelEdit;
-        cancelButton.addEventListener("click", () => { editForm.hidden = true; });
-        editActions.append(saveButton, cancelButton);
-        editForm.append(nameLabel, folderLabel, editActions);
-        editButton.addEventListener("click", () => { editForm.hidden = !editForm.hidden; });
-      }
-
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "favorite-place-remove";
-      removeButton.textContent = "×";
-      removeButton.title = t.favoriteRemove || "×";
-      removeButton.setAttribute("aria-label", removeButton.title);
-      removeButton.addEventListener("click", () => options.onRemove(entry.key));
-      actionButtons.push(removeButton);
-
-      const actions = document.createElement("div");
-      actions.className = "favorite-place-actions";
-      actions.append(...actionButtons);
-
-      const row = document.createElement("div");
-      row.className = "route-item-row";
-      row.append(openButton, actions);
-
-      item.append(row);
-      if (options.editable) item.append(editForm);
-      fragment.appendChild(item);
-    });
-
-    container.appendChild(fragment);
-  }
-
   function filterRouteEntries(entries, query) {
     if (!query) return entries;
     const q = normalizeSearchText(query);
@@ -8117,75 +7993,6 @@ function showUserLocationMarker(lngLat) {
       );
       return haystack.includes(q);
     });
-  }
-
-  function renderRouteHistoryList() {
-    const query = el.routeHistorySearch?.value || "";
-    const filtered = filterRouteEntries(state.routeHistory, query);
-    if (el.routeHistoryEmpty) {
-      el.routeHistoryEmpty.textContent = state.routeHistory.length
-        ? text[state.language].favoritesNoMatch
-        : text[state.language].routeHistoryEmpty;
-    }
-    renderRouteItemsInto(
-      el.routeHistoryList,
-      el.routeHistoryEmpty,
-      filtered,
-      {
-        onRemove: key => {
-          state.routeHistory = state.routeHistory.filter(item => item.key !== key);
-          saveRouteHistory();
-          renderRouteHistoryList();
-        }
-      }
-    );
-  }
-
-  function renderRouteFavoritesList() {
-    if (el.routeFavoritesCount) {
-      el.routeFavoritesCount.textContent = String(state.routeFavorites.length);
-    }
-
-    const query = el.routeFavoritesSearch?.value || "";
-    const activeFolder = state.activeRouteFolder || "";
-    let filtered = filterRouteEntries(state.routeFavorites, query);
-
-    if (activeFolder === UNFILED_FOLDER) {
-      filtered = filtered.filter(r => !r.folder);
-    } else if (activeFolder) {
-      filtered = filtered.filter(r => r.folder === activeFolder);
-    }
-
-    filtered = sortByOrder(
-      filtered,
-      state.routeFavoritesSortOrder,
-      r => (r.customName || `${r.fromLabel || ""} ${r.toLabel || ""}`).toLowerCase()
-    );
-
-    if (el.routeFavoritesEmpty) {
-      el.routeFavoritesEmpty.textContent = state.routeFavorites.length
-        ? text[state.language].favoritesNoMatch
-        : text[state.language].routeFavoritesEmpty;
-    }
-
-    renderRouteItemsInto(
-      el.routeFavoritesList,
-      el.routeFavoritesEmpty,
-      filtered,
-      {
-        editable: true,
-        draggable: true,
-        showFolderRows: !query && !activeFolder,
-        showBackRow: !query && Boolean(activeFolder),
-        onRemove: key => {
-          state.routeFavorites = state.routeFavorites.filter(item => item.key !== key);
-          saveRouteFavorites();
-          renderRouteFolderChips();
-          renderRouteFavoritesList();
-          updateRouteSaveFavoriteButton();
-        }
-      }
-    );
   }
 
   function currentRouteFavoriteKey() {
@@ -8238,82 +8045,7 @@ function showUserLocationMarker(lngLat) {
     updateRouteSaveFavoriteButton();
   }
 
-  function switchFavoritesTab(tab) {
-    state.activeFavoritesTab = tab;
-    const isRoutes = tab === "routes";
-    if (el.favoritesTabPlaces) el.favoritesTabPlaces.classList.toggle("is-active", !isRoutes);
-    if (el.favoritesTabRoutes) el.favoritesTabRoutes.classList.toggle("is-active", isRoutes);
-    if (el.favoritesPlacesTab) el.favoritesPlacesTab.hidden = isRoutes;
-    if (el.favoritesRoutesTab) el.favoritesRoutesTab.hidden = !isRoutes;
-    if (isRoutes) {
-      renderRouteFolderChips();
-      renderRouteFavoritesList();
-    }
-  }
-
-  function switchHistoryTab(tab) {
-    state.activeHistoryTab = tab;
-    const isRoutes = tab === "routes";
-    if (el.historyTabPlaces) el.historyTabPlaces.classList.toggle("is-active", !isRoutes);
-    if (el.historyTabRoutes) el.historyTabRoutes.classList.toggle("is-active", isRoutes);
-    if (el.historyPlacesTab) el.historyPlacesTab.hidden = isRoutes;
-    if (el.historyRoutesTab) el.historyRoutesTab.hidden = !isRoutes;
-    if (isRoutes) renderRouteHistoryList();
-  }
-
-  el.favoritesTabPlaces?.addEventListener("click", () => switchFavoritesTab("places"));
-  el.favoritesTabRoutes?.addEventListener("click", () => switchFavoritesTab("routes"));
-  el.historyTabPlaces?.addEventListener("click", () => switchHistoryTab("places"));
-  el.historyTabRoutes?.addEventListener("click", () => switchHistoryTab("routes"));
-
   el.routeSaveFavoriteButton?.addEventListener("click", toggleCurrentRouteFavorite);
-  el.routeFavoritesSearch?.addEventListener("input", renderRouteFavoritesList);
-  el.routeFavoritesSortSelect?.addEventListener("change", () => {
-    state.routeFavoritesSortOrder = el.routeFavoritesSortSelect.value;
-    renderRouteFavoritesList();
-  });
-  el.routeHistorySearch?.addEventListener("input", renderRouteHistoryList);
-
-  el.routeFavoritesAddFolderButton?.addEventListener("click", () => {
-    if (!el.routeFavoritesNewFolderForm) return;
-    el.routeFavoritesNewFolderForm.hidden = false;
-    el.routeFavoritesNewFolderInput.value = "";
-    el.routeFavoritesNewFolderInput.focus();
-  });
-
-  el.routeFavoritesNewFolderCancel?.addEventListener("click", () => {
-    if (el.routeFavoritesNewFolderForm) el.routeFavoritesNewFolderForm.hidden = true;
-  });
-
-  function createRouteFolder() {
-    const name = (el.routeFavoritesNewFolderInput?.value || "").trim();
-    if (!name) return;
-    const exists = state.favoriteFolders.some(f => f.toLowerCase() === name.toLowerCase());
-    if (!exists) {
-      state.favoriteFolders.push(name);
-      saveFavoriteFolders();
-    }
-    state.activeRouteFolder = name;
-    if (el.routeFavoritesNewFolderForm) el.routeFavoritesNewFolderForm.hidden = true;
-    renderFolderChips();
-    renderRouteFolderChips();
-    renderRouteFavoritesList();
-  }
-
-  el.routeFavoritesNewFolderSave?.addEventListener("click", createRouteFolder);
-  el.routeFavoritesNewFolderInput?.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      createRouteFolder();
-    }
-  });
-
-  el.routeHistoryClear?.addEventListener("click", () => {
-    state.routeHistory = [];
-    saveRouteHistory();
-    renderRouteHistoryList();
-  });
-
   function recordPlaceHistory(place, lngLat) {
     if (!place || !lngLat) return;
 
@@ -8744,6 +8476,205 @@ function showUserLocationMarker(lngLat) {
       "subway_entrance",
       "railway"
     ].some(token => joined.includes(token));
+  }
+
+  function createRatingSection(placeKey, placeMeta) {
+    const t = text[state.language];
+
+    const section = document.createElement("section");
+    section.className = "place-rating";
+
+    const starsRow = document.createElement("div");
+    starsRow.className = "place-rating-stars";
+    starsRow.setAttribute("role", "group");
+    starsRow.setAttribute("aria-label", t.ratingStars);
+
+    // Każda gwiazdka to dwie nałożone kopie glifu (szare tło +
+    // kolorowe wypełnienie przycinane szerokością 0/50/100%) plus
+    // dwie niewidoczne strefy kliknięcia (lewa/prawa połówka) - to
+    // pozwala ocenić na pełne i połówkowe wartości (np. 2,5).
+    const stars = [];
+    for (let value = 1; value <= 5; value++) {
+      const star = document.createElement("span");
+      star.className = "place-rating-star";
+
+      const track = document.createElement("span");
+      track.className = "place-rating-star-track";
+      track.textContent = "★";
+      track.setAttribute("aria-hidden", "true");
+
+      const fill = document.createElement("span");
+      fill.className = "place-rating-star-fill";
+      fill.textContent = "★";
+      fill.style.width = "0%";
+      fill.setAttribute("aria-hidden", "true");
+
+      const hitHalf = document.createElement("button");
+      hitHalf.type = "button";
+      hitHalf.className = "place-rating-star-hit place-rating-star-hit-half";
+      hitHalf.setAttribute("aria-label", `${value - 0.5} ${t.ratingStars}`);
+
+      const hitFull = document.createElement("button");
+      hitFull.type = "button";
+      hitFull.className = "place-rating-star-hit place-rating-star-hit-full";
+      hitFull.setAttribute("aria-label", `${value} ${t.ratingStars}`);
+
+      star.append(track, fill, hitHalf, hitFull);
+      starsRow.appendChild(star);
+      stars.push({ fill });
+
+      hitHalf.addEventListener("mouseenter", () => previewRatingStars(stars, value - 0.5));
+      hitFull.addEventListener("mouseenter", () => previewRatingStars(stars, value));
+
+      hitHalf.addEventListener("click", () => {
+        submitPlaceRating(placeKey, placeMeta, value - 0.5, { stars, summary });
+      });
+      hitFull.addEventListener("click", () => {
+        submitPlaceRating(placeKey, placeMeta, value, { stars, summary });
+      });
+    }
+
+    starsRow.addEventListener("mouseleave", () => restoreRatingStars(stars));
+
+    const summary = document.createElement("span");
+    summary.className = "place-rating-summary";
+    summary.textContent = t.ratingLoading;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "place-rating-delete";
+    deleteButton.textContent = "🗑";
+    deleteButton.title = t.ratingDelete;
+    deleteButton.setAttribute("aria-label", t.ratingDelete);
+    deleteButton.hidden = true;
+
+    section.append(starsRow, summary, deleteButton);
+
+    deleteButton.addEventListener("click", () => {
+      deletePlaceRating(placeKey, { stars, summary, deleteButton });
+    });
+
+    return { section, stars, summary, deleteButton };
+  }
+
+  function paintRatingStars(stars, value, isMine) {
+    stars.forEach((star, index) => {
+      const starPosition = index + 1;
+      let fillPercent = 0;
+      if (value >= starPosition) fillPercent = 100;
+      else if (value >= starPosition - 0.5) fillPercent = 50;
+
+      star.fill.style.width = `${fillPercent}%`;
+      star.fill.classList.toggle("is-mine", isMine && fillPercent > 0);
+    });
+    // Zapamiętujemy "prawdziwy" stan bezpośrednio na tablicy gwiazdek,
+    // żeby po zjechaniu myszką (mouseleave) było do czego wrócić -
+    // podgląd na hover nie może nadpisać tego na stałe.
+    stars.committedValue = value;
+    stars.committedIsMine = isMine;
+  }
+
+  function previewRatingStars(stars, value) {
+    stars.forEach((star, index) => {
+      const starPosition = index + 1;
+      let fillPercent = 0;
+      if (value >= starPosition) fillPercent = 100;
+      else if (value >= starPosition - 0.5) fillPercent = 50;
+
+      star.fill.style.width = `${fillPercent}%`;
+      star.fill.classList.toggle("is-mine", fillPercent > 0);
+    });
+  }
+
+  function restoreRatingStars(stars) {
+    paintRatingStars(stars, stars.committedValue || 0, Boolean(stars.committedIsMine));
+  }
+
+  async function loadPlaceRatingsForPlace(placeKey, ui) {
+    const t = text[state.language];
+    const transport = window.OMAP_SYNC_TRANSPORT;
+    if (!transport) {
+      ui.summary.textContent = "";
+      return;
+    }
+
+    try {
+      const seedWords = getStoredSeedWords();
+      let myPubKeyHex = null;
+      if (seedWords) {
+        const cryptoApi = window.OMAP_SYNC_CRYPTO;
+        const nostrLib = await transport.waitForNostrLib();
+        const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+        myPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
+      }
+
+      const result = await transport.fetchRatings(placeKey, myPubKeyHex);
+
+      if (result.count > 0) {
+        ui.summary.textContent = `${result.average.toFixed(1)} ★ (${result.count})`;
+        paintRatingStars(ui.stars, result.average, false);
+      } else {
+        ui.summary.textContent = t.ratingNone;
+      }
+
+      if (result.myRating) {
+        paintRatingStars(ui.stars, result.myRating, true);
+      }
+      if (ui.deleteButton) ui.deleteButton.hidden = !result.myRating;
+
+      ui.summary.title = seedWords ? "" : t.ratingLoginHint;
+    } catch (error) {
+      console.error("Nie udało się pobrać ocen miejsca:", error);
+      ui.summary.textContent = t.ratingError;
+    }
+  }
+
+  async function submitPlaceRating(placeKey, placeMeta, value, ui) {
+    const t = text[state.language];
+    const seedWords = getStoredSeedWords();
+
+    if (!seedWords) {
+      openAccountFromMenu();
+      return;
+    }
+
+    ui.summary.textContent = t.ratingSaving;
+
+    try {
+      const cryptoApi = window.OMAP_SYNC_CRYPTO;
+      const transport = window.OMAP_SYNC_TRANSPORT;
+      const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+
+      await transport.publishRating(nostrPrivKeyBytes, placeKey, value, placeMeta);
+      paintRatingStars(ui.stars, value, true);
+      await loadPlaceRatingsForPlace(placeKey, ui);
+    } catch (error) {
+      console.error("Nie udało się wysłać oceny:", error);
+      ui.summary.textContent = t.ratingError;
+    }
+  }
+
+  async function deletePlaceRating(placeKey, ui) {
+    const t = text[state.language];
+    const seedWords = getStoredSeedWords();
+    if (!seedWords) return;
+
+    ui.summary.textContent = t.ratingSaving;
+    if (ui.deleteButton) ui.deleteButton.hidden = true;
+
+    try {
+      const cryptoApi = window.OMAP_SYNC_CRYPTO;
+      const transport = window.OMAP_SYNC_TRANSPORT;
+      const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+
+      await transport.deleteRating(nostrPrivKeyBytes, placeKey);
+      paintRatingStars(ui.stars, 0, false);
+      await loadPlaceRatingsForPlace(placeKey, ui);
+    } catch (error) {
+      console.error("Nie udało się usunąć oceny:", error);
+      ui.summary.textContent = t.ratingError;
+      if (ui.deleteButton) ui.deleteButton.hidden = false;
+    }
   }
 
   function createDeparturesSection() {
@@ -10288,7 +10219,7 @@ function updateRouteClickHint() {
           visibility: "none"
         },
         paint: {
-          "line-color": "#dc2626",
+          "line-color": getAccentColor(),
           "line-width": 5.5,
           "line-opacity": 0.96
         }
@@ -10329,7 +10260,7 @@ function drawRoute(geometry, from, to, mode) {
     map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "visible");
 
     const routeColors = {
-      auto: "#dc2626",
+      auto: getAccentColor(),
       bicycle: "#16a34a",
       pedestrian: "#ea580c"
     };
@@ -11509,8 +11440,6 @@ function drawRoute(geometry, from, to, mode) {
     if (state.activeRouteFolder === folder) state.activeRouteFolder = "";
     renderFolderChips();
     renderFavoritesList();
-    renderRouteFolderChips();
-    renderRouteFavoritesList();
   }
 
   function renameFavoriteFolder(oldName, newName) {
@@ -11547,8 +11476,6 @@ function drawRoute(geometry, from, to, mode) {
     if (state.activeRouteFolder === oldName) state.activeRouteFolder = trimmed;
     renderFolderChips();
     renderFavoritesList();
-    renderRouteFolderChips();
-    renderRouteFavoritesList();
   }
 
   function renderFavoritesList() {
@@ -12265,7 +12192,6 @@ function drawRoute(geometry, from, to, mode) {
           if (importedRoutes.length) {
             state.routeFavorites = [...state.routeFavorites, ...importedRoutes];
             saveRouteFavorites();
-            renderRouteFavoritesList();
           }
         }
 
@@ -12595,10 +12521,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     );
   }
 
-  const MEASURE_SOURCE_ID = "odwrotnamapa-measure";
-  const MEASURE_LINE_LAYER_ID = "odwrotnamapa-measure-line";
-  const MEASURE_POINTS_LAYER_ID = "odwrotnamapa-measure-points";
-
   function haversineDistanceMeters(a, b) {
     const R = 6371000;
     const toRad = deg => (deg * Math.PI) / 180;
@@ -12624,6 +12546,53 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     return `${Math.round(meters)} m`;
   }
 
+  // Rzutujemy punkty na lokalną płaszczyznę styczną (przybliżenie
+  // równoodległościowe wyśrodkowane na średniej szerokości
+  // geograficznej wielokąta) i liczymy powierzchnię wzorem Gaussa
+  // (shoelace). To standardowe podejście w konsumenckich narzędziach
+  // do pomiaru powierzchni w przeglądarce - dokładność rzędu ułamka
+  // procenta dla obszarów wielkości miasta/regionu, więc w zupełności
+  // wystarczające (to nie narzędzie geodezyjne).
+  function polygonAreaSquareMeters(points) {
+    if (points.length < 3) return 0;
+
+    const R = 6371000;
+    const toRad = deg => (deg * Math.PI) / 180;
+    const meanLat = points.reduce((sum, p) => sum + p.lat, 0) / points.length;
+    const cosMeanLat = Math.cos(toRad(meanLat));
+
+    const projected = points.map(p => ({
+      x: R * toRad(p.lng) * cosMeanLat,
+      y: R * toRad(p.lat)
+    }));
+
+    let sum = 0;
+    for (let i = 0; i < projected.length; i++) {
+      const a = projected[i];
+      const b = projected[(i + 1) % projected.length];
+      sum += a.x * b.y - b.x * a.y;
+    }
+
+    return Math.abs(sum) / 2;
+  }
+
+  function formatMeasureArea(squareMeters) {
+    const locale = state.language === "pl" ? "pl-PL" : "en-US";
+    if (squareMeters >= 1000000) {
+      return `${(squareMeters / 1000000).toLocaleString(
+        locale,
+        { maximumFractionDigits: 2 }
+      )} km²`;
+    }
+    if (squareMeters >= 10000) {
+      return `${(squareMeters / 10000).toLocaleString(
+        locale,
+        { maximumFractionDigits: 2 }
+      )} ha`;
+    }
+    return `${Math.round(squareMeters).toLocaleString(locale)} m²`;
+  }
+
   function ensureMeasureLayers() {
     if (map.getSource(MEASURE_SOURCE_ID)) return;
 
@@ -12639,7 +12608,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       filter: ["==", ["geometry-type"], "LineString"],
       layout: { "line-cap": "round", "line-join": "round" },
       paint: {
-        "line-color": "#dc2626",
+        "line-color": getAccentColor(),
         "line-width": 3,
         "line-dasharray": [2, 1]
       }
@@ -12654,7 +12623,53 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         "circle-radius": 5,
         "circle-color": "#ffffff",
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#dc2626"
+        "circle-stroke-color": getAccentColor()
+      }
+    });
+  }
+
+  function ensureMeasureAreaLayers() {
+    if (map.getSource(MEASURE_AREA_SOURCE_ID)) return;
+
+    map.addSource(MEASURE_AREA_SOURCE_ID, {
+      type: "geojson",
+      data: { type: "FeatureCollection", features: [] }
+    });
+
+    map.addLayer({
+      id: MEASURE_AREA_FILL_LAYER_ID,
+      type: "fill",
+      source: MEASURE_AREA_SOURCE_ID,
+      filter: ["==", ["geometry-type"], "Polygon"],
+      paint: {
+        "fill-color": getAccentColor(),
+        "fill-opacity": 0.2
+      }
+    });
+
+    map.addLayer({
+      id: MEASURE_AREA_LINE_LAYER_ID,
+      type: "line",
+      source: MEASURE_AREA_SOURCE_ID,
+      filter: ["!=", ["geometry-type"], "Point"],
+      layout: { "line-cap": "round", "line-join": "round" },
+      paint: {
+        "line-color": getAccentColor(),
+        "line-width": 3,
+        "line-dasharray": [2, 1]
+      }
+    });
+
+    map.addLayer({
+      id: MEASURE_AREA_POINTS_LAYER_ID,
+      type: "circle",
+      source: MEASURE_AREA_SOURCE_ID,
+      filter: ["==", ["geometry-type"], "Point"],
+      paint: {
+        "circle-radius": 5,
+        "circle-color": "#ffffff",
+        "circle-stroke-width": 2,
+        "circle-stroke-color": getAccentColor()
       }
     });
   }
@@ -12709,14 +12724,21 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     updateMeasureDisplay();
   }
 
+  // Jeden przycisk w pasku narzędzi włącza/wyłącza tryb pomiaru.
+  // Wewnątrz plakietki jest mały przełącznik odległość/powierzchnia
+  // (measureModeSwitchButton) - to on decyduje, co aktualnie mierzą
+  // kliknięcia na mapie, żeby nie mnożyć ikon w pasku narzędzi.
   function toggleMeasureMode() {
     state.measureModeActive = !state.measureModeActive;
 
     if (state.measureModeActive) {
+      state.measureIsArea = false;
       ensureMeasureLayers();
       closeOtherMobilePanels([]);
+      updateMeasureModeSwitchUi();
     } else {
       clearMeasurement();
+      clearMeasureAreaMeasurement();
     }
 
     el.measureToggleButton?.classList.toggle(
@@ -12727,6 +12749,100 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       "aria-pressed",
       String(state.measureModeActive)
     );
+  }
+
+  function updateMeasureAreaDisplay() {
+    const points = state.measureAreaPoints || [];
+    const area = polygonAreaSquareMeters(points);
+
+    if (el.measureDistanceValue) {
+      el.measureDistanceValue.textContent = formatMeasureArea(area);
+    }
+    if (el.measureDistanceBadge) {
+      el.measureDistanceBadge.hidden = points.length === 0;
+    }
+
+    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
+    if (!source) return;
+
+    const pointFeatures = points.map(p => ({
+      type: "Feature",
+      geometry: { type: "Point", coordinates: [p.lng, p.lat] },
+      properties: {}
+    }));
+
+    const features = [...pointFeatures];
+    if (points.length === 2) {
+      features.push({
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: points.map(p => [p.lng, p.lat])
+        },
+        properties: {}
+      });
+    } else if (points.length > 2) {
+      const ring = points.map(p => [p.lng, p.lat]);
+      ring.push(ring[0]);
+      features.push({
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [ring]
+        },
+        properties: {}
+      });
+    }
+
+    source.setData({ type: "FeatureCollection", features });
+  }
+
+  function addMeasureAreaPoint(lngLat) {
+    if (!state.measureAreaPoints) state.measureAreaPoints = [];
+    state.measureAreaPoints.push({ lat: lngLat.lat, lng: lngLat.lng });
+    updateMeasureAreaDisplay();
+  }
+
+  function clearMeasureAreaMeasurement() {
+    state.measureAreaPoints = [];
+    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
+    if (source) source.setData({ type: "FeatureCollection", features: [] });
+  }
+
+  function updateMeasureModeSwitchUi() {
+    if (!el.measureModeSwitchButton) return;
+    const t = text[state.language];
+    if (state.measureIsArea) {
+      el.measureModeSwitchButton.textContent = "📏";
+      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToDistance);
+      el.measureModeSwitchButton.title = t.measureSwitchToDistance;
+    } else {
+      el.measureModeSwitchButton.textContent = "📐";
+      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToArea);
+      el.measureModeSwitchButton.title = t.measureSwitchToArea;
+    }
+  }
+
+  function switchMeasureMode() {
+    if (!state.measureModeActive) return;
+
+    // Nie da się sensownie mieszać otwartej linii (odległość) z
+    // zamkniętym wielokątem (powierzchnia) - przy przełączaniu
+    // czyścimy oba, żeby uniknąć niespójnego stanu.
+    clearMeasurement();
+    clearMeasureAreaMeasurement();
+
+    state.measureIsArea = !state.measureIsArea;
+    if (state.measureIsArea) {
+      ensureMeasureAreaLayers();
+      updateMeasureAreaDisplay();
+    } else {
+      ensureMeasureLayers();
+      updateMeasureDisplay();
+    }
+
+    if (el.measureDistanceBadge) el.measureDistanceBadge.hidden = true;
+    updateMeasureModeSwitchUi();
   }
 
   function toggle3dView() {
@@ -13088,14 +13204,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     }
   }
 
-  const ACCOUNT_SCREENS = ["home", "login", "register", "loggedin"];
+  const ACCOUNT_SCREENS = ["home", "login", "register", "loggedin", "activity"];
 
   function showAccountScreen(name) {
     const map = {
       home: el.accountScreenHome,
       login: el.accountScreenLogin,
       register: el.accountScreenRegister,
-      loggedin: el.accountScreenLoggedIn
+      loggedin: el.accountScreenLoggedIn,
+      activity: el.accountScreenActivity
     };
     for (const key of ACCOUNT_SCREENS) {
       if (map[key]) map[key].hidden = key !== name;
@@ -13244,7 +13361,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     if (el.accountRevealDetails) el.accountRevealDetails.open = false;
     if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
 
-    showAccountScreen("loggedin");
+    // Nie wyrzucamy z ekranu "Aktywność", jeśli użytkownik akurat go
+    // przegląda - w przeciwnym razie cicha synchronizacja w tle (co
+    // kilka minut) resetowałaby widok bez żadnego powodu.
+    const isBrowsingActivity = el.accountScreenActivity && !el.accountScreenActivity.hidden;
+    if (!isBrowsingActivity) {
+      showAccountScreen("loggedin");
+    }
     scheduleAutoSyncCheck();
   }
 
@@ -13636,7 +13759,6 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       if (Array.isArray(payload.routeFavorites)) {
         state.routeFavorites = payload.routeFavorites.filter(entry => entry && entry.key);
         saveRouteFavorites();
-        renderRouteFavoritesList();
       }
 
       renderFolderChips();
@@ -14042,6 +14164,180 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
   });
 
   el.accountLogoutButton?.addEventListener("click", handleLogoutAccount);
+  el.accountActivityBackButton?.addEventListener("click", () => showAccountScreen("loggedin"));
+  el.accountActivityButton?.addEventListener("click", () => {
+    showAccountScreen("activity");
+    loadMyRatingsActivity();
+  });
+  el.accountActivityRefreshButton?.addEventListener("click", () => {
+    loadMyRatingsActivity();
+  });
+
+  async function loadMyRatingsActivity() {
+    const t = text[state.language];
+    if (!el.accountActivityStatus || !el.accountActivityList) return;
+
+    el.accountActivityRefreshButton?.classList.add("is-spinning");
+    el.accountActivityList.replaceChildren();
+    el.accountActivityStatus.hidden = false;
+    el.accountActivityStatus.textContent = t.activityLoading;
+
+    const seedWords = getStoredSeedWords();
+    if (!seedWords) {
+      el.accountActivityStatus.textContent = t.activityLoginNeeded;
+      el.accountActivityRefreshButton?.classList.remove("is-spinning");
+      return;
+    }
+
+    try {
+      const cryptoApi = window.OMAP_SYNC_CRYPTO;
+      const transport = window.OMAP_SYNC_TRANSPORT;
+      const nostrLib = await transport.waitForNostrLib();
+      const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWords);
+      const myPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
+
+      const ratings = await transport.fetchMyRatings(myPubKeyHex);
+
+      if (!ratings.length) {
+        el.accountActivityStatus.textContent = t.activityEmpty;
+        return;
+      }
+
+      el.accountActivityStatus.hidden = true;
+      const fragment = document.createDocumentFragment();
+
+      ratings.forEach(entry => {
+        const item = document.createElement("li");
+        item.className = "account-activity-item";
+
+        const hasCoords = Number.isFinite(entry.lat) && Number.isFinite(entry.lon);
+
+        const button = document.createElement(hasCoords ? "button" : "div");
+        button.className = "account-activity-item-open";
+        if (hasCoords) button.type = "button";
+
+        const label = document.createElement("span");
+        label.className = "account-activity-item-label";
+        label.textContent = entry.label || entry.placeKey;
+
+        const stars = document.createElement("span");
+        stars.className = "account-activity-item-stars";
+        const fullStars = Math.floor(entry.rating);
+        const hasHalf = entry.rating - fullStars === 0.5;
+        stars.textContent =
+          "★".repeat(fullStars) +
+          (hasHalf ? "⯨" : "") +
+          "☆".repeat(5 - fullStars - (hasHalf ? 1 : 0)) +
+          ` ${entry.rating}`;
+
+        button.append(label, stars);
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "favorite-place-remove";
+        removeButton.textContent = "×";
+        removeButton.title = t.ratingDelete;
+        removeButton.setAttribute("aria-label", t.ratingDelete);
+        removeButton.addEventListener("click", async () => {
+          const seedWordsForDelete = getStoredSeedWords();
+          if (!seedWordsForDelete) return;
+
+          removeButton.disabled = true;
+          try {
+            const cryptoApi = window.OMAP_SYNC_CRYPTO;
+            const { nostrPrivKeyBytes } = await cryptoApi.deriveKeys(seedWordsForDelete);
+            await transport.deleteRating(nostrPrivKeyBytes, entry.placeKey);
+            item.remove();
+            if (!el.accountActivityList.children.length) {
+              el.accountActivityStatus.hidden = false;
+              el.accountActivityStatus.textContent = t.activityEmpty;
+            }
+          } catch (error) {
+            console.error("Nie udało się usunąć oceny:", error);
+            removeButton.disabled = false;
+          }
+        });
+
+        const row = document.createElement("div");
+        row.className = "account-activity-item-row";
+        row.append(button, removeButton);
+        item.append(row);
+
+        if (hasCoords) {
+          button.addEventListener("click", async () => {
+            const displayLabel = entry.label || entry.placeKey;
+            closeAccount();
+
+            const lngLat = { lat: entry.lat, lng: entry.lon };
+            const minimalPlace = {
+              name: displayLabel,
+              display_name: displayLabel,
+              lat: entry.lat,
+              lon: entry.lon,
+              osm_type: entry.osmType || undefined,
+              osm_id: entry.osmId || undefined,
+              address: {},
+              extratags: {}
+            };
+
+            // Pokazujemy od razu (bez czekania na sieć), a jeśli mamy
+            // OSM id - dociągamy w tle pełne dane (kategoria, Wikipedia,
+            // strona) precyzyjnym zapytaniem PO ID, nie po współrzędnych,
+            // więc nie ma ryzyka trafienia w inny obiekt.
+            openKnownPlaceOnMap(minimalPlace, lngLat);
+
+            map.flyTo({
+              center: [entry.lon, entry.lat],
+              zoom: 16,
+              bearing: 180
+            });
+
+            if (entry.placeSnapshot && entry.placeSnapshot.name) {
+              // Migawka zapisana w momencie oceniania - dokładnie te
+              // same dane, które wtedy pokazała karta miejsca. Zero
+              // zapytań do sieci, zero zgadywania.
+              openKnownPlaceOnMap(entry.placeSnapshot, lngLat);
+              return;
+            }
+
+            try {
+              const isCityLike = ["city", "town", "village"].includes(
+                String(entry.placeType || "").toLowerCase()
+              );
+              const fullPlace = entry.osmType && entry.osmId
+                ? await fetchPlaceByOsmId(entry.osmType, entry.osmId)
+                : await fetchPlaceByReverseAtZoom(
+                    entry.lat,
+                    entry.lon,
+                    isCityLike ? 10 : 18
+                  );
+
+              if (
+                fullPlace &&
+                state.placePanelLngLat === lngLat &&
+                !el.placePanel?.hidden
+              ) {
+                openKnownPlaceOnMap(fullPlace, lngLat);
+              }
+            } catch (error) {
+              console.error("Nie udało się dociągnąć pełnych danych miejsca:", error);
+            }
+          });
+        }
+
+        fragment.appendChild(item);
+      });
+
+      el.accountActivityList.appendChild(fragment);
+    } catch (error) {
+      console.error("Nie udało się wczytać aktywności:", error);
+      el.accountActivityStatus.hidden = false;
+      el.accountActivityStatus.textContent = t.activityError;
+    } finally {
+      el.accountActivityRefreshButton?.classList.remove("is-spinning");
+    }
+  }
+
 
   function toggleLegend() {
     closeMapContextMenu();

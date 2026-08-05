@@ -1284,7 +1284,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   width: 30px;
   height: 30px;
   border: 3px solid #ffffff;
-  color: #ffffff;
+  color: var(--text);
   font-family: var(--font);
   font-size: 0.82rem;
   font-weight: 850;
@@ -1296,12 +1296,9 @@ body.ui-dark .legend-symbol.osm-buildings {
   transform: rotate(45deg);
 }
 
-.route-letter-marker.route-a {
-  background: #16a34a;
-}
-
+.route-letter-marker.route-a,
 .route-letter-marker.route-b {
-  background: #dc2626;
+  background: var(--panel);
 }
 
 
@@ -1630,14 +1627,14 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-waypoint-marker {
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 3px solid #fff;
-  background: #7c3aed;
-  color: #fff;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--panel);
+  background: var(--accent);
+  color: transparent;
   font-size: 0.68rem;
   font-weight: 850;
-  box-shadow: 0 3px 10px rgba(0,0,0,.34);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.34);
   cursor: grab;
 }
 
@@ -2063,6 +2060,87 @@ body.ui-dark .legend-symbol.osm-buildings {
   grid-column: 1 / -1;
 }
 
+
+.place-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  margin: 6px 10px;
+}
+
+.place-rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.place-rating-star {
+  position: relative;
+  display: inline-block;
+  width: 1.3rem;
+  height: 1.3rem;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.place-rating-star-track {
+  color: var(--border);
+}
+
+.place-rating-star-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--muted);
+  pointer-events: none;
+  transition: width 80ms ease;
+}
+
+.place-rating-star-fill.is-mine {
+  color: var(--accent);
+}
+
+.place-rating-star-hit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.place-rating-star-hit-half {
+  left: 0;
+}
+
+.place-rating-star-hit-full {
+  left: 50%;
+}
+
+.place-rating-summary {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.place-rating-delete {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.place-rating-delete:hover,
+.place-rating-delete:focus-visible {
+  color: var(--accent);
+}
 
 .place-departures {
   margin: 4px 10px 0;
@@ -2833,10 +2911,6 @@ a.place-card-row {
   color: var(--text);
   font: inherit;
   text-align: left;
-}
-
-.menu-action {
-  cursor: pointer;
 }
 
 .menu-action:hover,
@@ -4079,6 +4153,100 @@ div.maplibregl-ctrl-scale {
   margin: 0;
 }
 
+.account-activity-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.account-activity-refresh {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.account-activity-refresh:hover,
+.account-activity-refresh:focus-visible {
+  color: var(--accent);
+}
+
+.account-activity-refresh.is-spinning {
+  animation: omap-spin 0.7s linear infinite;
+}
+
+@keyframes omap-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.account-activity-status {
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 8px 0;
+}
+
+.account-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-activity-item {
+  border: 1px solid var(--border);
+}
+
+.account-activity-item-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.account-activity-item-open {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  padding: 8px 10px;
+  cursor: default;
+}
+
+button.account-activity-item-open {
+  cursor: pointer;
+}
+
+button.account-activity-item-open:hover,
+button.account-activity-item-open:focus-visible {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.account-activity-item-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.78rem;
+}
+
+.account-activity-item-stars {
+  flex-shrink: 0;
+  font-size: 0.74rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
 .account-sync-scope {
   display: flex;
   flex-direction: column;
@@ -4386,36 +4554,6 @@ div.maplibregl-ctrl-scale {
   font-size: 0.74rem;
   color: var(--muted);
   padding: 0 0 4px;
-}
-
-.saved-tabs {
-  display: flex;
-  gap: 6px;
-  padding: 10px 12px 0;
-  margin-bottom: 10px;
-}
-
-.saved-tab {
-  flex: 1;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  font: inherit;
-  font-size: 0.74rem;
-  font-weight: 700;
-  padding: 7px 8px;
-  cursor: pointer;
-}
-
-.saved-tab:hover,
-.saved-tab:focus-visible {
-  border-color: var(--accent);
-}
-
-.saved-tab.is-active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .route-item {
@@ -5697,30 +5835,6 @@ textarea {
    Dokładne markery punktów trasy
    Współrzędna znajduje się w geometrycznym środku znacznika.
    ========================================================= */
-.route-letter-marker {
-  display: grid !important;
-  place-items: center !important;
-  width: 24px !important;
-  height: 24px !important;
-  margin: 0 !important;
-  border: 3px solid #fff !important;
-  border-radius: 50% !important;
-  color: var(--panel) !important;
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 0.2),
-    0 2px 8px rgb(0 0 0 / 0.3) !important;
-
-}
-
-.route-letter-marker > span {
-  display: grid !important;
-  place-items: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  
-  line-height: 1 !important;
-}
-
 .maplibregl-marker:has(.route-letter-marker) {
   margin: 0 !important;
 }
@@ -5884,7 +5998,7 @@ textarea {
   padding: 0 !important;
   border: 3px solid #fff !important;
   border-radius: 50% !important;
-  color: var(--panel) !important;
+  color: var(--text) !important;
   font-size: 0.78rem !important;
   font-weight: 850 !important;
   line-height: 1 !important;
@@ -5896,15 +6010,11 @@ textarea {
 }
 
 .route-letter-marker.route-a,
-.route-letter-marker.route-a.maplibregl-marker {
-  background: #16a34a !important;
-  background-color: #16a34a !important;
-}
-
+.route-letter-marker.route-a.maplibregl-marker,
 .route-letter-marker.route-b,
 .route-letter-marker.route-b.maplibregl-marker {
-  background: #dc2626 !important;
-  background-color: #dc2626 !important;
+  background: var(--panel) !important;
+  background-color: var(--panel) !important;
 }
 
 .route-letter-marker > span {
@@ -5912,7 +6022,7 @@ textarea {
   place-items: center !important;
   width: 100% !important;
   height: 100% !important;
-  color: var(--panel) !important;
+  color: var(--text) !important;
   
   line-height: 1 !important;
 }
@@ -6840,6 +6950,24 @@ textarea,
 
 .measure-distance-badge[hidden] {
   display: none;
+}
+
+.measure-mode-switch {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.measure-mode-switch:hover,
+.measure-mode-switch:focus-visible {
+  color: var(--accent);
 }
 
 #measure-clear-button {
