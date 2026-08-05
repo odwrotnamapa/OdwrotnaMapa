@@ -249,29 +249,61 @@
         bar: "Bary",
         fast_food: "Fast food",
         bakery: "Piekarnie",
+        confectionery: "Cukiernie",
         ice_cream: "Lodziarnie",
         hotel: "Hotele",
         campsite: "Kempingi",
         fuel: "Paliwo",
         museum: "Muzea",
+        art_gallery: "Galerie sztuki",
+        viewpoint: "Punkty widokowe",
+        monument: "Pomniki",
+        bowling: "Kręgielnie",
+        aquarium: "Akwaria",
         park: "Parki",
+        spa: "Spa",
+        tennis: "Korty tenisowe",
+        amusement_park: "Parki rozrywki",
         pharmacy: "Apteki",
+        drugstore: "Drogerie",
         hospital: "Szpitale",
         dentist: "Dentyści",
+        optician: "Optycy",
+        massage: "Masaże",
         vet: "Weterynarze",
         bank: "Banki",
         post_office: "Poczty",
+        parcel_locker: "Paczkomaty",
         hairdresser: "Fryzjerzy",
+        currency_exchange: "Kantory",
+        notary: "Notariusze",
+        real_estate: "Biura nieruchomości",
+        tailor: "Krawcy",
+        locksmith: "Ślusarze",
+        car_wash: "Myjnie",
         laundry: "Pralnie",
         toilets: "Toalety",
         bus_stop: "Przystanki",
         railway_station: "Dworce",
         ev_charging: "Ładowarki EV",
+        taxi: "Taksówki",
+        airport: "Lotniska",
+        car_rental: "Wypożyczalnie aut",
+        bicycle_rental: "Wypożyczalnie rowerów",
         parking: "Parkingi",
         car_repair: "Warsztaty",
         shop: "Sklepy",
         mall: "Centra handlowe",
         clothes: "Odzież",
+        shoe_shop: "Obuwie",
+        electronics: "Elektronika",
+        furniture: "Meble",
+        pet_shop: "Sklepy zoologiczne",
+        florist: "Kwiaciarnie",
+        jewelry: "Jubilerzy",
+        sporting_goods: "Sklepy sportowe",
+        hardware_store: "Sklepy budowlane",
+        bicycle_shop: "Sklepy rowerowe",
         bookstore: "Księgarnie",
         kiosk: "Kioski",
         cinema: "Kina",
@@ -284,8 +316,13 @@
         gym: "Siłownie",
         swimming_pool: "Baseny",
         school: "Szkoły",
+        kindergarten: "Przedszkola",
+        university: "Uczelnie",
         church: "Kościoły",
-        police: "Policja"
+        police: "Policja",
+        fire_station: "Straż pożarna",
+        town_hall: "Urzędy",
+        courthouse: "Sądy"
       },
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
@@ -671,29 +708,61 @@
         bar: "Bars",
         fast_food: "Fast food",
         bakery: "Bakeries",
+        confectionery: "Confectioneries",
         ice_cream: "Ice cream",
         hotel: "Hotels",
         campsite: "Campsites",
         fuel: "Fuel",
         museum: "Museums",
+        art_gallery: "Art galleries",
+        viewpoint: "Viewpoints",
+        monument: "Monuments",
+        bowling: "Bowling alleys",
+        aquarium: "Aquariums",
         park: "Parks",
+        spa: "Spas",
+        tennis: "Tennis courts",
+        amusement_park: "Amusement parks",
         pharmacy: "Pharmacies",
+        drugstore: "Drugstores",
         hospital: "Hospitals",
         dentist: "Dentists",
+        optician: "Opticians",
+        massage: "Massage",
         vet: "Vets",
         bank: "Banks",
         post_office: "Post offices",
+        parcel_locker: "Parcel lockers",
         hairdresser: "Hairdressers",
+        currency_exchange: "Currency exchange",
+        notary: "Notaries",
+        real_estate: "Real estate agencies",
+        tailor: "Tailors",
+        locksmith: "Locksmiths",
+        car_wash: "Car washes",
         laundry: "Laundries",
         toilets: "Toilets",
         bus_stop: "Bus stops",
         railway_station: "Train stations",
         ev_charging: "EV charging",
+        taxi: "Taxi ranks",
+        airport: "Airports",
+        car_rental: "Car rental",
+        bicycle_rental: "Bike rental",
         parking: "Parking",
         car_repair: "Car repair",
         shop: "Shops",
         mall: "Shopping malls",
         clothes: "Clothing",
+        shoe_shop: "Shoe shops",
+        electronics: "Electronics",
+        furniture: "Furniture",
+        pet_shop: "Pet shops",
+        florist: "Florists",
+        jewelry: "Jewelry",
+        sporting_goods: "Sporting goods",
+        hardware_store: "Hardware stores",
+        bicycle_shop: "Bike shops",
         bookstore: "Bookstores",
         kiosk: "Kiosks",
         cinema: "Cinemas",
@@ -706,8 +775,13 @@
         gym: "Gyms",
         swimming_pool: "Swimming pools",
         school: "Schools",
+        kindergarten: "Kindergartens",
+        university: "Universities",
         church: "Churches",
-        police: "Police"
+        police: "Police",
+        fire_station: "Fire stations",
+        town_hall: "Town halls",
+        courthouse: "Courthouses"
       },
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
@@ -14470,6 +14544,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         "bar",
         "fast_food",
         "bakery",
+        "confectionery",
         "ice_cream"
       ]
     },
@@ -14479,18 +14554,48 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     },
     {
       id: "shopping",
-      categories: ["shop", "mall", "clothes", "bookstore", "kiosk"]
+      categories: [
+        "shop",
+        "mall",
+        "clothes",
+        "shoe_shop",
+        "electronics",
+        "furniture",
+        "pet_shop",
+        "florist",
+        "jewelry",
+        "sporting_goods",
+        "hardware_store",
+        "bicycle_shop",
+        "bookstore",
+        "kiosk"
+      ]
     },
     {
       id: "health",
-      categories: ["pharmacy", "hospital", "dentist", "vet"]
+      categories: [
+        "pharmacy",
+        "drugstore",
+        "hospital",
+        "dentist",
+        "optician",
+        "massage",
+        "vet"
+      ]
     },
     {
       id: "services",
       categories: [
         "bank",
         "post_office",
+        "parcel_locker",
         "hairdresser",
+        "currency_exchange",
+        "notary",
+        "real_estate",
+        "tailor",
+        "locksmith",
+        "car_wash",
         "laundry",
         "toilets"
       ]
@@ -14502,6 +14607,10 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         "railway_station",
         "fuel",
         "ev_charging",
+        "taxi",
+        "airport",
+        "car_rental",
+        "bicycle_rental",
         "parking",
         "car_repair"
       ]
@@ -14510,6 +14619,11 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       id: "culture",
       categories: [
         "museum",
+        "art_gallery",
+        "viewpoint",
+        "monument",
+        "bowling",
+        "aquarium",
         "cinema",
         "theatre",
         "library",
@@ -14521,6 +14635,9 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       id: "recreation",
       categories: [
         "park",
+        "spa",
+        "tennis",
+        "amusement_park",
         "beach",
         "playground",
         "gym",
@@ -14529,7 +14646,16 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     },
     {
       id: "public",
-      categories: ["school", "church", "police"]
+      categories: [
+        "school",
+        "kindergarten",
+        "university",
+        "church",
+        "police",
+        "fire_station",
+        "town_hall",
+        "courthouse"
+      ]
     }
   ];
 
@@ -14546,6 +14672,10 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       queries: ["fast food", "kebab", "burger"]
     },
     bakery: { emoji: "🥐", queries: ["piekarnia", "bakery"] },
+    confectionery: {
+      emoji: "🧁",
+      queries: ["cukiernia", "confectionery"]
+    },
     ice_cream: {
       emoji: "🍦",
       queries: ["lodziarnia", "ice cream"]
@@ -14557,10 +14687,39 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     },
     fuel: { emoji: "⛽", queries: ["stacja paliw", "fuel"] },
     museum: { emoji: "🏛", queries: ["muzeum", "museum"] },
+    art_gallery: {
+      emoji: "🖼️",
+      queries: ["galeria sztuki", "art gallery"]
+    },
+    viewpoint: {
+      emoji: "🔭",
+      queries: ["punkt widokowy", "viewpoint"]
+    },
+    monument: { emoji: "🗿", queries: ["pomnik", "monument"] },
+    bowling: { emoji: "🎳", queries: ["kręgielnia", "bowling"] },
+    aquarium: { emoji: "🐠", queries: ["akwarium", "aquarium"] },
     park: { emoji: "🌳", queries: ["park", "ogród"] },
+    spa: { emoji: "🧖", queries: ["spa", "salon spa"] },
+    tennis: {
+      emoji: "🎾",
+      queries: ["kort tenisowy", "tennis court"]
+    },
+    amusement_park: {
+      emoji: "🎢",
+      queries: ["park rozrywki", "amusement park"]
+    },
     pharmacy: { emoji: "💊", queries: ["apteka", "pharmacy"] },
+    drugstore: {
+      emoji: "🧴",
+      queries: ["drogeria", "drugstore"]
+    },
     hospital: { emoji: "🏥", queries: ["szpital", "hospital"] },
     dentist: { emoji: "🦷", queries: ["dentysta", "dentist"] },
+    optician: { emoji: "👓", queries: ["optyk", "optician"] },
+    massage: {
+      emoji: "💆",
+      queries: ["masaż", "salon masażu", "massage"]
+    },
     vet: {
       emoji: "🐾",
       queries: ["weterynarz", "lecznica dla zwierząt"]
@@ -14570,9 +14729,28 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       emoji: "✉️",
       queries: ["poczta", "post office"]
     },
+    parcel_locker: {
+      emoji: "📦",
+      queries: ["paczkomat", "automat paczkowy", "parcel locker"]
+    },
     hairdresser: {
       emoji: "💇",
       queries: ["fryzjer", "salon fryzjerski"]
+    },
+    currency_exchange: {
+      emoji: "💱",
+      queries: ["kantor", "currency exchange"]
+    },
+    notary: { emoji: "📜", queries: ["notariusz", "notary"] },
+    real_estate: {
+      emoji: "🏘️",
+      queries: ["biuro nieruchomości", "real estate"]
+    },
+    tailor: { emoji: "🧵", queries: ["krawiec", "tailor"] },
+    locksmith: { emoji: "🔑", queries: ["ślusarz", "locksmith"] },
+    car_wash: {
+      emoji: "🚿",
+      queries: ["myjnia samochodowa", "car wash"]
     },
     laundry: { emoji: "🧺", queries: ["pralnia", "laundry"] },
     toilets: { emoji: "🚻", queries: ["toaleta publiczna", "toilets"] },
@@ -14588,6 +14766,16 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       emoji: "🔌",
       queries: ["ładowarka samochodów elektrycznych", "ev charging"]
     },
+    taxi: { emoji: "🚕", queries: ["postój taksówek", "taxi"] },
+    airport: { emoji: "✈️", queries: ["lotnisko", "airport"] },
+    car_rental: {
+      emoji: "🚗",
+      queries: ["wypożyczalnia samochodów", "car rental"]
+    },
+    bicycle_rental: {
+      emoji: "🚴",
+      queries: ["wypożyczalnia rowerów", "bicycle rental"]
+    },
     parking: { emoji: "🅿️", queries: ["parking", "parking strzeżony"] },
     car_repair: {
       emoji: "🔧",
@@ -14599,6 +14787,36 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       queries: ["centrum handlowe", "galeria handlowa"]
     },
     clothes: { emoji: "👕", queries: ["sklep odzieżowy", "odzież"] },
+    shoe_shop: {
+      emoji: "👟",
+      queries: ["sklep obuwniczy", "shoe shop"]
+    },
+    electronics: {
+      emoji: "📺",
+      queries: ["sklep elektroniczny", "rtv agd", "electronics"]
+    },
+    furniture: {
+      emoji: "🛋️",
+      queries: ["sklep meblowy", "furniture store"]
+    },
+    pet_shop: {
+      emoji: "🐕",
+      queries: ["sklep zoologiczny", "pet shop"]
+    },
+    florist: { emoji: "💐", queries: ["kwiaciarnia", "florist"] },
+    jewelry: { emoji: "💍", queries: ["jubiler", "jewelry"] },
+    sporting_goods: {
+      emoji: "⚽",
+      queries: ["sklep sportowy", "sporting goods"]
+    },
+    hardware_store: {
+      emoji: "🔨",
+      queries: ["sklep budowlany", "hardware store"]
+    },
+    bicycle_shop: {
+      emoji: "🚲",
+      queries: ["sklep rowerowy", "serwis rowerowy", "bicycle shop"]
+    },
     bookstore: { emoji: "📚", queries: ["księgarnia", "bookstore"] },
     kiosk: { emoji: "🗞", queries: ["kiosk", "salonik prasowy"] },
     cinema: { emoji: "🎬", queries: ["kino", "cinema"] },
@@ -14620,11 +14838,28 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       queries: ["basen", "pływalnia", "swimming pool"]
     },
     school: { emoji: "🏫", queries: ["szkoła", "school"] },
+    kindergarten: {
+      emoji: "🧸",
+      queries: ["przedszkole", "kindergarten"]
+    },
+    university: {
+      emoji: "🎓",
+      queries: ["uniwersytet", "uczelnia", "university"]
+    },
     church: { emoji: "⛪", queries: ["kościół", "church"] },
     police: {
       emoji: "👮",
       queries: ["komisariat policji", "police station"]
-    }
+    },
+    fire_station: {
+      emoji: "🚒",
+      queries: ["straż pożarna", "fire station"]
+    },
+    town_hall: {
+      emoji: "🏢",
+      queries: ["urząd miasta", "urząd gminy", "town hall"]
+    },
+    courthouse: { emoji: "⚖️", queries: ["sąd", "courthouse"] }
   };
 
   function renderDiscoverCategoryButtons() {
