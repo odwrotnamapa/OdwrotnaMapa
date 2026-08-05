@@ -47,6 +47,17 @@
     return Array.isArray(configured) && configured.length ? configured : DEFAULT_RELAYS;
   }
 
+  // Odczyt ocen dzieje się często (przy każdym otwarciu panelu
+  // miejsca) i jest mniej krytyczny niż zapis - lepiej nawiązać
+  // mniej równoległych połączeń WebSocket i dostać odpowiedź szybciej
+  // (istotne na sieciach komórkowych, gdzie 8 jednoczesnych połączeń
+  // potrafi trwać dłużej niż limit czasu), niż czekać na komplet.
+  // Publikowanie oceny (publishRating/deleteRating) nadal idzie do
+  // WSZYSTKICH przekaźników, żeby maksymalizować szansę propagacji.
+  function getReadRelays() {
+    return getRelays().slice(0, 4);
+  }
+
   function waitForNostrLib(timeoutMs = 8000) {
     if (window.OMAP_NOSTR_LIB) return Promise.resolve(window.OMAP_NOSTR_LIB);
     return new Promise((resolve, reject) => {
@@ -291,7 +302,7 @@
     const lib = await waitForNostrLib();
     const { verifyEvent } = lib;
     const pool = await getSharedPool();
-    const relays = getRelays();
+    const relays = getReadRelays();
 
     const events = await querySyncWithTimeout(pool, relays, {
       kinds: [RATING_KIND],
@@ -346,7 +357,7 @@
     const lib = await waitForNostrLib();
     const { verifyEvent } = lib;
     const pool = await getSharedPool();
-    const relays = getRelays();
+    const relays = getReadRelays();
 
     const events = await querySyncWithTimeout(pool, relays, {
       kinds: [RATING_KIND],
