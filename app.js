@@ -240,7 +240,8 @@
         transport: "Transport",
         culture: "Kultura i rozrywka",
         recreation: "Rekreacja",
-        public: "Instytucje"
+        public: "Instytucje",
+        support: "Pomoc"
       },
       discoverCategories: {
         pizza: "Pizza",
@@ -276,11 +277,13 @@
         parcel_locker: "Paczkomaty",
         hairdresser: "Fryzjerzy",
         currency_exchange: "Kantory",
+        pawnbroker: "Lombardy",
         notary: "Notariusze",
         real_estate: "Biura nieruchomości",
         tailor: "Krawcy",
         locksmith: "Ślusarze",
         car_wash: "Myjnie",
+        bottle_return: "Skup butelek",
         laundry: "Pralnie",
         toilets: "Toalety",
         bus_stop: "Przystanki",
@@ -322,7 +325,12 @@
         police: "Policja",
         fire_station: "Straż pożarna",
         town_hall: "Urzędy",
-        courthouse: "Sądy"
+        courthouse: "Sądy",
+        homeless_shelter: "Schroniska dla bezdomnych",
+        soup_kitchen: "Jadłodajnie",
+        public_shower: "Prysznice publiczne",
+        drinking_water: "Źródełka wody pitnej",
+        social_services: "Ośrodki pomocy społecznej"
       },
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
@@ -699,7 +707,8 @@
         transport: "Transport",
         culture: "Culture & entertainment",
         recreation: "Recreation",
-        public: "Public"
+        public: "Public",
+        support: "Support"
       },
       discoverCategories: {
         pizza: "Pizza",
@@ -735,11 +744,13 @@
         parcel_locker: "Parcel lockers",
         hairdresser: "Hairdressers",
         currency_exchange: "Currency exchange",
+        pawnbroker: "Pawnshops",
         notary: "Notaries",
         real_estate: "Real estate agencies",
         tailor: "Tailors",
         locksmith: "Locksmiths",
         car_wash: "Car washes",
+        bottle_return: "Bottle return points",
         laundry: "Laundries",
         toilets: "Toilets",
         bus_stop: "Bus stops",
@@ -781,7 +792,12 @@
         police: "Police",
         fire_station: "Fire stations",
         town_hall: "Town halls",
-        courthouse: "Courthouses"
+        courthouse: "Courthouses",
+        homeless_shelter: "Homeless shelters",
+        soup_kitchen: "Soup kitchens",
+        public_shower: "Public showers",
+        drinking_water: "Drinking water",
+        social_services: "Social services"
       },
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
@@ -14591,11 +14607,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         "parcel_locker",
         "hairdresser",
         "currency_exchange",
+        "pawnbroker",
         "notary",
         "real_estate",
         "tailor",
         "locksmith",
         "car_wash",
+        "bottle_return",
         "laundry",
         "toilets"
       ]
@@ -14655,6 +14673,16 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         "fire_station",
         "town_hall",
         "courthouse"
+      ]
+    },
+    {
+      id: "support",
+      categories: [
+        "homeless_shelter",
+        "soup_kitchen",
+        "public_shower",
+        "drinking_water",
+        "social_services"
       ]
     }
   ];
@@ -14731,7 +14759,8 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     },
     parcel_locker: {
       emoji: "📦",
-      queries: ["paczkomat", "automat paczkowy", "parcel locker"]
+      queries: ["paczkomat", "automat paczkowy", "parcel locker"],
+      overpassTags: [[["amenity", "parcel_locker"]]]
     },
     hairdresser: {
       emoji: "💇",
@@ -14741,6 +14770,10 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       emoji: "💱",
       queries: ["kantor", "currency exchange"]
     },
+    pawnbroker: {
+      emoji: "💰",
+      queries: ["lombard", "pawnbroker", "pawn shop"]
+    },
     notary: { emoji: "📜", queries: ["notariusz", "notary"] },
     real_estate: {
       emoji: "🏘️",
@@ -14749,8 +14782,21 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     tailor: { emoji: "🧵", queries: ["krawiec", "tailor"] },
     locksmith: { emoji: "🔑", queries: ["ślusarz", "locksmith"] },
     car_wash: {
-      emoji: "🚿",
+      emoji: "🧽",
       queries: ["myjnia samochodowa", "car wash"]
+    },
+    bottle_return: {
+      emoji: "🍾",
+      queries: [
+        "butelkomat",
+        "skup butelek",
+        "punkt zbiórki butelek",
+        "bottle return"
+      ],
+      overpassTags: [
+        [["amenity", "vending_machine"], ["vending", "bottle_return"]],
+        [["amenity", "recycling"], ["recycling_type", "deposit"]]
+      ]
     },
     laundry: { emoji: "🧺", queries: ["pralnia", "laundry"] },
     toilets: { emoji: "🚻", queries: ["toaleta publiczna", "toilets"] },
@@ -14859,7 +14905,45 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       emoji: "🏢",
       queries: ["urząd miasta", "urząd gminy", "town hall"]
     },
-    courthouse: { emoji: "⚖️", queries: ["sąd", "courthouse"] }
+    courthouse: { emoji: "⚖️", queries: ["sąd", "courthouse"] },
+    homeless_shelter: {
+      emoji: "🏠",
+      queries: [
+        "noclegownia",
+        "ogrzewalnia",
+        "dom dla bezdomnych",
+        "homeless shelter"
+      ],
+      overpassTags: [
+        [["amenity", "social_facility"], ["social_facility", "shelter"]]
+      ]
+    },
+    soup_kitchen: {
+      emoji: "🍲",
+      queries: [
+        "jadłodajnia",
+        "kuchnia dla potrzebujących",
+        "soup kitchen"
+      ]
+    },
+    public_shower: {
+      emoji: "🚿",
+      queries: ["prysznice publiczne", "public showers"],
+      overpassTags: [[["amenity", "shower"]]]
+    },
+    drinking_water: {
+      emoji: "🚰",
+      queries: ["źródełko wody pitnej", "drinking water"],
+      overpassTags: [[["amenity", "drinking_water"]]]
+    },
+    social_services: {
+      emoji: "🤝",
+      queries: [
+        "ośrodek pomocy społecznej",
+        "punkt pomocy",
+        "social services"
+      ]
+    }
   };
 
   function renderDiscoverCategoryButtons() {
@@ -14958,10 +15042,15 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     state.exploreRequestController = new AbortController();
 
     try {
-      const places = await fetchDiscoverFromNominatim(
-        category,
-        state.exploreRequestController.signal
-      );
+      const places = category.overpassTags
+        ? await fetchDiscoverFromOverpass(
+            category,
+            state.exploreRequestController.signal
+          )
+        : await fetchDiscoverFromNominatim(
+            category,
+            state.exploreRequestController.signal
+          );
 
       if (!places.length) {
         el.discoverStatus.textContent = t.discoverEmpty;
@@ -15108,6 +15197,85 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     return collected;
   }
 
+  // Niektóre kategorie (butelkomaty, prysznice publiczne, źródełka
+  // wody itp.) prawie nigdy nie mają własnej nazwy w OSM - to są
+  // ustrukturyzowane atrybuty (np. amenity=drinking_water) przypięte
+  // do punktu, nie tekst w polu "nazwa". Wyszukiwanie tekstowe przez
+  // Nominatim (fetchDiscoverFromNominatim) nie ma więc czego znaleźć.
+  // Dla takich kategorii pytamy zamiast tego Overpass wprost o
+  // konkretne tagi w bieżącym widoku mapy.
+  async function fetchDiscoverFromOverpass(category, signal) {
+    const bounds = map.getBounds();
+    // Overpass QL bbox: south,west,north,east.
+    const bbox = [
+      bounds.getSouth(),
+      bounds.getWest(),
+      bounds.getNorth(),
+      bounds.getEast()
+    ].join(",");
+
+    const clauses = category.overpassTags
+      .map(tagPairs => {
+        const filters = tagPairs
+          .map(([key, value]) => `["${key}"="${value}"]`)
+          .join("");
+        return `nwr${filters}(${bbox});`;
+      })
+      .join("");
+
+    const query =
+      `[out:json][timeout:15];(${clauses});out center tags;`;
+
+    const endpoints = [
+      "https://overpass-api.de/api/interpreter",
+      "https://overpass.kumi.systems/api/interpreter",
+      "https://overpass.private.coffee/api/interpreter"
+    ];
+
+    let lastError = null;
+    let data = null;
+
+    for (const endpoint of endpoints) {
+      const attemptController = new AbortController();
+      const timeoutId = setTimeout(
+        () => attemptController.abort(),
+        8000
+      );
+      const onOuterAbort = () => attemptController.abort();
+      signal?.addEventListener("abort", onOuterAbort);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          signal: attemptController.signal,
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "data=" + encodeURIComponent(query)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Overpass HTTP ${response.status} (${endpoint})`);
+        }
+
+        data = await response.json();
+        break;
+      } catch (error) {
+        if (error.name === "AbortError" && signal?.aborted) throw error;
+        lastError = error;
+        console.warn("Serwer Overpass zawiódł, próbuję kolejnego.", error);
+      } finally {
+        clearTimeout(timeoutId);
+        signal?.removeEventListener("abort", onOuterAbort);
+      }
+    }
+
+    if (!data) {
+      throw lastError || new Error("Wszystkie serwery Overpass zawiodły.");
+    }
+
+    const results = normalizeDiscoverElements(data.elements || []);
+    return results.slice(0, CONFIG.search.exploreLimit);
+  }
+
   function normalizeDiscoverElements(elements) {
     const seen = new Set();
     const results = [];
@@ -15193,6 +15361,35 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     };
   }
 
+  // Wyniki z Overpass mają adres tylko w surowych tagach addr:* (nie
+  // w gotowym obiekcie address jak Nominatim) - ta funkcja ujednolica
+  // oba przypadki w jeden tekst adresu, używany zarówno w liście
+  // wyników jak i w otwartym panelu miejsca.
+  function buildDiscoverPlaceAddress(place) {
+    const tags = place.tags || {};
+    const address = {
+      ...(place.address || {}),
+      road: tags["addr:street"] || place.address?.road || "",
+      house_number:
+        tags["addr:housenumber"] || place.address?.house_number || "",
+      postcode: tags["addr:postcode"] || place.address?.postcode || "",
+      city:
+        tags["addr:city"] ||
+        tags["addr:suburb"] ||
+        tags["addr:place"] ||
+        place.address?.city ||
+        ""
+    };
+
+    return window.OMAP_ADDRESS_SERVICE?.format(
+      {
+        address,
+        display_name: tags.name || tags.brand || ""
+      },
+      { language: state.language }
+    ) || "";
+  }
+
   function renderDiscoverResults(places, category) {
     window.OMAP_PHOTO_SERVICE?.preload(places);
 
@@ -15251,8 +15448,14 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
               place.tags["addr:housenumber"] ||
               place.address?.house_number ||
               "",
+            postcode:
+              place.tags["addr:postcode"] ||
+              place.address?.postcode ||
+              "",
             city:
               place.tags["addr:city"] ||
+              place.tags["addr:suburb"] ||
+              place.tags["addr:place"] ||
               place.address?.city ||
               ""
           },
@@ -15309,11 +15512,17 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
           place.tags.brand ||
           `${category.emoji} ${index + 1}`;
 
+        const addressText = buildDiscoverPlaceAddress(place);
+        const addressLine = document.createElement("small");
+        addressLine.className = "discover-result-address";
+        addressLine.textContent = addressText;
+        if (!addressText) addressLine.hidden = true;
+
         const coordinates = document.createElement("small");
         coordinates.textContent =
           `${place.lat.toFixed(4)}, ${place.lon.toFixed(4)}`;
 
-        copy.append(name, coordinates);
+        copy.append(name, addressLine, coordinates);
         button.append(icon, copy);
         button.addEventListener("click", openPlace);
         item.appendChild(button);

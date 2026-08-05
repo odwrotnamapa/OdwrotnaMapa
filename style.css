@@ -1993,7 +1993,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 
   .place-card-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     padding: 10px 14px 14px;
   }
 
