@@ -1515,12 +1515,12 @@
 
     // Synchronizuj z Ulubionymi: jeśli miejsce jest w Ulubionych, zaktualizuj jego customName
     if (place && lngLat) {
-      const favoriteKey = getFavoriteKey(place, lngLat);
+      const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
       const favorite = state.favorites.find(item => item.key === favoriteKey);
       if (favorite) {
         favorite.customName = state.customPlaceNames[key] || "";
-        saveFavorites();
-        renderFavoritesList();
+        window.OMAP_FAVORITES?.saveFavorites();
+        window.OMAP_FAVORITES?.renderFavoritesList();
       }
     }
 
@@ -1545,6 +1545,15 @@
   // Wypełniane przez initializeAutocomplete(); pozwala podpiąć podpowiedzi
   // wyszukiwania do dynamicznie tworzonych pól przystanków trasy.
   let registerRouteWaypointAutocomplete = null;
+
+  // Minimalny, bardzo wczesny configure() - readFavorites/
+  // readFavoriteFolders są wołane TUTAJ, wewnątrz konstrukcji
+  // samego obiektu state (linia niżej), więc jeszcze przed
+  // pełnym configure() w skonsolidowanym bloku (state/el/text
+  // nie istnieją jeszcze w tym momencie - tylko CONFIG jest już
+  // gotowe). Pełny configure() z resztą zależności następuje
+  // normalnie, dalej w pliku, przed pierwszym updateUI().
+  window.OMAP_FAVORITES?.configure({ CONFIG });
 
   const state = {
     language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, ""))
@@ -1604,8 +1613,8 @@
     routeBackContext: null,
     exploreMarkers: [],
     exploreRequestController: null,
-    favorites: readFavorites(),
-    favoriteFolders: readFavoriteFolders(),
+    favorites: window.OMAP_FAVORITES?.readFavorites(),
+    favoriteFolders: window.OMAP_FAVORITES?.readFavoriteFolders(),
     activeFavoriteFolder: "",
     activeRouteFolder: "",
     favoritesSortOrder: "newest",
@@ -2005,6 +2014,31 @@ map.on('rotate', updateLogoRotation);
     getStoredSeedWords,
     openAccountFromMenu
   });
+  window.OMAP_FAVORITES?.configure({
+    state,
+    el,
+    CONFIG,
+    text,
+    UNFILED_FOLDER,
+    ROUTE_MODE_ICONS,
+    cacheWikipediaForFavorite,
+    closeMapContextMenu,
+    closeOtherMobilePanels,
+    fetchPlaceInformation,
+    filterRouteEntries,
+    formatRouteSummaryShort,
+    getPlaceAddress,
+    getPlaceNameKey,
+    getPlaceTitle,
+    loadRouteFromEntry,
+    normalizeSearchText,
+    openMobilePanelStandard,
+    safeSet,
+    saveRouteFavorites,
+    show,
+    sortByOrder,
+    updateRouteSaveFavoriteButton
+  });
   window.OMAP_BOTTOM_SHEET?.configure({
     MOBILE_PANEL_STANDARD,
     openMobilePanelStandard,
@@ -2025,13 +2059,13 @@ map.on('rotate', updateLogoRotation);
     idbSetCustomFont,
     idbSetTexture,
     registerTextureImage,
-    renderFavoritesList,
-    renderFolderChips,
+    renderFavoritesList: window.OMAP_FAVORITES?.renderFavoritesList,
+    renderFolderChips: window.OMAP_FAVORITES?.renderFolderChips,
     saveCustomFont,
     saveCustomPalette,
     saveCustomPlaceNames,
-    saveFavoriteFolders,
-    saveFavorites,
+    saveFavoriteFolders: window.OMAP_FAVORITES?.saveFavoriteFolders,
+    saveFavorites: window.OMAP_FAVORITES?.saveFavorites,
     saveRouteFavorites,
     syncCustomFontSelect,
     syncCustomPaletteInputs,
@@ -2467,20 +2501,20 @@ map.on('rotate', updateLogoRotation);
   });
   el.favoritesOpenButton?.addEventListener(
     "click",
-    openFavoritesPanel
+    window.OMAP_FAVORITES?.openFavoritesPanel
   );
   el.favoritesClose?.addEventListener(
     "click",
-    closeFavoritesPanel
+    window.OMAP_FAVORITES?.closeFavoritesPanel
   );
   el.favoritesBack?.addEventListener(
     "click",
     returnFromFavoritesToMenu
   );
-  el.favoritesSearch?.addEventListener("input", renderFavoritesList);
+  el.favoritesSearch?.addEventListener("input", window.OMAP_FAVORITES?.renderFavoritesList);
   el.favoritesSortSelect?.addEventListener("change", () => {
     state.favoritesSortOrder = el.favoritesSortSelect.value;
-    renderFavoritesList();
+    window.OMAP_FAVORITES?.renderFavoritesList();
   });
 
   el.favoritesAddFolderButton?.addEventListener("click", () => {
@@ -2494,27 +2528,12 @@ map.on('rotate', updateLogoRotation);
     if (el.favoritesNewFolderForm) el.favoritesNewFolderForm.hidden = true;
   });
 
-  function createFavoriteFolder() {
-    const name = (el.favoritesNewFolderInput?.value || "").trim();
-    if (!name) return;
-    const exists = state.favoriteFolders.some(
-      f => f.toLowerCase() === name.toLowerCase()
-    );
-    if (!exists) {
-      state.favoriteFolders.push(name);
-      saveFavoriteFolders();
-    }
-    state.activeFavoriteFolder = name;
-    if (el.favoritesNewFolderForm) el.favoritesNewFolderForm.hidden = true;
-    renderFolderChips();
-    renderFavoritesList();
-  }
 
-  el.favoritesNewFolderSave?.addEventListener("click", createFavoriteFolder);
+  el.favoritesNewFolderSave?.addEventListener("click", window.OMAP_FAVORITES?.createFavoriteFolder);
   el.favoritesNewFolderInput?.addEventListener("keydown", event => {
     if (event.key === "Enter") {
       event.preventDefault();
-      createFavoriteFolder();
+      window.OMAP_FAVORITES?.createFavoriteFolder();
     }
   });
 
@@ -3027,8 +3046,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       resolveTheme(state.theme) === "dark" ||
       (state.theme === "satellite" && prefersDarkColorScheme())
     );
-    renderFolderChips();
-    renderFavoritesList();
+    window.OMAP_FAVORITES?.renderFolderChips();
+    window.OMAP_FAVORITES?.renderFavoritesList();
     renderHistoryList();
 
     if (el.favoritesAddFolderButton) el.favoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
@@ -4257,7 +4276,7 @@ function applyLanguage(language) {
 
       const isMainSearch = activeInput === el.searchInput;
       const favoriteMatches = isMainSearch
-        ? getMatchingFavoritePlaces(query)
+        ? window.OMAP_FAVORITES?.getMatchingFavoritePlaces(query)
         : [];
 
       // Ulubione są lokalne (bez sieci) - pokazujemy je od razu,
@@ -4838,36 +4857,6 @@ function applyLanguage(language) {
       .trim();
   }
 
-  // Ulubione miejsca mają praktycznie ten sam kształt co wynik
-  // wyszukiwania (lat/lon/title/osm_type/address itd. - bo z takiego
-  // wyniku pierwotnie powstały), więc można je wstawić bezpośrednio
-  // do tej samej listy podpowiedzi bez osobnej ścieżki wyboru.
-  function getMatchingFavoritePlaces(query, limit = 5) {
-    const q = normalizeSearchText(query);
-    if (!q) return [];
-
-    return state.favorites
-      .filter(favorite => {
-        const haystack = normalizeSearchText(
-          [favorite.customName, favorite.title, favorite.address]
-            .filter(Boolean)
-            .join(" ")
-        );
-        return haystack.includes(q);
-      })
-      .slice(0, limit)
-      .map(favorite => ({
-        ...favorite,
-        name: favorite.customName || favorite.name || favorite.title,
-        __isFavorite: true
-      }));
-  }
-
-  // Współdzielona logika sortowania dla ulubionych miejsc i tras.
-  // "newest"/"oldest" opiera się na kolejności w tablicy - nowe
-  // wpisy są zawsze dokładane na początek (unshift), więc naturalna
-  // kolejność tablicy JUŻ jest "od najnowszych" bez potrzeby
-  // osobnego pola z datą.
   function sortByOrder(list, order, getLabel) {
     const arr = [...list];
     const locale = state.language === "pl" ? "pl" : "en";
@@ -5216,7 +5205,7 @@ function applyLanguage(language) {
     { id: "route", close: () => closeRoute(), panel: el.routePanel, cssVariable: "--sheet-height" },
     { id: "discover", close: () => closeDiscover(), panel: el.discoverPanel, cssVariable: "--sheet-height" },
     { id: "menu", close: () => closeMenu(), panel: el.menuPanel, cssVariable: "--sheet-height" },
-    { id: "favorites", close: () => closeFavoritesPanel(), panel: el.favoritesPanel, cssVariable: "--sheet-height" },
+    { id: "favorites", close: () => window.OMAP_FAVORITES?.closeFavoritesPanel(), panel: el.favoritesPanel, cssVariable: "--sheet-height" },
     { id: "history", close: () => closeHistory(), panel: el.historyPanel, cssVariable: "--sheet-height" },
     { id: "place", close: () => closePlacePanel(), panel: el.placePanel, cssVariable: "--sheet-height" },
     { id: "trip", close: () => closeTrip(), panel: el.tripPanel, cssVariable: "--sheet-height" },
@@ -5407,7 +5396,7 @@ function applyLanguage(language) {
     window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.favoritesPanel,
       handle: el.favoritesSheetHandle,
-      close: closeFavoritesPanel,
+      close: window.OMAP_FAVORITES?.closeFavoritesPanel,
       cssVariable: "--sheet-height"
     });
   }
@@ -5970,35 +5959,6 @@ function swapRoutePoints() {
     }
   }
 
-  async function addContextPointToFavorites(lngLat) {
-    if (!lngLat) return;
-
-    show(text[state.language].placeLoading, 0);
-
-    try {
-      const place = await fetchPlaceInformation(
-        lngLat.lng,
-        lngLat.lat
-      );
-
-      const key = getFavoriteKey(place, lngLat);
-      const nowFavorite = toggleFavorite(
-        key,
-        place,
-        lngLat
-      );
-
-      show(
-        nowFavorite
-          ? text[state.language].contextFavoriteAdded
-          : text[state.language].contextFavoriteRemoved
-      );
-    } catch (error) {
-      console.error(error);
-      show(text[state.language].placeError);
-    }
-  }
-
   async function handleMapContextAction(event) {
     const button = event.target.closest(
       "[data-map-context-action]"
@@ -6090,7 +6050,7 @@ function swapRoutePoints() {
     }
 
     if (action === "favorite") {
-      await addContextPointToFavorites(lngLat);
+      await window.OMAP_FAVORITES?.addContextPointToFavorites(lngLat);
     }
   }
 
@@ -6526,7 +6486,7 @@ function showUserLocationMarker(lngLat) {
 
   window.OMAP_BACK_NAVIGATION?.register(
     "favorites",
-    () => openFavoritesPanel()
+    () => window.OMAP_FAVORITES?.openFavoritesPanel()
   );
 
   window.OMAP_BACK_NAVIGATION?.register(
@@ -7135,7 +7095,7 @@ function showUserLocationMarker(lngLat) {
     card.appendChild(headingRow);
 
     const ratingUi = window.OMAP_RATINGS?.createSection(
-      getFavoriteKey(place, lngLat),
+      window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat),
       {
         label: state.customPlaceNames[placeNameKey] || originalPlaceTitle,
         lat: Number(lngLat.lat),
@@ -7157,7 +7117,7 @@ function showUserLocationMarker(lngLat) {
     );
     if (ratingUi) {
       card.appendChild(ratingUi.section);
-      window.OMAP_RATINGS?.loadForPlace(getFavoriteKey(place, lngLat), ratingUi);
+      window.OMAP_RATINGS?.loadForPlace(window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat), ratingUi);
     }
 
     const isNamedSettlement =
@@ -7243,7 +7203,7 @@ function showUserLocationMarker(lngLat) {
     const actions = document.createElement("div");
     actions.className = "place-card-actions";
 
-    const favoriteKey = getFavoriteKey(place, lngLat);
+    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
 
     actions.append(
       createPlaceAction("↪️", t.placeSetRoute, () => {
@@ -7253,12 +7213,12 @@ function showUserLocationMarker(lngLat) {
         openDiscoverNearPlace(place, lngLat);
       }),
       createPlaceAction(
-        isFavorite(favoriteKey) ? "★" : "☆",
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
         state.language === "pl"
           ? "Dodaj do ulubionych"
           : "Add to favorites",
         button => {
-          const nowFavorite = toggleFavorite(
+          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
             favoriteKey,
             place,
             lngLat
@@ -7266,7 +7226,7 @@ function showUserLocationMarker(lngLat) {
           button.textContent = nowFavorite ? "★" : "☆";
           button.classList.toggle("is-favorite", nowFavorite);
         },
-        isFavorite(favoriteKey)
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
       ),
       createPlaceAction("🔗", t.placeShare, () => {
         sharePlace(place, lngLat);
@@ -7779,7 +7739,7 @@ function showUserLocationMarker(lngLat) {
     );
     if (modeInput) modeInput.checked = true;
 
-    closeFavoritesPanel();
+    window.OMAP_FAVORITES?.closeFavoritesPanel();
     closeHistory();
     calculateRouteFromStoredPoints();
   }
@@ -7842,8 +7802,8 @@ function showUserLocationMarker(lngLat) {
     }
 
     saveRouteFavorites();
-    renderFolderChips();
-    renderFavoritesList();
+    window.OMAP_FAVORITES?.renderFolderChips();
+    window.OMAP_FAVORITES?.renderFavoritesList();
     updateRouteSaveFavoriteButton();
   }
 
@@ -7851,7 +7811,7 @@ function showUserLocationMarker(lngLat) {
   function recordPlaceHistory(place, lngLat) {
     if (!place || !lngLat) return;
 
-    const key = getFavoriteKey(place, lngLat);
+    const key = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
 
     const entry = {
       key,
@@ -7900,45 +7860,6 @@ function showUserLocationMarker(lngLat) {
     }
   }
 
-  function readFavorites() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.favorites) || "[]"
-      );
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function readFavoriteFolders() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.favoriteFolders) || "[]"
-      );
-      return Array.isArray(value) ? value.filter(v => typeof v === "string" && v.trim()) : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function saveFavoriteFolders() {
-    safeSet(
-      CONFIG.storageKeys.favoriteFolders,
-      JSON.stringify(state.favoriteFolders)
-    );
-  }
-
-  function getFavoriteKey(place, lngLat) {
-    const osmKey =
-      place.osm_type && place.osm_id
-        ? `${place.osm_type}:${place.osm_id}`
-        : "";
-
-    return osmKey ||
-      `${Number(lngLat.lat).toFixed(6)},${Number(lngLat.lng).toFixed(6)}`;
-  }
-
   function getPlaceNameKey(place, lngLat) {
     // Zawsze użyj współrzędnych jako głównego klucza
     // (są najstabilniejsze i zawsze dostępne)
@@ -7955,73 +7876,7 @@ function showUserLocationMarker(lngLat) {
     }
 
     // Ostateczny fallback
-    return getFavoriteKey(place, lngLat);
-  }
-
-  function isFavorite(key) {
-    return state.favorites.some(item => item.key === key);
-  }
-
-  function toggleFavorite(key, place, lngLat) {
-    const index = state.favorites.findIndex(
-      item => item.key === key
-    );
-
-    if (index >= 0) {
-      state.favorites.splice(index, 1);
-      saveFavorites();
-      renderFavoritesList();
-      return false;
-    }
-
-    const placeNameKey = getPlaceNameKey(place, lngLat);
-    const customName = state.customPlaceNames[placeNameKey] || "";
-
-    state.favorites.unshift({
-      key,
-      savedAt: new Date().toISOString(),
-      title: getPlaceTitle(place),
-      address: getPlaceAddress(place),
-      lat: Number(lngLat.lat),
-      lon: Number(lngLat.lng),
-      name: place.name || getPlaceTitle(place),
-      display_name:
-        place.display_name ||
-        getPlaceAddress(place),
-      osm_type: place.osm_type || "",
-      osm_id: place.osm_id || "",
-      namedPoiId: place.namedPoiId || "",
-      provider: place.provider || "",
-      providers: place.providers || [],
-      source: place.source || "",
-      exactLocalIdentity: Boolean(
-        place._exactLocalIdentity ||
-        place.exactLocalIdentity
-      ),
-      aliases: place.aliases || [],
-      keywords: place.keywords || [],
-      type: place.type || "",
-      category: place.category || "",
-      class: place.class || "",
-      addressDetails: {
-        ...(place.address || {})
-      },
-      extratags: {
-        ...(place.extratags || {})
-      },
-      namedetails: {
-        ...(place.namedetails || {})
-      },
-      customName: customName
-    });
-
-    state.favorites = state.favorites.slice(0, 100);
-    saveFavorites();
-    renderFavoritesList();
-
-    cacheWikipediaForFavorite(key, place);
-
-    return true;
+    return window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
   }
 
   async function cacheWikipediaForFavorite(key, place) {
@@ -8053,7 +7908,7 @@ function showUserLocationMarker(lngLat) {
     favorite.wikipediaThumbnail = data.thumbnail;
     favorite.wikipediaUrl = data.url;
 
-    saveFavorites();
+    window.OMAP_FAVORITES?.saveFavorites();
   }
 
 
@@ -10159,24 +10014,6 @@ function drawRoute(geometry, from, to, mode) {
   }
 
 
-  function openFavoritesPanel() {
-    closeMapContextMenu();
-    closeOtherMobilePanels("favorites");
-
-    openMobilePanelStandard(
-      el.favoritesPanel,
-      "--sheet-height"
-    );
-    el.favoritesSearch.value = "";
-    renderFavoritesList();
-  }
-
-  function closeFavoritesPanel() {
-    if (!el.favoritesPanel || el.favoritesPanel.hidden) return;
-    el.favoritesPanel.hidden = true;
-  }
-
-
   window.OMAP_PLACE_SERVICE?.configure({
     async open(event) {
       if (
@@ -10295,23 +10132,6 @@ function drawRoute(geometry, from, to, mode) {
     }
   });
 
-  async function openFavoritePlace(favorite) {
-    const payload = favorite.customName
-      ? { ...favorite, name: favorite.customName, title: favorite.customName }
-      : favorite;
-
-    return window.OMAP_PLACE_SERVICE.open(
-      payload,
-      {
-        source: "favorite",
-        metadata: {
-          origin: "favorites-panel"
-        }
-      }
-    );
-  }
-
-
   async function openSearchPlaceThroughService(
     result,
     {
@@ -10382,655 +10202,6 @@ function drawRoute(geometry, from, to, mode) {
       }
     );
   }
-
-  function moveFavoriteToFolder(key, folderValue) {
-    const favorite = state.favorites.find(item => item.key === key);
-    if (favorite) {
-      updateFavoriteDetails(key, {
-        customName: favorite.customName || "",
-        note: favorite.note || "",
-        folder: folderValue
-      });
-      return;
-    }
-
-    const route = state.routeFavorites.find(item => item.key === key);
-    if (route) {
-      route.folder = folderValue;
-      saveRouteFavorites();
-      renderFolderChips();
-      renderFavoritesList();
-    }
-  }
-
-  function attachFolderDropTarget(node, folderValue) {
-    node.addEventListener("dragover", event => {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = "move";
-      node.classList.add("is-drag-over");
-    });
-    node.addEventListener("dragleave", () => {
-      node.classList.remove("is-drag-over");
-    });
-    node.addEventListener("drop", event => {
-      event.preventDefault();
-      node.classList.remove("is-drag-over");
-      const key = event.dataTransfer.getData("text/plain");
-      if (key) moveFavoriteToFolder(key, folderValue);
-    });
-  }
-
-  function renderFolderChips() {
-    if (!el.favoritesFolderChips) return;
-    const t = text[state.language];
-    el.favoritesFolderChips.innerHTML = "";
-
-    const makeChip = (value, label, isDropTarget) => {
-      const chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "favorites-folder-chip";
-      chip.classList.toggle("is-active", state.activeFavoriteFolder === value);
-      chip.textContent = label;
-      chip.addEventListener("click", () => {
-        state.activeFavoriteFolder = value;
-        renderFolderChips();
-        renderFavoritesList();
-      });
-      if (isDropTarget) {
-        attachFolderDropTarget(chip, value === UNFILED_FOLDER ? "" : value);
-      }
-      el.favoritesFolderChips.appendChild(chip);
-    };
-
-    makeChip("", t.favoriteFolderAll);
-    makeChip(UNFILED_FOLDER, t.favoriteFolderUnfiled, true);
-    state.favoriteFolders.forEach(folder => makeChip(folder, folder, true));
-  }
-
-  function deleteFavoriteFolder(folder) {
-    state.favoriteFolders = state.favoriteFolders.filter(f => f !== folder);
-    saveFavoriteFolders();
-
-    let changed = false;
-    state.favorites.forEach(favorite => {
-      if (favorite.folder === folder) {
-        favorite.folder = "";
-        changed = true;
-      }
-    });
-    if (changed) saveFavorites();
-
-    let routesChanged = false;
-    state.routeFavorites.forEach(route => {
-      if (route.folder === folder) {
-        route.folder = "";
-        routesChanged = true;
-      }
-    });
-    if (routesChanged) saveRouteFavorites();
-
-    if (state.activeFavoriteFolder === folder) state.activeFavoriteFolder = "";
-    if (state.activeRouteFolder === folder) state.activeRouteFolder = "";
-    renderFolderChips();
-    renderFavoritesList();
-  }
-
-  function renameFavoriteFolder(oldName, newName) {
-    const trimmed = newName.trim();
-    if (!trimmed || trimmed === oldName) return;
-
-    const collision = state.favoriteFolders.some(
-      f => f !== oldName && f.toLowerCase() === trimmed.toLowerCase()
-    );
-    if (collision) return;
-
-    state.favoriteFolders = state.favoriteFolders.map(f => (f === oldName ? trimmed : f));
-    saveFavoriteFolders();
-
-    let changed = false;
-    state.favorites.forEach(favorite => {
-      if (favorite.folder === oldName) {
-        favorite.folder = trimmed;
-        changed = true;
-      }
-    });
-    if (changed) saveFavorites();
-
-    let routesChanged = false;
-    state.routeFavorites.forEach(route => {
-      if (route.folder === oldName) {
-        route.folder = trimmed;
-        routesChanged = true;
-      }
-    });
-    if (routesChanged) saveRouteFavorites();
-
-    if (state.activeFavoriteFolder === oldName) state.activeFavoriteFolder = trimmed;
-    if (state.activeRouteFolder === oldName) state.activeRouteFolder = trimmed;
-    renderFolderChips();
-    renderFavoritesList();
-  }
-
-  function renderFavoritesList() {
-    if (
-      !el.favoritesList ||
-      !el.favoritesEmpty ||
-      !el.favoritesCount
-    ) {
-      return;
-    }
-
-    el.favoritesList
-      .querySelectorAll(".favorite-place-item, .route-item, .favorite-folder-row, .favorite-folder-back-row")
-      .forEach(item => item.remove());
-
-    const query = normalizeSearchText(
-      el.favoritesSearch?.value || ""
-    );
-
-    const activeFolder = state.activeFavoriteFolder || "";
-    const t = text[state.language];
-
-    const filteredFavorites = (
-      Array.isArray(state.favorites)
-        ? state.favorites
-        : []
-    ).filter(favorite => {
-      if (activeFolder === UNFILED_FOLDER && favorite.folder) return false;
-      if (activeFolder && activeFolder !== UNFILED_FOLDER && favorite.folder !== activeFolder) return false;
-
-      if (!query) return true;
-
-      const haystack = normalizeSearchText(
-        [
-          favorite.title,
-          favorite.address,
-          favorite.customName,
-          favorite.note,
-          favorite.folder,
-          favorite.lat,
-          favorite.lon
-        ]
-          .filter(value => value !== undefined && value !== null)
-          .join(" ")
-      );
-
-      return haystack.includes(query);
-    });
-
-    const favorites = sortByOrder(
-      filteredFavorites,
-      state.favoritesSortOrder,
-      f => (f.customName || f.title || "").toLowerCase()
-    );
-
-    let filteredRoutes = filterRouteEntries(state.routeFavorites, el.favoritesSearch?.value || "");
-    if (activeFolder === UNFILED_FOLDER) {
-      filteredRoutes = filteredRoutes.filter(r => !r.folder);
-    } else if (activeFolder) {
-      filteredRoutes = filteredRoutes.filter(r => r.folder === activeFolder);
-    }
-    const routes = sortByOrder(
-      filteredRoutes,
-      state.favoritesSortOrder,
-      r => (r.customName || `${r.fromLabel || ""} ${r.toLabel || ""}`).toLowerCase()
-    );
-
-    el.favoritesCount.textContent =
-      String(state.favorites.length + state.routeFavorites.length);
-
-    // Widoczne foldery (jako klikalne wiersze) liczymy niezależnie od
-    // wyszukiwania tekstowego - pusty, dopiero co utworzony folder ma
-    // się dać zobaczyć i "wejść w niego", zanim cokolwiek do niego
-    // trafi, zamiast znikać z listy aż coś w nim wyląduje.
-    const showFolderRows = !query && !activeFolder;
-    const hasAny = state.favorites.length > 0 || state.routeFavorites.length > 0 ||
-      (showFolderRows && state.favoriteFolders.length > 0);
-    const hasMatches = favorites.length > 0 || routes.length > 0 || showFolderRows;
-
-    el.favoritesEmpty.hidden = hasMatches;
-    el.favoritesEmpty.textContent = hasAny
-      ? text[state.language].favoritesNoMatch
-      : text[state.language].favoritesEmpty;
-
-    if (!hasMatches) return;
-
-    const fragment = document.createDocumentFragment();
-
-    if (showFolderRows) {
-      state.favoriteFolders.forEach(folder => {
-        const count = state.favorites.filter(f => f.folder === folder).length +
-          state.routeFavorites.filter(r => r.folder === folder).length;
-        const row = document.createElement("div");
-        row.className = "favorite-folder-row";
-
-        const openButton = document.createElement("button");
-        openButton.type = "button";
-        openButton.className = "favorite-folder-row-open";
-
-        const icon = document.createElement("span");
-        icon.className = "favorite-folder-row-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = "📁";
-
-        const name = document.createElement("span");
-        name.className = "favorite-folder-row-name";
-        name.textContent = folder;
-
-        const countEl = document.createElement("span");
-        countEl.className = "favorite-folder-row-count";
-        countEl.textContent = String(count);
-
-        openButton.append(icon, name, countEl);
-        openButton.addEventListener("click", () => {
-          state.activeFavoriteFolder = folder;
-          renderFolderChips();
-          renderFavoritesList();
-        });
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "favorite-place-edit-toggle";
-        editButton.textContent = "✎";
-        editButton.title = text[state.language].favoriteEdit;
-        editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
-
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.className = "favorite-place-remove";
-        removeButton.textContent = "×";
-        removeButton.title = t.favoriteFolderDelete;
-        removeButton.setAttribute("aria-label", t.favoriteFolderDelete);
-        removeButton.addEventListener("click", () => deleteFavoriteFolder(folder));
-
-        const actions = document.createElement("div");
-        actions.className = "favorite-place-actions";
-        actions.append(editButton, removeButton);
-
-        const topRow = document.createElement("div");
-        topRow.className = "favorite-place-row";
-        topRow.append(openButton, actions);
-
-        const renameForm = document.createElement("div");
-        renameForm.className = "account-name-edit-form";
-        renameForm.hidden = true;
-
-        const renameInput = document.createElement("input");
-        renameInput.type = "text";
-        renameInput.className = "account-name-edit-input";
-        renameInput.maxLength = 30;
-        renameInput.value = folder;
-
-        const renameActions = document.createElement("div");
-        renameActions.className = "account-name-edit-actions";
-
-        const renameSave = document.createElement("button");
-        renameSave.type = "button";
-        renameSave.className = "account-name-edit-save";
-        renameSave.textContent = text[state.language].favoriteSave;
-        renameSave.addEventListener("click", () => {
-          renameFavoriteFolder(folder, renameInput.value);
-        });
-
-        const renameCancel = document.createElement("button");
-        renameCancel.type = "button";
-        renameCancel.className = "account-name-edit-cancel";
-        renameCancel.textContent = text[state.language].favoriteCancelEdit;
-        renameCancel.addEventListener("click", () => {
-          renameForm.hidden = true;
-        });
-
-        renameActions.append(renameSave, renameCancel);
-        renameForm.append(renameInput, renameActions);
-
-        editButton.addEventListener("click", () => {
-          renameForm.hidden = !renameForm.hidden;
-          if (!renameForm.hidden) {
-            renameInput.value = folder;
-            renameInput.focus();
-            renameInput.select();
-          }
-        });
-
-        row.append(topRow, renameForm);
-        attachFolderDropTarget(row, folder);
-
-        fragment.appendChild(row);
-      });
-    } else if (activeFolder) {
-      const backRow = document.createElement("button");
-      backRow.type = "button";
-      backRow.className = "favorite-folder-back-row";
-      backRow.textContent = `← ${t.favoriteFolderAll}`;
-      backRow.addEventListener("click", () => {
-        state.activeFavoriteFolder = "";
-        renderFolderChips();
-        renderFavoritesList();
-      });
-      attachFolderDropTarget(backRow, "");
-      fragment.appendChild(backRow);
-    }
-
-    // Miejsca bez folderu pokazujemy bezpośrednio na liście głównej
-    // (nie jako osobny folder do "wejścia") - żeby nie trzeba było
-    // klikać nigdzie, aby zobaczyć zwykłe, nieposegregowane ulubione.
-    const visibleFavorites = showFolderRows
-      ? favorites.filter(favorite => !favorite.folder)
-      : favorites;
-
-    visibleFavorites.forEach(favorite => {
-        const item = document.createElement("div");
-        item.className = "favorite-place-item";
-        item.draggable = true;
-
-        item.addEventListener("dragstart", event => {
-          event.dataTransfer.setData("text/plain", favorite.key);
-          event.dataTransfer.effectAllowed = "move";
-          item.classList.add("is-dragging");
-        });
-        item.addEventListener("dragend", () => {
-          item.classList.remove("is-dragging");
-        });
-
-        const openButton = document.createElement("button");
-        openButton.type = "button";
-        openButton.className = "favorite-place-open";
-
-        const icon = document.createElement("span");
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = "⭐";
-
-        const copy = document.createElement("span");
-
-        const title = document.createElement("strong");
-        title.textContent =
-          favorite.customName ||
-          favorite.title ||
-          (state.language === "pl"
-            ? "Ulubione miejsce"
-            : "Favorite place");
-
-        const address = document.createElement("small");
-        address.textContent =
-          favorite.address ||
-          `${Number(favorite.lat).toFixed(5)}, ${Number(favorite.lon).toFixed(5)}`;
-
-        copy.append(title, address);
-
-        if (favorite.note) {
-          const note = document.createElement("small");
-          note.className = "favorite-place-note";
-          note.textContent = favorite.note;
-          copy.append(note);
-        }
-
-        openButton.append(icon, copy);
-
-        openButton.addEventListener(
-          "click",
-          () => {
-            openFavoritePlace(favorite);
-
-            // Panel Ulubione celowo pozostaje otwarty.
-          }
-        );
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "favorite-place-edit-toggle";
-        editButton.textContent = "✎";
-        editButton.title = text[state.language].favoriteEdit;
-        editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
-
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.className = "favorite-place-remove";
-        removeButton.textContent = "×";
-        removeButton.title =
-          state.language === "pl"
-            ? "Usuń z ulubionych"
-            : "Remove from favorites";
-        removeButton.setAttribute(
-          "aria-label",
-          removeButton.title
-        );
-
-        removeButton.addEventListener("click", () => {
-          state.favorites = state.favorites.filter(
-            entry => entry.key !== favorite.key
-          );
-
-          saveFavorites();
-          renderFolderChips();
-          renderFavoritesList();
-        });
-
-        const editForm = document.createElement("div");
-        editForm.className = "favorite-place-edit-form";
-        editForm.hidden = true;
-
-        const nameLabel = document.createElement("label");
-        nameLabel.textContent = text[state.language].favoriteCustomNameLabel;
-        const nameInput = document.createElement("input");
-        nameInput.type = "text";
-        nameInput.placeholder = text[state.language].favoriteCustomNamePlaceholder;
-        nameInput.value = favorite.customName || "";
-        nameLabel.append(nameInput);
-
-        const noteLabel = document.createElement("label");
-        noteLabel.textContent = text[state.language].favoriteNoteLabel;
-        const noteInput = document.createElement("textarea");
-        noteInput.rows = 2;
-        noteInput.placeholder = text[state.language].favoriteNotePlaceholder;
-        noteInput.value = favorite.note || "";
-        noteLabel.append(noteInput);
-
-        const folderLabel = document.createElement("label");
-        folderLabel.textContent = t.favoriteFolderLabel;
-        const folderSelect = document.createElement("select");
-        folderSelect.className = "favorite-folder-select";
-        const unfiledOption = document.createElement("option");
-        unfiledOption.value = "";
-        unfiledOption.textContent = t.favoriteFolderUnfiled;
-        folderSelect.appendChild(unfiledOption);
-        state.favoriteFolders.forEach(folderName => {
-          const option = document.createElement("option");
-          option.value = folderName;
-          option.textContent = folderName;
-          folderSelect.appendChild(option);
-        });
-        folderSelect.value = favorite.folder || "";
-        folderLabel.append(folderSelect);
-
-        const editActions = document.createElement("div");
-        editActions.className = "favorite-place-edit-actions";
-
-        const saveButton = document.createElement("button");
-        saveButton.type = "button";
-        saveButton.className = "favorite-place-edit-save";
-        saveButton.textContent = text[state.language].favoriteSave;
-        saveButton.addEventListener("click", () => {
-          updateFavoriteDetails(favorite.key, {
-            customName: nameInput.value,
-            note: noteInput.value,
-            folder: folderSelect.value
-          });
-          renderFolderChips();
-        });
-
-        const cancelButton = document.createElement("button");
-        cancelButton.type = "button";
-        cancelButton.className = "favorite-place-edit-cancel";
-        cancelButton.textContent = text[state.language].favoriteCancelEdit;
-        cancelButton.addEventListener("click", () => {
-          editForm.hidden = true;
-        });
-
-        editActions.append(saveButton, cancelButton);
-        editForm.append(nameLabel, noteLabel, folderLabel, editActions);
-
-        editButton.addEventListener("click", () => {
-          editForm.hidden = !editForm.hidden;
-        });
-
-        const actions = document.createElement("div");
-        actions.className = "favorite-place-actions";
-        actions.append(editButton, removeButton);
-
-        const row = document.createElement("div");
-        row.className = "favorite-place-row";
-        row.append(openButton, actions);
-
-        item.append(row, editForm);
-        fragment.appendChild(item);
-    });
-
-    const visibleRoutes = showFolderRows
-      ? routes.filter(r => !r.folder)
-      : routes;
-
-    visibleRoutes.forEach(entry => {
-      const item = document.createElement("div");
-      item.className = "route-item";
-      item.draggable = true;
-      item.addEventListener("dragstart", event => {
-        event.dataTransfer.setData("text/plain", entry.key);
-        event.dataTransfer.effectAllowed = "move";
-        item.classList.add("is-dragging");
-      });
-      item.addEventListener("dragend", () => item.classList.remove("is-dragging"));
-
-      const openButton = document.createElement("button");
-      openButton.type = "button";
-      openButton.className = "route-item-open";
-
-      const icon = document.createElement("span");
-      icon.className = "route-item-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = ROUTE_MODE_ICONS[entry.mode] || "🧭";
-
-      const copy = document.createElement("span");
-      copy.className = "route-item-copy";
-
-      const title = document.createElement("strong");
-      title.textContent = entry.customName ||
-        `${entry.fromLabel || "?"} → ${entry.toLabel || "?"}`;
-
-      const summary = document.createElement("small");
-      summary.textContent = formatRouteSummaryShort(entry.distance, entry.duration);
-
-      copy.append(title, summary);
-      openButton.append(icon, copy);
-      openButton.addEventListener("click", () => loadRouteFromEntry(entry));
-
-      const editButton = document.createElement("button");
-      editButton.type = "button";
-      editButton.className = "favorite-place-edit-toggle";
-      editButton.textContent = "✎";
-      editButton.title = t.favoriteEdit;
-      editButton.setAttribute("aria-label", t.favoriteEdit);
-
-      const routeEditForm = document.createElement("div");
-      routeEditForm.className = "favorite-place-edit-form";
-      routeEditForm.hidden = true;
-
-      const routeNameLabel = document.createElement("label");
-      routeNameLabel.textContent = t.favoriteCustomNameLabel;
-      const routeNameInput = document.createElement("input");
-      routeNameInput.type = "text";
-      routeNameInput.placeholder = t.favoriteCustomNamePlaceholder;
-      routeNameInput.value = entry.customName || "";
-      routeNameLabel.append(routeNameInput);
-
-      const routeFolderLabel = document.createElement("label");
-      routeFolderLabel.textContent = t.favoriteFolderLabel;
-      const routeFolderSelect = document.createElement("select");
-      routeFolderSelect.className = "favorite-folder-select";
-      const routeUnfiledOption = document.createElement("option");
-      routeUnfiledOption.value = "";
-      routeUnfiledOption.textContent = t.favoriteFolderUnfiled;
-      routeFolderSelect.appendChild(routeUnfiledOption);
-      state.favoriteFolders.forEach(folderName => {
-        const option = document.createElement("option");
-        option.value = folderName;
-        option.textContent = folderName;
-        routeFolderSelect.appendChild(option);
-      });
-      routeFolderSelect.value = entry.folder || "";
-      routeFolderLabel.append(routeFolderSelect);
-
-      const routeEditActions = document.createElement("div");
-      routeEditActions.className = "favorite-place-edit-actions";
-      const routeSaveButton = document.createElement("button");
-      routeSaveButton.type = "button";
-      routeSaveButton.className = "favorite-place-edit-save";
-      routeSaveButton.textContent = t.favoriteSave;
-      routeSaveButton.addEventListener("click", () => {
-        entry.customName = (routeNameInput.value || "").trim();
-        entry.folder = routeFolderSelect.value || "";
-        saveRouteFavorites();
-        renderFolderChips();
-        renderFavoritesList();
-      });
-      const routeCancelButton = document.createElement("button");
-      routeCancelButton.type = "button";
-      routeCancelButton.className = "favorite-place-edit-cancel";
-      routeCancelButton.textContent = t.favoriteCancelEdit;
-      routeCancelButton.addEventListener("click", () => { routeEditForm.hidden = true; });
-      routeEditActions.append(routeSaveButton, routeCancelButton);
-      routeEditForm.append(routeNameLabel, routeFolderLabel, routeEditActions);
-      editButton.addEventListener("click", () => { routeEditForm.hidden = !routeEditForm.hidden; });
-
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "favorite-place-remove";
-      removeButton.textContent = "×";
-      removeButton.title = t.favoriteRemove || "×";
-      removeButton.setAttribute("aria-label", removeButton.title);
-      removeButton.addEventListener("click", () => {
-        state.routeFavorites = state.routeFavorites.filter(r => r.key !== entry.key);
-        saveRouteFavorites();
-        renderFolderChips();
-        renderFavoritesList();
-        updateRouteSaveFavoriteButton();
-      });
-
-      const actions = document.createElement("div");
-      actions.className = "favorite-place-actions";
-      actions.append(editButton, removeButton);
-
-      const routeRow = document.createElement("div");
-      routeRow.className = "route-item-row";
-      routeRow.append(openButton, actions);
-
-      item.append(routeRow, routeEditForm);
-      fragment.appendChild(item);
-    });
-
-    el.favoritesList.appendChild(fragment);
-  }
-
-  function updateFavoriteDetails(key, { customName, note, folder }) {
-    const favorite = state.favorites.find(item => item.key === key);
-    if (!favorite) return;
-
-    favorite.customName = (customName || "").trim();
-    favorite.note = (note || "").trim();
-    if (folder !== undefined) favorite.folder = folder || "";
-
-    saveFavorites();
-    renderFolderChips();
-    renderFavoritesList();
-  }
-
-  function saveFavorites() {
-    safeSet(
-      CONFIG.storageKeys.favorites,
-      JSON.stringify(state.favorites)
-    );
-  }
-
-
 
   function openMenuHome() {
     closeMapContextMenu();
@@ -11119,7 +10290,7 @@ function drawRoute(geometry, from, to, mode) {
   }
 
   function returnFromFavoritesToMenu() {
-    closeFavoritesPanel();
+    window.OMAP_FAVORITES?.closeFavoritesPanel();
     closeHistory();
     openMenuHome();
   }
@@ -11885,13 +11056,13 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         })
         .filter(Boolean)
         .slice(0, 1000);
-      saveFavorites();
+      window.OMAP_FAVORITES?.saveFavorites();
 
       if (Array.isArray(payload.favoriteFolders)) {
         state.favoriteFolders = payload.favoriteFolders.filter(
           f => typeof f === "string" && f.trim()
         );
-        saveFavoriteFolders();
+        window.OMAP_FAVORITES?.saveFavoriteFolders();
       }
 
       if (Array.isArray(payload.routeFavorites)) {
@@ -11899,8 +11070,8 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         saveRouteFavorites();
       }
 
-      renderFolderChips();
-      renderFavoritesList();
+      window.OMAP_FAVORITES?.renderFolderChips();
+      window.OMAP_FAVORITES?.renderFavoritesList();
     }
 
     if (scopes.includes("colors")) {

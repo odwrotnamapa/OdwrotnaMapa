@@ -50,8 +50,9 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        z Wikipedii, pomiar odległości/powierzchni,
                        streetview/Mapillary, kontrolki widoku mapy,
                        niedziele handlowe, linki geo:, eksport/import
-                       ustawień, silnik dolnych paneli - ostatnie
-                       jedenaście wyniesione z app.js 2026-08-06
+                       ustawień, silnik dolnych paneli, ulubione -
+                       ostatnie dwanaście wyniesione z app.js
+                       2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -429,6 +430,58 @@ później niż wczesny, skonsolidowany blok `configure()`. Przeniesiona
 do tej samej, wczesnej sekcji co pozostałe podobne stałe, PRZED
 dodaniem jej do `configure()` - złapane i naprawione przed wysyłką,
 nie po.
+
+## Ulubione (src/services/favorites-service.js)
+
+Dwunasty moduł wyniesiony z `app.js` (2026-08-06, ~920 linii) -
+**dotąd największy i najbardziej złożony**. Lista ulubionych (miejsca
++ trasy scalone w jedną, wspólną listę - patrz sekcja "Ulubione i
+Trasy" niżej), foldery, przeciąganie między folderami, panel UI.
+20 wyeksportowanych funkcji, 17 zależności funkcyjnych + 2 stałe.
+
+**Fragmenty leżały rozrzucone w SIEDMIU różnych miejscach pliku**
+(nie dwóch jak przy Niedzielach handlowych) - trzeba było wyciąć
+i skleić siedem osobnych kawałków, każdy zweryfikowany osobno pod
+kątem równowagi nawiasów przed połączeniem.
+
+**Krytyczne znalezisko przy analizie granic**: centralny mechanizm
+otwierania miejsc w całej appce (`window.OMAP_PLACE_SERVICE.configure`,
+opisany wcześniej w sekcji Architektura 2.0) leżał FIZYCZNIE wewnątrz
+tego samego obszaru pliku co Ulubione - między `closeFavoritesPanel`
+a `openFavoritePlace`. To NIE jest funkcja Ulubionych - obsługuje
+otwieranie miejsc z Odkrywaj, Historii, Wyszukiwarki i informacji o
+mapie, nie tylko z ulubionych. Świadomie WYCIĘTY z zakresu tej
+ekstrakcji (linie 10180-10296 w oryginalnym pliku) i zostawiony w
+`app.js` nietknięty - przeniesienie złamałoby otwieranie miejsc z
+WSZYSTKICH innych źródeł, nie tylko z ulubionych.
+
+**`getFavoriteKey` wyeksportowane, `getPlaceNameKey` NIE** - obie
+funkcje są blisko związane (druga ma pierwszą jako fallback), ale
+`getPlaceNameKey` (niestandardowe nazywanie miejsc) jest osobną
+funkcją używaną też poza kontekstem ulubionych, więc zostaje w
+`app.js` - jej wewnętrzny fallback teraz woła
+`window.OMAP_FAVORITES?.getFavoriteKey(...)`.
+
+**Dwuetapowy `configure()` - nowy wzorzec, pierwszy raz potrzebny**:
+`readFavorites`/`readFavoriteFolders` są wołane WEWNĄTRZ konstrukcji
+samego obiektu `state` (`favorites: window.OMAP_FAVORITES.readFavorites()`
+jako wartość pola przy tworzeniu `state`) - czyli zanim `state` w
+ogóle istnieje, więc zanim mógłby posłużyć jako zależność w
+standardowym, pełnym `configure()`. Rozwiązanie: MINIMALNY,
+bardzo wczesny `configure({ CONFIG })` tuż przed `const state = {`
+(te dwie funkcje potrzebują tylko `CONFIG.storageKeys`, nie
+`state`/`el`/`text`), a PEŁNY `configure()` ze wszystkimi 17
+zależnościami dalej w pliku, w tym samym miejscu co pozostałe
+moduły, przed pierwszym `updateUI()` (`updateUI()` też woła
+`renderFolderChips`/`renderFavoritesList` z tego modułu).
+
+**Dwa już wysłane moduły zaktualizowane w tej samej turze**:
+`backup-service.js`'s `configure()` w `app.js` (właściwości
+`saveFavorites`/`renderFavoritesList`/`renderFolderChips`/
+`saveFavoriteFolders`) teraz wskazują na `window.OMAP_FAVORITES?.X`
+zamiast bezpośrednio na funkcje w `app.js`, bo te funkcje się
+przeniosły. To pierwsza ekstrakcja w tej sesji wymagająca dotknięcia
+konfiguracji innego, już wysłanego modułu.
 
 ## Ulubione i Trasy
 

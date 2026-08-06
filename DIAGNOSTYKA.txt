@@ -374,3 +374,35 @@ LITERAMI) - tu chodzi o zwykłe, małymi literami pisane nazwy funkcji,
 które trzeba ręcznie sklasyfikować jedna po drugiej, i przy długiej
 liście łatwo się pomylić bez systematycznego, dwuetapowego
 sprawdzenia.
+
+---
+
+14. Gdy funkcja modułu jest wołana WEWNĄTRZ konstrukcji obiektu
+    state - jeden `configure()` nie wystarczy, potrzeba dwóch
+
+Przy ekstrakcji Ulubionych (favorites-service.js) `readFavorites`/
+`readFavoriteFolders` okazały się wołane jako WARTOŚCI PÓL przy
+budowaniu samego `const state = {...}`
+(`favorites: window.OMAP_FAVORITES.readFavorites()`) - czyli
+wykonują się PODCZAS tworzenia state, więc żadna z pozostałych
+zależności modułu (`state`/`el`/`text`) jeszcze nie istnieje w tym
+momencie. Standardowe rozwiązanie (jeden, wczesny, pełny
+`configure()` przed pierwszym `updateUI()`) nie zadziałałoby - to
+wciąż byłoby ZA PÓŹNO, bo `state` sam siebie jeszcze buduje.
+
+Naprawa: DWA osobne wywołania `configure()`. Pierwsze, MINIMALNE
+(tylko te zależności, których faktycznie potrzebują funkcje wołane
+podczas budowy state - tutaj wystarczyło samo `CONFIG`), umieszczone
+TUŻ PRZED `const state = {`. Drugie, PEŁNE (wszystkie pozostałe
+zależności - `state`/`el`/`text`/reszta funkcji), w standardowym,
+skonsolidowanym miejscu dalej w pliku. `configure()` po prostu
+NADPISUJE `ctx` całkowicie przy każdym wywołaniu, więc drugie
+wywołanie bezpiecznie zastępuje pierwsze, bez utraty niczego -
+obie fazy tylko muszą nastąpić PRZED momentem, w którym są faktycznie
+potrzebne.
+
+Ogólna lekcja: przy KAŻDEJ ekstrakcji, jeśli funkcja modułu jest
+wołana jako wartość pola przy konstrukcji `state` (nie tylko z
+poziomu funkcji zdefiniowanej gdzieś dalej, które wykonają się
+później) - to sygnał, że potrzebny może być wcześniejszy,
+częściowy `configure()`, nie tylko standardowy, jeden pełny.
