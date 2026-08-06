@@ -63,7 +63,14 @@ tools/                — ~40 skryptów .cjs: buildy, importy danych
 android/, electron/  — natywne projekty (Capacitor)
 ```
 
-## "Place Engine" / Architektura 2.0 — stan faktyczny (WAŻNE)
+## "Place Engine" / Architektura 2.0 — stan faktyczny (poprawiony 2026-08-05)
+
+*Ta sekcja wcześniej twierdziła, że cała ta warstwa jest martwa/
+nieskonfigurowana. **To było błędne** — wynikało z wyszukiwania
+`.configure(` (z kropką) zamiast `?.configure(` (z opcjonalnym
+łańcuchowaniem), które faktycznie jest tu używane. Dwa różne teksty
+dla grepa, to samo wywołanie dla silnika JS. Poniżej poprawiony,
+zweryfikowany stan.*
 
 Istnieje udokumentowana (wcześniej przez inne AI) migracja do
 jednego, scentralizowanego przepływu otwierania miejsca:
@@ -78,41 +85,50 @@ PlaceService.open() (src/services/place-service.js)
 Panel informacji
 ```
 
-**To rusztowanie istnieje w kodzie, ale nie jest aktywne.**
-`window.OMAP_PLACE_SERVICE.open(...)` jest wołane z wielu miejsc
-(`openFavoritePlace`, `openSearchPlaceThroughService`,
-`openMapInformationThroughService` itd.) z poprawnymi etykietami
-źródła (`source: "favorite"` itd.) — ale **nigdzie w całym projekcie
-nie wywołuje się `OMAP_PLACE_SERVICE.configure()` ani `.on(...)`**.
-Bez skonfigurowanego adaptera/listenera samo `.open()` tylko
-rozwiązuje dane i emituje zdarzenie w próżnię — nic nie pokazuje się
-w interfejsie.
+**To rusztowanie JEST aktywne i realnie renderuje panel.**
+`window.OMAP_PLACE_SERVICE?.configure({ async open(event) {...} })`
+jest wołane w `app.js` (obok `closeFavoritesPanel`) z pełnym,
+działającym handlerem - sprawdza `event.source`
+(`favorite`/`discover`/`search`/`map-info` itd.) i w zależności od
+niego woła `showSelectedPlaceInformation(place)` albo
+`showPlaceInformation({lngLat, forceReverse})`, które faktycznie
+pokazują panel. Używane m.in. do nawigacji "wstecz" między panelami
+Odkrywaj/Trasa a miejscem (`returnFromRouteToPlace`,
+`returnFromDiscoverToPlace`).
 
-Podobnie `window.OMAP_PLACE_CARD` (modularny renderer karty miejsca,
-`src/components/place-card.js`) nigdy nie jest `configure()`owany —
-`OMAP_PLACE_CARD.isConfigured()` zawsze zwraca `false`, więc appka
-**zawsze** faktycznie renderuje przez `createPlaceCardLegacy()`
-w `app.js` (funkcja jawnie nazwana "Legacy", czyli miała być
-fallbackiem, a jest jedyną realnie działającą ścieżką).
+`window.OMAP_PLACE_CARD?.configure({ render: createPlaceCardLegacy })`
+też jest wołane (w `app.js`, tuż przed `createPlaceCard`) - ale
+skonfigurowane jako **cienki, funkcjonalnie przezroczysty
+przekaźnik** do `createPlaceCardLegacy()`. W praktyce więc nie ma
+znaczenia, czy coś woła `createPlaceCard()` (które deleguje do
+`OMAP_PLACE_CARD.create()`, bo IS skonfigurowany) czy
+`createPlaceCardLegacy()` bezpośrednio - wynik jest identyczny, bo
+to ta sama funkcja. Nazwa "Legacy" jest więc myląca (sugeruje
+przestarzały fallback), skoro to jedyna faktyczna implementacja,
+tylko owinięta abstrakcją.
 
-**Praktyczny skutek:** jeśli trzeba pokazać panel miejsca z gotowych
-danych (bez wyszukiwania w sieci, bez zgadywania reverse
-geocodingiem — np. otwieranie miejsca z zapisanej wcześniej oceny),
-**nie używaj `OMAP_PLACE_SERVICE.open()`** — nic nie zrobi. Użyj
-`openKnownPlaceOnMap(place, lngLat)` (w `app.js`, przy okazji
-funkcji ocen) — to jest potwierdzona, działająca ścieżka: ustawia
-stan, marker, otwiera panel i woła `createPlaceCardLegacy()`
-bezpośrednio.
+**Dla `openKnownPlaceOnMap` (funkcja z sekcji ocen) to bez zmian:**
+`OMAP_PLACE_SERVICE.open()`, gdy nie ma pewnej tożsamości miejsca
+(`hasExactIdentity` = false - dokładnie przypadek miejsc bez OSM
+id, jak te z lokalnego indeksu miast czy named-poi), i tak wpada w
+gałąź reverse geocodingu (`forceReverse: true`) - czyli dokładnie tę
+niepewność, przed którą `openKnownPlaceOnMap` celowo chroni. Więc
+mimo że `OMAP_PLACE_SERVICE` faktycznie działa, `openKnownPlaceOnMap`
+nadal jest właściwym wyborem dla "pokaż dokładnie to, co już wiem,
+bez zgadywania" - to nie było zmarnowaną pracą, tylko rozwiązaniem
+innego, węższego problemu niż to co PlaceService w ogóle próbuje
+rozwiązać.
 
 Test `tools/test-architecture-2-final.cjs` sprawdza tylko, czy w
 kodzie źródłowym WYSTĘPUJĄ odpowiednie stringi (`source: "favorite"`
-itd.) i czy stare funkcje nie zawierają pewnych wzorców tekstowych —
-**nie weryfikuje, że cokolwiek faktycznie działa end-to-end**. Jego
-"PASS" nie jest dowodem, że ta architektura żyje. Jeden z jego
-checków (`dead open fallbacks removed`) jest też kruchy — używa
-regexa bez dopasowania nawiasów funkcji, więc może fałszywie
-wywalać się przy dodaniu gdziekolwiek dalej w pliku niepowiązanego
-tekstu `showPlaceInformation(`.
+itd.) i czy stare funkcje nie zawierają pewnych wzorców tekstowych -
+w tym akurat przypadku to się zgadza z rzeczywistością (architektura
+faktycznie żyje), ale to przypadek, nie zasługa testu - wciąż nie
+weryfikuje niczego end-to-end, więc nie ufaj mu jako dowodowi w
+przyszłości. Jeden z jego checków (`dead open fallbacks removed`)
+jest też kruchy - używa regexa bez dopasowania nawiasów funkcji,
+więc może fałszywie wywalać się przy dodaniu gdziekolwiek dalej w
+pliku niepowiązanego tekstu `showPlaceInformation(`.
 
 ## Wyszukiwarka (search-v2/)
 
@@ -215,14 +231,29 @@ pilnować przy każdej zmianie:**
 
 ## Znany dług techniczny (uczciwie, na bieżąco)
 
-- Cała warstwa `OMAP_PLACE_SERVICE`/`OMAP_PLACE_CARD` — patrz wyżej,
-  nieaktywna, ale wciąż w kodzie i wołana z wielu miejsc (nieszkodliwie,
-  ale to martwy kod czekający na posprzątanie albo dokończenie)
-- `style.css` ma ~600+ użyć `!important` — sporo z tego to warstwy
-  nakładanych łatek ("UI Cleanup" itp.), część duplikuje wcześniejsze
-  reguły tego samego selektora. Znalezione i naprawione:
-  `.route-letter-marker` (potrójna definicja), `.menu-action`
-  (podwójna) - reszta nieprzejrzana
+- `style.css` miało ~623 użycia `!important` na początku sesji
+  sprzątania (2026-08-05). Po przejściu przez wszystkie znalezione
+  dokładne duplikaty selektorów (26 kandydatów, zweryfikowane ręcznie
+  jeden po drugim) i kilka subtelnych "cichych" konfliktów (różne
+  wartości tej samej właściwości bez `!important` po żadnej stronie,
+  gdzie wygrywała czysta kolejność w pliku) zostało **551**.
+  Przy okazji usunięto też dwa kawałki w pełni martwego kodu (stara
+  pinezka typu "łezka", `.brand-mark`) - zero wystąpień w HTML/JS,
+  nie tylko duplikat.
+
+  **Świadomie zatrzymano się na tym poziomie** - metoda użyta do
+  wykrywania (dokładne duplikaty tej samej grupy selektorów) łapie
+  tylko jeden konkretny wzorzec błędu. Nie łapie konfliktów między
+  RÓŻNYMI selektorami trafiającymi w ten sam element - to wymagałoby
+  prawdziwego dopasowywania specyficzności CSS, nie porównywania
+  tekstu, i próba heurystycznego wykrycia tego dała głównie fałszywe
+  trafienia. Reszta `!important`
+  prawdopodobnie w większości jest legalna/potrzebna (warianty w
+  media queries, pokonywanie specyficzności), ale nie została
+  zweryfikowana jedna po drugiej - to świadoma decyzja "działa, więc
+  nie ruszać dalej bez konkretnego powodu", nie porzucone zadanie.
+  Jeśli coś kiedyś znowu wygląda inaczej niż powinno po zmianie w
+  CSS, to pierwsze miejsce do podejrzeń.
 - **`npm run release:check` (35 skryptów w `tools/test-*.cjs`) w
   obecnym stanie NIE jest wiarygodnym miernikiem** (sprawdzone
   2026-08-05, uruchomione pojedynczo z pominięciem `&&`, żeby

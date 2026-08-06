@@ -1014,12 +1014,12 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-modes label {
   position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 6px;
+  display: flex !important;
+  flex: 1;
+  justify-content: center;
   align-items: center;
-  min-height: 52px;
-  padding: 0 9px;
+  min-height: 60px !important;
+  padding: 0 5px;
   border: 1px solid var(--border);
   background: rgba(127, 127, 127, 0.06);
   color: var(--text);
@@ -1057,15 +1057,6 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-modes legend{
   width:100%;
   flex-basis:100%;
-}
-
-.route-modes label{
-  flex:1;
-  display:flex !important;
-  justify-content:center;
-  align-items:center;
-  min-height:42px;
-  padding:0;
 }
 
 .route-mode-emoji{
@@ -1246,19 +1237,18 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-letter-marker > span {
   transform: rotate(45deg);
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  color: var(--text) !important;
+  line-height: 1 !important;
 }
 
 .route-letter-marker.route-a,
 .route-letter-marker.route-b {
   background: var(--panel);
 }
-
-.route-modes label{
-  min-height:60px !important;
-}
-
-
-
 
 /* Mobilny panel Trasa jako przeciągany bottom sheet */
 .route-sheet-handle {
@@ -1274,9 +1264,9 @@ body.ui-dark .legend-symbol.osm-buildings {
     bottom: 8px;
     left: 8px;
     width: auto !important;
-    height: var(--route-sheet-height);
+    height: var(--route-sheet-height) !important;
     max-height: calc(100vh - 16px) !important;
-    min-height: 180px;
+    min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1393,10 +1383,6 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 /* Płynny bottom sheet: treść znika po pełnym zwinięciu */
 @media (max-width: 600px) {
-  .route-panel {
-    min-height: 48px;
-  }
-
   .route-panel.is-collapsed {
     padding-bottom: 0;
     overflow: hidden;
@@ -2557,14 +2543,6 @@ a.place-card-row {
   text-indent: 0;
 }
 
-/* Cztery zwarte tryby podróży */
-.route-modes label {
-  display: grid;
-  place-items: center;
-  grid-template-columns: 1fr;
-  padding-inline: 5px;
-}
-
 @media (max-width: 420px) {
   .route-modes {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2720,19 +2698,6 @@ a.place-card-row {
   font-size: 1rem;
 }
 
-@media (max-width: 600px) {
-  .discover-panel {
-    position: absolute;
-    top: auto !important;
-    right: 8px;
-    bottom: 8px;
-    left: 8px;
-    width: auto;
-    max-height: 62vh;
-    overflow-y: auto;
-  }
-}
-
 @media (max-width: 390px) {
   .discover-categories {
     gap: 6px;
@@ -2804,14 +2769,6 @@ a.place-card-row {
   margin-left: 8px;
 }
 
-@media (max-width: 600px) {
-  .menu-panel {
-    right: 8px;
-    left: auto;
-    width: min(280px, calc(100vw - 16px));
-  }
-}
-
 
 /* Prawy blok: tylko wygląd mapy i menu */
 .toolbar-actions {
@@ -2847,12 +2804,6 @@ a.place-card-row {
   color: var(--text);
   font: inherit;
   text-align: left;
-}
-
-.menu-action:hover,
-.menu-action:focus-visible {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .menu-setting {
@@ -3029,13 +2980,6 @@ a.place-card-row {
   color: var(--accent);
 }
 
-@media (max-width: 600px) {
-  .menu-panel {
-    right: 8px !important;
-    left: auto !important;
-    width: min(310px, calc(100vw - 16px));
-  }
-}
 
 
 
@@ -3056,7 +3000,7 @@ a.place-card-row {
     bottom: 8px !important;
     left: 8px !important;
     width: auto !important;
-    height: var(--discover-sheet-height);
+    height: var(--discover-sheet-height) !important;
     max-height: calc(100vh - 16px) !important;
     min-height: 48px;
     padding: 0 14px 14px;
@@ -3156,28 +3100,20 @@ a.place-card-row {
   padding: 0 !important;
 }
 
-#menu-button,
-#streetview-toggle-button {
-  width: 100% !important;
-  min-width: 56px !important;
+/* ☰ ma identyczny rozmiar jak przyciski Trasa/Odkrywaj */
+#menu-button {
+  width: 46px !important;
+  min-width: 46px !important;
   height: 46px !important;
   min-height: 46px !important;
-  display: grid;
-  place-items: center;
 }
 
-
-/* ☰ ma identyczny rozmiar jak przyciski Trasa/Odkrywaj */
 #menu-button,
-#streetview-toggle-button{
-  width:46px !important;
-  min-width:46px !important;
-  height:46px !important;
-  min-height:46px !important;
-  padding:0 !important;
-  border-radius:0 !important;
-  display:grid !important;
-  place-items:center;
+#streetview-toggle-button {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: grid !important;
+  place-items: center;
 }
 
 #menu-button:hover,
@@ -3193,7 +3129,7 @@ a.place-card-row {
 
 @media (max-width: 600px) {
   .toolbar {
-    grid-template-columns: auto minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 8px;
     align-items: stretch;
   }
@@ -3202,65 +3138,35 @@ a.place-card-row {
     grid-column: 1;
   }
 
-  .toolbar .search {
-    grid-column: 2;
-    width: 100%;
-  }
-
   .toolbar .toolbar-actions,
   .toolbar .search #route-button,
   .toolbar .search #discover-button {
     display: none !important;
   }
 
-  .mobile-bottom-nav {
-    position: fixed;
-    z-index: 30;
-    right: 8px;
-    bottom: 8px;
-    left: 8px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    min-height: 58px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-  background-image: var(--panel-image, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(12px);
-  }
-
   .mobile-bottom-action {
-    display: grid;
-    grid-template-rows: auto auto;
-    place-items: center;
-    gap: 2px;
-    min-width: 0;
-    min-height: 58px;
-    padding: 5px 8px;
+    display: grid !important;
+    grid-template-rows: auto auto !important;
+    grid-template-columns: 1fr !important;
+    place-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
+    padding: 6px 8px !important;
     border: 0;
     border-right: 1px solid var(--border);
     border-radius: 0;
     background: transparent;
-    color: var(--text);
+    color: var(--accent) !important;
     font: inherit;
     cursor: pointer;
+    text-align: center !important;
   }
 
   .mobile-bottom-action:last-child {
     border-right: 0;
-  }
-
-  .mobile-bottom-action > span:first-child {
-    font-size: 1.25rem;
-    line-height: 1;
-  }
-
-  .mobile-bottom-action > span:last-child {
-    font-size: 0.68rem;
-    font-weight: 750;
   }
 
   .mobile-bottom-action:hover,
@@ -3268,10 +3174,6 @@ a.place-card-row {
   .mobile-bottom-action.is-active {
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 11%, transparent);
-  }
-
-  body {
-    padding-bottom: 74px;
   }
 
   .maplibregl-ctrl-bottom-left,
@@ -3319,14 +3221,7 @@ a.place-card-row {
   .menu-panel {
     --menu-sheet-height: 42vh;
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
-    height: var(--menu-sheet-height);
-    max-height: calc(100vh - 90px) !important;
-    min-height: 48px;
+    height: var(--menu-sheet-height) !important;
     padding: 0 14px 14px;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -3409,7 +3304,6 @@ a.place-card-row {
 @media (max-width: 600px) {
   .maplibregl-ctrl-bottom-left {
     display: block !important;
-    bottom: 78px !important;
   }
 
   .maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale {
@@ -3434,11 +3328,6 @@ a.place-card-row {
 
 /* Telefon: zmniejsz odstęp między skalą a dolnym paskiem */
 @media (max-width: 600px) {
-  .maplibregl-ctrl-bottom-left {
-    bottom: 126px !important;
-    margin-bottom: 0 !important;
-  }
-
   .maplibregl-ctrl-scale {
     margin: 0 0 4px 8px !important;
   }
@@ -3455,18 +3344,6 @@ div.maplibregl-ctrl-scale {
 }
 
 
-/* Telefon: skala niemal bezpośrednio nad dolnym paskiem */
-@media (max-width: 600px) {
-  .maplibregl-ctrl-bottom-left {
-    bottom: 126px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale {
-    margin: 0 0 1px 6px !important;
-  }
-}
 
 
 /* Ostateczna poprawka mobilnego pustego pasa:
@@ -3491,12 +3368,6 @@ div.maplibregl-ctrl-scale {
     inset: 0 !important;
   }
 
-  .mobile-bottom-nav {
-    right: 8px !important;
-    bottom: 8px !important;
-    left: 8px !important;
-  }
-
   .maplibregl-ctrl-bottom-left {
     bottom: 126px !important;
     margin: 0 !important;
@@ -3515,10 +3386,6 @@ div.maplibregl-ctrl-scale {
 }
 
 @media (max-width: 600px) {
-  .toolbar {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
   .toolbar > .brand {
     display: none !important;
   }
@@ -4844,21 +4711,6 @@ button.account-activity-item-open:focus-visible {
     min-height: 48px !important;
     border-radius: 20px !important;
   }
-
-  .route-panel {
-    --route-sheet-height: 42vh;
-    height: var(--route-sheet-height) !important;
-  }
-
-  .discover-panel {
-    --discover-sheet-height: 42vh;
-    height: var(--discover-sheet-height) !important;
-  }
-
-  .menu-panel {
-    --menu-sheet-height: 42vh;
-    height: var(--menu-sheet-height) !important;
-  }
 }
 
 
@@ -5428,13 +5280,16 @@ button.account-activity-item-open:focus-visible {
     margin: 0 !important;
     border-radius: 14px !important;
     overflow: hidden !important;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    background-image: var(--panel-image, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
   }
 
-  .mobile-bottom-action {
-    display: flex !important;
-    min-width: 0 !important;
-    min-height: 54px !important;
-  }
 
   body {
     padding-bottom: 130px !important;
@@ -5665,23 +5520,6 @@ textarea {
 }
 
 
-/* =========================================================
-   Komunikaty mobilne nad dolnym paskiem wyszukiwania
-   ========================================================= */
-@media (max-width: 600px) {
-  .status {
-    position: fixed !important;
-    z-index: 70 !important;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 126px !important;
-    left: 8px !important;
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    
-  }
-}
 
 
 
@@ -5842,16 +5680,6 @@ textarea {
   background-color: var(--panel) !important;
 }
 
-.route-letter-marker > span {
-  display: grid !important;
-  place-items: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  color: var(--text) !important;
-  
-  line-height: 1 !important;
-}
-
 
 /* MapLibre ustawia pozycję markerów przez inline transform.
    Nie wolno go nadpisywać, bo marker trafia do lewego górnego rogu. */
@@ -5882,52 +5710,11 @@ textarea {
   color: var(--muted) !important;
 }
 
-/* Czerwone akcenty po deklaracji powierzchni panelowych */
-#search-button {
-  background: var(--accent) !important;
-  background-color: var(--accent) !important;
-  color: var(--panel) !important;
-}
-
-#route-button,
-#mobile-route-button {
-  color: var(--accent) !important;
-}
-
-#route-button.is-active,
-#route-button[aria-expanded="true"],
-#mobile-route-button.is-active,
-#mobile-route-button[aria-expanded="true"] {
-  background: var(--accent) !important;
-  background-color: var(--accent) !important;
-  color: var(--panel) !important;
-}
-
-
 
 /* =========================================================
    Mobilne przyciski: ikona nad nazwą, trzy kolumny w jednym rzędzie
    ========================================================= */
 @media (max-width: 600px) {
-  .mobile-bottom-nav {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-
-  .mobile-bottom-action {
-    display: grid !important;
-    grid-template-rows: auto auto !important;
-    grid-template-columns: 1fr !important;
-    place-items: center !important;
-    align-content: center !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    min-width: 0 !important;
-    padding: 6px 8px !important;
-    color: var(--accent) !important;
-    text-align: center !important;
-  }
-
   .mobile-bottom-action > span:first-child {
     display: block !important;
     grid-row: 1 !important;

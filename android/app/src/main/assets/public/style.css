@@ -59,10 +59,10 @@ select {
   top: 12px;
   left: 12px;
   right: 12px;
-  display: grid;
+  display: flex;
   grid-template-columns: auto minmax(220px, 560px) auto;
   gap: 10px;
-  align-items: center;
+  align-items: stretch;
   pointer-events: none;
 }
 
@@ -76,34 +76,28 @@ select {
 #streetview-actions,
 .select-wrap,
 .icon-button {
-  background: var(--panel);
-  background-image: var(--panel-image, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   backdrop-filter: blur(10px);
+  cursor: pointer;
+  min-width: 38px;
+  font-weight: 800;
 }
 
 .brand {
-  display: flex;
+  display: inline-flex;
   gap: 2px;
   align-items: center;
+  flex: 0 0 auto;
   min-height: 46px;
-  padding: 8px 13px;
+  padding: 0 18px 0 14px !important;
+  width: fit-content !important;
+  max-width: fit-content !important;
   color: var(--text);
   font-weight: 750;
   text-decoration: none;
-}
-
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  background: var(--accent);
-  color: var(--panel);
+  white-space: nowrap;
 }
 
 .search {
@@ -159,8 +153,7 @@ input[type="search"]::-webkit-search-decoration {
   box-shadow: none;
 }
 
-select,
-.icon-button {
+select {
   border: 0;
   background: transparent;
   color: var(--text);
@@ -169,12 +162,6 @@ select,
 
 select {
   padding: 0 30px 0 10px;
-}
-
-.icon-button {
-  min-width: 38px;
-  font-weight: 800;
-  box-shadow: none;
 }
 
 .icon-button:hover,
@@ -322,10 +309,6 @@ body.ui-dark {
   height: 38px;
   flex: 0 0 auto;
   display: block;
-}
-
-.brand-mark {
-  display: none;
 }
 
 
@@ -843,7 +826,7 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .route-form {
-  display: grid;
+  display: block;
   grid-template-columns: 1fr auto;
   gap: 10px 8px;
   align-items: end;
@@ -916,10 +899,12 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-swap {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 1 / 5;
   align-self: center;
-  width: 38px;
-  height: 38px;
+  justify-self: center;
+  width: 36px;
+  height: 36px;
+  margin-top: 12px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -935,9 +920,9 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-actions {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
-  margin-top: 3px;
+  margin-top: 13px;
 }
 
 .route-primary,
@@ -946,23 +931,21 @@ body.ui-dark .legend-symbol.osm-buildings {
   padding: 0 13px;
   font-weight: 750;
   cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
 }
 
 .route-primary {
   border: 1px solid var(--accent);
   background: var(--accent);
   color: var(--panel);
-}
-
-.route-secondary {
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
+  width: 100%;
 }
 
 .route-summary {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 9px;
   margin-top: 15px;
 }
@@ -1012,9 +995,10 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-modes {
   grid-column: 1 / -1;
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(4, 1fr);
-  gap: 7px;
+  gap: 8px;
+  align-items: center;
   margin: 0 0 3px;
   padding: 0;
   border: 0;
@@ -1069,14 +1053,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 }
 
-
 /* Kompaktowy wybór środka transportu */
-.route-modes{
-  display:flex !important;
-  gap:8px;
-  align-items:center;
-}
-
 .route-modes legend{
   width:100%;
   flex-basis:100%;
@@ -1092,16 +1069,11 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .route-mode-emoji{
-  font-size:1.9rem;
+  font-size:2.4rem !important;
   line-height:1;
 }
 
-
 /* Pola A/B z przyciskiem zamiany po prawej, wyśrodkowanym między nimi */
-.route-form {
-  display: block;
-}
-
 .route-points {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 40px;
@@ -1225,27 +1197,6 @@ body.ui-dark .legend-symbol.osm-buildings {
   grid-row: 4;
 }
 
-.route-swap {
-  grid-column: 2;
-  grid-row: 1 / 5;
-  align-self: center;
-  justify-self: center;
-  width: 36px;
-  height: 36px;
-  margin-top: 12px;
-}
-
-.route-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
-  margin-top: 13px;
-}
-
-.route-primary {
-  width: 100%;
-}
-
 @media (max-width: 360px) {
   .route-points {
     grid-template-columns: minmax(0, 1fr) 36px;
@@ -1290,6 +1241,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   font-weight: 850;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.34);
   transform: rotate(-45deg);
+  cursor: grab;
 }
 
 .route-letter-marker > span {
@@ -1299,13 +1251,6 @@ body.ui-dark .legend-symbol.osm-buildings {
 .route-letter-marker.route-a,
 .route-letter-marker.route-b {
   background: var(--panel);
-}
-
-
-/* Większe ikony środków transportu */
-.route-mode-emoji{
-  font-size:2.4rem !important;
-  line-height:1;
 }
 
 .route-modes label{
@@ -1545,6 +1490,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   background: rgba(127, 127, 127, 0.07);
   font-size: 1.2rem;
   line-height: 1;
+  border-radius: 0;
 }
 
 .route-direction-copy {
@@ -1589,11 +1535,6 @@ body.ui-dark .legend-symbol.osm-buildings {
   .route-direction-button {
     min-height: 49px;
   }
-}
-
-
-.route-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .route-share {
@@ -1693,6 +1634,10 @@ body.ui-dark .legend-symbol.osm-buildings {
   color: var(--text);
   text-align: left;
   cursor: pointer;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
 }
 
 .autocomplete-option:hover,
@@ -1754,10 +1699,6 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .search-clear[hidden] {
   display: none;
-}
-
-.route-letter-marker {
-  cursor: grab;
 }
 
 .route-letter-marker:active {
@@ -1826,6 +1767,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   background-repeat: no-repeat;
   color: var(--text);
   box-shadow: var(--shadow);
+  border-radius: 0 !important;
 }
 
 .maplibregl-popup-close-button {
@@ -2001,8 +1943,8 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .place-card-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
   padding: 11px 16px 16px;
   border-top: 1px solid var(--border);
 }
@@ -2010,15 +1952,21 @@ body.ui-dark .legend-symbol.osm-buildings {
 .place-card-action {
   display: grid;
   place-items: center;
-  min-height: 39px;
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
   border: 1px solid var(--border);
-  padding: 6px 9px;
   background: transparent;
   color: var(--text);
   font: inherit;
-  font-size: 0.74rem;
+  font-size: 1.25rem;
+  line-height: 1;
   text-align: center;
   text-decoration: none;
+  justify-self: stretch;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
@@ -2045,7 +1993,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 
   .place-card-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     padding: 10px 14px 14px;
   }
 
@@ -2207,11 +2155,13 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .trip-panel-content {
   padding: 4px 14px 14px;
+  min-height: 76px;
 }
 
 .streetview-panel {
   display: flex;
   flex-direction: column;
+  width: min(70vw, 1100px);
 }
 
 .streetview-panel .streetview-viewport {
@@ -2492,14 +2442,6 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 }
 
-
-.autocomplete-option {
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  gap: 8px;
-  align-items: center;
-}
-
 .autocomplete-place-icon {
   display: grid;
   place-items: center;
@@ -2567,8 +2509,7 @@ select,
 .place-departures-toggle,
 .place-departure,
 .place-departure-line,
-.route-direction-button,
-.route-direction-icon {
+.route-direction-button {
   border-radius: 0 !important;
 }
 
@@ -2577,10 +2518,6 @@ select,
 input,
 a.place-card-action,
 a.place-card-row {
-  border-radius: 0 !important;
-}
-
-.maplibregl-popup-content {
   border-radius: 0 !important;
 }
 
@@ -2815,7 +2752,9 @@ a.place-card-row {
 
 
 .menu-panel {
-  width: min(280px, calc(100vw - 24px));
+  width: min(310px, calc(100vw - 24px));
+  right: 12px !important;
+  left: auto !important;
 }
 
 .menu-actions {
@@ -2879,21 +2818,18 @@ a.place-card-row {
   margin-left: auto !important;
   justify-content: flex-end !important;
   flex: 0 0 auto;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 .legacy-hidden-controls {
   display: none !important;
-}
-
-.menu-panel {
-  right: 12px !important;
-  left: auto !important;
-  width: min(310px, calc(100vw - 24px));
-}
-
-.menu-actions {
-  display: grid;
-  gap: 8px;
 }
 
 .menu-action,
@@ -3102,18 +3038,6 @@ a.place-card-row {
 }
 
 
-/* Bardziej zwarty kontener logo */
-.brand {
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-  width: fit-content !important;
-  max-width: fit-content !important;
-  padding: 0 18px 0 14px !important;
-  white-space: nowrap;
-}
-
-
 
 
 
@@ -3244,17 +3168,6 @@ a.place-card-row {
 
 
 /* ☰ ma identyczny rozmiar jak przyciski Trasa/Odkrywaj */
-.toolbar-actions{
-  width:auto !important;
-  min-width:0 !important;
-  height:auto !important;
-  min-height:0 !important;
-  padding:0 !important;
-  border:none !important;
-  box-shadow:none !important;
-  background:transparent !important;
-}
-
 #menu-button,
 #streetview-toggle-button{
   width:46px !important;
@@ -3641,17 +3554,6 @@ div.maplibregl-ctrl-scale {
 
 
 /* Zwarte akcje karty miejsca — same emoji */
-.place-card-actions {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
-
-.place-card-action {
-  min-height: 42px;
-  padding: 0 !important;
-  font-size: 1.25rem !important;
-  line-height: 1;
-}
-
 .place-card-action.is-favorite {
   color: var(--accent);
 }
@@ -3733,37 +3635,6 @@ div.maplibregl-ctrl-scale {
   }
 }
 
-
-/* Wszystkie prostokąty akcji w karcie miejsca mają identyczne wymiary */
-.place-card-actions {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 8px !important;
-}
-
-.place-card-action {
-  width: 100% !important;
-  min-width: 0 !important;
-  height: 42px !important;
-  min-height: 42px !important;
-  padding: 0 !important;
-  display: grid !important;
-  place-items: center !important;
-  justify-self: stretch !important;
-  box-sizing: border-box !important;
-}
-
-
-/* Ostateczne wyrównanie wszystkich akcji karty miejsca */
-.place-card-actions {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-}
-
-@media (max-width: 480px) {
-  .place-card-actions {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  }
-}
 
 .place-card-actions > .place-card-action,
 .place-card-actions > .place-card-action:nth-child(3),
@@ -4558,8 +4429,6 @@ button.account-activity-item-open:focus-visible {
 
 .route-item {
   border: 1px solid var(--border);
-  padding: 8px 10px;
-  margin: 6px 0;
 }
 
 .route-item-row {
@@ -4576,15 +4445,19 @@ button.account-activity-item-open:focus-visible {
   font: inherit;
   text-align: left;
   cursor: pointer;
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 7px;
   align-items: center;
-  gap: 8px;
   min-width: 0;
+  min-height: 48px;
+  padding: 6px 8px;
 }
 
 .route-item-icon {
   font-size: 1rem;
-  flex-shrink: 0;
+  display: grid;
+  place-items: center;
 }
 
 .route-item-copy {
@@ -4594,14 +4467,15 @@ button.account-activity-item-open:focus-visible {
 }
 
 .route-item-copy strong {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .route-item-copy small {
-  font-size: 0.68rem;
+  margin-top: 2px;
+  font-size: 0.64rem;
   color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4778,6 +4652,14 @@ button.account-activity-item-open:focus-visible {
 }
 
 .favorite-place-item.is-dragging {
+  opacity: 0.4;
+}
+
+.route-item[draggable="true"] {
+  cursor: grab;
+}
+
+.route-item.is-dragging {
   opacity: 0.4;
 }
 
@@ -4989,10 +4871,6 @@ button.account-activity-item-open:focus-visible {
   width: min(390px, calc(100vw - 24px));
 }
 
-.streetview-panel {
-  width: min(70vw, 1100px);
-}
-
 .place-sheet-handle {
   display: none;
 }
@@ -5002,10 +4880,6 @@ button.account-activity-item-open:focus-visible {
 }
 
 .place-panel-content {
-  min-height: 76px;
-}
-
-.trip-panel-content {
   min-height: 76px;
 }
 
@@ -5304,29 +5178,12 @@ button.account-activity-item-open:focus-visible {
 /* Pinezka wybranego miejsca */
 .selected-place-marker {
   position: relative;
-  width: 34px;
-  height: 44px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
   pointer-events: none;
-  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.28));
-}
-
-.selected-place-marker-pin {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 30px;
-  height: 30px;
-  transform: translateX(-50%) rotate(45deg);
-  border: 3px solid #fff;
-  background: #e11d48;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.22);
-}
-
-.selected-place-marker-pin::after {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  background: #fff;
+  filter: none;
 }
 
 /* Symbol bieżącej lokalizacji */
@@ -5379,12 +5236,6 @@ button.account-activity-item-open:focus-visible {
 /* =========================================================
    Spójny nagłówek: logo bezpośrednio przy wyszukiwarce
    ========================================================= */
-.toolbar {
-  display: flex !important;
-  align-items: stretch !important;
-  gap: 10px !important;
-}
-
 .toolbar-primary {
   display: flex;
   align-items: stretch;
@@ -5408,10 +5259,8 @@ button.account-activity-item-open:focus-visible {
   border-left: 0;
   border-radius: 0 14px 14px 0 !important;
   box-shadow: var(--shadow);
-}
-
-.toolbar-actions {
-  margin-left: auto !important;
+  background: var(--panel) !important;
+  background-color: var(--panel) !important;
 }
 
 /* =========================================================
@@ -5671,7 +5520,6 @@ textarea {
 /* Wyjątki: markery lokalizacji pozostają okrągłe. */
 .user-location-marker,
 .user-location-marker *,
-.selected-place-marker-pin::after,
 .context-point-marker,
 .context-point-marker-dot {
   border-radius: 50% !important;
@@ -5789,16 +5637,6 @@ textarea {
   border-radius: 0 !important;
 }
 
-/* Pinezka informacji o miejscu: dokładnie taki sam punkt jak prawy klik. */
-.selected-place-marker {
-  width: 22px !important;
-  height: 22px !important;
-  display: grid !important;
-  place-items: center !important;
-  pointer-events: none !important;
-  filter: none !important;
-}
-
 .selected-place-marker-dot {
   width: 14px;
   height: 14px;
@@ -5810,20 +5648,7 @@ textarea {
     0 2px 8px rgb(0 0 0 / 0.28);
 }
 
-/* Stara pinezka typu łezka nie jest już używana. */
-.selected-place-marker-pin {
-  display: none !important;
-}
-
 /* Punkty trasy mają wskazywać dokładny środek współrzędnej. */
-.route-marker,
-.route-waypoint-marker,
-.route-point-marker,
-.maplibregl-marker:has(.route-marker),
-.maplibregl-marker:has(.route-waypoint-marker),
-.maplibregl-marker:has(.route-point-marker) {
-}
-
 .route-marker,
 .route-waypoint-marker,
 .route-point-marker {
@@ -6865,8 +6690,8 @@ textarea,
     bottom: 126px !important;
     right: 8px !important;
     left: auto !important;
-    width: 53px !important;
-    min-width: 53px !important;
+    width: 52px !important;
+    min-width: 52px !important;
     height: auto !important;
     z-index: 30 !important;
   }
@@ -6885,11 +6710,12 @@ textarea,
 
 /* Ostateczne rozstrzygnięcie wymiarów przycisków w bloku
    streetview/lokalizacja - wygrywa ze starszymi, rozproszonymi
-   regułami odziedziczonymi po #menu-button. */
+   regułami odziedziczonymi po #menu-button. Ten sam rozmiar co
+   reszta przycisków w tej sekcji (46px). */
 #streetview-toggle-button,
 #locate-toggle-button {
-  width: 53px !important;
-  min-width: 53px !important;
+  width: 46px !important;
+  min-width: 46px !important;
   height: 100% !important;
   min-height: 0 !important;
 }
@@ -6907,7 +6733,7 @@ textarea,
   #streetview-actions {
     display: flex !important;
     flex-direction: column !important;
-    width: 53px !important;
+    width: 52px !important;
     height: auto !important;
   }
 }

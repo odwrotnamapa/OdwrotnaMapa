@@ -100,3 +100,28 @@ plik bez nowo dodanych elementów DOM mimo poprawnego JS.
 Naprawa: po KAŻDEJ zmianie dotykającej HTML, jawnie zweryfikować
 grep-em w PLIKU W /mnt/user-data/outputs (nie w katalogu roboczym),
 że nowy element faktycznie tam jest, zanim ogłosisz gotowość.
+
+---
+
+6. "Martwy kod" może być artefaktem wzorca wyszukiwania, nie
+   rzeczywistości
+
+Podczas wcześniejszego audytu uznano `OMAP_PLACE_SERVICE`/
+`OMAP_PLACE_CARD` za całkowicie martwe, nigdzie niekonfigurowane
+rusztowanie - i to trafiło do ARCHITECTURE.md jako fakt. W
+rzeczywistości oba są w pełni skonfigurowane i aktywne
+(`window.OMAP_PLACE_SERVICE?.configure({...})` z prawdziwym,
+działającym handlerem). Błąd: wyszukiwanie szukało `.configure(`
+(z kropką), a kod używał `?.configure(` (opcjonalne łańcuchowanie)
+- dwa różne teksty dla grepa, to samo wywołanie dla silnika JS.
+
+Naprawa: przy sprawdzaniu "czy X jest gdziekolwiek wywoływane/
+konfigurowane" w kodzie z dużą ilością `?.`, szukać WZORCA
+(`configure\s*\(` jako regex, nie dosłownego stringa `.configure(`),
+albo świadomie sprawdzić oba warianty (`.configure(` i
+`?.configure(`) osobno. Negatywny wynik wyszukiwania - "nic nie
+znaleziono" - nie jest dowodem, że czegoś nie ma, tylko że nie ma
+tego w formie, której szukałem. Zanim coś trafi do dokumentacji
+jako "martwe"/"nieużywane", warto to zweryfikować drugim,
+niezależnym sposobem (np. faktycznym śledzeniem wywołania w
+debugerze albo testem end-to-end), nie tylko jednym grepem.
