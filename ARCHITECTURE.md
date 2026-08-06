@@ -46,7 +46,8 @@ www/                                                — kopia dla Capacitor
 src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        miejsc, kategorie, godziny otwarcia, zdjęcia,
                        adresy, stan URL, Odkrywaj (kategorie +
-                       pobieranie, wyniesione z app.js 2026-08-06)
+                       pobieranie), oceny miejsc - ostatnie dwa
+                       wyniesione z app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -192,6 +193,31 @@ crash. Każda ekstrakcja modułu musi jawnie sprawdzić, czy przenoszony
 kod ma podobne auto-wywołania na poziomie modułu, i przenieść je na
 jawne wywołanie z `app.js` PO `configure()`, w tym samym miejscu w
 kolejności inicjalizacji co oryginał.
+
+## Oceny (src/services/ratings-service.js)
+
+Drugi moduł wyniesiony z `app.js` (2026-08-06, ~200 linii). Publiczne
+oceny miejsc przez Nostr (kind 31555) - gwiazdki (pół-gwiazdki, 1-5
+co 0.5), podgląd na hover, zapis/usuwanie. Ten sam wzorzec
+`configure()` co `discover-service.js`. Zależności dużo mniejsze niż
+przy Odkrywaj - tylko `state.language`, `text`, i dwie funkcje z
+`app.js` (`getStoredSeedWords`, `openAccountFromMenu`). Zapis/odczyt
+ocen idzie przez już globalne `window.OMAP_SYNC_CRYPTO`/
+`window.OMAP_SYNC_TRANSPORT` - bez dodatkowego przekazywania.
+
+Na zewnątrz wystawione tylko dwie funkcje faktycznie wołane z
+`app.js` (`window.OMAP_RATINGS.createSection`/`.loadForPlace`) -
+reszta (malowanie gwiazdek, zapis/usuwanie pojedynczej oceny) to
+wewnętrzne szczegóły modułu, nigdy wołane z zewnątrz.
+
+**Przy tej ekstrakcji dodatkowo zweryfikowano** (nauczka z Odkrywaj),
+że obie zewnętrzne funkcje (`getStoredSeedWords`/`openAccountFromMenu`)
+to zwykłe deklaracje `function nazwa() {}` (w pełni hoistowane) - nie
+`const nazwa = () => {}` (nie hoistowane). Gdyby były tym drugim,
+wołanie `configure()` w miejscu wcześniejszym w pliku niż ich
+deklaracja skończyłoby się `ReferenceError` przez temporal dead zone
+- dokładnie ten sam wzorzec błędu co w `DIAGNOSTYKA.txt` (pkt 1).
+Przy każdej kolejnej ekstrakcji: sprawdzić to PRZED, nie PO wysyłce.
 
 ## Ulubione i Trasy
 
