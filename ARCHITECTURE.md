@@ -46,8 +46,9 @@ www/                                                — kopia dla Capacitor
 src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        miejsc, kategorie, godziny otwarcia, zdjęcia,
                        adresy, stan URL, Odkrywaj (kategorie +
-                       pobieranie), oceny miejsc - ostatnie dwa
-                       wyniesione z app.js 2026-08-06
+                       pobieranie), oceny miejsc, odjazdy transportu
+                       publicznego - ostatnie trzy wyniesione z
+                       app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -218,6 +219,24 @@ wołanie `configure()` w miejscu wcześniejszym w pliku niż ich
 deklaracja skończyłoby się `ReferenceError` przez temporal dead zone
 - dokładnie ten sam wzorzec błędu co w `DIAGNOSTYKA.txt` (pkt 1).
 Przy każdej kolejnej ekstrakcji: sprawdzić to PRZED, nie PO wysyłce.
+
+## Odjazdy transportu publicznego (src/services/departures-service.js)
+
+Trzeci moduł wyniesiony z `app.js` (2026-08-06, ~350 linii).
+Rozpoznawanie czy miejsce jest przystankiem, pobieranie rozkładu
+odjazdów, formatowanie czasu/kolorów linii transportowych w karcie
+miejsca. Ten sam wzorzec `configure()` co pozostałe dwa moduły.
+Zależności: `state.language`, `text`, `CONFIG.transit.*`, i jedna
+funkcja z `app.js` (`openTripDetails`, wywoływana przy kliknięciu
+konkretnego odjazdu).
+
+Wszystkie trzy wywołania `configure()` (`OMAP_RATINGS`,
+`OMAP_DEPARTURES`, `OMAP_DISCOVER`) są teraz świadomie skonsolidowane
+w jednym miejscu w `app.js`, zamiast rozrzucone tam, gdzie fizycznie
+leżał wycięty kod - to ułatwia znalezienie ich wszystkich naraz przy
+kolejnej ekstrakcji, i było jawną poprawką po tym, jak druga
+ekstrakcja (Oceny) omyłkowo wstawiła swój `configure()` w środek
+tego, co powinno być spójnym klastrem Odjazdów.
 
 ## Ulubione i Trasy
 
