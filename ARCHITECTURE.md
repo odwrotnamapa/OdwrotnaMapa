@@ -47,8 +47,9 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        miejsc, kategorie, godziny otwarcia, zdjęcia,
                        adresy, stan URL, Odkrywaj, oceny miejsc,
                        odjazdy transportu publicznego, podsumowanie
-                       z Wikipedii, pomiar odległości/powierzchni -
-                       ostatnie pięć wyniesione z app.js 2026-08-06
+                       z Wikipedii, pomiar odległości/powierzchni,
+                       streetview/Mapillary - ostatnie sześć
+                       wyniesione z app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -280,6 +281,41 @@ nawiasami, raz szukając samej nazwy bez wymogu nawiasu zaraz po niej
 znaczeniach naraz** (`map.addSource(...)` - instancja MapLibre,
 `points.map(p => ...)` - metoda tablicy) - każde wystąpienie
 zweryfikowane osobno przed podmianą, zero pomyłek tym razem.
+
+**Po wysyłce wyszły jeszcze dwa problemy** (oba udokumentowane
+szczegółowo w `DIAGNOSTYKA.txt`, pkt 9-12): brak `?.` przy
+wywołaniach modułu w `app.js` (wywalało to CAŁY skrypt, nie tylko tę
+funkcję - naprawione we wszystkich pięciu modułach naraz), i siedem
+stałych ID warstw MapLibre pominiętych przy skanowaniu zależności
+(skaner szukał tylko wywołań funkcji i dostępu do obiektów, nie
+gołych stałych używanych jako argumenty). Obie lekcje zastosowane
+w checkliście poniżej i przy kolejnych ekstrakcjach.
+
+## Streetview / pokrycie Mapillary (src/services/streetview-service.js)
+
+Szósty moduł wyniesiony z `app.js` (2026-08-06, ~210 linii).
+Warstwa pokrycia Mapillary na mapie, panel przeglądarki streetview,
+tryb pełnoekranowy. Zależności: `state`, `el`, `map`, `CONFIG`,
+`text`, cztery funkcje z `app.js` (`closeOtherMobilePanels`,
+`getMobilePanelMaximumHeight`, `isMobilePanelViewport`,
+`setMobilePanelHeight`).
+
+Pierwsza ekstrakcja z pełnym zastosowaniem checklisty wypracowanej
+przy Pomiarze: (1) sprawdzenie GOŁYCH użyć każdej współdzielonej
+zmiennej, nie tylko z kropką/nawiasem, (2) sprawdzenie WSZYSTKICH
+identyfikatorów WIELKIMI LITERAMI pod kątem brakujących stałych,
+(3) sprawdzenie każdej eksportowanej funkcji DWA razy - wywołanie
+z nawiasem i goła referencja (addEventListener), (4) `configure()`
+umieszczone od razu we wczesnym, wspólnym miejscu (przed pierwszym
+`updateUI()`), nie tam gdzie fizycznie leżał wycięty kod. Zero
+problemów po wysyłce.
+
+Znaleziono jeden listener na poziomie modułu
+(`document.addEventListener("fullscreenchange", ...)`) - bezpieczny
+(odpala się tylko przy realnej, użytkownikiem wywołanej zmianie
+pełnego ekranu, nie automatycznie przy starcie), ale dodano mu
+mimo to jawne sprawdzenie `if (!ctx) return;` na wszelki wypadek -
+tania, dodatkowa warstwa bezpieczeństwa bez kosztu.
 
 ## Ulubione i Trasy
 

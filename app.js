@@ -1994,6 +1994,17 @@ map.on('rotate', updateLogoRotation);
     getStoredSeedWords,
     openAccountFromMenu
   });
+  window.OMAP_STREETVIEW?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
+    text,
+    closeOtherMobilePanels,
+    getMobilePanelMaximumHeight,
+    isMobilePanelViewport,
+    setMobilePanelHeight
+  });
   window.OMAP_MEASURE?.configure({
     state,
     el,
@@ -2352,14 +2363,14 @@ map.on('rotate', updateLogoRotation);
     closePlacePanel();
   });
 
-  el.streetviewPanelClose?.addEventListener("click", closeStreetView);
+  el.streetviewPanelClose?.addEventListener("click", window.OMAP_STREETVIEW?.close);
   el.streetviewFullscreenButton?.addEventListener(
     "click",
-    toggleStreetviewFullscreen
+    window.OMAP_STREETVIEW?.toggleFullscreen
   );
   el.menuStreetviewButton?.addEventListener(
     "click",
-    toggleMapillaryCoverage
+    window.OMAP_STREETVIEW?.toggleCoverage
   );
 
   el.menuButton?.addEventListener("click", toggleMenu);
@@ -3008,190 +3019,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
   }
 
-  function ensureMapillaryCoverage() {
-    if (!CONFIG.mapillary?.accessToken) return false;
-    if (map.getSource(CONFIG.mapillary.sourceId)) return true;
-
-    map.addSource(CONFIG.mapillary.sourceId, {
-      type: "vector",
-      tiles: [
-        `${CONFIG.mapillary.coverageTiles}?access_token=${CONFIG.mapillary.accessToken}`
-      ],
-      minzoom: 6,
-      maxzoom: 14
-    });
-
-    map.addLayer({
-      id: CONFIG.mapillary.coverageLayerId,
-      type: "circle",
-      source: CONFIG.mapillary.sourceId,
-      "source-layer": "image",
-      minzoom: CONFIG.mapillary.minZoom,
-      layout: { visibility: "none" },
-      paint: {
-        "circle-radius": 4,
-        "circle-color": "#00c37a",
-        "circle-stroke-width": 1,
-        "circle-stroke-color": "#ffffff"
-      }
-    });
-
-    map.on("click", CONFIG.mapillary.coverageLayerId, event => {
-      const feature = event.features?.[0];
-      const imageId = feature?.properties?.id;
-      if (imageId) openStreetView(imageId);
-    });
-
-    map.on("mouseenter", CONFIG.mapillary.coverageLayerId, () => {
-      map.getCanvas().style.cursor = "pointer";
-    });
-    map.on("mouseleave", CONFIG.mapillary.coverageLayerId, () => {
-      map.getCanvas().style.cursor = "";
-    });
-
-    return true;
-  }
-
-  function toggleMapillaryCoverage() {
-    const t = text[state.language];
-
-    if (!CONFIG.mapillary?.accessToken) {
-      show(t.streetviewUnavailable);
-      return;
-    }
-
-    if (!ensureMapillaryCoverage()) return;
-
-    state.mapillaryCoverageVisible = !state.mapillaryCoverageVisible;
-
-    map.setLayoutProperty(
-      CONFIG.mapillary.coverageLayerId,
-      "visibility",
-      state.mapillaryCoverageVisible ? "visible" : "none"
-    );
-
-    el.menuStreetviewButton?.classList.toggle(
-      "is-active",
-      state.mapillaryCoverageVisible
-    );
-    el.menuStreetviewButton?.setAttribute(
-      "aria-pressed",
-      String(state.mapillaryCoverageVisible)
-    );
-  }
-
-  let mapillaryViewer = null;
-
-  function createMapillaryViewer(imageId) {
-    return new Promise(resolve => {
-      // Tworzenie odtwarzacza WebGL w kontenerze, który jeszcze nie
-      // ma prawdziwych wymiarów (bo panel dopiero co się odkrył),
-      // kończy się niedziałającym odtwarzaczem. Czekamy na dwie
-      // klatki, żeby przeglądarka zdążyła nadać kontenerowi
-      // rzeczywisty rozmiar, zanim go zainicjujemy.
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          mapillaryViewer = new mapillary.Viewer({
-            accessToken: CONFIG.mapillary.accessToken,
-            container: el.streetviewContainer,
-            imageId
-          });
-          mapillaryViewer.resize();
-          resolve();
-        });
-      });
-    });
-  }
-
-  async function openStreetView(imageId) {
-    if (!CONFIG.mapillary?.accessToken || !el.streetviewPanel) return;
-
-    closeOtherMobilePanels(["streetview"]);
-
-    if (isMobilePanelViewport()) {
-      setMobilePanelHeight(
-        el.streetviewPanel,
-        "--sheet-height",
-        getMobilePanelMaximumHeight(),
-        { collapsed: false, mode: "expanded", animate: false }
-      );
-      el.streetviewPanel.classList.remove("is-collapsed");
-    }
-    el.streetviewPanel.hidden = false;
-    el.streetviewPanel.scrollTop = 0;
-
-    if (!mapillaryViewer) {
-      await createMapillaryViewer(imageId);
-      return;
-    }
-
-    try {
-      await mapillaryViewer.moveTo(imageId);
-    } catch (error) {
-      console.error(error);
-      // Odtwarzacz utknął w niedziałającym stanie - usuwamy go
-      // i tworzymy od nowa, zamiast dalej próbować na zepsutej
-      // instancji.
-      try {
-        mapillaryViewer.remove();
-      } catch (removeError) {
-        console.error(removeError);
-      }
-      mapillaryViewer = null;
-      await createMapillaryViewer(imageId);
-    }
-  }
-
-  function isStreetviewFullscreen() {
-    return document.fullscreenElement === el.streetviewPanel;
-  }
-
-  async function toggleStreetviewFullscreen() {
-    if (!el.streetviewPanel) return;
-
-    try {
-      if (isStreetviewFullscreen()) {
-        await document.exitFullscreen();
-      } else {
-        await el.streetviewPanel.requestFullscreen();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  document.addEventListener("fullscreenchange", () => {
-    const active = isStreetviewFullscreen();
-    el.streetviewFullscreenButton?.classList.toggle(
-      "is-active",
-      active
-    );
-    el.streetviewFullscreenButton?.setAttribute(
-      "aria-pressed",
-      String(active)
-    );
-    el.streetviewPanel?.classList.toggle(
-      "is-fullscreen",
-      active
-    );
-    // WebGL potrzebuje jawnej informacji o zmianie rozmiaru
-    // kontenera po wejściu/wyjściu z pełnego ekranu.
-    requestAnimationFrame(() => {
-      try {
-        mapillaryViewer?.resize();
-      } catch (error) {
-        console.error(error);
-      }
-    });
-  });
-
-  function closeStreetView() {
-    if (!el.streetviewPanel || el.streetviewPanel.hidden) return;
-    if (isStreetviewFullscreen()) {
-      document.exitFullscreen().catch(error => console.error(error));
-    }
-    el.streetviewPanel.hidden = true;
-  }
 
   function cacheOriginalPaint() {
     for (const layer of map.getStyle().layers || []) {
@@ -5329,7 +5156,7 @@ function applyLanguage(language) {
     // Widok uliczny celowo nie zwija się przy kliknięciu na mapę -
     // tam kliknięcie w mapę służy do zmiany lokalizacji widoku, nie
     // do odrzucenia panelu.
-    { id: "streetview", close: () => closeStreetView(), collapsible: false },
+    { id: "streetview", close: () => window.OMAP_STREETVIEW?.close(), collapsible: false },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
     { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
     { id: "tradingSunday", close: () => closeTradingSunday(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
@@ -5788,7 +5615,7 @@ function applyLanguage(language) {
     initializeBottomSheet({
       panel: el.streetviewPanel,
       handle: el.streetviewSheetHandle,
-      close: closeStreetView,
+      close: window.OMAP_STREETVIEW?.close,
       cssVariable: "--sheet-height"
     });
   }
