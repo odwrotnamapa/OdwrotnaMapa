@@ -51,9 +51,9 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        streetview/Mapillary, kontrolki widoku mapy,
                        niedziele handlowe, linki geo:, eksport/import
                        ustawień, silnik dolnych paneli, ulubione,
-                       trwałość historii tras, własne nazwy miejsc -
-                       ostatnie czternaście wyniesione z app.js
-                       2026-08-06
+                       trwałość historii tras, własne nazwy miejsc,
+                       przechowywanie tekstur/czcionki - ostatnie
+                       piętnaście wyniesione z app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -508,6 +508,27 @@ mapie (osobne od `favorite.customName`, które dotyczy tylko
 zapisanych ulubionych). Ten sam dwuetapowy `configure()` co przy
 Ulubionych/Historii Tras (`readCustomPlaceNames` wołane wewnątrz
 konstrukcji `state`). Jedyna zależność funkcyjna: `safeSet`.
+
+## Przechowywanie tekstur/czcionki - IndexedDB (src/services/texture-storage-service.js)
+
+Piętnasty moduł wyniesiony z `app.js` (2026-08-06, ~150 linii) -
+**pierwszy w pełni samodzielny, bez `configure()`/`ctx` w ogóle**.
+Czysta warstwa przechowywania IndexedDB dla tekstur motywu "custom"
+i własnej czcionki (`idbGetAllTextures`, `idbSetTexture`,
+`idbDeleteTexture`, `idbGetCustomFont`, `idbSetCustomFont`,
+`idbDeleteCustomFont`, `textureImageId`) - zero zależności od
+`state`/`el`/`map`/`CONFIG`/`text`, tylko wbudowane API IndexedDB.
+
+Stałe (nazwa/wersja bazy, nazwy magazynów) są proste, statyczne
+wartości bez ryzyka zmiany - zduplikowane w module (jak identyfikatory
+warstw MapLibre w Pomiarze), NIE przekazywane przez `configure()`.
+Po przeniesieniu ich jedynych użytkowników okazały się w `app.js`
+całkowicie martwe (żadne inne miejsce ich nie używało) - usunięte.
+
+Świadomie NIE zawiera logiki aplikacyjnej (rejestrowanie `@font-face`,
+stosowanie tekstur na warstwach mapy, odczyt/zapis wyboru z
+`localStorage`) - to zostaje w `app.js`, bo dotyka `state`/warstw
+mapy i jest dużo ściślej spleciony z resztą appki.
 
 ## Ulubione i Trasy
 

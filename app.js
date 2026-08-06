@@ -1031,89 +1031,8 @@
 
   const MAP_TEXTURE_KEYS = ["mapBackground", "mapWater", "mapParks", "mapBuildings"];
   const TEXTURE_FIELDS = [...MAP_TEXTURE_KEYS, "uiPanel"];
-  const TEXTURE_IMAGE_PREFIX = "custom-texture-";
-  const TEXTURE_DB_NAME = "odwrotnamapa-textures";
-  const TEXTURE_STORE = "textures";
-  const FONT_STORE = "fonts";
-  const TEXTURE_DB_VERSION = 2;
   const TEXTURE_MAX_DIMENSION = 1024;
 
-  function textureImageId(key) {
-    return TEXTURE_IMAGE_PREFIX + key;
-  }
-
-  function openTextureDB() {
-    return new Promise((resolve, reject) => {
-      if (!window.indexedDB) {
-        reject(new Error("IndexedDB niedostępne"));
-        return;
-      }
-      const request = indexedDB.open(TEXTURE_DB_NAME, TEXTURE_DB_VERSION);
-      request.onupgradeneeded = () => {
-        const db = request.result;
-        if (!db.objectStoreNames.contains(TEXTURE_STORE)) {
-          db.createObjectStore(TEXTURE_STORE);
-        }
-        if (!db.objectStoreNames.contains(FONT_STORE)) {
-          db.createObjectStore(FONT_STORE);
-        }
-      };
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  async function idbGetAllTextures() {
-    try {
-      const db = await openTextureDB();
-      return await new Promise((resolve, reject) => {
-        const tx = db.transaction(TEXTURE_STORE, "readonly");
-        const store = tx.objectStore(TEXTURE_STORE);
-        const result = {};
-        const cursorRequest = store.openCursor();
-        cursorRequest.onsuccess = event => {
-          const cursor = event.target.result;
-          if (cursor) {
-            result[cursor.key] = cursor.value;
-            cursor.continue();
-          } else {
-            resolve(result);
-          }
-        };
-        cursorRequest.onerror = () => reject(cursorRequest.error);
-      });
-    } catch (_) {
-      return {};
-    }
-  }
-
-  async function idbSetTexture(key, dataUrl) {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(TEXTURE_STORE, "readwrite");
-        tx.objectStore(TEXTURE_STORE).put(dataUrl, key);
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się zapisać tekstury:", error);
-    }
-  }
-
-  async function idbDeleteTexture(key) {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(TEXTURE_STORE, "readwrite");
-        tx.objectStore(TEXTURE_STORE).delete(key);
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się usunąć tekstury:", error);
-    }
-  }
 
   // ---------------------------------------------------------------------
   // Czcionka interfejsu (motyw "custom"). Dwie ścieżki:
@@ -1183,53 +1102,12 @@
     safeSet(CONFIG.storageKeys.customFont, JSON.stringify(state.customFont));
   }
 
-  async function idbGetCustomFont() {
-    try {
-      const db = await openTextureDB();
-      return await new Promise((resolve, reject) => {
-        const tx = db.transaction(FONT_STORE, "readonly");
-        const req = tx.objectStore(FONT_STORE).get("customFont");
-        req.onsuccess = () => resolve(req.result || null);
-        req.onerror = () => reject(req.error);
-      });
-    } catch (_) {
-      return null;
-    }
-  }
-
-  async function idbSetCustomFont(dataUrl) {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(FONT_STORE, "readwrite");
-        tx.objectStore(FONT_STORE).put(dataUrl, "customFont");
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się zapisać czcionki:", error);
-    }
-  }
-
-  async function idbDeleteCustomFont() {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(FONT_STORE, "readwrite");
-        tx.objectStore(FONT_STORE).delete("customFont");
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się usunąć czcionki:", error);
-    }
-  }
 
   // Wczytuje wybór czcionki po starcie (plik czcionki z IndexedDB, jeśli
   // trzeba) i go stosuje. Wołane raz, obok initCustomTextures().
   async function initCustomFont() {
     if (state.customFont.type === "custom") {
-      state.customFontDataUrl = await idbGetCustomFont();
+      state.customFontDataUrl = await window.OMAP_TEXTURE_STORAGE?.idbGetCustomFont();
       if (!state.customFontDataUrl) {
         // Brak pliku w tej przeglądarce (np. inne urządzenie) - wróć do domyślnej.
         state.customFont = { type: "default" };
@@ -1311,7 +1189,7 @@
   // niego odwoływać przez fill-pattern / background-pattern.
   async function registerTextureImage(key, dataUrl) {
     if (!map || !dataUrl) return;
-    const imageId = textureImageId(key);
+    const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(key);
     try {
       const img = await loadHtmlImage(dataUrl);
       const width = img.naturalWidth || img.width;
@@ -1344,7 +1222,7 @@
 
   function unregisterTextureImage(key) {
     if (!map) return;
-    const imageId = textureImageId(key);
+    const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(key);
     try {
       if (map.hasImage(imageId)) map.removeImage(imageId);
     } catch (_) {}
@@ -1353,7 +1231,7 @@
   // Wczytuje wszystkie zapisane tekstury z IndexedDB i rejestruje w mapie
   // te, które dotyczą warstw mapy (nie UI). Wołane raz, po starcie mapy.
   async function initCustomTextures() {
-    state.customTextures = await idbGetAllTextures();
+    state.customTextures = await window.OMAP_TEXTURE_STORAGE?.idbGetAllTextures();
     for (const key of MAP_TEXTURE_KEYS) {
       if (state.customTextures[key]) {
         await registerTextureImage(key, state.customTextures[key]);
@@ -1368,7 +1246,7 @@
     const dataUrl = state.customTextures?.[paletteKey];
     if (!dataUrl) return false;
 
-    const imageId = textureImageId(paletteKey);
+    const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(paletteKey);
     if (!map.hasImage(imageId)) return false;
 
     try {
@@ -2023,8 +1901,8 @@ map.on('rotate', updateLogoRotation);
     MAP_TEXTURE_KEYS,
     TEXTURE_FIELDS,
     getCheckedBackupScopes,
-    idbSetCustomFont,
-    idbSetTexture,
+    idbSetCustomFont: window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont,
+    idbSetTexture: window.OMAP_TEXTURE_STORAGE?.idbSetTexture,
     registerTextureImage,
     renderFavoritesList: window.OMAP_FAVORITES?.renderFavoritesList,
     renderFolderChips: window.OMAP_FAVORITES?.renderFolderChips,
@@ -2162,14 +2040,14 @@ map.on('rotate', updateLogoRotation);
 
       for (const key of TEXTURE_FIELDS) {
         state.customTextures[key] = null;
-        await idbDeleteTexture(key);
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
         if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
       }
 
       state.customFont = { type: "default" };
       state.customFontDataUrl = null;
       saveCustomFont();
-      await idbDeleteCustomFont();
+      await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
       syncCustomFontSelect();
 
       if (state.theme === "custom") applyTheme(state.theme);
@@ -2201,7 +2079,7 @@ map.on('rotate', updateLogoRotation);
         if (el.customFontUploadRow) el.customFontUploadRow.hidden = false;
 
         if (!state.customFontDataUrl) {
-          state.customFontDataUrl = await idbGetCustomFont();
+          state.customFontDataUrl = await window.OMAP_TEXTURE_STORAGE?.idbGetCustomFont();
         }
 
         if (state.theme === "custom") applyCustomFont();
@@ -2237,7 +2115,7 @@ map.on('rotate', updateLogoRotation);
       try {
         const dataUrl = await readFileAsDataUrl(file);
         state.customFontDataUrl = dataUrl;
-        await idbSetCustomFont(dataUrl);
+        await window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont(dataUrl);
         state.customFont = { type: "custom" };
         saveCustomFont();
         if (state.theme === "custom") applyCustomFont();
@@ -2251,7 +2129,7 @@ map.on('rotate', updateLogoRotation);
 
     el.customFontFileClear?.addEventListener("click", async () => {
       state.customFontDataUrl = null;
-      await idbDeleteCustomFont();
+      await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
       state.customFont = { type: "default" };
       saveCustomFont();
       syncCustomFontSelect();
@@ -2277,7 +2155,7 @@ map.on('rotate', updateLogoRotation);
         try {
           const dataUrl = await resizeImageToDataUrl(file);
           state.customTextures[key] = dataUrl;
-          await idbSetTexture(key, dataUrl);
+          await window.OMAP_TEXTURE_STORAGE?.idbSetTexture(key, dataUrl);
 
           if (MAP_TEXTURE_KEYS.includes(key)) {
             await registerTextureImage(key, dataUrl);
@@ -2294,7 +2172,7 @@ map.on('rotate', updateLogoRotation);
 
       clearBtn?.addEventListener("click", async () => {
         state.customTextures[key] = null;
-        await idbDeleteTexture(key);
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
 
         if (MAP_TEXTURE_KEYS.includes(key)) {
           unregisterTextureImage(key);
@@ -10894,11 +10772,11 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       await pullOneMediaSlot(`texture:${key}`, async value => {
         if (value) {
           state.customTextures[key] = value;
-          await idbSetTexture(key, value);
+          await window.OMAP_TEXTURE_STORAGE?.idbSetTexture(key, value);
           if (MAP_TEXTURE_KEYS.includes(key)) await registerTextureImage(key, value);
         } else {
           state.customTextures[key] = null;
-          await idbDeleteTexture(key);
+          await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
           if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
         }
       });
@@ -10908,13 +10786,13 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       if (value) {
         state.customFont = { type: "custom" };
         state.customFontDataUrl = value;
-        await idbSetCustomFont(value);
+        await window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont(value);
         saveCustomFont();
         syncCustomFontSelect();
       } else if (state.customFont?.type === "custom") {
         state.customFont = { type: "default" };
         state.customFontDataUrl = null;
-        await idbDeleteCustomFont();
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
         saveCustomFont();
         syncCustomFontSelect();
       }
@@ -10980,7 +10858,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       if (payload.customFont?.type === "google" && payload.customFont.googleFont) {
         state.customFont = { type: "google", googleFont: payload.customFont.googleFont };
         state.customFontDataUrl = null;
-        await idbDeleteCustomFont();
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
         saveCustomFont();
         syncCustomFontSelect();
       }
