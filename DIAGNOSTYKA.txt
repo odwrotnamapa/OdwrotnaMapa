@@ -125,3 +125,27 @@ tego w formie, której szukałem. Zanim coś trafi do dokumentacji
 jako "martwe"/"nieużywane", warto to zweryfikować drugim,
 niezależnym sposobem (np. faktycznym śledzeniem wywołania w
 debugerze albo testem end-to-end), nie tylko jednym grepem.
+
+---
+
+7. Przy wyodrębnianiu modułu z app.js: regex podmieniający zmienną
+   na "ctx.zmienna" łapie tylko dostęp do właściwości, nie użycie
+   jako argument
+
+Podczas wyniesienia kodu Odkrywaj do osobnego pliku (discover-
+service.js) regex `\bmap\.` → `ctx.map.` poprawnie podmienił
+wszystkie `map.getBounds()`, `map.easeTo()` itd. - ale przeoczył
+jedno miejsce: `.addTo(map)`, gdzie `map` było przekazywane jako
+zwykły argument funkcji, bez kropki po nim. Efekt: MapLibre dostawał
+złą wartość jako "map" (nie ReferenceError, więc błąd nie był
+oczywisty od razu) i wywalał się dopiero głęboko w swoim wnętrzu
+(`_getUIString is not a function`) przy dodawaniu markera.
+
+Naprawa: przy każdej przyszłej ekstrakcji modułu, po zamianie
+`\bzmienna\.` → `ctx.zmienna.`, zrobić DRUGIE, osobne sprawdzenie:
+`\bzmienna\b` bez późniejszej kropki/nawiasu kwadratowego (czyli
+każde użycie tej nazwy, które NIE jest bezpośrednio poprzedzone
+przez "ctx." w tej samej linii) - to złapie zmienną przekazywaną
+jako argument, nie tylko tę z dostępem do właściwości. Zrobić to dla
+KAŻDEJ współdzielonej zmiennej z osobna (state/el/map/CONFIG/text),
+nie tylko tej, która akurat sprawiła problem.

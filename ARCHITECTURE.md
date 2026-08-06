@@ -1,6 +1,6 @@
 # Odwrotna Mapa — Architektura
 
-*Ostatnia aktualizacja: 2026-08-05. Ten plik ma być prawdziwym opisem
+*Ostatnia aktualizacja: 2026-08-06. Ten plik ma być prawdziwym opisem
 kodu, nie planem/aspiracją — aktualizuj go razem z każdą zmianą,
 która dodaje nowy podsystem albo zmienia sposób działania istniejącego,
 nie tylko przy drobnych poprawkach UI/CSS.*
@@ -45,7 +45,8 @@ www/                                                — kopia dla Capacitor
                                                       user ma własny skrypt)
 src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        miejsc, kategorie, godziny otwarcia, zdjęcia,
-                       adresy, stan URL
+                       adresy, stan URL, Odkrywaj (kategorie +
+                       pobieranie, wyniesione z app.js 2026-08-06)
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -155,6 +156,42 @@ Wieloproviderowy silnik (`search-v2/providers/manager.js` orkiestruje):
 Ranking wyników: `search-v2/ranker.js` + `search-v2/ranking/*.js`
 (waga marki, kategorii, nazwy, lokalizacji, "importance" z
 Nominatim).
+
+## Odkrywaj (src/services/discover-service.js)
+
+Wyodrębnione z `app.js` (2026-08-06, ~1000 linii, pierwszy moduł
+wyniesiony w ramach odbloatowania głównego pliku). Kategorie (87,
+pogrupowane w 10 sekcji), pobieranie wyników, klasyfikacja i
+renderowanie listy/przycisków panelu "Odkrywaj".
+
+**Wzorzec ekstrakcji - ten sam co `OMAP_PLACE_SERVICE`:** moduł nie
+ma własnego stanu. `app.js` woła
+`window.OMAP_DISCOVER?.configure({ state, el, map, CONFIG, text,
+getSearchResultTitle, scrollPanelToElement })` raz, przekazując
+REFERENCJE do współdzielonych obiektów (nie kopie - mutacje w
+`state`/`el` widoczne są więc od razu po obu stronach). Otwieranie
+wybranego miejsca idzie przez `window.OMAP_PLACE_SERVICE.open(...)`,
+które jest już globalne - nie wymagało żadnego dodatkowego
+przekazywania.
+
+Większość kategorii szuka po nazwie przez Nominatim (`queries: [...]`)
+- działa dobrze dla nazwanych miejsc (restauracje, apteki), słabo
+dla infrastruktury bez sensownej nazwy w OSM (butelkomaty, prysznice
+publiczne, źródełka wody, paczkomaty, sklepy convenience jak Żabka -
+w OSM `shop=convenience`, różne od `shop=supermarket`). Te kategorie
+mają dodatkowo `overpassTags: [[["klucz","wartość"]]]` i przy
+zapytaniu idą przez Overpass (dokładne dopasowanie po tagu OSM w
+bieżącym widoku mapy), nie przez tekstowe wyszukiwanie Nominatim.
+
+**Pułapka złapana przy ekstrakcji, warta zapamiętania:** oryginalny
+kod miał `renderDiscoverCategoryButtons()` wołane na poziomie modułu
+(od razu przy starcie skryptu). Po prostym przeniesieniu do nowego
+pliku to wywołanie odpaliłoby się PRZED tym, jak `app.js` zdążyłby
+w ogóle wywołać `configure()` - `ctx` byłby wtedy `null`, natychmiastowy
+crash. Każda ekstrakcja modułu musi jawnie sprawdzić, czy przenoszony
+kod ma podobne auto-wywołania na poziomie modułu, i przenieść je na
+jawne wywołanie z `app.js` PO `configure()`, w tym samym miejscu w
+kolejności inicjalizacji co oryginał.
 
 ## Ulubione i Trasy
 
