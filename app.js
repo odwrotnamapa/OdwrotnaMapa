@@ -40,6 +40,17 @@
   // dużo wcześniej w pliku niż stara deklaracja tej zmiennej.
   let darkModeProbe = null;
 
+  // Musi być zadeklarowane wcześnie z tego samego powodu -
+  // initializeBottomSheet (wyniesione do bottom-sheet-service.js)
+  // jest konfigurowane w bloku configure() dużo wcześniej niż stara
+  // pozycja tej stałej, a inne funkcje z app.js (getMobilePanel*,
+  // setMobilePanelHeight itd.) używają jej z zamknięcia od razu.
+  const MOBILE_PANEL_STANDARD = Object.freeze({
+    collapsedHeight: 48,
+    defaultHeightRatio: 0.42,
+    viewportGap: 8
+  });
+
   const ROUTE_MODE_ICONS = {
     auto: "🚗",
     bicycle: "🚲",
@@ -1993,6 +2004,15 @@ map.on('rotate', updateLogoRotation);
     text,
     getStoredSeedWords,
     openAccountFromMenu
+  });
+  window.OMAP_BOTTOM_SHEET?.configure({
+    MOBILE_PANEL_STANDARD,
+    openMobilePanelStandard,
+    collapseMobilePanelStandard,
+    getMobilePanelDefaultHeight,
+    getMobilePanelMaximumHeight,
+    isMobilePanelViewport,
+    setMobilePanelHeight
   });
   window.OMAP_BACKUP?.configure({
     state,
@@ -5185,12 +5205,6 @@ function applyLanguage(language) {
   }
 
 
-  const MOBILE_PANEL_STANDARD = Object.freeze({
-    collapsedHeight: 48,
-    defaultHeightRatio: 0.42,
-    viewportGap: 8
-  });
-
   const mobilePanelMode = new Map();
 
   // Centralny rejestr wszystkich paneli mobilnych typu "arkusz z
@@ -5362,247 +5376,8 @@ function applyLanguage(language) {
     });
   }
 
-  function initializeBottomSheet({
-    panel,
-    handle,
-    close,
-    cssVariable
-  }) {
-    if (!handle || !panel) return;
-
-    const header = panel.querySelector(
-      ".app-sheet__header, .panel-shell__header"
-    );
-
-    let dragging = false;
-    let startY = 0;
-    let startHeight = 0;
-    let activePointerId = null;
-    let movedDuringGesture = false;
-    let dragSource = null;
-
-    const setDefaultHeight = () => {
-      if (!isMobilePanelViewport()) {
-        panel.style.removeProperty(cssVariable);
-        panel.classList.remove("is-collapsed", "is-dragging");
-        return;
-      }
-
-      if (
-        panel.hidden ||
-        panel.classList.contains("is-collapsed") ||
-        panel.classList.contains("is-dragging")
-      ) {
-        return;
-      }
-
-      setMobilePanelHeight(
-        panel,
-        cssVariable,
-        getMobilePanelDefaultHeight(),
-        { collapsed: false, mode: "default" }
-      );
-    };
-
-    const beginDrag = (event, source) => {
-      if (!isMobilePanelViewport()) return;
-
-      dragging = true;
-      dragSource = source;
-      movedDuringGesture = false;
-      activePointerId = event.pointerId;
-      startY = event.clientY;
-      startHeight = panel.getBoundingClientRect().height;
-      panel.classList.add("is-dragging");
-
-      try {
-        source.setPointerCapture(event.pointerId);
-      } catch (_) {}
-    };
-
-    handle.addEventListener("pointerdown", event => {
-      beginDrag(event, handle);
-      event.preventDefault();
-    });
-
-    if (header) {
-      header.addEventListener("pointerdown", event => {
-        if (
-          event.target.closest(
-            "button, a, input, select, textarea"
-          )
-        ) {
-          return;
-        }
-        beginDrag(event, header);
-        event.preventDefault();
-      });
-    }
-
-    // Przeciąganie treści jak w mainstreamowych apkach mapowych:
-    // ciągnięcie w górę najpierw rozciąga panel do pełnej wysokości,
-    // dopiero potem zaczyna przewijać treść normalnie. Ciągnięcie
-    // w dół, gdy treść jest na samej górze, zwija panel z powrotem.
-    // Tryb ustalamy raz na gest, na podstawie kierunku i aktualnego
-    // stanu w momencie, gdy ruch staje się jednoznaczny.
-    const content = panel.querySelector(
-      ".app-sheet__body, .panel-shell__body"
-    ) || panel;
-
-    let contentGestureActive = false;
-    let contentGestureMode = null;
-    let contentGestureStartY = 0;
-    let contentGesturePointerId = null;
-
-    content.addEventListener("pointerdown", event => {
-      if (!isMobilePanelViewport()) return;
-      if (event.target.closest("button, a, input, select, textarea")) {
-        return;
-      }
-
-      contentGestureActive = true;
-      contentGestureMode = null;
-      contentGestureStartY = event.clientY;
-      contentGesturePointerId = event.pointerId;
-    });
-
-    content.addEventListener("pointermove", event => {
-      if (
-        !contentGestureActive ||
-        dragging ||
-        event.pointerId !== contentGesturePointerId
-      ) {
-        return;
-      }
-
-      if (contentGestureMode !== null) return;
-
-      const deltaUp = contentGestureStartY - event.clientY;
-      if (Math.abs(deltaUp) < 2) return;
-
-      const maxHeight = getMobilePanelMaximumHeight();
-      const currentHeight = panel.getBoundingClientRect().height;
-      const atMax = currentHeight >= maxHeight - 2;
-      const atTop = content.scrollTop <= 0;
-
-      contentGestureMode = deltaUp > 0
-        ? (atMax ? "content" : "panel")
-        : (atTop ? "panel" : "content");
-
-      if (contentGestureMode === "panel") {
-        contentGestureActive = false;
-        beginDrag(
-          {
-            pointerId: event.pointerId,
-            clientY: contentGestureStartY
-          },
-          content
-        );
-        event.preventDefault();
-      }
-    });
-
-    content.addEventListener("pointerup", () => {
-      contentGestureActive = false;
-      contentGestureMode = null;
-    });
-    content.addEventListener("pointercancel", () => {
-      contentGestureActive = false;
-      contentGestureMode = null;
-    });
-
-    document.addEventListener("pointermove", event => {
-      if (!dragging || event.pointerId !== activePointerId) return;
-
-      const delta = startY - event.clientY;
-      if (Math.abs(delta) > 4) movedDuringGesture = true;
-
-      setMobilePanelHeight(
-        panel,
-        cssVariable,
-        startHeight + delta,
-        { animate: false }
-      );
-      event.preventDefault();
-    });
-
-    const finishDrag = event => {
-      if (!dragging || event.pointerId !== activePointerId) return;
-
-      dragging = false;
-      activePointerId = null;
-
-      const height = panel.getBoundingClientRect().height;
-      const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
-      const defaultHeight = getMobilePanelDefaultHeight();
-      const expandedHeight = getMobilePanelMaximumHeight();
-
-      const lowerMidpoint = (collapsedHeight + defaultHeight) / 2;
-      const upperMidpoint = (defaultHeight + expandedHeight) / 2;
-
-      let targetHeight;
-      let collapsed;
-      let mode;
-
-      if (height <= lowerMidpoint) {
-        targetHeight = collapsedHeight;
-        collapsed = true;
-        mode = "collapsed";
-      } else if (height <= upperMidpoint) {
-        targetHeight = defaultHeight;
-        collapsed = false;
-        mode = "default";
-      } else {
-        targetHeight = expandedHeight;
-        collapsed = false;
-        mode = "expanded";
-      }
-
-      setMobilePanelHeight(
-        panel,
-        cssVariable,
-        targetHeight,
-        { collapsed, mode }
-      );
-
-      try {
-        dragSource?.releasePointerCapture(event.pointerId);
-      } catch (_) {}
-
-      dragSource = null;
-    };
-
-    document.addEventListener("pointerup", finishDrag);
-    document.addEventListener("pointercancel", finishDrag);
-
-    handle.addEventListener("click", () => {
-      if (!isMobilePanelViewport() || movedDuringGesture) return;
-
-      const height = panel.getBoundingClientRect().height;
-      const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
-      const defaultHeight = getMobilePanelDefaultHeight();
-
-      if (height <= collapsedHeight + 8) {
-        openMobilePanelStandard(panel, cssVariable);
-      } else if (height <= defaultHeight + 8) {
-        setMobilePanelHeight(
-          panel,
-          cssVariable,
-          getMobilePanelMaximumHeight(),
-          { collapsed: false, mode: "expanded" }
-        );
-      } else {
-        collapseMobilePanelStandard(panel, cssVariable);
-      }
-    });
-
-    window.addEventListener("resize", setDefaultHeight);
-    window.visualViewport?.addEventListener("resize", setDefaultHeight);
-    setDefaultHeight();
-  }
-
   function initializeRouteBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.routePanel,
       handle: el.routeSheetHandle,
       close: closeRoute,
@@ -5611,7 +5386,7 @@ function applyLanguage(language) {
   }
 
   function initializeDiscoverBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.discoverPanel,
       handle: el.discoverSheetHandle,
       close: closeDiscover,
@@ -5620,7 +5395,7 @@ function applyLanguage(language) {
   }
 
   function initializeMenuBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.menuPanel,
       handle: el.menuSheetHandle,
       close: closeMenu,
@@ -5629,7 +5404,7 @@ function applyLanguage(language) {
   }
 
   function initializeFavoritesBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.favoritesPanel,
       handle: el.favoritesSheetHandle,
       close: closeFavoritesPanel,
@@ -5638,7 +5413,7 @@ function applyLanguage(language) {
   }
 
   function initializeHistoryBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.historyPanel,
       handle: el.historySheetHandle,
       close: closeHistory,
@@ -5647,7 +5422,7 @@ function applyLanguage(language) {
   }
 
   function initializePlaceBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.placePanel,
       handle: el.placeSheetHandle,
       close: closePlacePanel,
@@ -5656,7 +5431,7 @@ function applyLanguage(language) {
   }
 
   function initializeTripBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.tripPanel,
       handle: el.tripSheetHandle,
       close: closeTrip,
@@ -5665,7 +5440,7 @@ function applyLanguage(language) {
   }
 
   function initializeStreetviewBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.streetviewPanel,
       handle: el.streetviewSheetHandle,
       close: window.OMAP_STREETVIEW?.close,
@@ -5674,7 +5449,7 @@ function applyLanguage(language) {
   }
 
   function initializeLegendBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.legendPanel,
       handle: el.legendSheetHandle,
       close: closeLegend,
@@ -5683,7 +5458,7 @@ function applyLanguage(language) {
   }
 
   function initializeLabelsBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.labelsPanel,
       handle: el.labelsSheetHandle,
       close: closeLabels,
@@ -5692,7 +5467,7 @@ function applyLanguage(language) {
   }
 
   function initializeTradingSundayBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.tradingSundayPanel,
       handle: el.tradingSundaySheetHandle,
       close: window.OMAP_TRADING_SUNDAY?.close,
@@ -5701,7 +5476,7 @@ function applyLanguage(language) {
   }
 
   function initializeAboutBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.aboutPanel,
       handle: el.aboutSheetHandle,
       close: closeAbout,
@@ -5710,7 +5485,7 @@ function applyLanguage(language) {
   }
 
   function initializeBackupBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.backupPanel,
       handle: el.backupSheetHandle,
       close: closeBackup,
@@ -5719,7 +5494,7 @@ function applyLanguage(language) {
   }
 
   function initializeAccountBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.accountPanel,
       handle: el.accountSheetHandle,
       close: closeAccount,

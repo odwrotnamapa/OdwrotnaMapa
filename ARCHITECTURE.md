@@ -50,8 +50,8 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        z Wikipedii, pomiar odległości/powierzchni,
                        streetview/Mapillary, kontrolki widoku mapy,
                        niedziele handlowe, linki geo:, eksport/import
-                       ustawień - ostatnie dziesięć wyniesione z
-                       app.js 2026-08-06
+                       ustawień, silnik dolnych paneli - ostatnie
+                       jedenaście wyniesione z app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -394,6 +394,41 @@ domyślnych czy pól tekstur. Zasada wyboru: proste, w pełni statyczne
 wartości bez ryzyka zmiany (jak ID warstw MapLibre) - duplikować;
 wartości używane w wielu miejscach, które mogłyby się kiedyś zmienić
 - przekazywać przez `configure()`.
+
+**Po wysyłce wyszła jedna brakująca zależność**: `show` (funkcja
+komunikatów na dole ekranu) była na wygenerowanej liście kandydatów,
+ale umknęła przy RĘCZNYM przechodzeniu przez ~45-pozycyjną listę -
+szczegóły w `DIAGNOSTYKA.txt` pkt 13. Naprawione, ale to pokazało że
+przy długich listach zależności trzeba systematycznego, dwuetapowego
+sprawdzenia, nie jednorazowego przejrzenia wzrokiem.
+
+## Silnik dolnych paneli (src/services/bottom-sheet-service.js)
+
+Jedenasty moduł wyniesiony z `app.js` (2026-08-06, ~270 linii).
+Generyczny mechanizm przeciągania/zwijania dolnego panelu (bottom
+sheet) na telefonie - wspólny silnik używany przez WSZYSTKIE 14
+paneli appki (trasa, odkrywaj, menu, ulubione, historia, miejsce,
+trasa-info, streetview, legenda, etykiety, niedziele handlowe,
+o appce, backup, konto).
+
+**Same 14 cienkich wrapperów (`initializeRouteBottomSheet` itd.)
+ZOSTAŁY w `app.js`** - są zbyt małe (6-7 linii każdy) i zbyt mocno
+powiązane z konkretnymi panelami (funkcja "close" każdego z nich),
+żeby opłacało się je przenosić. Wyniesiony jest tylko sam, generyczny
+silnik (`initializeBottomSheet`), przyjmujący panel/uchwyt/funkcję
+zamknięcia jako parametry - stąd zero zależności od `state`/`el`/
+`map`/`CONFIG`/`text` bezpośrednio, tylko od sześciu współdzielonych
+funkcji pomocniczych (`openMobilePanelStandard` i pokrewne), które
+też ZOSTAJĄ w `app.js` (`openMobilePanelStandard` samo w sobie ma
+30+ wywołań w całym pliku, daleko poza tym modułem).
+
+**Złapano tu kolejny przypadek stałej TDZ** (jak `lastResolvedTheme`/
+`darkModeProbe` przy Pomiarze): `MOBILE_PANEL_STANDARD` (`const`)
+była zadeklarowana w oryginalnym miejscu w środku pliku - dużo
+później niż wczesny, skonsolidowany blok `configure()`. Przeniesiona
+do tej samej, wczesnej sekcji co pozostałe podobne stałe, PRZED
+dodaniem jej do `configure()` - złapane i naprawione przed wysyłką,
+nie po.
 
 ## Ulubione i Trasy
 
