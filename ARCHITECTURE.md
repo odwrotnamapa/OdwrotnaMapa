@@ -47,8 +47,8 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        miejsc, kategorie, godziny otwarcia, zdjęcia,
                        adresy, stan URL, Odkrywaj, oceny miejsc,
                        odjazdy transportu publicznego, podsumowanie
-                       z Wikipedii - ostatnie cztery wyniesione z
-                       app.js 2026-08-06
+                       z Wikipedii, pomiar odległości/powierzchni -
+                       ostatnie pięć wyniesione z app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -230,13 +230,16 @@ Zależności: `state.language`, `text`, `CONFIG.transit.*`, i jedna
 funkcja z `app.js` (`openTripDetails`, wywoływana przy kliknięciu
 konkretnego odjazdu).
 
-Wszystkie wywołania `configure()` (`OMAP_RATINGS`, `OMAP_WIKIPEDIA`,
-`OMAP_DEPARTURES`, `OMAP_DISCOVER`) są świadomie skonsolidowane w
-jednym miejscu w `app.js`, zamiast rozrzucone tam, gdzie fizycznie
-leżał wycięty kod - to ułatwia znalezienie ich wszystkich naraz przy
-kolejnej ekstrakcji, i było jawną poprawką po tym, jak druga
-ekstrakcja (Oceny) omyłkowo wstawiła swój `configure()` w środek
-tego, co powinno być spójnym klastrem Odjazdów.
+Wszystkie wywołania `configure()` (`OMAP_RATINGS`, `OMAP_MEASURE`,
+`OMAP_WIKIPEDIA`, `OMAP_DEPARTURES`, `OMAP_DISCOVER`) są świadomie
+skonsolidowane w jednym miejscu w `app.js` - **zaraz po utworzeniu
+instancji mapy, PRZED pierwszym wywołaniem `updateUI()`** (nie na
+końcu pliku, gdzie fizycznie leżał wycięty kod przy pierwszych
+dwóch ekstrakcjach - to była poprawiona pomyłka, patrz
+`DIAGNOSTYKA.txt` pkt 11). `updateUI()` wywołuje funkcje z tych
+modułów już przy starcie appki, więc `configure()` musi wykonać się
+wcześniej - to nie jest kwestia hoistingu (który dotyczy deklaracji,
+nie wywołań), tylko zwykłej kolejności wykonania kodu.
 
 ## Podsumowanie z Wikipedii (src/services/wikipedia-service.js)
 
@@ -255,6 +258,28 @@ czysto do żadnego z dwóch modułów). Trzeba było czytać kod PRZED
 i PO domniemanej granicy, nie ufać samej fizycznej bliskości nazw
 funkcji - fizyczne sąsiedztwo w pliku nie zawsze pokrywa się z
 przynależnością do tej samej funkcji appki.
+
+## Pomiar odległości/powierzchni (src/services/measure-service.js)
+
+Piąty moduł wyniesiony z `app.js` (2026-08-06, ~350 linii).
+Planimeter: dwa tryby (linia punktów / wielokąt), własne warstwy
+MapLibre, formatowanie wyniku. Zależności: `state`, `el`, `map`,
+`text`, dwie funkcje z `app.js` (`getAccentColor`,
+`closeOtherMobilePanels`).
+
+**Dwie funkcje (`toggle`, `switchMode`) są w `app.js` podpięte jako
+REFERENCJE do `addEventListener`, nie wołane wprost przez nawiasy**
+- trzeba było sprawdzić to osobno (samo szukanie `nazwaFunkcji(`
+tego nie znajduje, bo przy przekazywaniu jako referencja nie ma
+nawiasów wywołania). Przy każdej kolejnej ekstrakcji: sprawdzić
+KAŻDĄ wyeksportowaną funkcję dwa razy - raz szukając wywołań z
+nawiasami, raz szukając samej nazwy bez wymogu nawiasu zaraz po niej
+(żeby złapać `addEventListener("click", nazwaFunkcji)` bez strzałki).
+
+**`map` używane w tym klastrze bardzo intensywnie (24x) w dwóch
+znaczeniach naraz** (`map.addSource(...)` - instancja MapLibre,
+`points.map(p => ...)` - metoda tablicy) - każde wystąpienie
+zweryfikowane osobno przed podmianą, zero pomyłek tym razem.
 
 ## Ulubione i Trasy
 

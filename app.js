@@ -26,6 +26,20 @@
   // updateUI() (wołane już przy starcie) renderuje też listy tras,
   // które się do tego odwołują.
   const ROUTE_HISTORY_LIMIT = 50;
+
+  // Ta sama zasada co wyżej: map.on("load", ...) rejestruje się dużo
+  // wcześniej w pliku niż stara deklaracja tej zmiennej, a zdarzenie
+  // "load" mapy jest asynchroniczne - jeśli odpali się (wywołując
+  // applyTheme) zanim skrypt dojdzie do miejsca starej deklaracji,
+  // dostajemy dokładnie ten sam ReferenceError co wyżej.
+  let lastResolvedTheme = null;
+
+  // Ta sama zasada co wyżej: w łańcuchu wywołań applyTheme ->
+  // resolveTheme -> detectBrowserForcedDarkMode -> getDarkModeProbe,
+  // a applyTheme jest wołane z asynchronicznego map.on("load", ...)
+  // dużo wcześniej w pliku niż stara deklaracja tej zmiennej.
+  let darkModeProbe = null;
+
   const ROUTE_MODE_ICONS = {
     auto: "🚗",
     bicycle: "🚲",
@@ -1967,6 +1981,49 @@ map.on('rotate', updateLogoRotation);
   el.languageSelect.value = state.language;
   if (el.menuThemeSelect) el.menuThemeSelect.value = state.theme;
   if (el.menuLanguageSelect) el.menuLanguageSelect.value = state.language;
+
+  // Musi być wywołane PRZED pierwszym updateUI() poniżej (i przed
+  // czymkolwiek innym co mogłoby wołać w te moduły) - inaczej
+  // funkcje modułów widzą ctx === null i wywalają się przy pierwszym
+  // użyciu. Wcześniej te wywołania siedziały dużo dalej w pliku,
+  // już PO pierwszym updateUI() - stąd crash "Cannot read properties
+  // of null (reading 'el')" w środku measure-service.js.
+  window.OMAP_RATINGS?.configure({
+    state,
+    text,
+    getStoredSeedWords,
+    openAccountFromMenu
+  });
+  window.OMAP_MEASURE?.configure({
+    state,
+    el,
+    map,
+    text,
+    getAccentColor,
+    closeOtherMobilePanels
+  });
+  window.OMAP_WIKIPEDIA?.configure({
+    state,
+    text,
+    capitalizeFirstLetter
+  });
+  window.OMAP_DEPARTURES?.configure({
+    state,
+    text,
+    CONFIG,
+    openTripDetails
+  });
+  window.OMAP_DISCOVER?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
+    text,
+    getSearchResultTitle,
+    scrollPanelToElement
+  });
+  window.OMAP_DISCOVER?.renderCategoryButtons();
+
   updateUI();
 
   el.themeSelect?.addEventListener("change", e => {
@@ -2433,16 +2490,16 @@ map.on('rotate', updateLogoRotation);
   });
   el.zoomInButton?.addEventListener("click", () => map.zoomIn());
   el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
-  el.measureToggleButton?.addEventListener("click", toggleMeasureMode);
+  el.measureToggleButton?.addEventListener("click", window.OMAP_MEASURE?.toggle);
   el.measureClearButton?.addEventListener("click", () => {
     if (state.measureIsArea) {
-      clearMeasureAreaMeasurement();
-      updateMeasureAreaDisplay();
+      window.OMAP_MEASURE?.clearArea();
+      window.OMAP_MEASURE?.updateAreaDisplay();
     } else {
-      clearMeasurement();
+      window.OMAP_MEASURE?.clearDistance();
     }
   });
-  el.measureModeSwitchButton?.addEventListener("click", switchMeasureMode);
+  el.measureModeSwitchButton?.addEventListener("click", window.OMAP_MEASURE?.switchMode);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2626,7 +2683,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
         t.measureDistance
       );
     }
-    updateMeasureModeSwitchUi();
+    window.OMAP_MEASURE?.updateModeSwitchUi();
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -3158,8 +3215,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
   }
 
-  let darkModeProbe = null;
-
   function getDarkModeProbe() {
     if (darkModeProbe && document.body.contains(darkModeProbe)) {
       return darkModeProbe;
@@ -3220,8 +3275,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
     return theme;
   }
-
-  let lastResolvedTheme = null;
 
   function applyTheme(theme) {
     if (!map.isStyleLoaded()) {
@@ -6436,9 +6489,9 @@ async function handleMapClick(event) {
 
     if (state.measureModeActive) {
       if (state.measureIsArea) {
-        addMeasureAreaPoint(event.lngLat);
+        window.OMAP_MEASURE?.addAreaPoint(event.lngLat);
       } else {
-        addMeasurePoint(event.lngLat);
+        window.OMAP_MEASURE?.addPoint(event.lngLat);
       }
       return;
     }
@@ -7426,7 +7479,7 @@ function showUserLocationMarker(lngLat) {
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
 
-    const ratingUi = window.OMAP_RATINGS.createSection(
+    const ratingUi = window.OMAP_RATINGS?.createSection(
       getFavoriteKey(place, lngLat),
       {
         label: state.customPlaceNames[placeNameKey] || originalPlaceTitle,
@@ -7447,8 +7500,10 @@ function showUserLocationMarker(lngLat) {
         }
       }
     );
-    card.appendChild(ratingUi.section);
-    window.OMAP_RATINGS.loadForPlace(getFavoriteKey(place, lngLat), ratingUi);
+    if (ratingUi) {
+      card.appendChild(ratingUi.section);
+      window.OMAP_RATINGS?.loadForPlace(getFavoriteKey(place, lngLat), ratingUi);
+    }
 
     const isNamedSettlement =
       ["city", "town", "village"].includes(
@@ -7460,9 +7515,11 @@ function showUserLocationMarker(lngLat) {
       place?.extratags?.wikidata ||
       isNamedSettlement
     ) {
-      const wikipedia = window.OMAP_WIKIPEDIA.createSection();
-      card.appendChild(wikipedia.section);
-      window.OMAP_WIKIPEDIA.loadForPlace(place, wikipedia, heading);
+      const wikipedia = window.OMAP_WIKIPEDIA?.createSection();
+      if (wikipedia) {
+        card.appendChild(wikipedia.section);
+        window.OMAP_WIKIPEDIA?.loadForPlace(place, wikipedia, heading);
+      }
     }
 
     const details = document.createElement("div");
@@ -7522,10 +7579,10 @@ function showUserLocationMarker(lngLat) {
 
     card.appendChild(details);
 
-    if (window.OMAP_DEPARTURES.isTransitStop(place)) {
-      const departures = window.OMAP_DEPARTURES.createSection();
+    if (window.OMAP_DEPARTURES?.isTransitStop(place)) {
+      const departures = window.OMAP_DEPARTURES?.createSection();
       card.appendChild(departures.section);
-      window.OMAP_DEPARTURES.loadForPlace(place, lngLat, departures);
+      window.OMAP_DEPARTURES?.loadForPlace(place, lngLat, departures);
     }
 
     const actions = document.createElement("div");
@@ -8313,7 +8370,7 @@ function showUserLocationMarker(lngLat) {
   }
 
   async function cacheWikipediaForFavorite(key, place) {
-    const data = await window.OMAP_WIKIPEDIA.fetchSummary(place);
+    const data = await window.OMAP_WIKIPEDIA?.fetchSummary(place);
     if (!data) return;
 
     // Zapisujemy też sam obrazek miniatury do pamięci podręcznej
@@ -11875,329 +11932,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     );
   }
 
-  function haversineDistanceMeters(a, b) {
-    const R = 6371000;
-    const toRad = deg => (deg * Math.PI) / 180;
-    const dLat = toRad(b.lat - a.lat);
-    const dLon = toRad(b.lng - a.lng);
-    const lat1 = toRad(a.lat);
-    const lat2 = toRad(b.lat);
-
-    const h =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-
-    return 2 * R * Math.asin(Math.sqrt(h));
-  }
-
-  function formatMeasureDistance(meters) {
-    if (meters >= 1000) {
-      return `${(meters / 1000).toLocaleString(
-        state.language === "pl" ? "pl-PL" : "en-US",
-        { maximumFractionDigits: 2 }
-      )} km`;
-    }
-    return `${Math.round(meters)} m`;
-  }
-
-  // Rzutujemy punkty na lokalną płaszczyznę styczną (przybliżenie
-  // równoodległościowe wyśrodkowane na średniej szerokości
-  // geograficznej wielokąta) i liczymy powierzchnię wzorem Gaussa
-  // (shoelace). To standardowe podejście w konsumenckich narzędziach
-  // do pomiaru powierzchni w przeglądarce - dokładność rzędu ułamka
-  // procenta dla obszarów wielkości miasta/regionu, więc w zupełności
-  // wystarczające (to nie narzędzie geodezyjne).
-  function polygonAreaSquareMeters(points) {
-    if (points.length < 3) return 0;
-
-    const R = 6371000;
-    const toRad = deg => (deg * Math.PI) / 180;
-    const meanLat = points.reduce((sum, p) => sum + p.lat, 0) / points.length;
-    const cosMeanLat = Math.cos(toRad(meanLat));
-
-    const projected = points.map(p => ({
-      x: R * toRad(p.lng) * cosMeanLat,
-      y: R * toRad(p.lat)
-    }));
-
-    let sum = 0;
-    for (let i = 0; i < projected.length; i++) {
-      const a = projected[i];
-      const b = projected[(i + 1) % projected.length];
-      sum += a.x * b.y - b.x * a.y;
-    }
-
-    return Math.abs(sum) / 2;
-  }
-
-  function formatMeasureArea(squareMeters) {
-    const locale = state.language === "pl" ? "pl-PL" : "en-US";
-    if (squareMeters >= 1000000) {
-      return `${(squareMeters / 1000000).toLocaleString(
-        locale,
-        { maximumFractionDigits: 2 }
-      )} km²`;
-    }
-    if (squareMeters >= 10000) {
-      return `${(squareMeters / 10000).toLocaleString(
-        locale,
-        { maximumFractionDigits: 2 }
-      )} ha`;
-    }
-    return `${Math.round(squareMeters).toLocaleString(locale)} m²`;
-  }
-
-  function ensureMeasureLayers() {
-    if (map.getSource(MEASURE_SOURCE_ID)) return;
-
-    map.addSource(MEASURE_SOURCE_ID, {
-      type: "geojson",
-      data: { type: "FeatureCollection", features: [] }
-    });
-
-    map.addLayer({
-      id: MEASURE_LINE_LAYER_ID,
-      type: "line",
-      source: MEASURE_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "LineString"],
-      layout: { "line-cap": "round", "line-join": "round" },
-      paint: {
-        "line-color": getAccentColor(),
-        "line-width": 3,
-        "line-dasharray": [2, 1]
-      }
-    });
-
-    map.addLayer({
-      id: MEASURE_POINTS_LAYER_ID,
-      type: "circle",
-      source: MEASURE_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "Point"],
-      paint: {
-        "circle-radius": 5,
-        "circle-color": "#ffffff",
-        "circle-stroke-width": 2,
-        "circle-stroke-color": getAccentColor()
-      }
-    });
-  }
-
-  function ensureMeasureAreaLayers() {
-    if (map.getSource(MEASURE_AREA_SOURCE_ID)) return;
-
-    map.addSource(MEASURE_AREA_SOURCE_ID, {
-      type: "geojson",
-      data: { type: "FeatureCollection", features: [] }
-    });
-
-    map.addLayer({
-      id: MEASURE_AREA_FILL_LAYER_ID,
-      type: "fill",
-      source: MEASURE_AREA_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "Polygon"],
-      paint: {
-        "fill-color": getAccentColor(),
-        "fill-opacity": 0.2
-      }
-    });
-
-    map.addLayer({
-      id: MEASURE_AREA_LINE_LAYER_ID,
-      type: "line",
-      source: MEASURE_AREA_SOURCE_ID,
-      filter: ["!=", ["geometry-type"], "Point"],
-      layout: { "line-cap": "round", "line-join": "round" },
-      paint: {
-        "line-color": getAccentColor(),
-        "line-width": 3,
-        "line-dasharray": [2, 1]
-      }
-    });
-
-    map.addLayer({
-      id: MEASURE_AREA_POINTS_LAYER_ID,
-      type: "circle",
-      source: MEASURE_AREA_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "Point"],
-      paint: {
-        "circle-radius": 5,
-        "circle-color": "#ffffff",
-        "circle-stroke-width": 2,
-        "circle-stroke-color": getAccentColor()
-      }
-    });
-  }
-
-  function updateMeasureDisplay() {
-    const points = state.measurePoints || [];
-    let total = 0;
-    for (let i = 1; i < points.length; i++) {
-      total += haversineDistanceMeters(points[i - 1], points[i]);
-    }
-
-    if (el.measureDistanceValue) {
-      el.measureDistanceValue.textContent =
-        formatMeasureDistance(total);
-    }
-    if (el.measureDistanceBadge) {
-      el.measureDistanceBadge.hidden = points.length === 0;
-    }
-
-    const source = map.getSource(MEASURE_SOURCE_ID);
-    if (!source) return;
-
-    const pointFeatures = points.map(p => ({
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [p.lng, p.lat] },
-      properties: {}
-    }));
-
-    const features = [...pointFeatures];
-    if (points.length > 1) {
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: points.map(p => [p.lng, p.lat])
-        },
-        properties: {}
-      });
-    }
-
-    source.setData({ type: "FeatureCollection", features });
-  }
-
-  function addMeasurePoint(lngLat) {
-    if (!state.measurePoints) state.measurePoints = [];
-    state.measurePoints.push({ lat: lngLat.lat, lng: lngLat.lng });
-    updateMeasureDisplay();
-  }
-
-  function clearMeasurement() {
-    state.measurePoints = [];
-    updateMeasureDisplay();
-  }
-
-  // Jeden przycisk w pasku narzędzi włącza/wyłącza tryb pomiaru.
-  // Wewnątrz plakietki jest mały przełącznik odległość/powierzchnia
-  // (measureModeSwitchButton) - to on decyduje, co aktualnie mierzą
-  // kliknięcia na mapie, żeby nie mnożyć ikon w pasku narzędzi.
-  function toggleMeasureMode() {
-    state.measureModeActive = !state.measureModeActive;
-
-    if (state.measureModeActive) {
-      state.measureIsArea = false;
-      ensureMeasureLayers();
-      closeOtherMobilePanels([]);
-      updateMeasureModeSwitchUi();
-    } else {
-      clearMeasurement();
-      clearMeasureAreaMeasurement();
-    }
-
-    el.measureToggleButton?.classList.toggle(
-      "is-active",
-      state.measureModeActive
-    );
-    el.measureToggleButton?.setAttribute(
-      "aria-pressed",
-      String(state.measureModeActive)
-    );
-  }
-
-  function updateMeasureAreaDisplay() {
-    const points = state.measureAreaPoints || [];
-    const area = polygonAreaSquareMeters(points);
-
-    if (el.measureDistanceValue) {
-      el.measureDistanceValue.textContent = formatMeasureArea(area);
-    }
-    if (el.measureDistanceBadge) {
-      el.measureDistanceBadge.hidden = points.length === 0;
-    }
-
-    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
-    if (!source) return;
-
-    const pointFeatures = points.map(p => ({
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [p.lng, p.lat] },
-      properties: {}
-    }));
-
-    const features = [...pointFeatures];
-    if (points.length === 2) {
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: points.map(p => [p.lng, p.lat])
-        },
-        properties: {}
-      });
-    } else if (points.length > 2) {
-      const ring = points.map(p => [p.lng, p.lat]);
-      ring.push(ring[0]);
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [ring]
-        },
-        properties: {}
-      });
-    }
-
-    source.setData({ type: "FeatureCollection", features });
-  }
-
-  function addMeasureAreaPoint(lngLat) {
-    if (!state.measureAreaPoints) state.measureAreaPoints = [];
-    state.measureAreaPoints.push({ lat: lngLat.lat, lng: lngLat.lng });
-    updateMeasureAreaDisplay();
-  }
-
-  function clearMeasureAreaMeasurement() {
-    state.measureAreaPoints = [];
-    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
-    if (source) source.setData({ type: "FeatureCollection", features: [] });
-  }
-
-  function updateMeasureModeSwitchUi() {
-    if (!el.measureModeSwitchButton) return;
-    const t = text[state.language];
-    if (state.measureIsArea) {
-      el.measureModeSwitchButton.textContent = "📏";
-      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToDistance);
-      el.measureModeSwitchButton.title = t.measureSwitchToDistance;
-    } else {
-      el.measureModeSwitchButton.textContent = "📐";
-      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToArea);
-      el.measureModeSwitchButton.title = t.measureSwitchToArea;
-    }
-  }
-
-  function switchMeasureMode() {
-    if (!state.measureModeActive) return;
-
-    // Nie da się sensownie mieszać otwartej linii (odległość) z
-    // zamkniętym wielokątem (powierzchnia) - przy przełączaniu
-    // czyścimy oba, żeby uniknąć niespójnego stanu.
-    clearMeasurement();
-    clearMeasureAreaMeasurement();
-
-    state.measureIsArea = !state.measureIsArea;
-    if (state.measureIsArea) {
-      ensureMeasureAreaLayers();
-      updateMeasureAreaDisplay();
-    } else {
-      ensureMeasureLayers();
-      updateMeasureDisplay();
-    }
-
-    if (el.measureDistanceBadge) el.measureDistanceBadge.hidden = true;
-    updateMeasureModeSwitchUi();
-  }
 
   function toggle3dView() {
     state.is3dView = !state.is3dView;
@@ -13813,34 +13547,6 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
     input?.focus();
   }
-
-  window.OMAP_RATINGS?.configure({
-    state,
-    text,
-    getStoredSeedWords,
-    openAccountFromMenu
-  });
-  window.OMAP_WIKIPEDIA?.configure({
-    state,
-    text,
-    capitalizeFirstLetter
-  });
-  window.OMAP_DEPARTURES?.configure({
-    state,
-    text,
-    CONFIG,
-    openTripDetails
-  });
-  window.OMAP_DISCOVER?.configure({
-    state,
-    el,
-    map,
-    CONFIG,
-    text,
-    getSearchResultTitle,
-    scrollPanelToElement
-  });
-  window.OMAP_DISCOVER?.renderCategoryButtons();
 
 
   function normalizeExactPlaceName(value) {

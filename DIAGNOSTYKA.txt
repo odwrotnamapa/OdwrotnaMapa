@@ -149,3 +149,200 @@ przez "ctx." w tej samej linii) - to złapie zmienną przekazywaną
 jako argument, nie tylko tę z dostępem do właściwości. Zrobić to dla
 KAŻDEJ współdzielonej zmiennej z osobna (state/el/map/CONFIG/text),
 nie tylko tej, która akurat sprawiła problem.
+
+---
+
+8. Przy wyodrębnianiu modułu: szukanie "external caller" tylko przez
+   `nazwaFunkcji(` przeoczy funkcje przekazywane jako referencja
+
+Przy ekstrakcji narzędzia pomiaru (measure-service.js) dwie funkcje
+(`toggleMeasureMode`, `switchMeasureMode`) miały ZERO trafień przy
+szukaniu wzorca `nazwaFunkcji(` poza klastrem - wyglądało to jak
+"nikt tego nie woła z zewnątrz". W rzeczywistości obie były
+przekazane jako REFERENCJA do `addEventListener("click",
+nazwaFunkcji)` - bez nawiasu wywołania, bo to element.addEventListener
+woła je, nie kod appki bezpośrednio.
+
+Naprawa: przy szukaniu zewnętrznych wywołań funkcji z wyodrębnianego
+klastra, szukać DWA razy - raz `nazwaFunkcji\(` (bezpośrednie
+wywołanie), raz samej `\bnazwaFunkcji\b` bez wymogu nawiasu zaraz po
+(złapie referencje przekazywane dalej, głównie do addEventListener,
+ale też do innych miejsc przyjmujących callback). Fałszywy negatyw
+tutaj (funkcja "nieużywana z zewnątrz") oznacza brakujący eksport,
+który ujawni się dopiero jako martwy listener w przeglądarce - nic
+się nie wywali przy starcie, przycisk po prostu przestanie działać.
+
+---
+
+9. KRYTYCZNE: wywołania wyeksportowanego modułu w app.js MUSZĄ mieć
+   `?.` - jego brak wywala CAŁY skrypt, nie tylko jedną funkcję
+
+Po ekstrakcji measure-service.js appka całkowicie przestała
+reagować (żaden przycisk nie działał) z błędem "Cannot access
+'MOBILE_PANELS' before initialization" - mylącym, bo sugerował
+problem z zupełnie inną, niepowiązaną stałą. Prawdziwa przyczyna:
+`el.measureToggleButton?.addEventListener("click",
+window.OMAP_MEASURE.toggle)` - bez `?.` przy `OMAP_MEASURE`. Gdyby z
+jakiegokolwiek powodu ten moduł nie był jeszcze gotowy w tym
+momencie (kolejność ładowania, cache), `window.OMAP_MEASURE.toggle`
+rzuca TypeError - a to zatrzymuje resztę synchronicznego wykonania
+CAŁEGO app.js, więc każda deklaracja `const`/inicjalizacja PO tym
+punkcie (jak MOBILE_PANELS dużo dalej w pliku) nigdy nie następuje.
+Stąd mylący komunikat o zupełnie innej stałej - to tylko pierwszy
+kod, który faktycznie spróbował użyć czegoś z przerwanej reszty
+skryptu, nie źródło problemu.
+
+Przy audycie okazało się, że TEN SAM brak `?.` był w wywołaniach
+WSZYSTKICH poprzednich czterech ekstrakcji (Ratings, Wikipedia,
+Departures) - po prostu żadna z nich jeszcze nie trafiła na warunki,
+w których faktycznie by to ujawniło. Dodatkowo: samo `?.` przy
+WOŁANIU modułu nie wystarcza, jeśli WYNIK tego wołania jest zaraz
+potem używany bez sprawdzenia (`const x = window.OMAP_Y?.create();
+foo.appendChild(x.section)` - jeśli `x` jest `undefined`, TO nadal
+wywala się na `.section`).
+
+Naprawa - przy KAŻDEJ przyszłej ekstrakcji modułu, dwa osobne
+sprawdzenia:
+1. Czy KAŻDE `window.OMAP_X.cokolwiek` w app.js ma `?.` po
+   `OMAP_X` - zarówno przy wywołaniu (`window.OMAP_X?.metoda()`),
+   jak i przy samej referencji przekazywanej dalej bez wywołania
+   (`window.OMAP_X?.metoda` jako argument, patrz punkt 8).
+2. Czy wynik takiego wywołania, jeśli przypisany do zmiennej i
+   używany dalej, jest sprawdzony (`if (x) { ... }`) zanim się na
+   nim cokolwiek woła - `?.` chroni tylko SAM dostęp, nie to co
+   zrobisz z wynikiem później.
+
+---
+
+10. Naprawienie jednego crasha może odsłonić KOLEJNY, wcześniej
+    zasłonięty - "cebulowe" błędy
+
+Po naprawie punktu 9 (brak `?.` przy OMAP_MEASURE) appka nadal się
+wysypywała - ale z innym błędem, w innym miejscu:
+"Cannot access 'lastResolvedTheme' before initialization". To NIE
+była nowa regresja z mojej poprawki - to był PRE-ISTNIEJĄCY błąd tego
+samego typu (temporal dead zone), który po prostu nigdy wcześniej
+się nie ujawnił, bo appka ZAWSZE wcześniej wysypywała się na czymś
+innym (OMAP_MEASURE), zanim doszła do miejsca, gdzie ten drugi błąd
+mógłby wystąpić.
+
+Mechanizm: `map.on("load", async () => { ...; applyTheme(...); ...
+})` rejestruje się WCZEŚNIE w pliku (linia ~1941), ale
+`applyTheme` odwołuje się do `lastResolvedTheme` zadeklarowanego
+znacznie PÓŹNIEJ (`let` na końcu funkcji, linia ~3224). Zdarzenie
+"load" mapy jest ASYNCHRONICZNE (odpala się kiedy styl/kafelki się
+załadują z sieci) - jeśli odpali się PRZED tym, jak synchroniczne
+wykonanie reszty skryptu dotrze do linii z deklaracją, dostajemy
+TDZ ReferenceError. To dotyczyło też `darkModeProbe` (ta sama
+funkcja `applyTheme` wywołuje `resolveTheme` ->
+`detectBrowserForcedDarkMode` -> `getDarkModeProbe`, który tej
+zmiennej używa).
+
+Naprawa zastosowana: PRZENIESIONO obie deklaracje (`let
+lastResolvedTheme`, `let darkModeProbe`) bardzo wcześnie w pliku
+(zaraz obok już istniejących podobnych zabezpieczeń dla
+`UNFILED_FOLDER`/`ROUTE_HISTORY_LIMIT` - ten plik ma już
+udokumentowany wzorzec na to, po prostu nie zastosowany
+konsekwentnie wszędzie).
+
+Lekcja ogólna: gdy naprawiasz jeden crash i appka nadal nie działa,
+**nie zakładaj że Twoja naprawa nie zadziałała** - może zadziałała
+w 100%, tylko odsłoniła NASTĘPNĄ, wcześniej zasłoniętą awarię. Każdy
+nowy błąd po naprawie trzeba analizować jako osobny, niezależny
+przypadek, nie jako dowód porażki poprzedniej poprawki. Dodatkowo:
+`map.on("load", ...)` i podobne wcześnie rejestrowane, asynchroniczne
+callbacki to naturalne miejsce, gdzie takie "cebulowe" TDZ błędy się
+kryją - warto przy ekstrakcji/refaktorze świadomie prześledzić CAŁY
+łańcuch wywołań funkcji odpalanych z takich wczesnych,
+asynchronicznych zdarzeń, nie tylko punkt, który akurat rzucił błąd.
+
+---
+
+11. KRYTYCZNE: pozycja wywołania `configure()` w app.js musi być
+    PRZED pierwszym użyciem modułu, nie "gdziekolwiek, bo hoisting
+    i tak to załatwi"
+
+Po naprawie punktów 9 i 10 appka dalej się wysypywała -
+`measure-service.js: Cannot read properties of null (reading 'el')`
+w `updateModeSwitchUi`, wołane z `updateUI()` (linia ~1984), samo
+`updateUI()` wołane z linii ~1984 i dalej. Skonsolidowane wywołania
+`configure()` dla wszystkich pięciu modułów siedziały na końcu
+pliku (~13500) - bo tam fizycznie leżał wycięty kod przy pierwszej
+ekstrakcji, i tak zostało. Problem: `updateUI()` woła
+`window.OMAP_MEASURE?.updateModeSwitchUi()` już przy STARCIE appki
+(linia ~1984) - DUGO PRZED tym, jak wykonanie skryptu dotrze do
+linii 13500 gdzie `configure()` faktycznie by ustawił `ctx`. Wewnątrz
+modułu `ctx` był więc dalej `null`, mimo że `window.OMAP_MEASURE`
+jako obiekt istniał (stąd `?.` na ZEWNĄTRZ nie pomagało - problem był
+wewnątrz modułu, nie w jego dostępności).
+
+To jest INNY mechanizm niż hoisting funkcji (punkty 9/10 dotyczyły
+`function`/`let` w app.js, które hoistują się bezpiecznie niezależnie
+od pozycji w pliku) - `configure()` to zwykłe WYWOŁANIE FUNKCJI, nie
+deklaracja. Wywołanie funkcji nie hoistuje się - wykonuje się
+dokładnie w tym miejscu w kolejności, w którym fizycznie stoi w
+pliku. Positioning ma więc znaczenie i trzeba go pilnować świadomie,
+nie zakładać że "gdzieś w pliku" wystarczy.
+
+Naprawa: PRZENIESIONO cały skonsolidowany blok `configure()` z końca
+pliku (~13500) na sam początek - zaraz po tym jak `state`/`el`/`map`
+są gotowe (po utworzeniu instancji mapy), a PRZED pierwszym
+wywołaniem `updateUI()`. Wszystkie funkcje pomocnicze przekazywane
+do `configure()` (getStoredSeedWords, openTripDetails itd.) są
+bezpieczne mimo wczesnej pozycji, bo SĄ deklaracjami `function`
+(hoistowane) - różnica jest między DEKLAROWANIEM czegoś wcześnie
+(bezpieczne dzięki hoistingowi) a WYWOŁYWANIEM czegoś wcześnie
+(bezpieczne tylko jeśli to, do czego się odwołuje, faktycznie już
+istnieje w danym momencie wykonania).
+
+Lekcja ogólna: przy KAŻDEJ przyszłej ekstrakcji modułu z wzorcem
+`configure()`, znaleźć NAJWCZEŚNIEJSZE miejsce w app.js, gdzie
+wszystkie potrzebne zależności (state/el/map/CONFIG/text) są już
+gotowe, i wstawić tam wywołanie `configure()` - PRZED jakąkolwiek
+inną funkcją, która mogłaby wołać w ten moduł (nie tylko przed
+`updateUI()` - sprawdzić każdą funkcję wołaną wcześnie przy starcie
+appki). Umieszczenie `configure()` "tam gdzie fizycznie leżał wycięty
+kod" jest wygodne przy samej ekstrakcji, ale nie jest równoznaczne z
+"wystarczająco wcześnie" - to dwa niezależne kryteria.
+
+---
+
+12. Skaner zależności przy ekstrakcji łapał tylko wywołania funkcji
+    (`nazwa(`) - przeoczył gołe stałe używane jako argumenty
+
+Po naprawie punktów 9-11 appka działała, ale samo narzędzie pomiaru
+nie rysowało niczego na mapie - bez żadnego widocznego błędu w
+konsoli od razu (albo błąd był, ale dopiero przy pierwszym kliknięciu
+na mapę, nie przy starcie). Przyczyna: siedem stałych identyfikatorów
+warstw/źródeł MapLibre (`MEASURE_SOURCE_ID`,
+`MEASURE_LINE_LAYER_ID` itd.) było zadeklarowanych w `app.js` (linie
+~49-55, obok innych "musi być wcześnie" stałych) - ale mój skaner
+zależności użyty przy ekstrakcji szukał tylko wzorca
+`nazwaFunkcji\(` (wywołania funkcji) i odwołań do
+`state.`/`el.`/`map.`/`CONFIG.`/`text[`. Te stałe są używane jako
+zwykłe ARGUMENTY wewnątrz wywołań (`map.getSource(MEASURE_SOURCE_ID)`)
+- nigdy same nie są "wywoływane z nawiasem", więc żaden z dotychczas
+używanych wzorców ich nie złapał. Zostały całkowicie pominięte przy
+przenoszeniu, więc w nowym pliku były po prostu niezdefiniowane.
+
+Naprawa zastosowana: dodano te same siedem stałych bezpośrednio do
+`measure-service.js` (zduplikowane, nie wstrzykiwane przez `configure()`
+- to statyczne stringi bez ryzyka rozjazdu, duplikacja jest tu
+prostsza i bezpieczniejsza niż dodatkowe przekazywanie). `app.js`
+zachował własną kopię, bo osobno jej używa (aktualizacja koloru
+akcentu motywu na już istniejących warstwach).
+
+Naprawa systemowa na przyszłość: przy KAŻDEJ kolejnej ekstrakcji
+modułu, obok szukania `nazwaFunkcji\(` (funkcje) i `zmienna\.`/
+`zmienna\[` (obiekty), zrobić TRZECIE, osobne sprawdzenie: znaleźć
+wszystkie identyfikatory PISANE WIELKIMI LITERAMI używane w
+wycinanym fragmencie (konwencja dla stałych w tym pliku), i
+zweryfikować że KAŻDY z nich ma odpowiadającą deklarację `const`
+WEWNĄTRZ tego samego fragmentu - jeśli nie, to brakująca zależność
+do dodania (przez duplikację dla prostych wartości, albo przez
+`configure()` dla czegoś bardziej złożonego). Ten sam skrypt
+weryfikacyjny zastosowany retroaktywnie do wszystkich czterech
+poprzednich modułów (Odkrywaj, Oceny, Odjazdy, Wikipedia) potwierdził
+że żaden inny nie miał tego konkretnego problemu - to było
+specyficzne dla Pomiaru, bo tylko ten moduł miał własne stałe ID
+warstw mapy zadeklarowane daleko od reszty swojego kodu.
