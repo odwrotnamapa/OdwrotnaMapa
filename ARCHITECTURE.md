@@ -48,9 +48,10 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        adresy, stan URL, Odkrywaj, oceny miejsc,
                        odjazdy transportu publicznego, podsumowanie
                        z Wikipedii, pomiar odległości/powierzchni,
-                       streetview/Mapillary, kontrolki widoku mapy -
-                       ostatnie siedem wyniesione z app.js
-                       2026-08-06
+                       streetview/Mapillary, kontrolki widoku mapy,
+                       niedziele handlowe, linki geo:, eksport/import
+                       ustawień - ostatnie dziesięć wyniesione z
+                       app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -356,6 +357,43 @@ całą appkę, bo `configure()` siedziało za późno w pliku. Tym razem
 `configure()` był od razu we właściwym, wczesnym miejscu - zero
 problemów po wysyłce, potwierdzenie że wypracowany wzorzec faktycznie
 działa.
+
+## Linki geo: (src/services/geouri-service.js)
+
+Dziewiąty moduł wyniesiony z `app.js` (2026-08-06, ~50 linii) -
+najmniejszy dotąd. Obsługa linków `geo:` (RFC 5870) z zewnątrz
+appki - Capacitor `appUrlOpen` na mobile, plus `window.omapHandleGeoUri`
+wystawione dla mostu natywnego. Zależności: `map`, dwie funkcje z
+`app.js` (`parseSharedPoint`, `showPlaceInformation`).
+
+Wołane z asynchronicznego `map.on("load", ...)` - jak Niedziele
+handlowe, ale tym razem samo WYWOŁANIE (nie tylko rejestracja
+listenera) siedzi wewnątrz callbacku, więc odpala się dopiero gdy
+mapa faktycznie się załaduje, długo po tym jak `configure()` już
+dawno się wykonał. Bezpieczne z tego samego powodu co zawsze:
+JavaScript gwarantuje że cały synchroniczny kod (łącznie z blokiem
+`configure()`) kończy się PRZED jakimkolwiek zdarzeniem
+asynchronicznym, niezależnie jak szybko sieć by odpowiedziała.
+
+## Eksport/import ustawień (src/services/backup-service.js)
+
+Dziesiąty moduł wyniesiony z `app.js` (2026-08-06, ~330 linii).
+Zapis/odczyt wszystkich ustawień appki jako jeden plik JSON
+(ulubione, trasy, foldery, niestandardowe nazwy miejsc, paleta
+kolorów, czcionka, tekstury motywu "custom"). Dotąd **najwięcej
+zależności** ze wszystkich wyniesionych modułów: 15 funkcji + 3
+stałe (`DEFAULT_CUSTOM_PALETTE`, `MAP_TEXTURE_KEYS`,
+`TEXTURE_FIELDS`) - naturalna konsekwencja tego, że eksport/import
+z definicji dotyka niemal każdego podsystemu appki naraz.
+
+Te trzy stałe są przekazywane przez `configure()` jako WARTOŚCI
+(nie zduplikowane jak identyfikatory warstw w Pomiarze) - bo są
+używane też gdzie indziej w systemie motywów, więc duplikacja
+tworzyłaby ryzyko rozjazdu przy przyszłych zmianach kolorów
+domyślnych czy pól tekstur. Zasada wyboru: proste, w pełni statyczne
+wartości bez ryzyka zmiany (jak ID warstw MapLibre) - duplikować;
+wartości używane w wielu miejscach, które mogłyby się kiedyś zmienić
+- przekazywać przez `configure()`.
 
 ## Ulubione i Trasy
 

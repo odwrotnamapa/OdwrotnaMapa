@@ -346,3 +346,31 @@ poprzednich modułów (Odkrywaj, Oceny, Odjazdy, Wikipedia) potwierdził
 że żaden inny nie miał tego konkretnego problemu - to było
 specyficzne dla Pomiaru, bo tylko ten moduł miał własne stałe ID
 warstw mapy zadeklarowane daleko od reszty swojego kodu.
+
+---
+
+13. Przy DŁUGIEJ liście kandydatów na zależności - ręczne
+    przefiltrowanie może przeoczyć jedną pozycję, nawet gdy lista
+    jest kompletna
+
+Przy ekstrakcji Backup (15 zależności - najwięcej dotąd) `show` był
+CAŁY CZAS na wygenerowanej liście kandydatów - skrypt go poprawnie
+znalazł. Problem powstał przy RĘCZNYM przechodzeniu przez ~45-pozycyjną
+listę i wybieraniu, które są prawdziwymi zależnościami app.js a które
+metodami wbudowanymi (DOM/Array/JSON) - `show` (krótkie, częste
+słowo, łatwe do pomylenia z metodą typu `.show()`) zostało pominięte
+przy tym ręcznym kroku, mimo że automatyczne wykrycie zadziałało
+poprawnie.
+
+Naprawa na przyszłość: przy listach dłuższych niż ~15-20 pozycji,
+nie polegać wyłącznie na jednorazowym przejrzeniu wzrokiem - po
+wybraniu "prawdziwych" zależności, zrobić DRUGI, automatyczny
+przebieg: dla każdej pozycji z oryginalnej listy sprawdzić, czy
+faktycznie trafiła do finalnego configure() (czy to jako
+zaimportowana zależność, czy jawnie odrzucona jako bezpieczna metoda
+wbudowana) - żadna pozycja nie powinna zostać "cicho pominięta" bez
+świadomej decyzji. To różni się od punktu 12 (stałe WIELKIMI
+LITERAMI) - tu chodzi o zwykłe, małymi literami pisane nazwy funkcji,
+które trzeba ręcznie sklasyfikować jedna po drugiej, i przy długiej
+liście łatwo się pomylić bez systematycznego, dwuetapowego
+sprawdzenia.

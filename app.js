@@ -1962,7 +1962,7 @@ map.on('rotate', updateLogoRotation);
     applyLanguageAfterStartup();
     loadSharedRouteFromUrl();
     loadSharedPlaceFromUrl();
-    initializeGeoUriHandling();
+    window.OMAP_GEOURI?.initialize();
     hideDefibrillatorPois();
   });
 
@@ -1993,6 +1993,34 @@ map.on('rotate', updateLogoRotation);
     text,
     getStoredSeedWords,
     openAccountFromMenu
+  });
+  window.OMAP_BACKUP?.configure({
+    state,
+    text,
+    show,
+    DEFAULT_CUSTOM_PALETTE,
+    MAP_TEXTURE_KEYS,
+    TEXTURE_FIELDS,
+    getCheckedBackupScopes,
+    idbSetCustomFont,
+    idbSetTexture,
+    registerTextureImage,
+    renderFavoritesList,
+    renderFolderChips,
+    saveCustomFont,
+    saveCustomPalette,
+    saveCustomPlaceNames,
+    saveFavoriteFolders,
+    saveFavorites,
+    saveRouteFavorites,
+    syncCustomFontSelect,
+    syncCustomPaletteInputs,
+    applyTheme
+  });
+  window.OMAP_GEOURI?.configure({
+    map,
+    parseSharedPoint,
+    showPlaceInformation
   });
   window.OMAP_TRADING_SUNDAY?.configure({
     state,
@@ -2484,11 +2512,11 @@ map.on('rotate', updateLogoRotation);
   );
   el.historySearch?.addEventListener("input", renderHistoryList);
   el.historyClear?.addEventListener("click", clearHistoryList);
-  el.menuExportAll?.addEventListener("click", exportAllSettingsJson);
+  el.menuExportAll?.addEventListener("click", window.OMAP_BACKUP?.exportAll);
   el.menuImportAllButton?.addEventListener("click", () => {
     el.menuImportAllInput?.click();
   });
-  el.menuImportAllInput?.addEventListener("change", importAllSettingsJson);
+  el.menuImportAllInput?.addEventListener("change", window.OMAP_BACKUP?.importAll);
   el.backupSelectAll?.addEventListener("click", () => {
     const checkboxes = [el.backupScopeFavorites, el.backupScopeColors, el.backupScopePlaceNames].filter(Boolean);
     const allChecked = checkboxes.every(box => box.checked);
@@ -10051,39 +10079,6 @@ function drawRoute(geometry, from, to, mode) {
     await calculateRouteFromStoredPoints();
   }
 
-  function openGeoUri(rawUrl) {
-    const match = /^geo:([^;?]+)/i.exec(String(rawUrl || ""));
-    if (!match) return;
-
-    const point = parseSharedPoint(decodeURIComponent(match[1]));
-    if (!point) return;
-
-    showPlaceInformation({
-      lngLat: new maplibregl.LngLat(point.lon, point.lat)
-    });
-
-    map.flyTo({
-      center: [point.lon, point.lat],
-      zoom: 17,
-      bearing: 180
-    });
-  }
-
-  function initializeGeoUriHandling() {
-    window.omapHandleGeoUri = openGeoUri;
-
-    const capacitorApp = window.CapacitorApp;
-    if (!capacitorApp) return;
-
-    capacitorApp.addListener("appUrlOpen", event => {
-      openGeoUri(event?.url);
-    });
-
-    capacitorApp.getLaunchUrl?.()
-      .then(result => openGeoUri(result?.url))
-      .catch(() => {});
-  }
-
   function parseSharedPoint(value) {
     if (!value) return null;
     const [latText, lonText] = value.split(",");
@@ -11260,308 +11255,6 @@ function drawRoute(geometry, from, to, mode) {
     );
   }
 
-  async function exportAllSettingsJson() {
-    const scopes = getCheckedBackupScopes();
-
-    if (scopes.length === 0) {
-      show(text[state.language].backupNothingSelected);
-      return;
-    }
-
-    const payload = {
-      version: 2,
-      exportedAt: new Date().toISOString()
-    };
-
-    if (scopes.includes("favorites")) {
-      payload.favorites = state.favorites.map(favorite => ({
-        ...favorite,
-        key: favorite.key,
-        title: favorite.title || "",
-        address: favorite.address || "",
-        lat: Number(favorite.lat),
-        lon: Number(favorite.lon)
-      }));
-      payload.favoriteFolders = [...state.favoriteFolders];
-      payload.routeFavorites = [...state.routeFavorites];
-    }
-
-    if (scopes.includes("colors")) {
-      payload.customPalette = { ...state.customPalette };
-
-      const textureEntries = Object.entries(state.customTextures || {}).filter(
-        ([, dataUrl]) => Boolean(dataUrl)
-      );
-      if (textureEntries.length > 0) {
-        payload.customTextures = Object.fromEntries(textureEntries);
-      }
-
-      if (state.customFont && state.customFont.type !== "default") {
-        payload.customFont = { ...state.customFont };
-        if (state.customFont.type === "custom" && state.customFontDataUrl) {
-          payload.customFontData = state.customFontDataUrl;
-        }
-      }
-    }
-
-    if (scopes.includes("placeNames")) {
-      const nameEntries = Object.entries(state.customPlaceNames || {}).filter(
-        ([, name]) => Boolean(name)
-      );
-      if (nameEntries.length > 0) {
-        payload.customPlaceNames = Object.fromEntries(nameEntries);
-      }
-    }
-
-    const json = JSON.stringify(payload, null, 2);
-    const filename =
-      `odwrotna-mapa-ustawienia-${new Date()
-        .toISOString()
-        .slice(0, 10)}.json`;
-
-    // Android WebView nie obsługuje niezawodnie pobierania plików przez
-    // <a download> + blob: URL, więc tam zapisujemy plik natywnie i
-    // otwieramy systemowe okno udostępniania/zapisu.
-    if (window.CapacitorPlatform === "android" && window.CapacitorFilesystem) {
-      try {
-        const writeResult = await window.CapacitorFilesystem.writeFile({
-          path: filename,
-          data: json,
-          directory: window.CapacitorDirectory.Cache,
-          encoding: window.CapacitorEncoding.UTF8
-        });
-
-        await window.CapacitorShare.share({
-          title: filename,
-          files: [writeResult.uri]
-        });
-      } catch (error) {
-        console.error(error);
-        show(text[state.language].backupExportError);
-      }
-      return;
-    }
-
-    const blob = new Blob(
-      [json],
-      { type: "application/json;charset=utf-8" }
-    );
-
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = filename;
-
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
-  async function importAllSettingsJson(event) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-
-    if (!file) return;
-
-    try {
-      const scopes = getCheckedBackupScopes();
-
-      if (scopes.length === 0) {
-        show(text[state.language].backupNothingSelected);
-        return;
-      }
-
-      const raw = JSON.parse(await file.text());
-      const entries = Array.isArray(raw)
-        ? raw
-        : raw?.favorites;
-
-      let importedCount = 0;
-      let favoritesImportedFlag = false;
-      let colorsImportedFlag = false;
-
-      if (scopes.includes("favorites") && Array.isArray(entries)) {
-        const imported = [];
-        const known = new Set(
-          state.favorites.map(item => item.key)
-        );
-
-        for (const entry of entries) {
-          const lat = Number(entry.lat);
-          const lon = Number(entry.lon);
-
-          if (
-            !Number.isFinite(lat) ||
-            !Number.isFinite(lon)
-          ) {
-            continue;
-          }
-
-          const key =
-            String(entry.key || "").trim() ||
-            `${lat.toFixed(6)},${lon.toFixed(6)}`;
-
-          if (known.has(key)) continue;
-          known.add(key);
-
-          imported.push({
-            ...entry,
-            key,
-            title: String(entry.title || "").trim(),
-            address: String(entry.address || "").trim(),
-            lat,
-            lon,
-            exactLocalIdentity: Boolean(
-              entry.exactLocalIdentity ||
-              entry._exactLocalIdentity
-            ),
-            addressDetails: {
-              ...(entry.addressDetails || entry.addressObject || {})
-            },
-            extratags: {
-              ...(entry.extratags || {})
-            },
-            namedetails: {
-              ...(entry.namedetails || {})
-            }
-          });
-        }
-
-        state.favorites = [
-          ...state.favorites,
-          ...imported
-        ].slice(0, 1000);
-
-        saveFavorites();
-
-        if (Array.isArray(raw?.favoriteFolders)) {
-          const existingLower = new Set(state.favoriteFolders.map(f => f.toLowerCase()));
-          for (const folder of raw.favoriteFolders) {
-            if (typeof folder === "string" && folder.trim() && !existingLower.has(folder.trim().toLowerCase())) {
-              state.favoriteFolders.push(folder.trim());
-              existingLower.add(folder.trim().toLowerCase());
-            }
-          }
-          saveFavoriteFolders();
-        }
-
-        if (Array.isArray(raw?.routeFavorites)) {
-          const existingKeys = new Set(state.routeFavorites.map(r => r.key));
-          const importedRoutes = raw.routeFavorites.filter(
-            r => r && r.key && !existingKeys.has(r.key)
-          );
-          if (importedRoutes.length) {
-            state.routeFavorites = [...state.routeFavorites, ...importedRoutes];
-            saveRouteFavorites();
-          }
-        }
-
-        renderFolderChips();
-        renderFavoritesList();
-        importedCount = imported.length;
-        favoritesImportedFlag = true;
-      }
-
-      if (
-        scopes.includes("colors") &&
-        raw?.customPalette &&
-        typeof raw.customPalette === "object"
-      ) {
-        state.customPalette = {
-          ...DEFAULT_CUSTOM_PALETTE,
-          ...raw.customPalette
-        };
-        saveCustomPalette(state.customPalette);
-        syncCustomPaletteInputs();
-        colorsImportedFlag = true;
-      }
-
-      if (
-        scopes.includes("colors") &&
-        raw?.customTextures &&
-        typeof raw.customTextures === "object"
-      ) {
-        for (const key of TEXTURE_FIELDS) {
-          const dataUrl = raw.customTextures[key];
-          if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:image/")) {
-            continue;
-          }
-
-          state.customTextures[key] = dataUrl;
-          await idbSetTexture(key, dataUrl);
-
-          if (MAP_TEXTURE_KEYS.includes(key)) {
-            await registerTextureImage(key, dataUrl);
-          }
-        }
-        colorsImportedFlag = true;
-      }
-
-      if (
-        scopes.includes("colors") &&
-        raw?.customFont &&
-        typeof raw.customFont === "object" &&
-        typeof raw.customFont.type === "string"
-      ) {
-        if (raw.customFont.type === "google" && raw.customFont.googleFont) {
-          state.customFont = { type: "google", googleFont: raw.customFont.googleFont };
-          state.customFontDataUrl = null;
-          saveCustomFont();
-          colorsImportedFlag = true;
-        } else if (
-          raw.customFont.type === "custom" &&
-          typeof raw.customFontData === "string" &&
-          raw.customFontData.startsWith("data:")
-        ) {
-          state.customFont = { type: "custom" };
-          state.customFontDataUrl = raw.customFontData;
-          await idbSetCustomFont(raw.customFontData);
-          saveCustomFont();
-          colorsImportedFlag = true;
-        }
-        syncCustomFontSelect();
-      }
-
-      if (colorsImportedFlag && state.theme === "custom") {
-        applyTheme(state.theme);
-      }
-
-      let placeNamesImportedFlag = false;
-
-      if (
-        scopes.includes("placeNames") &&
-        raw?.customPlaceNames &&
-        typeof raw.customPlaceNames === "object"
-      ) {
-        for (const [key, name] of Object.entries(raw.customPlaceNames)) {
-          const trimmed = String(name || "").trim();
-          if (typeof key === "string" && key && trimmed) {
-            state.customPlaceNames[key] = trimmed;
-          }
-        }
-        saveCustomPlaceNames();
-        placeNamesImportedFlag = true;
-      }
-
-      const messages = [];
-      if (favoritesImportedFlag) {
-        messages.push(text[state.language].favoritesImported(importedCount));
-      }
-      if (colorsImportedFlag) {
-        messages.push(text[state.language].colorsImported);
-      }
-      if (placeNamesImportedFlag) {
-        messages.push(text[state.language].placeNamesImported);
-      }
-
-      show(messages.join(" ") || text[state.language].favoritesImportError);
-    } catch (error) {
-      console.error(error);
-      show(text[state.language].favoritesImportError);
-    }
-  }
 
 
   function openMenuHome() {
