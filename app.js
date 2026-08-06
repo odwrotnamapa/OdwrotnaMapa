@@ -1481,54 +1481,6 @@
     );
   }
 
-  // Własne nazwy miejsc wpisane w panelu informacji - przechowywane lokalnie,
-  // niezależnie od ulubionych (favorite.customName), bo dotyczą DOWOLNEGO
-  // miejsca pokazanego na mapie, nie tylko zapisanych do ulubionych.
-  function readCustomPlaceNames() {
-    try {
-      const stored = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.customPlaceNames) || "{}"
-      );
-      return stored && typeof stored === "object" ? stored : {};
-    } catch (_) {
-      return {};
-    }
-  }
-
-  function saveCustomPlaceNames() {
-    safeSet(
-      CONFIG.storageKeys.customPlaceNames,
-      JSON.stringify(state.customPlaceNames)
-    );
-  }
-
-  function setCustomPlaceName(key, rawName, fallbackTitle, headingEl, place, lngLat) {
-    const trimmed = (rawName || "").trim();
-
-    if (!trimmed || trimmed === fallbackTitle) {
-      delete state.customPlaceNames[key];
-    } else {
-      state.customPlaceNames[key] = trimmed;
-    }
-
-    saveCustomPlaceNames();
-
-    // Synchronizuj z Ulubionymi: jeśli miejsce jest w Ulubionych, zaktualizuj jego customName
-    if (place && lngLat) {
-      const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
-      const favorite = state.favorites.find(item => item.key === favoriteKey);
-      if (favorite) {
-        favorite.customName = state.customPlaceNames[key] || "";
-        window.OMAP_FAVORITES?.saveFavorites();
-        window.OMAP_FAVORITES?.renderFavoritesList();
-      }
-    }
-
-    const displayTitle = state.customPlaceNames[key] || fallbackTitle;
-    if (headingEl) headingEl.textContent = displayTitle;
-    document.title = `${displayTitle} - Odwrotna Mapa`;
-  }
-
   function detectPreferredLanguage() {
     const browserLanguages = [
       navigator.language,
@@ -1554,6 +1506,8 @@
   // gotowe). Pełny configure() z resztą zależności następuje
   // normalnie, dalej w pliku, przed pierwszym updateUI().
   window.OMAP_FAVORITES?.configure({ CONFIG });
+  window.OMAP_ROUTE_HISTORY?.configure({ CONFIG });
+  window.OMAP_CUSTOM_PLACE_NAMES?.configure({ CONFIG });
 
   const state = {
     language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, ""))
@@ -1571,7 +1525,7 @@
     // Sam plik czcionki (jeśli type === "custom") wczytywany asynchronicznie
     // z IndexedDB przez initCustomFont() po starcie.
     customFontDataUrl: null,
-    customPlaceNames: readCustomPlaceNames(),
+    customPlaceNames: window.OMAP_CUSTOM_PLACE_NAMES?.readCustomPlaceNames(),
     // Wypełniane asynchronicznie przez initCustomTextures() po starcie mapy
     // (dane obrazów trzymamy w IndexedDB, nie w localStorage - mogą być
     // zbyt duże). Klucze pokrywają się z CUSTOM_PALETTE_FIELDS, które mają
@@ -1622,8 +1576,8 @@
     tripOriginStack: [],
     tripContextStack: [],
     history: readHistory(),
-    routeHistory: readRouteHistory(),
-    routeFavorites: readRouteFavorites(),
+    routeHistory: window.OMAP_ROUTE_HISTORY?.readRouteHistory(),
+    routeFavorites: window.OMAP_ROUTE_HISTORY?.readRouteFavorites(),
     activeFavoritesTab: "places",
     activeHistoryTab: "places"
   };
@@ -2014,6 +1968,19 @@ map.on('rotate', updateLogoRotation);
     getStoredSeedWords,
     openAccountFromMenu
   });
+  window.OMAP_CUSTOM_PLACE_NAMES?.configure({
+    state,
+    CONFIG,
+    safeSet
+  });
+  window.OMAP_ROUTE_HISTORY?.configure({
+    state,
+    el,
+    CONFIG,
+    ROUTE_HISTORY_LIMIT,
+    renderHistoryList,
+    safeSet
+  });
   window.OMAP_FAVORITES?.configure({
     state,
     el,
@@ -2034,7 +2001,7 @@ map.on('rotate', updateLogoRotation);
     normalizeSearchText,
     openMobilePanelStandard,
     safeSet,
-    saveRouteFavorites,
+    saveRouteFavorites: window.OMAP_ROUTE_HISTORY?.saveRouteFavorites,
     show,
     sortByOrder,
     updateRouteSaveFavoriteButton
@@ -2063,10 +2030,10 @@ map.on('rotate', updateLogoRotation);
     renderFolderChips: window.OMAP_FAVORITES?.renderFolderChips,
     saveCustomFont,
     saveCustomPalette,
-    saveCustomPlaceNames,
+    saveCustomPlaceNames: window.OMAP_CUSTOM_PLACE_NAMES?.saveCustomPlaceNames,
     saveFavoriteFolders: window.OMAP_FAVORITES?.saveFavoriteFolders,
     saveFavorites: window.OMAP_FAVORITES?.saveFavorites,
-    saveRouteFavorites,
+    saveRouteFavorites: window.OMAP_ROUTE_HISTORY?.saveRouteFavorites,
     syncCustomFontSelect,
     syncCustomPaletteInputs,
     applyTheme
@@ -7072,7 +7039,7 @@ function showUserLocationMarker(lngLat) {
     });
 
     renameSave.addEventListener("click", () => {
-      setCustomPlaceName(placeNameKey, renameInput.value, originalPlaceTitle, titleButton, place, lngLat);
+      window.OMAP_CUSTOM_PLACE_NAMES?.setCustomPlaceName(placeNameKey, renameInput.value, originalPlaceTitle, titleButton, place, lngLat);
       renameForm.hidden = true;
     });
 
@@ -7648,77 +7615,6 @@ function showUserLocationMarker(lngLat) {
     );
   }
 
-  function readRouteHistory() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.routeHistory) || "[]"
-      );
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function saveRouteHistory() {
-    safeSet(
-      CONFIG.storageKeys.routeHistory,
-      JSON.stringify(state.routeHistory)
-    );
-  }
-
-  function readRouteFavorites() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.routeFavorites) || "[]"
-      );
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function saveRouteFavorites() {
-    safeSet(
-      CONFIG.storageKeys.routeFavorites,
-      JSON.stringify(state.routeFavorites)
-    );
-  }
-
-  function buildRouteKey(pointA, pointB, mode) {
-    return `${Number(pointA.lat).toFixed(5)},${Number(pointA.lon).toFixed(5)}` +
-      `->${Number(pointB.lat).toFixed(5)},${Number(pointB.lon).toFixed(5)}:${mode}`;
-  }
-
-  function recordRouteHistory(pointA, pointB, mode, distance, duration) {
-    if (!pointA || !pointB) return;
-
-    const key = buildRouteKey(pointA, pointB, mode);
-    const entry = {
-      key,
-      fromLabel: pointA.label || "",
-      toLabel: pointB.label || "",
-      fromLat: Number(pointA.lat),
-      fromLon: Number(pointA.lon),
-      toLat: Number(pointB.lat),
-      toLon: Number(pointB.lon),
-      mode,
-      distance: Number(distance) || 0,
-      duration: Number(duration) || 0,
-      viewedAt: new Date().toISOString()
-    };
-
-    state.routeHistory = [
-      entry,
-      ...state.routeHistory.filter(item => item.key !== key)
-    ].slice(0, ROUTE_HISTORY_LIMIT);
-
-    saveRouteHistory();
-
-    if (!el.historyPanel?.hidden) {
-      renderHistoryList();
-    }
-  }
-
   function formatRouteSummaryShort(distance, duration) {
     const km = distance ? (distance / 1000).toFixed(distance >= 10000 ? 0 : 1) : "0";
     const minutes = duration ? Math.round(duration / 60) : 0;
@@ -7759,7 +7655,7 @@ function showUserLocationMarker(lngLat) {
 
   function currentRouteFavoriteKey() {
     if (!state.routePointA || !state.routePointB) return null;
-    return buildRouteKey(state.routePointA, state.routePointB, getSelectedRouteMode());
+    return window.OMAP_ROUTE_HISTORY?.buildRouteKey(state.routePointA, state.routePointB, getSelectedRouteMode());
   }
 
   function updateRouteSaveFavoriteButton() {
@@ -7801,7 +7697,7 @@ function showUserLocationMarker(lngLat) {
       ];
     }
 
-    saveRouteFavorites();
+    window.OMAP_ROUTE_HISTORY?.saveRouteFavorites();
     window.OMAP_FAVORITES?.renderFolderChips();
     window.OMAP_FAVORITES?.renderFavoritesList();
     updateRouteSaveFavoriteButton();
@@ -8429,7 +8325,7 @@ async function calculateRouteFromStoredPoints() {
         getSelectedRouteMode()
       );
       updateRouteSummary(route.distance, route.duration);
-      recordRouteHistory(
+      window.OMAP_ROUTE_HISTORY?.recordRouteHistory(
         state.routePointA,
         state.routePointB,
         getSelectedRouteMode(),
@@ -8610,7 +8506,7 @@ function updateRouteClickHint() {
       );
       updateRouteClickHint();
       updateRouteSummary(route.distance, route.duration);
-      recordRouteHistory(
+      window.OMAP_ROUTE_HISTORY?.recordRouteHistory(
         from,
         to,
         getSelectedRouteMode(),
@@ -9854,7 +9750,7 @@ function drawRoute(geometry, from, to, mode) {
     state.history = [];
     saveHistory();
     state.routeHistory = [];
-    saveRouteHistory();
+    window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
     renderHistoryList();
   }
 
@@ -9997,7 +9893,7 @@ function drawRoute(geometry, from, to, mode) {
         removeButton.setAttribute("aria-label", text[state.language].historyRemove);
         removeButton.addEventListener("click", () => {
           state.routeHistory = state.routeHistory.filter(r => r.key !== entry.key);
-          saveRouteHistory();
+          window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
           renderHistoryList();
         });
 
@@ -11067,7 +10963,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
       if (Array.isArray(payload.routeFavorites)) {
         state.routeFavorites = payload.routeFavorites.filter(entry => entry && entry.key);
-        saveRouteFavorites();
+        window.OMAP_ROUTE_HISTORY?.saveRouteFavorites();
       }
 
       window.OMAP_FAVORITES?.renderFolderChips();
@@ -11111,7 +11007,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
 
     if (scopes.includes("placeNames") && payload.customPlaceNames && typeof payload.customPlaceNames === "object") {
       state.customPlaceNames = { ...payload.customPlaceNames };
-      saveCustomPlaceNames();
+      window.OMAP_CUSTOM_PLACE_NAMES?.saveCustomPlaceNames();
     }
 
     if (scopes.includes("history") && Array.isArray(payload.history)) {
@@ -11132,7 +11028,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
       state.routeHistory = payload.routeHistory
         .filter(entry => entry && entry.key)
         .slice(0, ROUTE_HISTORY_LIMIT);
-      saveRouteHistory();
+      window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
       renderHistoryList();
     }
   }

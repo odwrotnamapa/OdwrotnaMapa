@@ -50,8 +50,9 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        z Wikipedii, pomiar odległości/powierzchni,
                        streetview/Mapillary, kontrolki widoku mapy,
                        niedziele handlowe, linki geo:, eksport/import
-                       ustawień, silnik dolnych paneli, ulubione -
-                       ostatnie dwanaście wyniesione z app.js
+                       ustawień, silnik dolnych paneli, ulubione,
+                       trwałość historii tras, własne nazwy miejsc -
+                       ostatnie czternaście wyniesione z app.js
                        2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
@@ -482,6 +483,31 @@ moduły, przed pierwszym `updateUI()` (`updateUI()` też woła
 zamiast bezpośrednio na funkcje w `app.js`, bo te funkcje się
 przeniosły. To pierwsza ekstrakcja w tej sesji wymagająca dotknięcia
 konfiguracji innego, już wysłanego modułu.
+
+## Trwałość historii/ulubionych tras (src/services/route-history-service.js)
+
+Trzynasty moduł wyniesiony z `app.js` (2026-08-06, ~100 linii) -
+mały, celowo zawężony wycinek dużo większego systemu Tras (59
+funkcji łącznie w `app.js`, od obliczania po rysowanie na mapie -
+zbyt duży i zbyt spleciony, żeby wyciąć w całości). Tu tylko
+trwałość: zapis/odczyt historii i ulubionych tras w `localStorage`,
+budowanie klucza trasy, dopisywanie wpisu do historii.
+
+Ten sam dwuetapowy `configure()` co przy Ulubionych -
+`readRouteHistory`/`readRouteFavorites` też są wołane wewnątrz
+konstrukcji `state`. Dodatkowo: `saveRouteFavorites` jest już
+zależnością DWÓCH innych modułów (`favorites-service.js` i
+`backup-service.js`) - obie ich konfiguracje w `app.js`
+zaktualizowane, żeby wskazywały na `window.OMAP_ROUTE_HISTORY?.saveRouteFavorites`.
+
+## Własne nazwy miejsc (src/services/custom-place-names-service.js)
+
+Czternasty moduł wyniesiony z `app.js` (2026-08-06, ~75 linii) - mały,
+odizolowany. Ręcznie wpisane własne nazwy dla dowolnego miejsca na
+mapie (osobne od `favorite.customName`, które dotyczy tylko
+zapisanych ulubionych). Ten sam dwuetapowy `configure()` co przy
+Ulubionych/Historii Tras (`readCustomPlaceNames` wołane wewnątrz
+konstrukcji `state`). Jedyna zależność funkcyjna: `safeSet`.
 
 ## Ulubione i Trasy
 
