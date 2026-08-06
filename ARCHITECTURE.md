@@ -311,6 +311,13 @@ umieszczone od razu we wczesnym, wspólnym miejscu (przed pierwszym
 `updateUI()`), nie tam gdzie fizycznie leżał wycięty kod. Zero
 problemów po wysyłce.
 
+Znaleziono jeden listener na poziomie modułu
+(`document.addEventListener("fullscreenchange", ...)`) - bezpieczny
+(odpala się tylko przy realnej, użytkownikiem wywołanej zmianie
+pełnego ekranu, nie automatycznie przy starcie), ale dodano mu
+mimo to jawne sprawdzenie `if (!ctx) return;` na wszelki wypadek -
+tania, dodatkowa warstwa bezpieczeństwa bez kosztu.
+
 ## Kontrolki widoku mapy (src/services/mapview-service.js)
 
 Siódmy moduł wyniesiony z `app.js` (2026-08-06, ~250 linii). Tryb
@@ -330,12 +337,25 @@ konkretnym miejscu). Naprawiono przez szerszy wzorzec
 warty stosowania od razu przy każdej kolejnej ekstrakcji zamiast
 tylko dla `map`.
 
-Znaleziono jeden listener na poziomie modułu
-(`document.addEventListener("fullscreenchange", ...)`) - bezpieczny
-(odpala się tylko przy realnej, użytkownikiem wywołanej zmianie
-pełnego ekranu, nie automatycznie przy starcie), ale dodano mu
-mimo to jawne sprawdzenie `if (!ctx) return;` na wszelki wypadek -
-tania, dodatkowa warstwa bezpieczeństwa bez kosztu.
+## Niedziele handlowe w Polsce (src/services/trading-sunday-service.js)
+
+Ósmy moduł wyniesiony z `app.js` (2026-08-06, ~130 linii). Pierwsza
+ekstrakcja łącząca DWA nieprzylegające fragmenty pliku w jeden
+moduł: czysta logika dat (`calculateEasterSunday`,
+`lastSundayOfMonth`, `getTradingSundaysForYear`,
+`isTodayTradingSundayPL` - zero zależności od stanu appki, same
+obliczenia na `Date`) leżała ~2000 linii dalej niż panel UI
+(`updateTradingSundayAnswer`, `openTradingSundayFromMenu`,
+`closeTradingSunday`, `returnFromTradingSundayToMenu`). Oba
+fragmenty wycięte osobno, sklejone w jednym pliku.
+
+**Ten moduł jest jednym z tych, których faktycznie woła
+`updateUI()`** (`window.OMAP_TRADING_SUNDAY?.updateAnswer()`) - czyli
+dokładnie ten scenariusz, który wcześniej (przy Pomiarze) wywalił
+całą appkę, bo `configure()` siedziało za późno w pliku. Tym razem
+`configure()` był od razu we właściwym, wczesnym miejscu - zero
+problemów po wysyłce, potwierdzenie że wypracowany wzorzec faktycznie
+działa.
 
 ## Ulubione i Trasy
 

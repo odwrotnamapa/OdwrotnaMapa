@@ -1994,6 +1994,14 @@ map.on('rotate', updateLogoRotation);
     getStoredSeedWords,
     openAccountFromMenu
   });
+  window.OMAP_TRADING_SUNDAY?.configure({
+    state,
+    el,
+    text,
+    closeOtherMobilePanels,
+    openMobilePanelStandard,
+    openMenuHome
+  });
   window.OMAP_MAPVIEW?.configure({
     state,
     el,
@@ -2591,10 +2599,10 @@ map.on('rotate', updateLogoRotation);
   el.menuLabelsButton?.addEventListener("click", openLabelsFromMenu);
   el.tradingSundayBack?.addEventListener(
     "click",
-    returnFromTradingSundayToMenu
+    window.OMAP_TRADING_SUNDAY?.returnToMenu
   );
-  el.tradingSundayClose?.addEventListener("click", closeTradingSunday);
-  el.menuTradingSundayButton?.addEventListener("click", openTradingSundayFromMenu);
+  el.tradingSundayClose?.addEventListener("click", window.OMAP_TRADING_SUNDAY?.close);
+  el.menuTradingSundayButton?.addEventListener("click", window.OMAP_TRADING_SUNDAY?.open);
   el.routeButton?.addEventListener("click", toggleRoute);
   el.mobileRouteButton?.addEventListener("click", toggleRoute);
   el.mobileDiscoverButton?.addEventListener("click", toggleDiscover);
@@ -2823,7 +2831,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.menuTradingSundayLabel) el.menuTradingSundayLabel.textContent = t.menuTradingSunday;
     if (el.tradingSundayQuestion) el.tradingSundayQuestion.textContent = t.tradingSundayQuestion;
     el.tradingSundayClose?.setAttribute("aria-label", t.closeTradingSunday);
-    updateTradingSundayAnswer();
+    window.OMAP_TRADING_SUNDAY?.updateAnswer();
     el.legendBack?.setAttribute("aria-label", t.backToMenu);
     el.labelsBack?.setAttribute("aria-label", t.backToMenu);
     el.tradingSundayBack?.setAttribute("aria-label", t.backToMenu);
@@ -5176,7 +5184,7 @@ function applyLanguage(language) {
     { id: "streetview", close: () => window.OMAP_STREETVIEW?.close(), collapsible: false },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
     { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
-    { id: "tradingSunday", close: () => closeTradingSunday(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
+    { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
     { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" },
     { id: "account", close: () => closeAccount(), panel: el.accountPanel, cssVariable: "--sheet-height" }
@@ -5659,7 +5667,7 @@ function applyLanguage(language) {
     initializeBottomSheet({
       panel: el.tradingSundayPanel,
       handle: el.tradingSundaySheetHandle,
-      close: closeTradingSunday,
+      close: window.OMAP_TRADING_SUNDAY?.close,
       cssVariable: "--sheet-height"
     });
   }
@@ -11605,45 +11613,6 @@ function drawRoute(geometry, from, to, mode) {
     openMenuHome();
   }
 
-  function updateTradingSundayAnswer() {
-    const { isSunday, isTrading } = isTodayTradingSundayPL();
-    const t = text[state.language];
-
-    if (el.tradingSundayAnswer) {
-      el.tradingSundayAnswer.textContent = isTrading ? t.yes : t.no;
-      el.tradingSundayAnswer.classList.toggle("is-yes", isTrading);
-      el.tradingSundayAnswer.classList.toggle("is-no", !isTrading);
-    }
-
-    if (el.tradingSundayNote) {
-      el.tradingSundayNote.textContent = isSunday
-        ? ""
-        : t.tradingSundayNotSunday;
-    }
-  }
-
-  function openTradingSundayFromMenu() {
-    closeOtherMobilePanels("tradingSunday");
-
-    updateTradingSundayAnswer();
-
-    openMobilePanelStandard(
-      el.tradingSundayPanel,
-      "--sheet-height"
-    );
-    el.menuTradingSundayButton?.setAttribute("aria-expanded", "true");
-  }
-
-  function closeTradingSunday() {
-    if (!el.tradingSundayPanel || el.tradingSundayPanel.hidden) return;
-    el.tradingSundayPanel.hidden = true;
-    el.menuTradingSundayButton?.setAttribute("aria-expanded", "false");
-  }
-
-  function returnFromTradingSundayToMenu() {
-    closeTradingSunday();
-    openMenuHome();
-  }
 
   function openAboutFromMenu() {
     closeOtherMobilePanels("about");
@@ -13693,75 +13662,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     }
   }
 
-  // Oblicza datę pierwszego dnia Wielkanocy (algorytm Meeusa/Jonesa/
-  // Butchera, kalendarz gregoriański) dla danego roku.
-  function calculateEasterSunday(year) {
-    const a = year % 19;
-    const b = Math.floor(year / 100);
-    const c = year % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const month = Math.floor((h + l - 7 * m + 114) / 31);
-    const day = ((h + l - 7 * m + 114) % 31) + 1;
-    return new Date(year, month - 1, day);
-  }
-
-  // Ostatnia niedziela danego miesiąca (0-indeksowany miesiąc).
-  function lastSundayOfMonth(year, monthIndex) {
-    const lastDay = new Date(year, monthIndex + 1, 0);
-    const offset = lastDay.getDay();
-    lastDay.setDate(lastDay.getDate() - offset);
-    return lastDay;
-  }
-
-  // Zwraca zbiór dat (jako stringi YYYY-MM-DD) niedziel handlowych w
-  // Polsce dla danego roku, zgodnie z ustawą z 10 stycznia 2018 r. o
-  // ograniczeniu handlu w niedziele i święta.
-  function getTradingSundaysForYear(year) {
-    const dates = [];
-    const toKey = date =>
-      `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-
-    // Ostatnia niedziela stycznia, kwietnia, czerwca i sierpnia.
-    for (const monthIndex of [0, 3, 5, 7]) {
-      dates.push(lastSundayOfMonth(year, monthIndex));
-    }
-
-    // Niedziela bezpośrednio poprzedzająca pierwszy dzień Wielkanocy.
-    const easter = calculateEasterSunday(year);
-    const beforeEaster = new Date(easter);
-    beforeEaster.setDate(beforeEaster.getDate() - 7);
-    dates.push(beforeEaster);
-
-    // Trzy kolejne niedziele poprzedzające Wigilię (24 grudnia).
-    const christmasEve = new Date(year, 11, 24);
-    let cursor = new Date(christmasEve);
-    cursor.setDate(cursor.getDate() - 1);
-    while (cursor.getDay() !== 0) {
-      cursor.setDate(cursor.getDate() - 1);
-    }
-    for (let i = 0; i < 3; i++) {
-      dates.push(new Date(cursor));
-      cursor.setDate(cursor.getDate() - 7);
-    }
-
-    return new Set(dates.map(toKey));
-  }
-
-  function isTodayTradingSundayPL() {
-    const today = new Date();
-    const isSunday = today.getDay() === 0;
-    const tradingSundays = getTradingSundaysForYear(today.getFullYear());
-    const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-    return { isSunday, isTrading: isSunday && tradingSundays.has(todayKey) };
-  }
 
   function isElectronPlatform() {
     return (
