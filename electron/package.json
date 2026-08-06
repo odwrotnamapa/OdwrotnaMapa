@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "@capacitor/app": "^8.1.1",
-    "@capacitor/core": "^8.4.2"
+    "@capacitor/core": "^8.4.2",
+    "@capawesome/capacitor-electron": "^0.1.0"
   },
   "overrides": {
     "@noble/hashes": "^1.8.0"

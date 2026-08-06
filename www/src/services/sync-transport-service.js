@@ -92,11 +92,15 @@
   // jedna, wspólna pula na całą sesję karty, nigdy nie zamykana
   // między wywołaniami.
   let sharedPool = null;
-  // Cache ocen na krótko - otwarcie panelu tego samego miejsca kilka
-  // razy pod rząd (np. wracając wstecz) nie powinno za każdym razem
-  // odpytywać przekaźników od nowa.
+  // Cache ocen na czas życia karty (do odświeżenia strony) - otwarcie
+  // panelu tego samego miejsca wielokrotnie (np. wracając wstecz, albo
+  // po prostu ponownie klikając w to samo miejsce) nie powinno za
+  // każdym razem odpytywać przekaźników od nowa. Świeżość mimo
+  // długiego TTL zapewnia jawne unieważnianie cache'a przy każdym
+  // publishRating/deleteRating (patrz niżej) - nowa/usunięta ocena
+  // jest więc widoczna od razu, nie dopiero po wygaśnięciu.
   const ratingsCache = new Map();
-  const RATINGS_CACHE_TTL_MS = 60000;
+  const RATINGS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
   async function getSharedPool() {
     const lib = await waitForNostrLib();

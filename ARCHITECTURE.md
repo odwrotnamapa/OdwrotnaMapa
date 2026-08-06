@@ -45,9 +45,9 @@ www/                                                — kopia dla Capacitor
                                                       user ma własny skrypt)
 src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        miejsc, kategorie, godziny otwarcia, zdjęcia,
-                       adresy, stan URL, Odkrywaj (kategorie +
-                       pobieranie), oceny miejsc, odjazdy transportu
-                       publicznego - ostatnie trzy wyniesione z
+                       adresy, stan URL, Odkrywaj, oceny miejsc,
+                       odjazdy transportu publicznego, podsumowanie
+                       z Wikipedii - ostatnie cztery wyniesione z
                        app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
@@ -230,13 +230,31 @@ Zależności: `state.language`, `text`, `CONFIG.transit.*`, i jedna
 funkcja z `app.js` (`openTripDetails`, wywoływana przy kliknięciu
 konkretnego odjazdu).
 
-Wszystkie trzy wywołania `configure()` (`OMAP_RATINGS`,
-`OMAP_DEPARTURES`, `OMAP_DISCOVER`) są teraz świadomie skonsolidowane
-w jednym miejscu w `app.js`, zamiast rozrzucone tam, gdzie fizycznie
+Wszystkie wywołania `configure()` (`OMAP_RATINGS`, `OMAP_WIKIPEDIA`,
+`OMAP_DEPARTURES`, `OMAP_DISCOVER`) są świadomie skonsolidowane w
+jednym miejscu w `app.js`, zamiast rozrzucone tam, gdzie fizycznie
 leżał wycięty kod - to ułatwia znalezienie ich wszystkich naraz przy
 kolejnej ekstrakcji, i było jawną poprawką po tym, jak druga
 ekstrakcja (Oceny) omyłkowo wstawiła swój `configure()` w środek
 tego, co powinno być spójnym klastrem Odjazdów.
+
+## Podsumowanie z Wikipedii (src/services/wikipedia-service.js)
+
+Czwarty moduł wyniesiony z `app.js` (2026-08-06, ~190 linii).
+Rozpoznawanie właściwego artykułu Wikipedii po tagu wikipedia/
+wikidata z OSM, pobieranie skrótu, renderowanie w karcie miejsca.
+Zależności: `state.language`, `text`, i jedna funkcja z `app.js`
+(`capitalizeFirstLetter` - ogólny helper, nie tylko dla Wikipedii,
+stąd zostaje w `app.js` i jest wstrzykiwany, nie kopiowany).
+
+**Warta odnotowania granica klastra**: `resolveWikipediaTarget` (część
+tego modułu) leżała fizycznie PRZED `createWikipediaSection`, po
+drugiej stronie niezwiązanej funkcji `cacheWikipediaForFavorite`
+(ta ZOSTAJE w `app.js` - łączy Ulubione z Wikipedią, więc nie pasuje
+czysto do żadnego z dwóch modułów). Trzeba było czytać kod PRZED
+i PO domniemanej granicy, nie ufać samej fizycznej bliskości nazw
+funkcji - fizyczne sąsiedztwo w pliku nie zawsze pokrywa się z
+przynależnością do tej samej funkcji appki.
 
 ## Ulubione i Trasy
 
