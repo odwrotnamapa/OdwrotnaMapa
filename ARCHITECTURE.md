@@ -48,8 +48,9 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        adresy, stan URL, Odkrywaj, oceny miejsc,
                        odjazdy transportu publicznego, podsumowanie
                        z Wikipedii, pomiar odległości/powierzchni,
-                       streetview/Mapillary - ostatnie sześć
-                       wyniesione z app.js 2026-08-06
+                       streetview/Mapillary, kontrolki widoku mapy -
+                       ostatnie siedem wyniesione z app.js
+                       2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -309,6 +310,25 @@ z nawiasem i goła referencja (addEventListener), (4) `configure()`
 umieszczone od razu we wczesnym, wspólnym miejscu (przed pierwszym
 `updateUI()`), nie tam gdzie fizycznie leżał wycięty kod. Zero
 problemów po wysyłce.
+
+## Kontrolki widoku mapy (src/services/mapview-service.js)
+
+Siódmy moduł wyniesiony z `app.js` (2026-08-06, ~250 linii). Tryb
+3D, lokalizacja użytkownika (GPS + fallback po IP), eksport widoku
+do PNG, reset widoku mapy. Zależności: `state`, `el`, `map`, `text`,
+jedenaście funkcji z `app.js`.
+
+**Złapano tu wzorzec błędu, którego wcześniejsze ekstrakcje nie
+miały**: `map` używane nie tylko z kropką (`map.resize()`), ale też
+jako GOŁE sprawdzenie prawdziwości (`if (map && typeof map.resize
+=== "function")`). Standardowy wzorzec podmiany `\bmap\.` →
+`ctx.map.` by to przeoczył (nie ma kropki zaraz po "map" w tym
+konkretnym miejscu). Naprawiono przez szerszy wzorzec
+`(?<!\.)\bmap\b` → `ctx.map` (każde "map" NIE poprzedzone kropką,
+żeby nie ruszać `.map()` na tablicach), zamiast wąskiego
+`\bmap\.` - to bezpieczniejszy domyślny wzorzec na przyszłość,
+warty stosowania od razu przy każdej kolejnej ekstrakcji zamiast
+tylko dla `map`.
 
 Znaleziono jeden listener na poziomie modułu
 (`document.addEventListener("fullscreenchange", ...)`) - bezpieczny
