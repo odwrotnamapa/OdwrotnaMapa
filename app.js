@@ -7593,8 +7593,20 @@ async function sharePlace(place, lngLat) {
   const t = text[state.language];
   try {
     if (navigator.share) {
-      await navigator.share(shareData);
-    } else if (navigator.clipboard) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (shareError) {
+        if (shareError?.name === "AbortError") return;
+        // navigator.share() istnieje jako funkcja, ale na niektorych
+        // platformach desktopowych (np. Linux bez integracji z
+        // powloka systemowa) samo wywolanie potrafi rzucic bledem -
+        // wtedy proba schowka ponizej to jedyna realna alternatywa,
+        // zamiast od razu pokazywac blad.
+        console.error(shareError);
+      }
+    }
+    if (navigator.clipboard) {
       await navigator.clipboard.writeText(url.toString());
       show(t.placeShared);
     } else {

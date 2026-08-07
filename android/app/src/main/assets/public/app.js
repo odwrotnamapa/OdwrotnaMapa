@@ -116,6 +116,13 @@
       backupFavoritesHint: "Dodawanie do ulubionych wymaga zalogowania się na konto.",
       customFontHeading: "Czcionka",
       customFontHint: "Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.",
+      customThemePresetsHeading: "Zapisane motywy",
+      customThemePresetsHint: "Zapisz obecne kolory, czcionkę i tekstury pod nazwą, żeby móc się później do nich wrócić.",
+      customThemePresetNamePlaceholder: "Nazwa motywu",
+      customThemePresetSave: "Zapisz obecny",
+      customThemePresetsEmpty: "Nie masz jeszcze żadnych zapisanych motywów.",
+      customThemePresetApply: "Wczytaj",
+      customThemePresetDelete: "Usuń",
       customFontDefault: "Domyślna",
       customFontCustomOption: "Własna (wgraj plik)",
       customTextureLabels: {
@@ -173,8 +180,8 @@
       closeAbout: "Zamknij sekcję O projekcie",
       backupTitle: "Kopia zapasowa",
       closeBackup: "Zamknij kopię zapasową",
-      aboutIntro: "Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.",
-      aboutIntroAlt: "Niektórzy nazywają to też odwróconą mapą — niezależnie od nazwy, chodzi o to samo: świat pokazany z południem u góry zamiast tradycyjnej północy.",
+      aboutIntro: "Odwrotna Mapa to niezależna, prywatna aplikacja mapowa oparta na OpenStreetMap. Odwrócenie orientacji mapy to dopiero początek – platforma oferuje pełną swobodę widoku w 3D, zaawansowane wyszukiwanie, planowanie tras, integrację ze zdjęciami ulicznymi Mapillary oraz łatwy eksport widoków do plików PNG.",
+      aboutIntroAlt: "Bez śledzenia, bez reklam i w 100% Open Source.",
       aboutData: "Dane mapowe",
       aboutStyle: "Styl mapy",
       aboutEngine: "Silnik",
@@ -188,6 +195,7 @@
       searchError: "Nie udało się wyszukać miejsca.",
       locating: "Ustalanie lokalizacji…",
       locationError: "Nie udało się odczytać lokalizacji.",
+      gettingLocation: "Pobieranie lokalizacji…",
       route: "Wyznacz trasę",
       closeRoute: "Zamknij planer trasy",
       resizeRoutePanel: "Zmień wysokość panelu trasy",
@@ -585,6 +593,13 @@
       backupFavoritesHint: "Adding to favorites requires being logged in to an account.",
       customFontHeading: "Font",
       customFontHint: "Applies to the interface text (menus, panels, cards) - it does not change the font of labels on the map itself.",
+      customThemePresetsHeading: "Saved themes",
+      customThemePresetsHint: "Save the current colors, font and textures under a name, so you can come back to them later.",
+      customThemePresetNamePlaceholder: "Theme name",
+      customThemePresetSave: "Save current",
+      customThemePresetsEmpty: "You don't have any saved themes yet.",
+      customThemePresetApply: "Load",
+      customThemePresetDelete: "Delete",
       customFontDefault: "Default",
       customFontCustomOption: "Custom (upload a file)",
       customTextureLabels: {
@@ -642,8 +657,8 @@
       closeAbout: "Close the About panel",
       backupTitle: "Backup",
       closeBackup: "Close backup",
-      aboutIntro: "Most modern maps place north at the top. This is not, however, the only possible way to represent the world. Odwrotna Mapa was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.",
-      aboutIntroAlt: "Some people call this an inverted map or upside-down map — whatever you call it, it's the same idea: the world shown with south at the top instead of the usual north.",
+      aboutIntro: "Odwrotna Mapa is an independent, privacy-focused map app built on OpenStreetMap. Flipping the map's orientation is just the start – the platform offers full freedom in 3D view, advanced search, route planning, integration with Mapillary street-level photos, and easy export of views to PNG files.",
+      aboutIntroAlt: "No tracking, no ads, and 100% open source.",
       aboutData: "Map data",
       aboutStyle: "Map style",
       aboutEngine: "Engine",
@@ -657,6 +672,7 @@
       searchError: "The place search failed.",
       locating: "Finding your location…",
       locationError: "Could not read your location.",
+      gettingLocation: "Getting your location…",
       route: "Plan a route",
       closeRoute: "Close route planner",
       resizeRoutePanel: "Resize route panel",
@@ -1493,10 +1509,15 @@
     backupFavoritesHint: $("menu-backup-scope-favorites-hint"),
     customFontHeading: $("menu-custom-font-heading"),
     customFontHint: $("menu-custom-font-hint"),
+    customThemePresetsHeading: $("menu-custom-presets-heading"),
+    customThemePresetsHint: $("menu-custom-presets-hint"),
     customFontSelect: $("custom-font-select"),
     customFontUploadRow: $("custom-font-upload-row"),
     customFontFile: $("custom-font-file"),
     customFontFileClear: $("custom-font-file-clear"),
+    customThemePresetNameInput: $("custom-theme-preset-name-input"),
+    customThemePresetSaveButton: $("custom-theme-preset-save-button"),
+    customThemePresetList: $("custom-theme-preset-list"),
     customPaletteReset: $("custom-palette-reset"),
     labelsPoiToggle: $("menu-labels-poi"),
     labelsPoiToggleLabel: $("menu-labels-poi-label"),
@@ -1789,6 +1810,7 @@ map.on('rotate', updateLogoRotation);
     state,
     el,
     CONFIG,
+    text,
     DEFAULT_CUSTOM_PALETTE,
     CUSTOM_FONT_MAX_BYTES,
     MAP_TEXTURE_KEYS,
@@ -2026,6 +2048,7 @@ map.on('rotate', updateLogoRotation);
 
   window.OMAP_CUSTOM_THEME_EDITOR?.initializeTextureEditor();
   window.OMAP_CUSTOM_THEME_EDITOR?.initializeFontEditor();
+  window.OMAP_CUSTOM_THEME_EDITOR?.initializePresetsEditor();
 
 
   window.OMAP_LABEL_VISIBILITY?.initializeToggles();
@@ -2642,6 +2665,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.backupFavoritesHint) el.backupFavoritesHint.textContent = t.backupFavoritesHint;
     if (el.customFontHeading) el.customFontHeading.textContent = t.customFontHeading;
     if (el.customFontHint) el.customFontHint.textContent = t.customFontHint;
+    if (el.customThemePresetsHeading) el.customThemePresetsHeading.textContent = t.customThemePresetsHeading;
+    if (el.customThemePresetsHint) el.customThemePresetsHint.textContent = t.customThemePresetsHint;
+    if (el.customThemePresetNameInput) el.customThemePresetNameInput.placeholder = t.customThemePresetNamePlaceholder;
+    if (el.customThemePresetSaveButton) el.customThemePresetSaveButton.textContent = t.customThemePresetSave;
     if (el.customFontSelect) {
       const defaultOption = el.customFontSelect.querySelector('option[value="default"]');
       if (defaultOption) defaultOption.textContent = t.customFontDefault;
@@ -3987,6 +4014,9 @@ function applyLanguage(language) {
     window.addEventListener("beforeunload", () => {
       clearTimeout(debounceTimer);
       abortController?.abort();
+      // Cleanup listeners to prevent memory leak
+      window.removeEventListener("resize", positionList);
+      window.removeEventListener("scroll", positionList, true);
     });
   }
 
@@ -5056,6 +5086,7 @@ function applyLanguage(language) {
 
   function toggleDiscover() {
     closeMapContextMenu();
+    if (!el.discoverPanel) return;
     const shouldOpen = el.discoverPanel.hidden;
 
     closeOtherMobilePanels("discover");
@@ -5113,7 +5144,7 @@ el.discoverButton?.setAttribute(
   }
 
   function closeDiscover(clearResults = true) {
-    if (el.discoverPanel.hidden) return;
+    if (!el.discoverPanel || el.discoverPanel.hidden) return;
 
     if (clearResults) {
       window.OMAP_DISCOVER?.clear();
@@ -7145,7 +7176,9 @@ function showUserLocationMarker(lngLat) {
     const lon = Number(place?.lon ?? lngLat?.lng);
 
     if (Number.isFinite(lat) && Number.isFinite(lon)) {
-      return `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      // Użyj większej precyzji (7 miejsc dziesiętnych ~11cm)
+      // zamiast 5 (1.1m), żeby zmniejszyć ryzyko kolizji
+      return `${lat.toFixed(7)},${lon.toFixed(7)}`;
     }
 
     // Fallback na OSM ID tylko jeśli nie ma współrzędnych
@@ -7560,8 +7593,20 @@ async function sharePlace(place, lngLat) {
   const t = text[state.language];
   try {
     if (navigator.share) {
-      await navigator.share(shareData);
-    } else if (navigator.clipboard) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (shareError) {
+        if (shareError?.name === "AbortError") return;
+        // navigator.share() istnieje jako funkcja, ale na niektorych
+        // platformach desktopowych (np. Linux bez integracji z
+        // powloka systemowa) samo wywolanie potrafi rzucic bledem -
+        // wtedy proba schowka ponizej to jedyna realna alternatywa,
+        // zamiast od razu pokazywac blad.
+        console.error(shareError);
+      }
+    }
+    if (navigator.clipboard) {
       await navigator.clipboard.writeText(url.toString());
       show(t.placeShared);
     } else {
@@ -7823,7 +7868,7 @@ function updateRouteClickHint() {
     let payload = result;
     
     if (Number.isFinite(lat) && Number.isFinite(lon)) {
-      const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      const placeNameKey = `${lat.toFixed(7)},${lon.toFixed(7)}`;
       const customName = state.customPlaceNames[placeNameKey];
       if (customName) {
         payload = { ...result, customName, name: customName };
@@ -7856,7 +7901,7 @@ function updateRouteClickHint() {
     // Pobierz custom name jeśli istnieje
     const lat = Number(lngLat.lat);
     const lon = Number(lngLat.lng);
-    const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+    const placeNameKey = `${lat.toFixed(7)},${lon.toFixed(7)}`;
     const customName = state.customPlaceNames[placeNameKey];
     const displayName = customName || "Wybrane miejsce";
     
@@ -7990,12 +8035,10 @@ function updateRouteClickHint() {
     el.menuButton?.classList.toggle("is-active", shouldOpen);
     el.mobileMenuButton?.setAttribute("aria-expanded", String(shouldOpen));
     el.mobileMenuButton?.classList.toggle("is-active", shouldOpen);
-el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
-    el.mobileMenuButton?.classList.toggle("is-active", shouldOpen);
   }
 
   function closeMenu() {
-    if (el.menuPanel.hidden) return;
+    if (!el.menuPanel || el.menuPanel.hidden) return;
 
     el.menuPanel.hidden = true;
 
@@ -8009,6 +8052,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   function toggleAbout() {
     closeMapContextMenu();
 
+    if (!el.aboutPanel) return;
     const shouldOpen = el.aboutPanel.hidden;
 
     closeOtherMobilePanels("about");
@@ -8029,7 +8073,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function closeAbout() {
-    if (el.aboutPanel.hidden) return;
+    if (!el.aboutPanel || el.aboutPanel.hidden) return;
     el.aboutPanel.hidden = true;
     el.aboutButton?.setAttribute("aria-expanded", "false");
   }
@@ -8209,6 +8253,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   function toggleLegend() {
     closeMapContextMenu();
 
+    if (!el.legendPanel) return;
     const shouldOpen = el.legendPanel.hidden;
 
     closeOtherMobilePanels("legend");
@@ -8229,7 +8274,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function closeLegend() {
-    if (el.legendPanel.hidden) return;
+    if (!el.legendPanel || el.legendPanel.hidden) return;
     el.legendPanel.hidden = true;
     el.legendButton?.setAttribute("aria-expanded", "false");
   }
@@ -8812,10 +8857,7 @@ function locate() {
       return;
     }
 
-    show(
-      state.language === "pl" ? "Pobieranie lokalizacji…" : "Getting your location…",
-      0
-    );
+    show(text[state.language].gettingLocation, 0);
 
     // Wyłączamy ewentualne aktywne śledzenie
     if (window.userLocationWatchId) {

@@ -50,7 +50,9 @@
     "panel-handle-exact-copy:test": "node tools/test-panel-handle-exact-copy.cjs",
     "universal-panel-shell:test": "node tools/test-universal-panel-shell.cjs",
     "www:build": "node tools/build-www.cjs",
-    "cap:sync": "node tools/build-www.cjs && npx cap sync android"
+    "cap:sync": "node tools/build-www.cjs && npx cap sync android",
+    "cap:sync:electron": "node tools/build-www.cjs && npx cap sync @capawesome/capacitor-electron",
+    "electron:pack": "npm run cap:sync:electron && npm run pack --prefix electron"
   },
   "dependencies": {
     "@capacitor/android": "^7.0.0",
@@ -60,7 +62,7 @@
     "@capawesome/capacitor-electron": "^0.1.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.0.0",
+    "@capacitor/cli": "^7.6.8",
     "electron": "^43.2.0",
     "typescript": "^7.0.2"
   },

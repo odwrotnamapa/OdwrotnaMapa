@@ -9,7 +9,12 @@ import config from './capacitor.electron.config';
 //   PRZED próbą - bez niej niektóre wywołania są cicho blokowane.
 // - setPermissionRequestHandler: obsługuje samo okno z pytaniem.
 app.whenReady().then(() => {
-  const allowedPermissions = ['geolocation'];
+  // "clipboard-sanitized-write" to dokladna nazwa uprawnienia, ktore
+  // Electron sprawdza przy kazdym navigator.clipboard.writeText() -
+  // uzywanym w appce do kopiowania slow seed, wspolrzednych, npub i
+  // linkow do udostepnionych tras. Bez tego wpisu wszystkie przyciski
+  // "Kopiuj" byly ciszej blokowane w Electronie.
+  const allowedPermissions = ['geolocation', 'clipboard-sanitized-write'];
 
   session.defaultSession.setPermissionCheckHandler(
     (webContents, permission) => allowedPermissions.includes(permission)

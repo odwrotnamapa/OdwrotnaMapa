@@ -1510,14 +1510,23 @@ function drawRoute(geometry, from, to, mode) {
 
     try {
       if (navigator.share) {
-        await navigator.share({
-          title: document.title,
-          url: url.toString()
-        });
-      } else {
-        await navigator.clipboard.writeText(url.toString());
-        ctx.show(ctx.text[ctx.state.language].routeShared);
+        try {
+          await navigator.share({
+            title: document.title,
+            url: url.toString()
+          });
+          return;
+        } catch (shareError) {
+          if (shareError?.name === "AbortError") return;
+          // Ten sam mechanizm co przy udostepnianiu miejsca (patrz
+          // sharePlace w app.js) - navigator.share() moze istniec,
+          // ale zawiesc przy samym wywolaniu na niektorych platformach
+          // desktopowych.
+          console.error(shareError);
+        }
       }
+      await navigator.clipboard.writeText(url.toString());
+      ctx.show(ctx.text[ctx.state.language].routeShared);
     } catch (error) {
       if (error?.name !== "AbortError") {
         console.error(error);
