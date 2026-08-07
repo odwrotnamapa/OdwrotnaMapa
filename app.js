@@ -135,6 +135,7 @@
       zoomIn: "Przybliż",
       zoomOut: "Oddal",
       backToMenu: "Wróć do menu",
+      backToAccount: "Wróć do konta",
       backToPlace: "Wróć do miejsca",
       legendSections: {
         boundaries: "Granice",
@@ -603,6 +604,7 @@
       zoomIn: "Zoom in",
       zoomOut: "Zoom out",
       backToMenu: "Back to menu",
+      backToAccount: "Back to account",
       backToPlace: "Back to place",
       legendSections: {
         boundaries: "Boundaries",
@@ -1596,7 +1598,6 @@
     accountLogoutButton: $("account-logout-button"),
     accountActivityButton: $("account-activity-button"),
     accountScreenActivity: $("account-screen-activity"),
-    accountActivityBackButton: $("account-activity-back-button"),
     accountActivityRefreshButton: $("account-activity-refresh-button"),
     accountActivityStatus: $("account-activity-status"),
     accountActivityList: $("account-activity-list"),
@@ -2530,7 +2531,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     el.discoverBack?.setAttribute("aria-label", t.backToPlace);
     el.routeBack?.setAttribute("aria-label", t.backToPlace);
     el.backupBack?.setAttribute("aria-label", t.backToMenu);
-    el.favoritesBack?.setAttribute("aria-label", t.backToMenu);
+    el.favoritesBack?.setAttribute("aria-label", t.backToAccount);
     if (el.legendNote) el.legendNote.textContent = t.legendNote;
     if (el.aboutButton) el.aboutButton.title = t.about;
     el.aboutButton?.setAttribute("aria-label", t.about);
@@ -7968,7 +7969,7 @@ function updateRouteClickHint() {
   function returnFromFavoritesToMenu() {
     window.OMAP_FAVORITES?.closeFavoritesPanel();
     closeHistory();
-    openMenuHome();
+    window.OMAP_ACCOUNT?.openAccountFromMenu();
   }
 
   function toggleMenu() {

@@ -50,6 +50,10 @@
   }
 
   function returnFromAccountToMenu() {
+    if (ctx.el.accountScreenActivity && !ctx.el.accountScreenActivity.hidden) {
+      showAccountScreen("loggedin");
+      return;
+    }
     closeAccount();
     ctx.openMenuHome();
   }
@@ -1063,7 +1067,7 @@
     });
 
     ctx.el.accountLogoutButton?.addEventListener("click", handleLogoutAccount);
-    ctx.el.accountActivityBackButton?.addEventListener("click", () => showAccountScreen("loggedin"));
+
     ctx.el.accountActivityButton?.addEventListener("click", () => {
       showAccountScreen("activity");
       ctx.loadMyRatingsActivity();
