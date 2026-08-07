@@ -52,8 +52,12 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        niedziele handlowe, linki geo:, eksport/import
                        ustawień, silnik dolnych paneli, ulubione,
                        trwałość historii tras, własne nazwy miejsc,
-                       przechowywanie tekstur/czcionki - ostatnie
-                       piętnaście wyniesione z app.js 2026-08-06
+                       przechowywanie tekstur/czcionki, słowa-klucz
+                       konta, historia, historia wyszukiwań,
+                       widoczność etykiet, edytor niestandardowego
+                       motywu (paleta+czcionka+tekstury scalone w
+                       jeden plik) - ostatnie dwadzieścia wyniesione
+                       z app.js 2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -529,6 +533,115 @@ całkowicie martwe (żadne inne miejsce ich nie używało) - usunięte.
 stosowanie tekstur na warstwach mapy, odczyt/zapis wyboru z
 `localStorage`) - to zostaje w `app.js`, bo dotyka `state`/warstw
 mapy i jest dużo ściślej spleciony z resztą appki.
+
+## Słowa-klucz konta (src/services/seed-words-service.js)
+
+Szesnasty moduł wyniesiony z `app.js` (2026-08-06, ~70 linii) - mały,
+celowo zawężony wycinek systemu konta/synchronizacji (79 funkcji
+łącznie - zdecydowanie zbyt duży, żeby wyciąć w całości). Zapis/
+odczyt/usuwanie seed-frazy z `localStorage`, renderowanie siatki
+słów, kopiowanie do schowka.
+
+`showAccountMessage`/`clearAccountMessage` (27 wywołań w całym pliku
+- ogólne narzędzie komunikatów konta) świadomie ZOSTAŁY w `app.js`,
+mimo że fizycznie leżały pośrodku tego samego obszaru - zbyt szeroko
+używane, żeby przenosić razem z węższą funkcją słów-klucza.
+
+`getStoredSeedWords` była już zależnością `ratings-service.js` -
+jego `configure()` w `app.js` zaktualizowany, żeby wskazywał na
+`window.OMAP_SEED_WORDS?.getStoredSeedWords`.
+
+## Historia (src/services/history-service.js)
+
+Siedemnasty moduł wyniesiony z `app.js` (2026-08-06, ~230 linii) -
+lista ostatnio oglądanych miejsc i tras (scalona w jedną listę, jak
+przy Ulubionych), zapis/odczyt `localStorage`, otwieranie wpisu z
+historii.
+
+**Ten sam wbudowany `OMAP_PLACE_SERVICE.configure()` co przy
+Ulubionych** - fizycznie leżał tuż za `renderHistoryList`, ponownie
+świadomie wycięty z zakresu i zostawiony nietknięty w `app.js`.
+Dwuetapowy `configure()` - `readHistory` wołane wewnątrz konstrukcji
+`state`. `renderHistoryList` była już zależnością
+`route-history-service.js` - jego `configure()` w `app.js`
+zaktualizowany, żeby wskazywał na `window.OMAP_HISTORY?.renderHistoryList`.
+
+## Historia wyszukiwań (src/services/search-history-service.js)
+
+Osiemnasty moduł wyniesiony z `app.js` (2026-08-06, ~80 linii) - mały,
+odizolowany. Osobna od Historii oglądanych miejsc/tras (opisanej
+wyżej) - ostatnie 8 zapytań wpisanych w wyszukiwarkę, zapis/odczyt/
+usuwanie z `localStorage`. Jedyna zależność funkcyjna:
+`normalizeSearchText` (zostaje w `app.js`, szeroko używana też przez
+inne moduły).
+
+## Widoczność etykiet (src/services/label-visibility-service.js)
+
+Dziewiętnasty moduł wyniesiony z `app.js` (2026-08-06, ~170 linii) -
+widoczność grup etykiet na mapie (POI, drogi, miejsca, woda, regiony,
+kraje, lotniska, granice): zapis/odczyt `localStorage`, stosowanie
+widoczności warstw MapLibre, checkboxy w panelu Etykiety.
+
+Trzy stałe (klucz `localStorage`, domyślna widoczność, mapa grup na
+konkretne ID warstw MapLibre) zduplikowane w module - proste,
+statyczne, używane tylko wewnątrz tego obszaru.
+
+**Własny błąd złapany PRZED wysyłką**: przy pierwszym składaniu pliku
+zawartość `LABEL_LAYER_GROUPS` (lista ID warstw MapLibre per grupa)
+została przypadkiem ODTWORZONA Z PAMIĘCI zamiast skopiowana z
+oryginału - różniła się od prawdziwej zawartości w `app.js`. Złapane
+przy rutynowej weryfikacji (nawyk z tej sesji: nigdy nie ufać
+"powinno wyglądać podobnie" dla danych kopiowanych między plikami),
+poprawione przez wzięcie dokładnego fragmentu źródłowego i
+potwierdzone `diff`-em jako bajt-w-bajt identyczne z `app.js` przed
+wysyłką. Lekcja: przy KAŻDYM duplikowaniu stałych (nie tylko prostych
+jak w Pomiarze/Eksporcie, ale też większych obiektów/tablic), brać
+fragment BEZPOŚREDNIO z `sed`/`view` źródła, nigdy nie pisać
+zawartości "z pamięci" nawet jeśli wygląda znajomo.
+
+`initializeLabelVisibilityToggles()` była wołana jako pojedyncze,
+samodzielne wywołanie na poziomie pliku (nie wewnątrz innej funkcji)
+- zaktualizowane w miejscu na
+`window.OMAP_LABEL_VISIBILITY?.initializeToggles()`, bezpieczne bo
+skonsolidowany `configure()` siedzi wcześniej w pliku.
+
+## Edytor niestandardowego motywu (src/services/custom-theme-editor-service.js)
+
+Dwudziesty pierwszy moduł wyniesiony z `app.js` (2026-08-06, ~245
+linii) - edytor niestandardowego motywu "custom": paleta kolorów,
+czcionka, tekstury. Trzy sekcje formularza w JEDNYM module - zapis/
+odczyt `localStorage`, pola formularza, obsługa uploadu plików,
+przycisk resetu (który dotyka wszystkich trzech naraz). Świadomie
+NIE zawiera stosowania palety/czcionki/tekstur NA MAPIE
+(`applyCustomPalette`, `applyDarkPalette`, `applyCustomUiColors`,
+`applyCustomFont`, `applyTheme`, `registerTextureImage`) - to
+zostaje w `app.js`, znacznie bardziej splecione z systemem motywu i
+renderowaniem warstw MapLibre.
+
+**Historia tej ekstrakcji - warta zapisania jako lekcja o granicach
+modułów**: pierwsza wersja była DWOMA osobnymi plikami
+(`palette-editor-service.js` osobno, `font-texture-editor-service.js`
+łączący Czcionkę+Teksturę). Użytkownik słusznie zauważył, że ten
+podział był niespójny - albo wszystkie trzy sekcje są "niezależne"
+(więc powinny być trzema osobnymi plikami), albo są wystarczająco
+powiązane żeby połączyć (więc powinny być jednym). Fakt że fizycznie
+sąsiadowały w `app.js` i przycisk resetu Palety dotyka wszystkich
+trzech na raz przeważył na korzyść JEDNEGO modułu - scalone na
+wyraźną prośbę.
+
+Przy scalaniu: dwa osobne wywołania `configure()` połączone w
+jedno (usunięty zduplikowany/cykliczny wpis
+`syncCustomFontSelect: window.OMAP_X?.syncCustomFontSelect` - ta
+funkcja jest teraz WEWNĄTRZ tego samego modułu, więc przestała być
+zależnością do wstrzykiwania, stała się zwykłym lokalnym wywołaniem
+bez `ctx.`).
+
+Lekcja ogólna: fizyczne sąsiedztwo w oryginalnym pliku i faktyczne
+współdzielenie stanu (jak przycisk resetu tutaj) to silniejszy
+sygnał co powinno być jednym modułem niż z pozoru odrębne nazwy
+sekcji UI - łatwo pomylić "wygląda jak osobna funkcja" z "jest
+niezależnym modułem".
+
 
 ## Ulubione i Trasy
 

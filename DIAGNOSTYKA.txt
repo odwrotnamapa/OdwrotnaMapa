@@ -406,3 +406,25 @@ wołana jako wartość pola przy konstrukcji `state` (nie tylko z
 poziomu funkcji zdefiniowanej gdzieś dalej, które wykonają się
 później) - to sygnał, że potrzebny może być wcześniejszy,
 częściowy `configure()`, nie tylko standardowy, jeden pełny.
+
+---
+
+15. Skaner zależności oparty na regexie `[a-zA-Z_]+` przeoczy
+    identyfikatory zaczynające się od znaku specjalnego (np. `$`)
+
+Przy ekstrakcji Edytora Palety `$` (skrót `document.getElementById`,
+zdefiniowany jako `const $ = id => document.getElementById(id)`)
+został pominięty przy automatycznym skanowaniu zewnętrznych
+zależności - standardowy wzorzec regex `\b([a-zA-Z_]+)\(` używany
+przez cały ten skrypt weryfikacyjny nie łapie identyfikatorów
+zaczynających się od `$` (czy innych znaków spoza `[a-zA-Z_]`).
+Złapane dopiero przy finalnym sprawdzeniu składni modułu (node
+--check), nie na etapie analizy zależności.
+
+Naprawa na przyszłość: przy skanowaniu zewnętrznych zależności użyć
+szerszego wzorca `\b([a-zA-Z_$][a-zA-Z0-9_$]*)\(` (dopuszczającego
+`$` jako pierwszy i kolejne znaki identyfikatora, zgodnie z tym co
+JavaScript faktycznie pozwala w nazwach zmiennych) zamiast węższego
+`[a-zA-Z_]+`. Dotyczy to każdej przyszłej ekstrakcji z obszarów kodu
+gdzie używane są krótkie, jednoznakowe pomocnicze funkcje (`$`, `_`
+i podobne konwencje).

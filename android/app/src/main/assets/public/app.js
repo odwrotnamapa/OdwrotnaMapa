@@ -26,6 +26,31 @@
   // updateUI() (wołane już przy starcie) renderuje też listy tras,
   // które się do tego odwołują.
   const ROUTE_HISTORY_LIMIT = 50;
+
+  // Ta sama zasada co wyżej: map.on("load", ...) rejestruje się dużo
+  // wcześniej w pliku niż stara deklaracja tej zmiennej, a zdarzenie
+  // "load" mapy jest asynchroniczne - jeśli odpali się (wywołując
+  // applyTheme) zanim skrypt dojdzie do miejsca starej deklaracji,
+  // dostajemy dokładnie ten sam ReferenceError co wyżej.
+  let lastResolvedTheme = null;
+
+  // Ta sama zasada co wyżej: w łańcuchu wywołań applyTheme ->
+  // resolveTheme -> detectBrowserForcedDarkMode -> getDarkModeProbe,
+  // a applyTheme jest wołane z asynchronicznego map.on("load", ...)
+  // dużo wcześniej w pliku niż stara deklaracja tej zmiennej.
+  let darkModeProbe = null;
+
+  // Musi być zadeklarowane wcześnie z tego samego powodu -
+  // initializeBottomSheet (wyniesione do bottom-sheet-service.js)
+  // jest konfigurowane w bloku configure() dużo wcześniej niż stara
+  // pozycja tej stałej, a inne funkcje z app.js (getMobilePanel*,
+  // setMobilePanelHeight itd.) używają jej z zamknięcia od razu.
+  const MOBILE_PANEL_STANDARD = Object.freeze({
+    collapsedHeight: 48,
+    defaultHeightRatio: 0.42,
+    viewportGap: 8
+  });
+
   const ROUTE_MODE_ICONS = {
     auto: "🚗",
     bicycle: "🚲",
@@ -1006,89 +1031,8 @@
 
   const MAP_TEXTURE_KEYS = ["mapBackground", "mapWater", "mapParks", "mapBuildings"];
   const TEXTURE_FIELDS = [...MAP_TEXTURE_KEYS, "uiPanel"];
-  const TEXTURE_IMAGE_PREFIX = "custom-texture-";
-  const TEXTURE_DB_NAME = "odwrotnamapa-textures";
-  const TEXTURE_STORE = "textures";
-  const FONT_STORE = "fonts";
-  const TEXTURE_DB_VERSION = 2;
   const TEXTURE_MAX_DIMENSION = 1024;
 
-  function textureImageId(key) {
-    return TEXTURE_IMAGE_PREFIX + key;
-  }
-
-  function openTextureDB() {
-    return new Promise((resolve, reject) => {
-      if (!window.indexedDB) {
-        reject(new Error("IndexedDB niedostępne"));
-        return;
-      }
-      const request = indexedDB.open(TEXTURE_DB_NAME, TEXTURE_DB_VERSION);
-      request.onupgradeneeded = () => {
-        const db = request.result;
-        if (!db.objectStoreNames.contains(TEXTURE_STORE)) {
-          db.createObjectStore(TEXTURE_STORE);
-        }
-        if (!db.objectStoreNames.contains(FONT_STORE)) {
-          db.createObjectStore(FONT_STORE);
-        }
-      };
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  async function idbGetAllTextures() {
-    try {
-      const db = await openTextureDB();
-      return await new Promise((resolve, reject) => {
-        const tx = db.transaction(TEXTURE_STORE, "readonly");
-        const store = tx.objectStore(TEXTURE_STORE);
-        const result = {};
-        const cursorRequest = store.openCursor();
-        cursorRequest.onsuccess = event => {
-          const cursor = event.target.result;
-          if (cursor) {
-            result[cursor.key] = cursor.value;
-            cursor.continue();
-          } else {
-            resolve(result);
-          }
-        };
-        cursorRequest.onerror = () => reject(cursorRequest.error);
-      });
-    } catch (_) {
-      return {};
-    }
-  }
-
-  async function idbSetTexture(key, dataUrl) {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(TEXTURE_STORE, "readwrite");
-        tx.objectStore(TEXTURE_STORE).put(dataUrl, key);
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się zapisać tekstury:", error);
-    }
-  }
-
-  async function idbDeleteTexture(key) {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(TEXTURE_STORE, "readwrite");
-        tx.objectStore(TEXTURE_STORE).delete(key);
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się usunąć tekstury:", error);
-    }
-  }
 
   // ---------------------------------------------------------------------
   // Czcionka interfejsu (motyw "custom"). Dwie ścieżki:
@@ -1158,53 +1102,12 @@
     safeSet(CONFIG.storageKeys.customFont, JSON.stringify(state.customFont));
   }
 
-  async function idbGetCustomFont() {
-    try {
-      const db = await openTextureDB();
-      return await new Promise((resolve, reject) => {
-        const tx = db.transaction(FONT_STORE, "readonly");
-        const req = tx.objectStore(FONT_STORE).get("customFont");
-        req.onsuccess = () => resolve(req.result || null);
-        req.onerror = () => reject(req.error);
-      });
-    } catch (_) {
-      return null;
-    }
-  }
-
-  async function idbSetCustomFont(dataUrl) {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(FONT_STORE, "readwrite");
-        tx.objectStore(FONT_STORE).put(dataUrl, "customFont");
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się zapisać czcionki:", error);
-    }
-  }
-
-  async function idbDeleteCustomFont() {
-    try {
-      const db = await openTextureDB();
-      await new Promise((resolve, reject) => {
-        const tx = db.transaction(FONT_STORE, "readwrite");
-        tx.objectStore(FONT_STORE).delete("customFont");
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-    } catch (error) {
-      console.error("Nie udało się usunąć czcionki:", error);
-    }
-  }
 
   // Wczytuje wybór czcionki po starcie (plik czcionki z IndexedDB, jeśli
   // trzeba) i go stosuje. Wołane raz, obok initCustomTextures().
   async function initCustomFont() {
     if (state.customFont.type === "custom") {
-      state.customFontDataUrl = await idbGetCustomFont();
+      state.customFontDataUrl = await window.OMAP_TEXTURE_STORAGE?.idbGetCustomFont();
       if (!state.customFontDataUrl) {
         // Brak pliku w tej przeglądarce (np. inne urządzenie) - wróć do domyślnej.
         state.customFont = { type: "default" };
@@ -1286,7 +1189,7 @@
   // niego odwoływać przez fill-pattern / background-pattern.
   async function registerTextureImage(key, dataUrl) {
     if (!map || !dataUrl) return;
-    const imageId = textureImageId(key);
+    const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(key);
     try {
       const img = await loadHtmlImage(dataUrl);
       const width = img.naturalWidth || img.width;
@@ -1319,7 +1222,7 @@
 
   function unregisterTextureImage(key) {
     if (!map) return;
-    const imageId = textureImageId(key);
+    const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(key);
     try {
       if (map.hasImage(imageId)) map.removeImage(imageId);
     } catch (_) {}
@@ -1328,7 +1231,7 @@
   // Wczytuje wszystkie zapisane tekstury z IndexedDB i rejestruje w mapie
   // te, które dotyczą warstw mapy (nie UI). Wołane raz, po starcie mapy.
   async function initCustomTextures() {
-    state.customTextures = await idbGetAllTextures();
+    state.customTextures = await window.OMAP_TEXTURE_STORAGE?.idbGetAllTextures();
     for (const key of MAP_TEXTURE_KEYS) {
       if (state.customTextures[key]) {
         await registerTextureImage(key, state.customTextures[key]);
@@ -1343,7 +1246,7 @@
     const dataUrl = state.customTextures?.[paletteKey];
     if (!dataUrl) return false;
 
-    const imageId = textureImageId(paletteKey);
+    const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(paletteKey);
     if (!map.hasImage(imageId)) return false;
 
     try {
@@ -1456,54 +1359,6 @@
     );
   }
 
-  // Własne nazwy miejsc wpisane w panelu informacji - przechowywane lokalnie,
-  // niezależnie od ulubionych (favorite.customName), bo dotyczą DOWOLNEGO
-  // miejsca pokazanego na mapie, nie tylko zapisanych do ulubionych.
-  function readCustomPlaceNames() {
-    try {
-      const stored = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.customPlaceNames) || "{}"
-      );
-      return stored && typeof stored === "object" ? stored : {};
-    } catch (_) {
-      return {};
-    }
-  }
-
-  function saveCustomPlaceNames() {
-    safeSet(
-      CONFIG.storageKeys.customPlaceNames,
-      JSON.stringify(state.customPlaceNames)
-    );
-  }
-
-  function setCustomPlaceName(key, rawName, fallbackTitle, headingEl, place, lngLat) {
-    const trimmed = (rawName || "").trim();
-
-    if (!trimmed || trimmed === fallbackTitle) {
-      delete state.customPlaceNames[key];
-    } else {
-      state.customPlaceNames[key] = trimmed;
-    }
-
-    saveCustomPlaceNames();
-
-    // Synchronizuj z Ulubionymi: jeśli miejsce jest w Ulubionych, zaktualizuj jego customName
-    if (place && lngLat) {
-      const favoriteKey = getFavoriteKey(place, lngLat);
-      const favorite = state.favorites.find(item => item.key === favoriteKey);
-      if (favorite) {
-        favorite.customName = state.customPlaceNames[key] || "";
-        saveFavorites();
-        renderFavoritesList();
-      }
-    }
-
-    const displayTitle = state.customPlaceNames[key] || fallbackTitle;
-    if (headingEl) headingEl.textContent = displayTitle;
-    document.title = `${displayTitle} - Odwrotna Mapa`;
-  }
-
   function detectPreferredLanguage() {
     const browserLanguages = [
       navigator.language,
@@ -1521,6 +1376,17 @@
   // wyszukiwania do dynamicznie tworzonych pól przystanków trasy.
   let registerRouteWaypointAutocomplete = null;
 
+  // Minimalny, bardzo wczesny configure() - readFavorites/
+  // readFavoriteFolders są wołane TUTAJ, wewnątrz konstrukcji
+  // samego obiektu state (linia niżej), więc jeszcze przed
+  // pełnym configure() w skonsolidowanym bloku (state/el/text
+  // nie istnieją jeszcze w tym momencie - tylko CONFIG jest już
+  // gotowe). Pełny configure() z resztą zależności następuje
+  // normalnie, dalej w pliku, przed pierwszym updateUI().
+  window.OMAP_FAVORITES?.configure({ CONFIG });
+  window.OMAP_ROUTE_HISTORY?.configure({ CONFIG });
+  window.OMAP_CUSTOM_PLACE_NAMES?.configure({ CONFIG });
+
   const state = {
     language: ["pl", "en"].includes(safeGet(CONFIG.storageKeys.language, ""))
       ? safeGet(CONFIG.storageKeys.language, "")
@@ -1537,7 +1403,7 @@
     // Sam plik czcionki (jeśli type === "custom") wczytywany asynchronicznie
     // z IndexedDB przez initCustomFont() po starcie.
     customFontDataUrl: null,
-    customPlaceNames: readCustomPlaceNames(),
+    customPlaceNames: window.OMAP_CUSTOM_PLACE_NAMES?.readCustomPlaceNames(),
     // Wypełniane asynchronicznie przez initCustomTextures() po starcie mapy
     // (dane obrazów trzymamy w IndexedDB, nie w localStorage - mogą być
     // zbyt duże). Klucze pokrywają się z CUSTOM_PALETTE_FIELDS, które mają
@@ -1579,8 +1445,8 @@
     routeBackContext: null,
     exploreMarkers: [],
     exploreRequestController: null,
-    favorites: readFavorites(),
-    favoriteFolders: readFavoriteFolders(),
+    favorites: window.OMAP_FAVORITES?.readFavorites(),
+    favoriteFolders: window.OMAP_FAVORITES?.readFavoriteFolders(),
     activeFavoriteFolder: "",
     activeRouteFolder: "",
     favoritesSortOrder: "newest",
@@ -1588,8 +1454,8 @@
     tripOriginStack: [],
     tripContextStack: [],
     history: readHistory(),
-    routeHistory: readRouteHistory(),
-    routeFavorites: readRouteFavorites(),
+    routeHistory: window.OMAP_ROUTE_HISTORY?.readRouteHistory(),
+    routeFavorites: window.OMAP_ROUTE_HISTORY?.readRouteFavorites(),
     activeFavoritesTab: "places",
     activeHistoryTab: "places"
   };
@@ -1948,7 +1814,7 @@ map.on('rotate', updateLogoRotation);
     applyLanguageAfterStartup();
     loadSharedRouteFromUrl();
     loadSharedPlaceFromUrl();
-    initializeGeoUriHandling();
+    window.OMAP_GEOURI?.initialize();
     hideDefibrillatorPois();
   });
 
@@ -1967,6 +1833,160 @@ map.on('rotate', updateLogoRotation);
   el.languageSelect.value = state.language;
   if (el.menuThemeSelect) el.menuThemeSelect.value = state.theme;
   if (el.menuLanguageSelect) el.menuLanguageSelect.value = state.language;
+
+  // Musi być wywołane PRZED pierwszym updateUI() poniżej (i przed
+  // czymkolwiek innym co mogłoby wołać w te moduły) - inaczej
+  // funkcje modułów widzą ctx === null i wywalają się przy pierwszym
+  // użyciu. Wcześniej te wywołania siedziały dużo dalej w pliku,
+  // już PO pierwszym updateUI() - stąd crash "Cannot read properties
+  // of null (reading 'el')" w środku measure-service.js.
+  window.OMAP_RATINGS?.configure({
+    state,
+    text,
+    getStoredSeedWords,
+    openAccountFromMenu
+  });
+  window.OMAP_CUSTOM_PLACE_NAMES?.configure({
+    state,
+    CONFIG,
+    safeSet
+  });
+  window.OMAP_ROUTE_HISTORY?.configure({
+    state,
+    el,
+    CONFIG,
+    ROUTE_HISTORY_LIMIT,
+    renderHistoryList,
+    safeSet
+  });
+  window.OMAP_FAVORITES?.configure({
+    state,
+    el,
+    CONFIG,
+    text,
+    UNFILED_FOLDER,
+    ROUTE_MODE_ICONS,
+    cacheWikipediaForFavorite,
+    closeMapContextMenu,
+    closeOtherMobilePanels,
+    fetchPlaceInformation,
+    filterRouteEntries,
+    formatRouteSummaryShort,
+    getPlaceAddress,
+    getPlaceNameKey,
+    getPlaceTitle,
+    loadRouteFromEntry,
+    normalizeSearchText,
+    openMobilePanelStandard,
+    safeSet,
+    saveRouteFavorites: window.OMAP_ROUTE_HISTORY?.saveRouteFavorites,
+    show,
+    sortByOrder,
+    updateRouteSaveFavoriteButton
+  });
+  window.OMAP_BOTTOM_SHEET?.configure({
+    MOBILE_PANEL_STANDARD,
+    openMobilePanelStandard,
+    collapseMobilePanelStandard,
+    getMobilePanelDefaultHeight,
+    getMobilePanelMaximumHeight,
+    isMobilePanelViewport,
+    setMobilePanelHeight
+  });
+  window.OMAP_BACKUP?.configure({
+    state,
+    text,
+    show,
+    DEFAULT_CUSTOM_PALETTE,
+    MAP_TEXTURE_KEYS,
+    TEXTURE_FIELDS,
+    getCheckedBackupScopes,
+    idbSetCustomFont: window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont,
+    idbSetTexture: window.OMAP_TEXTURE_STORAGE?.idbSetTexture,
+    registerTextureImage,
+    renderFavoritesList: window.OMAP_FAVORITES?.renderFavoritesList,
+    renderFolderChips: window.OMAP_FAVORITES?.renderFolderChips,
+    saveCustomFont,
+    saveCustomPalette,
+    saveCustomPlaceNames: window.OMAP_CUSTOM_PLACE_NAMES?.saveCustomPlaceNames,
+    saveFavoriteFolders: window.OMAP_FAVORITES?.saveFavoriteFolders,
+    saveFavorites: window.OMAP_FAVORITES?.saveFavorites,
+    saveRouteFavorites: window.OMAP_ROUTE_HISTORY?.saveRouteFavorites,
+    syncCustomFontSelect,
+    syncCustomPaletteInputs,
+    applyTheme
+  });
+  window.OMAP_GEOURI?.configure({
+    map,
+    parseSharedPoint,
+    showPlaceInformation
+  });
+  window.OMAP_TRADING_SUNDAY?.configure({
+    state,
+    el,
+    text,
+    closeOtherMobilePanels,
+    openMobilePanelStandard,
+    openMenuHome
+  });
+  window.OMAP_MAPVIEW?.configure({
+    state,
+    el,
+    map,
+    text,
+    closeMapContextMenu,
+    closeOtherMobilePanels,
+    clearRoute,
+    fetchLocationByIp,
+    hideAllAutocomplete,
+    isElectronPlatform,
+    removeContextPointMarker,
+    removeUserLocationMarker,
+    showUserLocationMarker,
+    hide,
+    show
+  });
+  window.OMAP_STREETVIEW?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
+    text,
+    closeOtherMobilePanels,
+    getMobilePanelMaximumHeight,
+    isMobilePanelViewport,
+    setMobilePanelHeight
+  });
+  window.OMAP_MEASURE?.configure({
+    state,
+    el,
+    map,
+    text,
+    getAccentColor,
+    closeOtherMobilePanels
+  });
+  window.OMAP_WIKIPEDIA?.configure({
+    state,
+    text,
+    capitalizeFirstLetter
+  });
+  window.OMAP_DEPARTURES?.configure({
+    state,
+    text,
+    CONFIG,
+    openTripDetails
+  });
+  window.OMAP_DISCOVER?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
+    text,
+    getSearchResultTitle,
+    scrollPanelToElement
+  });
+  window.OMAP_DISCOVER?.renderCategoryButtons();
+
   updateUI();
 
   el.themeSelect?.addEventListener("change", e => {
@@ -2020,14 +2040,14 @@ map.on('rotate', updateLogoRotation);
 
       for (const key of TEXTURE_FIELDS) {
         state.customTextures[key] = null;
-        await idbDeleteTexture(key);
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
         if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
       }
 
       state.customFont = { type: "default" };
       state.customFontDataUrl = null;
       saveCustomFont();
-      await idbDeleteCustomFont();
+      await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
       syncCustomFontSelect();
 
       if (state.theme === "custom") applyTheme(state.theme);
@@ -2059,7 +2079,7 @@ map.on('rotate', updateLogoRotation);
         if (el.customFontUploadRow) el.customFontUploadRow.hidden = false;
 
         if (!state.customFontDataUrl) {
-          state.customFontDataUrl = await idbGetCustomFont();
+          state.customFontDataUrl = await window.OMAP_TEXTURE_STORAGE?.idbGetCustomFont();
         }
 
         if (state.theme === "custom") applyCustomFont();
@@ -2095,7 +2115,7 @@ map.on('rotate', updateLogoRotation);
       try {
         const dataUrl = await readFileAsDataUrl(file);
         state.customFontDataUrl = dataUrl;
-        await idbSetCustomFont(dataUrl);
+        await window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont(dataUrl);
         state.customFont = { type: "custom" };
         saveCustomFont();
         if (state.theme === "custom") applyCustomFont();
@@ -2109,7 +2129,7 @@ map.on('rotate', updateLogoRotation);
 
     el.customFontFileClear?.addEventListener("click", async () => {
       state.customFontDataUrl = null;
-      await idbDeleteCustomFont();
+      await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
       state.customFont = { type: "default" };
       saveCustomFont();
       syncCustomFontSelect();
@@ -2135,7 +2155,7 @@ map.on('rotate', updateLogoRotation);
         try {
           const dataUrl = await resizeImageToDataUrl(file);
           state.customTextures[key] = dataUrl;
-          await idbSetTexture(key, dataUrl);
+          await window.OMAP_TEXTURE_STORAGE?.idbSetTexture(key, dataUrl);
 
           if (MAP_TEXTURE_KEYS.includes(key)) {
             await registerTextureImage(key, dataUrl);
@@ -2152,7 +2172,7 @@ map.on('rotate', updateLogoRotation);
 
       clearBtn?.addEventListener("click", async () => {
         state.customTextures[key] = null;
-        await idbDeleteTexture(key);
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
 
         if (MAP_TEXTURE_KEYS.includes(key)) {
           unregisterTextureImage(key);
@@ -2295,14 +2315,14 @@ map.on('rotate', updateLogoRotation);
     closePlacePanel();
   });
 
-  el.streetviewPanelClose?.addEventListener("click", closeStreetView);
+  el.streetviewPanelClose?.addEventListener("click", window.OMAP_STREETVIEW?.close);
   el.streetviewFullscreenButton?.addEventListener(
     "click",
-    toggleStreetviewFullscreen
+    window.OMAP_STREETVIEW?.toggleFullscreen
   );
   el.menuStreetviewButton?.addEventListener(
     "click",
-    toggleMapillaryCoverage
+    window.OMAP_STREETVIEW?.toggleCoverage
   );
 
   el.menuButton?.addEventListener("click", toggleMenu);
@@ -2326,20 +2346,20 @@ map.on('rotate', updateLogoRotation);
   });
   el.favoritesOpenButton?.addEventListener(
     "click",
-    openFavoritesPanel
+    window.OMAP_FAVORITES?.openFavoritesPanel
   );
   el.favoritesClose?.addEventListener(
     "click",
-    closeFavoritesPanel
+    window.OMAP_FAVORITES?.closeFavoritesPanel
   );
   el.favoritesBack?.addEventListener(
     "click",
     returnFromFavoritesToMenu
   );
-  el.favoritesSearch?.addEventListener("input", renderFavoritesList);
+  el.favoritesSearch?.addEventListener("input", window.OMAP_FAVORITES?.renderFavoritesList);
   el.favoritesSortSelect?.addEventListener("change", () => {
     state.favoritesSortOrder = el.favoritesSortSelect.value;
-    renderFavoritesList();
+    window.OMAP_FAVORITES?.renderFavoritesList();
   });
 
   el.favoritesAddFolderButton?.addEventListener("click", () => {
@@ -2353,27 +2373,12 @@ map.on('rotate', updateLogoRotation);
     if (el.favoritesNewFolderForm) el.favoritesNewFolderForm.hidden = true;
   });
 
-  function createFavoriteFolder() {
-    const name = (el.favoritesNewFolderInput?.value || "").trim();
-    if (!name) return;
-    const exists = state.favoriteFolders.some(
-      f => f.toLowerCase() === name.toLowerCase()
-    );
-    if (!exists) {
-      state.favoriteFolders.push(name);
-      saveFavoriteFolders();
-    }
-    state.activeFavoriteFolder = name;
-    if (el.favoritesNewFolderForm) el.favoritesNewFolderForm.hidden = true;
-    renderFolderChips();
-    renderFavoritesList();
-  }
 
-  el.favoritesNewFolderSave?.addEventListener("click", createFavoriteFolder);
+  el.favoritesNewFolderSave?.addEventListener("click", window.OMAP_FAVORITES?.createFavoriteFolder);
   el.favoritesNewFolderInput?.addEventListener("keydown", event => {
     if (event.key === "Enter") {
       event.preventDefault();
-      createFavoriteFolder();
+      window.OMAP_FAVORITES?.createFavoriteFolder();
     }
   });
 
@@ -2391,11 +2396,11 @@ map.on('rotate', updateLogoRotation);
   );
   el.historySearch?.addEventListener("input", renderHistoryList);
   el.historyClear?.addEventListener("click", clearHistoryList);
-  el.menuExportAll?.addEventListener("click", exportAllSettingsJson);
+  el.menuExportAll?.addEventListener("click", window.OMAP_BACKUP?.exportAll);
   el.menuImportAllButton?.addEventListener("click", () => {
     el.menuImportAllInput?.click();
   });
-  el.menuImportAllInput?.addEventListener("change", importAllSettingsJson);
+  el.menuImportAllInput?.addEventListener("change", window.OMAP_BACKUP?.importAll);
   el.backupSelectAll?.addEventListener("click", () => {
     const checkboxes = [el.backupScopeFavorites, el.backupScopeColors, el.backupScopePlaceNames].filter(Boolean);
     const allChecked = checkboxes.every(box => box.checked);
@@ -2425,24 +2430,24 @@ map.on('rotate', updateLogoRotation);
     return scopes;
   }
 
-  el.locateToggleButton?.addEventListener("click", locateFromMenu);
-  el.toggle3dButton?.addEventListener("click", toggle3dView);
+  el.locateToggleButton?.addEventListener("click", window.OMAP_MAPVIEW?.locate);
+  el.toggle3dButton?.addEventListener("click", window.OMAP_MAPVIEW?.toggle3d);
   el.brandButton?.addEventListener("click", event => {
     event.preventDefault();
     map.easeTo({ bearing: 180, duration: 400 });
   });
   el.zoomInButton?.addEventListener("click", () => map.zoomIn());
   el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
-  el.measureToggleButton?.addEventListener("click", toggleMeasureMode);
+  el.measureToggleButton?.addEventListener("click", window.OMAP_MEASURE?.toggle);
   el.measureClearButton?.addEventListener("click", () => {
     if (state.measureIsArea) {
-      clearMeasureAreaMeasurement();
-      updateMeasureAreaDisplay();
+      window.OMAP_MEASURE?.clearArea();
+      window.OMAP_MEASURE?.updateAreaDisplay();
     } else {
-      clearMeasurement();
+      window.OMAP_MEASURE?.clearDistance();
     }
   });
-  el.measureModeSwitchButton?.addEventListener("click", switchMeasureMode);
+  el.measureModeSwitchButton?.addEventListener("click", window.OMAP_MEASURE?.switchMode);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2453,8 +2458,8 @@ map.on('rotate', updateLogoRotation);
     el.languageSelect.value = el.menuLanguageSelect.value;
     el.languageSelect.dispatchEvent(new Event("change"));
   });
-  el.clearMapButton?.addEventListener("click", clearMapView);
-  el.exportPngButton?.addEventListener("click", exportMapAsPng);
+  el.clearMapButton?.addEventListener("click", window.OMAP_MAPVIEW?.clear);
+  el.exportPngButton?.addEventListener("click", window.OMAP_MAPVIEW?.exportPng);
   el.menuAboutButton?.addEventListener(
     "click",
     openAboutFromMenu
@@ -2506,10 +2511,10 @@ map.on('rotate', updateLogoRotation);
   el.menuLabelsButton?.addEventListener("click", openLabelsFromMenu);
   el.tradingSundayBack?.addEventListener(
     "click",
-    returnFromTradingSundayToMenu
+    window.OMAP_TRADING_SUNDAY?.returnToMenu
   );
-  el.tradingSundayClose?.addEventListener("click", closeTradingSunday);
-  el.menuTradingSundayButton?.addEventListener("click", openTradingSundayFromMenu);
+  el.tradingSundayClose?.addEventListener("click", window.OMAP_TRADING_SUNDAY?.close);
+  el.menuTradingSundayButton?.addEventListener("click", window.OMAP_TRADING_SUNDAY?.open);
   el.routeButton?.addEventListener("click", toggleRoute);
   el.mobileRouteButton?.addEventListener("click", toggleRoute);
   el.mobileDiscoverButton?.addEventListener("click", toggleDiscover);
@@ -2626,7 +2631,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
         t.measureDistance
       );
     }
-    updateMeasureModeSwitchUi();
+    window.OMAP_MEASURE?.updateModeSwitchUi();
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -2738,7 +2743,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.menuTradingSundayLabel) el.menuTradingSundayLabel.textContent = t.menuTradingSunday;
     if (el.tradingSundayQuestion) el.tradingSundayQuestion.textContent = t.tradingSundayQuestion;
     el.tradingSundayClose?.setAttribute("aria-label", t.closeTradingSunday);
-    updateTradingSundayAnswer();
+    window.OMAP_TRADING_SUNDAY?.updateAnswer();
     el.legendBack?.setAttribute("aria-label", t.backToMenu);
     el.labelsBack?.setAttribute("aria-label", t.backToMenu);
     el.tradingSundayBack?.setAttribute("aria-label", t.backToMenu);
@@ -2886,8 +2891,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       resolveTheme(state.theme) === "dark" ||
       (state.theme === "satellite" && prefersDarkColorScheme())
     );
-    renderFolderChips();
-    renderFavoritesList();
+    window.OMAP_FAVORITES?.renderFolderChips();
+    window.OMAP_FAVORITES?.renderFavoritesList();
     renderHistoryList();
 
     if (el.favoritesAddFolderButton) el.favoritesAddFolderButton.textContent = t.favoriteFolderAddButton;
@@ -2951,190 +2956,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
   }
 
-  function ensureMapillaryCoverage() {
-    if (!CONFIG.mapillary?.accessToken) return false;
-    if (map.getSource(CONFIG.mapillary.sourceId)) return true;
-
-    map.addSource(CONFIG.mapillary.sourceId, {
-      type: "vector",
-      tiles: [
-        `${CONFIG.mapillary.coverageTiles}?access_token=${CONFIG.mapillary.accessToken}`
-      ],
-      minzoom: 6,
-      maxzoom: 14
-    });
-
-    map.addLayer({
-      id: CONFIG.mapillary.coverageLayerId,
-      type: "circle",
-      source: CONFIG.mapillary.sourceId,
-      "source-layer": "image",
-      minzoom: CONFIG.mapillary.minZoom,
-      layout: { visibility: "none" },
-      paint: {
-        "circle-radius": 4,
-        "circle-color": "#00c37a",
-        "circle-stroke-width": 1,
-        "circle-stroke-color": "#ffffff"
-      }
-    });
-
-    map.on("click", CONFIG.mapillary.coverageLayerId, event => {
-      const feature = event.features?.[0];
-      const imageId = feature?.properties?.id;
-      if (imageId) openStreetView(imageId);
-    });
-
-    map.on("mouseenter", CONFIG.mapillary.coverageLayerId, () => {
-      map.getCanvas().style.cursor = "pointer";
-    });
-    map.on("mouseleave", CONFIG.mapillary.coverageLayerId, () => {
-      map.getCanvas().style.cursor = "";
-    });
-
-    return true;
-  }
-
-  function toggleMapillaryCoverage() {
-    const t = text[state.language];
-
-    if (!CONFIG.mapillary?.accessToken) {
-      show(t.streetviewUnavailable);
-      return;
-    }
-
-    if (!ensureMapillaryCoverage()) return;
-
-    state.mapillaryCoverageVisible = !state.mapillaryCoverageVisible;
-
-    map.setLayoutProperty(
-      CONFIG.mapillary.coverageLayerId,
-      "visibility",
-      state.mapillaryCoverageVisible ? "visible" : "none"
-    );
-
-    el.menuStreetviewButton?.classList.toggle(
-      "is-active",
-      state.mapillaryCoverageVisible
-    );
-    el.menuStreetviewButton?.setAttribute(
-      "aria-pressed",
-      String(state.mapillaryCoverageVisible)
-    );
-  }
-
-  let mapillaryViewer = null;
-
-  function createMapillaryViewer(imageId) {
-    return new Promise(resolve => {
-      // Tworzenie odtwarzacza WebGL w kontenerze, który jeszcze nie
-      // ma prawdziwych wymiarów (bo panel dopiero co się odkrył),
-      // kończy się niedziałającym odtwarzaczem. Czekamy na dwie
-      // klatki, żeby przeglądarka zdążyła nadać kontenerowi
-      // rzeczywisty rozmiar, zanim go zainicjujemy.
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          mapillaryViewer = new mapillary.Viewer({
-            accessToken: CONFIG.mapillary.accessToken,
-            container: el.streetviewContainer,
-            imageId
-          });
-          mapillaryViewer.resize();
-          resolve();
-        });
-      });
-    });
-  }
-
-  async function openStreetView(imageId) {
-    if (!CONFIG.mapillary?.accessToken || !el.streetviewPanel) return;
-
-    closeOtherMobilePanels(["streetview"]);
-
-    if (isMobilePanelViewport()) {
-      setMobilePanelHeight(
-        el.streetviewPanel,
-        "--sheet-height",
-        getMobilePanelMaximumHeight(),
-        { collapsed: false, mode: "expanded", animate: false }
-      );
-      el.streetviewPanel.classList.remove("is-collapsed");
-    }
-    el.streetviewPanel.hidden = false;
-    el.streetviewPanel.scrollTop = 0;
-
-    if (!mapillaryViewer) {
-      await createMapillaryViewer(imageId);
-      return;
-    }
-
-    try {
-      await mapillaryViewer.moveTo(imageId);
-    } catch (error) {
-      console.error(error);
-      // Odtwarzacz utknął w niedziałającym stanie - usuwamy go
-      // i tworzymy od nowa, zamiast dalej próbować na zepsutej
-      // instancji.
-      try {
-        mapillaryViewer.remove();
-      } catch (removeError) {
-        console.error(removeError);
-      }
-      mapillaryViewer = null;
-      await createMapillaryViewer(imageId);
-    }
-  }
-
-  function isStreetviewFullscreen() {
-    return document.fullscreenElement === el.streetviewPanel;
-  }
-
-  async function toggleStreetviewFullscreen() {
-    if (!el.streetviewPanel) return;
-
-    try {
-      if (isStreetviewFullscreen()) {
-        await document.exitFullscreen();
-      } else {
-        await el.streetviewPanel.requestFullscreen();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  document.addEventListener("fullscreenchange", () => {
-    const active = isStreetviewFullscreen();
-    el.streetviewFullscreenButton?.classList.toggle(
-      "is-active",
-      active
-    );
-    el.streetviewFullscreenButton?.setAttribute(
-      "aria-pressed",
-      String(active)
-    );
-    el.streetviewPanel?.classList.toggle(
-      "is-fullscreen",
-      active
-    );
-    // WebGL potrzebuje jawnej informacji o zmianie rozmiaru
-    // kontenera po wejściu/wyjściu z pełnego ekranu.
-    requestAnimationFrame(() => {
-      try {
-        mapillaryViewer?.resize();
-      } catch (error) {
-        console.error(error);
-      }
-    });
-  });
-
-  function closeStreetView() {
-    if (!el.streetviewPanel || el.streetviewPanel.hidden) return;
-    if (isStreetviewFullscreen()) {
-      document.exitFullscreen().catch(error => console.error(error));
-    }
-    el.streetviewPanel.hidden = true;
-  }
 
   function cacheOriginalPaint() {
     for (const layer of map.getStyle().layers || []) {
@@ -3157,8 +2978,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       }
     }
   }
-
-  let darkModeProbe = null;
 
   function getDarkModeProbe() {
     if (darkModeProbe && document.body.contains(darkModeProbe)) {
@@ -3220,8 +3039,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
     return theme;
   }
-
-  let lastResolvedTheme = null;
 
   function applyTheme(theme) {
     if (!map.isStyleLoaded()) {
@@ -4304,7 +4121,7 @@ function applyLanguage(language) {
 
       const isMainSearch = activeInput === el.searchInput;
       const favoriteMatches = isMainSearch
-        ? getMatchingFavoritePlaces(query)
+        ? window.OMAP_FAVORITES?.getMatchingFavoritePlaces(query)
         : [];
 
       // Ulubione są lokalne (bez sieci) - pokazujemy je od razu,
@@ -4885,36 +4702,6 @@ function applyLanguage(language) {
       .trim();
   }
 
-  // Ulubione miejsca mają praktycznie ten sam kształt co wynik
-  // wyszukiwania (lat/lon/title/osm_type/address itd. - bo z takiego
-  // wyniku pierwotnie powstały), więc można je wstawić bezpośrednio
-  // do tej samej listy podpowiedzi bez osobnej ścieżki wyboru.
-  function getMatchingFavoritePlaces(query, limit = 5) {
-    const q = normalizeSearchText(query);
-    if (!q) return [];
-
-    return state.favorites
-      .filter(favorite => {
-        const haystack = normalizeSearchText(
-          [favorite.customName, favorite.title, favorite.address]
-            .filter(Boolean)
-            .join(" ")
-        );
-        return haystack.includes(q);
-      })
-      .slice(0, limit)
-      .map(favorite => ({
-        ...favorite,
-        name: favorite.customName || favorite.name || favorite.title,
-        __isFavorite: true
-      }));
-  }
-
-  // Współdzielona logika sortowania dla ulubionych miejsc i tras.
-  // "newest"/"oldest" opiera się na kolejności w tablicy - nowe
-  // wpisy są zawsze dokładane na początek (unshift), więc naturalna
-  // kolejność tablicy JUŻ jest "od najnowszych" bez potrzeby
-  // osobnego pola z datą.
   function sortByOrder(list, order, getLabel) {
     const arr = [...list];
     const locale = state.language === "pl" ? "pl" : "en";
@@ -5252,12 +5039,6 @@ function applyLanguage(language) {
   }
 
 
-  const MOBILE_PANEL_STANDARD = Object.freeze({
-    collapsedHeight: 48,
-    defaultHeightRatio: 0.42,
-    viewportGap: 8
-  });
-
   const mobilePanelMode = new Map();
 
   // Centralny rejestr wszystkich paneli mobilnych typu "arkusz z
@@ -5269,17 +5050,17 @@ function applyLanguage(language) {
     { id: "route", close: () => closeRoute(), panel: el.routePanel, cssVariable: "--sheet-height" },
     { id: "discover", close: () => closeDiscover(), panel: el.discoverPanel, cssVariable: "--sheet-height" },
     { id: "menu", close: () => closeMenu(), panel: el.menuPanel, cssVariable: "--sheet-height" },
-    { id: "favorites", close: () => closeFavoritesPanel(), panel: el.favoritesPanel, cssVariable: "--sheet-height" },
+    { id: "favorites", close: () => window.OMAP_FAVORITES?.closeFavoritesPanel(), panel: el.favoritesPanel, cssVariable: "--sheet-height" },
     { id: "history", close: () => closeHistory(), panel: el.historyPanel, cssVariable: "--sheet-height" },
     { id: "place", close: () => closePlacePanel(), panel: el.placePanel, cssVariable: "--sheet-height" },
     { id: "trip", close: () => closeTrip(), panel: el.tripPanel, cssVariable: "--sheet-height" },
     // Widok uliczny celowo nie zwija się przy kliknięciu na mapę -
     // tam kliknięcie w mapę służy do zmiany lokalizacji widoku, nie
     // do odrzucenia panelu.
-    { id: "streetview", close: () => closeStreetView(), collapsible: false },
+    { id: "streetview", close: () => window.OMAP_STREETVIEW?.close(), collapsible: false },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
     { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
-    { id: "tradingSunday", close: () => closeTradingSunday(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
+    { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
     { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" },
     { id: "account", close: () => closeAccount(), panel: el.accountPanel, cssVariable: "--sheet-height" }
@@ -5429,247 +5210,8 @@ function applyLanguage(language) {
     });
   }
 
-  function initializeBottomSheet({
-    panel,
-    handle,
-    close,
-    cssVariable
-  }) {
-    if (!handle || !panel) return;
-
-    const header = panel.querySelector(
-      ".app-sheet__header, .panel-shell__header"
-    );
-
-    let dragging = false;
-    let startY = 0;
-    let startHeight = 0;
-    let activePointerId = null;
-    let movedDuringGesture = false;
-    let dragSource = null;
-
-    const setDefaultHeight = () => {
-      if (!isMobilePanelViewport()) {
-        panel.style.removeProperty(cssVariable);
-        panel.classList.remove("is-collapsed", "is-dragging");
-        return;
-      }
-
-      if (
-        panel.hidden ||
-        panel.classList.contains("is-collapsed") ||
-        panel.classList.contains("is-dragging")
-      ) {
-        return;
-      }
-
-      setMobilePanelHeight(
-        panel,
-        cssVariable,
-        getMobilePanelDefaultHeight(),
-        { collapsed: false, mode: "default" }
-      );
-    };
-
-    const beginDrag = (event, source) => {
-      if (!isMobilePanelViewport()) return;
-
-      dragging = true;
-      dragSource = source;
-      movedDuringGesture = false;
-      activePointerId = event.pointerId;
-      startY = event.clientY;
-      startHeight = panel.getBoundingClientRect().height;
-      panel.classList.add("is-dragging");
-
-      try {
-        source.setPointerCapture(event.pointerId);
-      } catch (_) {}
-    };
-
-    handle.addEventListener("pointerdown", event => {
-      beginDrag(event, handle);
-      event.preventDefault();
-    });
-
-    if (header) {
-      header.addEventListener("pointerdown", event => {
-        if (
-          event.target.closest(
-            "button, a, input, select, textarea"
-          )
-        ) {
-          return;
-        }
-        beginDrag(event, header);
-        event.preventDefault();
-      });
-    }
-
-    // Przeciąganie treści jak w mainstreamowych apkach mapowych:
-    // ciągnięcie w górę najpierw rozciąga panel do pełnej wysokości,
-    // dopiero potem zaczyna przewijać treść normalnie. Ciągnięcie
-    // w dół, gdy treść jest na samej górze, zwija panel z powrotem.
-    // Tryb ustalamy raz na gest, na podstawie kierunku i aktualnego
-    // stanu w momencie, gdy ruch staje się jednoznaczny.
-    const content = panel.querySelector(
-      ".app-sheet__body, .panel-shell__body"
-    ) || panel;
-
-    let contentGestureActive = false;
-    let contentGestureMode = null;
-    let contentGestureStartY = 0;
-    let contentGesturePointerId = null;
-
-    content.addEventListener("pointerdown", event => {
-      if (!isMobilePanelViewport()) return;
-      if (event.target.closest("button, a, input, select, textarea")) {
-        return;
-      }
-
-      contentGestureActive = true;
-      contentGestureMode = null;
-      contentGestureStartY = event.clientY;
-      contentGesturePointerId = event.pointerId;
-    });
-
-    content.addEventListener("pointermove", event => {
-      if (
-        !contentGestureActive ||
-        dragging ||
-        event.pointerId !== contentGesturePointerId
-      ) {
-        return;
-      }
-
-      if (contentGestureMode !== null) return;
-
-      const deltaUp = contentGestureStartY - event.clientY;
-      if (Math.abs(deltaUp) < 2) return;
-
-      const maxHeight = getMobilePanelMaximumHeight();
-      const currentHeight = panel.getBoundingClientRect().height;
-      const atMax = currentHeight >= maxHeight - 2;
-      const atTop = content.scrollTop <= 0;
-
-      contentGestureMode = deltaUp > 0
-        ? (atMax ? "content" : "panel")
-        : (atTop ? "panel" : "content");
-
-      if (contentGestureMode === "panel") {
-        contentGestureActive = false;
-        beginDrag(
-          {
-            pointerId: event.pointerId,
-            clientY: contentGestureStartY
-          },
-          content
-        );
-        event.preventDefault();
-      }
-    });
-
-    content.addEventListener("pointerup", () => {
-      contentGestureActive = false;
-      contentGestureMode = null;
-    });
-    content.addEventListener("pointercancel", () => {
-      contentGestureActive = false;
-      contentGestureMode = null;
-    });
-
-    document.addEventListener("pointermove", event => {
-      if (!dragging || event.pointerId !== activePointerId) return;
-
-      const delta = startY - event.clientY;
-      if (Math.abs(delta) > 4) movedDuringGesture = true;
-
-      setMobilePanelHeight(
-        panel,
-        cssVariable,
-        startHeight + delta,
-        { animate: false }
-      );
-      event.preventDefault();
-    });
-
-    const finishDrag = event => {
-      if (!dragging || event.pointerId !== activePointerId) return;
-
-      dragging = false;
-      activePointerId = null;
-
-      const height = panel.getBoundingClientRect().height;
-      const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
-      const defaultHeight = getMobilePanelDefaultHeight();
-      const expandedHeight = getMobilePanelMaximumHeight();
-
-      const lowerMidpoint = (collapsedHeight + defaultHeight) / 2;
-      const upperMidpoint = (defaultHeight + expandedHeight) / 2;
-
-      let targetHeight;
-      let collapsed;
-      let mode;
-
-      if (height <= lowerMidpoint) {
-        targetHeight = collapsedHeight;
-        collapsed = true;
-        mode = "collapsed";
-      } else if (height <= upperMidpoint) {
-        targetHeight = defaultHeight;
-        collapsed = false;
-        mode = "default";
-      } else {
-        targetHeight = expandedHeight;
-        collapsed = false;
-        mode = "expanded";
-      }
-
-      setMobilePanelHeight(
-        panel,
-        cssVariable,
-        targetHeight,
-        { collapsed, mode }
-      );
-
-      try {
-        dragSource?.releasePointerCapture(event.pointerId);
-      } catch (_) {}
-
-      dragSource = null;
-    };
-
-    document.addEventListener("pointerup", finishDrag);
-    document.addEventListener("pointercancel", finishDrag);
-
-    handle.addEventListener("click", () => {
-      if (!isMobilePanelViewport() || movedDuringGesture) return;
-
-      const height = panel.getBoundingClientRect().height;
-      const collapsedHeight = MOBILE_PANEL_STANDARD.collapsedHeight;
-      const defaultHeight = getMobilePanelDefaultHeight();
-
-      if (height <= collapsedHeight + 8) {
-        openMobilePanelStandard(panel, cssVariable);
-      } else if (height <= defaultHeight + 8) {
-        setMobilePanelHeight(
-          panel,
-          cssVariable,
-          getMobilePanelMaximumHeight(),
-          { collapsed: false, mode: "expanded" }
-        );
-      } else {
-        collapseMobilePanelStandard(panel, cssVariable);
-      }
-    });
-
-    window.addEventListener("resize", setDefaultHeight);
-    window.visualViewport?.addEventListener("resize", setDefaultHeight);
-    setDefaultHeight();
-  }
-
   function initializeRouteBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.routePanel,
       handle: el.routeSheetHandle,
       close: closeRoute,
@@ -5678,7 +5220,7 @@ function applyLanguage(language) {
   }
 
   function initializeDiscoverBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.discoverPanel,
       handle: el.discoverSheetHandle,
       close: closeDiscover,
@@ -5687,7 +5229,7 @@ function applyLanguage(language) {
   }
 
   function initializeMenuBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.menuPanel,
       handle: el.menuSheetHandle,
       close: closeMenu,
@@ -5696,16 +5238,16 @@ function applyLanguage(language) {
   }
 
   function initializeFavoritesBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.favoritesPanel,
       handle: el.favoritesSheetHandle,
-      close: closeFavoritesPanel,
+      close: window.OMAP_FAVORITES?.closeFavoritesPanel,
       cssVariable: "--sheet-height"
     });
   }
 
   function initializeHistoryBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.historyPanel,
       handle: el.historySheetHandle,
       close: closeHistory,
@@ -5714,7 +5256,7 @@ function applyLanguage(language) {
   }
 
   function initializePlaceBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.placePanel,
       handle: el.placeSheetHandle,
       close: closePlacePanel,
@@ -5723,7 +5265,7 @@ function applyLanguage(language) {
   }
 
   function initializeTripBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.tripPanel,
       handle: el.tripSheetHandle,
       close: closeTrip,
@@ -5732,16 +5274,16 @@ function applyLanguage(language) {
   }
 
   function initializeStreetviewBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.streetviewPanel,
       handle: el.streetviewSheetHandle,
-      close: closeStreetView,
+      close: window.OMAP_STREETVIEW?.close,
       cssVariable: "--sheet-height"
     });
   }
 
   function initializeLegendBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.legendPanel,
       handle: el.legendSheetHandle,
       close: closeLegend,
@@ -5750,7 +5292,7 @@ function applyLanguage(language) {
   }
 
   function initializeLabelsBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.labelsPanel,
       handle: el.labelsSheetHandle,
       close: closeLabels,
@@ -5759,16 +5301,16 @@ function applyLanguage(language) {
   }
 
   function initializeTradingSundayBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.tradingSundayPanel,
       handle: el.tradingSundaySheetHandle,
-      close: closeTradingSunday,
+      close: window.OMAP_TRADING_SUNDAY?.close,
       cssVariable: "--sheet-height"
     });
   }
 
   function initializeAboutBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.aboutPanel,
       handle: el.aboutSheetHandle,
       close: closeAbout,
@@ -5777,7 +5319,7 @@ function applyLanguage(language) {
   }
 
   function initializeBackupBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.backupPanel,
       handle: el.backupSheetHandle,
       close: closeBackup,
@@ -5786,7 +5328,7 @@ function applyLanguage(language) {
   }
 
   function initializeAccountBottomSheet() {
-    initializeBottomSheet({
+    window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.accountPanel,
       handle: el.accountSheetHandle,
       close: closeAccount,
@@ -6262,35 +5804,6 @@ function swapRoutePoints() {
     }
   }
 
-  async function addContextPointToFavorites(lngLat) {
-    if (!lngLat) return;
-
-    show(text[state.language].placeLoading, 0);
-
-    try {
-      const place = await fetchPlaceInformation(
-        lngLat.lng,
-        lngLat.lat
-      );
-
-      const key = getFavoriteKey(place, lngLat);
-      const nowFavorite = toggleFavorite(
-        key,
-        place,
-        lngLat
-      );
-
-      show(
-        nowFavorite
-          ? text[state.language].contextFavoriteAdded
-          : text[state.language].contextFavoriteRemoved
-      );
-    } catch (error) {
-      console.error(error);
-      show(text[state.language].placeError);
-    }
-  }
-
   async function handleMapContextAction(event) {
     const button = event.target.closest(
       "[data-map-context-action]"
@@ -6382,7 +5895,7 @@ function swapRoutePoints() {
     }
 
     if (action === "favorite") {
-      await addContextPointToFavorites(lngLat);
+      await window.OMAP_FAVORITES?.addContextPointToFavorites(lngLat);
     }
   }
 
@@ -6436,9 +5949,9 @@ async function handleMapClick(event) {
 
     if (state.measureModeActive) {
       if (state.measureIsArea) {
-        addMeasureAreaPoint(event.lngLat);
+        window.OMAP_MEASURE?.addAreaPoint(event.lngLat);
       } else {
-        addMeasurePoint(event.lngLat);
+        window.OMAP_MEASURE?.addPoint(event.lngLat);
       }
       return;
     }
@@ -6818,7 +6331,7 @@ function showUserLocationMarker(lngLat) {
 
   window.OMAP_BACK_NAVIGATION?.register(
     "favorites",
-    () => openFavoritesPanel()
+    () => window.OMAP_FAVORITES?.openFavoritesPanel()
   );
 
   window.OMAP_BACK_NAVIGATION?.register(
@@ -7404,7 +6917,7 @@ function showUserLocationMarker(lngLat) {
     });
 
     renameSave.addEventListener("click", () => {
-      setCustomPlaceName(placeNameKey, renameInput.value, originalPlaceTitle, titleButton, place, lngLat);
+      window.OMAP_CUSTOM_PLACE_NAMES?.setCustomPlaceName(placeNameKey, renameInput.value, originalPlaceTitle, titleButton, place, lngLat);
       renameForm.hidden = true;
     });
 
@@ -7426,8 +6939,8 @@ function showUserLocationMarker(lngLat) {
     headingRow.append(typeIcon, headingCopy);
     card.appendChild(headingRow);
 
-    const ratingUi = window.OMAP_RATINGS.createSection(
-      getFavoriteKey(place, lngLat),
+    const ratingUi = window.OMAP_RATINGS?.createSection(
+      window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat),
       {
         label: state.customPlaceNames[placeNameKey] || originalPlaceTitle,
         lat: Number(lngLat.lat),
@@ -7447,8 +6960,10 @@ function showUserLocationMarker(lngLat) {
         }
       }
     );
-    card.appendChild(ratingUi.section);
-    window.OMAP_RATINGS.loadForPlace(getFavoriteKey(place, lngLat), ratingUi);
+    if (ratingUi) {
+      card.appendChild(ratingUi.section);
+      window.OMAP_RATINGS?.loadForPlace(window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat), ratingUi);
+    }
 
     const isNamedSettlement =
       ["city", "town", "village"].includes(
@@ -7460,9 +6975,11 @@ function showUserLocationMarker(lngLat) {
       place?.extratags?.wikidata ||
       isNamedSettlement
     ) {
-      const wikipedia = createWikipediaSection();
-      card.appendChild(wikipedia.section);
-      loadWikipediaSummaryForPlace(place, wikipedia, heading);
+      const wikipedia = window.OMAP_WIKIPEDIA?.createSection();
+      if (wikipedia) {
+        card.appendChild(wikipedia.section);
+        window.OMAP_WIKIPEDIA?.loadForPlace(place, wikipedia, heading);
+      }
     }
 
     const details = document.createElement("div");
@@ -7522,16 +7039,16 @@ function showUserLocationMarker(lngLat) {
 
     card.appendChild(details);
 
-    if (window.OMAP_DEPARTURES.isTransitStop(place)) {
-      const departures = window.OMAP_DEPARTURES.createSection();
+    if (window.OMAP_DEPARTURES?.isTransitStop(place)) {
+      const departures = window.OMAP_DEPARTURES?.createSection();
       card.appendChild(departures.section);
-      window.OMAP_DEPARTURES.loadForPlace(place, lngLat, departures);
+      window.OMAP_DEPARTURES?.loadForPlace(place, lngLat, departures);
     }
 
     const actions = document.createElement("div");
     actions.className = "place-card-actions";
 
-    const favoriteKey = getFavoriteKey(place, lngLat);
+    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
 
     actions.append(
       createPlaceAction("↪️", t.placeSetRoute, () => {
@@ -7541,12 +7058,12 @@ function showUserLocationMarker(lngLat) {
         openDiscoverNearPlace(place, lngLat);
       }),
       createPlaceAction(
-        isFavorite(favoriteKey) ? "★" : "☆",
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
         state.language === "pl"
           ? "Dodaj do ulubionych"
           : "Add to favorites",
         button => {
-          const nowFavorite = toggleFavorite(
+          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
             favoriteKey,
             place,
             lngLat
@@ -7554,7 +7071,7 @@ function showUserLocationMarker(lngLat) {
           button.textContent = nowFavorite ? "★" : "☆";
           button.classList.toggle("is-favorite", nowFavorite);
         },
-        isFavorite(favoriteKey)
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
       ),
       createPlaceAction("🔗", t.placeShare, () => {
         sharePlace(place, lngLat);
@@ -7976,77 +7493,6 @@ function showUserLocationMarker(lngLat) {
     );
   }
 
-  function readRouteHistory() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.routeHistory) || "[]"
-      );
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function saveRouteHistory() {
-    safeSet(
-      CONFIG.storageKeys.routeHistory,
-      JSON.stringify(state.routeHistory)
-    );
-  }
-
-  function readRouteFavorites() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.routeFavorites) || "[]"
-      );
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function saveRouteFavorites() {
-    safeSet(
-      CONFIG.storageKeys.routeFavorites,
-      JSON.stringify(state.routeFavorites)
-    );
-  }
-
-  function buildRouteKey(pointA, pointB, mode) {
-    return `${Number(pointA.lat).toFixed(5)},${Number(pointA.lon).toFixed(5)}` +
-      `->${Number(pointB.lat).toFixed(5)},${Number(pointB.lon).toFixed(5)}:${mode}`;
-  }
-
-  function recordRouteHistory(pointA, pointB, mode, distance, duration) {
-    if (!pointA || !pointB) return;
-
-    const key = buildRouteKey(pointA, pointB, mode);
-    const entry = {
-      key,
-      fromLabel: pointA.label || "",
-      toLabel: pointB.label || "",
-      fromLat: Number(pointA.lat),
-      fromLon: Number(pointA.lon),
-      toLat: Number(pointB.lat),
-      toLon: Number(pointB.lon),
-      mode,
-      distance: Number(distance) || 0,
-      duration: Number(duration) || 0,
-      viewedAt: new Date().toISOString()
-    };
-
-    state.routeHistory = [
-      entry,
-      ...state.routeHistory.filter(item => item.key !== key)
-    ].slice(0, ROUTE_HISTORY_LIMIT);
-
-    saveRouteHistory();
-
-    if (!el.historyPanel?.hidden) {
-      renderHistoryList();
-    }
-  }
-
   function formatRouteSummaryShort(distance, duration) {
     const km = distance ? (distance / 1000).toFixed(distance >= 10000 ? 0 : 1) : "0";
     const minutes = duration ? Math.round(duration / 60) : 0;
@@ -8067,7 +7513,7 @@ function showUserLocationMarker(lngLat) {
     );
     if (modeInput) modeInput.checked = true;
 
-    closeFavoritesPanel();
+    window.OMAP_FAVORITES?.closeFavoritesPanel();
     closeHistory();
     calculateRouteFromStoredPoints();
   }
@@ -8087,7 +7533,7 @@ function showUserLocationMarker(lngLat) {
 
   function currentRouteFavoriteKey() {
     if (!state.routePointA || !state.routePointB) return null;
-    return buildRouteKey(state.routePointA, state.routePointB, getSelectedRouteMode());
+    return window.OMAP_ROUTE_HISTORY?.buildRouteKey(state.routePointA, state.routePointB, getSelectedRouteMode());
   }
 
   function updateRouteSaveFavoriteButton() {
@@ -8129,9 +7575,9 @@ function showUserLocationMarker(lngLat) {
       ];
     }
 
-    saveRouteFavorites();
-    renderFolderChips();
-    renderFavoritesList();
+    window.OMAP_ROUTE_HISTORY?.saveRouteFavorites();
+    window.OMAP_FAVORITES?.renderFolderChips();
+    window.OMAP_FAVORITES?.renderFavoritesList();
     updateRouteSaveFavoriteButton();
   }
 
@@ -8139,7 +7585,7 @@ function showUserLocationMarker(lngLat) {
   function recordPlaceHistory(place, lngLat) {
     if (!place || !lngLat) return;
 
-    const key = getFavoriteKey(place, lngLat);
+    const key = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
 
     const entry = {
       key,
@@ -8188,45 +7634,6 @@ function showUserLocationMarker(lngLat) {
     }
   }
 
-  function readFavorites() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.favorites) || "[]"
-      );
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function readFavoriteFolders() {
-    try {
-      const value = JSON.parse(
-        localStorage.getItem(CONFIG.storageKeys.favoriteFolders) || "[]"
-      );
-      return Array.isArray(value) ? value.filter(v => typeof v === "string" && v.trim()) : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function saveFavoriteFolders() {
-    safeSet(
-      CONFIG.storageKeys.favoriteFolders,
-      JSON.stringify(state.favoriteFolders)
-    );
-  }
-
-  function getFavoriteKey(place, lngLat) {
-    const osmKey =
-      place.osm_type && place.osm_id
-        ? `${place.osm_type}:${place.osm_id}`
-        : "";
-
-    return osmKey ||
-      `${Number(lngLat.lat).toFixed(6)},${Number(lngLat.lng).toFixed(6)}`;
-  }
-
   function getPlaceNameKey(place, lngLat) {
     // Zawsze użyj współrzędnych jako głównego klucza
     // (są najstabilniejsze i zawsze dostępne)
@@ -8243,77 +7650,11 @@ function showUserLocationMarker(lngLat) {
     }
 
     // Ostateczny fallback
-    return getFavoriteKey(place, lngLat);
-  }
-
-  function isFavorite(key) {
-    return state.favorites.some(item => item.key === key);
-  }
-
-  function toggleFavorite(key, place, lngLat) {
-    const index = state.favorites.findIndex(
-      item => item.key === key
-    );
-
-    if (index >= 0) {
-      state.favorites.splice(index, 1);
-      saveFavorites();
-      renderFavoritesList();
-      return false;
-    }
-
-    const placeNameKey = getPlaceNameKey(place, lngLat);
-    const customName = state.customPlaceNames[placeNameKey] || "";
-
-    state.favorites.unshift({
-      key,
-      savedAt: new Date().toISOString(),
-      title: getPlaceTitle(place),
-      address: getPlaceAddress(place),
-      lat: Number(lngLat.lat),
-      lon: Number(lngLat.lng),
-      name: place.name || getPlaceTitle(place),
-      display_name:
-        place.display_name ||
-        getPlaceAddress(place),
-      osm_type: place.osm_type || "",
-      osm_id: place.osm_id || "",
-      namedPoiId: place.namedPoiId || "",
-      provider: place.provider || "",
-      providers: place.providers || [],
-      source: place.source || "",
-      exactLocalIdentity: Boolean(
-        place._exactLocalIdentity ||
-        place.exactLocalIdentity
-      ),
-      aliases: place.aliases || [],
-      keywords: place.keywords || [],
-      type: place.type || "",
-      category: place.category || "",
-      class: place.class || "",
-      addressDetails: {
-        ...(place.address || {})
-      },
-      extratags: {
-        ...(place.extratags || {})
-      },
-      namedetails: {
-        ...(place.namedetails || {})
-      },
-      customName: customName
-    });
-
-    state.favorites = state.favorites.slice(0, 100);
-    saveFavorites();
-    renderFavoritesList();
-
-    cacheWikipediaForFavorite(key, place);
-
-    return true;
+    return window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
   }
 
   async function cacheWikipediaForFavorite(key, place) {
-    const data = await fetchWikipediaSummaryData(place);
+    const data = await window.OMAP_WIKIPEDIA?.fetchSummary(place);
     if (!data) return;
 
     // Zapisujemy też sam obrazek miniatury do pamięci podręcznej
@@ -8341,196 +7682,9 @@ function showUserLocationMarker(lngLat) {
     favorite.wikipediaThumbnail = data.thumbnail;
     favorite.wikipediaUrl = data.url;
 
-    saveFavorites();
+    window.OMAP_FAVORITES?.saveFavorites();
   }
 
-  async function resolveWikipediaTarget(place) {
-    const preferredLang = state.language === "pl" ? "pl" : "en";
-    const tag = place?.extratags?.wikipedia;
-    const qid = place?.extratags?.wikidata;
-
-    let tagTarget = null;
-    if (tag) {
-      const match = /^([a-z-]+):(.+)$/.exec(tag);
-      tagTarget = match
-        ? { lang: match[1], title: match[2] }
-        : { lang: "en", title: tag };
-    }
-
-    if (tagTarget && tagTarget.lang === preferredLang) {
-      return tagTarget;
-    }
-
-    if (qid) {
-      try {
-        const url = new URL("https://www.wikidata.org/w/api.php");
-        url.searchParams.set("action", "wbgetentities");
-        url.searchParams.set("ids", qid);
-        url.searchParams.set("props", "sitelinks");
-        url.searchParams.set("format", "json");
-        url.searchParams.set("origin", "*");
-
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          const sitelinks = data?.entities?.[qid]?.sitelinks || {};
-          const site = sitelinks[`${preferredLang}wiki`];
-
-          if (site?.title) {
-            return { lang: preferredLang, title: site.title };
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    if (tagTarget) {
-      return tagTarget;
-    }
-
-    const isNamedSettlement =
-      ["city", "town", "village"].includes(
-        String(place?.type || "").toLowerCase()
-      ) && Boolean(place?.name);
-
-    if (isNamedSettlement) {
-      return { lang: preferredLang, title: place.name };
-    }
-
-    return null;
-  }
-
-  function createWikipediaSection() {
-    const t = text[state.language];
-
-    const section = document.createElement("section");
-    section.className = "place-wikipedia";
-    section.hidden = true;
-
-    const header = document.createElement("div");
-    header.className = "place-wikipedia-header";
-
-    const title = document.createElement("h4");
-    title.textContent = `📖 ${t.wikipediaTitle}`;
-    header.appendChild(title);
-    section.appendChild(header);
-
-    const thumbnail = document.createElement("img");
-    thumbnail.className = "place-wikipedia-thumbnail";
-    thumbnail.alt = "";
-    thumbnail.hidden = true;
-    section.appendChild(thumbnail);
-
-    const extract = document.createElement("p");
-    extract.className = "place-wikipedia-extract";
-    section.appendChild(extract);
-
-    const link = document.createElement("a");
-    link.className = "place-wikipedia-link";
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = t.wikipediaReadMore;
-    section.appendChild(link);
-
-    return { section, thumbnail, extract, link };
-  }
-
-  async function fetchWikipediaSummaryData(place) {
-    try {
-      const target = await resolveWikipediaTarget(place);
-      if (!target) return null;
-
-      const url =
-        `https://${target.lang}.wikipedia.org/api/rest_v1/page/summary/` +
-        encodeURIComponent(target.title);
-
-      const response = await fetch(url, {
-        headers: { "Accept": "application/json" }
-      });
-      if (!response.ok) return null;
-
-      const data = await response.json();
-      if (!data.extract || data.type === "disambiguation") {
-        return null;
-      }
-
-      return {
-        lang: target.lang,
-        title: target.title,
-        extract: data.extract,
-        thumbnail: data.thumbnail?.source || "",
-        url:
-          data.content_urls?.desktop?.page ||
-          `https://${target.lang}.wikipedia.org/wiki/${encodeURIComponent(target.title)}`
-      };
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  async function loadWikipediaSummaryForPlace(place, ui, headingElement) {
-    // Ulubione miejsca mogą już mieć zapisane dane z Wikipedii
-    // (pobrane w momencie dodania do ulubionych) - używamy ich od
-    // razu, żeby działało też offline, zamiast dociągać na nowo.
-    if (place.wikipediaExtract) {
-      ui.extract.textContent = place.wikipediaExtract;
-
-      if (place.wikipediaThumbnail) {
-        ui.thumbnail.src = place.wikipediaThumbnail;
-        ui.thumbnail.hidden = false;
-      }
-
-      ui.link.href = place.wikipediaUrl || "#";
-      ui.section.hidden = false;
-      return;
-    }
-
-    const data = await fetchWikipediaSummaryData(place);
-    if (!data) return;
-
-    ui.extract.textContent = data.extract;
-
-    if (data.thumbnail) {
-      ui.thumbnail.src = data.thumbnail;
-      ui.thumbnail.hidden = false;
-    }
-
-    ui.link.href = data.url;
-    ui.section.hidden = false;
-
-    // Wikipedia często trafia dokładniej niż nasze zgadywanie po
-    // polach adresu (np. gdy dane administracyjne dla danego kraju
-    // są niekompletne) - jeśli znalazła konkretniejszą nazwę,
-    // podmieniamy widoczny tytuł, żeby panel i Wikipedia zawsze
-    // pokazywały to samo miejsce.
-    // ALE: nie resetujemy, jeśli użytkownik ustawił custom name
-    if (data.title && headingElement) {
-      const lat = Number(place?.lat);
-      const lon = Number(place?.lon);
-      let placeNameKey = null;
-      
-      if (Number.isFinite(lat) && Number.isFinite(lon)) {
-        placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
-      }
-      
-      // Nie nadpisuj jeśli istnieje custom name
-      const hasCustomName = placeNameKey && state.customPlaceNames[placeNameKey];
-      if (!hasCustomName) {
-        const displayTitle = capitalizeFirstLetter(data.title);
-        // Zmień TYLKO titleButton, nie cały headingElement
-        const titleButton = headingElement.querySelector(".place-card-title-button");
-        if (titleButton) {
-          titleButton.textContent = displayTitle;
-        } else {
-          // Fallback jeśli struktura się zmieniła
-          headingElement.textContent = displayTitle;
-        }
-        document.title = `${displayTitle} - Odwrotna Mapa`;
-      }
-    }
-  }
 
   function reopenTripFromContext() {
     if (!el.tripPanel) return;
@@ -9049,7 +8203,7 @@ async function calculateRouteFromStoredPoints() {
         getSelectedRouteMode()
       );
       updateRouteSummary(route.distance, route.duration);
-      recordRouteHistory(
+      window.OMAP_ROUTE_HISTORY?.recordRouteHistory(
         state.routePointA,
         state.routePointB,
         getSelectedRouteMode(),
@@ -9230,7 +8384,7 @@ function updateRouteClickHint() {
       );
       updateRouteClickHint();
       updateRouteSummary(route.distance, route.duration);
-      recordRouteHistory(
+      window.OMAP_ROUTE_HISTORY?.recordRouteHistory(
         from,
         to,
         getSelectedRouteMode(),
@@ -10329,39 +9483,6 @@ function drawRoute(geometry, from, to, mode) {
     await calculateRouteFromStoredPoints();
   }
 
-  function openGeoUri(rawUrl) {
-    const match = /^geo:([^;?]+)/i.exec(String(rawUrl || ""));
-    if (!match) return;
-
-    const point = parseSharedPoint(decodeURIComponent(match[1]));
-    if (!point) return;
-
-    showPlaceInformation({
-      lngLat: new maplibregl.LngLat(point.lon, point.lat)
-    });
-
-    map.flyTo({
-      center: [point.lon, point.lat],
-      zoom: 17,
-      bearing: 180
-    });
-  }
-
-  function initializeGeoUriHandling() {
-    window.omapHandleGeoUri = openGeoUri;
-
-    const capacitorApp = window.CapacitorApp;
-    if (!capacitorApp) return;
-
-    capacitorApp.addListener("appUrlOpen", event => {
-      openGeoUri(event?.url);
-    });
-
-    capacitorApp.getLaunchUrl?.()
-      .then(result => openGeoUri(result?.url))
-      .catch(() => {});
-  }
-
   function parseSharedPoint(value) {
     if (!value) return null;
     const [latText, lonText] = value.split(",");
@@ -10507,7 +9628,7 @@ function drawRoute(geometry, from, to, mode) {
     state.history = [];
     saveHistory();
     state.routeHistory = [];
-    saveRouteHistory();
+    window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
     renderHistoryList();
   }
 
@@ -10650,7 +9771,7 @@ function drawRoute(geometry, from, to, mode) {
         removeButton.setAttribute("aria-label", text[state.language].historyRemove);
         removeButton.addEventListener("click", () => {
           state.routeHistory = state.routeHistory.filter(r => r.key !== entry.key);
-          saveRouteHistory();
+          window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
           renderHistoryList();
         });
 
@@ -10664,24 +9785,6 @@ function drawRoute(geometry, from, to, mode) {
     });
 
     el.historyList.appendChild(fragment);
-  }
-
-
-  function openFavoritesPanel() {
-    closeMapContextMenu();
-    closeOtherMobilePanels("favorites");
-
-    openMobilePanelStandard(
-      el.favoritesPanel,
-      "--sheet-height"
-    );
-    el.favoritesSearch.value = "";
-    renderFavoritesList();
-  }
-
-  function closeFavoritesPanel() {
-    if (!el.favoritesPanel || el.favoritesPanel.hidden) return;
-    el.favoritesPanel.hidden = true;
   }
 
 
@@ -10803,23 +9906,6 @@ function drawRoute(geometry, from, to, mode) {
     }
   });
 
-  async function openFavoritePlace(favorite) {
-    const payload = favorite.customName
-      ? { ...favorite, name: favorite.customName, title: favorite.customName }
-      : favorite;
-
-    return window.OMAP_PLACE_SERVICE.open(
-      payload,
-      {
-        source: "favorite",
-        metadata: {
-          origin: "favorites-panel"
-        }
-      }
-    );
-  }
-
-
   async function openSearchPlaceThroughService(
     result,
     {
@@ -10891,957 +9977,6 @@ function drawRoute(geometry, from, to, mode) {
     );
   }
 
-  function moveFavoriteToFolder(key, folderValue) {
-    const favorite = state.favorites.find(item => item.key === key);
-    if (favorite) {
-      updateFavoriteDetails(key, {
-        customName: favorite.customName || "",
-        note: favorite.note || "",
-        folder: folderValue
-      });
-      return;
-    }
-
-    const route = state.routeFavorites.find(item => item.key === key);
-    if (route) {
-      route.folder = folderValue;
-      saveRouteFavorites();
-      renderFolderChips();
-      renderFavoritesList();
-    }
-  }
-
-  function attachFolderDropTarget(node, folderValue) {
-    node.addEventListener("dragover", event => {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = "move";
-      node.classList.add("is-drag-over");
-    });
-    node.addEventListener("dragleave", () => {
-      node.classList.remove("is-drag-over");
-    });
-    node.addEventListener("drop", event => {
-      event.preventDefault();
-      node.classList.remove("is-drag-over");
-      const key = event.dataTransfer.getData("text/plain");
-      if (key) moveFavoriteToFolder(key, folderValue);
-    });
-  }
-
-  function renderFolderChips() {
-    if (!el.favoritesFolderChips) return;
-    const t = text[state.language];
-    el.favoritesFolderChips.innerHTML = "";
-
-    const makeChip = (value, label, isDropTarget) => {
-      const chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "favorites-folder-chip";
-      chip.classList.toggle("is-active", state.activeFavoriteFolder === value);
-      chip.textContent = label;
-      chip.addEventListener("click", () => {
-        state.activeFavoriteFolder = value;
-        renderFolderChips();
-        renderFavoritesList();
-      });
-      if (isDropTarget) {
-        attachFolderDropTarget(chip, value === UNFILED_FOLDER ? "" : value);
-      }
-      el.favoritesFolderChips.appendChild(chip);
-    };
-
-    makeChip("", t.favoriteFolderAll);
-    makeChip(UNFILED_FOLDER, t.favoriteFolderUnfiled, true);
-    state.favoriteFolders.forEach(folder => makeChip(folder, folder, true));
-  }
-
-  function deleteFavoriteFolder(folder) {
-    state.favoriteFolders = state.favoriteFolders.filter(f => f !== folder);
-    saveFavoriteFolders();
-
-    let changed = false;
-    state.favorites.forEach(favorite => {
-      if (favorite.folder === folder) {
-        favorite.folder = "";
-        changed = true;
-      }
-    });
-    if (changed) saveFavorites();
-
-    let routesChanged = false;
-    state.routeFavorites.forEach(route => {
-      if (route.folder === folder) {
-        route.folder = "";
-        routesChanged = true;
-      }
-    });
-    if (routesChanged) saveRouteFavorites();
-
-    if (state.activeFavoriteFolder === folder) state.activeFavoriteFolder = "";
-    if (state.activeRouteFolder === folder) state.activeRouteFolder = "";
-    renderFolderChips();
-    renderFavoritesList();
-  }
-
-  function renameFavoriteFolder(oldName, newName) {
-    const trimmed = newName.trim();
-    if (!trimmed || trimmed === oldName) return;
-
-    const collision = state.favoriteFolders.some(
-      f => f !== oldName && f.toLowerCase() === trimmed.toLowerCase()
-    );
-    if (collision) return;
-
-    state.favoriteFolders = state.favoriteFolders.map(f => (f === oldName ? trimmed : f));
-    saveFavoriteFolders();
-
-    let changed = false;
-    state.favorites.forEach(favorite => {
-      if (favorite.folder === oldName) {
-        favorite.folder = trimmed;
-        changed = true;
-      }
-    });
-    if (changed) saveFavorites();
-
-    let routesChanged = false;
-    state.routeFavorites.forEach(route => {
-      if (route.folder === oldName) {
-        route.folder = trimmed;
-        routesChanged = true;
-      }
-    });
-    if (routesChanged) saveRouteFavorites();
-
-    if (state.activeFavoriteFolder === oldName) state.activeFavoriteFolder = trimmed;
-    if (state.activeRouteFolder === oldName) state.activeRouteFolder = trimmed;
-    renderFolderChips();
-    renderFavoritesList();
-  }
-
-  function renderFavoritesList() {
-    if (
-      !el.favoritesList ||
-      !el.favoritesEmpty ||
-      !el.favoritesCount
-    ) {
-      return;
-    }
-
-    el.favoritesList
-      .querySelectorAll(".favorite-place-item, .route-item, .favorite-folder-row, .favorite-folder-back-row")
-      .forEach(item => item.remove());
-
-    const query = normalizeSearchText(
-      el.favoritesSearch?.value || ""
-    );
-
-    const activeFolder = state.activeFavoriteFolder || "";
-    const t = text[state.language];
-
-    const filteredFavorites = (
-      Array.isArray(state.favorites)
-        ? state.favorites
-        : []
-    ).filter(favorite => {
-      if (activeFolder === UNFILED_FOLDER && favorite.folder) return false;
-      if (activeFolder && activeFolder !== UNFILED_FOLDER && favorite.folder !== activeFolder) return false;
-
-      if (!query) return true;
-
-      const haystack = normalizeSearchText(
-        [
-          favorite.title,
-          favorite.address,
-          favorite.customName,
-          favorite.note,
-          favorite.folder,
-          favorite.lat,
-          favorite.lon
-        ]
-          .filter(value => value !== undefined && value !== null)
-          .join(" ")
-      );
-
-      return haystack.includes(query);
-    });
-
-    const favorites = sortByOrder(
-      filteredFavorites,
-      state.favoritesSortOrder,
-      f => (f.customName || f.title || "").toLowerCase()
-    );
-
-    let filteredRoutes = filterRouteEntries(state.routeFavorites, el.favoritesSearch?.value || "");
-    if (activeFolder === UNFILED_FOLDER) {
-      filteredRoutes = filteredRoutes.filter(r => !r.folder);
-    } else if (activeFolder) {
-      filteredRoutes = filteredRoutes.filter(r => r.folder === activeFolder);
-    }
-    const routes = sortByOrder(
-      filteredRoutes,
-      state.favoritesSortOrder,
-      r => (r.customName || `${r.fromLabel || ""} ${r.toLabel || ""}`).toLowerCase()
-    );
-
-    el.favoritesCount.textContent =
-      String(state.favorites.length + state.routeFavorites.length);
-
-    // Widoczne foldery (jako klikalne wiersze) liczymy niezależnie od
-    // wyszukiwania tekstowego - pusty, dopiero co utworzony folder ma
-    // się dać zobaczyć i "wejść w niego", zanim cokolwiek do niego
-    // trafi, zamiast znikać z listy aż coś w nim wyląduje.
-    const showFolderRows = !query && !activeFolder;
-    const hasAny = state.favorites.length > 0 || state.routeFavorites.length > 0 ||
-      (showFolderRows && state.favoriteFolders.length > 0);
-    const hasMatches = favorites.length > 0 || routes.length > 0 || showFolderRows;
-
-    el.favoritesEmpty.hidden = hasMatches;
-    el.favoritesEmpty.textContent = hasAny
-      ? text[state.language].favoritesNoMatch
-      : text[state.language].favoritesEmpty;
-
-    if (!hasMatches) return;
-
-    const fragment = document.createDocumentFragment();
-
-    if (showFolderRows) {
-      state.favoriteFolders.forEach(folder => {
-        const count = state.favorites.filter(f => f.folder === folder).length +
-          state.routeFavorites.filter(r => r.folder === folder).length;
-        const row = document.createElement("div");
-        row.className = "favorite-folder-row";
-
-        const openButton = document.createElement("button");
-        openButton.type = "button";
-        openButton.className = "favorite-folder-row-open";
-
-        const icon = document.createElement("span");
-        icon.className = "favorite-folder-row-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = "📁";
-
-        const name = document.createElement("span");
-        name.className = "favorite-folder-row-name";
-        name.textContent = folder;
-
-        const countEl = document.createElement("span");
-        countEl.className = "favorite-folder-row-count";
-        countEl.textContent = String(count);
-
-        openButton.append(icon, name, countEl);
-        openButton.addEventListener("click", () => {
-          state.activeFavoriteFolder = folder;
-          renderFolderChips();
-          renderFavoritesList();
-        });
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "favorite-place-edit-toggle";
-        editButton.textContent = "✎";
-        editButton.title = text[state.language].favoriteEdit;
-        editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
-
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.className = "favorite-place-remove";
-        removeButton.textContent = "×";
-        removeButton.title = t.favoriteFolderDelete;
-        removeButton.setAttribute("aria-label", t.favoriteFolderDelete);
-        removeButton.addEventListener("click", () => deleteFavoriteFolder(folder));
-
-        const actions = document.createElement("div");
-        actions.className = "favorite-place-actions";
-        actions.append(editButton, removeButton);
-
-        const topRow = document.createElement("div");
-        topRow.className = "favorite-place-row";
-        topRow.append(openButton, actions);
-
-        const renameForm = document.createElement("div");
-        renameForm.className = "account-name-edit-form";
-        renameForm.hidden = true;
-
-        const renameInput = document.createElement("input");
-        renameInput.type = "text";
-        renameInput.className = "account-name-edit-input";
-        renameInput.maxLength = 30;
-        renameInput.value = folder;
-
-        const renameActions = document.createElement("div");
-        renameActions.className = "account-name-edit-actions";
-
-        const renameSave = document.createElement("button");
-        renameSave.type = "button";
-        renameSave.className = "account-name-edit-save";
-        renameSave.textContent = text[state.language].favoriteSave;
-        renameSave.addEventListener("click", () => {
-          renameFavoriteFolder(folder, renameInput.value);
-        });
-
-        const renameCancel = document.createElement("button");
-        renameCancel.type = "button";
-        renameCancel.className = "account-name-edit-cancel";
-        renameCancel.textContent = text[state.language].favoriteCancelEdit;
-        renameCancel.addEventListener("click", () => {
-          renameForm.hidden = true;
-        });
-
-        renameActions.append(renameSave, renameCancel);
-        renameForm.append(renameInput, renameActions);
-
-        editButton.addEventListener("click", () => {
-          renameForm.hidden = !renameForm.hidden;
-          if (!renameForm.hidden) {
-            renameInput.value = folder;
-            renameInput.focus();
-            renameInput.select();
-          }
-        });
-
-        row.append(topRow, renameForm);
-        attachFolderDropTarget(row, folder);
-
-        fragment.appendChild(row);
-      });
-    } else if (activeFolder) {
-      const backRow = document.createElement("button");
-      backRow.type = "button";
-      backRow.className = "favorite-folder-back-row";
-      backRow.textContent = `← ${t.favoriteFolderAll}`;
-      backRow.addEventListener("click", () => {
-        state.activeFavoriteFolder = "";
-        renderFolderChips();
-        renderFavoritesList();
-      });
-      attachFolderDropTarget(backRow, "");
-      fragment.appendChild(backRow);
-    }
-
-    // Miejsca bez folderu pokazujemy bezpośrednio na liście głównej
-    // (nie jako osobny folder do "wejścia") - żeby nie trzeba było
-    // klikać nigdzie, aby zobaczyć zwykłe, nieposegregowane ulubione.
-    const visibleFavorites = showFolderRows
-      ? favorites.filter(favorite => !favorite.folder)
-      : favorites;
-
-    visibleFavorites.forEach(favorite => {
-        const item = document.createElement("div");
-        item.className = "favorite-place-item";
-        item.draggable = true;
-
-        item.addEventListener("dragstart", event => {
-          event.dataTransfer.setData("text/plain", favorite.key);
-          event.dataTransfer.effectAllowed = "move";
-          item.classList.add("is-dragging");
-        });
-        item.addEventListener("dragend", () => {
-          item.classList.remove("is-dragging");
-        });
-
-        const openButton = document.createElement("button");
-        openButton.type = "button";
-        openButton.className = "favorite-place-open";
-
-        const icon = document.createElement("span");
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = "⭐";
-
-        const copy = document.createElement("span");
-
-        const title = document.createElement("strong");
-        title.textContent =
-          favorite.customName ||
-          favorite.title ||
-          (state.language === "pl"
-            ? "Ulubione miejsce"
-            : "Favorite place");
-
-        const address = document.createElement("small");
-        address.textContent =
-          favorite.address ||
-          `${Number(favorite.lat).toFixed(5)}, ${Number(favorite.lon).toFixed(5)}`;
-
-        copy.append(title, address);
-
-        if (favorite.note) {
-          const note = document.createElement("small");
-          note.className = "favorite-place-note";
-          note.textContent = favorite.note;
-          copy.append(note);
-        }
-
-        openButton.append(icon, copy);
-
-        openButton.addEventListener(
-          "click",
-          () => {
-            openFavoritePlace(favorite);
-
-            // Panel Ulubione celowo pozostaje otwarty.
-          }
-        );
-
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "favorite-place-edit-toggle";
-        editButton.textContent = "✎";
-        editButton.title = text[state.language].favoriteEdit;
-        editButton.setAttribute("aria-label", text[state.language].favoriteEdit);
-
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.className = "favorite-place-remove";
-        removeButton.textContent = "×";
-        removeButton.title =
-          state.language === "pl"
-            ? "Usuń z ulubionych"
-            : "Remove from favorites";
-        removeButton.setAttribute(
-          "aria-label",
-          removeButton.title
-        );
-
-        removeButton.addEventListener("click", () => {
-          state.favorites = state.favorites.filter(
-            entry => entry.key !== favorite.key
-          );
-
-          saveFavorites();
-          renderFolderChips();
-          renderFavoritesList();
-        });
-
-        const editForm = document.createElement("div");
-        editForm.className = "favorite-place-edit-form";
-        editForm.hidden = true;
-
-        const nameLabel = document.createElement("label");
-        nameLabel.textContent = text[state.language].favoriteCustomNameLabel;
-        const nameInput = document.createElement("input");
-        nameInput.type = "text";
-        nameInput.placeholder = text[state.language].favoriteCustomNamePlaceholder;
-        nameInput.value = favorite.customName || "";
-        nameLabel.append(nameInput);
-
-        const noteLabel = document.createElement("label");
-        noteLabel.textContent = text[state.language].favoriteNoteLabel;
-        const noteInput = document.createElement("textarea");
-        noteInput.rows = 2;
-        noteInput.placeholder = text[state.language].favoriteNotePlaceholder;
-        noteInput.value = favorite.note || "";
-        noteLabel.append(noteInput);
-
-        const folderLabel = document.createElement("label");
-        folderLabel.textContent = t.favoriteFolderLabel;
-        const folderSelect = document.createElement("select");
-        folderSelect.className = "favorite-folder-select";
-        const unfiledOption = document.createElement("option");
-        unfiledOption.value = "";
-        unfiledOption.textContent = t.favoriteFolderUnfiled;
-        folderSelect.appendChild(unfiledOption);
-        state.favoriteFolders.forEach(folderName => {
-          const option = document.createElement("option");
-          option.value = folderName;
-          option.textContent = folderName;
-          folderSelect.appendChild(option);
-        });
-        folderSelect.value = favorite.folder || "";
-        folderLabel.append(folderSelect);
-
-        const editActions = document.createElement("div");
-        editActions.className = "favorite-place-edit-actions";
-
-        const saveButton = document.createElement("button");
-        saveButton.type = "button";
-        saveButton.className = "favorite-place-edit-save";
-        saveButton.textContent = text[state.language].favoriteSave;
-        saveButton.addEventListener("click", () => {
-          updateFavoriteDetails(favorite.key, {
-            customName: nameInput.value,
-            note: noteInput.value,
-            folder: folderSelect.value
-          });
-          renderFolderChips();
-        });
-
-        const cancelButton = document.createElement("button");
-        cancelButton.type = "button";
-        cancelButton.className = "favorite-place-edit-cancel";
-        cancelButton.textContent = text[state.language].favoriteCancelEdit;
-        cancelButton.addEventListener("click", () => {
-          editForm.hidden = true;
-        });
-
-        editActions.append(saveButton, cancelButton);
-        editForm.append(nameLabel, noteLabel, folderLabel, editActions);
-
-        editButton.addEventListener("click", () => {
-          editForm.hidden = !editForm.hidden;
-        });
-
-        const actions = document.createElement("div");
-        actions.className = "favorite-place-actions";
-        actions.append(editButton, removeButton);
-
-        const row = document.createElement("div");
-        row.className = "favorite-place-row";
-        row.append(openButton, actions);
-
-        item.append(row, editForm);
-        fragment.appendChild(item);
-    });
-
-    const visibleRoutes = showFolderRows
-      ? routes.filter(r => !r.folder)
-      : routes;
-
-    visibleRoutes.forEach(entry => {
-      const item = document.createElement("div");
-      item.className = "route-item";
-      item.draggable = true;
-      item.addEventListener("dragstart", event => {
-        event.dataTransfer.setData("text/plain", entry.key);
-        event.dataTransfer.effectAllowed = "move";
-        item.classList.add("is-dragging");
-      });
-      item.addEventListener("dragend", () => item.classList.remove("is-dragging"));
-
-      const openButton = document.createElement("button");
-      openButton.type = "button";
-      openButton.className = "route-item-open";
-
-      const icon = document.createElement("span");
-      icon.className = "route-item-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = ROUTE_MODE_ICONS[entry.mode] || "🧭";
-
-      const copy = document.createElement("span");
-      copy.className = "route-item-copy";
-
-      const title = document.createElement("strong");
-      title.textContent = entry.customName ||
-        `${entry.fromLabel || "?"} → ${entry.toLabel || "?"}`;
-
-      const summary = document.createElement("small");
-      summary.textContent = formatRouteSummaryShort(entry.distance, entry.duration);
-
-      copy.append(title, summary);
-      openButton.append(icon, copy);
-      openButton.addEventListener("click", () => loadRouteFromEntry(entry));
-
-      const editButton = document.createElement("button");
-      editButton.type = "button";
-      editButton.className = "favorite-place-edit-toggle";
-      editButton.textContent = "✎";
-      editButton.title = t.favoriteEdit;
-      editButton.setAttribute("aria-label", t.favoriteEdit);
-
-      const routeEditForm = document.createElement("div");
-      routeEditForm.className = "favorite-place-edit-form";
-      routeEditForm.hidden = true;
-
-      const routeNameLabel = document.createElement("label");
-      routeNameLabel.textContent = t.favoriteCustomNameLabel;
-      const routeNameInput = document.createElement("input");
-      routeNameInput.type = "text";
-      routeNameInput.placeholder = t.favoriteCustomNamePlaceholder;
-      routeNameInput.value = entry.customName || "";
-      routeNameLabel.append(routeNameInput);
-
-      const routeFolderLabel = document.createElement("label");
-      routeFolderLabel.textContent = t.favoriteFolderLabel;
-      const routeFolderSelect = document.createElement("select");
-      routeFolderSelect.className = "favorite-folder-select";
-      const routeUnfiledOption = document.createElement("option");
-      routeUnfiledOption.value = "";
-      routeUnfiledOption.textContent = t.favoriteFolderUnfiled;
-      routeFolderSelect.appendChild(routeUnfiledOption);
-      state.favoriteFolders.forEach(folderName => {
-        const option = document.createElement("option");
-        option.value = folderName;
-        option.textContent = folderName;
-        routeFolderSelect.appendChild(option);
-      });
-      routeFolderSelect.value = entry.folder || "";
-      routeFolderLabel.append(routeFolderSelect);
-
-      const routeEditActions = document.createElement("div");
-      routeEditActions.className = "favorite-place-edit-actions";
-      const routeSaveButton = document.createElement("button");
-      routeSaveButton.type = "button";
-      routeSaveButton.className = "favorite-place-edit-save";
-      routeSaveButton.textContent = t.favoriteSave;
-      routeSaveButton.addEventListener("click", () => {
-        entry.customName = (routeNameInput.value || "").trim();
-        entry.folder = routeFolderSelect.value || "";
-        saveRouteFavorites();
-        renderFolderChips();
-        renderFavoritesList();
-      });
-      const routeCancelButton = document.createElement("button");
-      routeCancelButton.type = "button";
-      routeCancelButton.className = "favorite-place-edit-cancel";
-      routeCancelButton.textContent = t.favoriteCancelEdit;
-      routeCancelButton.addEventListener("click", () => { routeEditForm.hidden = true; });
-      routeEditActions.append(routeSaveButton, routeCancelButton);
-      routeEditForm.append(routeNameLabel, routeFolderLabel, routeEditActions);
-      editButton.addEventListener("click", () => { routeEditForm.hidden = !routeEditForm.hidden; });
-
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "favorite-place-remove";
-      removeButton.textContent = "×";
-      removeButton.title = t.favoriteRemove || "×";
-      removeButton.setAttribute("aria-label", removeButton.title);
-      removeButton.addEventListener("click", () => {
-        state.routeFavorites = state.routeFavorites.filter(r => r.key !== entry.key);
-        saveRouteFavorites();
-        renderFolderChips();
-        renderFavoritesList();
-        updateRouteSaveFavoriteButton();
-      });
-
-      const actions = document.createElement("div");
-      actions.className = "favorite-place-actions";
-      actions.append(editButton, removeButton);
-
-      const routeRow = document.createElement("div");
-      routeRow.className = "route-item-row";
-      routeRow.append(openButton, actions);
-
-      item.append(routeRow, routeEditForm);
-      fragment.appendChild(item);
-    });
-
-    el.favoritesList.appendChild(fragment);
-  }
-
-  function updateFavoriteDetails(key, { customName, note, folder }) {
-    const favorite = state.favorites.find(item => item.key === key);
-    if (!favorite) return;
-
-    favorite.customName = (customName || "").trim();
-    favorite.note = (note || "").trim();
-    if (folder !== undefined) favorite.folder = folder || "";
-
-    saveFavorites();
-    renderFolderChips();
-    renderFavoritesList();
-  }
-
-  function saveFavorites() {
-    safeSet(
-      CONFIG.storageKeys.favorites,
-      JSON.stringify(state.favorites)
-    );
-  }
-
-  async function exportAllSettingsJson() {
-    const scopes = getCheckedBackupScopes();
-
-    if (scopes.length === 0) {
-      show(text[state.language].backupNothingSelected);
-      return;
-    }
-
-    const payload = {
-      version: 2,
-      exportedAt: new Date().toISOString()
-    };
-
-    if (scopes.includes("favorites")) {
-      payload.favorites = state.favorites.map(favorite => ({
-        ...favorite,
-        key: favorite.key,
-        title: favorite.title || "",
-        address: favorite.address || "",
-        lat: Number(favorite.lat),
-        lon: Number(favorite.lon)
-      }));
-      payload.favoriteFolders = [...state.favoriteFolders];
-      payload.routeFavorites = [...state.routeFavorites];
-    }
-
-    if (scopes.includes("colors")) {
-      payload.customPalette = { ...state.customPalette };
-
-      const textureEntries = Object.entries(state.customTextures || {}).filter(
-        ([, dataUrl]) => Boolean(dataUrl)
-      );
-      if (textureEntries.length > 0) {
-        payload.customTextures = Object.fromEntries(textureEntries);
-      }
-
-      if (state.customFont && state.customFont.type !== "default") {
-        payload.customFont = { ...state.customFont };
-        if (state.customFont.type === "custom" && state.customFontDataUrl) {
-          payload.customFontData = state.customFontDataUrl;
-        }
-      }
-    }
-
-    if (scopes.includes("placeNames")) {
-      const nameEntries = Object.entries(state.customPlaceNames || {}).filter(
-        ([, name]) => Boolean(name)
-      );
-      if (nameEntries.length > 0) {
-        payload.customPlaceNames = Object.fromEntries(nameEntries);
-      }
-    }
-
-    const json = JSON.stringify(payload, null, 2);
-    const filename =
-      `odwrotna-mapa-ustawienia-${new Date()
-        .toISOString()
-        .slice(0, 10)}.json`;
-
-    // Android WebView nie obsługuje niezawodnie pobierania plików przez
-    // <a download> + blob: URL, więc tam zapisujemy plik natywnie i
-    // otwieramy systemowe okno udostępniania/zapisu.
-    if (window.CapacitorPlatform === "android" && window.CapacitorFilesystem) {
-      try {
-        const writeResult = await window.CapacitorFilesystem.writeFile({
-          path: filename,
-          data: json,
-          directory: window.CapacitorDirectory.Cache,
-          encoding: window.CapacitorEncoding.UTF8
-        });
-
-        await window.CapacitorShare.share({
-          title: filename,
-          files: [writeResult.uri]
-        });
-      } catch (error) {
-        console.error(error);
-        show(text[state.language].backupExportError);
-      }
-      return;
-    }
-
-    const blob = new Blob(
-      [json],
-      { type: "application/json;charset=utf-8" }
-    );
-
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = filename;
-
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
-  async function importAllSettingsJson(event) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-
-    if (!file) return;
-
-    try {
-      const scopes = getCheckedBackupScopes();
-
-      if (scopes.length === 0) {
-        show(text[state.language].backupNothingSelected);
-        return;
-      }
-
-      const raw = JSON.parse(await file.text());
-      const entries = Array.isArray(raw)
-        ? raw
-        : raw?.favorites;
-
-      let importedCount = 0;
-      let favoritesImportedFlag = false;
-      let colorsImportedFlag = false;
-
-      if (scopes.includes("favorites") && Array.isArray(entries)) {
-        const imported = [];
-        const known = new Set(
-          state.favorites.map(item => item.key)
-        );
-
-        for (const entry of entries) {
-          const lat = Number(entry.lat);
-          const lon = Number(entry.lon);
-
-          if (
-            !Number.isFinite(lat) ||
-            !Number.isFinite(lon)
-          ) {
-            continue;
-          }
-
-          const key =
-            String(entry.key || "").trim() ||
-            `${lat.toFixed(6)},${lon.toFixed(6)}`;
-
-          if (known.has(key)) continue;
-          known.add(key);
-
-          imported.push({
-            ...entry,
-            key,
-            title: String(entry.title || "").trim(),
-            address: String(entry.address || "").trim(),
-            lat,
-            lon,
-            exactLocalIdentity: Boolean(
-              entry.exactLocalIdentity ||
-              entry._exactLocalIdentity
-            ),
-            addressDetails: {
-              ...(entry.addressDetails || entry.addressObject || {})
-            },
-            extratags: {
-              ...(entry.extratags || {})
-            },
-            namedetails: {
-              ...(entry.namedetails || {})
-            }
-          });
-        }
-
-        state.favorites = [
-          ...state.favorites,
-          ...imported
-        ].slice(0, 1000);
-
-        saveFavorites();
-
-        if (Array.isArray(raw?.favoriteFolders)) {
-          const existingLower = new Set(state.favoriteFolders.map(f => f.toLowerCase()));
-          for (const folder of raw.favoriteFolders) {
-            if (typeof folder === "string" && folder.trim() && !existingLower.has(folder.trim().toLowerCase())) {
-              state.favoriteFolders.push(folder.trim());
-              existingLower.add(folder.trim().toLowerCase());
-            }
-          }
-          saveFavoriteFolders();
-        }
-
-        if (Array.isArray(raw?.routeFavorites)) {
-          const existingKeys = new Set(state.routeFavorites.map(r => r.key));
-          const importedRoutes = raw.routeFavorites.filter(
-            r => r && r.key && !existingKeys.has(r.key)
-          );
-          if (importedRoutes.length) {
-            state.routeFavorites = [...state.routeFavorites, ...importedRoutes];
-            saveRouteFavorites();
-          }
-        }
-
-        renderFolderChips();
-        renderFavoritesList();
-        importedCount = imported.length;
-        favoritesImportedFlag = true;
-      }
-
-      if (
-        scopes.includes("colors") &&
-        raw?.customPalette &&
-        typeof raw.customPalette === "object"
-      ) {
-        state.customPalette = {
-          ...DEFAULT_CUSTOM_PALETTE,
-          ...raw.customPalette
-        };
-        saveCustomPalette(state.customPalette);
-        syncCustomPaletteInputs();
-        colorsImportedFlag = true;
-      }
-
-      if (
-        scopes.includes("colors") &&
-        raw?.customTextures &&
-        typeof raw.customTextures === "object"
-      ) {
-        for (const key of TEXTURE_FIELDS) {
-          const dataUrl = raw.customTextures[key];
-          if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:image/")) {
-            continue;
-          }
-
-          state.customTextures[key] = dataUrl;
-          await idbSetTexture(key, dataUrl);
-
-          if (MAP_TEXTURE_KEYS.includes(key)) {
-            await registerTextureImage(key, dataUrl);
-          }
-        }
-        colorsImportedFlag = true;
-      }
-
-      if (
-        scopes.includes("colors") &&
-        raw?.customFont &&
-        typeof raw.customFont === "object" &&
-        typeof raw.customFont.type === "string"
-      ) {
-        if (raw.customFont.type === "google" && raw.customFont.googleFont) {
-          state.customFont = { type: "google", googleFont: raw.customFont.googleFont };
-          state.customFontDataUrl = null;
-          saveCustomFont();
-          colorsImportedFlag = true;
-        } else if (
-          raw.customFont.type === "custom" &&
-          typeof raw.customFontData === "string" &&
-          raw.customFontData.startsWith("data:")
-        ) {
-          state.customFont = { type: "custom" };
-          state.customFontDataUrl = raw.customFontData;
-          await idbSetCustomFont(raw.customFontData);
-          saveCustomFont();
-          colorsImportedFlag = true;
-        }
-        syncCustomFontSelect();
-      }
-
-      if (colorsImportedFlag && state.theme === "custom") {
-        applyTheme(state.theme);
-      }
-
-      let placeNamesImportedFlag = false;
-
-      if (
-        scopes.includes("placeNames") &&
-        raw?.customPlaceNames &&
-        typeof raw.customPlaceNames === "object"
-      ) {
-        for (const [key, name] of Object.entries(raw.customPlaceNames)) {
-          const trimmed = String(name || "").trim();
-          if (typeof key === "string" && key && trimmed) {
-            state.customPlaceNames[key] = trimmed;
-          }
-        }
-        saveCustomPlaceNames();
-        placeNamesImportedFlag = true;
-      }
-
-      const messages = [];
-      if (favoritesImportedFlag) {
-        messages.push(text[state.language].favoritesImported(importedCount));
-      }
-      if (colorsImportedFlag) {
-        messages.push(text[state.language].colorsImported);
-      }
-      if (placeNamesImportedFlag) {
-        messages.push(text[state.language].placeNamesImported);
-      }
-
-      show(messages.join(" ") || text[state.language].favoritesImportError);
-    } catch (error) {
-      console.error(error);
-      show(text[state.language].favoritesImportError);
-    }
-  }
-
-
   function openMenuHome() {
     closeMapContextMenu();
     closeOtherMobilePanels("menu");
@@ -11891,45 +10026,6 @@ function drawRoute(geometry, from, to, mode) {
     openMenuHome();
   }
 
-  function updateTradingSundayAnswer() {
-    const { isSunday, isTrading } = isTodayTradingSundayPL();
-    const t = text[state.language];
-
-    if (el.tradingSundayAnswer) {
-      el.tradingSundayAnswer.textContent = isTrading ? t.yes : t.no;
-      el.tradingSundayAnswer.classList.toggle("is-yes", isTrading);
-      el.tradingSundayAnswer.classList.toggle("is-no", !isTrading);
-    }
-
-    if (el.tradingSundayNote) {
-      el.tradingSundayNote.textContent = isSunday
-        ? ""
-        : t.tradingSundayNotSunday;
-    }
-  }
-
-  function openTradingSundayFromMenu() {
-    closeOtherMobilePanels("tradingSunday");
-
-    updateTradingSundayAnswer();
-
-    openMobilePanelStandard(
-      el.tradingSundayPanel,
-      "--sheet-height"
-    );
-    el.menuTradingSundayButton?.setAttribute("aria-expanded", "true");
-  }
-
-  function closeTradingSunday() {
-    if (!el.tradingSundayPanel || el.tradingSundayPanel.hidden) return;
-    el.tradingSundayPanel.hidden = true;
-    el.menuTradingSundayButton?.setAttribute("aria-expanded", "false");
-  }
-
-  function returnFromTradingSundayToMenu() {
-    closeTradingSunday();
-    openMenuHome();
-  }
 
   function openAboutFromMenu() {
     closeOtherMobilePanels("about");
@@ -11968,7 +10064,7 @@ function drawRoute(geometry, from, to, mode) {
   }
 
   function returnFromFavoritesToMenu() {
-    closeFavoritesPanel();
+    window.OMAP_FAVORITES?.closeFavoritesPanel();
     closeHistory();
     openMenuHome();
   }
@@ -12062,561 +10158,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     );
   }
 
-  function haversineDistanceMeters(a, b) {
-    const R = 6371000;
-    const toRad = deg => (deg * Math.PI) / 180;
-    const dLat = toRad(b.lat - a.lat);
-    const dLon = toRad(b.lng - a.lng);
-    const lat1 = toRad(a.lat);
-    const lat2 = toRad(b.lat);
 
-    const h =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-
-    return 2 * R * Math.asin(Math.sqrt(h));
-  }
-
-  function formatMeasureDistance(meters) {
-    if (meters >= 1000) {
-      return `${(meters / 1000).toLocaleString(
-        state.language === "pl" ? "pl-PL" : "en-US",
-        { maximumFractionDigits: 2 }
-      )} km`;
-    }
-    return `${Math.round(meters)} m`;
-  }
-
-  // Rzutujemy punkty na lokalną płaszczyznę styczną (przybliżenie
-  // równoodległościowe wyśrodkowane na średniej szerokości
-  // geograficznej wielokąta) i liczymy powierzchnię wzorem Gaussa
-  // (shoelace). To standardowe podejście w konsumenckich narzędziach
-  // do pomiaru powierzchni w przeglądarce - dokładność rzędu ułamka
-  // procenta dla obszarów wielkości miasta/regionu, więc w zupełności
-  // wystarczające (to nie narzędzie geodezyjne).
-  function polygonAreaSquareMeters(points) {
-    if (points.length < 3) return 0;
-
-    const R = 6371000;
-    const toRad = deg => (deg * Math.PI) / 180;
-    const meanLat = points.reduce((sum, p) => sum + p.lat, 0) / points.length;
-    const cosMeanLat = Math.cos(toRad(meanLat));
-
-    const projected = points.map(p => ({
-      x: R * toRad(p.lng) * cosMeanLat,
-      y: R * toRad(p.lat)
-    }));
-
-    let sum = 0;
-    for (let i = 0; i < projected.length; i++) {
-      const a = projected[i];
-      const b = projected[(i + 1) % projected.length];
-      sum += a.x * b.y - b.x * a.y;
-    }
-
-    return Math.abs(sum) / 2;
-  }
-
-  function formatMeasureArea(squareMeters) {
-    const locale = state.language === "pl" ? "pl-PL" : "en-US";
-    if (squareMeters >= 1000000) {
-      return `${(squareMeters / 1000000).toLocaleString(
-        locale,
-        { maximumFractionDigits: 2 }
-      )} km²`;
-    }
-    if (squareMeters >= 10000) {
-      return `${(squareMeters / 10000).toLocaleString(
-        locale,
-        { maximumFractionDigits: 2 }
-      )} ha`;
-    }
-    return `${Math.round(squareMeters).toLocaleString(locale)} m²`;
-  }
-
-  function ensureMeasureLayers() {
-    if (map.getSource(MEASURE_SOURCE_ID)) return;
-
-    map.addSource(MEASURE_SOURCE_ID, {
-      type: "geojson",
-      data: { type: "FeatureCollection", features: [] }
-    });
-
-    map.addLayer({
-      id: MEASURE_LINE_LAYER_ID,
-      type: "line",
-      source: MEASURE_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "LineString"],
-      layout: { "line-cap": "round", "line-join": "round" },
-      paint: {
-        "line-color": getAccentColor(),
-        "line-width": 3,
-        "line-dasharray": [2, 1]
-      }
-    });
-
-    map.addLayer({
-      id: MEASURE_POINTS_LAYER_ID,
-      type: "circle",
-      source: MEASURE_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "Point"],
-      paint: {
-        "circle-radius": 5,
-        "circle-color": "#ffffff",
-        "circle-stroke-width": 2,
-        "circle-stroke-color": getAccentColor()
-      }
-    });
-  }
-
-  function ensureMeasureAreaLayers() {
-    if (map.getSource(MEASURE_AREA_SOURCE_ID)) return;
-
-    map.addSource(MEASURE_AREA_SOURCE_ID, {
-      type: "geojson",
-      data: { type: "FeatureCollection", features: [] }
-    });
-
-    map.addLayer({
-      id: MEASURE_AREA_FILL_LAYER_ID,
-      type: "fill",
-      source: MEASURE_AREA_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "Polygon"],
-      paint: {
-        "fill-color": getAccentColor(),
-        "fill-opacity": 0.2
-      }
-    });
-
-    map.addLayer({
-      id: MEASURE_AREA_LINE_LAYER_ID,
-      type: "line",
-      source: MEASURE_AREA_SOURCE_ID,
-      filter: ["!=", ["geometry-type"], "Point"],
-      layout: { "line-cap": "round", "line-join": "round" },
-      paint: {
-        "line-color": getAccentColor(),
-        "line-width": 3,
-        "line-dasharray": [2, 1]
-      }
-    });
-
-    map.addLayer({
-      id: MEASURE_AREA_POINTS_LAYER_ID,
-      type: "circle",
-      source: MEASURE_AREA_SOURCE_ID,
-      filter: ["==", ["geometry-type"], "Point"],
-      paint: {
-        "circle-radius": 5,
-        "circle-color": "#ffffff",
-        "circle-stroke-width": 2,
-        "circle-stroke-color": getAccentColor()
-      }
-    });
-  }
-
-  function updateMeasureDisplay() {
-    const points = state.measurePoints || [];
-    let total = 0;
-    for (let i = 1; i < points.length; i++) {
-      total += haversineDistanceMeters(points[i - 1], points[i]);
-    }
-
-    if (el.measureDistanceValue) {
-      el.measureDistanceValue.textContent =
-        formatMeasureDistance(total);
-    }
-    if (el.measureDistanceBadge) {
-      el.measureDistanceBadge.hidden = points.length === 0;
-    }
-
-    const source = map.getSource(MEASURE_SOURCE_ID);
-    if (!source) return;
-
-    const pointFeatures = points.map(p => ({
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [p.lng, p.lat] },
-      properties: {}
-    }));
-
-    const features = [...pointFeatures];
-    if (points.length > 1) {
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: points.map(p => [p.lng, p.lat])
-        },
-        properties: {}
-      });
-    }
-
-    source.setData({ type: "FeatureCollection", features });
-  }
-
-  function addMeasurePoint(lngLat) {
-    if (!state.measurePoints) state.measurePoints = [];
-    state.measurePoints.push({ lat: lngLat.lat, lng: lngLat.lng });
-    updateMeasureDisplay();
-  }
-
-  function clearMeasurement() {
-    state.measurePoints = [];
-    updateMeasureDisplay();
-  }
-
-  // Jeden przycisk w pasku narzędzi włącza/wyłącza tryb pomiaru.
-  // Wewnątrz plakietki jest mały przełącznik odległość/powierzchnia
-  // (measureModeSwitchButton) - to on decyduje, co aktualnie mierzą
-  // kliknięcia na mapie, żeby nie mnożyć ikon w pasku narzędzi.
-  function toggleMeasureMode() {
-    state.measureModeActive = !state.measureModeActive;
-
-    if (state.measureModeActive) {
-      state.measureIsArea = false;
-      ensureMeasureLayers();
-      closeOtherMobilePanels([]);
-      updateMeasureModeSwitchUi();
-    } else {
-      clearMeasurement();
-      clearMeasureAreaMeasurement();
-    }
-
-    el.measureToggleButton?.classList.toggle(
-      "is-active",
-      state.measureModeActive
-    );
-    el.measureToggleButton?.setAttribute(
-      "aria-pressed",
-      String(state.measureModeActive)
-    );
-  }
-
-  function updateMeasureAreaDisplay() {
-    const points = state.measureAreaPoints || [];
-    const area = polygonAreaSquareMeters(points);
-
-    if (el.measureDistanceValue) {
-      el.measureDistanceValue.textContent = formatMeasureArea(area);
-    }
-    if (el.measureDistanceBadge) {
-      el.measureDistanceBadge.hidden = points.length === 0;
-    }
-
-    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
-    if (!source) return;
-
-    const pointFeatures = points.map(p => ({
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [p.lng, p.lat] },
-      properties: {}
-    }));
-
-    const features = [...pointFeatures];
-    if (points.length === 2) {
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: points.map(p => [p.lng, p.lat])
-        },
-        properties: {}
-      });
-    } else if (points.length > 2) {
-      const ring = points.map(p => [p.lng, p.lat]);
-      ring.push(ring[0]);
-      features.push({
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [ring]
-        },
-        properties: {}
-      });
-    }
-
-    source.setData({ type: "FeatureCollection", features });
-  }
-
-  function addMeasureAreaPoint(lngLat) {
-    if (!state.measureAreaPoints) state.measureAreaPoints = [];
-    state.measureAreaPoints.push({ lat: lngLat.lat, lng: lngLat.lng });
-    updateMeasureAreaDisplay();
-  }
-
-  function clearMeasureAreaMeasurement() {
-    state.measureAreaPoints = [];
-    const source = map.getSource(MEASURE_AREA_SOURCE_ID);
-    if (source) source.setData({ type: "FeatureCollection", features: [] });
-  }
-
-  function updateMeasureModeSwitchUi() {
-    if (!el.measureModeSwitchButton) return;
-    const t = text[state.language];
-    if (state.measureIsArea) {
-      el.measureModeSwitchButton.textContent = "📏";
-      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToDistance);
-      el.measureModeSwitchButton.title = t.measureSwitchToDistance;
-    } else {
-      el.measureModeSwitchButton.textContent = "📐";
-      el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToArea);
-      el.measureModeSwitchButton.title = t.measureSwitchToArea;
-    }
-  }
-
-  function switchMeasureMode() {
-    if (!state.measureModeActive) return;
-
-    // Nie da się sensownie mieszać otwartej linii (odległość) z
-    // zamkniętym wielokątem (powierzchnia) - przy przełączaniu
-    // czyścimy oba, żeby uniknąć niespójnego stanu.
-    clearMeasurement();
-    clearMeasureAreaMeasurement();
-
-    state.measureIsArea = !state.measureIsArea;
-    if (state.measureIsArea) {
-      ensureMeasureAreaLayers();
-      updateMeasureAreaDisplay();
-    } else {
-      ensureMeasureLayers();
-      updateMeasureDisplay();
-    }
-
-    if (el.measureDistanceBadge) el.measureDistanceBadge.hidden = true;
-    updateMeasureModeSwitchUi();
-  }
-
-  function toggle3dView() {
-    state.is3dView = !state.is3dView;
-
-    map.easeTo({
-      pitch: state.is3dView ? 60 : 0,
-      duration: 500
-    });
-
-    el.toggle3dButton?.classList.toggle("is-active", state.is3dView);
-    el.toggle3dButton?.setAttribute(
-      "aria-pressed",
-      String(state.is3dView)
-    );
-  }
-
-  function locateFromMenu() {
-    if (isElectronPlatform()) {
-      show(
-        state.language === "pl"
-          ? "Pobieranie lokalizacji…"
-          : "Getting your location…",
-        0
-      );
-
-      fetchLocationByIp()
-        .then(({ latitude, longitude }) => {
-          showUserLocationMarker({ lng: longitude, lat: latitude });
-          map.flyTo({
-            center: [longitude, latitude],
-            zoom: 11,
-            bearing: 180
-          });
-          hide();
-          if (map && typeof map.resize === "function") {
-          map.resize();
-}
-        })
-        .catch(error => {
-          console.warn("Lokalizacja po IP nie powiodła się.", error);
-          show(
-            state.language === "pl"
-              ? "Nie udało się pobrać lokalizacji."
-              : "Your location could not be retrieved."
-          );
-        });
-      return;
-    }
-
-    if (!navigator.geolocation) {
-      show(
-        state.language === "pl"
-          ? "Twoja przeglądarka nie obsługuje lokalizacji."
-          : "Your browser does not support geolocation."
-      );
-      return;
-    }
-
-    show(
-      state.language === "pl"
-        ? "Pobieranie lokalizacji…"
-        : "Getting your location…",
-      0
-    );
-
-let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
-
-  if (window.userLocationWatchId) {
-    navigator.geolocation.clearWatch(window.userLocationWatchId);
-  }
-
-  window.userLocationWatchId = navigator.geolocation.watchPosition(
-    position => {
-      const lon = position.coords.longitude;
-      const lat = position.coords.latitude;
-      const lngLat = new maplibregl.LngLat(lon, lat);
-
-      // 1. Zawsze aktualizujemy tylko pozycję samej niebieskiej kropki
-      showUserLocationMarker(lngLat);
-
-      // 2. Mapę centrujemy TYLKO PIERWSZY RAZ!
-      // Gdy GPS skoryguje pozycję po kilku sekundach, kropka się przesunie, ale mapa NIE PRZESKOCZY.
-      if (!hasPannedToUser) {
-        hasPannedToUser = true;
-
-        map.flyTo({
-          center: [lon, lat],
-          zoom: Math.max(map.getZoom(), 15),
-          bearing: map.getBearing() // Utrzymuje obecny obrót (np. 180°), zapobiegając "fikołkowi" mapy
-        });
-
-        hide();
-
-        requestAnimationFrame(() => {
-          if (map && typeof map.resize === "function") {
-            map.resize();
-          }
-        });
-      }
-    },
-    error => {
-      console.error(error);
-      show(
-        state.language === "pl"
-          ? "Nie udało się pobrać lokalizacji."
-          : "Your location could not be retrieved."
-      );
-    },
-    {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 0 // Zmusza do natychmiastowego pobrania świeżego punktu z czujnika
-    }
-  );
-  }
-
-  function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result || "";
-        resolve(String(result).split(",")[1] || "");
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  function exportMapAsPng() {
-    const t = text[state.language];
-
-    show(t.exportPngWorking, 0);
-
-    try {
-      map.once("render", () => {
-        const canvas = map.getCanvas();
-
-        canvas.toBlob(async blob => {
-          if (!blob) {
-            show(t.exportPngError);
-            return;
-          }
-
-          const fileName = `odwrotna-mapa-${Date.now()}.png`;
-
-          // Android WebView nie obsługuje niezawodnie pobierania
-          // plików przez <a download> ani udostępniania blobów -
-          // tam zapisujemy plik natywnie i otwieramy systemowe
-          // okno udostępniania/zapisu, tak jak przy kopii zapasowej.
-          if (
-            window.CapacitorPlatform === "android" &&
-            window.CapacitorFilesystem
-          ) {
-            try {
-              const base64 = await blobToBase64(blob);
-              const writeResult = await window.CapacitorFilesystem.writeFile({
-                path: fileName,
-                data: base64,
-                directory: window.CapacitorDirectory.Cache
-              });
-
-              await window.CapacitorShare.share({
-                title: fileName,
-                files: [writeResult.uri]
-              });
-              show(t.exportPngDone);
-            } catch (error) {
-              console.error(error);
-              show(t.exportPngError);
-            }
-            return;
-          }
-
-          const file = new File([blob], fileName, {
-            type: "image/png"
-          });
-
-          // Safari na iOS nie obsługuje poprawnie atrybutu
-          // download - tam trzeba użyć natywnego arkusza
-          // udostępniania, żeby dało się zapisać obrazek.
-          if (
-            navigator.canShare &&
-            navigator.canShare({ files: [file] })
-          ) {
-            try {
-              await navigator.share({ files: [file] });
-              show(t.exportPngDone);
-              return;
-            } catch (error) {
-              if (error?.name === "AbortError") {
-                hide();
-                return;
-              }
-              console.error(error);
-            }
-          }
-
-          try {
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            URL.revokeObjectURL(url);
-            show(t.exportPngDone);
-          } catch (error) {
-            console.error(error);
-            show(t.exportPngError);
-          }
-        }, "image/png");
-      });
-      map.triggerRepaint();
-    } catch (error) {
-      console.error(error);
-      show(t.exportPngError);
-    }
-  }
-
-  function clearMapView() {
-    closeMapContextMenu();
-    clearRoute();
-    window.OMAP_DISCOVER?.clear();
-    removeContextPointMarker();
-    removeUserLocationMarker();
-    hideAllAutocomplete();
-
-    closeOtherMobilePanels([]);
-
-    show(text[state.language].mapCleared);
-  }
 
   function toggleAbout() {
     closeMapContextMenu();
@@ -13230,11 +10772,11 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       await pullOneMediaSlot(`texture:${key}`, async value => {
         if (value) {
           state.customTextures[key] = value;
-          await idbSetTexture(key, value);
+          await window.OMAP_TEXTURE_STORAGE?.idbSetTexture(key, value);
           if (MAP_TEXTURE_KEYS.includes(key)) await registerTextureImage(key, value);
         } else {
           state.customTextures[key] = null;
-          await idbDeleteTexture(key);
+          await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
           if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
         }
       });
@@ -13244,13 +10786,13 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       if (value) {
         state.customFont = { type: "custom" };
         state.customFontDataUrl = value;
-        await idbSetCustomFont(value);
+        await window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont(value);
         saveCustomFont();
         syncCustomFontSelect();
       } else if (state.customFont?.type === "custom") {
         state.customFont = { type: "default" };
         state.customFontDataUrl = null;
-        await idbDeleteCustomFont();
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
         saveCustomFont();
         syncCustomFontSelect();
       }
@@ -13288,22 +10830,22 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
         })
         .filter(Boolean)
         .slice(0, 1000);
-      saveFavorites();
+      window.OMAP_FAVORITES?.saveFavorites();
 
       if (Array.isArray(payload.favoriteFolders)) {
         state.favoriteFolders = payload.favoriteFolders.filter(
           f => typeof f === "string" && f.trim()
         );
-        saveFavoriteFolders();
+        window.OMAP_FAVORITES?.saveFavoriteFolders();
       }
 
       if (Array.isArray(payload.routeFavorites)) {
         state.routeFavorites = payload.routeFavorites.filter(entry => entry && entry.key);
-        saveRouteFavorites();
+        window.OMAP_ROUTE_HISTORY?.saveRouteFavorites();
       }
 
-      renderFolderChips();
-      renderFavoritesList();
+      window.OMAP_FAVORITES?.renderFolderChips();
+      window.OMAP_FAVORITES?.renderFavoritesList();
     }
 
     if (scopes.includes("colors")) {
@@ -13316,7 +10858,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       if (payload.customFont?.type === "google" && payload.customFont.googleFont) {
         state.customFont = { type: "google", googleFont: payload.customFont.googleFont };
         state.customFontDataUrl = null;
-        await idbDeleteCustomFont();
+        await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
         saveCustomFont();
         syncCustomFontSelect();
       }
@@ -13343,7 +10885,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
 
     if (scopes.includes("placeNames") && payload.customPlaceNames && typeof payload.customPlaceNames === "object") {
       state.customPlaceNames = { ...payload.customPlaceNames };
-      saveCustomPlaceNames();
+      window.OMAP_CUSTOM_PLACE_NAMES?.saveCustomPlaceNames();
     }
 
     if (scopes.includes("history") && Array.isArray(payload.history)) {
@@ -13364,7 +10906,7 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
       state.routeHistory = payload.routeHistory
         .filter(entry => entry && entry.key)
         .slice(0, ROUTE_HISTORY_LIMIT);
-      saveRouteHistory();
+      window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
       renderHistoryList();
     }
   }
@@ -14001,29 +11543,6 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     input?.focus();
   }
 
-  window.OMAP_RATINGS?.configure({
-    state,
-    text,
-    getStoredSeedWords,
-    openAccountFromMenu
-  });
-  window.OMAP_DEPARTURES?.configure({
-    state,
-    text,
-    CONFIG,
-    openTripDetails
-  });
-  window.OMAP_DISCOVER?.configure({
-    state,
-    el,
-    map,
-    CONFIG,
-    text,
-    getSearchResultTitle,
-    scrollPanelToElement
-  });
-  window.OMAP_DISCOVER?.renderCategoryButtons();
-
 
   function normalizeExactPlaceName(value) {
     return String(value || "")
@@ -14556,75 +12075,6 @@ let hasPannedToUser = false; // Zapobiega ciągłemu przeskakiwaniu mapy!
     }
   }
 
-  // Oblicza datę pierwszego dnia Wielkanocy (algorytm Meeusa/Jonesa/
-  // Butchera, kalendarz gregoriański) dla danego roku.
-  function calculateEasterSunday(year) {
-    const a = year % 19;
-    const b = Math.floor(year / 100);
-    const c = year % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const month = Math.floor((h + l - 7 * m + 114) / 31);
-    const day = ((h + l - 7 * m + 114) % 31) + 1;
-    return new Date(year, month - 1, day);
-  }
-
-  // Ostatnia niedziela danego miesiąca (0-indeksowany miesiąc).
-  function lastSundayOfMonth(year, monthIndex) {
-    const lastDay = new Date(year, monthIndex + 1, 0);
-    const offset = lastDay.getDay();
-    lastDay.setDate(lastDay.getDate() - offset);
-    return lastDay;
-  }
-
-  // Zwraca zbiór dat (jako stringi YYYY-MM-DD) niedziel handlowych w
-  // Polsce dla danego roku, zgodnie z ustawą z 10 stycznia 2018 r. o
-  // ograniczeniu handlu w niedziele i święta.
-  function getTradingSundaysForYear(year) {
-    const dates = [];
-    const toKey = date =>
-      `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-
-    // Ostatnia niedziela stycznia, kwietnia, czerwca i sierpnia.
-    for (const monthIndex of [0, 3, 5, 7]) {
-      dates.push(lastSundayOfMonth(year, monthIndex));
-    }
-
-    // Niedziela bezpośrednio poprzedzająca pierwszy dzień Wielkanocy.
-    const easter = calculateEasterSunday(year);
-    const beforeEaster = new Date(easter);
-    beforeEaster.setDate(beforeEaster.getDate() - 7);
-    dates.push(beforeEaster);
-
-    // Trzy kolejne niedziele poprzedzające Wigilię (24 grudnia).
-    const christmasEve = new Date(year, 11, 24);
-    let cursor = new Date(christmasEve);
-    cursor.setDate(cursor.getDate() - 1);
-    while (cursor.getDay() !== 0) {
-      cursor.setDate(cursor.getDate() - 1);
-    }
-    for (let i = 0; i < 3; i++) {
-      dates.push(new Date(cursor));
-      cursor.setDate(cursor.getDate() - 7);
-    }
-
-    return new Set(dates.map(toKey));
-  }
-
-  function isTodayTradingSundayPL() {
-    const today = new Date();
-    const isSunday = today.getDay() === 0;
-    const tradingSundays = getTradingSundaysForYear(today.getFullYear());
-    const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-    return { isSunday, isTrading: isSunday && tradingSundays.has(todayKey) };
-  }
 
   function isElectronPlatform() {
     return (

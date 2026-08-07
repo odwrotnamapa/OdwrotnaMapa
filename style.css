@@ -2810,6 +2810,10 @@ a.place-card-row {
   grid-template-columns: 32px minmax(0, 1fr) auto;
 }
 
+.menu-setting input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
 .menu-setting select {
   min-width: 118px;
   border: 1px solid var(--border);
