@@ -450,7 +450,6 @@
       accountNameCancel: "Anuluj",
       accountPublicIdTitle: "Kliknij, aby skopiować",
       accountAutoSyncLabel: "Synchronizuj automatycznie w tle",
-      accountScopeFavorites: "Ulubione miejsca",
       accountScopeColors: "Motyw, kolory i język",
       accountScopePlaceNames: "Własne nazwy miejsc",
       accountScopeHistory: "Historia przeglądanych miejsc",
@@ -919,7 +918,6 @@
       accountNameCancel: "Cancel",
       accountPublicIdTitle: "Click to copy",
       accountAutoSyncLabel: "Sync automatically in the background",
-      accountScopeFavorites: "Favorite places",
       accountScopeColors: "Theme, colors and language",
       accountScopePlaceNames: "Custom place names",
       accountScopeHistory: "Browsing history",
@@ -1584,8 +1582,6 @@
     accountStatusText: $("account-status-text"),
     accountAutoSyncCheckbox: $("account-auto-sync-checkbox"),
     accountAutoSyncLabel: $("account-auto-sync-label"),
-    accountSyncScopeFavorites: $("account-sync-scope-favorites"),
-    accountScopeFavoritesLabel: $("account-scope-favorites-label"),
     accountSyncScopeColors: $("account-sync-scope-colors"),
     accountScopeColorsLabel: $("account-scope-colors-label"),
     accountSyncScopePlaceNames: $("account-sync-scope-place-names"),
@@ -2458,7 +2454,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.accountNameCancelButton) el.accountNameCancelButton.textContent = t.accountNameCancel;
     if (el.accountPublicId) el.accountPublicId.title = t.accountPublicIdTitle;
     if (el.accountAutoSyncLabel) el.accountAutoSyncLabel.textContent = t.accountAutoSyncLabel;
-    if (el.accountScopeFavoritesLabel) el.accountScopeFavoritesLabel.textContent = t.accountScopeFavorites;
     if (el.accountScopeColorsLabel) el.accountScopeColorsLabel.textContent = t.accountScopeColors;
     if (el.accountScopePlaceNamesLabel) el.accountScopePlaceNamesLabel.textContent = t.accountScopePlaceNames;
     if (el.accountScopeHistoryLabel) el.accountScopeHistoryLabel.textContent = t.accountScopeHistory;
