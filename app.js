@@ -216,7 +216,7 @@
       routePointNotFound: "Nie znaleziono jednego z podanych punktów.",
       routeError: "Nie udało się wyznaczyć trasy.",
       transitRouteError: "Nie znaleziono połączenia transportem publicznym.",
-      routeSaveFavorite: "Zapisz trasę",
+      routeSaveFavorite: "Zapisz",
       routeSavedFavorite: "Zapisano",
       favoriteRemove: "Usuń",
       sortAriaLabel: "Sortuj",
@@ -684,7 +684,7 @@
       routePointNotFound: "One of the entered points could not be found.",
       routeError: "The route could not be calculated.",
       transitRouteError: "No public transport connection was found.",
-      routeSaveFavorite: "Save route",
+      routeSaveFavorite: "Save",
       routeSavedFavorite: "Saved",
       favoriteRemove: "Remove",
       sortAriaLabel: "Sort",
@@ -1729,13 +1729,13 @@ map.on('rotate', updateLogoRotation);
 
   map.on("load", async () => {
     ensureSatellite();
-    ensureRouteLayers();
+    window.OMAP_ROUTE?.ensureRouteLayers();
     cacheOriginalPaint();
     await initCustomTextures();
     await initCustomFont();
     applyTheme(state.theme);
     applyLanguageAfterStartup();
-    loadSharedRouteFromUrl();
+    window.OMAP_ROUTE?.loadSharedRouteFromUrl();
     loadSharedPlaceFromUrl();
     window.OMAP_GEOURI?.initialize();
     hideDefibrillatorPois();
@@ -1802,6 +1802,39 @@ map.on('rotate', updateLogoRotation);
     saveCustomFont,
     unregisterTextureImage,
     safeSet
+  });
+  window.OMAP_ROUTE?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
+    text,
+    show,
+    hide,
+    // registerRouteWaypointAutocomplete jest zmienną `let`, którą
+    // initializeAutocomplete() ustawia dopiero PÓŹNIEJ (dużo dalej
+    // w pliku) - przekazanie samej WARTOŚCI teraz przekazałoby
+    // wciąż `null`. Owinięcie w funkcję sprawia, że każde wywołanie
+    // ctx.registerRouteWaypointAutocomplete(...) odczytuje AKTUALNĄ
+    // wartość zmiennej w momencie wywołania, nie w momencie configure().
+    registerRouteWaypointAutocomplete: (...args) => registerRouteWaypointAutocomplete?.(...args),
+    calculateRouteFromStoredPoints,
+    closeMapContextMenu,
+    closeOtherMobilePanels,
+    closePlacePopup,
+    collapseMobilePanel,
+    dismissMobileKeyboard,
+    fetchLocationByIp,
+    findPlacesWithFallback,
+    formatCoordinates,
+    getAccentColor,
+    getPreferredPlaceLabel,
+    hideAllAutocomplete,
+    isElectronPlatform,
+    isLocalOrNativeOrigin,
+    openMobilePanelStandard,
+    pointFromPlace,
+    updateRouteClickHint
   });
   window.OMAP_LABEL_VISIBILITY?.configure({
     state,
@@ -1873,7 +1906,7 @@ map.on('rotate', updateLogoRotation);
     saveRouteFavorites: window.OMAP_ROUTE_HISTORY?.saveRouteFavorites,
     show,
     sortByOrder,
-    updateRouteSaveFavoriteButton
+    updateRouteSaveFavoriteButton: window.OMAP_ROUTE?.updateRouteSaveFavoriteButton
   });
   window.OMAP_BOTTOM_SHEET?.configure({
     MOBILE_PANEL_STANDARD,
@@ -1909,7 +1942,7 @@ map.on('rotate', updateLogoRotation);
   });
   window.OMAP_GEOURI?.configure({
     map,
-    parseSharedPoint,
+    parseSharedPoint: window.OMAP_ROUTE?.parseSharedPoint,
     showPlaceInformation
   });
   window.OMAP_TRADING_SUNDAY?.configure({
@@ -1927,7 +1960,7 @@ map.on('rotate', updateLogoRotation);
     text,
     closeMapContextMenu,
     closeOtherMobilePanels,
-    clearRoute,
+    clearRoute: window.OMAP_ROUTE?.clearRoute,
     fetchLocationByIp,
     hideAllAutocomplete,
     isElectronPlatform,
@@ -1974,7 +2007,7 @@ map.on('rotate', updateLogoRotation);
     CONFIG,
     text,
     getSearchResultTitle,
-    scrollPanelToElement
+    scrollPanelToElement: window.OMAP_ROUTE?.scrollPanelToElement
   });
   window.OMAP_DISCOVER?.renderCategoryButtons();
 
@@ -2259,8 +2292,8 @@ map.on('rotate', updateLogoRotation);
   );
   el.tradingSundayClose?.addEventListener("click", window.OMAP_TRADING_SUNDAY?.close);
   el.menuTradingSundayButton?.addEventListener("click", window.OMAP_TRADING_SUNDAY?.open);
-  el.routeButton?.addEventListener("click", toggleRoute);
-  el.mobileRouteButton?.addEventListener("click", toggleRoute);
+  el.routeButton?.addEventListener("click", window.OMAP_ROUTE?.toggleRoute);
+  el.mobileRouteButton?.addEventListener("click", window.OMAP_ROUTE?.toggleRoute);
   el.mobileDiscoverButton?.addEventListener("click", toggleDiscover);
   el.discoverBack?.addEventListener(
     "click",
@@ -2268,7 +2301,7 @@ map.on('rotate', updateLogoRotation);
   );
   el.routeBack?.addEventListener(
     "click",
-    returnFromRouteToPlace
+    window.OMAP_ROUTE?.returnFromRouteToPlace
   );
   el.mobileMenuButton?.addEventListener("click", toggleMenu);
   el.discoverButton?.addEventListener("click", toggleDiscover);
@@ -2277,19 +2310,19 @@ map.on('rotate', updateLogoRotation);
     window.OMAP_DISCOVER?.clear();
   });
 
-  el.routeClose?.addEventListener("click", closeRoute);
-  el.routeSwap?.addEventListener("click", swapRoutePoints);
+  el.routeClose?.addEventListener("click", window.OMAP_ROUTE?.closeRoute);
+  el.routeSwap?.addEventListener("click", window.OMAP_ROUTE?.swapRoutePoints);
   el.routeAddWaypoint?.addEventListener("click", () => {
-    addRouteWaypointField();
+    window.OMAP_ROUTE?.addRouteWaypointField();
   });
   el.routeClear?.addEventListener("click", () => {
-    clearRoute();
+    window.OMAP_ROUTE?.clearRoute();
   });
-  el.routeForm?.addEventListener("submit", planRoute);
-  el.routeShare?.addEventListener("click", shareRoute);
+  el.routeForm?.addEventListener("submit", window.OMAP_ROUTE?.planRoute);
+  el.routeShare?.addEventListener("click", window.OMAP_ROUTE?.shareRoute);
 
 // Eksport GPX
-    el.routeExportGpx?.addEventListener("click", exportRouteAsGpx);
+    el.routeExportGpx?.addEventListener("click", window.OMAP_ROUTE?.exportRouteAsGpx);
     document.getElementById("export-gpx-button")?.addEventListener("click", exportRouteAsGPX);
 
 // Import GPX – kliknięcie w przycisk otwiera okno wyboru pliku
@@ -2301,11 +2334,11 @@ map.on('rotate', updateLogoRotation);
 el.routeImportGpxInput?.addEventListener("change", (e) => {
     const file = e.target.files?.[0];
     if (file) {
-        importRouteFromGpx(file);
+        window.OMAP_ROUTE?.importRouteFromGpx(file);
     }
 });
   for (const modeInput of document.querySelectorAll('input[name="route-mode"]')) {
-    modeInput.addEventListener("change", handleRouteModeChange);
+    modeInput.addEventListener("change", window.OMAP_ROUTE?.handleRouteModeChange);
   }
   initializeRouteBottomSheet();
   initializeDiscoverBottomSheet();
@@ -2334,16 +2367,16 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   el.searchClear?.addEventListener("click", clearMainSearch);
 
   el.routeFrom?.addEventListener("input", () =>
-    updateRouteClearButton(el.routeFrom, el.routeFromClear)
+    window.OMAP_ROUTE?.updateRouteClearButton(el.routeFrom, el.routeFromClear)
   );
   el.routeTo?.addEventListener("input", () =>
-    updateRouteClearButton(el.routeTo, el.routeToClear)
+    window.OMAP_ROUTE?.updateRouteClearButton(el.routeTo, el.routeToClear)
   );
-  el.routeFromClear?.addEventListener("click", () => clearRoutePoint("a"));
-  el.routeToClear?.addEventListener("click", () => clearRoutePoint("b"));
-  watchRouteInputValue(el.routeFrom, el.routeFromClear);
-  watchRouteInputValue(el.routeTo, el.routeToClear);
-  updateRouteClearButtons();
+  el.routeFromClear?.addEventListener("click", () => window.OMAP_ROUTE?.clearRoutePoint("a"));
+  el.routeToClear?.addEventListener("click", () => window.OMAP_ROUTE?.clearRoutePoint("b"));
+  window.OMAP_ROUTE?.watchRouteInputValue(el.routeFrom, el.routeFromClear);
+  window.OMAP_ROUTE?.watchRouteInputValue(el.routeTo, el.routeToClear);
+  window.OMAP_ROUTE?.updateRouteClearButtons();
 
   function updateUI() {
     const t = text[state.language];
@@ -2448,7 +2481,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.historySearch) el.historySearch.placeholder = t.historySearch;
     el.historySearch?.setAttribute("aria-label", t.historySearch);
     if (el.historyClear) el.historyClear.textContent = t.historyClear;
-    updateRouteSaveFavoriteButton();
+    window.OMAP_ROUTE?.updateRouteSaveFavoriteButton();
     if (el.menuExportAllLabel) el.menuExportAllLabel.textContent = t.menuExportAll;
     if (el.menuImportAllLabel) el.menuImportAllLabel.textContent = t.menuImportAll;
     if (el.backupScopeFavoritesLabel) el.backupScopeFavoritesLabel.textContent = t.backupScopeFavorites;
@@ -2579,7 +2612,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.routeWaypointNote) el.routeWaypointNote.textContent = t.routeWaypointNote;
     if (el.routeAddWaypointLabel) el.routeAddWaypointLabel.textContent = t.routeAddWaypoint;
     el.routeAddWaypoint?.setAttribute("aria-label", t.routeAddWaypoint);
-    renderRouteWaypoints();
+    window.OMAP_ROUTE?.renderRouteWaypoints();
     if (el.routeNote) el.routeNote.textContent = t.routeNote;
     updateRouteClickHint();
     if (el.routeDirectionsTitle) el.routeDirectionsTitle.textContent = t.routeDirections;
@@ -3123,7 +3156,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     // Kolor trasy koduje też tryb podróży (rower/pieszo mają swoje
     // własne, stałe kolory) - akcent dotyczy tylko trybu domyślnego
     // ("auto"), żeby nie zaburzać tego rozróżnienia.
-    if (map.getLayer(CONFIG.routing.lineLayerId) && getSelectedRouteMode() === "auto") {
+    if (map.getLayer(CONFIG.routing.lineLayerId) && window.OMAP_ROUTE?.getSelectedRouteMode() === "auto") {
       map.setPaintProperty(CONFIG.routing.lineLayerId, "line-color", accent);
     }
   }
@@ -3424,7 +3457,7 @@ function applyLanguage(language) {
           const point = resultToRoutePoint(result);
           state.routePointA = point;
           if (el.routeFrom) el.routeFrom.value = point.label;
-          setRouteMarker("a", point);
+          window.OMAP_ROUTE?.setRouteMarker("a", point);
           state.routeClickStage = state.routePointB ? "move-b" : "b";
           updateRouteClickHint();
 
@@ -3439,7 +3472,7 @@ function applyLanguage(language) {
           const point = resultToRoutePoint(result);
           state.routePointB = point;
           if (el.routeTo) el.routeTo.value = point.label;
-          setRouteMarker("b", point);
+          window.OMAP_ROUTE?.setRouteMarker("b", point);
           state.routeClickStage = "move-b";
           updateRouteClickHint();
 
@@ -3570,7 +3603,7 @@ function applyLanguage(language) {
           if (result.__myLocationOption) {
             const select = activeSelect;
             hide();
-            useMyLocationForRoute(point => select?.(point));
+            window.OMAP_ROUTE?.useMyLocationForRoute(point => select?.(point));
             return;
           }
 
@@ -3915,7 +3948,7 @@ function applyLanguage(language) {
       wireController(controller);
     }
 
-    // Pozwala renderRouteWaypoints() podpiąć podpowiedzi wyszukiwania do
+    // Pozwala window.OMAP_ROUTE?.renderRouteWaypoints() podpiąć podpowiedzi wyszukiwania do
     // pól przystanków tworzonych dynamicznie, już po inicjalizacji.
     registerRouteWaypointAutocomplete = (input, waypointId) => {
       wireController({
@@ -3930,7 +3963,7 @@ function applyLanguage(language) {
           state.routeWaypoints[index] = { ...point, id: waypointId };
           input.value = point.label;
           hide();
-          refreshWaypointMarkers();
+          window.OMAP_ROUTE?.refreshWaypointMarkers();
 
           if (state.routePointA && state.routePointB) {
             calculateRouteFromStoredPoints();
@@ -4731,7 +4764,7 @@ function applyLanguage(language) {
   // automatycznie, bez potrzeby ręcznego dopisywania go w wielu
   // miejscach w pliku.
   const MOBILE_PANELS = [
-    { id: "route", close: () => closeRoute(), panel: el.routePanel, cssVariable: "--sheet-height" },
+    { id: "route", close: () => window.OMAP_ROUTE?.closeRoute(), panel: el.routePanel, cssVariable: "--sheet-height" },
     { id: "discover", close: () => closeDiscover(), panel: el.discoverPanel, cssVariable: "--sheet-height" },
     { id: "menu", close: () => closeMenu(), panel: el.menuPanel, cssVariable: "--sheet-height" },
     { id: "favorites", close: () => window.OMAP_FAVORITES?.closeFavoritesPanel(), panel: el.favoritesPanel, cssVariable: "--sheet-height" },
@@ -4898,7 +4931,7 @@ function applyLanguage(language) {
     window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.routePanel,
       handle: el.routeSheetHandle,
-      close: closeRoute,
+      close: window.OMAP_ROUTE?.closeRoute,
       cssVariable: "--sheet-height"
     });
   }
@@ -5095,103 +5128,6 @@ el.discoverButton?.setAttribute(
     el.mobileDiscoverButton?.setAttribute("aria-expanded", "false");
     el.mobileDiscoverButton?.classList.remove("is-active");
   }
-
-  function toggleRoute() {
-    closeMapContextMenu();
-    const shouldOpen = el.routePanel.hidden;
-    closeOtherMobilePanels("route");
-    closePlacePopup();
-    if (!shouldOpen) {
-      state.routeBackContext = null;
-      if (el.routeBack) el.routeBack.hidden = true;
-    }
-    el.routePanel.hidden = !shouldOpen;
-    if (shouldOpen) {
-      openMobilePanelStandard(el.routePanel, "--sheet-height");
-    }
-    
-    el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
-    el.routeButton?.classList.toggle("is-active", shouldOpen);
-    el.mobileRouteButton?.setAttribute("aria-expanded", String(shouldOpen));
-    el.mobileRouteButton?.classList.toggle("is-active", shouldOpen);
-el.routeButton?.setAttribute("aria-expanded", String(shouldOpen));
-
-    if (shouldOpen) {
-      state.routeClickStage = state.routePointA
-        ? (state.routePointB ? "move-b" : "b")
-        : "a";
-      document.body.classList.add("map-picking-route");
-      updateRouteClickHint();
-    } else {
-      document.body.classList.remove("map-picking-route");
-    }
-  }
-
-  function returnFromRouteToPlace() {
-    const context = state.routeBackContext;
-    if (!context) return;
-
-    state.routeBackContext = null;
-    closeRoute();
-
-    window.OMAP_PLACE_SERVICE.open(
-      {
-        ...context.place,
-        lat: Number(context.lngLat.lat),
-        lon: Number(context.lngLat.lng)
-      },
-      { source: "route-nearby" }
-    );
-  }
-
-  function closeRoutePanel() {
-    if (el.routePanel.hidden) return;
-    clearRoute();
-    state.routeBackContext = null;
-    if (el.routeBack) el.routeBack.hidden = true;
-    el.routePanel.hidden = true;
-    el.routeButton?.setAttribute("aria-expanded","false");
-  }
-
-function closeRoute() {
-    if (el.routePanel.hidden) return;
-    clearRoute();
-    hideAllAutocomplete();
-    state.routeBackContext = null;
-    if (el.routeBack) el.routeBack.hidden = true;
-    el.routePanel.hidden = true;
-    el.routeButton?.setAttribute("aria-expanded", "false");
-    el.routeButton?.classList.remove("is-active");
-    el.mobileRouteButton?.setAttribute("aria-expanded", "false");
-    el.mobileRouteButton?.classList.remove("is-active");
-    document.body.classList.remove("map-picking-route");
-  }
-
-function swapRoutePoints() {
-    const value = el.routeFrom.value;
-    el.routeFrom.value = el.routeTo.value;
-    el.routeTo.value = value;
-
-    const point = state.routePointA;
-    state.routePointA = state.routePointB;
-    state.routePointB = point;
-
-    // ODWRACA KOLEJNOŚĆ PRZYSTANKÓW
-    state.routeWaypoints.reverse();
-
-    refreshRouteMarkers();
-    refreshWaypointMarkers();
-    renderRouteWaypoints();
-
-    if (state.routePointA && state.routePointB) {
-        calculateRouteFromStoredPoints();
-    }
-
-    state.routeClickStage = state.routePointA
-        ? (state.routePointB ? "move-b" : "b")
-        : "a";
-    updateRouteClickHint();
-}
 
 
   function cancelMapLongPress() {
@@ -5448,45 +5384,6 @@ function swapRoutePoints() {
     el.mapContextMenu.hidden = true;
   }
 
-  async function setContextPointAsRoute(key, lngLat) {
-    if (!lngLat) return;
-
-    const point = {
-      lon: lngLat.lng,
-      lat: lngLat.lat,
-      label: formatCoordinates(lngLat.lng, lngLat.lat)
-    };
-
-    try {
-      point.label = await reverseGeocodeRoutePoint(point);
-    } catch (error) {
-      console.warn("Context route reverse geocoding failed.", error);
-    }
-
-    if (el.routePanel.hidden) {
-      toggleRoute();
-    }
-
-    if (key === "a") {
-      state.routePointA = point;
-      if (el.routeFrom) el.routeFrom.value = point.label;
-      setRouteMarker("a", point);
-    } else {
-      state.routePointB = point;
-      if (el.routeTo) el.routeTo.value = point.label;
-      setRouteMarker("b", point);
-    }
-
-    state.routeClickStage = state.routePointA
-      ? (state.routePointB ? "move-b" : "b")
-      : "a";
-
-    updateRouteClickHint();
-
-    if (state.routePointA && state.routePointB) {
-      await calculateRouteFromStoredPoints();
-    }
-  }
 
   async function handleMapContextAction(event) {
     const button = event.target.closest(
@@ -5503,12 +5400,12 @@ function swapRoutePoints() {
     closeMapContextMenu();
 
     if (action === "route-a") {
-      await setContextPointAsRoute("a", lngLat);
+      await window.OMAP_ROUTE?.setContextPointAsRoute("a", lngLat);
       return;
     }
 
     if (action === "route-b") {
-      await setContextPointAsRoute("b", lngLat);
+      await window.OMAP_ROUTE?.setContextPointAsRoute("b", lngLat);
       return;
     }
 
@@ -5589,19 +5486,6 @@ function swapRoutePoints() {
     collapseMobilePanelStandard(panel, cssVariable);
   }
 
-  function collapseMobileRoutePanel() {
-    collapseMobilePanel(
-      el.routePanel,
-      "--sheet-height"
-    );
-  }
-
-  function expandMobileRoutePanel() {
-    openMobilePanelStandard(
-      el.routePanel,
-      "--sheet-height"
-    );
-  }
 
   function collapseMobilePanels() {
     for (const entry of MOBILE_PANELS) {
@@ -5642,11 +5526,11 @@ async function handleMapClick(event) {
 
 if (!el.routePanel.hidden) {
       // 1. Obsługujemy kliknięcie na mapie (stawianie punktu A, punktu B lub przesuwanie)
-      await handleRouteMapClick(event);
+      await window.OMAP_ROUTE?.handleRouteMapClick(event);
 
       // 2. Niezależnie od tego, czy to pierwsze, czy kolejne kliknięcie:
       // ZWIJAMY PANEL, aby odsłonić mapę
-      collapseMobileRoutePanel();
+      window.OMAP_ROUTE?.collapseMobileRoutePanel();
 
       return;
     }
@@ -6736,7 +6620,7 @@ function showUserLocationMarker(lngLat) {
 
     actions.append(
       createPlaceAction("↪️", t.placeSetRoute, () => {
-        setPlaceAsRoutePoint("b", place, lngLat);
+        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
       }),
       createPlaceAction("🧭", t.placeNearby, () => {
         openDiscoverNearPlace(place, lngLat);
@@ -7196,57 +7080,8 @@ function showUserLocationMarker(lngLat) {
     });
   }
 
-  function currentRouteFavoriteKey() {
-    if (!state.routePointA || !state.routePointB) return null;
-    return window.OMAP_ROUTE_HISTORY?.buildRouteKey(state.routePointA, state.routePointB, getSelectedRouteMode());
-  }
 
-  function updateRouteSaveFavoriteButton() {
-    if (!el.routeSaveFavoriteButton) return;
-    const key = currentRouteFavoriteKey();
-    const isSaved = key && state.routeFavorites.some(item => item.key === key);
-    const t = text[state.language];
-    el.routeSaveFavoriteButton.textContent = isSaved
-      ? `★ ${t.routeSavedFavorite}`
-      : `☆ ${t.routeSaveFavorite}`;
-    el.routeSaveFavoriteButton.classList.toggle("is-active", Boolean(isSaved));
-  }
-
-  function toggleCurrentRouteFavorite() {
-    const key = currentRouteFavoriteKey();
-    if (!key) return;
-
-    const existingIndex = state.routeFavorites.findIndex(item => item.key === key);
-    if (existingIndex !== -1) {
-      state.routeFavorites.splice(existingIndex, 1);
-    } else {
-      state.routeFavorites = [
-        {
-          key,
-          fromLabel: state.routePointA.label || "",
-          toLabel: state.routePointB.label || "",
-          fromLat: Number(state.routePointA.lat),
-          fromLon: Number(state.routePointA.lon),
-          toLat: Number(state.routePointB.lat),
-          toLon: Number(state.routePointB.lon),
-          mode: getSelectedRouteMode(),
-          distance: state.lastRouteDistance || 0,
-          duration: state.lastRouteDuration || 0,
-          customName: "",
-          folder: "",
-          savedAt: new Date().toISOString()
-        },
-        ...state.routeFavorites
-      ];
-    }
-
-    window.OMAP_ROUTE_HISTORY?.saveRouteFavorites();
-    window.OMAP_FAVORITES?.renderFolderChips();
-    window.OMAP_FAVORITES?.renderFavoritesList();
-    updateRouteSaveFavoriteButton();
-  }
-
-  el.routeSaveFavoriteButton?.addEventListener("click", toggleCurrentRouteFavorite);
+  el.routeSaveFavoriteButton?.addEventListener("click", window.OMAP_ROUTE?.toggleCurrentRouteFavorite);
   function recordPlaceHistory(place, lngLat) {
     if (!place || !lngLat) return;
 
@@ -7689,38 +7524,6 @@ function showUserLocationMarker(lngLat) {
     };
   }
 
-  function setPlaceAsRoutePoint(key, place, lngLat) {
-    const point = pointFromPlace(place, lngLat);
-
-    if (el.routePanel.hidden) {
-      toggleRoute();
-      state.routeBackContext = { place, lngLat };
-      if (el.routeBack) el.routeBack.hidden = false;
-    }
-
-    if (key === "a") {
-      state.routePointA = point;
-      if (el.routeFrom) el.routeFrom.value = point.label;
-      setRouteMarker("a", point);
-    } else {
-      state.routePointB = point;
-      if (el.routeTo) el.routeTo.value = point.label;
-      setRouteMarker("b", point);
-    }
-
-    state.routeClickStage = state.routePointA
-      ? (state.routePointB ? "move-b" : "b")
-      : "a";
-
-    updateRouteClickHint();
-    closePlacePopup();
-
-    if (state.routePointA && state.routePointB) {
-      calculateRouteFromStoredPoints();
-    }
-  }
-
-
   function isLocalOrNativeOrigin() {
     const { hostname, protocol } = window.location;
     return (
@@ -7768,64 +7571,6 @@ async function sharePlace(place, lngLat) {
   }
 }
 
-// ===== ZMODYFIKOWANA FUNKCJA handleRouteMapClick =====
-async function handleRouteMapClick(event) {
-    if (el.routePanel.hidden || state.routeClickBusy) return;
-
-    // Jeśli oba punkty są ustawione – dodaj przystanek w klikniętym miejscu
-    if (state.routePointA && state.routePointB) {
-        addRouteWaypoint(event.lngLat);
-        return;
-    }
-
-    // Jeśli kliknięto na linię trasy (gdy trasa już istnieje) – też dodaj przystanek
-    if (state.routeCoordinates && isClickOnRoute(event.point)) {
-        addRouteWaypoint(event.lngLat);
-        return;
-    }
-
-    state.routeClickBusy = true;
-    const point = {
-        lon: event.lngLat.lng,
-        lat: event.lngLat.lat,
-        label: formatCoordinates(event.lngLat.lng, event.lngLat.lat)
-    };
-
-    try {
-        point.label = await reverseGeocodeRoutePoint(point);
-    } catch (error) {
-        console.error(error);
-        show(text[state.language].routeReverseError);
-    }
-
-    if (state.routeClickStage === "a") {
-        state.routePointA = point;
-        if (el.routeFrom) el.routeFrom.value = point.label;
-        setRouteMarker("a", point);
-        state.routeClickStage = state.routePointB ? "move-b" : "b";
-        updateRouteClickHint();
-
-        if (state.routePointA && state.routePointB) {
-            await calculateRouteFromStoredPoints();
-        }
-
-        state.routeClickBusy = false;
-        return;
-    }
-
-    state.routePointB = point;
-    if (el.routeTo) el.routeTo.value = point.label;
-    setRouteMarker("b", point);
-    state.routeClickStage = "move-b";
-    updateRouteClickHint();
-
-    if (state.routePointA) {
-        await calculateRouteFromStoredPoints();
-    }
-
-    state.routeClickBusy = false;
-}
-// ===== KONIEC ZMODYFIKOWANEJ FUNKCJI =====
 
   function dismissMobileKeyboard() {
     const active = document.activeElement;
@@ -7860,22 +7605,22 @@ async function calculateRouteFromStoredPoints() {
     if (el.routeSubmit) el.routeSubmit.disabled = true;
 
     try {
-      const route = await fetchRoute(state.routePointA, state.routePointB);
-      drawRoute(
+      const route = await window.OMAP_ROUTE?.fetchRoute(state.routePointA, state.routePointB);
+      window.OMAP_ROUTE?.drawRoute(
         route.geometry,
         route.snappedFrom || state.routePointA,
         route.snappedTo || state.routePointB,
-        getSelectedRouteMode()
+        window.OMAP_ROUTE?.getSelectedRouteMode()
       );
-      updateRouteSummary(route.distance, route.duration);
+      window.OMAP_ROUTE?.updateRouteSummary(route.distance, route.duration);
       window.OMAP_ROUTE_HISTORY?.recordRouteHistory(
         state.routePointA,
         state.routePointB,
-        getSelectedRouteMode(),
+        window.OMAP_ROUTE?.getSelectedRouteMode(),
         route.distance,
         route.duration
       );
-      renderRouteDirections(route.maneuvers);
+      window.OMAP_ROUTE?.renderRouteDirections(route.maneuvers);
       hide();
       dismissMobileKeyboard();
 
@@ -7889,25 +7634,6 @@ async function calculateRouteFromStoredPoints() {
     } finally {
       if (el.routeSubmit) el.routeSubmit.disabled = false;
     }
-  }
-
-  async function reverseGeocodeRoutePoint(point) {
-    const url = new URL(CONFIG.search.reverseEndpoint);
-    url.searchParams.set("lat", String(point.lat));
-    url.searchParams.set("lon", String(point.lon));
-    url.searchParams.set("format", "jsonv2");
-    url.searchParams.set("accept-language", state.language);
-    url.searchParams.set("zoom", "18");
-
-    const response = await fetch(url, {
-      headers: { "Accept": "application/json" }
-    });
-    if (!response.ok) {
-      throw new Error(`Nominatim reverse HTTP ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result.display_name || formatCoordinates(point.lon, point.lat);
   }
 
   function formatCoordinates(lon, lat) {
@@ -7935,1319 +7661,6 @@ function updateRouteClickHint() {
 }
 // ===== KONIEC ZMODYFIKOWANEJ FUNKCJI =====
 
-  function createRouteMarkerElement(letter, markerClass) {
-    const element = document.createElement("div");
-    element.className = `route-letter-marker ${markerClass}`;
-
-    const label = document.createElement("span");
-    label.textContent = letter;
-    element.appendChild(label);
-
-    return element;
-  }
-
-  function setRouteMarker(key, point) {
-    removeRouteMarker(key);
-
-    const isA = key === "a";
-    const markerElement = createRouteMarkerElement(
-      isA ? "A" : "B",
-      isA ? "route-a" : "route-b"
-    );
-
-    const marker = new maplibregl.Marker({
-      element: markerElement,
-      anchor: "center",
-      offset: [0, 0],
-      draggable: true
-    })
-      .setLngLat([point.lon, point.lat])
-      .setPopup(new maplibregl.Popup().setText(point.label))
-      .addTo(map);
-
-    marker.on("dragend", async () => {
-      const position = marker.getLngLat();
-      const updatedPoint = {
-        lon: position.lng,
-        lat: position.lat,
-        label: formatCoordinates(position.lng, position.lat)
-      };
-
-      try {
-        updatedPoint.label = await reverseGeocodeRoutePoint(updatedPoint);
-      } catch (error) {
-        console.error(error);
-      }
-
-      if (isA) {
-        state.routePointA = updatedPoint;
-        if (el.routeFrom) el.routeFrom.value = updatedPoint.label;
-      } else {
-        state.routePointB = updatedPoint;
-        if (el.routeTo) el.routeTo.value = updatedPoint.label;
-      }
-
-      marker.setPopup(
-        new maplibregl.Popup().setText(updatedPoint.label)
-      );
-
-      if (state.routePointA && state.routePointB) {
-        await calculateRouteFromStoredPoints();
-      }
-    });
-
-    state.routeMarkers[key] = marker;
-  }
-
-  function removeRouteMarker(key) {
-    if (state.routeMarkers[key]) {
-      state.routeMarkers[key].remove();
-      state.routeMarkers[key] = null;
-    }
-  }
-
-  function refreshRouteMarkers() {
-    if (state.routePointA) setRouteMarker("a", state.routePointA);
-    else removeRouteMarker("a");
-
-    if (state.routePointB) setRouteMarker("b", state.routePointB);
-    else removeRouteMarker("b");
-  }
-
-  async function planRoute(event) {
-    event.preventDefault();
-    const fromQuery = el.routeFrom.value.trim();
-    const toQuery = el.routeTo.value.trim();
-    if (!fromQuery || !toQuery) return;
-
-    show(text[state.language].routeSearching, 0);
-    if (el.routeSubmit) el.routeSubmit.disabled = true;
-
-    try {
-      const [from, to] = await Promise.all([
-        geocodeRoutePoint(fromQuery),
-        geocodeRoutePoint(toQuery)
-      ]);
-
-      if (!from || !to) {
-        show(text[state.language].routePointNotFound);
-        return;
-      }
-
-      state.routePointA = from;
-      state.routePointB = to;
-      if (el.routeFrom) el.routeFrom.value = from.label;
-      if (el.routeTo) el.routeTo.value = to.label;
-      state.routeClickStage = "move-b";
-
-      const route = await fetchRoute(from, to);
-      drawRoute(
-        route.geometry,
-        route.snappedFrom || from,
-        route.snappedTo || to,
-        getSelectedRouteMode()
-      );
-      updateRouteClickHint();
-      updateRouteSummary(route.distance, route.duration);
-      window.OMAP_ROUTE_HISTORY?.recordRouteHistory(
-        from,
-        to,
-        getSelectedRouteMode(),
-        route.distance,
-        route.duration
-      );
-      renderRouteDirections(route.maneuvers);
-      hide();
-      dismissMobileKeyboard();
-    } catch (error) {
-      console.error(error);
-      show(text[state.language].routeError);
-    } finally {
-      if (el.routeSubmit) el.routeSubmit.disabled = false;
-    }
-  }
-
-  async function geocodeRoutePoint(query) {
-    const results = await findPlacesWithFallback(query, 1);
-    if (!results.length) return null;
-
-    return {
-      lon: Number(results[0].lon),
-      lat: Number(results[0].lat),
-      label: getPreferredPlaceLabel(results[0])
-    };
-  }
-
-  async function fetchTransitRoute(from, to) {
-    const url = new URL(CONFIG.transit.plannerEndpoint);
-    url.searchParams.set("fromPlace", `${from.lat},${from.lon}`);
-    url.searchParams.set("toPlace", `${to.lat},${to.lon}`);
-    url.searchParams.set("numItineraries", "3");
-    url.searchParams.set("language", state.language);
-    url.searchParams.set("arriveBy", "false");
-    url.searchParams.set("wheelchair", "false");
-
-    const response = await fetch(url, {
-      headers: { "Accept": "application/json" }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Transitous plan HTTP ${response.status}`);
-    }
-
-    const result = await response.json();
-    const itineraries =
-      result.itineraries ||
-      result.plan?.itineraries ||
-      [];
-
-    const itinerary = itineraries[0];
-    if (!itinerary?.legs?.length) {
-      throw new Error(text[state.language].transitRouteError);
-    }
-
-    const coordinates = [];
-    const maneuvers = [];
-
-    itinerary.legs.forEach((leg, index) => {
-      const legCoordinates = getTransitLegCoordinates(leg);
-
-      if (coordinates.length && legCoordinates.length) {
-        const [firstLon, firstLat] = legCoordinates[0];
-        const [lastLon, lastLat] = coordinates[coordinates.length - 1];
-        if (
-          Math.abs(firstLon - lastLon) < 1e-7 &&
-          Math.abs(firstLat - lastLat) < 1e-7
-        ) {
-          legCoordinates.shift();
-        }
-      }
-      coordinates.push(...legCoordinates);
-
-      const fromCoordinate = getTransitPlaceCoordinate(leg.from);
-      const mode = String(leg.mode || "").toUpperCase();
-      const routeName =
-        leg.routeShortName ||
-        leg.route?.shortName ||
-        leg.tripShortName ||
-        "";
-      const destination =
-        leg.headsign ||
-        leg.to?.name ||
-        leg.routeLongName ||
-        "";
-
-      maneuvers.push({
-        instruction: getTransitLegInstruction(
-          mode,
-          routeName,
-          destination
-        ),
-        streetNames: [
-          leg.from?.name,
-          leg.to?.name
-        ].filter(Boolean),
-        length: Number(leg.distance || 0),
-        time: getTransitLegDurationSeconds(leg),
-        type: getTransitManeuverType(mode),
-        coordinate:
-          fromCoordinate ||
-          legCoordinates[0] ||
-          null,
-        segment: legCoordinates,
-        transitMode: mode,
-        routeName,
-        destination
-      });
-    });
-
-    if (coordinates.length < 2) {
-      const fallback = [
-        [from.lon, from.lat],
-        [to.lon, to.lat]
-      ];
-      coordinates.push(...fallback);
-    }
-
-    const startTime = parseTransitTime(
-      itinerary.startTime ||
-      itinerary.start_time
-    );
-    const endTime = parseTransitTime(
-      itinerary.endTime ||
-      itinerary.end_time
-    );
-
-    const duration =
-      Number(itinerary.duration || 0) ||
-      (
-        startTime && endTime
-          ? Math.max(0, (endTime - startTime) / 1000)
-          : maneuvers.reduce(
-              (sum, maneuver) => sum + maneuver.time,
-              0
-            )
-      );
-
-    const distance =
-      Number(itinerary.distance || 0) ||
-      maneuvers.reduce(
-        (sum, maneuver) => sum + maneuver.length,
-        0
-      );
-
-    return {
-      geometry: {
-        type: "LineString",
-        coordinates
-      },
-      distance,
-      duration,
-      maneuvers
-    };
-  }
-
-  function getTransitLegCoordinates(leg) {
-    const geometry =
-      leg.legGeometry ||
-      leg.geometry ||
-      {};
-
-    if (
-      geometry.type === "LineString" &&
-      Array.isArray(geometry.coordinates)
-    ) {
-      return geometry.coordinates.map(point => [
-        Number(point[0]),
-        Number(point[1])
-      ]);
-    }
-
-    if (Array.isArray(geometry.coordinates)) {
-      return geometry.coordinates.map(point => [
-        Number(point[0]),
-        Number(point[1])
-      ]);
-    }
-
-    const encoded =
-      geometry.points ||
-      leg.polyline ||
-      leg.encodedPolyline ||
-      "";
-
-    if (encoded) {
-      const precision =
-        Number(geometry.precision) === 6 ? 6 : 5;
-      return decodeEncodedPolyline(encoded, precision);
-    }
-
-    const from = getTransitPlaceCoordinate(leg.from);
-    const to = getTransitPlaceCoordinate(leg.to);
-    return [from, to].filter(Boolean);
-  }
-
-  function getTransitPlaceCoordinate(place) {
-    if (!place) return null;
-
-    const lon = Number(
-      place.lon ??
-      place.lng ??
-      place.longitude ??
-      place.location?.lon ??
-      place.location?.lng
-    );
-    const lat = Number(
-      place.lat ??
-      place.latitude ??
-      place.location?.lat
-    );
-
-    return Number.isFinite(lon) && Number.isFinite(lat)
-      ? [lon, lat]
-      : null;
-  }
-
-  function getTransitLegDurationSeconds(leg) {
-    const direct = Number(leg.duration || 0);
-    if (direct > 0) return direct;
-
-    const start = parseTransitTime(
-      leg.startTime ||
-      leg.start_time
-    );
-    const end = parseTransitTime(
-      leg.endTime ||
-      leg.end_time
-    );
-
-    return start && end
-      ? Math.max(0, (end - start) / 1000)
-      : 0;
-  }
-
-  function parseTransitTime(value) {
-    if (!value) return null;
-    if (typeof value === "number") {
-      return new Date(value < 1e12 ? value * 1000 : value);
-    }
-
-    const parsed = new Date(value);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
-  }
-
-  function getTransitLegInstruction(mode, routeName, destination) {
-    const arrow = destination ? ` → ${destination}` : "";
-
-    if (mode.includes("WALK")) {
-      return state.language === "pl"
-        ? "Przejdź pieszo"
-        : "Walk";
-    }
-
-    if (mode.includes("BICYCLE")) {
-      return state.language === "pl"
-        ? "Przejedź rowerem"
-        : "Cycle";
-    }
-
-    const prefix =
-      mode.includes("TRAM") ? "🚋" :
-      mode.includes("SUBWAY") || mode.includes("METRO") ? "🚇" :
-      mode.includes("RAIL") || mode.includes("TRAIN") ? "🚆" :
-      mode.includes("FERRY") ? "⛴" :
-      "🚌";
-
-    return `${prefix}${routeName ? ` ${routeName}` : ""}${arrow}`;
-  }
-
-  function getTransitManeuverType(mode) {
-    if (mode.includes("WALK")) return 7;
-    if (mode.includes("BICYCLE")) return 7;
-    if (mode.includes("TRAM")) return 29;
-    if (mode.includes("SUBWAY") || mode.includes("METRO")) return 29;
-    if (mode.includes("RAIL") || mode.includes("TRAIN")) return 29;
-    if (mode.includes("FERRY")) return 27;
-    return 29;
-  }
-
-  function decodeEncodedPolyline(encoded, precision = 5) {
-    let index = 0;
-    let latitude = 0;
-    let longitude = 0;
-    const factor = 10 ** precision;
-    const coordinates = [];
-
-    while (index < encoded.length) {
-      const latitudeResult = decodePolylineValue(encoded, index);
-      index = latitudeResult.index;
-      latitude += latitudeResult.value;
-
-      const longitudeResult = decodePolylineValue(encoded, index);
-      index = longitudeResult.index;
-      longitude += longitudeResult.value;
-
-      coordinates.push([
-        longitude / factor,
-        latitude / factor
-      ]);
-    }
-
-    return coordinates;
-  }
-
-  async function fetchRoute(from, to) {
-    const mode = getSelectedRouteMode();
-
-    if (mode === "transit") {
-      return fetchTransitRoute(from, to);
-    }
-
-    const language = state.language === "pl" ? "pl-PL" : "en-US";
-
-    const payload = {
-      locations: [
-        { lat: from.lat, lon: from.lon, type: "break" },
-        ...state.routeWaypoints
-          .filter(point => point.lat != null && point.lon != null)
-          .map(point => ({
-            lat: point.lat,
-            lon: point.lon,
-            type: "break"
-          })),
-        { lat: to.lat, lon: to.lon, type: "break" }
-      ],
-      costing: mode,
-      units: "kilometers",
-      language
-    };
-
-    const response = await fetch(CONFIG.routing.endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-Client-Id": CONFIG.routing.clientId
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Valhalla HTTP ${response.status}`);
-    }
-
-    const result = await response.json();
-    const trip = result.trip;
-    if (!trip?.legs?.length) {
-      throw new Error(result.error || "No route");
-    }
-
-    const coordinates = [];
-    const maneuvers = [];
-
-    for (const leg of trip.legs) {
-      const decoded = decodePolyline6(leg.shape);
-
-      for (const maneuver of leg.maneuvers || []) {
-        const coordinate =
-          decoded[maneuver.begin_shape_index] ||
-          decoded[0] ||
-          null;
-
-        const beginIndex = Number(maneuver.begin_shape_index || 0);
-        const endIndex = Number(
-          maneuver.end_shape_index ?? maneuver.begin_shape_index ?? 0
-        );
-        const roundaboutExit = Number(
-          maneuver.roundabout_exit_count ||
-          maneuver.roundabout_exit_number ||
-          0
-        );
-
-        maneuvers.push({
-          instruction:
-            maneuver.instruction ||
-            maneuver.verbal_pre_transition_instruction ||
-            "",
-          streetNames: maneuver.street_names || [],
-          length: Number(maneuver.length || 0) * 1000,
-          time: Number(maneuver.time || 0),
-          type: Number(maneuver.type),
-          roundaboutExit,
-          coordinate,
-          segment: decoded.slice(
-            Math.max(0, beginIndex),
-            Math.max(beginIndex + 2, endIndex + 1)
-          )
-        });
-      }
-
-      if (coordinates.length && decoded.length) decoded.shift();
-      coordinates.push(...decoded);
-    }
-
-    return {
-      geometry: {
-        type: "LineString",
-        coordinates
-      },
-      distance: Number(trip.summary?.length || 0) * 1000,
-      duration: Number(trip.summary?.time || 0),
-      maneuvers,
-      snappedFrom: extractGeometryEndpoint(coordinates, 0, from),
-      snappedTo: extractGeometryEndpoint(
-        coordinates,
-        coordinates.length - 1,
-        to
-      )
-    };
-  }
-
-  function extractGeometryEndpoint(coordinates, index, fallbackPoint) {
-    const coordinate = coordinates?.[index];
-    const lon = Number(coordinate?.[0]);
-    const lat = Number(coordinate?.[1]);
-
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-      return fallbackPoint;
-    }
-
-    return {
-      ...fallbackPoint,
-      lat,
-      lon
-    };
-  }
-
-  function getSelectedRouteMode() {
-    return document.querySelector(
-      'input[name="route-mode"]:checked'
-    )?.value || "auto";
-  }
-
-  function decodePolyline6(encoded) {
-    let index = 0;
-    let latitude = 0;
-    let longitude = 0;
-    const coordinates = [];
-
-    while (index < encoded.length) {
-      const latitudeResult = decodePolylineValue(encoded, index);
-      index = latitudeResult.index;
-      latitude += latitudeResult.value;
-
-      const longitudeResult = decodePolylineValue(encoded, index);
-      index = longitudeResult.index;
-      longitude += longitudeResult.value;
-
-      coordinates.push([
-        longitude / 1e6,
-        latitude / 1e6
-      ]);
-    }
-
-    return coordinates;
-  }
-
-  function decodePolylineValue(encoded, startIndex) {
-    let result = 0;
-    let shift = 0;
-    let index = startIndex;
-    let byte;
-
-    do {
-      byte = encoded.charCodeAt(index++) - 63;
-      result |= (byte & 0x1f) << shift;
-      shift += 5;
-    } while (byte >= 0x20 && index < encoded.length);
-
-    return {
-      index,
-      value: (result & 1) ? ~(result >> 1) : (result >> 1)
-    };
-  }
-
-  function ensureRouteLayers() {
-    if (!map.getSource(CONFIG.routing.sourceId)) {
-      map.addSource(CONFIG.routing.sourceId, {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {},
-          geometry: { type: "LineString", coordinates: [] }
-        }
-      });
-    }
-
-    if (!map.getSource(CONFIG.routing.highlightSourceId)) {
-      map.addSource(CONFIG.routing.highlightSourceId, {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {},
-          geometry: { type: "LineString", coordinates: [] }
-        }
-      });
-    }
-
-    if (!map.getLayer(CONFIG.routing.casingLayerId)) {
-      map.addLayer({
-        id: CONFIG.routing.casingLayerId,
-        type: "line",
-        source: CONFIG.routing.sourceId,
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-          visibility: "none"
-        },
-        paint: {
-          "line-color": "#ffffff",
-          "line-width": 9,
-          "line-opacity": 0.92
-        }
-      });
-    }
-
-    if (!map.getLayer(CONFIG.routing.lineLayerId)) {
-      map.addLayer({
-        id: CONFIG.routing.lineLayerId,
-        type: "line",
-        source: CONFIG.routing.sourceId,
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-          visibility: "none"
-        },
-        paint: {
-          "line-color": getAccentColor(),
-          "line-width": 5.5,
-          "line-opacity": 0.96
-        }
-      });
-    }
-
-    if (!map.getLayer(CONFIG.routing.highlightLayerId)) {
-      map.addLayer({
-        id: CONFIG.routing.highlightLayerId,
-        type: "line",
-        source: CONFIG.routing.highlightSourceId,
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-          visibility: "none"
-        },
-        paint: {
-          "line-color": "#facc15",
-          "line-width": 8,
-          "line-opacity": 0.95
-        }
-      });
-    }
-  }
-
-function drawRoute(geometry, from, to, mode) {
-    ensureRouteLayers();
-    state.routeCoordinates = geometry.coordinates;
-    clearManeuverHighlight();
-
-    map.getSource(CONFIG.routing.sourceId).setData({
-      type: "Feature",
-      properties: {},
-      geometry
-    });
-
-    map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "visible");
-    map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "visible");
-
-    const routeColors = {
-      auto: getAccentColor(),
-      bicycle: "#16a34a",
-      pedestrian: "#ea580c"
-    };
-    map.setPaintProperty(
-      CONFIG.routing.lineLayerId,
-      "line-color",
-      routeColors[mode] || routeColors.auto
-    );
-
-    state.routePointA = from;
-    state.routePointB = to;
-    refreshRouteMarkers();
-    refreshWaypointMarkers();
-
-    const bounds = geometry.coordinates.reduce(
-      (current, coordinate) => current.extend(coordinate),
-      new maplibregl.LngLatBounds(
-        geometry.coordinates[0],
-        geometry.coordinates[0]
-      )
-    );
-
-    map.fitBounds(bounds, {
-      padding: { top: 105, right: 45, bottom: 55, left: 45 },
-      bearing: 180,
-      duration: 900
-    });
-
-    // ZAWSZE otwieraj/rozwijaj panel mobilny po narysowaniu trasy
-    // (używamy requestAnimationFrame/setTimeout, by nie kłóciło się z początkiem fitBounds)
-    requestAnimationFrame(() => {
-      if (el.routePanel) {
-        if (typeof expandMobileRoutePanel === "function") {
-          expandMobileRoutePanel();
-        } else if (typeof openMobilePanelStandard === "function") {
-          openMobilePanelStandard(el.routePanel, "--sheet-height");
-        }
-      }
-    });
-  }
-
-  function renderRouteDirections(maneuvers) {
-    clearRouteDirections();
-
-    if (!Array.isArray(maneuvers) || !maneuvers.length) return;
-
-    const fragment = document.createDocumentFragment();
-
-    maneuvers.forEach((maneuver, index) => {
-      const item = document.createElement("li");
-      item.className = "route-direction";
-
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "route-direction-button";
-
-      const icon = document.createElement("span");
-      icon.className = "route-direction-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = getManeuverIcon(maneuver.type, index, maneuvers.length);
-
-      const copy = document.createElement("span");
-      copy.className = "route-direction-copy";
-
-      const instruction = document.createElement("span");
-      instruction.className = "route-direction-instruction";
-      instruction.textContent =
-        maneuver.roundaboutExit > 0
-          ? text[state.language].routeRoundaboutExit(maneuver.roundaboutExit)
-          : maneuver.instruction;
-
-      copy.appendChild(instruction);
-
-      if (maneuver.streetNames?.length) {
-        const street = document.createElement("span");
-        street.className = "route-direction-street";
-        street.textContent = maneuver.streetNames.join(" → ");
-        copy.appendChild(street);
-      }
-
-      const metaParts = [];
-      if (Number(maneuver.time) > 0) {
-        metaParts.push(formatRouteStepDuration(maneuver.time));
-      }
-      if (maneuver.routeName) {
-        metaParts.push(
-          state.language === "pl"
-            ? `linia ${maneuver.routeName}`
-            : `line ${maneuver.routeName}`
-        );
-      }
-      if (Number(maneuver.numStops || maneuver.stops) > 0) {
-        const stopCount = Number(
-          maneuver.numStops || maneuver.stops
-        );
-        metaParts.push(
-          state.language === "pl"
-            ? `${stopCount} przyst.`
-            : `${stopCount} stops`
-        );
-      }
-
-      if (metaParts.length) {
-        const meta = document.createElement("span");
-        meta.className = "route-direction-meta";
-        meta.textContent = metaParts.join(" · ");
-        copy.appendChild(meta);
-      }
-
-      const distance = document.createElement("span");
-      distance.className = "route-direction-distance";
-      distance.textContent = formatDistance(maneuver.length);
-
-      button.append(icon, copy, distance);
-
-      if (maneuver.coordinate) {
-        button.addEventListener("click", () => {
-          selectManeuver(index, button);
-          map.easeTo({
-            center: maneuver.coordinate,
-            zoom: Math.max(map.getZoom(), 15),
-            bearing: 180,
-            duration: 650
-          });
-        });
-      } else {
-        button.disabled = true;
-      }
-
-      item.appendChild(button);
-      fragment.appendChild(item);
-    });
-
-    state.routeManeuvers = maneuvers;
-    state.selectedManeuverIndex = null;
-    el.routeDirectionsList.appendChild(fragment);
-    el.routeDirectionsCount.textContent =
-      `${maneuvers.length} ${text[state.language].routeSteps}`;
-    el.routeDirections.hidden = false;
-  }
-
-  function scrollPanelToElement(panel, element) {
-    if (!panel || !element) return;
-
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        const panelRect = panel.getBoundingClientRect();
-        const elementRect = element.getBoundingClientRect();
-        const stickyOffset = 84;
-
-        const targetTop =
-          panel.scrollTop +
-          elementRect.top -
-          panelRect.top -
-          stickyOffset;
-
-        panel.scrollTo({
-          top: Math.max(0, targetTop),
-          behavior: "smooth"
-        });
-      });
-    });
-  }
-
-  function formatRouteStepDuration(seconds) {
-    const minutes = Math.max(1, Math.round(Number(seconds) / 60));
-    if (minutes < 60) {
-      return `${minutes} min`;
-    }
-
-    const hours = Math.floor(minutes / 60);
-    const rest = minutes % 60;
-    return rest ? `${hours} h ${rest} min` : `${hours} h`;
-  }
-
-  function clearRouteDirections() {
-    if (!el.routeDirectionsList) return;
-    el.routeDirectionsList.replaceChildren();
-    state.routeManeuvers = [];
-    state.selectedManeuverIndex = null;
-    el.routeDirectionsCount.textContent = "";
-    el.routeDirections.hidden = true;
-  }
-
-  function getManeuverIcon(type, index, total) {
-    if (index === 0) return "A";
-    if (index === total - 1) return "B";
-
-    const icons = {
-      1: "↑",   // start
-      2: "→",   // start right
-      3: "←",   // start left
-      4: "✓",   // destination
-      5: "✓",   // destination right
-      6: "✓",   // destination left
-      7: "↑",   // continue
-      8: "↗",   // slight right
-      9: "→",   // right
-      10: "↘",  // sharp right
-      11: "↩",  // u-turn right
-      12: "↪",  // u-turn left
-      13: "↙",  // sharp left
-      14: "←",  // left
-      15: "↖",  // slight left
-      16: "↑",  // ramp straight
-      17: "↗",  // ramp right
-      18: "↖",  // ramp left
-      19: "→",  // exit right
-      20: "←",  // exit left
-      21: "↑",  // stay straight
-      22: "↗",  // stay right
-      23: "↖",  // stay left
-      24: "⇄",  // merge
-      25: "⟳",  // roundabout enter
-      26: "⟳",  // roundabout exit
-      27: "⛴",  // ferry enter
-      28: "⛴",  // ferry exit
-      29: "↑",  // transit
-      30: "↗",
-      31: "↖",
-      32: "↗",
-      33: "↖",
-      34: "↗",
-      35: "↖",
-      36: "⟳",
-      37: "⟳"
-    };
-
-    return icons[type] || "•";
-  }
-
-  function handleRouteModeChange() {
-    if (state.routePointA && state.routePointB) {
-      calculateRouteFromStoredPoints();
-      return;
-    }
-
-    if (el.routeFrom.value.trim() && el.routeTo.value.trim()) {
-      el.routeForm.requestSubmit();
-    }
-  }
-
-  function selectManeuver(index, button) {
-    for (const current of el.routeDirectionsList.querySelectorAll(
-      ".route-direction-button"
-    )) {
-      current.classList.remove("is-selected");
-    }
-
-    button.classList.add("is-selected");
-    state.selectedManeuverIndex = index;
-
-    const maneuver = state.routeManeuvers[index];
-    const segment = maneuver?.segment || [];
-
-    if (segment.length < 2) {
-      clearManeuverHighlight();
-      return;
-    }
-
-    map.getSource(CONFIG.routing.highlightSourceId).setData({
-      type: "Feature",
-      properties: {},
-      geometry: { type: "LineString", coordinates: segment }
-    });
-    map.setLayoutProperty(
-      CONFIG.routing.highlightLayerId,
-      "visibility",
-      "visible"
-    );
-  }
-
-  function clearManeuverHighlight() {
-    state.selectedManeuverIndex = null;
-
-    if (map.getSource(CONFIG.routing.highlightSourceId)) {
-      map.getSource(CONFIG.routing.highlightSourceId).setData({
-        type: "Feature",
-        properties: {},
-        geometry: { type: "LineString", coordinates: [] }
-      });
-    }
-    if (map.getLayer(CONFIG.routing.highlightLayerId)) {
-      map.setLayoutProperty(
-        CONFIG.routing.highlightLayerId,
-        "visibility",
-        "none"
-      );
-    }
-  }
-
-  function isClickOnRoute(point) {
-    if (!map.getLayer(CONFIG.routing.lineLayerId)) return false;
-
-    const tolerance = 8;
-    const box = [
-      [point.x - tolerance, point.y - tolerance],
-      [point.x + tolerance, point.y + tolerance]
-    ];
-
-    return map.queryRenderedFeatures(box, {
-      layers: [
-        CONFIG.routing.casingLayerId,
-        CONFIG.routing.lineLayerId
-      ]
-    }).length > 0;
-  }
-
-  function nextWaypointId() {
-    state.routeWaypointSeq += 1;
-    return `wp-${state.routeWaypointSeq}`;
-  }
-
-  function addRouteWaypoint(lngLat) {
-    const waypoint = {
-      id: nextWaypointId(),
-      lon: lngLat.lng,
-      lat: lngLat.lat,
-      label: formatCoordinates(lngLat.lng, lngLat.lat)
-    };
-
-    state.routeWaypoints.push(waypoint);
-    refreshWaypointMarkers();
-    renderRouteWaypoints();
-    calculateRouteFromStoredPoints();
-  }
-
-  function addRouteWaypointField() {
-    state.routeWaypoints.push({
-      id: nextWaypointId(),
-      lon: null,
-      lat: null,
-      label: ""
-    });
-    renderRouteWaypoints();
-
-    const list = el.routeWaypointsList;
-    const lastInput = list?.querySelector(
-      ".route-waypoint-row:last-child .route-waypoint-input"
-    );
-    lastInput?.focus();
-  }
-
-  function removeRouteWaypointById(waypointId) {
-    const index = state.routeWaypoints.findIndex(
-      point => point.id === waypointId
-    );
-    if (index === -1) return;
-
-    const [removed] = state.routeWaypoints.splice(index, 1);
-    refreshWaypointMarkers();
-    renderRouteWaypoints();
-
-    const wasResolved = removed && removed.lon != null && removed.lat != null;
-    if (wasResolved && state.routePointA && state.routePointB) {
-      calculateRouteFromStoredPoints();
-    }
-  }
-
-  function renderRouteWaypoints() {
-    const list = el.routeWaypointsList;
-    if (!list) return;
-
-    list.replaceChildren();
-    const t = text[state.language];
-
-    state.routeWaypoints.forEach((point, index) => {
-      const item = document.createElement("li");
-      item.className = "route-waypoint-row";
-
-      const indexBadge = document.createElement("span");
-      indexBadge.className = "route-waypoint-index";
-      indexBadge.setAttribute("aria-hidden", "true");
-      indexBadge.textContent = String(index + 1);
-
-      const input = document.createElement("input");
-      input.type = "search";
-      input.autocomplete = "off";
-      input.className = "route-waypoint-input";
-      input.placeholder = t.routeWaypointStopPlaceholder(index + 1);
-      input.setAttribute("aria-label", t.routeWaypointStopPlaceholder(index + 1));
-      input.value = point.label || "";
-      input.dataset.waypointId = point.id;
-
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "route-waypoint-remove";
-      removeButton.textContent = "×";
-      removeButton.setAttribute(
-        "aria-label",
-        t.routeRemoveWaypoint(index + 1)
-      );
-      removeButton.addEventListener("click", () => {
-        removeRouteWaypointById(point.id);
-      });
-
-      item.append(indexBadge, input, removeButton);
-      list.appendChild(item);
-
-      registerRouteWaypointAutocomplete?.(input, point.id);
-    });
-  }
-
-  function refreshWaypointMarkers() {
-    clearWaypointMarkers();
-
-    state.routeWaypoints.forEach((point, index) => {
-      if (point.lon == null || point.lat == null) return;
-
-      const element = document.createElement("div");
-      element.className = "route-waypoint-marker";
-      element.textContent = String(index + 1);
-      element.title = text[state.language].routeWaypoint(index + 1);
-
-      const marker = new maplibregl.Marker({
-        element,
-        draggable: true,
-        anchor: "center"
-      })
-        .setLngLat([point.lon, point.lat])
-        .addTo(map);
-
-      marker.on("dragend", () => {
-        const position = marker.getLngLat();
-        state.routeWaypoints[index] = {
-          ...state.routeWaypoints[index],
-          lon: position.lng,
-          lat: position.lat,
-          label: formatCoordinates(position.lng, position.lat)
-        };
-        renderRouteWaypoints();
-        calculateRouteFromStoredPoints();
-      });
-
-      state.routeWaypointMarkers.push(marker);
-    });
-  }
-
-  function clearWaypointMarkers() {
-    for (const marker of state.routeWaypointMarkers) {
-      marker.remove();
-    }
-    state.routeWaypointMarkers = [];
-  }
-
-  async function shareRoute() {
-    if (!state.routePointA || !state.routePointB) return;
-
-    const url = isLocalOrNativeOrigin() && CONFIG.publicBaseUrl
-      ? new URL(CONFIG.publicBaseUrl)
-      : new URL(window.location.href);
-    url.searchParams.set(
-      "a",
-      `${state.routePointA.lat},${state.routePointA.lon}`
-    );
-    url.searchParams.set(
-      "b",
-      `${state.routePointB.lat},${state.routePointB.lon}`
-    );
-    url.searchParams.set("mode", getSelectedRouteMode());
-
-    const resolvedWaypoints = state.routeWaypoints.filter(
-      point => point.lat != null && point.lon != null
-    );
-
-    if (resolvedWaypoints.length) {
-      url.searchParams.set(
-        "via",
-        resolvedWaypoints
-          .map(point => `${point.lat},${point.lon}`)
-          .join(";")
-      );
-    } else {
-      url.searchParams.delete("via");
-    }
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: document.title,
-          url: url.toString()
-        });
-      } else {
-        await navigator.clipboard.writeText(url.toString());
-        show(text[state.language].routeShared);
-      }
-    } catch (error) {
-      if (error?.name !== "AbortError") {
-        console.error(error);
-        show(text[state.language].routeShareError);
-      }
-    }
-  }
-
-  async function loadSharedRouteFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const a = parseSharedPoint(params.get("a"));
-    const b = parseSharedPoint(params.get("b"));
-    if (!a || !b) return;
-
-    const mode = params.get("mode");
-    const modeInput = document.querySelector(
-      `input[name="route-mode"][value="${mode}"]`
-    );
-    if (modeInput) modeInput.checked = true;
-
-    state.routePointA = a;
-    state.routePointB = b;
-    state.routeClickStage = "move-b";
-    if (el.routeFrom) el.routeFrom.value = a.label;
-    if (el.routeTo) el.routeTo.value = b.label;
-
-    const via = params.get("via");
-    state.routeWaypoints = via
-      ? via
-          .split(";")
-          .map(parseSharedPoint)
-          .filter(Boolean)
-          .map(point => ({ ...point, id: nextWaypointId() }))
-      : [];
-
-    refreshRouteMarkers();
-    refreshWaypointMarkers();
-    renderRouteWaypoints();
-    await calculateRouteFromStoredPoints();
-  }
-
-  function parseSharedPoint(value) {
-    if (!value) return null;
-    const [latText, lonText] = value.split(",");
-    const lat = Number(latText);
-    const lon = Number(lonText);
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
-
-    return {
-      lat,
-      lon,
-      label: formatCoordinates(lon, lat)
-    };
-  }
-
-  function updateRouteSummary(distanceMeters, durationSeconds) {
-    el.routeDistance.textContent = formatDistance(distanceMeters);
-    el.routeDuration.textContent = formatDuration(durationSeconds);
-
-    state.lastRouteDistance = distanceMeters;
-    state.lastRouteDuration = durationSeconds;
-
-    const arrival = new Date(Date.now() + durationSeconds * 1000);
-    el.routeArrival.textContent = arrival.toLocaleTimeString(
-      state.language === "pl" ? "pl-PL" : "en-US",
-      { hour: "2-digit", minute: "2-digit" }
-    );
-
-    el.routeSummary.hidden = false;
-    scrollPanelToElement(
-      el.routePanel,
-      el.routeSummary
-    );
-    if (el.routeShare) el.routeShare.hidden = false;
-    if (el.routeExportGpx) el.routeExportGpx.hidden = false;
-    if (el.routeImportGpx) el.routeImportGpx.hidden = false;
-    if (el.routeClear) el.routeClear.hidden = false;
-    if (el.routeSaveFavoriteButton) el.routeSaveFavoriteButton.hidden = false;
-    updateRouteSaveFavoriteButton();
-    if (el.routeWaypointNote) el.routeWaypointNote.hidden = false;
-  }
-
-  function formatDistance(meters) {
-    if (meters < 1000) return `${Math.round(meters)} m`;
-    return `${(meters / 1000).toLocaleString(state.language, {
-      maximumFractionDigits: 1
-    })} km`;
-  }
-
-  function formatDuration(seconds) {
-    const minutes = Math.round(seconds / 60);
-    if (minutes < 60) return `${minutes} min`;
-
-    const hours = Math.floor(minutes / 60);
-    const rest = minutes % 60;
-    return rest ? `${hours} h ${rest} min` : `${hours} h`;
-  }
-
-  function clearRoute() {
-    state.routeCoordinates = null;
-    state.routePointA = null;
-    state.routePointB = null;
-    state.routeClickStage = "a";
-    if (el.routeFrom) el.routeFrom.value = "";
-    if (el.routeTo) el.routeTo.value = "";
-    hideAllAutocomplete();
-    el.routeSummary.hidden = true;
-    el.routeDistance.textContent = "—";
-    el.routeDuration.textContent = "—";
-    el.routeArrival.textContent = "—";
-    if (el.routeShare) el.routeShare.hidden = true;
-    if (el.routeExportGpx) el.routeExportGpx.hidden = true;
-    if (el.routeImportGpx) el.routeImportGpx.hidden = true;
-    if (el.routeClear) el.routeClear.hidden = true;
-    if (el.routeSaveFavoriteButton) el.routeSaveFavoriteButton.hidden = true;
-    if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
-    state.routeWaypoints = [];
-    clearWaypointMarkers();
-    renderRouteWaypoints();
-    clearManeuverHighlight();
-    clearRouteDirections();
-
-    if (map.getSource(CONFIG.routing.sourceId)) {
-      map.getSource(CONFIG.routing.sourceId).setData({
-        type: "Feature",
-        properties: {},
-        geometry: { type: "LineString", coordinates: [] }
-      });
-    }
-
-    if (map.getLayer(CONFIG.routing.casingLayerId)) {
-      map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "none");
-    }
-    if (map.getLayer(CONFIG.routing.lineLayerId)) {
-      map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "none");
-    }
-
-    removeRouteMarker("a");
-    removeRouteMarker("b");
-    updateRouteClickHint();
-  }
 
   function openHistoryPanel() {
     closeMapContextMenu();
@@ -9589,62 +8002,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     el.mobileMenuButton?.classList.remove("is-active");
   }
 
-  function useMyLocationForRoute(onResolved) {
-    if (isElectronPlatform()) {
-      show(text[state.language].locatingForRoute, 0);
-
-      fetchLocationByIp()
-        .then(({ latitude, longitude }) => {
-          hide();
-          onResolved({
-            lon: longitude,
-            lat: latitude,
-            label: text[state.language].menuLocation,
-            __resolvedPoint: true
-          });
-        })
-        .catch(error => {
-          console.warn("Lokalizacja po IP nie powiodła się.", error);
-          show(text[state.language].locateError);
-        });
-      return;
-    }
-
-    if (!navigator.geolocation) {
-      show(
-        state.language === "pl"
-          ? "Twoja przeglądarka nie obsługuje lokalizacji."
-          : "Your browser does not support geolocation."
-      );
-      return;
-    }
-
-    show(text[state.language].locatingForRoute, 0);
-
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        hide();
-        onResolved({
-          lon: position.coords.longitude,
-          lat: position.coords.latitude,
-          label: text[state.language].menuLocation,
-          __resolvedPoint: true
-        });
-      },
-      error => {
-        console.error(error);
-        show(text[state.language].locateError);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 30000
-      }
-    );
-  }
-
-
-
   function toggleAbout() {
     closeMapContextMenu();
 
@@ -9886,86 +8243,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     el.searchInput.focus();
     el.searchInput.dispatchEvent(new Event("focus"));
   }
-
-  function updateRouteClearButton(input, btn) {
-    if (!btn || !input) return;
-    btn.hidden = !input.value.trim();
-  }
-
-  function updateRouteClearButtons() {
-    updateRouteClearButton(el.routeFrom, el.routeFromClear);
-    updateRouteClearButton(el.routeTo, el.routeToClear);
-  }
-
-  // Śledzi zarówno wpisywanie przez użytkownika, jak i programowe
-  // ustawianie .value (np. po wyborze podpowiedzi albo przeciągnięciu
-  // znacznika), żeby przycisk (x) zawsze odzwierciedlał zawartość pola.
-  function watchRouteInputValue(input, btn) {
-    if (!input || !btn) return;
-    const proto = Object.getPrototypeOf(input);
-    const descriptor = Object.getOwnPropertyDescriptor(proto, "value");
-    if (!descriptor || !descriptor.configurable) return;
-    Object.defineProperty(input, "value", {
-      get() {
-        return descriptor.get.call(this);
-      },
-      set(v) {
-        descriptor.set.call(this, v);
-        btn.hidden = !this.value.trim();
-      },
-      configurable: true
-    });
-  }
-
-  function clearRoutePoint(key) {
-    const isA = key === "a";
-    const input = isA ? el.routeFrom : el.routeTo;
-    const clearBtn = isA ? el.routeFromClear : el.routeToClear;
-
-    if (isA) state.routePointA = null;
-    else state.routePointB = null;
-
-    if (input) input.value = "";
-    removeRouteMarker(key);
-    hideAllAutocomplete();
-    updateRouteClearButton(input, clearBtn);
-
-    state.routeClickStage = !state.routePointA
-      ? "a"
-      : !state.routePointB
-      ? "b"
-      : "move-b";
-    updateRouteClickHint();
-
-    if (state.routeCoordinates) {
-      state.routeCoordinates = null;
-      if (el.routeSummary) el.routeSummary.hidden = true;
-      if (el.routeShare) el.routeShare.hidden = true;
-      if (el.routeExportGpx) el.routeExportGpx.hidden = true;
-      if (el.routeImportGpx) el.routeImportGpx.hidden = true;
-      if (el.routeClear) el.routeClear.hidden = true;
-      if (el.routeWaypointNote) el.routeWaypointNote.hidden = true;
-      clearManeuverHighlight();
-      clearRouteDirections();
-
-      if (map.getSource(CONFIG.routing.sourceId)) {
-        map.getSource(CONFIG.routing.sourceId).setData({
-          type: "Feature",
-          properties: {},
-          geometry: { type: "LineString", coordinates: [] }
-        });
-      }
-      if (map.getLayer(CONFIG.routing.casingLayerId)) {
-        map.setLayoutProperty(CONFIG.routing.casingLayerId, "visibility", "none");
-      }
-      if (map.getLayer(CONFIG.routing.lineLayerId)) {
-        map.setLayoutProperty(CONFIG.routing.lineLayerId, "visibility", "none");
-      }
-    }
-
-    input?.focus();
-  }
-
 
   function normalizeExactPlaceName(value) {
     return String(value || "")
@@ -10709,192 +8986,5 @@ window.addEventListener("popstate", function(event) {
   }
 })();
 
-async function exportRouteAsGpx() {
-    if (!state.routePointA || !state.routePointB) {
-        show("Najpierw wyznacz trasę.");
-        return;
-    }
-
-    const language = state.language || state.ui?.language || "pl";
-    const t = text[language];
-
-    const allPoints = [];
-    
-    allPoints.push({
-        lat: state.routePointA.lat,
-        lon: state.routePointA.lon,
-        name: "Punkt A"
-    });
-
-    if (state.routeWaypoints && state.routeWaypoints.length > 0) {
-        state.routeWaypoints.forEach((wp, i) => {
-            allPoints.push({
-                lat: wp.lat,
-                lon: wp.lon,
-                name: `Przystanek ${i+1}`
-            });
-        });
-    }
-
-    allPoints.push({
-        lat: state.routePointB.lat,
-        lon: state.routePointB.lon,
-        name: "Punkt B"
-    });
-
-    const waypointsXml = allPoints.map((p, i) => {
-        const name = p.name || `Punkt ${i+1}`;
-        return `    <wpt lat="${p.lat}" lon="${p.lon}">
-        <name>${name}</name>
-        <sym>Waypoint</sym>
-      </wpt>`;
-    }).join("\n");
-
-    const routePointsXml = allPoints.map((p) => {
-        return `      <rtept lat="${p.lat}" lon="${p.lon}"/>`;
-    }).join("\n");
-
-    const gpx = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="Odwrotna Mapa" xmlns="http://www.topografix.com/GPX/1/1">
-  <metadata>
-    <name>Trasa z Odwrotnej Mapy</name>
-    <time>${new Date().toISOString()}</time>
-  </metadata>
-  ${waypointsXml}
-  <rte>
-    <name>Trasa</name>
-    ${routePointsXml}
-  </rte>
-</gpx>`;
-
-    const blob = new Blob([gpx], { type: "application/gpx+xml;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    
-    // NAZWA PLIKU Z DATĄ I GODZINĄ
-    const now = new Date();
-    const dateStr = now.toISOString().slice(0,10);
-    const timeStr = now.toTimeString().slice(0,8).replace(/:/g, '');
-    link.download = `trasa-${dateStr}_${timeStr}.gpx`;
-    
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-    show(t.routeGpxExported || "Trasa została wyeksportowana jako GPX.");
-}
-
-async function importRouteFromGpx(file) {
-    const language = state.language || state.ui?.language || "pl";
-    const t = text[language];
-
-    try {
-        const textContent = await file.text();
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(textContent, "application/xml");
-
-        // Szukamy punktów – najpierw w <wpt>, potem w <rtept>, potem <trkpt>
-        let points = [];
-        
-        const wpts = xml.querySelectorAll("wpt");
-        if (wpts.length > 0) {
-            wpts.forEach(pt => {
-                const lat = parseFloat(pt.getAttribute("lat"));
-                const lon = parseFloat(pt.getAttribute("lon"));
-                if (!isNaN(lat) && !isNaN(lon)) {
-                    points.push({ lat, lon });
-                }
-            });
-        }
-
-        if (points.length === 0) {
-            const rtepts = xml.querySelectorAll("rtept");
-            if (rtepts.length > 0) {
-                rtepts.forEach(pt => {
-                    const lat = parseFloat(pt.getAttribute("lat"));
-                    const lon = parseFloat(pt.getAttribute("lon"));
-                    if (!isNaN(lat) && !isNaN(lon)) {
-                        points.push({ lat, lon });
-                    }
-                });
-            }
-        }
-
-        if (points.length === 0) {
-            const trkpts = xml.querySelectorAll("trkpt");
-            if (trkpts.length > 0) {
-                trkpts.forEach(pt => {
-                    const lat = parseFloat(pt.getAttribute("lat"));
-                    const lon = parseFloat(pt.getAttribute("lon"));
-                    if (!isNaN(lat) && !isNaN(lon)) {
-                        points.push({ lat, lon });
-                    }
-                });
-            }
-        }
-
-        if (points.length < 2) {
-            show(t.routeGpxNoPoints || "Plik GPX musi zawierać co najmniej dwa punkty.");
-            return;
-        }
-
-        // Pierwszy punkt = A, ostatni = B, reszta = waypointy
-        const first = points[0];
-        const last = points[points.length - 1];
-        const waypoints = points.slice(1, -1);
-
-        state.routePointA = {
-            lon: first.lon,
-            lat: first.lat,
-            label: formatCoordinates(first.lon, first.lat)
-        };
-        state.routePointB = {
-            lon: last.lon,
-            lat: last.lat,
-            label: formatCoordinates(last.lon, last.lat)
-        };
-        
-        state.routeWaypoints = waypoints.map((p, i) => ({
-            lon: p.lon,
-            lat: p.lat,
-            label: `Przystanek ${i+1}`
-        }));
-
-        // Odśwież UI
-        if (el.routeFrom) el.routeFrom.value = state.routePointA.label;
-        if (el.routeTo) el.routeTo.value = state.routePointB.label;
-        
-        refreshRouteMarkers();
-        refreshWaypointMarkers();
-        
-        if (typeof renderRouteWaypoints === "function") {
-            renderRouteWaypoints();
-        } else {
-            const list = document.getElementById("route-waypoints-list");
-            if (list) {
-                list.innerHTML = "";
-                state.routeWaypoints.forEach((wp, i) => {
-                    const li = document.createElement("li");
-                    li.textContent = wp.label;
-                    list.appendChild(li);
-                });
-            }
-        }
-        
-        state.routeClickStage = "move-b";
-        updateRouteClickHint();
-
-        // Zamiast rysować geometrię z pliku, przelicz trasę przez silnik routingu
-        await calculateRouteFromStoredPoints();
-
-        // Dopiero po udanym przeliczeniu pokaż komunikat sukcesu
-        show(t.routeGpxImported || "Trasa została zaimportowana z pliku GPX.");
-    } catch (error) {
-        console.error("Błąd importu GPX:", error);
-        show(t.routeGpxImportError || "Nie udało się zaimportować pliku GPX.");
-    }
-}
 
 })();

@@ -63,7 +63,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260809300000">
+  <link rel="stylesheet" href="style.css?v=20260809800000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -405,13 +405,13 @@
         </div>
 
         <div class="route-actions">
+          <button id="route-import-gpx" class="route-secondary" type="button">
+            Importuj
+          </button>
           <button id="route-clear" class="route-secondary" type="button" hidden>
             Wyczyść
           </button>
-          <button id="route-save-favorite" class="route-secondary" type="button" hidden>
-            ☆ Zapisz trasę
-          </button>
-
+          <input id="route-import-gpx-input" type="file" accept=".gpx" hidden>
         </div>
 
 
@@ -430,17 +430,18 @@
           <strong id="route-arrival">—</strong>
           <span id="route-arrival-label">Przyjazd</span>
         </div>
-   
+      </div>
+
+      <div class="route-summary-actions">
+    <button id="route-save-favorite" class="route-share" type="button" hidden>
+        ☆ Zapisz
+    </button>
     <button id="route-export-gpx" class="route-share" type="button" hidden>
         Eksportuj
-    </button>
-    <button id="route-import-gpx" class="route-share" type="button" hidden>
-        Importuj
     </button>
    <button id="route-share" class="route-share" type="button" hidden>
         Udostępnij
       </button>
-    <input id="route-import-gpx-input" type="file" accept=".gpx" hidden>
       </div>
 
 
@@ -1302,6 +1303,7 @@
   <script src="src/services/label-visibility-service.js"></script>
   <script src="src/services/custom-theme-editor-service.js"></script>
   <script src="src/services/account-service.js"></script>
+  <script src="src/services/route-service.js"></script>
   <script type="module">
     // Ładujemy nostr-tools jako moduł ES z CDN (esm.sh) - tak samo jak
     // MapLibre GL JS jest już ładowany z unpkg. Nie wymaga to żadnej
@@ -1331,6 +1333,6 @@
     }
   </script>
 
-  <script src="app.js?v=20260809300000"></script>
+  <script src="app.js?v=20260809900000"></script>
 </body>
 </html>

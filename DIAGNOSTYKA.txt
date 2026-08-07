@@ -543,3 +543,52 @@ sprawdzić `grep -n "const NAZWA"` i porównać numer linii z pozycją
 bloku `configure()` - nie polegać na tym że "to prosta stała, pewnie
 jest wcześnie" bez faktycznego sprawdzenia. To sprawdzenie zajmuje
 sekundy, a jego pominięcie powoduje całkowitą awarię appki.
+
+---
+
+19. Skaner zależności oparty na wzorcu `nazwa(` nie łapie wywołań
+    zmiennej przez `nazwa?.(...)` (opcjonalne wywołanie zmiennej,
+    nie właściwości)
+
+Przy ekstrakcji Tras `registerRouteWaypointAutocomplete?.(input,
+point.id)` - wywołanie zmiennej `let` (przechowującej funkcję
+przypisaną PÓŹNIEJ przez `initializeAutocomplete()`) przez składnię
+opcjonalnego wywołania - zostało pominięte. Standardowy wzorzec
+`\bnazwa\(` szuka identyfikatora BEZPOŚREDNIO przed otwierającym
+nawiasem - ale tutaj między nimi jest `?.`, więc dopasowanie nie
+zachodzi. Efekt: nowo dodane pole przystanku trasy nie dostawało
+podpowiedzi wyszukiwania (cichy brak funkcjonalności, nie błąd -
+`?.()` na niezdefiniowanej zmiennej po prostu nic nie robi).
+
+Dodatkowa komplikacja: ta konkretna zmienna jest `let`, REASSIGNOWANA
+później w pliku (nie stała wartość gotowa w momencie `configure()`)
+- zwykłe przekazanie jej wartości przez `configure()` przekazałoby
+`null` (wartość początkowa). Naprawa: przekazanie OPAKOWANIA
+(`(...args) => registerRouteWaypointAutocomplete?.(...args)`)
+zamiast samej wartości - domknięcie odczytuje AKTUALNĄ wartość
+zmiennej przy każdym wywołaniu, nie migawkę z momentu `configure()`.
+
+Naprawa systemowa: przy skanowaniu zależności, szukać też wzorca
+`\bnazwa\?\.\(` (opcjonalne wywołanie GOŁEJ zmiennej) obok
+standardowego `\bnazwa\(` i `\bobiekt\.metoda\(`.
+
+---
+
+20. `show`/`hide` - trzeci raz w tej sesji przeoczone w bardzo długiej
+    liście zależności (po Backup, teraz Trasy)
+
+Mimo świadomości tego wzorca z punktu 13 (Backup), `show`/`hide`
+ponownie umknęły przy ekstrakcji Tras - tym razem aż w 17 miejscach
+w całym module (nie jednym). Przyczyna ta sama: przy liście ~127
+kandydatów na zewnętrzne zależności, ręczne przejrzenie i
+sklasyfikowanie każdej pozycji ma naturalną granicę skuteczności -
+krótkie, częste słowa jak `show`/`hide` giną w morzu metod
+wbudowanych (DOM/Array/JSON) o podobnym kształcie wywołania.
+
+Naprawa systemowa na przyszłość, silniejsza niż punkt 13: przy
+KAŻDEJ ekstrakcji, niezależnie od długości listy kandydatów, zawsze
+explicité sprawdzić `grep -c "show(\|hide(" plik.js` w gotowym
+module PRZED wysyłką - te dwie funkcje (komunikaty/toasty) są
+używane praktycznie wszędzie w tej aplikacji, więc ich obecność w
+jakimkolwiek wyciąganym fragmencie UI jest bliska pewności, nie
+przypadku wartego ręcznego wypatrywania w długiej liście.

@@ -56,8 +56,8 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        konta, historia, historia wyszukiwań,
                        widoczność etykiet, edytor niestandardowego
                        motywu (paleta+czcionka+tekstury scalone w
-                       jeden plik), konto i synchronizacja - ostatnie
-                       dwadzieścia jeden wyniesione z app.js
+                       jeden plik), konto i synchronizacja, trasy -
+                       ostatnie dwadzieścia trzy wyniesione z app.js
                        2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
@@ -688,6 +688,80 @@ wywołania w inicjalizatorze dolnego panelu konta i przyciskach menu.
 
 Wynik: `app.js` spadł poniżej 11000 linii pierwszy raz w tej sesji
 (z ~16586 na starcie do 10892).
+
+
+## Trasy (src/services/route-service.js)
+
+Dwudziesty trzeci moduł wyniesiony z `app.js` (2026-08-09, ~2050
+linii, 66 wyeksportowanych funkcji) - **dotąd największy i
+najbardziej rozproszony**, prawie dwa razy większy niż Konto.
+Cały system planowania i wyznaczania tras: obliczanie (auto i
+transit), waypointy, kierunki/manewry, znaczniki na mapie,
+udostępnianie, eksport/import GPX, integracja z ulubionymi trasami.
+Wyodrębniony na wyraźną prośbę użytkownika, który słusznie zauważył
+że pozostawienie akurat Tras jako jedynego dużego wyjątku wyglądałoby
+niespójnie po dwudziestu dwóch innych modułach.
+
+**Rozproszony w DWUNASTU nieciągłych fragmentach** oryginalnego
+`app.js` (dla porównania: Ulubione miały siedem) - największy,
+prawie w pełni zwarty fragment (`createRouteMarkerElement` przez
+`clearRoute`, ~1300 linii) plus jedenaście mniejszych, rozrzuconych
+kawałków.
+
+**Krytyczna luka metodologiczna znaleziona i naprawiona w trakcie**:
+początkowy przegląd funkcji (`grep "^  function "`) łapał tylko kod
+z DOKŁADNIE dwuspacjowym wcięciem. Część funkcji w oryginalnym pliku
+ma zerowe wcięcie (`closeRoute`, `swapRoutePoints`,
+`handleRouteMapClick`, `updateRouteClickHint`,
+`calculateRouteFromStoredPoints`, `drawRoute`, `exportRouteAsGpx`,
+`importRouteFromGpx`) - ten sam nietypowy styl widziany już wcześniej
+przy `applyLanguage`/`showUserLocationMarker`, ale tym razem
+dotyczący CAŁEGO nieodkrytego obszaru (eksport/import GPX na końcu
+pliku), nie pojedynczej funkcji. Naprawa: drugi, szerszy przegląd
+(`^function \|^async function `, bez wymogu wcięcia) na CAŁYM pliku,
+nie tylko w obszarze Tras - potwierdzone że to były wszystkie
+pozostałe przypadki w całym `app.js`.
+
+**Dwie fałszywe nazwy świadomie wykluczone z zakresu**:
+`isRouteLayer` (używana wyłącznie przez kolorowanie warstw motywu)
+i `resultToRoutePoint` (używana wyłącznie przez autocomplete/
+podpowiedzi wyszukiwania) - mimo nazwy z "Route" żadna nie jest
+faktycznie wołana przez logikę tras. Zweryfikowane przez sprawdzenie
+WSZYSTKICH usages każdej funkcji przed decyzją o włączeniu.
+
+**Przeoczona zależność krzyżowa złapana w ostatniej chwili**:
+`scrollPanelToElement` (fizycznie leżała wewnątrz dużego bloku Tras)
+jest już zależnością `discover-service.js` - prawie pominięta przy
+budowaniu listy eksportu, dodana po dodatkowym sprawdzeniu.
+
+**`calculateRouteFromStoredPoints` ZOSTAJE w `app.js`** (używana
+szeroko poza trasami - autocomplete, przeciąganie znaczników, sync)
+ale sama w sobie woła WIELE funkcji z tego modułu (`fetchRoute`,
+`drawRoute`, `getSelectedRouteMode`, `updateRouteSummary`,
+`renderRouteDirections`) - te odwołania zostały już poprawnie
+naprawione tym samym, masowym przebiegiem podmiany co reszta pliku
+(woła `window.OMAP_ROUTE?.X` bezpośrednio, nie przez `configure()`).
+
+**Znaleziony, ale świadomie NIE naprawiony istniejący błąd**: w
+bloku inicjalizacji przycisków znajduje się odwołanie do
+NIEISTNIEJĄCEJ funkcji `exportRouteAsGPX` (wielkie GPX, literówka
+względem prawdziwej `exportRouteAsGpx`), podłączone do elementu HTML
+o ID `export-gpx-button`, który też nie istnieje. Dzięki `?.` cała
+linia jest cichym no-opem (optional chaining pomija ewaluację
+argumentu gdy `getElementById` zwraca `null`) - nieszkodliwy,
+martwy kod sprzed tej sesji, pozostawiony nietknięty zgodnie z
+zasadą nieinterweniowania poza zakresem zgłoszonego zadania.
+
+**Cztery inne już wysłane moduły zaktualizowane w tej samej turze**:
+`favorites-service.js` (`clearRoute`), `mapview-service.js`
+(`updateRouteSaveFavoriteButton`), `geouri-service.js`
+(`parseSharedPoint`), `discover-service.js`
+(`scrollPanelToElement`) - ich `configure()` w `app.js` teraz
+wskazują na `window.OMAP_ROUTE?.X` zamiast bezpośrednio na funkcje,
+które się przeniosły.
+
+Wynik: `app.js` z ~10892 do 8981 linii w jednej turze - spadek o
+prawie 2000 linii.
 
 
 ## Ulubione i Trasy
