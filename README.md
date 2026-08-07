@@ -78,6 +78,7 @@ Chcesz pomóc w rozwoju projektu? Każda pomoc jest mile widziana!
 ## 📄 Licencja
 
 Projekt jest udostępniany na licencji **MIT**. Dane mapowe pochodzą z serwisu © [OpenStreetMap](https://www.openstreetmap.org/copyright) na licencji ODbL.
+
 ---
 📨 Kontakt:
 odwrotnamapa@protonmail.com
