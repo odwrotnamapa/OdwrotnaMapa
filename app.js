@@ -113,6 +113,7 @@
       },
       customTexturesHeading: "Tekstury (zdjęcie zamiast koloru)",
       customTexturesHint: "JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.",
+      backupFavoritesHint: "Dodawanie do ulubionych wymaga zalogowania się na konto.",
       customFontHeading: "Czcionka",
       customFontHint: "Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.",
       customFontDefault: "Domyślna",
@@ -581,6 +582,7 @@
       },
       customTexturesHeading: "Textures (image instead of color)",
       customTexturesHint: "JPG or PNG. Water, greenery and buildings will be tiled as a repeating pattern; map background and panel background will be scaled to fill the whole area.",
+      backupFavoritesHint: "Adding to favorites requires being logged in to an account.",
       customFontHeading: "Font",
       customFontHint: "Applies to the interface text (menus, panels, cards) - it does not change the font of labels on the map itself.",
       customFontDefault: "Default",
@@ -1488,6 +1490,7 @@
     customUiHeading: $("menu-custom-ui-heading"),
     customTexturesHeading: $("menu-custom-textures-heading"),
     customTexturesHint: $("menu-custom-textures-hint"),
+    backupFavoritesHint: $("menu-backup-scope-favorites-hint"),
     customFontHeading: $("menu-custom-font-heading"),
     customFontHint: $("menu-custom-font-hint"),
     customFontSelect: $("custom-font-select"),
@@ -2636,6 +2639,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.customUiHeading) el.customUiHeading.textContent = t.customUiColorsHeading;
     if (el.customTexturesHeading) el.customTexturesHeading.textContent = t.customTexturesHeading;
     if (el.customTexturesHint) el.customTexturesHint.textContent = t.customTexturesHint;
+    if (el.backupFavoritesHint) el.backupFavoritesHint.textContent = t.backupFavoritesHint;
     if (el.customFontHeading) el.customFontHeading.textContent = t.customFontHeading;
     if (el.customFontHint) el.customFontHint.textContent = t.customFontHint;
     if (el.customFontSelect) {
