@@ -51,8 +51,8 @@ Projekt wyewoluował z prostego konceptu wizualnego w **pełnoprawne, zaawansowa
 
 Odwrotna Mapa jest dostępna na niemal każdym urządzeniu:
 * 🌐 **Web / PWA:** Uruchom bezpośrednio w przeglądarce jako Progressive Web App (`odwrotnamapa.pl`).
-* 📱 **Android:** Dostępna w postaci pakietu APK oraz w repetytorium **F-Droid**.
-* 💻 **Desktop:** Wersja stacjonarna oparta na Electron (Windows / Linux / macOS).
+* 📱 **Android:** Dostępna w postaci pakietu APK
+* 💻 **Desktop:** Wersja stacjonarna oparta na Electron (Windows / Linux).
 
 ---
 
