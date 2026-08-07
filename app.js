@@ -195,6 +195,7 @@
       searchError: "Nie udało się wyszukać miejsca.",
       locating: "Ustalanie lokalizacji…",
       locationError: "Nie udało się odczytać lokalizacji.",
+      gettingLocation: "Pobieranie lokalizacji…",
       route: "Wyznacz trasę",
       closeRoute: "Zamknij planer trasy",
       resizeRoutePanel: "Zmień wysokość panelu trasy",
@@ -671,6 +672,7 @@
       searchError: "The place search failed.",
       locating: "Finding your location…",
       locationError: "Could not read your location.",
+      gettingLocation: "Getting your location…",
       route: "Plan a route",
       closeRoute: "Close route planner",
       resizeRoutePanel: "Resize route panel",
@@ -4012,6 +4014,9 @@ function applyLanguage(language) {
     window.addEventListener("beforeunload", () => {
       clearTimeout(debounceTimer);
       abortController?.abort();
+      // Cleanup listeners to prevent memory leak
+      window.removeEventListener("resize", positionList);
+      window.removeEventListener("scroll", positionList, true);
     });
   }
 
@@ -5081,6 +5086,7 @@ function applyLanguage(language) {
 
   function toggleDiscover() {
     closeMapContextMenu();
+    if (!el.discoverPanel) return;
     const shouldOpen = el.discoverPanel.hidden;
 
     closeOtherMobilePanels("discover");
@@ -5138,7 +5144,7 @@ el.discoverButton?.setAttribute(
   }
 
   function closeDiscover(clearResults = true) {
-    if (el.discoverPanel.hidden) return;
+    if (!el.discoverPanel || el.discoverPanel.hidden) return;
 
     if (clearResults) {
       window.OMAP_DISCOVER?.clear();
@@ -7170,7 +7176,9 @@ function showUserLocationMarker(lngLat) {
     const lon = Number(place?.lon ?? lngLat?.lng);
 
     if (Number.isFinite(lat) && Number.isFinite(lon)) {
-      return `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      // Użyj większej precyzji (7 miejsc dziesiętnych ~11cm)
+      // zamiast 5 (1.1m), żeby zmniejszyć ryzyko kolizji
+      return `${lat.toFixed(7)},${lon.toFixed(7)}`;
     }
 
     // Fallback na OSM ID tylko jeśli nie ma współrzędnych
@@ -7848,7 +7856,7 @@ function updateRouteClickHint() {
     let payload = result;
     
     if (Number.isFinite(lat) && Number.isFinite(lon)) {
-      const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+      const placeNameKey = `${lat.toFixed(7)},${lon.toFixed(7)}`;
       const customName = state.customPlaceNames[placeNameKey];
       if (customName) {
         payload = { ...result, customName, name: customName };
@@ -7881,7 +7889,7 @@ function updateRouteClickHint() {
     // Pobierz custom name jeśli istnieje
     const lat = Number(lngLat.lat);
     const lon = Number(lngLat.lng);
-    const placeNameKey = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+    const placeNameKey = `${lat.toFixed(7)},${lon.toFixed(7)}`;
     const customName = state.customPlaceNames[placeNameKey];
     const displayName = customName || "Wybrane miejsce";
     
@@ -8015,12 +8023,10 @@ function updateRouteClickHint() {
     el.menuButton?.classList.toggle("is-active", shouldOpen);
     el.mobileMenuButton?.setAttribute("aria-expanded", String(shouldOpen));
     el.mobileMenuButton?.classList.toggle("is-active", shouldOpen);
-el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
-    el.mobileMenuButton?.classList.toggle("is-active", shouldOpen);
   }
 
   function closeMenu() {
-    if (el.menuPanel.hidden) return;
+    if (!el.menuPanel || el.menuPanel.hidden) return;
 
     el.menuPanel.hidden = true;
 
@@ -8034,6 +8040,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   function toggleAbout() {
     closeMapContextMenu();
 
+    if (!el.aboutPanel) return;
     const shouldOpen = el.aboutPanel.hidden;
 
     closeOtherMobilePanels("about");
@@ -8054,7 +8061,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function closeAbout() {
-    if (el.aboutPanel.hidden) return;
+    if (!el.aboutPanel || el.aboutPanel.hidden) return;
     el.aboutPanel.hidden = true;
     el.aboutButton?.setAttribute("aria-expanded", "false");
   }
@@ -8234,6 +8241,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   function toggleLegend() {
     closeMapContextMenu();
 
+    if (!el.legendPanel) return;
     const shouldOpen = el.legendPanel.hidden;
 
     closeOtherMobilePanels("legend");
@@ -8254,7 +8262,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
   }
 
   function closeLegend() {
-    if (el.legendPanel.hidden) return;
+    if (!el.legendPanel || el.legendPanel.hidden) return;
     el.legendPanel.hidden = true;
     el.legendButton?.setAttribute("aria-expanded", "false");
   }
@@ -8837,10 +8845,7 @@ function locate() {
       return;
     }
 
-    show(
-      state.language === "pl" ? "Pobieranie lokalizacji…" : "Getting your location…",
-      0
-    );
+    show(text[state.language].gettingLocation, 0);
 
     // Wyłączamy ewentualne aktywne śledzenie
     if (window.userLocationWatchId) {
