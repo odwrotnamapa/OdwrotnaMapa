@@ -4292,10 +4292,18 @@ button.account-activity-item-open:focus-visible {
   box-sizing: border-box;
 }
 
+.account-sync-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 0 4px;
+}
+
 .account-status-text {
   font-size: 0.74rem;
   color: var(--muted);
-  padding: 0 0 4px;
+  padding: 0;
 }
 
 .route-item {

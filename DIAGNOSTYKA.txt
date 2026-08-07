@@ -428,3 +428,118 @@ JavaScript faktycznie pozwala w nazwach zmiennych) zamiast węższego
 `[a-zA-Z_]+`. Dotyczy to każdej przyszłej ekstrakcji z obszarów kodu
 gdzie używane są krótkie, jednoznakowe pomocnicze funkcje (`$`, `_`
 i podobne konwencje).
+
+---
+
+16. KRYTYCZNE: owinięcie bloku niebezpiecznych wywołań top-level w
+    funkcję może przypadkiem "połknąć" zagnieżdżoną definicję
+    funkcji, która powinna była zostać na najwyższym poziomie modułu
+
+Przy ekstrakcji Konta i Synchronizacji (najwięszy dotąd moduł) appka
+przestała się w ogóle uruchamiać - `Uncaught ReferenceError:
+saveProfile is not defined` przy samym ładowaniu skryptu
+(`account-service.js`), więc CAŁY skrypt padał zanim jakikolwiek
+inny kod miał szansę się wykonać. Przyczyna: przy owijaniu dużego
+bloku ~20 rejestracji `addEventListener` (fizycznie leżących jeden
+po drugim w oryginalnym `app.js`) w nową funkcję
+`initializeAccountEventListeners()`, mechaniczne "weź wszystko od
+linii X do linii Y" przypadkiem zagarnęło też PEŁNĄ DEFINICJĘ
+funkcji `saveProfile` - fizycznie leżała FIZYCZNIE POMIĘDZY dwoma
+listenerami w oryginalnym pliku, mimo że logicznie była zupełnie
+osobną, samodzielną funkcją wywoływaną PRZEZ te listenery, nie
+częścią samej rejestracji.
+
+Efekt: `saveProfile` stała się funkcją ZAGNIEŻDŻONĄ wewnątrz
+`initializeAccountEventListeners()` zamiast siostrzaną funkcją na
+najwyższym poziomie modułu - blok eksportu (`window.OMAP_ACCOUNT =
+{ ..., saveProfile }`) na końcu pliku odwoływał się do niej jako
+gołego identyfikatora, ale w TYM zasięgu (poziom modułu) taki
+identyfikator już nie istniał - stąd `ReferenceError`, natychmiast
+przy parsowaniu/wykonaniu pliku.
+
+Naprawa: znaleziona i wyciągnięta z powrotem na poziom modułu, jako
+osobna funkcja przed `initializeAccountEventListeners`.
+
+Naprawa systemowa na przyszłość: przy KAŻDYM owijaniu bloku "wszystko
+od linii X do linii Y" w nową funkcję (żeby uniknąć niebezpiecznego
+wywołania top-level), NIE zakładać że blok zawiera WYŁĄCZNIE
+rejestracje `addEventListener`/podobne wywołania - sprawdzić
+systematycznie, czy WEWNĄTRZ tego zakresu nie ma też PEŁNYCH
+DEFINICJI FUNKCJI (`function`/`async function`), które fizycznie
+tam leżą, ale logicznie powinny zostać na zewnątrz, jako siostrzane
+funkcje modułu. Test: po owinięciu, sprawdzić dla KAŻDEJ nazwy w
+bloku eksportu `window.OMAP_X = {...}`, czy `grep -c "^  function
+nazwa\b"` (dokładnie 2 spacje wcięcia = poziom modułu) zwraca 1 - 0
+oznacza że funkcja została przypadkiem zagnieżdżona i trzeba ją
+wyciągnąć.
+
+---
+
+17. KRYTYCZNE: własna nazwa konwencji `ctx` (kontekst modułu) może
+    kolidować z lokalną zmienną o tej samej nazwie w oryginalnym
+    kodzie - trzeba to sprawdzać tak samo jak kolizje z `map`/innymi
+    zewnętrznymi nazwami
+
+W tym samym module (`account-service.js`) oryginalny kod app.js
+używał `const ctx = await deriveAccountContext(words);` w czterech
+miejscach jako nazwy dla lokalnie wyprowadzonego kontekstu
+kryptograficznego (klucze, transport Nostr) - kompletnie niezależnie
+od mojej WŁASNEJ konwencji nazywania modułowego kontekstu `ctx`
+(ustawianego przez `configure()`). To dokładnie ten sam mechanizm
+kolizji co przy `map`/`screenMap` w tym samym module (patrz punkt
+wcześniej w tej sesji), ale przeoczony, bo `ctx` to MOJA WŁASNA
+nazwa, nie sprawdzałem jej jako potencjalnej kolizji z ISTNIEJĄCYM
+kodem - założenie było błędne, skoro `ctx` to pospolite,
+jednoznakowe (efektywnie) słowo dla "kontekstu" w wielu wzorcach
+kodu, nie coś unikalnego dla mojego procesu ekstrakcji.
+
+W trzech z czterech miejsc było to niegroźne (poprawnie
+zakresowane blokowo, moduł-`ctx` nie był potrzebny w tym samym
+zasięgu) - ale w jednym miejscu (wewnątrz feralnej `saveProfile`)
+kod PO shadowingu próbował by (gdyby nie inny błąd to ujawnił)
+odwołać się do `ctx.el`/`ctx.state` i dostałby WYNIKI Z NIEWŁAŚCIWEGO
+OBIEKTU (deriveAccountContext nie ma takich pól) - cichy błąd,
+nie krzyczący `ReferenceError`, dużo trudniejszy do złapania.
+
+Naprawa: wszystkie cztery miejsca przemianowane z `ctx` na
+`accountCtx`, żeby wyeliminować kolizję whole-cloth, niezależnie od
+tego czy w danym konkretnym miejscu akurat "działało czy nie" -
+bezpieczniej wyeliminować całą klasę problemu niż polegać na tym że
+akurat te trzy przypadki nie zostały jeszcze dotknięte.
+
+Naprawa systemowa na przyszłość: przy KAŻDEJ ekstrakcji stosującej
+wzorzec `let ctx = null; function configure(newCtx) { ctx = newCtx;
+}`, przeszukać wycinany fragment pod kątem `const ctx =`/`let ctx
+=`/parametrów funkcji nazwanych `ctx` - JAKO OSOBNY, DEDYKOWANY
+krok checklisty, analogiczny do sprawdzania kolizji z `map`. Nie
+zakładać że własna nazwa konwencji jest bezpieczna tylko dlatego że
+"ja ją wymyśliłem" - może już istnieć w oryginalnym kodzie z
+zupełnie innego powodu.
+
+---
+
+18. Dopisek do punktu 9 (stałe WIELKIMI LITERAMI, TDZ): sama
+    obecność stałej na liście "sprawdzonych" przy JEDNEJ ekstrakcji
+    nie chroni przed przeoczeniem przy KOLEJNEJ
+
+Po wysyłce modułu Konta appka przestała się w ogóle uruchamiać -
+`ReferenceError: Cannot access 'HISTORY_LIMIT' before
+initialization` w bloku `configure()`. `HISTORY_LIMIT` była
+zadeklarowana w oryginalnym miejscu w środku pliku (linia ~7150),
+dużo później niż mój wczesny, skonsolidowany blok `configure()` -
+dokładnie ten sam mechanizm co przy `MOBILE_PANEL_STANDARD`
+wcześniej w tej sesji, ale tym razem przeoczony mimo że wzorzec był
+już znany i udokumentowany.
+
+Naprawa: przeniesiona do wczesnej sekcji, obok `ROUTE_HISTORY_LIMIT`.
+Przy okazji wykonany PEŁNY przegląd - wszystkie stałe WIELKIMI
+LITERAMI używane w CAŁYM skonsolidowanym bloku `configure()`
+(wszystkie moduły naraz, nie tylko ten jeden), każda zweryfikowana
+osobno pod kątem pozycji deklaracji względem tego bloku.
+
+Naprawa systemowa na przyszłość: przy KAŻDYM dodaniu nowej stałej do
+JAKIEGOKOLWIEK `configure()` w skonsolidowanym bloku, natychmiast
+sprawdzić `grep -n "const NAZWA"` i porównać numer linii z pozycją
+bloku `configure()` - nie polegać na tym że "to prosta stała, pewnie
+jest wcześnie" bez faktycznego sprawdzenia. To sprawdzenie zajmuje
+sekundy, a jego pominięcie powoduje całkowitą awarię appki.

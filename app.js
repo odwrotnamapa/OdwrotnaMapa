@@ -27,6 +27,12 @@
   // które się do tego odwołują.
   const ROUTE_HISTORY_LIMIT = 50;
 
+  // Ta sama zasada - configure() dla OMAP_ACCOUNT (wcześnie w pliku)
+  // przekazuje HISTORY_LIMIT jako wartość, więc musi być gotowe
+  // zanim ten configure() się wykona, nie dopiero przy starej
+  // pozycji dużo dalej w pliku.
+  const HISTORY_LIMIT = 50;
+
   // Ta sama zasada co wyżej: map.on("load", ...) rejestruje się dużo
   // wcześniej w pliku niż stara deklaracja tej zmiennej, a zdarzenie
   // "load" mapy jest asynchroniczne - jeśli odpali się (wywołując
@@ -452,6 +458,7 @@
       accountLogout: "Wyloguj",
       accountActivity: "Aktywność",
       activityRefresh: "Odśwież",
+      syncRefresh: "Odśwież synchronizację",
       accountRevealSummary: "Pokaż frazę seed",
       accountActivated: "Konto aktywowane na tym urządzeniu.",
       accountLoggedInPulling: "Zalogowano - pobieranie zapisanych ustawień z chmury…",
@@ -919,6 +926,7 @@
       accountLogout: "Log out",
       accountActivity: "Activity",
       activityRefresh: "Refresh",
+      syncRefresh: "Refresh sync",
       accountRevealSummary: "Show seed phrase",
       accountActivated: "Account activated on this device.",
       accountLoggedInPulling: "Logged in - fetching your saved settings from the cloud…",
@@ -1584,6 +1592,7 @@
     accountScopeHistoryLabel: $("account-scope-history-label"),
     accountPushButton: $("account-push-button"),
     accountPullButton: $("account-pull-button"),
+    accountSyncRefreshButton: $("account-sync-refresh-button"),
     accountLogoutButton: $("account-logout-button"),
     accountActivityButton: $("account-activity-button"),
     accountScreenActivity: $("account-screen-activity"),
@@ -1754,6 +1763,28 @@ map.on('rotate', updateLogoRotation);
   // użyciu. Wcześniej te wywołania siedziały dużo dalej w pliku,
   // już PO pierwszym updateUI() - stąd crash "Cannot read properties
   // of null (reading 'el')" w środku measure-service.js.
+  window.OMAP_ACCOUNT?.configure({
+    state,
+    el,
+    CONFIG,
+    text,
+    DEFAULT_CUSTOM_PALETTE,
+    MAP_TEXTURE_KEYS,
+    TEXTURE_FIELDS,
+    HISTORY_LIMIT,
+    ROUTE_HISTORY_LIMIT,
+    applyLanguage,
+    applyTheme,
+    closeOtherMobilePanels,
+    openMenuHome,
+    openMobilePanelStandard,
+    registerTextureImage,
+    unregisterTextureImage,
+    safeGet,
+    safeSet,
+    updateUI,
+    loadMyRatingsActivity
+  });
   window.OMAP_CUSTOM_THEME_EDITOR?.configure({
     state,
     el,
@@ -1798,13 +1829,13 @@ map.on('rotate', updateLogoRotation);
   window.OMAP_SEED_WORDS?.configure({
     CONFIG,
     safeSet,
-    showAccountMessage
+    showAccountMessage: window.OMAP_ACCOUNT?.showAccountMessage
   });
   window.OMAP_RATINGS?.configure({
     state,
     text,
     getStoredSeedWords: window.OMAP_SEED_WORDS?.getStoredSeedWords,
-    openAccountFromMenu
+    openAccountFromMenu: window.OMAP_ACCOUNT?.openAccountFromMenu
   });
   window.OMAP_CUSTOM_PLACE_NAMES?.configure({
     state,
@@ -2190,12 +2221,12 @@ map.on('rotate', updateLogoRotation);
 
   el.menuAccountButton?.addEventListener(
     "click",
-    openAccountFromMenu
+    window.OMAP_ACCOUNT?.openAccountFromMenu
   );
-  el.accountClose?.addEventListener("click", closeAccount);
+  el.accountClose?.addEventListener("click", window.OMAP_ACCOUNT?.closeAccount);
   el.accountBack?.addEventListener(
     "click",
-    returnFromAccountToMenu
+    window.OMAP_ACCOUNT?.returnFromAccountToMenu
   );
 
   el.aboutButton?.addEventListener("click", toggleAbout);
@@ -2290,6 +2321,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
   initializeAccountBottomSheet();
+  window.OMAP_ACCOUNT?.initializeEventListeners();
   initializeAutocomplete();
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -2401,6 +2433,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.accountLogoutButton) el.accountLogoutButton.textContent = t.accountLogout;
     if (el.accountActivityButton) el.accountActivityButton.textContent = `📋 ${t.accountActivity}`;
     el.accountActivityRefreshButton?.setAttribute("aria-label", t.activityRefresh);
+    el.accountSyncRefreshButton?.setAttribute("aria-label", t.syncRefresh);
     if (el.accountRevealSummary) el.accountRevealSummary.textContent = t.accountRevealSummary;
     if (el.accountSeedRevealCopyButton) el.accountSeedRevealCopyButton.textContent = t.accountSeedCopy;
     if (el.accountDisplayName && !el.accountDisplayName.dataset.hasCustomName) {
@@ -4714,7 +4747,7 @@ function applyLanguage(language) {
     { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
     { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" },
-    { id: "account", close: () => closeAccount(), panel: el.accountPanel, cssVariable: "--sheet-height" }
+    { id: "account", close: () => window.OMAP_ACCOUNT?.closeAccount(), panel: el.accountPanel, cssVariable: "--sheet-height" }
   ];
 
   function closeOtherMobilePanels(exceptIds) {
@@ -4982,7 +5015,7 @@ function applyLanguage(language) {
     window.OMAP_BOTTOM_SHEET?.initialize({
       panel: el.accountPanel,
       handle: el.accountSheetHandle,
-      close: closeAccount,
+      close: window.OMAP_ACCOUNT?.closeAccount,
       cssVariable: "--sheet-height"
     });
   }
@@ -7123,8 +7156,6 @@ function showUserLocationMarker(lngLat) {
     button.addEventListener("click", () => onClick(button));
     return button;
   }
-
-  const HISTORY_LIMIT = 50;
 
 
   function formatRouteSummaryShort(distance, duration) {
@@ -9648,1027 +9679,6 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
     el.menuBackupButton?.setAttribute("aria-expanded", "false");
   }
 
-  function openAccountFromMenu() {
-    closeOtherMobilePanels("account");
-
-    openMobilePanelStandard(
-      el.accountPanel,
-      "--sheet-height"
-    );
-    el.menuAccountButton?.setAttribute("aria-expanded", "true");
-    refreshAccountUI();
-  }
-
-  function returnFromAccountToMenu() {
-    closeAccount();
-    openMenuHome();
-  }
-
-  function closeAccount() {
-    if (!el.accountPanel || el.accountPanel.hidden) return;
-    el.accountPanel.hidden = true;
-    el.menuAccountButton?.setAttribute("aria-expanded", "false");
-  }
-
-  // ===== Konto i synchronizacja (seed-fraza + Web Crypto, bez blockchaina) =====
-
-
-  function showAccountMessage(message, kind) {
-    if (!el.accountMessage) return;
-    el.accountMessage.textContent = message;
-    el.accountMessage.hidden = false;
-    el.accountMessage.classList.remove(
-      "account-message--error",
-      "account-message--success"
-    );
-    if (kind) el.accountMessage.classList.add(`account-message--${kind}`);
-  }
-
-  function clearAccountMessage() {
-    if (!el.accountMessage) return;
-    el.accountMessage.hidden = true;
-    el.accountMessage.textContent = "";
-  }
-
-  function formatSyncTimestamp(iso) {
-    if (!iso) return null;
-    try {
-      const date = new Date(iso);
-      return date.toLocaleString(state.language === "pl" ? "pl-PL" : "en-US");
-    } catch (_) {
-      return null;
-    }
-  }
-
-  const ACCOUNT_SCREENS = ["home", "login", "register", "loggedin", "activity"];
-
-  function showAccountScreen(name) {
-    const map = {
-      home: el.accountScreenHome,
-      login: el.accountScreenLogin,
-      register: el.accountScreenRegister,
-      loggedin: el.accountScreenLoggedIn,
-      activity: el.accountScreenActivity
-    };
-    for (const key of ACCOUNT_SCREENS) {
-      if (map[key]) map[key].hidden = key !== name;
-    }
-    clearAccountMessage();
-  }
-
-  function isAutoSyncEnabled() {
-    const stored = safeGet(CONFIG.storageKeys.syncAutoEnabled, "");
-    return stored === "" ? true : stored === "1";
-  }
-
-  function updateManualSyncButtonsVisibility() {
-    // Skoro synchronizacja w tle sama pobiera i wysyła dane, ręczne
-    // przyciski są zbędne w typowym przypadku - pokazujemy je tylko
-    // wtedy, gdy auto-sync jest wyłączony (żeby nie zostać bez żadnej
-    // możliwości ręcznej synchronizacji).
-    const auto = isAutoSyncEnabled();
-    if (el.accountPullButton) el.accountPullButton.hidden = auto;
-    if (el.accountPushButton) el.accountPushButton.hidden = auto;
-  }
-
-  // Jednorazowo wyprowadza komplet materiału potrzebnego do rozmowy
-  // z przekaźnikami (klucze + identyfikator publiczny), żeby nie
-  // powtarzać tego samego, dość kosztownego (PBKDF2) wyprowadzania
-  // kluczy w kilku miejscach osobno.
-  async function deriveAccountContext(words) {
-    const cryptoApi = window.OMAP_SYNC_CRYPTO;
-    const transport = window.OMAP_SYNC_TRANSPORT;
-    if (!cryptoApi || !transport || !words) return null;
-    const nostrLib = await transport.waitForNostrLib();
-    const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
-    const nostrPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
-    return { cryptoApi, transport, nostrLib, encKey, nostrPrivKeyBytes, nostrPubKeyHex };
-  }
-
-  async function computeAndShowIdentity() {
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-    if (!words) return;
-    try {
-      const ctx = await deriveAccountContext(words);
-      if (!ctx) return;
-      const npub = ctx.nostrLib.npubEncode
-        ? ctx.nostrLib.npubEncode(ctx.nostrPubKeyHex)
-        : ctx.nostrPubKeyHex;
-      if (el.accountPublicId) {
-        // Pełny npub bywa długi (63 znaki) - do samego rozpoznania "czy
-        // to na pewno to samo konto" wystarczy garść znaków, długości
-        // zbliżonej do identyfikatora filmu na YouTube. Pełny
-        // identyfikator nadal kopiuje przycisk "Kopiuj".
-        el.accountPublicId.textContent = npub.slice(0, 11);
-        el.accountPublicId.dataset.fullId = npub;
-      }
-    } catch (error) {
-      console.error("Nie udało się wyznaczyć identyfikatora konta:", error);
-    }
-  }
-
-  function getStoredProfile() {
-    return {
-      name: safeGet(CONFIG.storageKeys.syncProfileName, ""),
-      avatar: safeGet(CONFIG.storageKeys.syncProfileAvatar, "")
-    };
-  }
-
-  function storeProfileLocally(profile) {
-    safeSet(CONFIG.storageKeys.syncProfileName, profile.name || "");
-    safeSet(CONFIG.storageKeys.syncProfileAvatar, profile.avatar || "");
-  }
-
-  function renderProfileUI() {
-    const profile = getStoredProfile();
-    const t = text[state.language];
-    if (el.accountProfileNameInput) el.accountProfileNameInput.value = profile.name || "";
-    if (el.accountDisplayName) {
-      el.accountDisplayName.textContent = profile.name || t.accountNoName;
-      if (profile.name) {
-        el.accountDisplayName.dataset.hasCustomName = "1";
-      } else {
-        delete el.accountDisplayName.dataset.hasCustomName;
-      }
-    }
-    if (el.accountAvatarPreview && el.accountAvatarPlaceholder) {
-      if (profile.avatar) {
-        el.accountAvatarPreview.src = profile.avatar;
-        el.accountAvatarPreview.hidden = false;
-        el.accountAvatarPlaceholder.hidden = true;
-      } else {
-        el.accountAvatarPreview.hidden = true;
-        el.accountAvatarPreview.removeAttribute("src");
-        el.accountAvatarPlaceholder.hidden = false;
-      }
-    }
-  }
-
-  async function pullProfile(ctx) {
-    if (!ctx) return;
-    try {
-      const remote = await ctx.transport.pullBlob(ctx.nostrPubKeyHex, "profile");
-      if (!remote) return;
-      const profile = await ctx.cryptoApi.decryptPayload(remote.blob, ctx.encKey);
-      storeProfileLocally({ name: profile.name || "", avatar: profile.avatar || "" });
-      renderProfileUI();
-    } catch (error) {
-      console.error("Nie udało się pobrać profilu:", error);
-    }
-  }
-
-  function refreshAccountUI() {
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-
-    if (!words) {
-      stopAutoSyncTimer();
-      showAccountScreen("home");
-      return;
-    }
-
-    const t = text[state.language];
-    const lastSyncedAt = safeGet(CONFIG.storageKeys.syncLastSyncedAt, "");
-    const formatted = formatSyncTimestamp(lastSyncedAt);
-    if (el.accountStatusText) {
-      let statusText = formatted
-        ? t.accountStatusActive.replace("{time}", formatted)
-        : t.accountStatusActiveNever;
-
-      try {
-        const lastSkipped = JSON.parse(safeGet(CONFIG.storageKeys.syncLastSkipped, "[]"));
-        if (Array.isArray(lastSkipped) && lastSkipped.length) {
-          statusText += t.accountStatusSkippedWarning.replace("{items}", lastSkipped.join(", "));
-        }
-      } catch (_) {
-        // ignoruj uszkodzone dane
-      }
-
-      el.accountStatusText.textContent = statusText;
-    }
-
-    if (el.accountAutoSyncCheckbox) el.accountAutoSyncCheckbox.checked = isAutoSyncEnabled();
-    updateManualSyncButtonsVisibility();
-    renderProfileUI();
-    computeAndShowIdentity();
-
-    if (el.accountSeedRevealWords) {
-      window.OMAP_SEED_WORDS?.renderSeedWordsGrid(el.accountSeedRevealWords, words);
-    }
-    if (el.accountRevealDetails) el.accountRevealDetails.open = false;
-    if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
-
-    // Nie wyrzucamy z ekranu "Aktywność", jeśli użytkownik akurat go
-    // przegląda - w przeciwnym razie cicha synchronizacja w tle (co
-    // kilka minut) resetowałaby widok bez żadnego powodu.
-    const isBrowsingActivity = el.accountScreenActivity && !el.accountScreenActivity.hidden;
-    if (!isBrowsingActivity) {
-      showAccountScreen("loggedin");
-    }
-    scheduleAutoSyncCheck();
-  }
-
-  function handleCreateAccount() {
-    const cryptoApi = window.OMAP_SYNC_CRYPTO;
-    if (!cryptoApi) return;
-
-    const words = cryptoApi.generateSeedWords(CONFIG.sync?.wordCount || 16);
-    window.OMAP_SEED_WORDS?.renderSeedWordsGrid(el.accountSeedWords, words);
-    el.accountScreenRegister.dataset.pendingWords = JSON.stringify(words);
-
-    if (el.accountSeedConfirmCheckbox) el.accountSeedConfirmCheckbox.checked = false;
-    if (el.accountSeedConfirmButton) el.accountSeedConfirmButton.disabled = true;
-
-    showAccountScreen("register");
-  }
-
-  function handleConfirmSeed() {
-    const t = text[state.language];
-    try {
-      const words = JSON.parse(
-        el.accountScreenRegister.dataset.pendingWords || "[]"
-      );
-      if (!Array.isArray(words) || !words.length) return;
-      window.OMAP_SEED_WORDS?.storeSeedWords(words);
-      delete el.accountScreenRegister.dataset.pendingWords;
-      refreshAccountUI();
-      showAccountMessage(t.accountActivated, "success");
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function handleLoginWithSeed() {
-    const t = text[state.language];
-    const cryptoApi = window.OMAP_SYNC_CRYPTO;
-    if (!cryptoApi) return;
-
-    const words = cryptoApi.normalizeSeedInput(el.accountSeedInput?.value || "");
-    const validation = cryptoApi.validateSeedWords(words);
-
-    if (!validation.valid) {
-      if (validation.error === "toKrotko") {
-        showAccountMessage(t.accountSeedTooShort, "error");
-      } else {
-        showAccountMessage(t.accountSeedUnknownWord.replace("{word}", validation.word), "error");
-      }
-      return;
-    }
-
-    window.OMAP_SEED_WORDS?.storeSeedWords(words);
-    if (el.accountSeedInput) el.accountSeedInput.value = "";
-
-    if (el.accountLoginButton) el.accountLoginButton.disabled = true;
-    showAccountMessage(t.accountLoggedInPulling, null);
-
-    try {
-      // Celowo NIE wołamy tu jeszcze refreshAccountUI()/auto-sync - to
-      // pierwsze pobranie musi się zakończyć jako pierwsze, zanim
-      // cokolwiek (łącznie z auto-synchronizacją w tle) miałoby szansę
-      // wysłać stan tego (nowego dla tego konta) urządzenia do chmury
-      // i przypadkiem nadpisać to, co tam już jest.
-      const scopes = getCheckedSyncScopes();
-      const result = await performPull(scopes, { silent: true });
-
-      const ctx = await deriveAccountContext(words);
-      await pullProfile(ctx);
-
-      refreshAccountUI();
-      if (result?.applied) {
-        showAccountMessage(t.accountLoggedInApplied, "success");
-      } else {
-        showAccountMessage(t.accountLoggedInNothingFound, "success");
-      }
-    } catch (error) {
-      console.error(error);
-      refreshAccountUI();
-      showAccountMessage(t.accountLoggedInPullFailed, "error");
-    } finally {
-      if (el.accountLoginButton) el.accountLoginButton.disabled = false;
-    }
-  }
-
-  function handleLogoutAccount() {
-    stopAutoSyncTimer();
-    window.OMAP_SEED_WORDS?.clearStoredSeedWords();
-    if (el.accountSeedInput) el.accountSeedInput.value = "";
-    refreshAccountUI();
-  }
-
-  function getCheckedSyncScopes() {
-    const scopes = [];
-    if (el.accountSyncScopeFavorites?.checked) scopes.push("favorites");
-    if (el.accountSyncScopeColors?.checked) scopes.push("colors");
-    if (el.accountSyncScopePlaceNames?.checked) scopes.push("placeNames");
-    if (el.accountSyncScopeHistory?.checked) scopes.push("history");
-    return scopes;
-  }
-
-  function buildSyncPayload(scopes) {
-    const payload = {
-      version: 2,
-      exportedAt: new Date().toISOString()
-    };
-
-    if (scopes.includes("favorites")) {
-      payload.favorites = state.favorites.map(favorite => ({
-        ...favorite,
-        key: favorite.key,
-        title: favorite.title || "",
-        address: favorite.address || "",
-        lat: Number(favorite.lat),
-        lon: Number(favorite.lon)
-      }));
-      payload.favoriteFolders = [...state.favoriteFolders];
-      payload.routeFavorites = [...state.routeFavorites];
-    }
-
-    if (scopes.includes("colors")) {
-      payload.theme = state.theme;
-      payload.language = state.language;
-      payload.customPalette = { ...state.customPalette };
-      if (state.customFont?.type === "google") {
-        payload.customFont = { type: "google", googleFont: state.customFont.googleFont };
-      } else if (state.customFont?.type === "custom") {
-        // Same bajty czcionki jadą osobnym, małym zdarzeniem (patrz
-        // pushColorMedia) - tu zostawiamy tylko znacznik typu.
-        payload.customFont = { type: "custom" };
-      }
-    }
-
-    if (scopes.includes("placeNames")) {
-      payload.customPlaceNames = { ...(state.customPlaceNames || {}) };
-    }
-
-    if (scopes.includes("history")) {
-      payload.history = state.history.map(entry => ({ ...entry }));
-      payload.routeHistory = state.routeHistory.map(entry => ({ ...entry }));
-    }
-
-    return payload;
-  }
-
-  // Tekstury (zdjęcia) i wgrany plik czcionki to duże dane binarne, więc
-  // zamiast wrzucać je do jednego dużego zdarzenia (ryzyko przekroczenia
-  // limitów rozmiaru wielu publicznych przekaźników), publikujemy je
-  // jako osobne, małe zdarzenia - jedno na slot. Puste sloty też
-  // publikujemy (jako pusty ciąg) - to sygnał "wyczyszczone", inaczej
-  // usunięta lokalnie tekstura "wróciłaby" przy kolejnym pobraniu.
-  // Wiele publicznych przekaźników Nostr odrzuca zbyt duże zdarzenia
-  // (typowo limit rzędu 64-256 KB) - zdjęcie jako base64 łatwo to
-  // przekracza i przekaźnik po prostu je odrzuca. Dlatego przed
-  // wysyłką przeskalowujemy/kompresujemy teksturę do rozsądnego
-  // rozmiaru (jakość lokalnej kopii się nie zmienia - to dotyczy
-  // tylko wersji wysyłanej do synchronizacji).
-  const MEDIA_SIZE_LIMIT = 180000; // ~180 KB zakodowanego tekstu (base64) - bezpieczny margines
-  // Czcionek (w przeciwieństwie do zdjęć) nie da się dalej "dokręcić"
-  // po konwersji do WOFF2 - to już najlepsza możliwa kompresja. Dajemy
-  // im więc więcej luzu niż teksturom, tym bardziej że mamy 8
-  // przekaźników naraz i wystarczy, że przyjmie choć jeden.
-  const FONT_SIZE_LIMIT = 350000; // ~350 KB zakodowanego tekstu (base64)
-
-  function downscaleImageDataUrl(dataUrl, maxDim, quality) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
-        const width = Math.max(1, Math.round(img.width * scale));
-        const height = Math.max(1, Math.round(img.height * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
-      img.onerror = () => reject(new Error("Nie udało się wczytać obrazu do przeskalowania."));
-      img.src = dataUrl;
-    });
-  }
-
-  async function prepareTextureForSync(dataUrl) {
-    if (!dataUrl) return "";
-    // Coraz mocniejsza kompresja, aż zmieści się w limicie - albo się poddajemy.
-    const attempts = [
-      [1024, 0.72],
-      [768, 0.6],
-      [512, 0.5],
-      [384, 0.4],
-      [320, 0.32]
-    ];
-    for (const [maxDim, quality] of attempts) {
-      try {
-        const resized = await downscaleImageDataUrl(dataUrl, maxDim, quality);
-        if (resized.length <= MEDIA_SIZE_LIMIT) return resized;
-      } catch (error) {
-        console.error("Przeskalowanie tekstury nie powiodło się:", error);
-        break;
-      }
-    }
-    return null; // za duże nawet po maksymalnej kompresji
-  }
-
-  function dataUrlToBytes(dataUrl) {
-    const base64 = dataUrl.split(",")[1] || "";
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    return bytes;
-  }
-
-  function bytesToDataUrl(bytes, mime) {
-    let binary = "";
-    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-    return `data:${mime};base64,${btoa(binary)}`;
-  }
-
-  // Czcionek nie da się "zmniejszyć" wizualnie jak zdjęć, ale TTF/OTF
-  // można realnie skompresować do formatu WOFF2 (specjalnie do tego
-  // zaprojektowany, kompresja Brotli) - to zwykle 30-50% mniej danych
-  // za darmo, bez utraty ani jednego glifu. Jeśli plik jest już WOFF2
-  // (rozpoznajemy po sygnaturze "wOF2" na początku pliku) albo
-  // biblioteka nie zdążyła się załadować, wysyłamy oryginał bez zmian.
-  async function prepareFontForSync(dataUrl) {
-    if (!dataUrl) return "";
-
-    let finalDataUrl = dataUrl;
-    let compressedOk = false;
-    const originalKB = Math.round(dataUrl.length / 1024);
-
-    try {
-      const bytes = dataUrlToBytes(dataUrl);
-      const isAlreadyWoff2 =
-        bytes.length >= 4 &&
-        bytes[0] === 0x77 && bytes[1] === 0x4f && bytes[2] === 0x46 && bytes[3] === 0x32; // "wOF2"
-
-      if (isAlreadyWoff2) {
-        console.log("Synchronizacja: czcionka jest już w formacie WOFF2, bez dalszej kompresji.");
-      } else if (!window.OMAP_FONT_LIB?.compress) {
-        console.warn("Synchronizacja: biblioteka do kompresji czcionek (woff2-encoder) nie jest załadowana - wysyłam oryginał bez kompresji.");
-      } else {
-        try {
-          const compressed = await window.OMAP_FONT_LIB.compress(bytes);
-          finalDataUrl = bytesToDataUrl(compressed, "font/woff2");
-          compressedOk = true;
-        } catch (error) {
-          console.error("Kompresja czcionki do WOFF2 nie powiodła się, wysyłam oryginał:", error);
-        }
-      }
-    } catch (error) {
-      console.error("Nie udało się przeanalizować pliku czcionki:", error);
-    }
-
-    const finalKB = Math.round(finalDataUrl.length / 1024);
-    console.log(
-      `Synchronizacja czcionki: oryginał ${originalKB} KB${compressedOk ? `, po kompresji WOFF2 ${finalKB} KB` : ""}, limit ${Math.round(FONT_SIZE_LIMIT / 1024)} KB.`
-    );
-
-    return finalDataUrl.length <= FONT_SIZE_LIMIT ? finalDataUrl : null;
-  }
-
-  async function pushColorMedia(cryptoApi, encKey, transport, nostrPrivKeyBytes) {
-    const skipped = [];
-
-    const textureJobs = TEXTURE_FIELDS.map(async key => {
-      const original = state.customTextures?.[key] || "";
-      if (!original) {
-        await pushOneMediaSlot(`texture:${key}`, "");
-        return;
-      }
-      const prepared = await prepareTextureForSync(original);
-      if (prepared === null) {
-        skipped.push(`tekstura „${key}”`);
-        return;
-      }
-      await pushOneMediaSlot(`texture:${key}`, prepared);
-    });
-
-    const fontOriginal =
-      state.customFont?.type === "custom" && state.customFontDataUrl
-        ? state.customFontDataUrl
-        : "";
-
-    if (fontOriginal) {
-      textureJobs.push(
-        (async () => {
-          const prepared = await prepareFontForSync(fontOriginal);
-          if (prepared === null) {
-            const sizeKB = Math.round(fontOriginal.length / 1024);
-            skipped.push(`własna czcionka (oryginał ~${sizeKB} KB - zobacz konsolę przeglądarki po szczegóły kompresji)`);
-            return;
-          }
-          await pushOneMediaSlot("font:custom", prepared);
-        })()
-      );
-    } else {
-      textureJobs.push(pushOneMediaSlot("font:custom", ""));
-    }
-
-    await Promise.allSettled(textureJobs);
-    return skipped;
-
-    async function pushOneMediaSlot(topic, value) {
-      try {
-        const blob = await cryptoApi.encryptPayload({ value }, encKey);
-        await transport.pushBlob(nostrPrivKeyBytes, blob, topic);
-      } catch (error) {
-        // Pojedynczy nieudany slot (np. przekaźnik i tak odrzucił
-        // dane) nie powinien przerywać reszty wysyłki, ale ma trafić
-        // do listy "skipped", żeby user zobaczył, że coś nie doszło.
-        console.error(`Synchronizacja: nie udało się wysłać "${topic}"`, error);
-        skipped.push(topic);
-      }
-    }
-  }
-
-  async function pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex) {
-    for (const key of TEXTURE_FIELDS) {
-      await pullOneMediaSlot(`texture:${key}`, async value => {
-        if (value) {
-          state.customTextures[key] = value;
-          await window.OMAP_TEXTURE_STORAGE?.idbSetTexture(key, value);
-          if (MAP_TEXTURE_KEYS.includes(key)) await registerTextureImage(key, value);
-        } else {
-          state.customTextures[key] = null;
-          await window.OMAP_TEXTURE_STORAGE?.idbDeleteTexture(key);
-          if (MAP_TEXTURE_KEYS.includes(key)) unregisterTextureImage(key);
-        }
-      });
-    }
-
-    await pullOneMediaSlot("font:custom", async value => {
-      if (value) {
-        state.customFont = { type: "custom" };
-        state.customFontDataUrl = value;
-        await window.OMAP_TEXTURE_STORAGE?.idbSetCustomFont(value);
-        saveCustomFont();
-        window.OMAP_CUSTOM_THEME_EDITOR?.syncCustomFontSelect();
-      } else if (state.customFont?.type === "custom") {
-        state.customFont = { type: "default" };
-        state.customFontDataUrl = null;
-        await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
-        saveCustomFont();
-        window.OMAP_CUSTOM_THEME_EDITOR?.syncCustomFontSelect();
-      }
-    });
-
-    async function pullOneMediaSlot(topic, apply) {
-      try {
-        const remote = await transport.pullBlob(nostrPubKeyHex, topic);
-        if (!remote) return;
-        const { value } = await cryptoApi.decryptPayload(remote.blob, encKey);
-        await apply(value || "");
-      } catch (error) {
-        console.error(`Synchronizacja: nie udało się pobrać "${topic}"`, error);
-      }
-    }
-  }
-
-  async function applySyncPayload(payload, scopes) {
-    if (!payload || typeof payload !== "object") return;
-
-    if (scopes.includes("favorites") && Array.isArray(payload.favorites)) {
-      state.favorites = payload.favorites
-        .map(entry => {
-          const lat = Number(entry.lat);
-          const lon = Number(entry.lon);
-          if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
-          return {
-            ...entry,
-            key: String(entry.key || "").trim() || `${lat.toFixed(6)},${lon.toFixed(6)}`,
-            title: String(entry.title || "").trim(),
-            address: String(entry.address || "").trim(),
-            lat,
-            lon
-          };
-        })
-        .filter(Boolean)
-        .slice(0, 1000);
-      window.OMAP_FAVORITES?.saveFavorites();
-
-      if (Array.isArray(payload.favoriteFolders)) {
-        state.favoriteFolders = payload.favoriteFolders.filter(
-          f => typeof f === "string" && f.trim()
-        );
-        window.OMAP_FAVORITES?.saveFavoriteFolders();
-      }
-
-      if (Array.isArray(payload.routeFavorites)) {
-        state.routeFavorites = payload.routeFavorites.filter(entry => entry && entry.key);
-        window.OMAP_ROUTE_HISTORY?.saveRouteFavorites();
-      }
-
-      window.OMAP_FAVORITES?.renderFolderChips();
-      window.OMAP_FAVORITES?.renderFavoritesList();
-    }
-
-    if (scopes.includes("colors")) {
-      if (payload.customPalette && typeof payload.customPalette === "object") {
-        state.customPalette = { ...DEFAULT_CUSTOM_PALETTE, ...payload.customPalette };
-        window.OMAP_CUSTOM_THEME_EDITOR?.saveCustomPalette(state.customPalette);
-        window.OMAP_CUSTOM_THEME_EDITOR?.syncCustomPaletteInputs();
-      }
-
-      if (payload.customFont?.type === "google" && payload.customFont.googleFont) {
-        state.customFont = { type: "google", googleFont: payload.customFont.googleFont };
-        state.customFontDataUrl = null;
-        await window.OMAP_TEXTURE_STORAGE?.idbDeleteCustomFont();
-        saveCustomFont();
-        window.OMAP_CUSTOM_THEME_EDITOR?.syncCustomFontSelect();
-      }
-      // Typ "custom" (wgrany plik czcionki) jest dociągany i stosowany
-      // osobno przez pullColorMedia (bajty czcionki jadą jako osobne,
-      // małe zdarzenie Nostr) - patrz wywołanie w performPull.
-
-      if (payload.theme) {
-        state.theme = payload.theme;
-        safeSet(CONFIG.storageKeys.theme, state.theme);
-        if (el.themeSelect) el.themeSelect.value = state.theme;
-        if (el.menuThemeSelect) el.menuThemeSelect.value = state.theme;
-        applyTheme(state.theme);
-      }
-
-      if (payload.language && payload.language !== state.language) {
-        state.language = payload.language;
-        safeSet(CONFIG.storageKeys.language, state.language);
-        if (el.languageSelect) el.languageSelect.value = state.language;
-        updateUI();
-        applyLanguage(state.language);
-      }
-    }
-
-    if (scopes.includes("placeNames") && payload.customPlaceNames && typeof payload.customPlaceNames === "object") {
-      state.customPlaceNames = { ...payload.customPlaceNames };
-      window.OMAP_CUSTOM_PLACE_NAMES?.saveCustomPlaceNames();
-    }
-
-    if (scopes.includes("history") && Array.isArray(payload.history)) {
-      state.history = payload.history
-        .map(entry => {
-          const lat = Number(entry.lat);
-          const lon = Number(entry.lon);
-          if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
-          return { ...entry, lat, lon };
-        })
-        .filter(Boolean)
-        .slice(0, HISTORY_LIMIT);
-      window.OMAP_HISTORY?.saveHistory();
-      window.OMAP_HISTORY?.renderHistoryList();
-    }
-
-    if (scopes.includes("history") && Array.isArray(payload.routeHistory)) {
-      state.routeHistory = payload.routeHistory
-        .filter(entry => entry && entry.key)
-        .slice(0, ROUTE_HISTORY_LIMIT);
-      window.OMAP_ROUTE_HISTORY?.saveRouteHistory();
-      window.OMAP_HISTORY?.renderHistoryList();
-    }
-  }
-
-  async function performPush(scopes, options) {
-    const silent = options?.silent;
-    const t = text[state.language];
-    const cryptoApi = window.OMAP_SYNC_CRYPTO;
-    const transport = window.OMAP_SYNC_TRANSPORT;
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-    if (!cryptoApi || !transport || !words || !scopes.length) return null;
-
-    if (!silent) showAccountMessage(t.accountSending, null);
-
-    const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
-    const payload = buildSyncPayload(scopes);
-    const blob = await cryptoApi.encryptPayload(payload, encKey);
-    const result = await transport.pushBlob(nostrPrivKeyBytes, blob, "main");
-
-    let skippedMedia = [];
-    if (scopes.includes("colors")) {
-      skippedMedia = await pushColorMedia(cryptoApi, encKey, transport, nostrPrivKeyBytes);
-    }
-
-    // Zapisujemy to trwale (nie tylko w komunikacie na ekranie), żeby
-    // było widać nawet po cichej, automatycznej wysyłce w tle -
-    // wcześniej informacja o pominiętych elementach ginęła bezpowrotnie,
-    // jeśli wysyłka nie była ręczna.
-    if (skippedMedia.length) {
-      safeSet(CONFIG.storageKeys.syncLastSkipped, JSON.stringify(skippedMedia));
-    } else {
-      localStorage.removeItem(CONFIG.storageKeys.syncLastSkipped);
-    }
-
-    safeSet(CONFIG.storageKeys.syncLastSyncedAt, result.updatedAt || new Date().toISOString());
-    return { ...result, skippedMedia };
-  }
-
-  async function performPull(scopes, options) {
-    const silent = options?.silent;
-    const onlyIfNewer = options?.onlyIfNewer;
-    const t = text[state.language];
-    const cryptoApi = window.OMAP_SYNC_CRYPTO;
-    const transport = window.OMAP_SYNC_TRANSPORT;
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-    if (!cryptoApi || !transport || !words || !scopes.length) return null;
-
-    if (!silent) showAccountMessage(t.accountReceiving, null);
-
-    const nostrLib = await transport.waitForNostrLib();
-    const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
-    const nostrPubKeyHex = nostrLib.getPublicKey(nostrPrivKeyBytes);
-    const remote = await transport.pullBlob(nostrPubKeyHex, "main");
-
-    if (!remote) {
-      if (!silent) showAccountMessage(t.accountNothingFoundOnRelays, "error");
-      return null;
-    }
-
-    if (onlyIfNewer) {
-      const lastKnown = safeGet(CONFIG.storageKeys.syncLastSyncedAt, "");
-      if (lastKnown && new Date(remote.updatedAt) <= new Date(lastKnown)) {
-        return { applied: false };
-      }
-    }
-
-    const payload = await cryptoApi.decryptPayload(remote.blob, encKey);
-
-    // Ważna kolejność: tekstury/czcionkę ustawiamy PRZED zastosowaniem
-    // metadanych (motyw/paleta), bo to applySyncPayload wykonuje
-    // ostateczne przemalowanie (applyTheme) - jeśli tekstury nie są
-    // jeszcze zarejestrowane w tym momencie, przemalowanie użyje
-    // samego koloru zamiast tekstury dla danej warstwy.
-    if (scopes.includes("colors")) {
-      await pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex);
-    }
-
-    await applySyncPayload(payload, scopes);
-
-    if (scopes.includes("colors")) {
-      // Ostateczny krok: ponownie rejestrujemy obrazy tekstur (na
-      // wypadek gdyby wcześniejsze przemalowanie/reset stylu mapy
-      // "zgubiło" wcześniej dodane obrazy) i dopiero na końcu
-      // przemalowujemy motyw - tak, żeby tekstura, jeśli jest
-      // ustawiona, zawsze miała ostatnie słowo nad samym kolorem.
-      for (const key of TEXTURE_FIELDS) {
-        const value = state.customTextures?.[key];
-        if (value && MAP_TEXTURE_KEYS.includes(key)) {
-          await registerTextureImage(key, value);
-        }
-      }
-      applyTheme(state.theme);
-    }
-
-    safeSet(CONFIG.storageKeys.syncLastSyncedAt, remote.updatedAt || new Date().toISOString());
-    return { applied: true, updatedAt: remote.updatedAt };
-  }
-
-  async function handlePushToCloud() {
-    const t = text[state.language];
-    const scopes = getCheckedSyncScopes();
-    if (scopes.length === 0) {
-      showAccountMessage(t.accountNoScopesPush, "error");
-      return;
-    }
-
-    if (el.accountPushButton) el.accountPushButton.disabled = true;
-    try {
-      const result = await performPush(scopes, { silent: false });
-      refreshAccountUI();
-
-      let message = t.accountSentResult
-        .replace("{ok}", result.relaysOk)
-        .replace("{total}", result.relaysTotal);
-      if (result.skippedMedia?.length) {
-        message += t.accountSentWithSkips.replace("{items}", result.skippedMedia.join(", "));
-      }
-      showAccountMessage(message, result.skippedMedia?.length ? "error" : "success");
-    } catch (error) {
-      console.error(error);
-      showAccountMessage(t.accountSendFailed, "error");
-    } finally {
-      if (el.accountPushButton) el.accountPushButton.disabled = false;
-    }
-  }
-
-  async function handlePullFromCloud() {
-    const t = text[state.language];
-    const scopes = getCheckedSyncScopes();
-    if (scopes.length === 0) {
-      showAccountMessage(t.accountNoScopesPull, "error");
-      return;
-    }
-
-    if (el.accountPullButton) el.accountPullButton.disabled = true;
-    try {
-      const result = await performPull(scopes, { silent: false });
-      if (result) {
-        refreshAccountUI();
-        showAccountMessage(t.accountReceived, "success");
-      }
-    } catch (error) {
-      console.error(error);
-      showAccountMessage(t.accountReceiveFailed, "error");
-    } finally {
-      if (el.accountPullButton) el.accountPullButton.disabled = false;
-    }
-  }
-
-  // ===== Automatyczna synchronizacja w tle =====
-  // Co kilka minut, o ile jest włączona: najpierw sprawdzamy, czy w
-  // chmurze jest coś NOWSZEGO niż nasza ostatnia znana synchronizacja
-  // (i jeśli tak - stosujemy to lokalnie); jeśli nie ma nic nowszego,
-  // wysyłamy bieżący stan tego urządzenia. Dzięki sprawdzaniu znacznika
-  // czasu nie nadpisujemy świeższych lokalnych zmian starszymi danymi
-  // z chmury.
-  let autoSyncTimer = null;
-  let autoSyncInitialTimeout = null;
-  let autoSyncScheduled = false;
-
-  function stopAutoSyncTimer() {
-    if (autoSyncTimer) {
-      clearInterval(autoSyncTimer);
-      autoSyncTimer = null;
-    }
-    if (autoSyncInitialTimeout) {
-      clearTimeout(autoSyncInitialTimeout);
-      autoSyncInitialTimeout = null;
-    }
-    autoSyncScheduled = false;
-  }
-
-  function scheduleAutoSyncCheck() {
-    if (autoSyncScheduled) return;
-    autoSyncScheduled = true;
-    autoSyncInitialTimeout = window.setTimeout(() => {
-      autoSyncScheduled = false;
-      autoSyncInitialTimeout = null;
-      autoSyncTick();
-    }, 1500);
-
-    if (!autoSyncTimer) {
-      autoSyncTimer = window.setInterval(autoSyncTick, 5 * 60 * 1000);
-    }
-  }
-
-  async function autoSyncTick() {
-    if (document.hidden) return;
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-    if (!words) return;
-    if (!isAutoSyncEnabled()) return;
-
-    try {
-      const ctx = await deriveAccountContext(words);
-      await pullProfile(ctx);
-    } catch (error) {
-      console.error("Automatyczne pobranie profilu nie powiodło się:", error);
-    }
-
-    const scopes = getCheckedSyncScopes();
-    if (!scopes.length) return;
-
-    try {
-      // Celowo bez żadnego widocznego komunikatu/powiadomienia - to ma
-      // działać niewidocznie w tle. Jedyny ślad to zaktualizowany
-      // status ("Ostatnia synchronizacja: ...") widoczny po otwarciu
-      // panelu Konto.
-      const pullResult = await performPull(scopes, { silent: true, onlyIfNewer: true });
-      if (pullResult?.applied) {
-        refreshAccountUI();
-        return;
-      }
-      await performPush(scopes, { silent: true });
-      refreshAccountUI();
-    } catch (error) {
-      console.error("Automatyczna synchronizacja nie powiodła się:", error);
-    }
-  }
-
-  el.accountGotoLoginButton?.addEventListener("click", () => showAccountScreen("login"));
-  el.accountGotoRegisterButton?.addEventListener("click", handleCreateAccount);
-  el.accountLoginBackButton?.addEventListener("click", () => showAccountScreen("home"));
-  el.accountRegisterBackButton?.addEventListener("click", () => showAccountScreen("home"));
-  el.accountSeedCopyButton?.addEventListener("click", () => {
-    try {
-      const words = JSON.parse(el.accountScreenRegister.dataset.pendingWords || "[]");
-      if (words.length) window.OMAP_SEED_WORDS?.copyWordsToClipboard(words);
-    } catch (_) {}
-  });
-  el.accountSeedRevealCopyButton?.addEventListener("click", () => {
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-    if (words) window.OMAP_SEED_WORDS?.copyWordsToClipboard(words);
-  });
-  el.accountSeedConfirmCheckbox?.addEventListener("change", () => {
-    if (el.accountSeedConfirmButton) {
-      el.accountSeedConfirmButton.disabled = !el.accountSeedConfirmCheckbox.checked;
-    }
-  });
-  el.accountSeedConfirmButton?.addEventListener("click", handleConfirmSeed);
-  el.accountLoginButton?.addEventListener("click", handleLoginWithSeed);
-  el.accountPushButton?.addEventListener("click", handlePushToCloud);
-  el.accountPullButton?.addEventListener("click", handlePullFromCloud);
-  el.accountAutoSyncCheckbox?.addEventListener("change", () => {
-    const enabled = el.accountAutoSyncCheckbox.checked;
-    safeSet(CONFIG.storageKeys.syncAutoEnabled, enabled ? "1" : "0");
-    updateManualSyncButtonsVisibility();
-
-    if (enabled) {
-      // Odpal od razu, zamiast czekać do 5 minut na kolejny cykl
-      // interwału (który wcześniej mógł już zostać zatrzymany).
-      scheduleAutoSyncCheck();
-    } else {
-      // Realnie zatrzymaj timer, zamiast pozwolić mu dalej tykać co
-      // 5 minut w tle i za każdym razem cichaczem nic nie robić.
-      stopAutoSyncTimer();
-    }
-  });
-
-  async function saveProfile(name, avatar) {
-    const t = text[state.language];
-    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-    if (!words) return;
-
-    storeProfileLocally({ name, avatar });
-    renderProfileUI();
-
-    showAccountMessage(t.accountProfileSaving, null);
-    try {
-      const ctx = await deriveAccountContext(words);
-      if (!ctx) return;
-      const blob = await ctx.cryptoApi.encryptPayload({ name, avatar }, ctx.encKey);
-      await ctx.transport.pushBlob(ctx.nostrPrivKeyBytes, blob, "profile");
-      showAccountMessage(t.accountProfileSaved, "success");
-    } catch (error) {
-      console.error(error);
-      showAccountMessage(t.accountProfileSaveFailed, "error");
-    }
-  }
-
-  el.accountAvatarButton?.addEventListener("click", () => {
-    el.accountProfileAvatarInput?.click();
-  });
-
-  el.accountProfileAvatarInput?.addEventListener("change", async () => {
-    const file = el.accountProfileAvatarInput.files?.[0];
-    if (!file) return;
-    try {
-      const rawDataUrl = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Nie udało się wczytać pliku."));
-        reader.readAsDataURL(file);
-      });
-      // Ten sam mechanizm zmniejszania co przy teksturach, tylko do
-      // mniejszego rozmiaru - to nadal tylko mały awatar, ale trochę
-      // większy niż poprzednio.
-      const resized = await downscaleImageDataUrl(rawDataUrl, 192, 0.7);
-      el.accountProfileAvatarInput.value = "";
-      await saveProfile(getStoredProfile().name, resized);
-    } catch (error) {
-      console.error(error);
-      showAccountMessage(text[state.language].accountAvatarLoadFailed, "error");
-    }
-  });
-
-  el.accountDisplayNameButton?.addEventListener("click", () => {
-    if (!el.accountNameEditForm) return;
-    const willOpen = el.accountNameEditForm.hidden;
-    el.accountNameEditForm.hidden = !willOpen;
-    if (willOpen) {
-      el.accountProfileNameInput.value = getStoredProfile().name || "";
-      el.accountProfileNameInput.focus();
-      el.accountProfileNameInput.select();
-    }
-  });
-
-  el.accountNameCancelButton?.addEventListener("click", () => {
-    if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
-  });
-
-  el.accountNameSaveButton?.addEventListener("click", async () => {
-    const name = (el.accountProfileNameInput?.value || "").trim().slice(0, 40);
-    if (el.accountNameEditForm) el.accountNameEditForm.hidden = true;
-    await saveProfile(name, getStoredProfile().avatar);
-  });
-
-  el.accountPublicId?.addEventListener("click", async () => {
-    const fullId = el.accountPublicId?.dataset.fullId;
-    if (!fullId) return;
-    const t = text[state.language];
-    try {
-      await navigator.clipboard.writeText(fullId);
-      showAccountMessage(t.accountCopiedId, "success");
-    } catch (error) {
-      console.error(error);
-      showAccountMessage(t.accountCopyIdFailed, "error");
-    }
-  });
-
-  el.accountLogoutButton?.addEventListener("click", handleLogoutAccount);
-  el.accountActivityBackButton?.addEventListener("click", () => showAccountScreen("loggedin"));
-  el.accountActivityButton?.addEventListener("click", () => {
-    showAccountScreen("activity");
-    loadMyRatingsActivity();
-  });
-  el.accountActivityRefreshButton?.addEventListener("click", () => {
-    loadMyRatingsActivity();
-  });
-
   async function loadMyRatingsActivity() {
     const t = text[state.language];
     if (!el.accountActivityStatus || !el.accountActivityList) return;
@@ -10762,7 +9772,7 @@ el.menuButton.setAttribute("aria-expanded", String(shouldOpen));
         if (hasCoords) {
           button.addEventListener("click", async () => {
             const displayLabel = entry.label || entry.placeKey;
-            closeAccount();
+            window.OMAP_ACCOUNT?.closeAccount();
 
             const lngLat = { lat: entry.lat, lng: entry.lon };
             const minimalPlace = {

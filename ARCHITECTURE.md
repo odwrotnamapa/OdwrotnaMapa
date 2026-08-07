@@ -56,8 +56,9 @@ src/services/       — logika bez UI: sync (Nostr), krypto, resolver
                        konta, historia, historia wyszukiwań,
                        widoczność etykiet, edytor niestandardowego
                        motywu (paleta+czcionka+tekstury scalone w
-                       jeden plik) - ostatnie dwadzieścia wyniesione
-                       z app.js 2026-08-06
+                       jeden plik), konto i synchronizacja - ostatnie
+                       dwadzieścia jeden wyniesione z app.js
+                       2026-08-06
 src/components/      — bottom-sheet, place-card, photo-gallery,
                        back-navigation, ui-foundation (patrz sekcja
                        "Place Engine" niżej - część z tego jest
@@ -641,6 +642,52 @@ współdzielenie stanu (jak przycisk resetu tutaj) to silniejszy
 sygnał co powinno być jednym modułem niż z pozoru odrębne nazwy
 sekcji UI - łatwo pomylić "wygląda jak osobna funkcja" z "jest
 niezależnym modułem".
+
+
+## Konto i synchronizacja (src/services/account-service.js)
+
+Dwudziesty drugi moduł wyniesiony z `app.js` (2026-08-06, ~1090
+linii) - **dotąd największy**, prawie dwa razy większy niż Ulubione.
+Wyodrębniony na wyraźną prośbę użytkownika po dyskusji o tym, co
+jeszcze zostało w `app.js` - Konto/Sync uznane za sensowniejszy
+kandydat niż stosowanie kolorów na mapie (które zostaje jako zbyt
+splecione z `applyTheme`). Warstwa orkiestracji UI/stanu dla
+logowania/rejestracji przez seed-frazę, profilu, push/pull danych
+przez Nostr, autosync w tle.
+
+**Niskopoziomowa kryptografia i transport Nostr już były osobnymi
+serwisami** z wcześniejszych sesji (`sync-crypto-service.js`,
+`sync-transport-service.js`, `window.OMAP_SYNC_CRYPTO`/
+`window.OMAP_SYNC_TRANSPORT`) - ten moduł woła je BEZPOŚREDNIO jako
+już-globalne obiekty (`const cryptoApi = window.OMAP_SYNC_CRYPTO`
+wewnątrz poszczególnych funkcji), bez potrzeby wstrzykiwania przez
+`configure()`. To znacząco obniżyło ryzyko tej ekstrakcji względem
+tego, czego można by się spodziewać po rozmiarze.
+
+**Dwa poważne znaleziska w tej ekstrakcji:**
+
+1. **Kolizja nazw zmiennych** - lokalna `const map = {...}` (mapa
+   nazwa-ekranu na element DOM) wewnątrz `showAccountScreen`
+   kolidowała z nazwą zewnętrznej instancji MapLibre `map`.
+   Standardowa podmiana `map` → `ctx.map` by ją zepsuła (próbowałaby
+   zamienić lokalną zmienną w odwołanie do mapy). Przemianowana na
+   `screenMap` PRZED wykonaniem podmiany, żeby uniknąć kolizji.
+
+2. **Duży blok niebezpiecznych wywołań na poziomie modułu** - ~20
+   rejestracji `addEventListener` (~130 linii) siedziało
+   bezpośrednio na poziomie pliku w oryginalnym `app.js`, odwołując
+   się wprost do `el.X` - ten sam mechanizm co przy Pomiarze, tylko
+   na dużo większą skalę (jeden duży blok zamiast pojedynczych
+   wywołań). Owinięty w `initializeAccountEventListeners()`, wołany
+   jawnie z `app.js` po pełnym `configure()`.
+
+**Trzy zaktualizowane punkty w `app.js`**: `ratings-service.js` i
+`seed-words-service.js` (obie potrzebowały `openAccountFromMenu`/
+`showAccountMessage`, teraz zdefiniowanych tutaj), plus bezpośrednie
+wywołania w inicjalizatorze dolnego panelu konta i przyciskach menu.
+
+Wynik: `app.js` spadł poniżej 11000 linii pierwszy raz w tej sesji
+(z ~16586 na starcie do 10892).
 
 
 ## Ulubione i Trasy
