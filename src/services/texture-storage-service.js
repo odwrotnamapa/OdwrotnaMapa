@@ -18,7 +18,8 @@
   const TEXTURE_DB_NAME = "odwrotnamapa-textures";
   const TEXTURE_STORE = "textures";
   const FONT_STORE = "fonts";
-  const TEXTURE_DB_VERSION = 2;
+  const PRESET_STORE = "presets";
+  const TEXTURE_DB_VERSION = 3;
 
   function textureImageId(key) {
     return TEXTURE_IMAGE_PREFIX + key;
@@ -38,6 +39,9 @@
         }
         if (!db.objectStoreNames.contains(FONT_STORE)) {
           db.createObjectStore(FONT_STORE);
+        }
+        if (!db.objectStoreNames.contains(PRESET_STORE)) {
+          db.createObjectStore(PRESET_STORE);
         }
       };
       request.onsuccess = () => resolve(request.result);
@@ -138,6 +142,58 @@
     }
   }
 
+  async function idbGetAllPresets() {
+    try {
+      const db = await openTextureDB();
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction(PRESET_STORE, "readonly");
+        const store = tx.objectStore(PRESET_STORE);
+        const result = [];
+        const cursorRequest = store.openCursor();
+        cursorRequest.onsuccess = event => {
+          const cursor = event.target.result;
+          if (cursor) {
+            result.push(cursor.value);
+            cursor.continue();
+          } else {
+            resolve(result);
+          }
+        };
+        cursorRequest.onerror = () => reject(cursorRequest.error);
+      });
+    } catch (_) {
+      return [];
+    }
+  }
+
+  async function idbSavePreset(preset) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(PRESET_STORE, "readwrite");
+        tx.objectStore(PRESET_STORE).put(preset, preset.id);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się zapisać motywu:", error);
+    }
+  }
+
+  async function idbDeletePreset(id) {
+    try {
+      const db = await openTextureDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(PRESET_STORE, "readwrite");
+        tx.objectStore(PRESET_STORE).delete(id);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    } catch (error) {
+      console.error("Nie udało się usunąć motywu:", error);
+    }
+  }
+
   window.OMAP_TEXTURE_STORAGE = {
     textureImageId,
     idbGetAllTextures,
@@ -145,6 +201,9 @@
     idbDeleteTexture,
     idbGetCustomFont,
     idbSetCustomFont,
-    idbDeleteCustomFont
+    idbDeleteCustomFont,
+    idbGetAllPresets,
+    idbSavePreset,
+    idbDeletePreset
   };
 })();

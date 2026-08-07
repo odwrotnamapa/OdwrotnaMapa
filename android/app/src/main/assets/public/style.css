@@ -919,10 +919,14 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-actions {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 13px;
+}
+
+.route-actions > * {
+  flex: 1 1 100px;
 }
 
 .route-primary,
@@ -948,6 +952,17 @@ body.ui-dark .legend-symbol.osm-buildings {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 9px;
   margin-top: 15px;
+}
+
+.route-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.route-summary-actions > * {
+  flex: 1 1 100px;
 }
 
 .route-summary > div {
@@ -1524,10 +1539,8 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .route-share {
-  
   place-items: center;
   min-height: 40px;
-  margin-top: 10px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);

@@ -116,6 +116,13 @@
       backupFavoritesHint: "Dodawanie do ulubionych wymaga zalogowania się na konto.",
       customFontHeading: "Czcionka",
       customFontHint: "Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.",
+      customThemePresetsHeading: "Zapisane motywy",
+      customThemePresetsHint: "Zapisz obecne kolory, czcionkę i tekstury pod nazwą, żeby móc się później do nich wrócić.",
+      customThemePresetNamePlaceholder: "Nazwa motywu",
+      customThemePresetSave: "Zapisz obecny",
+      customThemePresetsEmpty: "Nie masz jeszcze żadnych zapisanych motywów.",
+      customThemePresetApply: "Wczytaj",
+      customThemePresetDelete: "Usuń",
       customFontDefault: "Domyślna",
       customFontCustomOption: "Własna (wgraj plik)",
       customTextureLabels: {
@@ -585,6 +592,13 @@
       backupFavoritesHint: "Adding to favorites requires being logged in to an account.",
       customFontHeading: "Font",
       customFontHint: "Applies to the interface text (menus, panels, cards) - it does not change the font of labels on the map itself.",
+      customThemePresetsHeading: "Saved themes",
+      customThemePresetsHint: "Save the current colors, font and textures under a name, so you can come back to them later.",
+      customThemePresetNamePlaceholder: "Theme name",
+      customThemePresetSave: "Save current",
+      customThemePresetsEmpty: "You don't have any saved themes yet.",
+      customThemePresetApply: "Load",
+      customThemePresetDelete: "Delete",
       customFontDefault: "Default",
       customFontCustomOption: "Custom (upload a file)",
       customTextureLabels: {
@@ -1493,10 +1507,15 @@
     backupFavoritesHint: $("menu-backup-scope-favorites-hint"),
     customFontHeading: $("menu-custom-font-heading"),
     customFontHint: $("menu-custom-font-hint"),
+    customThemePresetsHeading: $("menu-custom-presets-heading"),
+    customThemePresetsHint: $("menu-custom-presets-hint"),
     customFontSelect: $("custom-font-select"),
     customFontUploadRow: $("custom-font-upload-row"),
     customFontFile: $("custom-font-file"),
     customFontFileClear: $("custom-font-file-clear"),
+    customThemePresetNameInput: $("custom-theme-preset-name-input"),
+    customThemePresetSaveButton: $("custom-theme-preset-save-button"),
+    customThemePresetList: $("custom-theme-preset-list"),
     customPaletteReset: $("custom-palette-reset"),
     labelsPoiToggle: $("menu-labels-poi"),
     labelsPoiToggleLabel: $("menu-labels-poi-label"),
@@ -1789,6 +1808,7 @@ map.on('rotate', updateLogoRotation);
     state,
     el,
     CONFIG,
+    text,
     DEFAULT_CUSTOM_PALETTE,
     CUSTOM_FONT_MAX_BYTES,
     MAP_TEXTURE_KEYS,
@@ -2026,6 +2046,7 @@ map.on('rotate', updateLogoRotation);
 
   window.OMAP_CUSTOM_THEME_EDITOR?.initializeTextureEditor();
   window.OMAP_CUSTOM_THEME_EDITOR?.initializeFontEditor();
+  window.OMAP_CUSTOM_THEME_EDITOR?.initializePresetsEditor();
 
 
   window.OMAP_LABEL_VISIBILITY?.initializeToggles();
@@ -2642,6 +2663,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.backupFavoritesHint) el.backupFavoritesHint.textContent = t.backupFavoritesHint;
     if (el.customFontHeading) el.customFontHeading.textContent = t.customFontHeading;
     if (el.customFontHint) el.customFontHint.textContent = t.customFontHint;
+    if (el.customThemePresetsHeading) el.customThemePresetsHeading.textContent = t.customThemePresetsHeading;
+    if (el.customThemePresetsHint) el.customThemePresetsHint.textContent = t.customThemePresetsHint;
+    if (el.customThemePresetNameInput) el.customThemePresetNameInput.placeholder = t.customThemePresetNamePlaceholder;
+    if (el.customThemePresetSaveButton) el.customThemePresetSaveButton.textContent = t.customThemePresetSave;
     if (el.customFontSelect) {
       const defaultOption = el.customFontSelect.querySelector('option[value="default"]');
       if (defaultOption) defaultOption.textContent = t.customFontDefault;

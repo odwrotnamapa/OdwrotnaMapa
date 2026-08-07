@@ -50,6 +50,10 @@
   }
 
   function returnFromAccountToMenu() {
+    if (ctx.el.accountScreenActivity && !ctx.el.accountScreenActivity.hidden) {
+      showAccountScreen("loggedin");
+      return;
+    }
     closeAccount();
     ctx.openMenuHome();
   }
@@ -345,8 +349,11 @@
   }
 
   function getCheckedSyncScopes() {
-    const scopes = [];
-    if (ctx.el.accountSyncScopeFavorites?.checked) scopes.push("favorites");
+    // Ulubione są teraz dostępne tylko po zalogowaniu, więc zawsze
+    // wchodzą w zakres synchronizacji - bez osobnego checkboksa do
+    // wyłączenia (nie ma sensu mieć konta i jednocześnie wyłączać
+    // jedynej rzeczy, która bez konta w ogóle nie działa).
+    const scopes = ["favorites"];
     if (ctx.el.accountSyncScopeColors?.checked) scopes.push("colors");
     if (ctx.el.accountSyncScopePlaceNames?.checked) scopes.push("placeNames");
     if (ctx.el.accountSyncScopeHistory?.checked) scopes.push("history");
@@ -1063,7 +1070,7 @@
     });
 
     ctx.el.accountLogoutButton?.addEventListener("click", handleLogoutAccount);
-    ctx.el.accountActivityBackButton?.addEventListener("click", () => showAccountScreen("loggedin"));
+
     ctx.el.accountActivityButton?.addEventListener("click", () => {
       showAccountScreen("activity");
       ctx.loadMyRatingsActivity();

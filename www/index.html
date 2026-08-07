@@ -63,7 +63,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260809300000">
+  <link rel="stylesheet" href="style.css?v=20260809800000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -405,13 +405,13 @@
         </div>
 
         <div class="route-actions">
+          <button id="route-import-gpx" class="route-secondary" type="button">
+            Importuj
+          </button>
           <button id="route-clear" class="route-secondary" type="button" hidden>
             Wyczyść
           </button>
-          <button id="route-save-favorite" class="route-secondary" type="button" hidden>
-            ☆ Zapisz trasę
-          </button>
-
+          <input id="route-import-gpx-input" type="file" accept=".gpx" hidden>
         </div>
 
 
@@ -430,17 +430,18 @@
           <strong id="route-arrival">—</strong>
           <span id="route-arrival-label">Przyjazd</span>
         </div>
-   
+      </div>
+
+      <div class="route-summary-actions">
+    <button id="route-save-favorite" class="route-share" type="button" hidden>
+        ☆ Zapisz
+    </button>
     <button id="route-export-gpx" class="route-share" type="button" hidden>
         Eksportuj
-    </button>
-    <button id="route-import-gpx" class="route-share" type="button" hidden>
-        Importuj
     </button>
    <button id="route-share" class="route-share" type="button" hidden>
         Udostępnij
       </button>
-    <input id="route-import-gpx-input" type="file" accept=".gpx" hidden>
       </div>
 
 
@@ -478,7 +479,7 @@
         <button id="favorites-back"
                 class="menu-back-button"
                 type="button"
-                aria-label="Wróć do menu">←</button>
+                aria-label="Wróć do konta">←</button>
         <h2 id="favorites-title">Ulubione</h2>
         <button id="favorites-close"
                 class="legend-close"
@@ -791,6 +792,9 @@
           <input type="checkbox" id="menu-backup-scope-favorites" checked>
           <span id="menu-backup-scope-favorites-label">Ulubione miejsca</span>
         </label>
+        <p class="menu-custom-palette-hint" id="menu-backup-scope-favorites-hint">
+          Dodawanie do ulubionych wymaga teraz zalogowania się na konto.
+        </p>
 
         <label class="menu-backup-scope-item">
           <input type="checkbox" id="menu-backup-scope-colors" checked>
@@ -905,10 +909,6 @@
 
         <div class="account-sync-scope">
           <label class="account-sync-scope-item">
-            <input type="checkbox" id="account-sync-scope-favorites" checked>
-            <span id="account-scope-favorites-label">Ulubione miejsca</span>
-          </label>
-          <label class="account-sync-scope-item">
             <input type="checkbox" id="account-sync-scope-colors" checked>
             <span id="account-scope-colors-label">Motyw, kolory i język</span>
           </label>
@@ -929,6 +929,10 @@
           ⬇ Pobierz zaznaczone
         </button>
 
+        <button id="favorites-open-button" type="button" class="account-secondary-button">
+          ⭐ <span id="favorites-menu-label">Ulubione</span>
+        </button>
+
         <button id="account-activity-button" type="button" class="account-secondary-button">
           📋 Aktywność
         </button>
@@ -947,7 +951,6 @@
       </section>
 
       <section id="account-screen-activity" class="account-screen" hidden>
-        <button id="account-activity-back-button" type="button" class="account-subback-button">← Wstecz</button>
         <div class="account-activity-heading-row">
           <p class="account-screen-heading">Twoje oceny</p>
           <button id="account-activity-refresh-button" type="button" class="account-activity-refresh" aria-label="Odśwież">🔄</button>
@@ -1013,13 +1016,6 @@
                 type="button">
           <span aria-hidden="true">👤</span>
           <span id="menu-account-label">Konto i synchronizacja</span>
-        </button>
-
-        <button id="favorites-open-button"
-                class="menu-action"
-                type="button">
-          <span aria-hidden="true">⭐</span>
-          <span id="favorites-menu-label">Ulubione</span>
         </button>
 
         <button id="history-open-button"
@@ -1302,6 +1298,7 @@
   <script src="src/services/label-visibility-service.js"></script>
   <script src="src/services/custom-theme-editor-service.js"></script>
   <script src="src/services/account-service.js"></script>
+  <script src="src/services/route-service.js"></script>
   <script type="module">
     // Ładujemy nostr-tools jako moduł ES z CDN (esm.sh) - tak samo jak
     // MapLibre GL JS jest już ładowany z unpkg. Nie wymaga to żadnej
@@ -1331,6 +1328,6 @@
     }
   </script>
 
-  <script src="app.js?v=20260809300000"></script>
+  <script src="app.js?v=20260810900000"></script>
 </body>
 </html>

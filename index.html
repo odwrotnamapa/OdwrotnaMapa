@@ -63,7 +63,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260809800000">
+  <link rel="stylesheet" href="style.css?v=20260811100000">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -1144,6 +1144,17 @@
           </div>
 
           <button type="button" id="custom-palette-reset">Resetuj kolory i tekstury</button>
+
+          <p class="menu-custom-palette-heading" id="menu-custom-presets-heading">Zapisane motywy</p>
+          <p class="menu-custom-palette-hint" id="menu-custom-presets-hint">
+            Zapisz obecne kolory, czcionkę i tekstury pod nazwą, żeby móc się później do nich wrócić.
+          </p>
+          <div class="custom-theme-preset-save-row">
+            <input type="text" id="custom-theme-preset-name-input" maxlength="40"
+                   placeholder="Nazwa motywu">
+            <button type="button" id="custom-theme-preset-save-button">Zapisz obecny</button>
+          </div>
+          <ul id="custom-theme-preset-list" class="custom-theme-preset-list"></ul>
         </div>
 
         <label class="menu-setting">
@@ -1328,6 +1339,6 @@
     }
   </script>
 
-  <script src="app.js?v=20260810900000"></script>
+  <script src="app.js?v=20260811100000"></script>
 </body>
 </html>
