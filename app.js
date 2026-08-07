@@ -6631,6 +6631,10 @@ function showUserLocationMarker(lngLat) {
           ? "Dodaj do ulubionych"
           : "Add to favorites",
         button => {
+          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+            window.OMAP_ACCOUNT?.openAccountFromMenu();
+            return;
+          }
           const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
             favoriteKey,
             place,

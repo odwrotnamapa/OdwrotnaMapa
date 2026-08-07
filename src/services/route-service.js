@@ -201,6 +201,10 @@ function swapRoutePoints() {
   }
 
   function toggleCurrentRouteFavorite() {
+    if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+      window.OMAP_ACCOUNT?.openAccountFromMenu();
+      return;
+    }
     const key = currentRouteFavoriteKey();
     if (!key) return;
 

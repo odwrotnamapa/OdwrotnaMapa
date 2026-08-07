@@ -74,6 +74,11 @@
   async function addContextPointToFavorites(lngLat) {
     if (!lngLat) return;
 
+    if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+      window.OMAP_ACCOUNT?.openAccountFromMenu();
+      return;
+    }
+
     ctx.show(ctx.text[ctx.state.language].placeLoading, 0);
 
     try {
