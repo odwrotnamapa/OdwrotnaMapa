@@ -4,51 +4,80 @@
 
 <img width="1870" height="982" alt="Screenshot 2026-07-20 at 15-11-53 Odwrotna Mapa - mapa z południem u góry" src="./screeny/swiat.png" />
 
----
-Apki (beta do testów): https://github.com/odwrotnamapa/OdwrotnaMapa/releases/tag/v1.0
-
-# 🇵🇱 O projekcie
-Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. **Odwrotna Mapa** zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy.
-
-...jednak skłamałbym mówiąc, że to jedyne co definiuje tę apkę  —  jest z niej znacznie więcej pożytku i multum funkcjonalności, między innymi:
-- **Wyszukiwarka miejsc i adresów** (Nominatim, Photon)
-- **Odkrywaj** — szybkie wyszukiwanie w kategoriach (restauracje, kawiarnie, apteki, przystanki i inne)
-- **Ulubione miejsca** — zapis dowolnego punktu na mapie z własną nazwą i notatką
-- **Wyznaczanie tras** — pieszo, rowerem, samochodem i komunikacją miejską (z rozkładami odjazdów na przystankach)
-- **Widok satelitarny**
-- **Własne motywy kolorystyczne** — pełna personalizacja kolorów mapy (woda, zieleń, budynki, drogi) i interfejsu, plus tryb automatyczny podążający za ustawieniem systemu (jasny/ciemny)
-- **Kopia zapasowa** — eksport/import ustawień (ulubione, kolory) do pliku JSON, z wyborem co dokładnie eksportować
-- **Dwa języki** — polski i angielski
-- **Aplikacje na Androida, Windowsa i Linuxa** (beta), oprócz wersji przeglądarkowej
-- W pełni otwarty kod źródłowy (licencja MIT)
-
-# 🇬🇧 About the project
-Most modern maps place north at the top. This is not, however, the only possible way to represent the world. **Odwrotna Mapa** (literally "Inverted Map") was created as an attempt to look at a familiar map from another perspective and to encourage reflection on how conventions influence our perception of reality.
-
-...but I'd be lying if I said that's the only thing that defines this app — it offers much more value and a wealth of features, including:
-- **Place and address search** (Nominatim, Photon)
-- **Discover** — quick category-based search (restaurants, cafes, pharmacies, bus stops, and more)
-- **Favorite places** — save any point on the map with a custom name and note
-- **Route planning** — walking, cycling, driving, and public transit (with departure times at stops)
-- **Satellite view**
-- **Custom color themes** — full personalization of map colors (water, greenery, buildings, roads) and UI, plus an automatic mode that follows the system's light/dark setting
-- **Backup** — export/import settings (favorites, colors) as a JSON file, with control over what exactly to include
-- **Two languages** — Polish and English
-- **Android, Windows and Linux apps** (beta), in addition to the browser version 
-- Fully open source (MIT license)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Data Source](https://img.shields.io/badge/data-OpenStreetMap-green.svg)
+![Engine](https://img.shields.io/badge/engine-MapLibre_GL-orange.svg)
 
 ---
-# Zrzuty ekranu
 
-<p float="left">
-<img width="250" alt="2026-07-20 15 53 36" src="./screeny/screen1.jpg" />
-<img width="250" alt="2026-07-20 15 55 18" src="./screeny/screen2.jpg" />
-<img width="250" alt="2026-07-20 15 56 53" src="./screeny/screen3.jpg" />
-<img width="250" alt="2026-07-20 16 00 48" src="./screeny/screen4.jpg" />
-<img width="250" alt="2026-07-20 16 07 29" src="./screeny/screen5.jpg" />
-<img width="250" alt="2026-07-20 16 08 27" src="./screeny/screen6.jpg" />
-</p>
+## 💡 O Projekcie
 
+**Odwrotna Mapa** to coś więcej niż tylko mapa z orientacją południową na górze. To **protest przeciwko utartym schematom kartograficznym** i ograniczonym interfejsom popularnych komercyjnych map.
+
+Większość ludzi przyjmuje północ na górze mapy jako domyślną i jedyną słuszną prawidłość. Odwrotna Mapa udowadnia, że orientacja przestrzenna to tylko kwestia umowy, a zmiana perspektywy potrafi całkowicie odmienić sposób, w jaki postrzegamy geografię, odległości i relacje między miejscami.
+
+Projekt wyewoluował z prostego konceptu wizualnego w **pełnoprawne, zaawansowane narzędzie GIS i geodezyjno-turystyczne**, zbudowane w oparciu o wolne dane (**OpenStreetMap**) oraz nowoczesny silnik renderowania wektorowego (**MapLibre GL**).
+
+---
+
+## ✨ Kluczowe Funkcje
+
+### 🗺️ Pełna Swoboda Perspektywy
+* **Swobodna rotacja i nachylenie 3D:** Obracaj mapę pod dowolnym kątem, przełączaj widok w tryb 3D i przełam rutynę tradycyjnych nawigacji.
+* **Tryb Odwrócony:** Szybkie przełączanie na orientację południową na górze ekranu.
+
+### 🔍 Zaawansowane Wyszukiwanie i Odkrywanie
+* **Multi-engine search:** Łączymy potęgę silników **Nominatim** oraz **Photon** z autorskim indeksowaniem polskich lokalizacji.
+* **Odkrywanie w promieniu widoku:** Wyszukuj interesujące obiekty (POI), zabytki i punkty usługowe w bieżącym kadrze mapy.
+
+### 📐 Narzędzia Pomiarowe i Planowanie
+* **Planowanie tras:** Precyzyjne wyznaczanie tras samochodowych, rowerowych i pieszych.
+* **Pomiary odległości:** Szybkie narzędzie do mierzenia dystansów w linii prostej oraz wzdłuż wyznaczonych ścieżek.
+
+### 📸 Widok Ulicy (Street View)
+* **Integracja z Mapillary:** Przeglądaj otwarte zdjęcia z poziomu ulicy bezpośrednio na mapie, bez polegania na zamkniętych ekosystemach.
+
+### 🎨 Personalizacja i Eksport
+* **Motywy i warstwy:** Zmieniaj style mapy i dostosowuj interfejs do własnych preferencji.
+* **Eksport do PNG:** Generuj czyste, wysokiej jakości pliki graficzne z wybranym fragmentem mapy – idealne do druku, prezentacji czy na bloga.
+
+### 🔒 Prywatność i Wolność
+* **Brak śledzenia:** Szanujemy Twoją prywatność – nie gromadzimy historii wyszukiwań ani danych lokalizacyjnych.
+* **Open Source:** Aplikacja bazuje na otwartym oprogramowaniu i społecznościowych danych OpenStreetMap.
+
+---
+
+## 📱 Dostępność i Platformy
+
+Odwrotna Mapa jest dostępna na niemal każdym urządzeniu:
+* 🌐 **Web / PWA:** Uruchom bezpośrednio w przeglądarce jako Progressive Web App (`odwrotnamapa.pl`).
+* 📱 **Android:** Dostępna w postaci pakietu APK oraz w repetytorium **F-Droid**.
+* 💻 **Desktop:** Wersja stacjonarna oparta na Electron (Windows / Linux / macOS).
+
+---
+
+## 🛠️ Stos Technologiczny
+
+* **Map Engine:** MapLibre GL JS
+* **Data Sources:** OpenStreetMap, Mapillary
+* **Geocoding:** Nominatim, Photon
+* **Routing:** OSRM / GraphHopper
+* **Platform:** Web / PWA / Electron / Android (Capacitor/WebView)
+
+---
+
+## 🤝 Wkład w rozwój (Contributing)
+
+Chcesz pomóc w rozwoju projektu? Każda pomoc jest mile widziana!
+1. Zgłaszaj błędy i propozycje funkcji w zakładce **Issues**.
+2. Twórz własne modyfikacje i zgłaszaj **Pull Requests**.
+3. Wspieraj otwarte dane – dodawaj miejsca do [OpenStreetMap](https://www.openstreetmap.org)!
+
+---
+
+## 📄 Licencja
+
+Projekt jest udostępniany na licencji **MIT**. Dane mapowe pochodzą z serwisu © [OpenStreetMap](https://www.openstreetmap.org/copyright) na licencji ODbL.
 ---
 📨 Kontakt:
 odwrotnamapa@protonmail.com
