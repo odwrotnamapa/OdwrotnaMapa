@@ -62,6 +62,15 @@
           payload.customFontData = ctx.state.customFontDataUrl;
         }
       }
+
+      // Zapisane presety motywu (paleta+czcionka+tekstury pod nazwą) -
+      // eksportowane w całości, bez kompresji obrazów (w
+      // przeciwieństwie do synchronizacji przez Nostr, plik JSON nie
+      // ma narzuconego limitu rozmiaru pojedynczego zdarzenia).
+      const presets = await window.OMAP_TEXTURE_STORAGE?.idbGetAllPresets();
+      if (Array.isArray(presets) && presets.length) {
+        payload.customThemePresets = presets;
+      }
     }
 
     if (scopes.includes("placeNames")) {
@@ -282,6 +291,28 @@
           colorsImportedFlag = true;
         }
         ctx.syncCustomFontSelect();
+      }
+
+      if (
+        scopes.includes("colors") &&
+        Array.isArray(raw?.customThemePresets)
+      ) {
+        const existingPresets = await window.OMAP_TEXTURE_STORAGE?.idbGetAllPresets() || [];
+        const existingIds = new Set(existingPresets.map(p => p.id));
+
+        for (const preset of raw.customThemePresets) {
+          if (
+            preset &&
+            typeof preset.id === "string" &&
+            typeof preset.name === "string" &&
+            !existingIds.has(preset.id)
+          ) {
+            await window.OMAP_TEXTURE_STORAGE?.idbSavePreset(preset);
+            existingIds.add(preset.id);
+          }
+        }
+        window.OMAP_CUSTOM_THEME_EDITOR?.renderPresetList();
+        colorsImportedFlag = true;
       }
 
       if (colorsImportedFlag && ctx.state.theme === "custom") {

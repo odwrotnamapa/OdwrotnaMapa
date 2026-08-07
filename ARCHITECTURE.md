@@ -764,6 +764,66 @@ Wynik: `app.js` z ~10892 do 8981 linii w jednej turze - spadek o
 prawie 2000 linii.
 
 
+## Presety niestandardowego motywu (2026-08-11)
+
+Funkcja dodana na życzenie użytkownika - nazwane, w pełni zapisane
+kombinacje palety+czcionki+tekstur, przechowywane lokalnie w
+IndexedDB (nowy magazyn `presets` w `texture-storage-service.js`,
+wersja bazy podbita z 2 na 3), z możliwością wczytania (nadpisuje
+CAŁY bieżący motyw niestandardowy i włącza go, jeśli nie jest
+aktywny) i usunięcia. UI w `custom-theme-editor-service.js`
+(`renderPresetList`/`saveCurrentAsPreset`/`applyPreset`/
+`deletePreset`/`initializePresetsEditor`) - pierwsza funkcja w tym
+module wymagająca dostępu do tłumaczeń (`text` dodane do
+`configure()` specjalnie dla niej, reszta modułu nigdy tego nie
+potrzebowała, bo cały pozostały UI tłumaczy `app.js`/`updateUI()`).
+
+**Zsynchronizowane z obydwoma systemami** (backup JSON i konto/Nostr)
+na kolejne życzenie użytkownika, bez osobnego checkboksa zakresu -
+presety wchodzą w istniejący zakres "colors" (motyw/kolory/język) w
+obu miejscach, koncepcyjnie pasują.
+
+- **Backup (plik JSON)**: `payload.customThemePresets` = pełna
+  tablica presetów z IndexedDB, bez kompresji obrazów (plik lokalny,
+  brak narzuconego limitu rozmiaru zdarzenia). Import scala po `id`
+  presetu (pomija już istniejące, dodaje nowe) - nie nadpisuje
+  istniejących lokalnie presetów o tym samym ID.
+
+- **Konto (Nostr)**: dużo delikatniejsze ze względu na limit
+  rozmiaru zdarzenia na przekaźnikach (~180 KB tekstura, ~350 KB
+  czcionka - ten sam mechanizm co dla aktywnego motywu, patrz
+  `MEDIA_SIZE_LIMIT`/`FONT_SIZE_LIMIT` w `account-service.js`).
+  Rozwiązanie: `buildSyncPayload` (uczyniona `async` specjalnie dla
+  tego) wysyła w głównym payloadzie tylko LEKKIE metadane każdego
+  presetu (nazwa, paleta, typ czcionki - bez samych obrazów/bajtów).
+  `pushColorMedia` osobno publikuje tekstury/czcionkę KAŻDEGO
+  presetu jako osobne, małe zdarzenia, nazwane
+  `preset:<id>:texture:<pole>` / `preset:<id>:font` (ten sam wzorzec
+  co `texture:<pole>`/`font:custom` dla aktywnego motywu, tylko z
+  prefiksem ID presetu, żeby sloty się nie kolidowały).
+
+  Kolejność przy pobieraniu (`performPull`) jest kluczowa: główny
+  payload jest odszyfrowywany NAJPIERW (dając listę metadanych
+  presetów), DOPIERO POTEM `pullColorMedia` woła się z tą listą jako
+  dodatkowym parametrem (`presetsMeta`) - i to WEWNĄTRZ
+  `pullColorMedia`, nie w `applySyncPayload`, składany jest KOMPLETNY
+  obiekt presetu (metadane + dociągnięte media) i zapisywany JEDNYM
+  wywołaniem `idbSavePreset`. Uniknięto w ten sposób problemu
+  "zapisz szkielet presetu w jednym miejscu, dograj obrazy w drugim,
+  w złej kolejności" - w przeciwieństwie do aktywnego motywu presety
+  nie muszą być "od razu przemalowane" po pobraniu (nic się nie
+  dzieje wizualnie, dopóki użytkownik ręcznie nie wczyta konkretnego
+  presetu), więc nie ma tu tego samego ograniczenia kolejności co
+  przy `applyTheme`.
+
+  Świadomie NIE wysyłamy pustych slotów dla usuniętych lokalnie
+  presetów (w przeciwieństwie do pól aktywnego motywu, które zawsze
+  wysyłają albo dane, albo pusty ciąg jako sygnał "wyczyszczone") -
+  skoro usunięty preset i tak nie pojawia się już w głównym
+  payloadzie, strona pobierająca nigdy nie zapyta o jego media, więc
+  osierocone dane po prostu leżą nieużywane na przekaźniku.
+
+
 ## Ulubione i Trasy
 
 Scalone w **jedną, wspólną listę** (miejsca i trasy wymieszane,

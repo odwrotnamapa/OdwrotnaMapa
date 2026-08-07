@@ -360,7 +360,7 @@
     return scopes;
   }
 
-  function buildSyncPayload(scopes) {
+  async function buildSyncPayload(scopes) {
     const payload = {
       version: 2,
       exportedAt: new Date().toISOString()
@@ -389,6 +389,28 @@
         // Same bajty czcionki jadą osobnym, małym zdarzeniem (patrz
         // pushColorMedia) - tu zostawiamy tylko znacznik typu.
         payload.customFont = { type: "custom" };
+      }
+
+      // Zapisane presety motywu - tu tylko lekkie metadane (nazwa,
+      // paleta, typ czcionki). Same obrazy tekstur i bajty czcionki
+      // każdego presetu jadą osobnymi, małymi zdarzeniami (patrz
+      // pushColorMedia), tak samo jak dla aktywnego motywu -
+      // inaczej jeden duży payload z wieloma presetami łatwo
+      // przekroczyłby limit rozmiaru zdarzenia na przekaźniku.
+      const presets = await window.OMAP_TEXTURE_STORAGE?.idbGetAllPresets();
+      if (Array.isArray(presets) && presets.length) {
+        payload.customThemePresets = presets.map(preset => ({
+          id: preset.id,
+          name: preset.name,
+          savedAt: preset.savedAt,
+          palette: preset.palette,
+          font:
+            preset.font?.type === "google"
+              ? { type: "google", googleFont: preset.font.googleFont }
+              : preset.font?.type === "custom"
+                ? { type: "custom" }
+                : { type: "default" }
+        }));
       }
     }
 
@@ -560,6 +582,48 @@
       textureJobs.push(pushOneMediaSlot("font:custom", ""));
     }
 
+    // Tekstury i czcionki zapisanych presetów - ten sam mechanizm co
+    // wyżej dla aktywnego motywu, ale ze slotami nazwanymi po ID
+    // presetu, żeby nie kolidowały ze sobą ani z aktywnym motywem.
+    // W przeciwieństwie do aktywnego motywu NIE wysyłamy pustych
+    // slotów dla usuniętych lokalnie presetów - skoro dany preset
+    // nie pojawia się już w głównym payloadzie (buildSyncPayload),
+    // strona pobierająca i tak nigdy nie zapyta o jego media.
+    const presets = await window.OMAP_TEXTURE_STORAGE?.idbGetAllPresets() || [];
+    for (const preset of presets) {
+      for (const key of ctx.TEXTURE_FIELDS) {
+        const original = preset.textures?.[key] || "";
+        if (!original) continue;
+        textureJobs.push(
+          (async () => {
+            const prepared = await prepareTextureForSync(original);
+            if (prepared === null) {
+              skipped.push(`tekstura „${key}” w motywie „${preset.name}”`);
+              return;
+            }
+            await pushOneMediaSlot(`preset:${preset.id}:texture:${key}`, prepared);
+          })()
+        );
+      }
+
+      const presetFontOriginal =
+        preset.font?.type === "custom" && preset.fontDataUrl
+          ? preset.fontDataUrl
+          : "";
+      if (presetFontOriginal) {
+        textureJobs.push(
+          (async () => {
+            const prepared = await prepareFontForSync(presetFontOriginal);
+            if (prepared === null) {
+              skipped.push(`czcionka w motywie „${preset.name}”`);
+              return;
+            }
+            await pushOneMediaSlot(`preset:${preset.id}:font`, prepared);
+          })()
+        );
+      }
+    }
+
     await Promise.allSettled(textureJobs);
     return skipped;
 
@@ -577,7 +641,7 @@
     }
   }
 
-  async function pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex) {
+  async function pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex, presetsMeta) {
     for (const key of ctx.TEXTURE_FIELDS) {
       await pullOneMediaSlot(`texture:${key}`, async value => {
         if (value) {
@@ -607,6 +671,48 @@
         window.OMAP_CUSTOM_THEME_EDITOR?.syncCustomFontSelect();
       }
     });
+
+    // Zapisane presety - metadane (nazwa, paleta, typ czcionki) już
+    // przyszły w głównym payloadzie (patrz applySyncPayload wołane
+    // zaraz po tej funkcji), tutaj tylko dociągamy same obrazy/bajty
+    // czcionki, po jednym małym zdarzeniu na slot, tak jak dla
+    // aktywnego motywu. Cały preset (metadane + media) budujemy i
+    // zapisujemy TUTAJ za jednym razem - inaczej applySyncPayload
+    // musiałoby zapisać "szkielet" presetu bez obrazów, a potem ta
+    // funkcja musiałaby go później dogrywać, co komplikuje kolejność
+    // bez żadnej korzyści (presety, w przeciwieństwie do aktywnego
+    // motywu, nie muszą być "od razu przemalowane" - nic się nie
+    // dzieje wizualnie dopóki użytkownik ich nie wczyta ręcznie).
+    if (Array.isArray(presetsMeta)) {
+      for (const meta of presetsMeta) {
+        if (!meta || typeof meta.id !== "string" || typeof meta.name !== "string") continue;
+
+        const textures = {};
+        for (const key of ctx.TEXTURE_FIELDS) {
+          await pullOneMediaSlot(`preset:${meta.id}:texture:${key}`, async value => {
+            if (value) textures[key] = value;
+          });
+        }
+
+        let fontDataUrl = null;
+        if (meta.font?.type === "custom") {
+          await pullOneMediaSlot(`preset:${meta.id}:font`, async value => {
+            if (value) fontDataUrl = value;
+          });
+        }
+
+        await window.OMAP_TEXTURE_STORAGE?.idbSavePreset({
+          id: meta.id,
+          name: meta.name,
+          savedAt: meta.savedAt || new Date().toISOString(),
+          palette: meta.palette || {},
+          font: meta.font || { type: "default" },
+          fontDataUrl,
+          textures
+        });
+      }
+      window.OMAP_CUSTOM_THEME_EDITOR?.renderPresetList();
+    }
 
     async function pullOneMediaSlot(topic, apply) {
       try {
@@ -734,7 +840,7 @@
       if (!silent) showAccountMessage(t.accountSending, null);
 
       const { encKey, nostrPrivKeyBytes } = await cryptoApi.deriveKeys(words);
-      const payload = buildSyncPayload(scopes);
+      const payload = await buildSyncPayload(scopes);
       const blob = await cryptoApi.encryptPayload(payload, encKey);
       const result = await transport.pushBlob(nostrPrivKeyBytes, blob, "main");
 
@@ -798,7 +904,7 @@
       // jeszcze zarejestrowane w tym momencie, przemalowanie użyje
       // samego koloru zamiast tekstury dla danej warstwy.
       if (scopes.includes("colors")) {
-        await pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex);
+        await pullColorMedia(cryptoApi, encKey, transport, nostrPubKeyHex, payload.customThemePresets);
       }
 
       await applySyncPayload(payload, scopes);

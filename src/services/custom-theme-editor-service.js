@@ -381,6 +381,7 @@
     syncCustomFontSelect,
     initializeFontEditor,
     initializeTextureEditor,
-    initializePresetsEditor
+    initializePresetsEditor,
+    renderPresetList
   };
 })();
