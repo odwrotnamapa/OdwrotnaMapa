@@ -4321,7 +4321,16 @@ function applyLanguage(language) {
     const url = new URL(CONFIG.search.fuzzyEndpoint);
     url.searchParams.set("q", query);
     url.searchParams.set("limit", String(limit));
-    url.searchParams.set("lang", state.language);
+    // Publiczna instancja Photon wspiera TYLKO: default, de, en, fr.
+    // state.language bywa "pl", ktore Photon odrzuca bledem 400 -
+    // ten sam blad co w search-v2/providers/photon.js.
+    const SUPPORTED_PHOTON_LANGS = ["de", "en", "fr"];
+    url.searchParams.set(
+      "lang",
+      SUPPORTED_PHOTON_LANGS.includes(state.language)
+        ? state.language
+        : "default"
+    );
 
     const response = await fetch(url, {
       signal,
@@ -5279,8 +5288,22 @@ el.discoverButton?.setAttribute(
       return null;
     }
 
+    // Schemat OpenMapTiles (styl "liberty") oznacza kazdy POI polem
+    // "rank" - rosnaco wedlug WAZNOSCI w danej okolicy (rank=1 to
+    // najwazniejszy obiekt w pobliskiej siatce, wyzsze numery to
+    // drobiazgi typu pojedynczy sklep czy toaleta). Sama odleglosc w
+    // pikselach myli sie w duzych obszarowo miejscach (centrum
+    // handlowe, stadion) - konkretny sklep czy toaleta W SRODKU
+    // takiego miejsca czesto wypada pikselowo blizej kliknieccia niz
+    // etykieta samego centrum/stadionu. Dlatego liczymy polaczony
+    // wynik: odleglosc + kara za wysoki (mniej wazny) rank, zeby
+    // bliski-ale-nieistotny szczegol nie wygrywal z nieco dalszym, ale
+    // znacznie wazniejszym duzym obiektem.
+    const RANK_PENALTY_PER_STEP = 2; // px "kary" na kazdy stopien rankingu
+    const DEFAULT_RANK = 10; // neutralna wartosc dla obiektow bez pola rank
+
     let closest = null;
-    let closestDistance = Infinity;
+    let closestScore = Infinity;
 
     for (const feature of features) {
       if (feature.geometry?.type !== "Point") continue;
@@ -5293,8 +5316,13 @@ el.discoverButton?.setAttribute(
         featurePoint.y - point.y
       );
 
-      if (distance < closestDistance) {
-        closestDistance = distance;
+      const rank = Number.isFinite(Number(feature.properties?.rank))
+        ? Number(feature.properties.rank)
+        : DEFAULT_RANK;
+      const score = distance + rank * RANK_PENALTY_PER_STEP;
+
+      if (score < closestScore) {
+        closestScore = score;
         closest = {
           lon,
           lat,
@@ -5306,6 +5334,138 @@ el.discoverButton?.setAttribute(
     }
 
     return closest;
+  }
+
+  // Wspoldzielona logika miedzy menu kontekstowym ("Informacje o tym
+  // miejscu") a bezposrednim kliknieciem lewym przyciskiem w POI na
+  // mapie (jak w komercyjnych mapach - klik w ikone/etykiete miejsca
+  // od razu otwiera informacje, bez potrzeby menu kontekstowego).
+  //
+  // fallbackLngLat: gdy nic nie znaleziono w danym punkcie ekranu -
+  // menu kontekstowe i tak pokazuje info o surowym kliknietym punkcie
+  // (uzytkownik jawnie o to poprosil), ale zwykle kliknięcie w PUSTE
+  // miejsce na mapie ma NIC nie pokazywac (tak jak w Google Maps) -
+  // stad brak fallbacku przy wywolaniu z handleMapClick.
+  async function showPoiInfoAtScreenPoint(screenPoint, options = {}) {
+    const { fallbackLngLat = null, origin = "map-click" } = options;
+
+    const poi = findNearestPoiFeature(screenPoint);
+    if (!poi && !fallbackLngLat) {
+      return false;
+    }
+
+    let localCity = null;
+    try {
+      const looksLikePlaceLabel =
+        poi &&
+        poi.sourceLayer === "place" &&
+        !/rail|station|stop|dworzec|przystanek|airport|lotnisko/i.test(
+          poi.featureClass || ""
+        );
+
+      localCity = looksLikePlaceLabel
+        ? findLocalCityByName(poi.name, {
+            lat: poi.lat,
+            lng: poi.lon
+          })
+        : null;
+    } catch (error) {
+      console.error(error);
+      localCity = null;
+    }
+
+    if (localCity) {
+      closeMapContextMenu();
+      showSelectedPlaceInformation({
+        place_id: `local:${localCity.id}`,
+        name: localCity.name,
+        display_name: [localCity.name, "Polska"]
+          .filter(Boolean)
+          .join(", "),
+        lat: localCity.lat,
+        lon: localCity.lon,
+        class: "place",
+        type: "city",
+        importance: 0.8,
+        address: { city: localCity.name },
+        provider: "local"
+      });
+      return true;
+    }
+
+    // POPRAWKA: gdy znaleziono nazwany obiekt w warstwie wektorowej
+    // (centrum handlowe, stadion, itp.) ktory NIE jest etykieta
+    // miasta - pokazujemy JEGO WLASNA nazwe bezposrednio. Wczesniej
+    // ten przypadek spadal do openMapInformationThroughService, ktora
+    // CALKOWICIE ODRZUCA nazwe poi i robi wlasne, niezalezne
+    // odwrotne geokodowanie po samych wspolrzednych - a to potrafilo
+    // trafic w zupelnie inny, mniejszy obiekt (np. konkretny sklep czy
+    // wejscie zamiast calego centrum handlowego), mimo ze
+    // findNearestPoiFeature juz poprawnie znalazlo wlasciwa nazwe.
+    if (poi) {
+      closeMapContextMenu();
+
+      // WAZNE: jeden, ten sam obiekt lngLat (zwykly {lat,lng}, NIE
+      // maplibregl.LngLat) przekazywany do OBU wywolan ponizej - tak
+      // samo jak w sprawdzonym kodzie ponownego otwierania
+      // ocenionych/ulubionych miejsc. state.placePanelLngLat === lngLat
+      // to porownanie REFERENCJI obiektu - gdyby kazde wywolanie
+      // tworzylo wlasny nowy obiekt (jak robi to showSelectedPlaceInformation
+      // przez getResultLngLat), to porownanie nigdy nie byloby prawdziwe
+      // i wzbogacenie w tle nigdy by sie nie zastosowalo.
+      const lngLat = { lat: poi.lat, lng: poi.lon };
+      const minimalPlace = {
+        place_id: `map-vector:${poi.lon.toFixed(6)},${poi.lat.toFixed(6)}`,
+        name: poi.name,
+        display_name: poi.name,
+        lat: poi.lat,
+        lon: poi.lon,
+        class: poi.featureClass || "place",
+        type: poi.featureClass || "place",
+        category: poi.featureClass || "place",
+        address: {},
+        extratags: {}
+      };
+
+      // Pokazujemy od razu (bez czekania na siec) - nazwa jest juz
+      // poprawna, bo pochodzi z wektorowej warstwy mapy. W tle
+      // dociagamy bogate dane (kategoria, Wikipedia, strona) tym
+      // samym, juz sprawdzonym sposobem co przy ponownym otwieraniu
+      // ocenionych/ulubionych miejsc (fetchPlaceByReverseAtZoom,
+      // zoom=18 dla zwyklych miejsc) - precyzyjnie NA WSPOLRZEDNYCH
+      // JUZ ZIDENTYFIKOWANEGO obiektu, wiec nie ma ryzyka ze zlapie
+      // przypadkowy sklep obok, tak jak robila to stara sciezka przez
+      // openMapInformationThroughService.
+      openKnownPlaceOnMap(minimalPlace, lngLat);
+
+      const isCityLike = poi.sourceLayer === "place";
+      fetchPlaceByReverseAtZoom(
+        poi.lat,
+        poi.lon,
+        isCityLike ? 10 : 18
+      )
+        .then(fullPlace => {
+          if (
+            fullPlace &&
+            state.placePanelLngLat === lngLat &&
+            !el.placePanel?.hidden
+          ) {
+            openKnownPlaceOnMap(fullPlace, lngLat);
+          }
+        })
+        .catch(error => {
+          console.error("Nie udało się dociągnąć pełnych danych miejsca:", error);
+        });
+
+      return true;
+    }
+
+    const targetLngLat = fallbackLngLat;
+
+    if (!targetLngLat) return false;
+
+    await openMapInformationThroughService(targetLngLat, { origin });
+    return true;
   }
 
   function findLocalCityByName(name, clickedPoint) {
@@ -5451,57 +5611,10 @@ el.discoverButton?.setAttribute(
     if (action === "info") {
       removeContextPointMarker();
 
-      const poi = findNearestPoiFeature(state.contextMenuPoint);
-      let localCity = null;
-
-      try {
-        const looksLikePlaceLabel =
-          poi &&
-          poi.sourceLayer === "place" &&
-          !/rail|station|stop|dworzec|przystanek|airport|lotnisko/i.test(
-            poi.featureClass || ""
-          );
-
-        localCity = looksLikePlaceLabel
-          ? findLocalCityByName(poi.name, {
-              lat: poi.lat,
-              lng: poi.lon
-            })
-          : null;
-      } catch (error) {
-        console.error(error);
-        localCity = null;
-      }
-
-      if (localCity) {
-        closeMapContextMenu();
-        showSelectedPlaceInformation({
-          place_id: `local:${localCity.id}`,
-          name: localCity.name,
-          display_name: [localCity.name, "Polska"]
-            .filter(Boolean)
-            .join(", "),
-          lat: localCity.lat,
-          lon: localCity.lon,
-          class: "place",
-          type: "city",
-          importance: 0.8,
-          address: { city: localCity.name },
-          provider: "local"
-        });
-        return;
-      }
-
-      const targetLngLat = poi
-        ? new maplibregl.LngLat(poi.lon, poi.lat)
-        : lngLat;
-
-      await openMapInformationThroughService(
-        targetLngLat,
-        {
-          origin: "map-context-menu"
-        }
-      );
+      await showPoiInfoAtScreenPoint(state.contextMenuPoint, {
+        fallbackLngLat: lngLat,
+        origin: "map-context-menu"
+      });
 
       return;
     }
@@ -5565,6 +5678,15 @@ if (!el.routePanel.hidden) {
 
       return;
     }
+
+    // Zwykłe kliknięcie (bez trybu pomiaru/tras) w konkretny punkt/
+    // etykietę na mapie - tak jak w komercyjnych mapach, klik w
+    // widoczny POI od razu otwiera informacje o nim, bez potrzeby
+    // menu kontekstowego. Kliknięcie w puste miejsce mapy (poi=null,
+    // brak fallbackLngLat) świadomie NIC nie pokazuje.
+    await showPoiInfoAtScreenPoint(event.point, {
+      origin: "map-click"
+    });
   }
 
 
