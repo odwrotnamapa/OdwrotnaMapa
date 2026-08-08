@@ -3382,7 +3382,8 @@ function applyLanguage(language) {
       lngLat: new maplibregl.LngLat(
         shared.lon,
         shared.lat
-      )
+      ),
+      knownName: shared.label || null
     });
 
     map.flyTo({
@@ -6238,11 +6239,46 @@ function showUserLocationMarker(lngLat) {
     el.placePanelContent?.replaceChildren(loading);
 
     try {
-      const place = await fetchPlaceInformation(
-        event.lngLat.lng,
-        event.lngLat.lat,
-        state.placeRequestController.signal
-      );
+      let place = null;
+
+      // Gdy wywolujacy zna juz nazwe miejsca (np. wejscie z linku
+      // udostepnionego/sitemap, gdzie ?q= niesie nazwe) - probujemy
+      // NAJPIERW znalezc je po nazwie (fetchPlaceByNameNear), tym
+      // samym mechanizmem co przy kliknieciu w mape. Czyste odwrotne
+      // geokodowanie po samych wspolrzednych (fetchPlaceInformation)
+      // regularnie lapalo przypadkowy maly obiekt obok zamiast
+      // wlasciwego miejsca dla duzych, obszarowych lokalizacji.
+      if (event.knownName) {
+        const nameMatch = await fetchPlaceByNameNear(
+          event.knownName,
+          event.lngLat.lat,
+          event.lngLat.lng,
+          state.placeRequestController.signal
+        ).catch(() => null);
+
+        if (nameMatch) {
+          const matchName =
+            nameMatch.namedetails?.["name:pl"] ||
+            nameMatch.namedetails?.name ||
+            nameMatch.name ||
+            String(nameMatch.display_name || "").split(",")[0];
+          const similarity = stringSimilarity(
+            normalizeSearchText(event.knownName),
+            normalizeSearchText(matchName)
+          );
+          if (similarity >= 0.5) {
+            place = nameMatch;
+          }
+        }
+      }
+
+      if (!place) {
+        place = await fetchPlaceInformation(
+          event.lngLat.lng,
+          event.lngLat.lat,
+          state.placeRequestController.signal
+        );
+      }
 
       // Dopisanie nazwy miejsca i współrzędnych do adresu URL (?q=&p=)
       if (place && !state.isRestoringFromPopstate) {
@@ -9287,7 +9323,10 @@ window.addEventListener("popstate", function(event) {
     }
     setTimeout(() => {
       if (typeof showPlaceInformation === "function") {
-        showPlaceInformation({ lngLat: { lat: shared.lat, lng: shared.lon } }).catch(err => {
+        showPlaceInformation({
+          lngLat: { lat: shared.lat, lng: shared.lon },
+          knownName: shared.label || null
+        }).catch(err => {
           console.error("Error:", err);
         });
       }
