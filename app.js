@@ -3373,6 +3373,7 @@ function applyLanguage(language) {
 
   function loadSharedPlaceFromUrl() {
     const shared = window.OMAP_URL_STATE?.readPlaceFromUrl();
+    console.log("[loadSharedPlaceFromUrl] readPlaceFromUrl() zwrocil:", shared, "| window.location.search:", window.location.search);
     if (!shared || !Number.isFinite(shared.lat) || !Number.isFinite(shared.lon)) return;
 
     // Otwórz udostępniony punkt natychmiast. Nie zostawiaj
@@ -6254,7 +6255,10 @@ function showUserLocationMarker(lngLat) {
           event.lngLat.lat,
           event.lngLat.lng,
           state.placeRequestController.signal
-        ).catch(() => null);
+        ).catch(error => {
+          console.error(`fetchPlaceByNameNear blad dla "${event.knownName}":`, error);
+          return null;
+        });
 
         if (nameMatch) {
           const matchName =
@@ -6266,13 +6270,25 @@ function showUserLocationMarker(lngLat) {
             normalizeSearchText(event.knownName),
             normalizeSearchText(matchName)
           );
+          console.log(
+            `[showPlaceInformation] knownName="${event.knownName}" -> nameMatch="${matchName}" (podobienstwo ${similarity.toFixed(2)})`
+          );
           if (similarity >= 0.5) {
             place = nameMatch;
+          } else {
+            console.warn(
+              `[showPlaceInformation] odrzucono nameMatch - podobienstwo za niskie, spada do reverse geocode`
+            );
           }
+        } else {
+          console.warn(
+            `[showPlaceInformation] fetchPlaceByNameNear nie zwrocil zadnego wyniku dla "${event.knownName}", spada do reverse geocode`
+          );
         }
       }
 
       if (!place) {
+        console.log("[showPlaceInformation] uzywam fetchPlaceInformation (reverse geocode po wspolrzednych)");
         place = await fetchPlaceInformation(
           event.lngLat.lng,
           event.lngLat.lat,
