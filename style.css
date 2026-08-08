@@ -6651,18 +6651,20 @@ textarea,
    (zamiast oddzielnej "wyspy" kolo wyszukiwarki, jak bylo wczesniej).
    Na mobile (@media max-width: 600px wyzej) uklad zostaje bez zmian -
    streetview-actions nadal jest osobnym, plywajacym paskiem w rogu
-   ekranu, niezaleznie od menu. */
-@media (min-width: 601px) {
-  .streetview-actions {
-    box-shadow: none !important;
-  }
+   ekranu, niezaleznie od menu.
 
+   WAZNE: #streetview-actions i .toolbar-actions musza zostac
+   RODZENSTWEM w HTML (nie zagniezdzone jedno w drugim) - na mobile
+   ".toolbar .toolbar-actions" ma display:none!important (menu
+   zastepuje wtedy dolny pasek nawigacji), co ukrywaloby CALA
+   zawartosc #streetview-actions, gdyby bylo jego dzieckiem. Polaczenie
+   wizualne osiagamy WYLACZNIE przez ujemny margines znoszacy odstep
+   (gap) miedzy sasiednimi elementami we flexboksie .toolbar, bez
+   zadnej zmiany struktury DOM. */
+@media (min-width: 601px) {
   .toolbar-actions {
-    display: flex !important;
-    align-items: stretch !important;
+    margin-left: -10px !important;
     box-shadow: var(--shadow) !important;
-    border-radius: 0 !important;
-    overflow: hidden;
   }
 
   #menu-button {

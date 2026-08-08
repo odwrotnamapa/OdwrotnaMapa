@@ -1462,6 +1462,11 @@
     streetviewFullscreenButton: $("streetview-fullscreen-button"),
     streetviewContainer: $("streetview-container"),
     menuStreetviewButton: $("streetview-toggle-button"),
+    mapAppearancePanel: $("map-appearance-panel"),
+    mapAppearanceTitle: $("map-appearance-title"),
+    mapAppearanceSheetHandle: $("map-appearance-sheet-handle"),
+    mapAppearanceClose: $("map-appearance-close"),
+    mapAppearanceToggleButton: $("map-appearance-toggle-button"),
     favoritesCount: $("favorites-count"),
     favoritesOpenButton: $("favorites-open-button"),
     favoritesMenuLabel: $("favorites-menu-label"),
@@ -2128,6 +2133,14 @@ map.on('rotate', updateLogoRotation);
 
   el.menuButton?.addEventListener("click", toggleMenu);
   el.menuClose?.addEventListener("click", closeMenu);
+  el.mapAppearanceToggleButton?.addEventListener(
+    "click",
+    toggleMapAppearance
+  );
+  el.mapAppearanceClose?.addEventListener(
+    "click",
+    closeMapAppearance
+  );
   el.menuLegendButton?.addEventListener(
     "click",
     openLegendFromMenu
@@ -2373,6 +2386,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   initializeTripBottomSheet();
   initializeStreetviewBottomSheet();
   initializeLegendBottomSheet();
+  initializeMapAppearanceBottomSheet();
   initializeLabelsBottomSheet();
   initializeTradingSundayBottomSheet();
   initializeAboutBottomSheet();
@@ -2418,6 +2432,11 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
     if (el.menuTitle) el.menuTitle.textContent = t.menuTitle;
     if (el.menuThemeLabel) el.menuThemeLabel.textContent = t.menuTheme;
+    if (el.mapAppearanceTitle) el.mapAppearanceTitle.textContent = t.menuTheme;
+    if (el.mapAppearanceToggleButton) {
+      el.mapAppearanceToggleButton.title = t.menuTheme;
+      el.mapAppearanceToggleButton.setAttribute("aria-label", t.menuTheme);
+    }
     if (el.locateToggleButton) {
       el.locateToggleButton.title = t.locate;
       el.locateToggleButton.setAttribute("aria-label", t.locate);
@@ -4818,6 +4837,7 @@ function applyLanguage(language) {
     // do odrzucenia panelu.
     { id: "streetview", close: () => window.OMAP_STREETVIEW?.close(), collapsible: false },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
+    { id: "mapAppearance", close: () => closeMapAppearance(), panel: el.mapAppearancePanel, cssVariable: "--sheet-height" },
     { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
     { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
@@ -5046,6 +5066,15 @@ function applyLanguage(language) {
       panel: el.legendPanel,
       handle: el.legendSheetHandle,
       close: closeLegend,
+      cssVariable: "--sheet-height"
+    });
+  }
+
+  function initializeMapAppearanceBottomSheet() {
+    window.OMAP_BOTTOM_SHEET?.initialize({
+      panel: el.mapAppearancePanel,
+      handle: el.mapAppearanceSheetHandle,
+      close: closeMapAppearance,
       cssVariable: "--sheet-height"
     });
   }
@@ -8316,6 +8345,30 @@ function updateRouteClickHint() {
     el.menuButton?.classList.add("is-active");
     el.mobileMenuButton?.setAttribute("aria-expanded", "true");
     el.mobileMenuButton?.classList.add("is-active");
+  }
+
+  function openMapAppearance() {
+    closeOtherMobilePanels("mapAppearance");
+
+    openMobilePanelStandard(
+      el.mapAppearancePanel,
+      "--sheet-height"
+    );
+    el.mapAppearanceToggleButton?.setAttribute("aria-expanded", "true");
+  }
+
+  function closeMapAppearance() {
+    if (!el.mapAppearancePanel || el.mapAppearancePanel.hidden) return;
+    el.mapAppearancePanel.hidden = true;
+    el.mapAppearanceToggleButton?.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleMapAppearance() {
+    if (el.mapAppearancePanel?.hidden === false) {
+      closeMapAppearance();
+    } else {
+      openMapAppearance();
+    }
   }
 
   function openLegendFromMenu() {

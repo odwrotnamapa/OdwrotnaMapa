@@ -63,7 +63,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260813-sharp-corners">
+  <link rel="stylesheet" href="style.css?v=20260813-mobile-fix">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -133,8 +133,12 @@
         <button id="measure-clear-button" type="button" aria-label="Wyczyść pomiar">×</button>
       </div>
 
-      <div class="toolbar-actions">
         <div id="streetview-actions" class="streetview-actions">
+          <button id="map-appearance-toggle-button" class="icon-button" type="button"
+                  title="Wygląd mapy" aria-label="Wygląd mapy"
+                  aria-expanded="false" aria-controls="map-appearance-panel">
+            <span aria-hidden="true">🎨</span>
+          </button>
           <button id="streetview-toggle-button" class="icon-button" type="button"
                   title="Widok uliczny" aria-label="Widok uliczny"
                   aria-pressed="false">
@@ -171,6 +175,8 @@
             <span aria-hidden="true" class="text-icon">−</span>
           </button>
         </div>
+
+      <div class="toolbar-actions">
         <button id="menu-button" class="icon-button" type="button"
                 title="Menu" aria-label="Menu"
                 aria-expanded="false" aria-controls="menu-panel">☰</button>
@@ -671,6 +677,154 @@
         </a>
       </p>
     </aside>
+    <aside id="map-appearance-panel"
+           class="legend-panel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="map-appearance-title"
+           hidden>
+      <button id="map-appearance-sheet-handle"
+              class="route-sheet-handle app-sheet__handle panel-shell__handle"
+              type="button"
+              aria-label="Zmień wysokość panelu wyglądu mapy">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="legend-header app-sheet__header panel-shell__header">
+        <span aria-hidden="true"></span>
+        <h2 id="map-appearance-title">Wygląd mapy</h2>
+        <button id="map-appearance-close"
+                class="legend-close"
+                type="button"
+                aria-label="Zamknij wygląd mapy">×</button>
+      </div>
+
+      <div class="menu-actions">
+        <label class="menu-setting" id="menu-theme-row">
+          <span aria-hidden="true">🗺️</span>
+          <span id="menu-theme-label">Wygląd mapy</span>
+          <select id="menu-theme-select" aria-labelledby="menu-theme-label">
+            <option value="default">Domyślna</option>
+            <option value="satellite">Satelitarna</option>
+            <option value="inverted">Odwrotna</option>
+            <option value="custom">Własna</option>
+          </select>
+        </label>
+
+        <div id="menu-custom-palette" class="menu-custom-palette" hidden>
+          <p class="menu-custom-palette-heading" id="menu-custom-map-heading">Kolory mapy</p>
+          <div class="menu-custom-palette-grid">
+            <label>
+              <span id="custom-color-mapBackground-label">Tło</span>
+              <input type="color" id="custom-color-mapBackground" value="#f7f4ef">
+            </label>
+            <label>
+              <span id="custom-color-mapWater-label">Woda</span>
+              <input type="color" id="custom-color-mapWater" value="#a9cbe0">
+            </label>
+            <label>
+              <span id="custom-color-mapParks-label">Zieleń</span>
+              <input type="color" id="custom-color-mapParks" value="#c9e4c5">
+            </label>
+            <label>
+              <span id="custom-color-mapBuildings-label">Budynki</span>
+              <input type="color" id="custom-color-mapBuildings" value="#e3ddd2">
+            </label>
+            <label>
+              <span id="custom-color-mapRoads-label">Drogi</span>
+              <input type="color" id="custom-color-mapRoads" value="#ffffff">
+            </label>
+            <label>
+              <span id="custom-color-mapBoundaries-label">Granice</span>
+              <input type="color" id="custom-color-mapBoundaries" value="#9a9a9a">
+            </label>
+            <label>
+              <span id="custom-color-mapLabels-label">Etykiety</span>
+              <input type="color" id="custom-color-mapLabels" value="#3a3a3a">
+            </label>
+          </div>
+          <p class="menu-custom-palette-heading" id="menu-custom-ui-heading">Kolory interfejsu</p>
+          <div class="menu-custom-palette-grid">
+            <label>
+              <span id="custom-color-uiAccent-label">Akcent</span>
+              <input type="color" id="custom-color-uiAccent" value="#dc2626">
+            </label>
+            <label>
+              <span id="custom-color-uiPanel-label">Tło paneli</span>
+              <input type="color" id="custom-color-uiPanel" value="#ffffff">
+            </label>
+            <label>
+              <span id="custom-color-uiText-label">Tekst</span>
+              <input type="color" id="custom-color-uiText" value="#18212b">
+            </label>
+          </div>
+          <p class="menu-custom-palette-heading" id="menu-custom-textures-heading">Tekstury (zdjęcie zamiast koloru)</p>
+          <p class="menu-custom-palette-hint" id="menu-custom-textures-hint">
+            JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.
+          </p>
+          <div class="menu-custom-palette-grid menu-custom-palette-grid--textures">
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapBackground-label">Tło mapy</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapBackground">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapBackground-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapWater-label">Woda</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapWater">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapWater-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapParks-label">Zieleń</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapParks">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapParks-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-mapBuildings-label">Budynki</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapBuildings">
+                <button type="button" class="custom-texture-clear" id="custom-texture-mapBuildings-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+            <div class="custom-texture-field">
+              <span id="custom-texture-uiPanel-label">Tło paneli</span>
+              <div class="custom-texture-controls">
+                <input type="file" accept="image/png,image/jpeg" id="custom-texture-uiPanel">
+                <button type="button" class="custom-texture-clear" id="custom-texture-uiPanel-clear" title="Usuń teksturę">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <p class="menu-custom-palette-heading" id="menu-custom-font-heading">Czcionka</p>
+          <p class="menu-custom-palette-hint" id="menu-custom-font-hint">
+            Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.
+          </p>
+          <div class="custom-font-controls">
+            <div class="custom-font-upload" id="custom-font-upload-row" hidden>
+              <input type="file" accept=".woff,.woff2,.ttf,.otf" id="custom-font-file">
+              <button type="button" class="custom-texture-clear" id="custom-font-file-clear" title="Usuń czcionkę">✕</button>
+            </div>
+          </div>
+
+          <button type="button" id="custom-palette-reset">Resetuj kolory i tekstury</button>
+
+          <p class="menu-custom-palette-heading" id="menu-custom-presets-heading">Zapisane motywy</p>
+          <p class="menu-custom-palette-hint" id="menu-custom-presets-hint">
+            Zapisz obecne kolory, czcionkę i tekstury pod nazwą, żeby móc się później do nich wrócić.
+          </p>
+          <div class="custom-theme-preset-save-row">
+            <input type="text" id="custom-theme-preset-name-input" maxlength="40"
+                   placeholder="Nazwa motywu">
+            <button type="button" id="custom-theme-preset-save-button">Zapisz obecny</button>
+          </div>
+          <ul id="custom-theme-preset-list" class="custom-theme-preset-list"></ul>
+        </div>
+      </div>
+    </aside>
+
 
     <aside id="about-panel" class="legend-panel about-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
            aria-labelledby="about-title" hidden>
@@ -1029,131 +1183,6 @@
           <span id="menu-trading-sunday-label">Niedziela handlowa</span>
         </button>
 
-        <label class="menu-setting" id="menu-theme-row">
-          <span aria-hidden="true">🗺️</span>
-          <span id="menu-theme-label">Wygląd mapy</span>
-          <select id="menu-theme-select" aria-labelledby="menu-theme-label">
-            <option value="default">Domyślna</option>
-            <option value="satellite">Satelitarna</option>
-            <option value="inverted">Odwrotna</option>
-            <option value="custom">Własna</option>
-          </select>
-        </label>
-
-        <div id="menu-custom-palette" class="menu-custom-palette" hidden>
-          <p class="menu-custom-palette-heading" id="menu-custom-map-heading">Kolory mapy</p>
-          <div class="menu-custom-palette-grid">
-            <label>
-              <span id="custom-color-mapBackground-label">Tło</span>
-              <input type="color" id="custom-color-mapBackground" value="#f7f4ef">
-            </label>
-            <label>
-              <span id="custom-color-mapWater-label">Woda</span>
-              <input type="color" id="custom-color-mapWater" value="#a9cbe0">
-            </label>
-            <label>
-              <span id="custom-color-mapParks-label">Zieleń</span>
-              <input type="color" id="custom-color-mapParks" value="#c9e4c5">
-            </label>
-            <label>
-              <span id="custom-color-mapBuildings-label">Budynki</span>
-              <input type="color" id="custom-color-mapBuildings" value="#e3ddd2">
-            </label>
-            <label>
-              <span id="custom-color-mapRoads-label">Drogi</span>
-              <input type="color" id="custom-color-mapRoads" value="#ffffff">
-            </label>
-            <label>
-              <span id="custom-color-mapBoundaries-label">Granice</span>
-              <input type="color" id="custom-color-mapBoundaries" value="#9a9a9a">
-            </label>
-            <label>
-              <span id="custom-color-mapLabels-label">Etykiety</span>
-              <input type="color" id="custom-color-mapLabels" value="#3a3a3a">
-            </label>
-          </div>
-          <p class="menu-custom-palette-heading" id="menu-custom-ui-heading">Kolory interfejsu</p>
-          <div class="menu-custom-palette-grid">
-            <label>
-              <span id="custom-color-uiAccent-label">Akcent</span>
-              <input type="color" id="custom-color-uiAccent" value="#dc2626">
-            </label>
-            <label>
-              <span id="custom-color-uiPanel-label">Tło paneli</span>
-              <input type="color" id="custom-color-uiPanel" value="#ffffff">
-            </label>
-            <label>
-              <span id="custom-color-uiText-label">Tekst</span>
-              <input type="color" id="custom-color-uiText" value="#18212b">
-            </label>
-          </div>
-          <p class="menu-custom-palette-heading" id="menu-custom-textures-heading">Tekstury (zdjęcie zamiast koloru)</p>
-          <p class="menu-custom-palette-hint" id="menu-custom-textures-hint">
-            JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.
-          </p>
-          <div class="menu-custom-palette-grid menu-custom-palette-grid--textures">
-            <div class="custom-texture-field">
-              <span id="custom-texture-mapBackground-label">Tło mapy</span>
-              <div class="custom-texture-controls">
-                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapBackground">
-                <button type="button" class="custom-texture-clear" id="custom-texture-mapBackground-clear" title="Usuń teksturę">✕</button>
-              </div>
-            </div>
-            <div class="custom-texture-field">
-              <span id="custom-texture-mapWater-label">Woda</span>
-              <div class="custom-texture-controls">
-                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapWater">
-                <button type="button" class="custom-texture-clear" id="custom-texture-mapWater-clear" title="Usuń teksturę">✕</button>
-              </div>
-            </div>
-            <div class="custom-texture-field">
-              <span id="custom-texture-mapParks-label">Zieleń</span>
-              <div class="custom-texture-controls">
-                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapParks">
-                <button type="button" class="custom-texture-clear" id="custom-texture-mapParks-clear" title="Usuń teksturę">✕</button>
-              </div>
-            </div>
-            <div class="custom-texture-field">
-              <span id="custom-texture-mapBuildings-label">Budynki</span>
-              <div class="custom-texture-controls">
-                <input type="file" accept="image/png,image/jpeg" id="custom-texture-mapBuildings">
-                <button type="button" class="custom-texture-clear" id="custom-texture-mapBuildings-clear" title="Usuń teksturę">✕</button>
-              </div>
-            </div>
-            <div class="custom-texture-field">
-              <span id="custom-texture-uiPanel-label">Tło paneli</span>
-              <div class="custom-texture-controls">
-                <input type="file" accept="image/png,image/jpeg" id="custom-texture-uiPanel">
-                <button type="button" class="custom-texture-clear" id="custom-texture-uiPanel-clear" title="Usuń teksturę">✕</button>
-              </div>
-            </div>
-          </div>
-
-          <p class="menu-custom-palette-heading" id="menu-custom-font-heading">Czcionka</p>
-          <p class="menu-custom-palette-hint" id="menu-custom-font-hint">
-            Dotyczy tekstu interfejsu (menu, panele, karty) - nie zmienia czcionki etykiet na samej mapie.
-          </p>
-          <div class="custom-font-controls">
-            <div class="custom-font-upload" id="custom-font-upload-row" hidden>
-              <input type="file" accept=".woff,.woff2,.ttf,.otf" id="custom-font-file">
-              <button type="button" class="custom-texture-clear" id="custom-font-file-clear" title="Usuń czcionkę">✕</button>
-            </div>
-          </div>
-
-          <button type="button" id="custom-palette-reset">Resetuj kolory i tekstury</button>
-
-          <p class="menu-custom-palette-heading" id="menu-custom-presets-heading">Zapisane motywy</p>
-          <p class="menu-custom-palette-hint" id="menu-custom-presets-hint">
-            Zapisz obecne kolory, czcionkę i tekstury pod nazwą, żeby móc się później do nich wrócić.
-          </p>
-          <div class="custom-theme-preset-save-row">
-            <input type="text" id="custom-theme-preset-name-input" maxlength="40"
-                   placeholder="Nazwa motywu">
-            <button type="button" id="custom-theme-preset-save-button">Zapisz obecny</button>
-          </div>
-          <ul id="custom-theme-preset-list" class="custom-theme-preset-list"></ul>
-        </div>
-
         <label class="menu-setting">
           <span aria-hidden="true">🌐</span>
           <span id="menu-language-label">Język</span>
@@ -1309,6 +1338,6 @@
   <script src="src/services/route-service.js"></script>
   <script type="module" src="src/services/external-libs-loader.js"></script>
 
-  <script src="app.js?v=20260813-shared-link-debug"></script>
+  <script src="app.js?v=20260813-map-appearance-panel"></script>
 </body>
 </html>

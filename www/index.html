@@ -63,7 +63,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260811100000">
+  <link rel="stylesheet" href="style.css?v=20260813-sharp-corners">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -126,44 +126,6 @@
       </form>
       </div>
 
-      <div id="streetview-actions" class="streetview-actions">
-        <button id="streetview-toggle-button" class="icon-button" type="button"
-                title="Widok uliczny" aria-label="Widok uliczny"
-                aria-pressed="false">
-          <span aria-hidden="true">🧍</span>
-        </button>
-        <button id="locate-toggle-button" class="icon-button" type="button"
-                title="Moja lokalizacja" aria-label="Moja lokalizacja">
-          <span aria-hidden="true">🎯</span>
-        </button>
-        <button id="toggle-3d-button" class="icon-button" type="button"
-                title="Widok 3D" aria-label="Widok 3D"
-                aria-pressed="false">
-          <span aria-hidden="true">🧊</span>
-        </button>
-        <button id="measure-toggle-button" class="icon-button" type="button"
-                title="Zmierz odległość" aria-label="Zmierz odległość"
-                aria-pressed="false">
-          <span aria-hidden="true">📏</span>
-        </button>
-
-        <button id="export-png-button" class="icon-button" type="button"
-                title="Zapisz jako PNG" aria-label="Zapisz jako PNG"
-                aria-pressed="false">
-          <span aria-hidden="true">🖼️</span>
-        </button>
-
-
-        <button id="zoom-in-button" class="icon-button mobile-only-action" type="button"
-                title="Przybliż" aria-label="Przybliż">
-          <span aria-hidden="true" class="text-icon">+</span>
-        </button>
-        <button id="zoom-out-button" class="icon-button mobile-only-action" type="button"
-                title="Oddal" aria-label="Oddal">
-          <span aria-hidden="true" class="text-icon">−</span>
-        </button>
-      </div>
-
       <div id="measure-distance-badge" class="measure-distance-badge" hidden>
         <span id="measure-distance-value">0 m</span>
         <button id="measure-mode-switch-button" type="button" class="measure-mode-switch"
@@ -172,6 +134,43 @@
       </div>
 
       <div class="toolbar-actions">
+        <div id="streetview-actions" class="streetview-actions">
+          <button id="streetview-toggle-button" class="icon-button" type="button"
+                  title="Widok uliczny" aria-label="Widok uliczny"
+                  aria-pressed="false">
+            <span aria-hidden="true">🧍</span>
+          </button>
+          <button id="locate-toggle-button" class="icon-button" type="button"
+                  title="Moja lokalizacja" aria-label="Moja lokalizacja">
+            <span aria-hidden="true">🎯</span>
+          </button>
+          <button id="toggle-3d-button" class="icon-button" type="button"
+                  title="Widok 3D" aria-label="Widok 3D"
+                  aria-pressed="false">
+            <span aria-hidden="true">🧊</span>
+          </button>
+          <button id="measure-toggle-button" class="icon-button" type="button"
+                  title="Zmierz odległość" aria-label="Zmierz odległość"
+                  aria-pressed="false">
+            <span aria-hidden="true">📏</span>
+          </button>
+
+          <button id="export-png-button" class="icon-button" type="button"
+                  title="Zapisz jako PNG" aria-label="Zapisz jako PNG"
+                  aria-pressed="false">
+            <span aria-hidden="true">🖼️</span>
+          </button>
+
+
+          <button id="zoom-in-button" class="icon-button mobile-only-action" type="button"
+                  title="Przybliż" aria-label="Przybliż">
+            <span aria-hidden="true" class="text-icon">+</span>
+          </button>
+          <button id="zoom-out-button" class="icon-button mobile-only-action" type="button"
+                  title="Oddal" aria-label="Oddal">
+            <span aria-hidden="true" class="text-icon">−</span>
+          </button>
+        </div>
         <button id="menu-button" class="icon-button" type="button"
                 title="Menu" aria-label="Menu"
                 aria-expanded="false" aria-controls="menu-panel">☰</button>
