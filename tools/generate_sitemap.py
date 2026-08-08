@@ -64,6 +64,7 @@ def main():
 
     entries = list(STATIC_PAGES)
     skipped = 0
+    today = date.today().isoformat()
 
     for record in data["records"]:
         name = record.get("name")
@@ -75,6 +76,7 @@ def main():
 
         entries.append({
             "loc": build_place_url(name, lat, lon),
+            "lastmod": today,
             "changefreq": "monthly",
             "priority": "0.7",
         })
@@ -84,6 +86,8 @@ def main():
     for entry in entries:
         lines.append("  <url>")
         lines.append(f"    <loc>{escape_xml(entry['loc'])}</loc>")
+        if entry.get("lastmod"):
+            lines.append(f"    <lastmod>{entry['lastmod']}</lastmod>")
         lines.append(f"    <changefreq>{entry['changefreq']}</changefreq>")
         lines.append(f"    <priority>{entry['priority']}</priority>")
         lines.append("  </url>")
