@@ -78,12 +78,20 @@ USER_AGENT = "OdwrotnaMapa-CoordFixer/1.0 (kontakt: odwrotnamapa@protonmail.com)
 NOMINATIM_DELAY = 1.1  # nominatim wymaga max 1 zapytanie/sekunde
 MAPBOX_DELAY = 0.15
 PHOTON_DELAY = 0.3  # "extensive usage will be throttled" - zapas ostroznosci
+WIKIPEDIA_DELAY = 0.2  # Wikimedia API etiquette - umiarkowane tempo
 
 # Powyzej tego dystansu (km) od znanego centrum miasta wynik jest
 # odrzucany jako nierealistyczny. 40km jest celowo hojne - pozwala na
-# lotniska i duze obiekty na obrzezach, ale odcina bledy typu "zla
+# wiekszosc duzych obiektow na obrzezach, ale odcina bledy typu "zla
 # ulica w innym wojewodztwie" (te ktore widzielismy: 200-500km).
 MAX_DISTANCE_KM = 40
+
+# Niektore kategorie miejsc legalnie bywaja duzo dalej od "miasta", z
+# ktorym sa formalnie skojarzone (male lotnisko regionalne, park
+# narodowy nazwany od pobliskiej miejscowosci) - dla nich stosujemy
+# hojniejszy prog, ten sam wyjatek co w verify-named-poi-coords.py.
+DISTANT_OK_TYPES = {"airport", "national_park", "lake", "peak"}
+MAX_DISTANCE_KM_DISTANT_OK = 80
 
 # Jesli mamy wyniki z DWoch zrodel (Nominatim + Mapbox), musza byc
 # zgodne w tej odlegtosci, zeby uznac je za pewne.
@@ -238,6 +246,47 @@ def geocode_photon(query, near_lat=None, near_lon=None):
     return out
 
 
+def geocode_wikipedia(query, lang="pl"):
+    """Zwraca liste (lat, lon, display_name, road) kandydatow z polskiej
+    (domyslnie) Wikipedii - wyszukuje artykuly pasujace do zapytania i
+    zwraca ich wspolrzedne z infoboksu, jesli artykul je ma (MediaWiki
+    API, prop=coordinates). 'road' zawsze None - Wikipedia nie ma
+    ustrukturyzowanego adresu.
+
+    Wikipedia nie ma parametru "w poblizu" jak Nominatim/Photon - samo
+    wyszukiwanie tekstowe jest jednak zazwyczaj wystarczajaco
+    precyzyjne dla nazw wlasnych konkretnych miejsc (w przeciwienstwie
+    do reverse-geocodingu po wspolrzednych, ktory bywa niejednoznaczny).
+    """
+    url = f"https://{lang}.wikipedia.org/w/api.php"
+    params = {
+        "action": "query",
+        "generator": "search",
+        "gsrsearch": query,
+        "gsrlimit": 3,
+        "prop": "coordinates",
+        "format": "json",
+        "formatversion": 2,
+    }
+    full_url = url + "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(full_url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except Exception as e:
+        print(f"    ! Wikipedia blad: {e}")
+        return []
+
+    out = []
+    for page in data.get("query", {}).get("pages", []):
+        coords = page.get("coordinates")
+        if not coords:
+            continue
+        c = coords[0]
+        out.append((float(c["lat"]), float(c["lon"]), page.get("title", ""), None))
+    return out
+
+
 def pick_best_candidate(candidates, near_lat, near_lon):
     """Sposrod kandydatow wybiera najblizszego znanemu centrum miasta."""
     if not candidates:
@@ -271,6 +320,11 @@ def process_record_no_city_reference(name, city, mapbox_token, use_photon):
         time.sleep(PHOTON_DELAY)
         if ph:
             candidates.append(("photon", ph[0]))
+
+    wiki = geocode_wikipedia(query)
+    time.sleep(WIKIPEDIA_DELAY)
+    if wiki:
+        candidates.append(("wikipedia", wiki[0]))
 
     if len(candidates) < 2:
         return "UNCHANGED", None, None, (
@@ -316,6 +370,12 @@ def process_record_no_city_reference(name, city, mapbox_token, use_photon):
 def process_record(record, city_coords, mapbox_token, use_photon=True):
     name = record.get("name") or ""
     city = record.get("city") or ""
+    record_type = str(record.get("type") or "").lower()
+    max_distance = (
+        MAX_DISTANCE_KM_DISTANT_OK
+        if record_type in DISTANT_OK_TYPES
+        else MAX_DISTANCE_KM
+    )
 
     if city not in city_coords:
         return process_record_no_city_reference(name, city, mapbox_token, use_photon)
@@ -328,22 +388,28 @@ def process_record(record, city_coords, mapbox_token, use_photon=True):
     nominatim_candidates = geocode_nominatim(query)
     time.sleep(NOMINATIM_DELAY)
     best_nom = pick_best_candidate(nominatim_candidates, near_lat, near_lon)
-    if best_nom and haversine_km(best_nom[0], best_nom[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
+    if best_nom and haversine_km(best_nom[0], best_nom[1], near_lat, near_lon) <= max_distance:
         sources_valid.append(("nominatim", best_nom))
 
     if mapbox_token:
         mb_candidates = geocode_mapbox(query, mapbox_token, near_lat, near_lon)
         time.sleep(MAPBOX_DELAY)
         best_mb = pick_best_candidate(mb_candidates, near_lat, near_lon)
-        if best_mb and haversine_km(best_mb[0], best_mb[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
+        if best_mb and haversine_km(best_mb[0], best_mb[1], near_lat, near_lon) <= max_distance:
             sources_valid.append(("mapbox", best_mb))
 
     if use_photon:
         ph_candidates = geocode_photon(query, near_lat, near_lon)
         time.sleep(PHOTON_DELAY)
         best_ph = pick_best_candidate(ph_candidates, near_lat, near_lon)
-        if best_ph and haversine_km(best_ph[0], best_ph[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
+        if best_ph and haversine_km(best_ph[0], best_ph[1], near_lat, near_lon) <= max_distance:
             sources_valid.append(("photon", best_ph))
+
+    wiki_candidates = geocode_wikipedia(query)
+    time.sleep(WIKIPEDIA_DELAY)
+    best_wiki = pick_best_candidate(wiki_candidates, near_lat, near_lon)
+    if best_wiki and haversine_km(best_wiki[0], best_wiki[1], near_lat, near_lon) <= max_distance:
+        sources_valid.append(("wikipedia", best_wiki))
 
     if not sources_valid:
         return "UNCHANGED", None, None, "zaden geokoder nie zwrocil sensownego wyniku (w promieniu miasta)"
@@ -439,7 +505,11 @@ def add_new_entries(seed_path, city_coords, mapbox_token, use_photon):
             print(f"    -- POMINIETE - wpis o tej nazwie juz istnieje")
             continue
 
-        fake_record = {"name": name, "city": seed.get("city", "")}
+        fake_record = {
+            "name": name,
+            "city": seed.get("city", ""),
+            "type": seed.get("type", "")
+        }
         status, coords, road, reason = process_record(
             fake_record, city_coords, mapbox_token, use_photon
         )
@@ -517,6 +587,7 @@ def main():
     active_sources = ["Nominatim (zawsze)"]
     active_sources.append("Mapbox (krzyzowa weryfikacja)" if mapbox_token else "Mapbox: WYLACZONY (brak tokena)")
     active_sources.append("Photon" if use_photon else "Photon: WYLACZONY (--no-photon)")
+    active_sources.append("Wikipedia (zawsze)")
     print("Aktywne zrodla: " + ", ".join(active_sources))
 
     print("\nWczytuje baze miast (punkt odniesienia)...")
