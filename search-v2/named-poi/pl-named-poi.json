@@ -17,12 +17,13 @@
       "type": "aquarium",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.5189,
-      "lon": 18.5571,
+      "lat": 54.51936,
+      "lon": 18.542543,
       "address": {
         "city": "Gdynia",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Akwarium Gdyńskie"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -47,12 +48,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 51.7576,
-      "lon": 19.4252,
+      "lat": 51.76555,
+      "lon": 19.457159,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Atlas Arena"
       },
       "extratags": {},
       "city": "Łódź",
@@ -75,12 +77,13 @@
       "type": "national_park",
       "category": "national_park",
       "class": "boundary",
-      "lat": 52.75,
-      "lon": 23.8667,
+      "lat": 52.70236,
+      "lon": 23.852264,
       "address": {
         "city": "Białowieża",
         "state": "podlaskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Białowieski Park Narodowy"
       },
       "extratags": {},
       "city": "Białowieża",
@@ -107,12 +110,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.0268,
-      "lon": 19.9498,
+      "lat": 50.035043,
+      "lon": 19.941622,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bonarka"
       },
       "extratags": {},
       "city": "Kraków",
@@ -139,12 +143,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.6726,
-      "lon": 17.881,
+      "lat": 50.668316,
+      "lon": 17.92311,
       "address": {
         "city": "Opole",
         "state": "opolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Centrum Handlowe Karolinka"
       },
       "extratags": {},
       "city": "Opole",
@@ -171,12 +176,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.50515,
-      "lon": 18.5345,
+      "lat": 54.51936,
+      "lon": 18.542543,
       "address": {
         "city": "Gdynia",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Centrum Riviera"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -201,12 +207,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 51.7685,
-      "lon": 19.4698,
+      "lat": 51.76555,
+      "lon": 19.457159,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "EC1 Łódź"
       },
       "extratags": {},
       "city": "Łódź",
@@ -232,12 +239,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 52.3979,
-      "lon": 16.8582,
+      "lat": 52.14019,
+      "lon": 16.258714,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stadion"
       },
       "extratags": {},
       "city": "Poznań",
@@ -263,12 +271,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 54.4266,
-      "lon": 18.5807,
+      "lat": 54.311312,
+      "lon": 18.569607,
       "address": {
         "city": "Gdańsk/Sopot",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Aresa"
       },
       "extratags": {},
       "city": "Gdańsk/Sopot",
@@ -293,12 +302,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 54.3612,
-      "lon": 18.6496,
+      "lat": 54.114773,
+      "lon": 18.756319,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Solidarności"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -325,12 +335,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.2305,
-      "lon": 22.6012,
+      "lat": 51.563889,
+      "lon": 19.494167,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Felicity Lublin"
       },
       "extratags": {},
       "city": "Lublin",
@@ -353,12 +364,13 @@
       "type": "theatre",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.4307,
-      "lon": 14.5565,
+      "lat": 53.437956,
+      "lon": 14.517897,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mieczysława Karłowicza"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -388,8 +400,8 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.124181,
-      "lon": 18.017858,
+      "lat": 53.121468,
+      "lon": 18.000923,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
@@ -424,12 +436,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.936,
-      "lon": 15.5088,
+      "lat": 51.939774,
+      "lon": 15.50632,
       "address": {
         "city": "Zielona Góra",
         "state": "lubuskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Focus Mall Zielona Góra"
       },
       "extratags": {},
       "city": "Zielona Góra",
@@ -457,12 +470,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.3496,
-      "lon": 18.6426,
+      "lat": 54.402886,
+      "lon": 18.631848,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gdańska"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -489,12 +503,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.433,
-      "lon": 14.555,
+      "lat": 53.430527,
+      "lon": 14.544545,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galaxy Centrum"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -521,12 +536,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.1275,
-      "lon": 23.1682,
+      "lat": 53.132706,
+      "lon": 23.157434,
       "address": {
         "city": "Białystok",
         "state": "podlaskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galeria Alfa"
       },
       "extratags": {},
       "city": "Białystok",
@@ -554,12 +570,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.383,
-      "lon": 18.5989,
+      "lat": 54.423304,
+      "lon": 18.599938,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bałtycka"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -585,12 +602,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.8786,
-      "lon": 20.6465,
+      "lat": 50.87181,
+      "lon": 20.632208,
       "address": {
         "city": "Kielce",
         "state": "świętokrzyskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galeria Echo"
       },
       "extratags": {},
       "city": "Kielce",
@@ -616,12 +634,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.4288,
-      "lon": 14.5496,
+      "lat": 53.430527,
+      "lon": 14.544545,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galeria Kaskada"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -648,12 +667,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.0672,
-      "lon": 19.9451,
+      "lat": 50.049109,
+      "lon": 19.943144,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Krakowska"
       },
       "extratags": {},
       "city": "Kraków",
@@ -680,12 +700,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.3557,
-      "lon": 18.6488,
+      "lat": 54.350178,
+      "lon": 18.650743,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galeria Madison"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -712,12 +733,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.4097,
-      "lon": 18.5917,
+      "lat": 54.350178,
+      "lon": 18.650743,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galeria Przymorze"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -743,12 +765,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.0416,
-      "lon": 21.9998,
+      "lat": 50.037533,
+      "lon": 22.002779,
       "address": {
         "city": "Rzeszów",
         "state": "podkarpackie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Galeria Rzeszów"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -775,12 +798,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.7575,
-      "lon": 20.4803,
+      "lat": 53.780367,
+      "lon": 20.483442,
       "address": {
         "city": "Olsztyn",
         "state": "warmińsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Warmińska"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -802,12 +826,13 @@
       "type": "peak",
       "category": "peak",
       "class": "natural",
-      "lat": 49.2506,
-      "lon": 19.934,
+      "lat": 51.030277,
+      "lon": 21.217215,
       "address": {
         "city": "Tatry",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Giewont"
       },
       "extratags": {},
       "city": "Tatry",
@@ -833,12 +858,13 @@
       "type": "stadium",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.1069,
-      "lon": 17.0773,
+      "lat": 51.070965,
+      "lon": 16.998965,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Halna"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -861,12 +887,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.8122,
-      "lon": 19.0974,
+      "lat": 50.812478,
+      "lon": 19.096946,
       "address": {
         "city": "Częstochowa",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jasna Góra"
       },
       "extratags": {},
       "city": "Częstochowa",
@@ -892,12 +919,13 @@
       "type": "museum",
       "category": "attraction",
       "class": "tourism",
-      "lat": 49.9838,
-      "lon": 20.0555,
+      "lat": 50.017334,
+      "lon": 19.991217,
       "address": {
         "city": "Wieliczka",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Wielicka"
       },
       "extratags": {},
       "city": "Wieliczka",
@@ -925,12 +953,13 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 50.0674,
-      "lon": 19.9472,
+      "lat": 50.036682,
+      "lon": 19.961052,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Aleja główna"
       },
       "extratags": {},
       "city": "Kraków",
@@ -956,12 +985,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 52.1657,
-      "lon": 20.9671,
+      "lat": 50.274954,
+      "lon": 18.193618,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Fryderyka Chopina"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -988,12 +1018,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.1181,
-      "lon": 16.9884,
+      "lat": 51.206206,
+      "lon": 17.036334,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Magnolii"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1020,12 +1051,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.7799,
-      "lon": 19.4485,
+      "lat": 51.76555,
+      "lon": 19.457159,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Manufaktura"
       },
       "extratags": {},
       "city": "Łódź",
@@ -1051,12 +1083,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.0256,
-      "lon": 22.0177,
+      "lat": 50.037533,
+      "lon": 22.002779,
       "address": {
         "city": "Rzeszów",
         "state": "podkarpackie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Millenium Hall"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -1080,12 +1113,13 @@
       "type": "events_venue",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.4025,
-      "lon": 16.9105,
+      "lat": 52.407333,
+      "lon": 16.93123,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Międzynarodowe Targi Poznańskie"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1111,12 +1145,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 50.0777,
-      "lon": 19.7848,
+      "lat": 50.073182,
+      "lon": 19.969183,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lotnicza"
       },
       "extratags": {},
       "city": "Kraków",
@@ -1140,12 +1175,13 @@
       "type": "pier",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.4479,
-      "lon": 18.5766,
+      "lat": 54.445114,
+      "lon": 18.569073,
       "address": {
         "city": "Sopot",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Molo w Sopocie"
       },
       "extratags": {},
       "city": "Sopot",
@@ -1167,12 +1203,13 @@
       "type": "lake",
       "category": "lake",
       "class": "natural",
-      "lat": 49.1972,
-      "lon": 20.07,
+      "lat": 50.843559,
+      "lon": 24.029501,
       "address": {
         "city": "Tatry",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Morskie Oko"
       },
       "extratags": {},
       "city": "Tatry",
@@ -1197,12 +1234,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.0359,
-      "lon": 19.1783,
+      "lat": 50.038548,
+      "lon": 19.220903,
       "address": {
         "city": "Oświęcim",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Muzeum Auschwitz-Birkenau"
       },
       "extratags": {},
       "city": "Oświęcim",
@@ -1227,12 +1265,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.2495,
-      "lon": 20.9932,
+      "lat": 52.205716,
+      "lon": 21.074527,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Polska"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1257,12 +1296,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 54.3567,
-      "lon": 18.6599,
+      "lat": 50.454524,
+      "lon": 23.405121,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kombatantów II Wojny Światowej"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -1287,12 +1327,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.2326,
-      "lon": 20.9811,
+      "lat": 52.037765,
+      "lon": 23.094094,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Powstania Warszawskiego"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1316,12 +1357,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.2641,
-      "lon": 19.032,
+      "lat": 50.25847,
+      "lon": 19.023157,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Muzeum Śląskie"
       },
       "extratags": {},
       "city": "Katowice",
@@ -1344,12 +1386,13 @@
       "type": "zoo",
       "category": "zoo",
       "class": "tourism",
-      "lat": 51.7632,
-      "lon": 19.4117,
+      "lat": 51.76555,
+      "lon": 19.457159,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Orientarium ZOO Łódź"
       },
       "extratags": {},
       "city": "Łódź",
@@ -1373,12 +1416,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 51.11,
-      "lon": 17.0442,
+      "lat": 51.080741,
+      "lon": 16.997268,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Racławicka"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1403,12 +1447,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 53.1303,
-      "lon": 23.1644,
+      "lat": 53.131766,
+      "lon": 23.167856,
       "address": {
         "city": "Białystok",
         "state": "podlaskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Plac Branickich"
       },
       "extratags": {},
       "city": "Białystok",
@@ -1432,12 +1477,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.2318,
-      "lon": 21.006,
+      "lat": 52.23072,
+      "lon": 21.016317,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac Kultury i Nauki"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1463,12 +1509,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 50.4406,
-      "lon": 17.7676,
+      "lat": 50.439613,
+      "lon": 17.76863,
       "address": {
         "city": "Moszna",
         "state": "opolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac w Mosznej"
       },
       "extratags": {},
       "city": "Moszna",
@@ -1494,12 +1541,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 52.2395,
-      "lon": 21.0457,
+      "lat": 52.215342,
+      "lon": 21.104085,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Narodowa"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1526,12 +1574,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 54.3902,
-      "lon": 18.6403,
+      "lat": 54.311312,
+      "lon": 18.569607,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Aresa"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -1557,12 +1606,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 52.421,
-      "lon": 16.8263,
+      "lat": 52.415614,
+      "lon": 16.910088,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jeżycka"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1587,12 +1637,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.1027,
-      "lon": 16.8858,
+      "lat": 51.092256,
+      "lon": 16.844746,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lotnicza"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1618,12 +1669,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.3971,
-      "lon": 16.9522,
+      "lat": 52.407333,
+      "lon": 16.93123,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Posnania"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1649,12 +1701,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.4416,
-      "lon": 16.9183,
+      "lat": 52.415614,
+      "lon": 16.910088,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jeżycka"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1678,12 +1731,13 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 50.0617,
-      "lon": 19.9373,
+      "lat": 50.061037,
+      "lon": 19.936822,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rynek Główny"
       },
       "extratags": {},
       "city": "Kraków",
@@ -1706,12 +1760,13 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 51.1094,
-      "lon": 17.032,
+      "lat": 51.109403,
+      "lon": 17.031435,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rynek"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1738,12 +1793,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.2699,
-      "lon": 19.0046,
+      "lat": 50.952479,
+      "lon": 15.912787,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Silesia"
       },
       "extratags": {},
       "city": "Katowice",
@@ -1768,12 +1824,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 50.2649,
-      "lon": 19.0253,
+      "lat": 50.25847,
+      "lon": 19.023157,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Spodek"
       },
       "extratags": {},
       "city": "Katowice",
@@ -1799,12 +1856,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 50.2883,
-      "lon": 18.9745,
+      "lat": 50.295721,
+      "lon": 18.932885,
       "address": {
         "city": "Chorzów",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Śląska"
       },
       "extratags": {},
       "city": "Chorzów",
@@ -1826,12 +1884,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.0105,
-      "lon": 18.6058,
+      "lat": 53.010254,
+      "lon": 18.605139,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stare Miasto w Toruniu"
       },
       "extratags": {},
       "city": "Toruń",
@@ -1857,12 +1916,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.401,
-      "lon": 16.9254,
+      "lat": 52.407333,
+      "lon": 16.93123,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stary Browar"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1887,12 +1947,13 @@
       "type": "museum",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.0616,
-      "lon": 19.9373,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sukiennice"
       },
       "extratags": {},
       "city": "Kraków",
@@ -1915,12 +1976,13 @@
       "type": "national_park",
       "category": "national_park",
       "class": "boundary",
-      "lat": 54.7,
-      "lon": 17.3,
+      "lat": 54.757165,
+      "lon": 17.542778,
       "address": {
         "city": "Łeba",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Słowińska"
       },
       "extratags": {},
       "city": "Łeba",
@@ -1943,12 +2005,13 @@
       "type": "national_park",
       "category": "national_park",
       "class": "boundary",
-      "lat": 49.25,
-      "lon": 19.95,
+      "lat": 49.325359,
+      "lon": 20.102192,
       "address": {
         "city": "Zakopane",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tatrzańska"
       },
       "extratags": {},
       "city": "Zakopane",
@@ -1974,12 +2037,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 50.0679,
-      "lon": 19.9914,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "TAURON Arena Kraków"
       },
       "extratags": {},
       "city": "Kraków",
@@ -2005,12 +2069,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.0126,
-      "lon": 18.5729,
+      "lat": 53.010254,
+      "lon": 18.605139,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Toruń Plaza"
       },
       "extratags": {},
       "city": "Toruń",
@@ -2038,12 +2103,13 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 52.2287,
-      "lon": 21.0038,
+      "lat": 52.177964,
+      "lon": 20.939286,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Centralna"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2070,12 +2136,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.2567,
-      "lon": 20.9845,
+      "lat": 52.158435,
+      "lon": 21.16799,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Arkadii"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2102,12 +2169,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.1795,
-      "lon": 21.0046,
+      "lat": 52.23072,
+      "lon": 21.016317,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Westfield Mokotów"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2133,12 +2201,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.0987,
-      "lon": 17.0346,
+      "lat": 51.11029,
+      "lon": 17.03056,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Wroclavia"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -2162,12 +2231,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 51.0306,
-      "lon": 15.3037,
+      "lat": 51.567281,
+      "lon": 19.479349,
       "address": {
         "city": "Leśna",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Leśna"
       },
       "extratags": {},
       "city": "Leśna",
@@ -2191,12 +2261,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 53.7779,
-      "lon": 20.474,
+      "lat": 53.777542,
+      "lon": 20.477505,
       "address": {
         "city": "Olsztyn",
         "state": "warmińsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamek Kapituły Warmińskiej"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -2221,12 +2292,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.054,
-      "lon": 19.9352,
+      "lat": 50.072358,
+      "lon": 19.917905,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Królewska"
       },
       "extratags": {},
       "city": "Kraków",
@@ -2250,12 +2322,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 52.2477,
-      "lon": 21.0142,
+      "lat": 52.239196,
+      "lon": 21.01005,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Królewska"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2280,12 +2353,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.8425,
-      "lon": 16.2922,
+      "lat": 50.843121,
+      "lon": 16.29555,
       "address": {
         "city": "Wałbrzych",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamek Książ"
       },
       "extratags": {},
       "city": "Wałbrzych",
@@ -2309,12 +2383,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 51.2507,
-      "lon": 22.5718,
+      "lat": 51.355221,
+      "lon": 22.620831,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lubelska"
       },
       "extratags": {},
       "city": "Lublin",
@@ -2339,12 +2414,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 54.0397,
-      "lon": 19.027,
+      "lat": 54.0355,
+      "lon": 19.03206,
       "address": {
         "city": "Malbork",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamek w Malborku"
       },
       "extratags": {},
       "city": "Malbork",
@@ -2367,12 +2443,13 @@
       "type": "zoo",
       "category": "zoo",
       "class": "tourism",
-      "lat": 51.1046,
-      "lon": 17.074,
+      "lat": 51.212646,
+      "lon": 17.226798,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Polska"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -2399,12 +2476,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.23,
-      "lon": 21.0023,
+      "lat": 52.230966,
+      "lon": 21.002751,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Złota"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2427,12 +2505,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 52.2152,
-      "lon": 21.0356,
+      "lat": 52.23072,
+      "lon": 21.016317,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Łazienki Królewskie"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2454,12 +2533,13 @@
       "type": "peak",
       "category": "peak",
       "class": "natural",
-      "lat": 50.7359,
-      "lon": 15.7398,
+      "lat": 52.27743,
+      "lon": 21.064418,
       "address": {
         "city": "Karkonosze",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Karkonoszy"
       },
       "extratags": {},
       "city": "Karkonosze",
@@ -2475,11 +2555,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2855,
-      "lon": 18.9309,
+      "lat": 50.285873,
+      "lon": 18.93068,
       "address": {
         "city": "Świętochłowice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Świętochłowice"
       },
       "extratags": {},
       "city": "Świętochłowice",
@@ -2495,11 +2576,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2884,
-      "lon": 18.9628,
+      "lat": 50.297424,
+      "lon": 18.953587,
       "address": {
         "city": "Chorzów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chorzów"
       },
       "extratags": {},
       "city": "Chorzów",
@@ -2515,11 +2597,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3,
-      "lon": 19.1667,
+      "lat": 50.276096,
+      "lon": 19.130165,
       "address": {
         "city": "Sosnowiec",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sosnowiec"
       },
       "extratags": {},
       "city": "Sosnowiec",
@@ -2535,11 +2618,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3,
-      "lon": 18.7833,
+      "lat": 50.266993,
+      "lon": 22.184128,
       "address": {
         "city": "Zabrze",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zaborze"
       },
       "extratags": {},
       "city": "Zabrze",
@@ -2555,11 +2639,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3333,
-      "lon": 19.0833,
+      "lat": 50.31797,
+      "lon": 19.074556,
       "address": {
         "city": "Czeladź",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Czeladź"
       },
       "extratags": {},
       "city": "Czeladź",
@@ -2575,11 +2660,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3117,
-      "lon": 18.8514,
+      "lat": 50.259257,
+      "lon": 18.900681,
       "address": {
         "city": "Ruda Śląska",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Śląska"
       },
       "extratags": {},
       "city": "Ruda Śląska",
@@ -2595,11 +2681,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.4016,
-      "lon": 18.901,
+      "lat": 50.399935,
+      "lon": 18.902592,
       "address": {
         "city": "Radzionków",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Radzionków"
       },
       "extratags": {},
       "city": "Radzionków",
@@ -2615,11 +2702,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2942,
-      "lon": 18.6658,
+      "lat": 50.294067,
+      "lon": 18.666416,
       "address": {
         "city": "Gliwice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gliwice"
       },
       "extratags": {},
       "city": "Gliwice",
@@ -2635,11 +2723,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2167,
-      "lon": 18.6833,
+      "lat": 50.221737,
+      "lon": 18.670513,
       "address": {
         "city": "Knurów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Knurów"
       },
       "extratags": {},
       "city": "Knurów",
@@ -2655,11 +2744,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.1494,
-      "lon": 18.8419,
+      "lat": 50.143079,
+      "lon": 18.839071,
       "address": {
         "city": "Łaziska Górne",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Górna"
       },
       "extratags": {},
       "city": "Łaziska Górne",
@@ -2675,11 +2765,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3339,
-      "lon": 19.2047,
+      "lat": 50.319411,
+      "lon": 19.186196,
       "address": {
         "city": "Dąbrowa Górnicza",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Górnicza"
       },
       "extratags": {},
       "city": "Dąbrowa Górnicza",
@@ -2695,11 +2786,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3981,
-      "lon": 18.6275,
+      "lat": 50.398266,
+      "lon": 18.627197,
       "address": {
         "city": "Pyskowice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pyskowice"
       },
       "extratags": {},
       "city": "Pyskowice",
@@ -2715,11 +2807,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.1708,
-      "lon": 18.9039,
+      "lat": 50.169483,
+      "lon": 18.90488,
       "address": {
         "city": "Mikołów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mikołów"
       },
       "extratags": {},
       "city": "Mikołów",
@@ -2735,11 +2828,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0911,
-      "lon": 19.091,
+      "lat": 50.09294,
+      "lon": 19.090473,
       "address": {
         "city": "Bieruń",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bieruń"
       },
       "extratags": {},
       "city": "Bieruń",
@@ -2755,11 +2849,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.1478,
-      "lon": 19.1814,
+      "lat": 50.145287,
+      "lon": 19.186028,
       "address": {
         "city": "Imielin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Imielin"
       },
       "extratags": {},
       "city": "Imielin",
@@ -2775,11 +2870,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.1439,
-      "lon": 18.7756,
+      "lat": 50.144447,
+      "lon": 18.775902,
       "address": {
         "city": "Orzesze",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Orzesze"
       },
       "extratags": {},
       "city": "Orzesze",
@@ -2795,11 +2891,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.347,
-      "lon": 18.923,
+      "lat": 50.346897,
+      "lon": 18.921978,
       "address": {
         "city": "Bytom",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bytom"
       },
       "extratags": {},
       "city": "Bytom",
@@ -2815,11 +2912,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2119,
-      "lon": 19.1478,
+      "lat": 50.242294,
+      "lon": 19.138554,
       "address": {
         "city": "Mysłowice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mysłowice"
       },
       "extratags": {},
       "city": "Mysłowice",
@@ -2835,11 +2933,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.23,
-      "lon": 21.0111,
+      "lat": 52.23072,
+      "lon": 21.016317,
       "address": {
         "city": "Warszawa",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Warszawa"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2855,11 +2954,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.25,
-      "lon": 19,
+      "lat": 50.25847,
+      "lon": 19.023157,
       "address": {
         "city": "Katowice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Katowice"
       },
       "extratags": {},
       "city": "Katowice",
@@ -2875,11 +2975,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.3483,
-      "lon": 18.654,
+      "lat": 54.402886,
+      "lon": 18.631848,
       "address": {
         "city": "Gdańsk",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gdańska"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -2895,11 +2996,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0614,
-      "lon": 19.9372,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kraków"
       },
       "extratags": {},
       "city": "Kraków",
@@ -2915,11 +3017,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.11,
-      "lon": 17.0325,
+      "lat": 51.212646,
+      "lon": 17.226798,
       "address": {
         "city": "Wrocław",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Polska"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -2935,11 +3038,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.75,
-      "lon": 19.4667,
+      "lat": 51.76555,
+      "lon": 19.457159,
       "address": {
         "city": "Łódź",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Łódź"
       },
       "extratags": {},
       "city": "Łódź",
@@ -2955,11 +3059,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.4083,
-      "lon": 16.9336,
+      "lat": 52.415614,
+      "lon": 16.910088,
       "address": {
         "city": "Poznań",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jeżycka"
       },
       "extratags": {},
       "city": "Poznań",
@@ -2975,11 +3080,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.4247,
-      "lon": 14.5553,
+      "lat": 53.430527,
+      "lon": 14.544545,
       "address": {
         "city": "Szczecin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Szczecin"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -2995,11 +3101,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.25,
-      "lon": 22.5667,
+      "lat": 51.24758,
+      "lon": 22.564535,
       "address": {
         "city": "Lublin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lublin"
       },
       "extratags": {},
       "city": "Lublin",
@@ -3015,11 +3122,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.1167,
-      "lon": 18,
+      "lat": 53.121468,
+      "lon": 18.000923,
       "address": {
         "city": "Bydgoszcz",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bydgoszcz"
       },
       "extratags": {},
       "city": "Bydgoszcz",
@@ -3035,11 +3143,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.1324,
-      "lon": 23.1687,
+      "lat": 53.132706,
+      "lon": 23.157434,
       "address": {
         "city": "Białystok",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Białystok"
       },
       "extratags": {},
       "city": "Białystok",
@@ -3055,11 +3164,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.5175,
-      "lon": 18.54,
+      "lat": 54.51936,
+      "lon": 18.542543,
       "address": {
         "city": "Gdynia",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gdynia"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -3075,11 +3185,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.9397,
-      "lon": 15.505,
+      "lat": 51.673782,
+      "lon": 16.544586,
       "address": {
         "city": "Zielona Góra",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zielona"
       },
       "extratags": {},
       "city": "Zielona Góra",
@@ -3095,11 +3206,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.8096,
-      "lon": 19.1222,
+      "lat": 50.81194,
+      "lon": 19.11824,
       "address": {
         "city": "Częstochowa",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Częstochowa"
       },
       "extratags": {},
       "city": "Częstochowa",
@@ -3115,11 +3227,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.4167,
-      "lon": 21.15,
+      "lat": 51.401176,
+      "lon": 21.153679,
       "address": {
         "city": "Radom",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Radom"
       },
       "extratags": {},
       "city": "Radom",
@@ -3135,11 +3248,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.0144,
-      "lon": 18.6014,
+      "lat": 53.010254,
+      "lon": 18.605139,
       "address": {
         "city": "Toruń",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Toruń"
       },
       "extratags": {},
       "city": "Toruń",
@@ -3155,11 +3269,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0411,
-      "lon": 21.9989,
+      "lat": 50.037533,
+      "lon": 22.002779,
       "address": {
         "city": "Rzeszów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rzeszów"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -3175,11 +3290,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.8725,
-      "lon": 20.6319,
+      "lat": 50.87181,
+      "lon": 20.632208,
       "address": {
         "city": "Kielce",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kielce"
       },
       "extratags": {},
       "city": "Kielce",
@@ -3195,11 +3311,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.78,
-      "lon": 20.4942,
+      "lat": 53.777542,
+      "lon": 20.477505,
       "address": {
         "city": "Olsztyn",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Olsztyn"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -3215,11 +3332,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.8225,
-      "lon": 19.0444,
+      "lat": 49.840003,
+      "lon": 19.135144,
       "address": {
         "city": "Bielsko-Biała",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Biała"
       },
       "extratags": {},
       "city": "Bielsko-Biała",
@@ -3235,11 +3353,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0833,
-      "lon": 18.5,
+      "lat": 50.09591,
+      "lon": 18.54245,
       "address": {
         "city": "Rybnik",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rybnik"
       },
       "extratags": {},
       "city": "Rybnik",
@@ -3255,11 +3374,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.6667,
-      "lon": 17.9242,
+      "lat": 50.668316,
+      "lon": 17.92311,
       "address": {
         "city": "Opole",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Opole"
       },
       "extratags": {},
       "city": "Opole",
@@ -3275,11 +3395,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.1236,
-      "lon": 18.9867,
+      "lat": 50.113064,
+      "lon": 18.986546,
       "address": {
         "city": "Tychy",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tychy"
       },
       "extratags": {},
       "city": "Tychy",
@@ -3295,11 +3416,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.7333,
-      "lon": 15.25,
+      "lat": 52.410855,
+      "lon": 16.931002,
       "address": {
         "city": "Gorzów Wielkopolski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Plac Wielkopolski"
       },
       "extratags": {},
       "city": "Gorzów Wielkopolski",
@@ -3315,11 +3437,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1522,
-      "lon": 19.4089,
+      "lat": 54.159576,
+      "lon": 19.40155,
       "address": {
         "city": "Elbląg",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Elbląg"
       },
       "extratags": {},
       "city": "Elbląg",
@@ -3335,11 +3458,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.55,
-      "lon": 19.7,
+      "lat": 52.390308,
+      "lon": 20.184245,
       "address": {
         "city": "Płock",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Płocka"
       },
       "extratags": {},
       "city": "Płock",
@@ -3355,11 +3479,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1903,
-      "lon": 16.1817,
+      "lat": 54.18986,
+      "lon": 16.178602,
       "address": {
         "city": "Koszalin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Koszalin"
       },
       "extratags": {},
       "city": "Koszalin",
@@ -3375,11 +3500,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.65,
-      "lon": 19.05,
+      "lat": 52.654884,
+      "lon": 19.065504,
       "address": {
         "city": "Włocławek",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Włocławek"
       },
       "extratags": {},
       "city": "Włocławek",
@@ -3395,11 +3521,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.7667,
-      "lon": 16.2833,
+      "lat": 50.76748,
+      "lon": 16.281454,
       "address": {
         "city": "Wałbrzych",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Wałbrzych"
       },
       "extratags": {},
       "city": "Wałbrzych",
@@ -3415,11 +3542,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0125,
-      "lon": 20.9883,
+      "lat": 50.01216,
+      "lon": 20.988022,
       "address": {
         "city": "Tarnów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tarnów"
       },
       "extratags": {},
       "city": "Tarnów",
@@ -3435,11 +3563,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.757,
-      "lon": 18.083,
+      "lat": 50.371045,
+      "lon": 19.715429,
       "address": {
         "city": "Kalisz",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kaliś"
       },
       "extratags": {},
       "city": "Kalisz",
@@ -3455,11 +3584,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.2101,
-      "lon": 16.1619,
+      "lat": 51.184106,
+      "lon": 16.248809,
       "address": {
         "city": "Legnica",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Legnicka"
       },
       "extratags": {},
       "city": "Legnica",
@@ -3475,11 +3605,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.4875,
-      "lon": 18.755,
+      "lat": 53.487907,
+      "lon": 18.755667,
       "address": {
         "city": "Grudziądz",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Grudziądz"
       },
       "extratags": {},
       "city": "Grudziądz",
@@ -3495,11 +3626,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.4667,
-      "lon": 17.0333,
+      "lat": 54.320288,
+      "lon": 17.383489,
       "address": {
         "city": "Słupsk",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Słupska"
       },
       "extratags": {},
       "city": "Słupsk",
@@ -3515,11 +3647,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2,
-      "lon": 19.275,
+      "lat": 50.20297,
+      "lon": 19.27557,
       "address": {
         "city": "Jaworzno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jaworzno"
       },
       "extratags": {},
       "city": "Jaworzno",
@@ -3535,11 +3668,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.95,
-      "lon": 18.5833,
+      "lat": 49.95019,
+      "lon": 18.59707,
       "address": {
         "city": "Jastrzębie-Zdrój",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jastrzębie-Zdrój"
       },
       "extratags": {},
       "city": "Jastrzębie-Zdrój",
@@ -3555,11 +3689,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.625,
-      "lon": 20.6956,
+      "lat": 49.624049,
+      "lon": 20.689924,
       "address": {
         "city": "Nowy Sącz",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Nowy Sącz"
       },
       "extratags": {},
       "city": "Nowy Sącz",
@@ -3575,11 +3710,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.9,
-      "lon": 15.7333,
+      "lat": 50.903917,
+      "lon": 15.737016,
       "address": {
         "city": "Jelenia Góra",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jelenia"
       },
       "extratags": {},
       "city": "Jelenia Góra",
@@ -3595,11 +3731,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.1833,
-      "lon": 22.2833,
+      "lat": 53.52846,
+      "lon": 14.551605,
       "address": {
         "city": "Siedlce",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Siedlice"
       },
       "extratags": {},
       "city": "Siedlce",
@@ -3615,11 +3752,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.6547,
-      "lon": 17.8072,
+      "lat": 51.648685,
+      "lon": 17.81545,
       "address": {
         "city": "Ostrów Wielkopolski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ostrów Wielkopolski"
       },
       "extratags": {},
       "city": "Ostrów Wielkopolski",
@@ -3635,11 +3773,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.4,
-      "lon": 16.2,
+      "lat": 51.399075,
+      "lon": 16.205935,
       "address": {
         "city": "Lubin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lubin"
       },
       "extratags": {},
       "city": "Lubin",
@@ -3655,11 +3794,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.2275,
-      "lon": 18.2614,
+      "lat": 52.211835,
+      "lon": 18.254832,
       "address": {
         "city": "Konin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Konin"
       },
       "extratags": {},
       "city": "Konin",
@@ -3675,11 +3815,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.7958,
-      "lon": 18.2611,
+      "lat": 52.79653,
+      "lon": 18.258167,
       "address": {
         "city": "Inowrocław",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Inowrocław"
       },
       "extratags": {},
       "city": "Inowrocław",
@@ -3695,11 +3836,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1,
-      "lon": 22.9333,
+      "lat": 54.101383,
+      "lon": 22.93197,
       "address": {
         "city": "Suwałki",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Suwałki"
       },
       "extratags": {},
       "city": "Suwałki",
@@ -3715,11 +3857,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.4,
-      "lon": 19.6833,
+      "lat": 51.444172,
+      "lon": 19.740981,
       "address": {
         "city": "Piotrków Trybunalski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Trybunalska"
       },
       "extratags": {},
       "city": "Piotrków Trybunalski",
@@ -3735,11 +3878,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.3387,
-      "lon": 15.0448,
+      "lat": 53.33962,
+      "lon": 15.037069,
       "address": {
         "city": "Stargard",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stargard"
       },
       "extratags": {},
       "city": "Stargard",
@@ -3755,11 +3899,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.5333,
-      "lon": 17.6,
+      "lat": 52.53662,
+      "lon": 17.595867,
       "address": {
         "city": "Gniezno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gniezno"
       },
       "extratags": {},
       "city": "Gniezno",
@@ -3775,11 +3920,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.1667,
-      "lon": 20.8,
+      "lat": 52.163692,
+      "lon": 20.806547,
       "address": {
         "city": "Pruszków",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pruszków"
       },
       "extratags": {},
       "city": "Pruszków",
@@ -3795,11 +3941,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.9333,
-      "lon": 21.4,
+      "lat": 50.939117,
+      "lon": 21.387793,
       "address": {
         "city": "Ostrowiec Świętokrzyski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ostrowiec Świętokrzyski"
       },
       "extratags": {},
       "city": "Ostrowiec Świętokrzyski",
@@ -3815,11 +3962,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.6589,
-      "lon": 16.0803,
+      "lat": 51.66376,
+      "lon": 16.090954,
       "address": {
         "city": "Głogów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Głogów"
       },
       "extratags": {},
       "city": "Głogów",
@@ -3835,11 +3983,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3123,
-      "lon": 19.0232,
+      "lat": 50.302377,
+      "lon": 19.032009,
       "address": {
         "city": "Siemianowice Śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Siemianowice Śląskie"
       },
       "extratags": {},
       "city": "Siemianowice Śląskie",
@@ -3855,11 +4004,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.6642,
-      "lon": 19.35,
+      "lat": 51.66431,
+      "lon": 19.354727,
       "address": {
         "city": "Pabianice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pabianice"
       },
       "extratags": {},
       "city": "Pabianice",
@@ -3875,11 +4025,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.045,
-      "lon": 18.7006,
+      "lat": 50.046024,
+      "lon": 18.694845,
       "address": {
         "city": "Żory",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Żory"
       },
       "extratags": {},
       "city": "Żory",
@@ -3895,11 +4046,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.8403,
-      "lon": 16.5749,
+      "lat": 53.006946,
+      "lon": 20.893951,
       "address": {
         "city": "Leszno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Leszno"
       },
       "extratags": {},
       "city": "Leszno",
@@ -3915,11 +4067,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.1833,
-      "lon": 22.0833,
+      "lat": 53.178078,
+      "lon": 22.078798,
       "address": {
         "city": "Łomża",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Łomża"
       },
       "extratags": {},
       "city": "Łomża",
@@ -3935,11 +4088,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.8167,
-      "lon": 22.35,
+      "lat": 53.82218,
+      "lon": 22.349892,
       "address": {
         "city": "Ełk",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ełk"
       },
       "extratags": {},
       "city": "Ełk",
@@ -3955,11 +4109,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.7206,
-      "lon": 23.2586,
+      "lat": 50.717064,
+      "lon": 23.252596,
       "address": {
         "city": "Zamość",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamość"
       },
       "extratags": {},
       "city": "Zamość",
@@ -3975,11 +4130,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.1333,
-      "lon": 23.4833,
+      "lat": 51.132877,
+      "lon": 23.472246,
       "address": {
         "city": "Chełm",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chełm"
       },
       "extratags": {},
       "city": "Chełm",
@@ -3995,11 +4151,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.5314,
-      "lon": 20.0089,
+      "lat": 51.53121,
+      "lon": 20.00778,
       "address": {
         "city": "Tomaszów Mazowiecki",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tomaszów Mazowiecki"
       },
       "extratags": {},
       "city": "Tomaszów Mazowiecki",
@@ -4015,11 +4172,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.7835,
-      "lon": 22.7842,
+      "lat": 49.780964,
+      "lon": 22.770403,
       "address": {
         "city": "Przemyśl",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Przemyśl"
       },
       "extratags": {},
       "city": "Przemyśl",
@@ -4035,11 +4193,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.2833,
-      "lon": 21.4333,
+      "lat": 50.289585,
+      "lon": 21.4229,
       "address": {
         "city": "Mielec",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mielec"
       },
       "extratags": {},
       "city": "Mielec",
@@ -4055,11 +4214,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.0911,
-      "lon": 18.7864,
+      "lat": 54.086895,
+      "lon": 18.797125,
       "address": {
         "city": "Tczew",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tczew"
       },
       "extratags": {},
       "city": "Tczew",
@@ -4075,11 +4235,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.325,
-      "lon": 19.1333,
+      "lat": 50.322113,
+      "lon": 19.13389,
       "address": {
         "city": "Będzin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Będzin"
       },
       "extratags": {},
       "city": "Będzin",
@@ -4095,11 +4256,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.0333,
-      "lon": 23.1333,
+      "lat": 52.04025,
+      "lon": 23.177729,
       "address": {
         "city": "Biała Podlaska",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Biała"
       },
       "extratags": {},
       "city": "Biała Podlaska",
@@ -4115,11 +4277,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.8564,
-      "lon": 19.4061,
+      "lat": 51.85503,
+      "lon": 19.406029,
       "address": {
         "city": "Zgierz",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zgierz"
       },
       "extratags": {},
       "city": "Zgierz",
@@ -4135,11 +4298,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.8438,
-      "lon": 16.4886,
+      "lat": 50.842014,
+      "lon": 16.487396,
       "address": {
         "city": "Świdnica",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Świdnica"
       },
       "extratags": {},
       "city": "Świdnica",
@@ -4155,11 +4319,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.3667,
-      "lon": 19.3667,
+      "lat": 51.367184,
+      "lon": 19.371834,
       "address": {
         "city": "Bełchatów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bełchatów"
       },
       "extratags": {},
       "city": "Bełchatów",
@@ -4175,11 +4340,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.5706,
-      "lon": 18.4105,
+      "lat": 54.56795,
+      "lon": 18.397608,
       "address": {
         "city": "Rumia",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rumia"
       },
       "extratags": {},
       "city": "Rumia",
@@ -4195,11 +4361,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.3952,
-      "lon": 20.9308,
+      "lat": 52.397724,
+      "lon": 20.934706,
       "address": {
         "city": "Legionowo",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Legionowo"
       },
       "extratags": {},
       "city": "Legionowo",
@@ -4215,11 +4382,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.3833,
-      "lon": 18.95,
+      "lat": 50.384415,
+      "lon": 18.944895,
       "address": {
         "city": "Piekary Śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Piekary Śląskie"
       },
       "extratags": {},
       "city": "Piekary Śląskie",
@@ -4235,11 +4403,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.0833,
-      "lon": 21.5667,
+      "lat": 53.110616,
+      "lon": 21.572195,
       "address": {
         "city": "Ostrołęka",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ostrołęcka"
       },
       "extratags": {},
       "city": "Ostrołęka",
@@ -4255,11 +4424,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.6056,
-      "lon": 18.2356,
+      "lat": 54.602188,
+      "lon": 18.233684,
       "address": {
         "city": "Wejherowo",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Wejherowo"
       },
       "extratags": {},
       "city": "Wejherowo",
@@ -4275,11 +4445,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.9569,
-      "lon": 20.143,
+      "lat": 51.957413,
+      "lon": 20.144764,
       "address": {
         "city": "Skierniewice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Skierniewice"
       },
       "extratags": {},
       "city": "Skierniewice",
@@ -4295,11 +4466,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.9667,
-      "lon": 18.5333,
+      "lat": 54.267924,
+      "lon": 18.891196,
       "address": {
         "city": "Starogard Gdański",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gdańska"
       },
       "extratags": {},
       "city": "Starogard Gdański",
@@ -4315,11 +4487,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.05,
-      "lon": 21.0667,
+      "lat": 51.051304,
+      "lon": 21.075954,
       "address": {
         "city": "Starachowice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Starachowice"
       },
       "extratags": {},
       "city": "Starachowice",
@@ -4335,11 +4508,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.6,
-      "lon": 18.9333,
+      "lat": 51.60175,
+      "lon": 18.933672,
       "address": {
         "city": "Zduńska Wola",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zduńska Wola"
       },
       "extratags": {},
       "city": "Zduńska Wola",
@@ -4355,11 +4529,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.6937,
-      "lon": 21.7652,
+      "lat": 49.769489,
+      "lon": 20.504831,
       "address": {
         "city": "Krosno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Krosna"
       },
       "extratags": {},
       "city": "Krosno",
@@ -4375,11 +4550,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.5833,
-      "lon": 21.6833,
+      "lat": 50.573578,
+      "lon": 21.672066,
       "address": {
         "city": "Tarnobrzeg",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tarnobrzeg"
       },
       "extratags": {},
       "city": "Tarnobrzeg",
@@ -4395,11 +4571,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1761,
-      "lon": 15.5761,
+      "lat": 54.17602,
+      "lon": 15.575701,
       "address": {
         "city": "Kołobrzeg",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kołobrzeg"
       },
       "extratags": {},
       "city": "Kołobrzeg",
@@ -4415,11 +4592,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0515,
-      "lon": 21.4114,
+      "lat": 50.05102,
+      "lon": 21.409641,
       "address": {
         "city": "Dębica",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Dębica"
       },
       "extratags": {},
       "city": "Dębica",
@@ -4435,11 +4613,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.2928,
-      "lon": 21.1161,
+      "lat": 52.291605,
+      "lon": 21.115953,
       "address": {
         "city": "Ząbki",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ząbki"
       },
       "extratags": {},
       "city": "Ząbki",
@@ -4455,11 +4634,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.2333,
-      "lon": 19.3667,
+      "lat": 50.183217,
+      "lon": 21.845668,
       "address": {
         "city": "Kutno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kupno"
       },
       "extratags": {},
       "city": "Kutno",
@@ -4475,11 +4655,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.3333,
-      "lon": 21.1,
+      "lat": 52.321312,
+      "lon": 21.103743,
       "address": {
         "city": "Marki",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Marki"
       },
       "extratags": {},
       "city": "Marki",
@@ -4495,11 +4676,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.1833,
-      "lon": 21.5667,
+      "lat": 52.18051,
+      "lon": 21.561306,
       "address": {
         "city": "Mińsk Mazowiecki",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mińsk Mazowiecki"
       },
       "extratags": {},
       "city": "Mińsk Mazowiecki",
@@ -4515,11 +4697,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.05,
-      "lon": 20.4333,
+      "lat": 52.055355,
+      "lon": 20.441439,
       "address": {
         "city": "Żyrardów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Żyrardów"
       },
       "extratags": {},
       "city": "Żyrardów",
@@ -4535,11 +4718,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.6955,
-      "lon": 17.557,
+      "lat": 53.695152,
+      "lon": 17.560831,
       "address": {
         "city": "Chojnice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chojnice"
       },
       "extratags": {},
       "city": "Chojnice",
@@ -4555,11 +4739,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.9103,
-      "lon": 14.2469,
+      "lat": 53.9097,
+      "lon": 14.2511,
       "address": {
         "city": "Świnoujście",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Świnoujście"
       },
       "extratags": {},
       "city": "Świnoujście",
@@ -4575,11 +4760,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.7078,
-      "lon": 16.6992,
+      "lat": 53.70927,
+      "lon": 16.693113,
       "address": {
         "city": "Szczecinek",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Szczecinek"
       },
       "extratags": {},
       "city": "Szczecinek",
@@ -4595,11 +4781,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.2333,
-      "lon": 22.7,
+      "lat": 51.219948,
+      "lon": 22.700151,
       "address": {
         "city": "Świdnik",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Świdnik"
       },
       "extratags": {},
       "city": "Świdnik",
@@ -4615,11 +4802,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.7358,
-      "lon": 18.9308,
+      "lat": 53.73399,
+      "lon": 18.92769,
       "address": {
         "city": "Kwidzyn",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kwidzyn"
       },
       "extratags": {},
       "city": "Kwidzyn",
@@ -4635,11 +4823,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.0285,
-      "lon": 19.0444,
+      "lat": 54.0355,
+      "lon": 19.03206,
       "address": {
         "city": "Malbork",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Malbork"
       },
       "extratags": {},
       "city": "Malbork",
@@ -4655,11 +4844,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.2667,
-      "lon": 15.5667,
+      "lat": 51.26304,
+      "lon": 15.565718,
       "address": {
         "city": "Bolesławiec",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bolesławiec"
       },
       "extratags": {},
       "city": "Bolesławiec",
@@ -4675,11 +4865,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0381,
-      "lon": 19.2214,
+      "lat": 50.038548,
+      "lon": 19.220903,
       "address": {
         "city": "Oświęcim",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Oświęcim"
       },
       "extratags": {},
       "city": "Oświęcim",
@@ -4695,11 +4886,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.8033,
-      "lon": 15.7169,
+      "lat": 51.803394,
+      "lon": 15.717016,
       "address": {
         "city": "Nowa Sól",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Nowa Sól"
       },
       "extratags": {},
       "city": "Nowa Sól",
@@ -4715,11 +4907,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.0162,
-      "lon": 22.6778,
+      "lat": 50.01663,
+      "lon": 22.682058,
       "address": {
         "city": "Jarosław",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jarosław"
       },
       "extratags": {},
       "city": "Jarosław",
@@ -4735,11 +4928,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.6419,
-      "lon": 15.1372,
+      "lat": 51.638073,
+      "lon": 15.139764,
       "address": {
         "city": "Żary",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Żary"
       },
       "extratags": {},
       "city": "Żary",
@@ -4755,11 +4949,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.2128,
-      "lon": 17.3831,
+      "lat": 51.209595,
+      "lon": 17.381193,
       "address": {
         "city": "Oleśnica",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Oleśnica"
       },
       "extratags": {},
       "city": "Oleśnica",
@@ -4775,11 +4970,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.55,
-      "lon": 17.75,
+      "lat": 54.54137,
+      "lon": 17.750439,
       "address": {
         "city": "Lębork",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lębork"
       },
       "extratags": {},
       "city": "Lębork",
@@ -4795,11 +4991,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.8667,
-      "lon": 17.4667,
+      "lat": 50.723549,
+      "lon": 20.388176,
       "address": {
         "city": "Brzeg",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Brzegi"
       },
       "extratags": {},
       "city": "Brzeg",
@@ -4815,11 +5012,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.225,
-      "lon": 20.2333,
+      "lat": 52.229122,
+      "lon": 20.240507,
       "address": {
         "city": "Sochaczew",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sochaczew"
       },
       "extratags": {},
       "city": "Sochaczew",
@@ -4835,11 +5033,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.75,
-      "lon": 18.6333,
+      "lat": 49.748634,
+      "lon": 18.633736,
       "address": {
         "city": "Cieszyn",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Cieszyn"
       },
       "extratags": {},
       "city": "Cieszyn",
@@ -4855,11 +5054,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.9439,
-      "lon": 17.2925,
+      "lat": 50.943256,
+      "lon": 17.298483,
       "address": {
         "city": "Oława",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Oława"
       },
       "extratags": {},
       "city": "Oława",
@@ -4875,11 +5075,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.3333,
-      "lon": 16.8833,
+      "lat": 52.348778,
+      "lon": 16.880888,
       "address": {
         "city": "Luboń",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Luboń"
       },
       "extratags": {},
       "city": "Luboń",
@@ -4895,11 +5096,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.4419,
-      "lon": 18.5478,
+      "lat": 54.445114,
+      "lon": 18.569073,
       "address": {
         "city": "Sopot",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sopot"
       },
       "extratags": {},
       "city": "Sopot",
@@ -4915,11 +5117,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.6967,
-      "lon": 19.9647,
+      "lat": 53.701046,
+      "lon": 19.96036,
       "address": {
         "city": "Ostróda",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ostróda"
       },
       "extratags": {},
       "city": "Ostróda",
@@ -4935,11 +5138,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.5964,
-      "lon": 19.5656,
+      "lat": 53.596375,
+      "lon": 19.56545,
       "address": {
         "city": "Iława",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Iława"
       },
       "extratags": {},
       "city": "Iława",
@@ -4955,11 +5159,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.9214,
-      "lon": 22.2208,
+      "lat": 50.92146,
+      "lon": 22.221548,
       "address": {
         "city": "Kraśnik",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kraśnik"
       },
       "extratags": {},
       "city": "Kraśnik",
@@ -4975,11 +5180,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.7281,
-      "lon": 16.6511,
+      "lat": 50.72855,
+      "lon": 16.650524,
       "address": {
         "city": "Dzierżoniów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Dzierżoniów"
       },
       "extratags": {},
       "city": "Dzierżoniów",
@@ -4995,11 +5201,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.2667,
-      "lon": 18.6333,
+      "lat": 54.261047,
+      "lon": 18.635742,
       "address": {
         "city": "Pruszcz Gdański",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pruszcz Gdański"
       },
       "extratags": {},
       "city": "Pruszcz Gdański",
@@ -5015,11 +5222,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.1167,
-      "lon": 20.3667,
+      "lat": 53.113335,
+      "lon": 20.38161,
       "address": {
         "city": "Mława",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mława"
       },
       "extratags": {},
       "city": "Mława",
@@ -5035,11 +5243,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.1528,
-      "lon": 15,
+      "lat": 51.14947,
+      "lon": 15.006715,
       "address": {
         "city": "Zgorzelec",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zgorzelec"
       },
       "extratags": {},
       "city": "Zgorzelec",
@@ -5055,11 +5264,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.258,
-      "lon": 19.4054,
+      "lat": 51.005687,
+      "lon": 18.314607,
       "address": {
         "city": "Brodnica",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Brodnicka"
       },
       "extratags": {},
       "city": "Brodnica",
@@ -5075,11 +5285,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.4303,
-      "lon": 20.7158,
+      "lat": 52.430367,
+      "lon": 20.714598,
       "address": {
         "city": "Nowy Dwór Mazowiecki",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Nowy Dwór Mazowiecki"
       },
       "extratags": {},
       "city": "Nowy Dwór Mazowiecki",
@@ -5095,11 +5306,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.04,
-      "lon": 21.7589,
+      "lat": 54.03599,
+      "lon": 21.768753,
       "address": {
         "city": "Giżycko",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Giżycko"
       },
       "extratags": {},
       "city": "Giżycko",
@@ -5115,11 +5327,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.3395,
-      "lon": 21.1959,
+      "lat": 52.316667,
+      "lon": 21.183333,
       "address": {
         "city": "Kobyłka",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kobyłka"
       },
       "extratags": {},
       "city": "Kobyłka",
@@ -5135,11 +5348,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.1,
-      "lon": 19.9333,
+      "lat": 52.10642,
+      "lon": 19.936954,
       "address": {
         "city": "Łowicz",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Łowicz"
       },
       "extratags": {},
       "city": "Łowicz",
@@ -5155,11 +5369,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 49.6556,
-      "lon": 21.1604,
+      "lat": 49.65731,
+      "lon": 21.159216,
       "address": {
         "city": "Gorlice",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gorlice"
       },
       "extratags": {},
       "city": "Gorlice",
@@ -5175,11 +5390,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.0768,
-      "lon": 21.3753,
+      "lat": 54.07854,
+      "lon": 21.372759,
       "address": {
         "city": "Kętrzyn",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kętrzyn"
       },
       "extratags": {},
       "city": "Kętrzyn",
@@ -5195,11 +5411,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.8083,
-      "lon": 17.1994,
+      "lat": 52.806541,
+      "lon": 17.200023,
       "address": {
         "city": "Wągrowiec",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Wągrowiec"
       },
       "extratags": {},
       "city": "Wągrowiec",
@@ -5215,11 +5432,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.4386,
-      "lon": 16.655,
+      "lat": 50.438625,
+      "lon": 16.655186,
       "address": {
         "city": "Kłodzko",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kłodzko"
       },
       "extratags": {},
       "city": "Kłodzko",
@@ -5235,11 +5453,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.55,
-      "lon": 22.7333,
+      "lat": 50.541687,
+      "lon": 22.719835,
       "address": {
         "city": "Biłgoraj",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Biłgoraj"
       },
       "extratags": {},
       "city": "Biłgoraj",
@@ -5255,11 +5474,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.0155,
-      "lon": 18.5006,
+      "lat": 52.015537,
+      "lon": 18.500668,
       "address": {
         "city": "Turek",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Turek"
       },
       "extratags": {},
       "city": "Turek",
@@ -5275,11 +5495,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.0833,
-      "lon": 16.65,
+      "lat": 52.08709,
+      "lon": 16.645844,
       "address": {
         "city": "Kościan",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kościan"
       },
       "extratags": {},
       "city": "Kościan",
@@ -5295,11 +5516,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1219,
-      "lon": 17.9811,
+      "lat": 54.12209,
+      "lon": 17.977629,
       "address": {
         "city": "Kościerzyna",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kościerzyna"
       },
       "extratags": {},
       "city": "Kościerzyna",
@@ -5315,11 +5537,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.1844,
-      "lon": 20.8395,
+      "lat": 50.173155,
+      "lon": 23.189571,
       "address": {
         "city": "Piastów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Piastowo"
       },
       "extratags": {},
       "city": "Piastów",
@@ -5335,11 +5558,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.5667,
-      "lon": 21,
+      "lat": 53.564594,
+      "lon": 20.99271,
       "address": {
         "city": "Szczytno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Szczytno"
       },
       "extratags": {},
       "city": "Szczytno",
@@ -5355,11 +5579,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.6233,
-      "lon": 20.3753,
+      "lat": 52.623386,
+      "lon": 20.374535,
       "address": {
         "city": "Płońsk",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Płońsk"
       },
       "extratags": {},
       "city": "Płońsk",
@@ -5375,11 +5600,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.0676,
-      "lon": 16.185,
+      "lat": 51.050804,
+      "lon": 16.193129,
       "address": {
         "city": "Jawor",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jawor"
       },
       "extratags": {},
       "city": "Jawor",
@@ -5395,11 +5621,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.65,
-      "lon": 22.45,
+      "lat": 51.973766,
+      "lon": 15.645354,
       "address": {
         "city": "Grajewo",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rajewo"
       },
       "extratags": {},
       "city": "Grajewo",
@@ -5415,11 +5642,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.9853,
-      "lon": 22.2422,
+      "lat": 52.985,
+      "lon": 22.241545,
       "address": {
         "city": "Zambrów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zambrów"
       },
       "extratags": {},
       "city": "Zambrów",
@@ -5435,11 +5663,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.8642,
-      "lon": 21.305,
+      "lat": 53.869003,
+      "lon": 21.304665,
       "address": {
         "city": "Mrągowo",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Mrągowo"
       },
       "extratags": {},
       "city": "Mrągowo",
@@ -5455,11 +5684,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.2333,
-      "lon": 20.1833,
+      "lat": 53.233955,
+      "lon": 20.178356,
       "address": {
         "city": "Działdowo",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Działdowo"
       },
       "extratags": {},
       "city": "Działdowo",
@@ -5475,11 +5705,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.4667,
-      "lon": 22.6,
+      "lat": 51.462326,
+      "lon": 22.608805,
       "address": {
         "city": "Lubartów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lubartów"
       },
       "extratags": {},
       "city": "Lubartów",
@@ -5495,11 +5726,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.2,
-      "lon": 18.6333,
+      "lat": 52.200162,
+      "lon": 18.639303,
       "address": {
         "city": "Koło",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Koło"
       },
       "extratags": {},
       "city": "Koło",
@@ -5515,11 +5747,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.1167,
-      "lon": 15.3,
+      "lat": 51.120033,
+      "lon": 15.290032,
       "address": {
         "city": "Lubań",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lubań"
       },
       "extratags": {},
       "city": "Lubań",
@@ -5535,11 +5768,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.9901,
-      "lon": 16.9122,
+      "lat": 52.99192,
+      "lon": 16.915525,
       "address": {
         "city": "Chodzież",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chodzież"
       },
       "extratags": {},
       "city": "Chodzież",
@@ -5555,11 +5789,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.3492,
-      "lon": 18.4261,
+      "lat": 53.349644,
+      "lon": 18.425594,
       "address": {
         "city": "Chełmno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chełmno"
       },
       "extratags": {},
       "city": "Chełmno",
@@ -5575,11 +5810,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.3603,
-      "lon": 17.0408,
+      "lat": 53.36317,
+      "lon": 17.035622,
       "address": {
         "city": "Złotów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Złotów"
       },
       "extratags": {},
       "city": "Złotów",
@@ -5595,11 +5831,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.9667,
-      "lon": 19.2833,
+      "lat": 51.96331,
+      "lon": 19.291447,
       "address": {
         "city": "Ozorków",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ozorków"
       },
       "extratags": {},
       "city": "Ozorków",
@@ -5615,11 +5852,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 50.45,
-      "lon": 23.4167,
+      "lat": 50.452778,
+      "lon": 23.418941,
       "address": {
         "city": "Tomaszów Lubelski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Tomaszów Lubelski"
       },
       "extratags": {},
       "city": "Tomaszów Lubelski",
@@ -5635,11 +5873,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.4,
-      "lon": 22.25,
+      "lat": 52.40574,
+      "lon": 22.253769,
       "address": {
         "city": "Sokołów Podlaski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sokołów Podlaski"
       },
       "extratags": {},
       "city": "Sokołów Podlaski",
@@ -5655,11 +5894,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.1243,
-      "lon": 20.6654,
+      "lat": 52.123985,
+      "lon": 20.666048,
       "address": {
         "city": "Milanówek",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Milanówek"
       },
       "extratags": {},
       "city": "Milanówek",
@@ -5675,11 +5915,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.7667,
-      "lon": 20.25,
+      "lat": 51.76416,
+      "lon": 20.251951,
       "address": {
         "city": "Rawa Mazowiecka",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rawa Mazowiecka"
       },
       "extratags": {},
       "city": "Rawa Mazowiecka",
@@ -5695,11 +5936,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.0669,
-      "lon": 19.4069,
+      "lat": 53.46688,
+      "lon": 21.935718,
       "address": {
         "city": "Rypin",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rupin"
       },
       "extratags": {},
       "city": "Rypin",
@@ -5715,11 +5957,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1259,
-      "lon": 20.5795,
+      "lat": 54.126087,
+      "lon": 20.578169,
       "address": {
         "city": "Lidzbark Warmiński",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lidzbark Warmiński"
       },
       "extratags": {},
       "city": "Lidzbark Warmiński",
@@ -5735,11 +5978,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.1264,
-      "lon": 15.9198,
+      "lat": 51.12448,
+      "lon": 15.916288,
       "address": {
         "city": "Złotoryja",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Złotoryja"
       },
       "extratags": {},
       "city": "Złotoryja",
@@ -5755,11 +5999,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.5803,
-      "lon": 16.8619,
+      "lat": 54.58644,
+      "lon": 16.855223,
       "address": {
         "city": "Ustka",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ustka"
       },
       "extratags": {},
       "city": "Ustka",
@@ -5775,11 +6020,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.2,
-      "lon": 18.6,
+      "lat": 53.18591,
+      "lon": 18.610472,
       "address": {
         "city": "Chełmża",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chełmża"
       },
       "extratags": {},
       "city": "Chełmża",
@@ -5795,11 +6041,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.85,
-      "lon": 19.1667,
+      "lat": 50.608688,
+      "lon": 17.617915,
       "address": {
         "city": "Lipno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lipno"
       },
       "extratags": {},
       "city": "Lipno",
@@ -5815,11 +6062,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.0583,
-      "lon": 19.2,
+      "lat": 52.30671,
+      "lon": 16.873531,
       "address": {
         "city": "Łęczyca",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Łęczyca"
       },
       "extratags": {},
       "city": "Łęczyca",
@@ -5835,11 +6083,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.6672,
-      "lon": 17.3586,
+      "lat": 53.664906,
+      "lon": 17.358,
       "address": {
         "city": "Człuchów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Człuchów"
       },
       "extratags": {},
       "city": "Człuchów",
@@ -5855,11 +6104,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.2833,
-      "lon": 18.95,
+      "lat": 53.28,
+      "lon": 18.949884,
       "address": {
         "city": "Wąbrzeźno",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Wąbrzeźno"
       },
       "extratags": {},
       "city": "Wąbrzeźno",
@@ -5875,11 +6125,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 51.2667,
-      "lon": 15.9333,
+      "lat": 52.700801,
+      "lon": 16.191123,
       "address": {
         "city": "Chojnów",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Chojno"
       },
       "extratags": {},
       "city": "Chojnów",
@@ -5895,11 +6146,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.8764,
-      "lon": 18.6933,
+      "lat": 52.876225,
+      "lon": 18.693771,
       "address": {
         "city": "Aleksandrów Kujawski",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Aleksandrów Kujawski"
       },
       "extratags": {},
       "city": "Aleksandrów Kujawski",
@@ -5915,11 +6167,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 53.1,
-      "lon": 19.05,
+      "lat": 53.10868,
+      "lon": 19.05377,
       "address": {
         "city": "Golub-Dobrzyń",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Golub-Dobrzyń"
       },
       "extratags": {},
       "city": "Golub-Dobrzyń",
@@ -5935,11 +6188,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.7204,
-      "lon": 18.4113,
+      "lat": 54.686051,
+      "lon": 18.461803,
       "address": {
         "city": "Puck",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pucka"
       },
       "extratags": {},
       "city": "Puck",
@@ -5955,11 +6209,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.9,
-      "lon": 16.5667,
+      "lat": 52.90541,
+      "lon": 16.564636,
       "address": {
         "city": "Czarnków",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Czarnków"
       },
       "extratags": {},
       "city": "Czarnków",
@@ -5975,11 +6230,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.1,
-      "lon": 23.35,
+      "lat": 54.106472,
+      "lon": 23.349205,
       "address": {
         "city": "Sejny",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sejny"
       },
       "extratags": {},
       "city": "Sejny",
@@ -5995,11 +6251,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 52.7794,
-      "lon": 20.1153,
+      "lat": 52.78148,
+      "lon": 20.117678,
       "address": {
         "city": "Raciąż",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Raciąż"
       },
       "extratags": {},
       "city": "Raciąż",
@@ -6015,11 +6272,12 @@
       "type": "city",
       "category": "city",
       "class": "place",
-      "lat": 54.2856,
-      "lon": 20.4889,
+      "lat": 51.365548,
+      "lon": 16.804603,
       "address": {
         "city": "Górowo Iławeckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Górowo"
       },
       "extratags": {},
       "city": "Górowo Iławeckie",
@@ -6047,12 +6305,13 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 53.7857,
-      "lon": 20.4973,
+      "lat": 51.606633,
+      "lon": 19.471765,
       "address": {
         "city": "Olsztyn",
         "state": "warminsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Główna"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -6078,12 +6337,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 54.38,
-      "lon": 18.4703,
+      "lat": 54.350178,
+      "lon": 18.650743,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Port Lotniczy Gdańsk im. Lecha Wałęsy"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -6110,12 +6370,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 50.4743,
-      "lon": 19.08,
+      "lat": 50.25847,
+      "lon": 19.023157,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Międzynarodowy Port Lotniczy Katowice w Pyrzowicach"
       },
       "extratags": {},
       "city": "Katowice",
@@ -6142,12 +6403,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 50.11,
-      "lon": 22.019,
+      "lat": 50.119217,
+      "lon": 22.048443,
       "address": {
         "city": "Rzeszów",
         "state": "podkarpackie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jasionka"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -6174,12 +6436,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 53.5847,
-      "lon": 14.9022,
+      "lat": 53.393158,
+      "lon": 14.660718,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lotnicza"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -6204,12 +6467,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 53.0968,
-      "lon": 17.9776,
+      "lat": 53.093508,
+      "lon": 17.998266,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ignacego Jana Paderewskiego"
       },
       "extratags": {},
       "city": "Bydgoszcz",
@@ -6234,12 +6498,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.7217,
-      "lon": 19.3981,
+      "lat": 51.71713,
+      "lon": 19.425012,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Władysława Reymonta"
       },
       "extratags": {},
       "city": "Łódź",
@@ -6266,12 +6531,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.2403,
-      "lon": 22.7136,
+      "lat": 51.232571,
+      "lon": 22.585778,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lotnicza"
       },
       "extratags": {},
       "city": "Lublin",
@@ -6298,12 +6564,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 52.4511,
-      "lon": 20.6518,
+      "lat": 52.241045,
+      "lon": 21.232391,
       "address": {
         "city": "Nowy Dwór Mazowiecki",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lotnicza"
       },
       "extratags": {},
       "city": "Nowy Dwór Mazowiecki",
@@ -6330,12 +6597,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 52.1389,
-      "lon": 15.7986,
+      "lat": 51.939774,
+      "lon": 15.50632,
       "address": {
         "city": "Zielona Góra",
         "state": "lubuskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Port Lotniczy Zielona Góra-Babimost"
       },
       "extratags": {},
       "city": "Zielona Góra",
@@ -6362,12 +6630,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 53.4819,
-      "lon": 20.9377,
+      "lat": 53.772682,
+      "lon": 20.421756,
       "address": {
         "city": "Olsztyn",
         "state": "warmińsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Lotnicza"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -6391,12 +6660,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.7229,
-      "lon": 23.2519,
+      "lat": 50.717064,
+      "lon": 23.252596,
       "address": {
         "city": "Zamość",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stare Miasto w Zamościu"
       },
       "extratags": {},
       "city": "Zamość",
@@ -6419,12 +6689,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 49.8697,
-      "lon": 19.6494,
+      "lat": 49.866833,
+      "lon": 19.676758,
       "address": {
         "city": "Kalwaria Zebrzydowska",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kalwaria Zebrzydowska"
       },
       "extratags": {},
       "city": "Kalwaria Zebrzydowska",
@@ -6447,12 +6718,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.8442,
-      "lon": 16.4839,
+      "lat": 50.845588,
+      "lon": 16.491703,
       "address": {
         "city": "Świdnica",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Plac Pokoju"
       },
       "extratags": {},
       "city": "Świdnica",
@@ -6475,12 +6747,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.0525,
-      "lon": 16.1953,
+      "lat": 51.054487,
+      "lon": 16.189886,
       "address": {
         "city": "Jawor",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pokoju"
       },
       "extratags": {},
       "city": "Jawor",
@@ -6503,12 +6776,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 51.5378,
-      "lon": 14.7275,
+      "lat": 51.537766,
+      "lon": 14.745413,
       "address": {
         "city": "Łęknica",
         "state": "lubuskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Park Mużakowski"
       },
       "extratags": {},
       "city": "Łęknica",
@@ -6530,12 +6804,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.4444,
-      "lon": 18.8544,
+      "lat": 50.441879,
+      "lon": 18.809992,
       "address": {
         "city": "Tarnowskie Góry",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Srebrna"
       },
       "extratags": {},
       "city": "Tarnowskie Góry",
@@ -6558,12 +6833,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.9685,
-      "lon": 21.497,
+      "lat": 50.908695,
+      "lon": 21.439459,
       "address": {
         "city": "Bodzechów",
         "state": "świętokrzyskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Krzemionki Opatowskie"
       },
       "extratags": {},
       "city": "Bodzechów",
@@ -6587,12 +6863,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.2497,
-      "lon": 21.0122,
+      "lat": 52.252241,
+      "lon": 21.010135,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stara"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6614,12 +6891,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.2296,
-      "lon": 21.0247,
+      "lat": 52.215342,
+      "lon": 21.104085,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Narodowa"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6641,12 +6919,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.2422,
-      "lon": 21.0288,
+      "lat": 52.23072,
+      "lon": 21.016317,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Centrum Nauki Kopernik"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6668,12 +6947,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.2489,
-      "lon": 21.0136,
+      "lat": 52.25351,
+      "lon": 21.220125,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jasna"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6692,12 +6972,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 52.2419,
-      "lon": 21.0089,
+      "lat": 52.214683,
+      "lon": 21.110422,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ogrody"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6716,12 +6997,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.2436,
-      "lon": 21.0122,
+      "lat": 52.394658,
+      "lon": 22.64879,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Nieznanego Żołnierza"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6742,12 +7024,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.2469,
-      "lon": 20.9736,
+      "lat": 52.258812,
+      "lon": 20.961933,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Powązkowska"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6767,12 +7050,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.2306,
-      "lon": 21.0301,
+      "lat": 52.27204,
+      "lon": 21.083233,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Swojska"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6793,12 +7077,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.2419,
-      "lon": 21.0169,
+      "lat": 52.215342,
+      "lon": 21.104085,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Narodowa"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -6821,12 +7106,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.0614,
-      "lon": 19.9394,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bazylika Mariacka w Krakowie"
       },
       "extratags": {},
       "city": "Kraków",
@@ -6845,12 +7131,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.0508,
-      "lon": 19.8956,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kopiec Kościuszki"
       },
       "extratags": {},
       "city": "Kraków",
@@ -6872,12 +7159,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.0489,
-      "lon": 19.945,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kazimierz w Krakowie"
       },
       "extratags": {},
       "city": "Kraków",
@@ -6899,12 +7187,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.0642,
-      "lon": 19.9219,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Muzeum Narodowe w Krakowie"
       },
       "extratags": {},
       "city": "Kraków",
@@ -6925,12 +7214,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.0503,
-      "lon": 19.9522,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Fabryka Schindlera"
       },
       "extratags": {},
       "city": "Kraków",
@@ -6949,12 +7239,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.0658,
-      "lon": 19.9394,
+      "lat": 50.049109,
+      "lon": 19.943144,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Krakowska"
       },
       "extratags": {},
       "city": "Kraków",
@@ -6975,12 +7266,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.0614,
-      "lon": 19.9339,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Collegium Maius"
       },
       "extratags": {},
       "city": "Kraków",
@@ -7002,12 +7294,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.3492,
-      "lon": 18.6558,
+      "lat": 54.402886,
+      "lon": 18.631848,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gdańska"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -7028,12 +7321,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.3492,
-      "lon": 18.6533,
+      "lat": 54.402886,
+      "lon": 18.631848,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gdańska"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -7054,12 +7348,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.3492,
-      "lon": 18.6539,
+      "lat": 54.27097,
+      "lon": 18.55651,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Neptuna"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -7080,12 +7375,13 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 54.3489,
-      "lon": 18.6544,
+      "lat": 54.348242,
+      "lon": 18.654265,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Długi Targ"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -7105,12 +7401,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.4053,
-      "lon": 18.6772,
+      "lat": 54.350178,
+      "lon": 18.650743,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Westerplatte"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -7130,12 +7427,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.1147,
-      "lon": 17.0428,
+      "lat": 52.411206,
+      "lon": 16.948056,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ostrów Tumski"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -7157,12 +7455,13 @@
       "type": "aquarium",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.1119,
-      "lon": 17.0339,
+      "lat": 51.11029,
+      "lon": 17.03056,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Afrykarium"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -7184,12 +7483,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.4092,
-      "lon": 16.9439,
+      "lat": 52.411206,
+      "lon": 16.948056,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ostrów Tumski"
       },
       "extratags": {},
       "city": "Poznań",
@@ -7212,12 +7512,13 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 52.4083,
-      "lon": 16.9336,
+      "lat": 52.407769,
+      "lon": 16.933583,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Stary Rynek"
       },
       "extratags": {},
       "city": "Poznań",
@@ -7238,12 +7539,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.7658,
-      "lon": 19.4573,
+      "lat": 51.820042,
+      "lon": 19.320796,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Piotrkowska"
       },
       "extratags": {},
       "city": "Łódź",
@@ -7265,12 +7567,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.6814,
-      "lon": 21.7497,
+      "lat": 52.177185,
+      "lon": 18.209557,
       "address": {
         "city": "Sandomierz",
         "state": "świętokrzyskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sandomierz Stare Miasto"
       },
       "extratags": {},
       "city": "Sandomierz",
@@ -7292,12 +7595,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.3181,
-      "lon": 21.9522,
+      "lat": 51.31902,
+      "lon": 21.976016,
       "address": {
         "city": "Kazimierz Dolny",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Doły"
       },
       "extratags": {},
       "city": "Kazimierz Dolny",
@@ -7319,12 +7623,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.7848,
-      "lon": 17.7429,
+      "lat": 52.788793,
+      "lon": 17.729459,
       "address": {
         "city": "Biskupin",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Biskupin"
       },
       "extratags": {},
       "city": "Biskupin",
@@ -7343,12 +7648,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.1817,
-      "lon": 15.5764,
+      "lat": 54.185792,
+      "lon": 15.554865,
       "address": {
         "city": "Kołobrzeg",
         "state": "zachodniopomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Morska"
       },
       "extratags": {},
       "city": "Kołobrzeg",
@@ -7367,12 +7673,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.9106,
-      "lon": 14.2686,
+      "lat": 53.9097,
+      "lon": 14.2511,
       "address": {
         "city": "Świnoujście",
         "state": "zachodniopomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Latarnia Morska w Świnoujściu"
       },
       "extratags": {},
       "city": "Świnoujście",
@@ -7394,12 +7701,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.535,
-      "lon": 17.5844,
+      "lat": 52.62852,
+      "lon": 17.433252,
       "address": {
         "city": "Gniezno",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Gnieźnieńska"
       },
       "extratags": {},
       "city": "Gniezno",
@@ -7421,12 +7729,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.3233,
-      "lon": 18.36,
+      "lat": 52.31778,
+      "lon": 18.353613,
       "address": {
         "city": "Licheń Stary",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Sanktuarium Matki Bożej Licheńskiej"
       },
       "extratags": {},
       "city": "Licheń Stary",
@@ -7448,12 +7757,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.4408,
-      "lon": 16.2394,
+      "lat": 50.442306,
+      "lon": 16.241293,
       "address": {
         "city": "Kudowa-Zdrój",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kaplica Czaszek w Czermnej"
       },
       "extratags": {},
       "city": "Kudowa-Zdrój",
@@ -7474,12 +7784,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.4531,
-      "lon": 19.5523,
+      "lat": 53.602627,
+      "lon": 19.312946,
       "address": {
         "city": "Ogrodzieniec",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamek Ogrodzieniec"
       },
       "extratags": {},
       "city": "Ogrodzieniec",
@@ -7500,12 +7811,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 49.4227,
-      "lon": 20.3189,
+      "lat": 49.41087,
+      "lon": 20.302443,
       "address": {
         "city": "Niedzica",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamek w Niedzicy"
       },
       "extratags": {},
       "city": "Niedzica",
@@ -7526,12 +7838,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.7978,
-      "lon": 20.4577,
+      "lat": 50.800373,
+      "lon": 20.461798,
       "address": {
         "city": "Chęciny",
         "state": "świętokrzyskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Zamek Chęciny"
       },
       "extratags": {},
       "city": "Chęciny",
@@ -7554,12 +7867,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 52.1652,
-      "lon": 21.0895,
+      "lat": 52.23072,
+      "lon": 21.016317,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac w Wilanowie"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -7583,12 +7897,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 50.0686,
-      "lon": 22.2343,
+      "lat": 50.06688,
+      "lon": 22.230162,
       "address": {
         "city": "Łańcut",
         "state": "podkarpackie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac w Łańcucie"
       },
       "extratags": {},
       "city": "Łańcut",
@@ -7610,12 +7925,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 52.0666,
-      "lon": 20.0702,
+      "lat": 52.066486,
+      "lon": 20.070127,
       "address": {
         "city": "Nieborów",
         "state": "łódzkie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac w Nieborowie"
       },
       "extratags": {},
       "city": "Nieborów",
@@ -7637,12 +7953,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 51.4609,
-      "lon": 22.4872,
+      "lat": 51.448433,
+      "lon": 22.497387,
       "address": {
         "city": "Kozłówka",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac w Kozłówce"
       },
       "extratags": {},
       "city": "Kozłówka",
@@ -7664,12 +7981,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 52.2333,
-      "lon": 16.9342,
+      "lat": 52.234238,
+      "lon": 16.934366,
       "address": {
         "city": "Rogalin",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pałac w Rogalinie"
       },
       "extratags": {},
       "city": "Rogalin",
@@ -7691,12 +8009,13 @@
       "type": "peak",
       "category": "peak",
       "class": "natural",
-      "lat": 49.1794,
-      "lon": 20.0881,
+      "lat": 52.144689,
+      "lon": 21.016885,
       "address": {
         "city": "Tatry",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Rysy"
       },
       "extratags": {},
       "city": "Tatry",
@@ -7716,12 +8035,13 @@
       "type": "peak",
       "category": "peak",
       "class": "natural",
-      "lat": 49.2322,
-      "lon": 19.9814,
+      "lat": 49.232845,
+      "lon": 19.98281,
       "address": {
         "city": "Zakopane",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kasprowy Wierch"
       },
       "extratags": {},
       "city": "Zakopane",
@@ -7743,12 +8063,13 @@
       "type": "peak",
       "category": "peak",
       "class": "natural",
-      "lat": 49.5733,
-      "lon": 19.5292,
+      "lat": 52.88774,
+      "lon": 23.884008,
       "address": {
         "city": "Zawoja",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Babia Góra"
       },
       "extratags": {},
       "city": "Zawoja",
@@ -7770,12 +8091,13 @@
       "type": "lake",
       "category": "lake",
       "class": "natural",
-      "lat": 53.7333,
-      "lon": 21.75,
+      "lat": 53.800896,
+      "lon": 21.57183,
       "address": {
         "city": "Mikołajki",
         "state": "warmińsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jezioro Śniardwy"
       },
       "extratags": {},
       "city": "Mikołajki",
@@ -7797,12 +8119,13 @@
       "type": "lake",
       "category": "lake",
       "class": "natural",
-      "lat": 54.1167,
-      "lon": 21.6667,
+      "lat": 54.211082,
+      "lon": 21.74211,
       "address": {
         "city": "Węgorzewo",
         "state": "warmińsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Jezioro Mamry"
       },
       "extratags": {},
       "city": "Węgorzewo",
@@ -7824,12 +8147,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.4547,
-      "lon": 16.4425,
+      "lat": 50.489407,
+      "lon": 16.456375,
       "address": {
         "city": "Wambierzyce",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bazylika w Wambierzycach"
       },
       "extratags": {},
       "city": "Wambierzyce",
@@ -7851,12 +8175,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.4561,
-      "lon": 18.1682,
+      "lat": 50.433789,
+      "lon": 18.106879,
       "address": {
         "city": "Góra Świętej Anny",
         "state": "opolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Świętej Anny"
       },
       "extratags": {},
       "city": "Góra Świętej Anny",
@@ -7878,12 +8203,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.4025,
-      "lon": 18.5539,
+      "lat": 54.402472,
+      "lon": 18.667319,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Oliwska"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -7905,12 +8231,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.0033,
-      "lon": 19.8228,
+      "lat": 50.062325,
+      "lon": 19.937975,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Opactwo Benedyktynów w Tyńcu"
       },
       "extratags": {},
       "city": "Kraków",
@@ -7932,12 +8259,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 49.9686,
-      "lon": 20.4322,
+      "lat": 49.96908,
+      "lon": 20.430668,
       "address": {
         "city": "Bochnia",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kopalnia Soli Bochnia"
       },
       "extratags": {},
       "city": "Bochnia",
@@ -7959,12 +8287,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 49.9933,
-      "lon": 19.4256,
+      "lat": 49.999971,
+      "lon": 19.40421,
       "address": {
         "city": "Zator",
         "state": "małopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Energylandia"
       },
       "extratags": {},
       "city": "Zator",
@@ -7985,12 +8314,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.2897,
-      "lon": 18.9394,
+      "lat": 50.297424,
+      "lon": 18.953587,
       "address": {
         "city": "Chorzów",
         "state": "śląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Legendia"
       },
       "extratags": {},
       "city": "Chorzów",
@@ -8010,12 +8340,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 54.5175,
-      "lon": 18.5433,
+      "lat": 54.51936,
+      "lon": 18.542543,
       "address": {
         "city": "Gdynia",
         "state": "pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Muzeum Emigracji w Gdyni"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -8034,12 +8365,13 @@
       "type": "events_venue",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.2465,
-      "lon": 22.5684,
+      "lat": 51.24758,
+      "lon": 22.564535,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Centrum Spotkania Kultur w Lublinie"
       },
       "extratags": {},
       "city": "Lublin",
@@ -8061,12 +8393,13 @@
       "type": "theatre",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.1289,
-      "lon": 23.1519,
+      "lat": 53.127682,
+      "lon": 23.195403,
       "address": {
         "city": "Białystok",
         "state": "podlaskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Podlaska"
       },
       "extratags": {},
       "city": "Białystok",
@@ -8087,12 +8420,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.1208,
-      "lon": 18.0022,
+      "lat": 53.148175,
+      "lon": 18.170427,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Bydgoska"
       },
       "extratags": {},
       "city": "Bydgoszcz",
@@ -8114,12 +8448,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.0086,
-      "lon": 18.6006,
+      "lat": 53.008696,
+      "lon": 18.601812,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Pod Krzywą Wieżą"
       },
       "extratags": {},
       "city": "Toruń",
@@ -8141,12 +8476,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 53.0106,
-      "lon": 18.6047,
+      "lat": 53.871007,
+      "lon": 21.303803,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Staromiejska"
       },
       "extratags": {},
       "city": "Toruń",
@@ -8167,12 +8503,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 51.2113,
-      "lon": 16.1628,
+      "lat": 51.210758,
+      "lon": 16.158511,
       "address": {
         "city": "Legnica",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Piastowska"
       },
       "extratags": {},
       "city": "Legnica",
@@ -8194,12 +8531,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.8631,
-      "lon": 17.4692,
+      "lat": 50.723549,
+      "lon": 20.388176,
       "address": {
         "city": "Brzeg",
         "state": "opolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Brzegi"
       },
       "extratags": {},
       "city": "Brzeg",
@@ -8221,12 +8559,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 52.2441,
-      "lon": 17.0909,
+      "lat": 52.220104,
+      "lon": 17.056553,
       "address": {
         "city": "Kórnik",
         "state": "wielkopolskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Kórnicka"
       },
       "extratags": {},
       "city": "Kórnik",
@@ -8247,12 +8586,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.1147,
-      "lon": 17.0483,
+      "lat": 51.109675,
+      "lon": 17.053313,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "most Grunwaldzki"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -8271,12 +8611,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.1561,
-      "lon": 19.4044,
+      "lat": 54.071712,
+      "lon": 19.64347,
       "address": {
         "city": "Elbląg",
         "state": "warmińsko-mazurskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Widokowa"
       },
       "extratags": {},
       "city": "Elbląg",
@@ -8298,12 +8639,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 52.1519,
-      "lon": 21.0472,
+      "lat": 52.230687,
+      "lon": 21.15634,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Botaniczna"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -8322,12 +8664,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 51.115,
-      "lon": 17.045,
+      "lat": 51.11029,
+      "lon": 17.03056,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
-        "country": "Polska"
+        "country": "Polska",
+        "road": "Ogród Botaniczny we Wrocławiu"
       },
       "extratags": {},
       "city": "Wrocław",
