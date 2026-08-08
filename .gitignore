@@ -31,5 +31,3 @@ Thumbs.db
 # Jednorazowe narzędzia diagnostyczne, nie część appki
 liczba-kont.html
 
-node_modules
-.git
