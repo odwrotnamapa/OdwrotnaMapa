@@ -1720,14 +1720,6 @@
       preserveDrawingBuffer: true
     });
 
-    // TYMCZASOWE - do usuniecia po zdiagnozowaniu problemu z osm_id.
-    // "map" jako zmienna w konsoli DevTools automatycznie rozwiazuje
-    // sie do elementu <div id="map"> (przegladarki wystawiaja
-    // elementy z id jako wlasciwosci window), nie do tej instancji
-    // MapLibre - stad window.__DEBUG_MAP__ jako jawny dostep do
-    // prawdziwego obiektu mapy z konsoli.
-    window.__DEBUG_MAP__ = map;
-
     const logoIcon = document.querySelector('.brand-logo');
 
     function updateLogoRotation() {

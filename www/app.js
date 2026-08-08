@@ -1719,6 +1719,15 @@
       minZoom: CONFIG.map.minZoom,
       preserveDrawingBuffer: true
     });
+
+    // TYMCZASOWE - do usuniecia po zdiagnozowaniu problemu z osm_id.
+    // "map" jako zmienna w konsoli DevTools automatycznie rozwiazuje
+    // sie do elementu <div id="map"> (przegladarki wystawiaja
+    // elementy z id jako wlasciwosci window), nie do tej instancji
+    // MapLibre - stad window.__DEBUG_MAP__ jako jawny dostep do
+    // prawdziwego obiektu mapy z konsoli.
+    window.__DEBUG_MAP__ = map;
+
     const logoIcon = document.querySelector('.brand-logo');
 
     function updateLogoRotation() {
@@ -5429,29 +5438,56 @@ el.discoverButton?.setAttribute(
 
       // Pokazujemy od razu (bez czekania na siec) - nazwa jest juz
       // poprawna, bo pochodzi z wektorowej warstwy mapy. W tle
-      // dociagamy bogate dane (kategoria, Wikipedia, strona) tym
-      // samym, juz sprawdzonym sposobem co przy ponownym otwieraniu
-      // ocenionych/ulubionych miejsc (fetchPlaceByReverseAtZoom,
-      // zoom=18 dla zwyklych miejsc) - precyzyjnie NA WSPOLRZEDNYCH
-      // JUZ ZIDENTYFIKOWANEGO obiektu, wiec nie ma ryzyka ze zlapie
-      // przypadkowy sklep obok, tak jak robila to stara sciezka przez
-      // openMapInformationThroughService.
+      // dociagamy bogate dane (kategoria, Wikipedia, strona) przez
+      // WYSZUKANIE PO NAZWIE w poblizu (fetchPlaceByNameNear) -
+      // proba przez odwrotne geokodowanie WSPOLRZEDNYCH
+      // (fetchPlaceByReverseAtZoom) regularnie lapala przypadkowy
+      // maly obiekt obok (przystanek, wejscie) zamiast duzego,
+      // obszarowego miejsca - wyszukanie po NAZWIE eliminuje to, bo
+      // przypadkowy inny obiekt musialby miec (prawie) taka sama
+      // nazwe. Bezpiecznik na wypadek gdyby jednak trafilo w cos
+      // innego jest nizej (sprawdzenie podobienstwa nazw).
       openKnownPlaceOnMap(minimalPlace, lngLat);
 
-      const isCityLike = poi.sourceLayer === "place";
-      fetchPlaceByReverseAtZoom(
-        poi.lat,
-        poi.lon,
-        isCityLike ? 10 : 18
-      )
+      fetchPlaceByNameNear(poi.name, poi.lat, poi.lon)
         .then(fullPlace => {
           if (
-            fullPlace &&
-            state.placePanelLngLat === lngLat &&
-            !el.placePanel?.hidden
+            !fullPlace ||
+            state.placePanelLngLat !== lngLat ||
+            el.placePanel?.hidden
           ) {
-            openKnownPlaceOnMap(fullPlace, lngLat);
+            return;
           }
+
+          // BEZPIECZNIK: fetchPlaceByReverseAtZoom robi odwrotne
+          // geokodowanie po WSPOLRZEDNYCH - dokladnie ten sam rodzaj
+          // zapytania, ktory wczesniej (przez openMapInformationThroughService)
+          // potrafil trafic w inny, mniejszy obiekt (sklep, wejscie)
+          // zamiast duzego, obszarowego miejsca (centrum handlowe,
+          // stadion). Zanim NADPISZEMY juz poprawnie pokazana nazwe
+          // tym wzbogaconym wynikiem, sprawdzamy czy nazwy w ogole
+          // sa do siebie podobne - jesli reverse-geocoding zlapal
+          // cos zupelnie innego, zostawiamy minimalny (ale poprawny)
+          // widok bez dodatkowych danych, zamiast pokazac zly obiekt.
+          const fullPlaceName =
+            fullPlace.namedetails?.["name:pl"] ||
+            fullPlace.namedetails?.name ||
+            fullPlace.name ||
+            String(fullPlace.display_name || "").split(",")[0];
+
+          const similarity = stringSimilarity(
+            normalizeSearchText(poi.name),
+            normalizeSearchText(fullPlaceName)
+          );
+
+          if (similarity < 0.5) {
+            console.warn(
+              `Wzbogacenie odrzucone - reverse geocoding zwrocil "${fullPlaceName}" zamiast oczekiwanego "${poi.name}" (podobienstwo ${similarity.toFixed(2)})`
+            );
+            return;
+          }
+
+          openKnownPlaceOnMap(fullPlace, lngLat);
         })
         .catch(error => {
           console.error("Nie udało się dociągnąć pełnych danych miejsca:", error);
@@ -6417,6 +6453,57 @@ function showUserLocationMarker(lngLat) {
 
     const results = await response.json();
     return Array.isArray(results) && results.length ? results[0] : null;
+  }
+
+  // Alternatywa dla fetchPlaceByReverseAtZoom - zamiast pytac "co jest
+  // DOKLADNIE w tym punkcie" (co dla duzych obszarowo miejsc typu
+  // centrum handlowe/stadion regularnie trafia w mniejszy obiekt obok,
+  // np. przystanek czy wejscie), pytamy "znajdz mi COS O TEJ NAZWIE w
+  // poblizu tego punktu" - poszukiwanie po nazwie samo w sobie
+  // eliminuje przypadkowe trafienia w zupelnie inny obiekt, bo ten
+  // inny obiekt musialby miec (prawie) taka sama nazwe.
+  async function fetchPlaceByNameNear(name, lat, lon, signal) {
+    if (!name) return null;
+
+    const delta = 0.01; // ok. 1km w kazda strone
+    const requestUrl = new URL(
+      CONFIG.search.reverseEndpoint.replace(/\/reverse$/, "/search")
+    );
+    requestUrl.searchParams.set("q", name);
+    requestUrl.searchParams.set("format", "jsonv2");
+    requestUrl.searchParams.set("addressdetails", "1");
+    requestUrl.searchParams.set("extratags", "1");
+    requestUrl.searchParams.set("namedetails", "1");
+    requestUrl.searchParams.set("accept-language", state.language);
+    requestUrl.searchParams.set("limit", "5");
+    requestUrl.searchParams.set(
+      "viewbox",
+      `${lon - delta},${lat + delta},${lon + delta},${lat - delta}`
+    );
+    requestUrl.searchParams.set("bounded", "1");
+
+    const response = await fetch(requestUrl, {
+      signal,
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`Nominatim search HTTP ${response.status}`);
+
+    const results = await response.json();
+    if (!Array.isArray(results) || !results.length) return null;
+
+    let closest = results[0];
+    let closestDistance = Infinity;
+    for (const result of results) {
+      const distance = Math.hypot(
+        Number(result.lat) - lat,
+        Number(result.lon) - lon
+      );
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closest = result;
+      }
+    }
+    return closest;
   }
 
   async function fetchPlaceInformation(lon, lat, signal) {
