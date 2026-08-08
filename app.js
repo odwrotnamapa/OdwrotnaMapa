@@ -1467,6 +1467,7 @@
     mapAppearanceSheetHandle: $("map-appearance-sheet-handle"),
     mapAppearanceClose: $("map-appearance-close"),
     mapAppearanceToggleButton: $("map-appearance-toggle-button"),
+    mapAppearanceBackupLink: $("map-appearance-backup-link"),
     favoritesCount: $("favorites-count"),
     favoritesOpenButton: $("favorites-open-button"),
     favoritesMenuLabel: $("favorites-menu-label"),
@@ -2140,6 +2141,10 @@ map.on('rotate', updateLogoRotation);
   el.mapAppearanceClose?.addEventListener(
     "click",
     closeMapAppearance
+  );
+  el.mapAppearanceBackupLink?.addEventListener(
+    "click",
+    openBackupFromMenu
   );
   el.menuLegendButton?.addEventListener(
     "click",
@@ -4838,7 +4843,6 @@ function applyLanguage(language) {
     { id: "streetview", close: () => window.OMAP_STREETVIEW?.close(), collapsible: false },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
     { id: "mapAppearance", close: () => closeMapAppearance(), panel: el.mapAppearancePanel, cssVariable: "--sheet-height" },
-    { id: "labels", close: () => closeLabels(), panel: el.labelsPanel, cssVariable: "--sheet-height" },
     { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
     { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" },
@@ -8355,12 +8359,14 @@ function updateRouteClickHint() {
       "--sheet-height"
     );
     el.mapAppearanceToggleButton?.setAttribute("aria-expanded", "true");
+    el.mapAppearanceToggleButton?.classList.add("is-active");
   }
 
   function closeMapAppearance() {
     if (!el.mapAppearancePanel || el.mapAppearancePanel.hidden) return;
     el.mapAppearancePanel.hidden = true;
     el.mapAppearanceToggleButton?.setAttribute("aria-expanded", "false");
+    el.mapAppearanceToggleButton?.classList.remove("is-active");
   }
 
   function toggleMapAppearance() {

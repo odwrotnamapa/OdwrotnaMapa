@@ -63,7 +63,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OdwrotnaMapa">
-  <link rel="stylesheet" href="style.css?v=20260813-mobile-fix">
+  <link rel="stylesheet" href="style.css?v=20260813-right-align-fix">
 <style>#place-openstreetmap,#place-openstreetmap-button,.place-openstreetmap,[data-action='openstreetmap']{display:none!important;}#map.theme-inverted{filter:invert(1) hue-rotate(180deg);}</style>
   <script src="assets/build-info.js?v=20260721190000"></script>
   <script src="assets/capacitor-bridge.js"></script>
@@ -265,59 +265,6 @@
       <p id="legend-note" class="legend-note">
         Legenda oparta na stylu Liberty OpenFreeMap. Wygląd symboli i kolorów może różnić się w zależności od wybranego motywu mapy.
       </p>
-    </aside>
-
-    <aside id="labels-panel" class="legend-panel labels-panel menu-subpanel app-sheet app-sheet--sharp panel-shell" aria-labelledby="labels-title" hidden>
-      <button id="labels-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
-              aria-label="Zmień wysokość panelu etykiet">
-        <span aria-hidden="true"></span>
-      </button>
-      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
-        <button id="labels-back"
-                class="menu-back-button"
-                type="button"
-                aria-label="Wróć do menu">←</button>
-        <h2 id="labels-title">Etykiety</h2>
-        <button id="labels-close" class="legend-close" type="button"
-                aria-label="Zamknij etykiety">×</button>
-      </div>
-
-      <button type="button" id="labels-toggle-all" class="menu-action">
-        <span id="labels-toggle-all-label">Odznacz wszystko</span>
-      </button>
-
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-poi" checked>
-        <span id="menu-labels-poi-label">Punkty (sklepy, usługi)</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-roads" checked>
-        <span id="menu-labels-roads-label">Nazwy ulic</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-places" checked>
-        <span id="menu-labels-places-label">Miejscowości i dzielnice</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-water" checked>
-        <span id="menu-labels-water-label">Rzeki i morza</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-regions" checked>
-        <span id="menu-labels-regions-label">Województwa / obwody</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-countries" checked>
-        <span id="menu-labels-countries-label">Kraje</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-airports" checked>
-        <span id="menu-labels-airports-label">Lotniska</span>
-      </label>
-      <label class="menu-setting">
-        <input type="checkbox" id="menu-labels-boundaries" checked>
-        <span id="menu-labels-boundaries-label">Granice administracyjne</span>
-      </label>
     </aside>
 
     <aside id="trading-sunday-panel" class="legend-panel trading-sunday-panel menu-subpanel app-sheet app-sheet--sharp panel-shell" aria-labelledby="trading-sunday-title" hidden>
@@ -760,6 +707,9 @@
           <p class="menu-custom-palette-hint" id="menu-custom-textures-hint">
             JPG lub PNG. Woda, zieleń i budynki będą powielone jako wzór; tło mapy i tło paneli zostaną dopasowane do całej powierzchni.
           </p>
+          <button type="button" id="map-appearance-backup-link" class="menu-custom-palette-hint-link">
+            Importuj/eksportuj tekstury przez kopię zapasową →
+          </button>
           <div class="menu-custom-palette-grid menu-custom-palette-grid--textures">
             <div class="custom-texture-field">
               <span id="custom-texture-mapBackground-label">Tło mapy</span>
@@ -822,6 +772,44 @@
           </div>
           <ul id="custom-theme-preset-list" class="custom-theme-preset-list"></ul>
         </div>
+
+        <p class="menu-custom-palette-heading" id="menu-labels-section-heading">Etykiety</p>
+      <button type="button" id="labels-toggle-all" class="menu-action">
+        <span id="labels-toggle-all-label">Odznacz wszystko</span>
+      </button>
+
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-poi" checked>
+        <span id="menu-labels-poi-label">Punkty (sklepy, usługi)</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-roads" checked>
+        <span id="menu-labels-roads-label">Nazwy ulic</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-places" checked>
+        <span id="menu-labels-places-label">Miejscowości i dzielnice</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-water" checked>
+        <span id="menu-labels-water-label">Rzeki i morza</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-regions" checked>
+        <span id="menu-labels-regions-label">Województwa / obwody</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-countries" checked>
+        <span id="menu-labels-countries-label">Kraje</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-airports" checked>
+        <span id="menu-labels-airports-label">Lotniska</span>
+      </label>
+      <label class="menu-setting">
+        <input type="checkbox" id="menu-labels-boundaries" checked>
+        <span id="menu-labels-boundaries-label">Granice administracyjne</span>
+      </label>
       </div>
     </aside>
 
@@ -1192,11 +1180,6 @@
           </select>
         </label>
 
-        <button id="menu-labels-button" class="menu-action" type="button">
-          <span aria-hidden="true">🏷️</span>
-          <span id="menu-labels-menu-label">Etykiety</span>
-        </button>
-
         <button id="menu-legend-button" class="menu-action" type="button">
           <span aria-hidden="true">🗺️</span>
           <span id="menu-legend-label">Legenda</span>
@@ -1338,6 +1321,6 @@
   <script src="src/services/route-service.js"></script>
   <script type="module" src="src/services/external-libs-loader.js"></script>
 
-  <script src="app.js?v=20260813-map-appearance-panel"></script>
+  <script src="app.js?v=20260813-appearance-tweaks"></script>
 </body>
 </html>

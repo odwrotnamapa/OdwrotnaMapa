@@ -2908,6 +2908,24 @@ a.place-card-row {
   color: var(--muted);
 }
 
+.menu-custom-palette-hint-link {
+  display: inline-block;
+  margin: -2px 0 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-custom-palette-hint-link:hover,
+.menu-custom-palette-hint-link:focus-visible {
+  text-decoration: underline;
+}
+
 .menu-custom-palette-grid--textures {
   grid-template-columns: 1fr;
   gap: 6px;
@@ -6662,6 +6680,10 @@ textarea,
    (gap) miedzy sasiednimi elementami we flexboksie .toolbar, bez
    zadnej zmiany struktury DOM. */
 @media (min-width: 601px) {
+  #streetview-actions {
+    margin-left: auto !important;
+  }
+
   .toolbar-actions {
     margin-left: -10px !important;
     box-shadow: var(--shadow) !important;
