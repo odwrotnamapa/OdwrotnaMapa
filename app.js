@@ -2144,7 +2144,10 @@ map.on('rotate', updateLogoRotation);
   );
   el.mapAppearanceBackupLink?.addEventListener(
     "click",
-    openBackupFromMenu
+    () => {
+      openBackupFromMenu();
+      state.backupOpenedFromAppearance = true;
+    }
   );
   el.menuLegendButton?.addEventListener(
     "click",
@@ -8431,6 +8434,7 @@ function updateRouteClickHint() {
   }
 
   function openBackupFromMenu() {
+    state.backupOpenedFromAppearance = false;
     closeOtherMobilePanels("backup");
 
     openMobilePanelStandard(
@@ -8442,6 +8446,11 @@ function updateRouteClickHint() {
 
   function returnFromBackupToMenu() {
     closeBackup();
+    if (state.backupOpenedFromAppearance) {
+      state.backupOpenedFromAppearance = false;
+      openMapAppearance();
+      return;
+    }
     openMenuHome();
   }
 
