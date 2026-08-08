@@ -27,9 +27,12 @@
       window.history.pushState({ label, lat, lon }, "", url);
     }
 
-    if (label) {
-      document.title = `${label} — Odwrotna Mapa`;
-    }
+    // Tytul strony jest teraz ustawiany centralnie przez
+    // buildPageTitle() w app.js (createPlaceCardLegacy), ktora ma
+    // dostep do pelnych danych adresowych (ulica, miasto) - nie tylko
+    // do samej etykiety - zeby zbudowac bogatszy format pod SEO.
+    // Wczesniej ten modul nadpisywal ten bogatszy tytul prostszym
+    // zaraz po tym, jak zostal poprawnie ustawiony.
   }
 
   function buildPlaceUrl({ label, lat, lon, osmType, osmId, baseUrl }) {
@@ -50,7 +53,8 @@
     if (!url.search) return;
     url.search = "";
     window.history.pushState({}, "", url);
-    document.title = "Odwrotna Mapa";
+    // Tytul resetuje juz osobny kod w app.js przy zamknieciu panelu
+    // miejsca (ten sam moment co czyszczenie URL) - nie duplikujemy.
   }
 
   function readPlaceFromUrl() {

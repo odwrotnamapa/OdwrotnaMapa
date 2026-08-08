@@ -4,7 +4,7 @@
 // wyszukiwania/trasowania - to wymagałoby dużo większego
 // projektu (limity pamięci, dobór obszaru do zapisania itd.).
 
-const CACHE_VERSION = "shell-v167-poi-click-final";
+const CACHE_VERSION = "shell-v169-seo-meta-desc";
 
 // Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
 // z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do

@@ -6135,6 +6135,7 @@ function showUserLocationMarker(lngLat) {
   function closePlacePanel() {
     closeTrip();
     document.title = "Odwrotna Mapa";
+    updateMetaDescription(DEFAULT_META_DESCRIPTION);
     window.OMAP_URL_STATE?.clearPlaceUrl();
     invalidateNamedPoiGuard();
     window.OMAP_SEARCH_SESSION?.cancel?.();
@@ -6615,7 +6616,10 @@ function showUserLocationMarker(lngLat) {
     const t = text[state.language];
     const placeNameKey = getPlaceNameKey(place, lngLat);
     const originalPlaceTitle = getPlaceTitle(place) || t.placeUnknown;
-    document.title = `${state.customPlaceNames[placeNameKey] || originalPlaceTitle} - Odwrotna Mapa`;
+    const customName = state.customPlaceNames[placeNameKey];
+    const effectivePlace = customName ? { ...place, name: customName } : place;
+    document.title = buildPageTitle(effectivePlace);
+    updateMetaDescription(buildPageDescription(effectivePlace));
     const card = document.createElement("article");
     card.className = "place-card";
 
@@ -7018,6 +7022,125 @@ function showUserLocationMarker(lngLat) {
       row.classList.remove("is-copied");
       icon.textContent = originalIcon;
     }, 900);
+  }
+
+  // Tytul strony pod SEO: "Nazwa - Adres - Miasto - Odwrotna Mapa",
+  // a dla samych miast/miejscowosci (gdzie adres i miasto bylyby tym
+  // samym, wiec zbedne) po prostu "Miasto - Odwrotna Mapa". Uzywa
+  // tego samego rozpoznawania "to jest miasto" co reszta kodu
+  // (isNamedSettlement), zeby zachowac spojnosc.
+  function buildPageTitle(place) {
+    const address = place?.address || {};
+    const name = place?.name || "";
+    const isNamedSettlement =
+      ["city", "town", "village"].includes(
+        String(place?.type || "").toLowerCase()
+      ) && Boolean(name);
+
+    if (isNamedSettlement) {
+      return name ? `${name} - Odwrotna Mapa` : "Odwrotna Mapa";
+    }
+
+    const cityPart = address.city || address.town || address.village || "";
+    const streetPart = [address.road, address.house_number]
+      .filter(Boolean)
+      .join(" ");
+
+    const parts = [name, streetPart, cityPart].filter(Boolean);
+
+    return parts.length
+      ? `${parts.join(" - ")} - Odwrotna Mapa`
+      : "Odwrotna Mapa";
+  }
+
+  // Domyslny opis strony (ten sam co statycznie w index.html) - do
+  // przywracania po zamknieciu panelu miejsca.
+  const DEFAULT_META_DESCRIPTION =
+    "Odwrotna Mapa to niezależna, prywatna aplikacja mapowa oparta na OpenStreetMap. " +
+    "Odwrócenie orientacji mapy to dopiero początek – platforma oferuje pełną swobodę " +
+    "widoku w 3D, zaawansowane wyszukiwanie, planowanie tras, integrację ze zdjęciami " +
+    "ulicznymi Mapillary oraz łatwy eksport widoków do plików PNG. Bez śledzenia, bez " +
+    "reklam i w 100% Open Source.";
+
+  // Tlumaczenie najczestszych kategorii OSM (class/type z Nominatim)
+  // na czytelny polski opis do meta description. Nieznane kategorie
+  // dostaja neutralny fallback "miejsce".
+  const PLACE_CATEGORY_LABELS = {
+    mall: "centrum handlowe",
+    museum: "muzeum",
+    castle: "zamek",
+    attraction: "atrakcja turystyczna",
+    place_of_worship: "miejsce kultu religijnego",
+    airport: "lotnisko",
+    stadium: "stadion",
+    peak: "szczyt górski",
+    monument: "pomnik",
+    park: "park",
+    square: "plac",
+    national_park: "park narodowy",
+    station: "stację",
+    lake: "jezioro",
+    aquarium: "akwarium",
+    theatre: "teatr",
+    events_venue: "obiekt widowiskowy",
+    zoo: "ogród zoologiczny",
+    pier: "molo",
+    restaurant: "restaurację",
+    cafe: "kawiarnię",
+    hotel: "hotel",
+    fast_food: "punkt gastronomiczny",
+    supermarket: "sklep",
+    shop: "sklep",
+    hospital: "szpital",
+    pharmacy: "aptekę",
+    school: "szkołę",
+    university: "uczelnię",
+    bank: "bank",
+    fuel: "stację paliw",
+    parking: "parking",
+    bar: "bar",
+    pub: "pub",
+    bakery: "piekarnię"
+  };
+
+  function buildPageDescription(place) {
+    const name = place?.name || "";
+    if (!name) return DEFAULT_META_DESCRIPTION;
+
+    const address = place?.address || {};
+    const type = String(place?.type || place?.class || "").toLowerCase();
+    const isNamedSettlement =
+      ["city", "town", "village"].includes(type) && Boolean(name);
+
+    if (isNamedSettlement) {
+      return (
+        `${name} na mapie – sprawdź lokalizację, plan trasy i zdjęcia ` +
+        `uliczne na Odwrotna Mapa, niezależnej, prywatnej mapie opartej ` +
+        `na OpenStreetMap.`
+      );
+    }
+
+    const categoryLabel = PLACE_CATEGORY_LABELS[type] || "miejsce";
+    const cityPart = address.city || address.town || address.village || "";
+    // Uzywamy przecinka zamiast "w <miasto>", bo to wymagaloby
+    // poprawnej odmiany nazwy miasta przez przypadki (np. "Gdansk"
+    // -> "w Gdansku") - bez ogolnego mechanizmu odmiany polskich
+    // nazw miast latwo o bledy gramatyczne, ktore juz raz zlapalismy
+    // przy dodawaniu landmarkow.
+    const locationPhrase = cityPart ? `, ${cityPart}` : "";
+
+    return (
+      `${name} – ${categoryLabel}${locationPhrase}. Zobacz lokalizację, ` +
+      `zaplanuj trasę i sprawdź szczegóły na Odwrotna Mapa – prywatnej ` +
+      `mapie bez śledzenia i reklam.`
+    );
+  }
+
+  function updateMetaDescription(description) {
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) {
+      meta.setAttribute("content", description || DEFAULT_META_DESCRIPTION);
+    }
   }
 
   function getPlaceTitle(place) {
