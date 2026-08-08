@@ -245,12 +245,80 @@ def pick_best_candidate(candidates, near_lat, near_lon):
     return min(candidates, key=lambda c: haversine_km(c[0], c[1], near_lat, near_lon))
 
 
+def process_record_no_city_reference(name, city, mapbox_token, use_photon):
+    """Fallback dla malych miejscowosci spoza bazy 1026 miast - bez
+    znanego punktu odniesienia nie mozna zrobic kontroli odleglosci,
+    wiec jedynym zabezpieczeniem jest wymaganie, zeby CO NAJMNIEJ DWA
+    NIEZALEZNE zrodla zgodzily sie ze soba (w przeciwienstwie do
+    glownej sciezki, tu wynik z JEDNEGO zrodla NIE jest akceptowany -
+    za malo pewnosci bez zadnego punktu odniesienia)."""
+    query = f"{name}, {city}, Polska"
+    candidates = []
+
+    nom = geocode_nominatim(query)
+    time.sleep(NOMINATIM_DELAY)
+    if nom:
+        candidates.append(("nominatim", nom[0]))
+
+    if mapbox_token:
+        mb = geocode_mapbox(query, mapbox_token)
+        time.sleep(MAPBOX_DELAY)
+        if mb:
+            candidates.append(("mapbox", mb[0]))
+
+    if use_photon:
+        ph = geocode_photon(query)
+        time.sleep(PHOTON_DELAY)
+        if ph:
+            candidates.append(("photon", ph[0]))
+
+    if len(candidates) < 2:
+        return "UNCHANGED", None, None, (
+            f"miasto '{city}' spoza bazy 1026 - brak punktu odniesienia, "
+            f"a dostepne jest tylko {len(candidates)} zrodlo/zrodel (potrzeba "
+            f"min. 2 zgadzajacych sie, bez punktu odniesienia jedno zrodlo to za malo)"
+        )
+
+    best_pair = None
+    for i in range(len(candidates)):
+        for j in range(i + 1, len(candidates)):
+            src_a, a = candidates[i]
+            src_b, b = candidates[j]
+            d = haversine_km(a[0], a[1], b[0], b[1])
+            if d <= CROSS_CHECK_TOLERANCE_KM:
+                if best_pair is None or d < best_pair[0]:
+                    best_pair = (d, src_a, a, src_b, b)
+
+    if best_pair is None:
+        summary = ", ".join(f"{s}=({c[0]:.4f},{c[1]:.4f})" for s, c in candidates)
+        return "UNCHANGED", None, None, f"zrodla NIE zgadzaja sie ze soba: {summary}"
+
+    d, src_a, a, src_b, b = best_pair
+    if src_a == "nominatim" and a[3]:
+        chosen = a
+    elif src_b == "nominatim" and b[3]:
+        chosen = b
+    elif a[3]:
+        chosen = a
+    elif b[3]:
+        chosen = b
+    elif src_a == "nominatim":
+        chosen = a
+    elif src_b == "nominatim":
+        chosen = b
+    else:
+        chosen = a
+    return "ACCEPTED", (chosen[0], chosen[1]), chosen[3], (
+        f"{src_a}+{src_b} zgodne bez punktu odniesienia (roznica {d:.2f}km)"
+    )
+
+
 def process_record(record, city_coords, mapbox_token, use_photon=True):
     name = record.get("name") or ""
     city = record.get("city") or ""
 
     if city not in city_coords:
-        return "SKIPPED", None, None, "miasto spoza bazy 1026 - brak punktu odniesienia"
+        return process_record_no_city_reference(name, city, mapbox_token, use_photon)
 
     near_lat, near_lon = city_coords[city]
     query = f"{name}, {city}, Polska"
@@ -307,16 +375,20 @@ def process_record(record, city_coords, mapbox_token, use_photon=True):
     d, src_a, a, src_b, b = best_pair
     # Wolimy dane (wspolrzedne + adres) z Nominatim, jesli jest w
     # zgadzajacej sie parze - ma najbardziej ustrukturyzowany adres.
-    # Jesli Nominatim nie bierze udzialu w tej parze, bierzemy tego z
-    # dwojga, kto faktycznie zwrocil ulice (a nie po prostu pierwszego
-    # z brzegu, ktory moze miec road=None mimo ze drugi je ma).
-    if src_a == "nominatim":
+    # Jesli Nominatim nie bierze udzialu w tej parze - LUB bierze, ale
+    # akurat nie zwrocil ulicy - bierzemy tego z dwojga, kto faktycznie
+    # zwrocil ulice (a nie po prostu pierwszego z brzegu).
+    if src_a == "nominatim" and a[3]:
         chosen = a
-    elif src_b == "nominatim":
+    elif src_b == "nominatim" and b[3]:
         chosen = b
     elif a[3]:
         chosen = a
     elif b[3]:
+        chosen = b
+    elif src_a == "nominatim":
+        chosen = a
+    elif src_b == "nominatim":
         chosen = b
     else:
         chosen = a
@@ -325,12 +397,118 @@ def process_record(record, city_coords, mapbox_token, use_photon=True):
     )
 
 
+def slugify(name):
+    s = name.lower().replace(" ", "-")
+    for a, b in [("ł", "l"), ("ą", "a"), ("ę", "e"), ("ó", "o"), ("ż", "z"),
+                 ("ź", "z"), ("ć", "c"), ("ń", "n"), ("ś", "s"), (".", ""),
+                 ("'", "")]:
+        s = s.replace(a, b)
+    return s
+
+
+def add_new_entries(seed_path, city_coords, mapbox_token, use_photon):
+    """Dodaje NOWE landmarki z pliku seed (lista obiektow bez lat/lon)
+    do pl-named-poi.json, geokodujac kazdy przez ten sam zweryfikowany
+    potok co process_record (Nominatim+Photon+opcjonalnie Mapbox,
+    filtr ulic, kontrola sensownosci wzgledem znanego miasta).
+
+    Format pliku seed (JSON), przyklad jednego wpisu:
+    {
+      "name": "Nazwa miejsca",
+      "aliases": ["opcjonalne warianty nazwy"],
+      "keywords": ["slowa kluczowe"],
+      "type": "museum", "category": "museum", "class": "tourism",
+      "city": "Miasto", "voivodeship": "wojewodztwo"
+    }
+    Wspolrzedne NIE sa podawane - skrypt je znajdzie i zweryfikuje sam.
+    """
+    with open(seed_path, encoding="utf-8") as f:
+        seeds = json.load(f)
+
+    with open(POI_JSON_PATH, encoding="utf-8") as f:
+        data = json.load(f)
+
+    existing_names = {r["name"] for r in data["records"]}
+    added, failed = [], []
+
+    for i, seed in enumerate(seeds):
+        name = seed.get("name", "")
+        print(f"[{i+1}/{len(seeds)}] DODAWANIE: {name}...")
+
+        if name in existing_names:
+            print(f"    -- POMINIETE - wpis o tej nazwie juz istnieje")
+            continue
+
+        fake_record = {"name": name, "city": seed.get("city", "")}
+        status, coords, road, reason = process_record(
+            fake_record, city_coords, mapbox_token, use_photon
+        )
+
+        if status != "ACCEPTED":
+            print(f"    XX NIE DODANO - {reason}")
+            failed.append((name, reason))
+            continue
+
+        lat, lon = coords
+        address = {
+            "city": seed.get("city", ""),
+            "state": seed.get("voivodeship", ""),
+            "country": "Polska",
+        }
+        if road:
+            address["road"] = road
+
+        full_record = {
+            "id": f"omap:poi:{slugify(name)}",
+            "name": name,
+            "aliases": seed.get("aliases", []),
+            "keywords": seed.get("keywords", []),
+            "type": seed.get("type", "attraction"),
+            "category": seed.get("category", "attraction"),
+            "class": seed.get("class", "tourism"),
+            "lat": lat,
+            "lon": lon,
+            "address": address,
+            "extratags": {},
+            "city": seed.get("city", ""),
+            "voivodeship": seed.get("voivodeship", ""),
+            "priority": 1000,
+            "source": "OMapa Named POI seed",
+        }
+        data["records"].append(full_record)
+        existing_names.add(name)
+        added.append((name, reason))
+        print(f"    OK DODANO ({reason})")
+
+        with open(POI_JSON_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    with open(POI_JSON_PATH, encoding="utf-8") as f:
+        fresh = json.load(f)
+    fresh["recordCount"] = len(fresh["records"])
+    with open(POI_JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(fresh, f, ensure_ascii=False, indent=2)
+    compact = json.dumps(fresh, ensure_ascii=False, separators=(",", ":"))
+    with open(POI_JS_PATH, "w", encoding="utf-8") as f:
+        f.write(f"window.OMAP_NAMED_POI_INDEX = {compact};\n")
+
+    print(f"\n=== PODSUMOWANIE DODAWANIA ===")
+    print(f"Dodane: {len(added)}")
+    print(f"Nie dodane (brak pewnego trafienia): {len(failed)}")
+    if failed:
+        print("\n--- NIE DODANE - sprawdz recznie ---")
+        for name, reason in failed:
+            print(f"  {name}: {reason}")
+    print(f"\nLacznie rekordow w bazie: {fresh['recordCount']}")
+
+
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mapbox-token", default=None, help="Token Mapbox do krzyzowej weryfikacji (opcjonalny, nadpisuje stala MAPBOX_TOKEN w pliku)")
     parser.add_argument("--no-photon", action="store_true", help="Wylacz Photon (wlaczony domyslnie - bez tokena, ta sama instancja co w appce)")
     parser.add_argument("--only", default=None, help="Przetworz tylko wpis o tej dokladnej nazwie (do testow)")
+    parser.add_argument("--add-from-file", default=None, help="Zamiast weryfikowac istniejace wpisy, dodaj NOWE z pliku JSON (lista obiektow bez lat/lon - patrz docstring add_new_entries)")
     args = parser.parse_args()
 
     mapbox_token = args.mapbox_token or (MAPBOX_TOKEN.strip() or None)
@@ -344,6 +522,11 @@ def main():
     print("\nWczytuje baze miast (punkt odniesienia)...")
     city_coords = load_city_coords()
     print(f"  {len(city_coords)} nazw miast/aliasow zaladowanych\n")
+
+    if args.add_from_file:
+        add_new_entries(args.add_from_file, city_coords, mapbox_token, use_photon)
+        print("\nPamietaj skopiowac oba pliki takze do www/search-v2/named-poi/")
+        return
 
     with open(POI_JSON_PATH, encoding="utf-8") as f:
         data = json.load(f)

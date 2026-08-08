@@ -1,0 +1,270 @@
+[
+  {
+    "name": "Kościół w Dębnie Podhalańskim",
+    "aliases": [
+      "Drewniany kościół w Dębnie"
+    ],
+    "keywords": [
+      "unesco",
+      "drewniany kościół",
+      "gotyk"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Dębno",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Kościół w Sękowej",
+    "aliases": [
+      "Drewniany kościół w Sękowej"
+    ],
+    "keywords": [
+      "unesco",
+      "drewniany kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Sękowa",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Kościół w Binarowej",
+    "aliases": [
+      "Drewniany kościół w Binarowej"
+    ],
+    "keywords": [
+      "unesco",
+      "drewniany kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Binarowa",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Kościół w Lipnicy Murowanej",
+    "aliases": [
+      "Drewniany kościół w Lipnicy Murowanej"
+    ],
+    "keywords": [
+      "unesco",
+      "drewniany kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Lipnica Murowana",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Kościół w Blizne",
+    "aliases": [
+      "Drewniany kościół w Bliznem"
+    ],
+    "keywords": [
+      "unesco",
+      "drewniany kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Blizne",
+    "voivodeship": "podkarpackie"
+  },
+  {
+    "name": "Kościół w Haczowie",
+    "aliases": [
+      "Drewniany kościół w Haczowie"
+    ],
+    "keywords": [
+      "unesco",
+      "drewniany kościół",
+      "najwiekszy drewniany kosciol w Europie"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Haczów",
+    "voivodeship": "podkarpackie"
+  },
+  {
+    "name": "Wodospad Kamieńczyka",
+    "keywords": [
+      "wodospad",
+      "karkonosze"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "natural",
+    "city": "Karpacz",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Wodogrzmoty Mickiewicza",
+    "keywords": [
+      "wodospad",
+      "tatry"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "natural",
+    "city": "Zakopane",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Wąwóz Homole",
+    "keywords": [
+      "wąwóz",
+      "pieniny",
+      "szlak"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "natural",
+    "city": "Jaworki",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Przełom Dunajca",
+    "aliases": [
+      "Spływ Przełomem Dunajca"
+    ],
+    "keywords": [
+      "przełom",
+      "pieniny",
+      "spływ"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "natural",
+    "city": "Sromowce Niżne",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Trzy Korony",
+    "keywords": [
+      "pieniny",
+      "szczyt",
+      "punkt widokowy"
+    ],
+    "type": "peak",
+    "category": "peak",
+    "class": "natural",
+    "city": "Krościenko nad Dunajcem",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Muzeum Inżynierii i Techniki w Krakowie",
+    "keywords": [
+      "muzeum",
+      "technika"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Nowa Huta",
+    "keywords": [
+      "dzielnica",
+      "architektura socrealistyczna"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "ICE Kraków Congress Centre",
+    "aliases": [
+      "ICE Kraków"
+    ],
+    "keywords": [
+      "centrum kongresowe",
+      "koncerty"
+    ],
+    "type": "events_venue",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Muzeum Sztuki Współczesnej MOCAK",
+    "aliases": [
+      "MOCAK"
+    ],
+    "keywords": [
+      "muzeum",
+      "sztuka współczesna"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Muzeum Sztuki w Łodzi",
+    "aliases": [
+      "ms2"
+    ],
+    "keywords": [
+      "muzeum",
+      "sztuka nowoczesna"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Łódź",
+    "voivodeship": "łódzkie"
+  },
+  {
+    "name": "Muzeum Techniki i Włókiennictwa w Łodzi",
+    "aliases": [
+      "Centralne Muzeum Włókiennictwa"
+    ],
+    "keywords": [
+      "muzeum",
+      "przemysł"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Łódź",
+    "voivodeship": "łódzkie"
+  },
+  {
+    "name": "Skocznia im. Adama Małysza",
+    "aliases": [
+      "Skocznia w Wiśle"
+    ],
+    "keywords": [
+      "skocznia narciarska"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Wisła",
+    "voivodeship": "śląskie"
+  },
+  {
+    "name": "Muzeum Powstania Wielkopolskiego 1918-1919",
+    "keywords": [
+      "muzeum",
+      "historia"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Poznań",
+    "voivodeship": "wielkopolskie"
+  }
+]

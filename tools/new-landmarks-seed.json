@@ -1,0 +1,671 @@
+[
+  {
+    "name": "Muzeum Emigracji w Gdyni Skwer Kościuszki",
+    "keywords": [
+      "muzeum",
+      "gdynia"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Gdynia",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Wzgórze Gradowe",
+    "aliases": [
+      "Góra Gradowa"
+    ],
+    "keywords": [
+      "punkt widokowy",
+      "fortyfikacje"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Gdańsk",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Muzeum Bursztynu w Gdańsku",
+    "keywords": [
+      "muzeum",
+      "bursztyn"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Gdańsk",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Twierdza Wisłoujście",
+    "keywords": [
+      "twierdza",
+      "fortyfikacje",
+      "zabytek"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Gdańsk",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Kościół Mariacki w Gdańsku",
+    "aliases": [
+      "Bazylika Mariacka w Gdańsku"
+    ],
+    "keywords": [
+      "kościół",
+      "gotyk"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Gdańsk",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Wały Chrobrego",
+    "keywords": [
+      "taras widokowy",
+      "zabytek"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Szczecin",
+    "voivodeship": "zachodniopomorskie"
+  },
+  {
+    "name": "Zamek Książąt Pomorskich w Szczecinie",
+    "keywords": [
+      "zamek",
+      "muzeum"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Szczecin",
+    "voivodeship": "zachodniopomorskie"
+  },
+  {
+    "name": "Katedra św. Jakuba w Szczecinie",
+    "keywords": [
+      "katedra",
+      "kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Szczecin",
+    "voivodeship": "zachodniopomorskie"
+  },
+  {
+    "name": "Muzeum Narodowe w Szczecinie",
+    "keywords": [
+      "muzeum",
+      "sztuka"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Szczecin",
+    "voivodeship": "zachodniopomorskie"
+  },
+  {
+    "name": "Wysoka Brama w Olsztynie",
+    "keywords": [
+      "brama",
+      "zabytek",
+      "fortyfikacje"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Olsztyn",
+    "voivodeship": "warmińsko-mazurskie"
+  },
+  {
+    "name": "Zamek Kapituły Warmińskiej w Olsztynie",
+    "keywords": [
+      "zamek",
+      "muzeum",
+      "kopernik"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Olsztyn",
+    "voivodeship": "warmińsko-mazurskie"
+  },
+  {
+    "name": "Nikiszowiec",
+    "keywords": [
+      "osiedle",
+      "zabytek",
+      "architektura"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Katowice",
+    "voivodeship": "śląskie"
+  },
+  {
+    "name": "Zamek Rzeszowski",
+    "keywords": [
+      "zamek",
+      "muzeum"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Rzeszów",
+    "voivodeship": "podkarpackie"
+  },
+  {
+    "name": "Podziemna Trasa Turystyczna w Rzeszowie",
+    "keywords": [
+      "podziemia",
+      "zabytek"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Rzeszów",
+    "voivodeship": "podkarpackie"
+  },
+  {
+    "name": "Muzeum Historii Miasta Łodzi",
+    "keywords": [
+      "muzeum",
+      "pałac"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Łódź",
+    "voivodeship": "łódzkie"
+  },
+  {
+    "name": "Katedra Łódzka",
+    "aliases": [
+      "Archikatedra w Łodzi"
+    ],
+    "keywords": [
+      "katedra",
+      "kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Łódź",
+    "voivodeship": "łódzkie"
+  },
+  {
+    "name": "Poznańskie Koziołki",
+    "keywords": [
+      "zabytek",
+      "ratusz"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Poznań",
+    "voivodeship": "wielkopolskie"
+  },
+  {
+    "name": "Brama Poznania",
+    "keywords": [
+      "muzeum",
+      "interaktywne"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Poznań",
+    "voivodeship": "wielkopolskie"
+  },
+  {
+    "name": "Muzeum Narodowe Rolnictwa i Przemysłu Rolno-Spożywczego w Szreniawie",
+    "aliases": [
+      "Muzeum w Szreniawie"
+    ],
+    "keywords": [
+      "muzeum",
+      "skansen"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Szreniawa",
+    "voivodeship": "wielkopolskie"
+  },
+  {
+    "name": "Muzeum Lubelskie",
+    "keywords": [
+      "muzeum",
+      "zamek lubelski"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Lublin",
+    "voivodeship": "lubelskie"
+  },
+  {
+    "name": "Stare Miasto w Lublinie",
+    "keywords": [
+      "starówka",
+      "rynek"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Lublin",
+    "voivodeship": "lubelskie"
+  },
+  {
+    "name": "Fabryka Norblina",
+    "aliases": [
+      "Norblin Factory"
+    ],
+    "keywords": [
+      "muzeum",
+      "industrialny"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Warszawa",
+    "voivodeship": "mazowieckie"
+  },
+  {
+    "name": "Muzeum Fryderyka Chopina w Warszawie",
+    "keywords": [
+      "muzeum",
+      "chopin",
+      "muzyka"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Warszawa",
+    "voivodeship": "mazowieckie"
+  },
+  {
+    "name": "Świątynia Opatrzności Bożej w Warszawie",
+    "keywords": [
+      "świątynia",
+      "kościół"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Warszawa",
+    "voivodeship": "mazowieckie"
+  },
+  {
+    "name": "Centrum Kopernika",
+    "keywords": [
+      "muzeum",
+      "nauka"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Warszawa",
+    "voivodeship": "mazowieckie"
+  },
+  {
+    "name": "Pole Mokotowskie",
+    "keywords": [
+      "park"
+    ],
+    "type": "park",
+    "category": "park",
+    "class": "leisure",
+    "city": "Warszawa",
+    "voivodeship": "mazowieckie"
+  },
+  {
+    "name": "Smocza Jama",
+    "keywords": [
+      "jaskinia",
+      "smok wawelski",
+      "atrakcja"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Kopalnia Soli Wieliczka Trasa Turystyczna",
+    "keywords": [
+      "kopalnia soli",
+      "unesco"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Wieliczka",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Muzeum Lotnictwa Polskiego w Krakowie",
+    "keywords": [
+      "muzeum",
+      "lotnictwo"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Cricoteka",
+    "keywords": [
+      "muzeum",
+      "sztuka",
+      "kantor"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Kraków",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Muzeum Narodowe we Wrocławiu",
+    "keywords": [
+      "muzeum",
+      "sztuka"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Wrocław",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Uniwersytet Wrocławski Aula Leopoldyńska",
+    "aliases": [
+      "Aula Leopoldyńska"
+    ],
+    "keywords": [
+      "zabytek",
+      "uniwersytet"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Wrocław",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Twierdza Kłodzko",
+    "keywords": [
+      "twierdza",
+      "podziemia",
+      "fortyfikacje"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Kłodzko",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Zamek Grodno",
+    "keywords": [
+      "zamek",
+      "ruiny"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Zagórze Śląskie",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Termy Bukovina",
+    "keywords": [
+      "termy",
+      "baseny"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "leisure",
+    "city": "Bukowina Tatrzańska",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Wielka Krokiew w Zakopanem",
+    "keywords": [
+      "skocznia narciarska"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Zakopane",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Krupówki",
+    "keywords": [
+      "deptak",
+      "ulica"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Zakopane",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Dolina Kościeliska",
+    "keywords": [
+      "dolina",
+      "tatry",
+      "szlak"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Zakopane",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Wdzydzki Park Krajobrazowy",
+    "keywords": [
+      "park krajobrazowy",
+      "kaszuby"
+    ],
+    "type": "national_park",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Kościerzyna",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Ruchome Wydmy w Łebie",
+    "aliases": [
+      "Wydma Łącka"
+    ],
+    "keywords": [
+      "wydmy",
+      "atrakcja przyrodnicza"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Łeba",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Ojcowski Park Narodowy",
+    "keywords": [
+      "park narodowy",
+      "jura"
+    ],
+    "type": "national_park",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Ojców",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Grota Łokietka",
+    "keywords": [
+      "jaskinia"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Ojców",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Pieskowa Skała",
+    "keywords": [
+      "zamek",
+      "muzeum"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Sułoszowa",
+    "voivodeship": "małopolskie"
+  },
+  {
+    "name": "Karkonoski Park Narodowy",
+    "keywords": [
+      "park narodowy",
+      "góry"
+    ],
+    "type": "national_park",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Karpacz",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Świątynia Wang",
+    "keywords": [
+      "kościół",
+      "drewniana architektura"
+    ],
+    "type": "place_of_worship",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Karpacz",
+    "voivodeship": "dolnośląskie"
+  },
+  {
+    "name": "Bory Tucholskie Park Narodowy",
+    "keywords": [
+      "park narodowy",
+      "las"
+    ],
+    "type": "national_park",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Charzykowy",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Wolin Park Narodowy",
+    "keywords": [
+      "park narodowy",
+      "wybrzeże"
+    ],
+    "type": "national_park",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Międzyzdroje",
+    "voivodeship": "zachodniopomorskie"
+  },
+  {
+    "name": "Aleja Gwiazd w Międzyzdrojach",
+    "keywords": [
+      "deptak",
+      "promenada"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Międzyzdroje",
+    "voivodeship": "zachodniopomorskie"
+  },
+  {
+    "name": "Muzeum Zamkowe w Malborku",
+    "keywords": [
+      "muzeum",
+      "zamek",
+      "unesco"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Malbork",
+    "voivodeship": "pomorskie"
+  },
+  {
+    "name": "Twierdza Boyen",
+    "keywords": [
+      "twierdza",
+      "fortyfikacje"
+    ],
+    "type": "castle",
+    "category": "castle",
+    "class": "historic",
+    "city": "Giżycko",
+    "voivodeship": "warmińsko-mazurskie"
+  },
+  {
+    "name": "Wilczy Szaniec",
+    "aliases": [
+      "Wolfsschanze"
+    ],
+    "keywords": [
+      "bunkry",
+      "II wojna światowa",
+      "historia"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Gierłoż",
+    "voivodeship": "warmińsko-mazurskie"
+  },
+  {
+    "name": "Muzeum Powstań Śląskich",
+    "keywords": [
+      "muzeum",
+      "historia"
+    ],
+    "type": "museum",
+    "category": "museum",
+    "class": "tourism",
+    "city": "Świętochłowice",
+    "voivodeship": "śląskie"
+  },
+  {
+    "name": "Sztolnia Czarnego Pstrąga",
+    "keywords": [
+      "sztolnia",
+      "podziemia",
+      "unesco"
+    ],
+    "type": "attraction",
+    "category": "attraction",
+    "class": "tourism",
+    "city": "Tarnowskie Góry",
+    "voivodeship": "śląskie"
+  }
+]
