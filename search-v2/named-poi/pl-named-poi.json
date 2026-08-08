@@ -554,8 +554,8 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.3823,
-      "lon": 18.60263,
+      "lat": 54.383,
+      "lon": 18.5989,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
@@ -680,8 +680,8 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.35655,
-      "lon": 18.65,
+      "lat": 54.3557,
+      "lon": 18.6488,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
@@ -712,8 +712,8 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.4106,
-      "lon": 18.596,
+      "lat": 54.4097,
+      "lon": 18.5917,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
@@ -6558,8 +6558,8 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.9539,
-      "lon": 21.3181,
+      "lat": 50.9685,
+      "lon": 21.497,
       "address": {
         "city": "Bodzechów",
         "state": "świętokrzyskie",
@@ -6576,7 +6576,8 @@
       "name": "Stare Miasto w Warszawie",
       "aliases": [
         "Warszawska Starówka",
-        "Rynek Starego Miasta"
+        "Rynek Starego Miasta",
+        "Stare Miasto w Warszawa"
       ],
       "keywords": [
         "unesco",
@@ -6603,7 +6604,8 @@
       "id": "omap:poi:muzeum-narodowe-w-warszawie",
       "name": "Muzeum Narodowe w Warszawie",
       "aliases": [
-        "MNW"
+        "MNW",
+        "Muzeum Narodowe w Warszawa"
       ],
       "keywords": [
         "muzeum",
@@ -6656,7 +6658,8 @@
       "id": "omap:poi:katedra-sw-jana-w-warszawie",
       "name": "Katedra św. Jana w Warszawie",
       "aliases": [
-        "Archikatedra warszawska"
+        "Archikatedra warszawska",
+        "Katedra św. Jana w Warszawa"
       ],
       "keywords": [
         "katedra",
@@ -6807,7 +6810,8 @@
       "id": "omap:poi:bazylika-mariacka-w-krakowie",
       "name": "Bazylika Mariacka w Krakowie",
       "aliases": [
-        "Kościół Mariacki"
+        "Kościół Mariacki",
+        "Bazylika Mariacka w Kraków"
       ],
       "keywords": [
         "kościół",
@@ -6858,7 +6862,8 @@
       "id": "omap:poi:kazimierz-w-krakowie",
       "name": "Kazimierz w Krakowie",
       "aliases": [
-        "Dzielnica Kazimierz"
+        "Dzielnica Kazimierz",
+        "Kazimierz w Kraków"
       ],
       "keywords": [
         "dzielnica żydowska",
@@ -6884,7 +6889,8 @@
       "id": "omap:poi:muzeum-narodowe-w-krakowie",
       "name": "Muzeum Narodowe w Krakowie",
       "aliases": [
-        "MNK"
+        "MNK",
+        "Muzeum Narodowe w Kraków"
       ],
       "keywords": [
         "muzeum",
@@ -7168,7 +7174,8 @@
       "id": "omap:poi:ostrow-tumski-w-poznaniu",
       "name": "Ostrów Tumski w Poznaniu",
       "aliases": [
-        "Katedra Poznańska"
+        "Katedra Poznańska",
+        "Ostrów Tumski w Poznań"
       ],
       "keywords": [
         "katedra",
@@ -7194,7 +7201,8 @@
       "id": "omap:poi:stary-rynek-w-poznaniu",
       "name": "Stary Rynek w Poznaniu",
       "aliases": [
-        "Rynek Poznań"
+        "Rynek Poznań",
+        "Stary Rynek w Poznań"
       ],
       "keywords": [
         "rynek",
@@ -7311,8 +7319,8 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.7789,
-      "lon": 17.7383,
+      "lat": 52.7848,
+      "lon": 17.7429,
       "address": {
         "city": "Biskupin",
         "state": "kujawsko-pomorskie",
@@ -7413,8 +7421,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.3389,
-      "lon": 18.4131,
+      "lat": 52.3233,
+      "lon": 18.36,
       "address": {
         "city": "Licheń Stary",
         "state": "wielkopolskie",
@@ -7492,8 +7500,8 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 49.4131,
-      "lon": 20.3183,
+      "lat": 49.4227,
+      "lon": 20.3189,
       "address": {
         "city": "Niedzica",
         "state": "małopolskie",
@@ -7518,8 +7526,8 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.7906,
-      "lon": 20.4547,
+      "lat": 50.7978,
+      "lon": 20.4577,
       "address": {
         "city": "Chęciny",
         "state": "świętokrzyskie",
@@ -7530,8 +7538,804 @@
       "voivodeship": "świętokrzyskie",
       "priority": 1000,
       "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:palac-w-wilanowie",
+      "name": "Pałac w Wilanowie",
+      "aliases": [
+        "Muzeum Pałacu Króla Jana III w Wilanowie",
+        "Wilanów"
+      ],
+      "keywords": [
+        "pałac",
+        "muzeum",
+        "park"
+      ],
+      "type": "castle",
+      "category": "attraction",
+      "class": "historic",
+      "lat": 52.1652,
+      "lon": 21.0895,
+      "address": {
+        "city": "Warszawa",
+        "state": "mazowieckie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Warszawa",
+      "voivodeship": "mazowieckie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:palac-w-lancucie",
+      "name": "Pałac w Łańcucie",
+      "aliases": [
+        "Zamek w Łańcucie",
+        "Muzeum-Zamek w Łańcucie",
+        "Łańcut"
+      ],
+      "keywords": [
+        "pałac",
+        "muzeum",
+        "rezydencja"
+      ],
+      "type": "castle",
+      "category": "attraction",
+      "class": "historic",
+      "lat": 50.0686,
+      "lon": 22.2343,
+      "address": {
+        "city": "Łańcut",
+        "state": "podkarpackie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Łańcut",
+      "voivodeship": "podkarpackie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:palac-w-nieborowie",
+      "name": "Pałac w Nieborowie",
+      "aliases": [
+        "Muzeum w Nieborowie"
+      ],
+      "keywords": [
+        "pałac",
+        "muzeum",
+        "park"
+      ],
+      "type": "castle",
+      "category": "attraction",
+      "class": "historic",
+      "lat": 52.0666,
+      "lon": 20.0702,
+      "address": {
+        "city": "Nieborów",
+        "state": "łódzkie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Nieborów",
+      "voivodeship": "łódzkie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:palac-w-kozlowce",
+      "name": "Pałac w Kozłówce",
+      "aliases": [
+        "Muzeum Zamoyskich w Kozłówce",
+        "Kozłówka"
+      ],
+      "keywords": [
+        "pałac",
+        "muzeum"
+      ],
+      "type": "castle",
+      "category": "attraction",
+      "class": "historic",
+      "lat": 51.4609,
+      "lon": 22.4872,
+      "address": {
+        "city": "Kozłówka",
+        "state": "lubelskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Kozłówka",
+      "voivodeship": "lubelskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:palac-w-rogalinie",
+      "name": "Pałac w Rogalinie",
+      "aliases": [
+        "Muzeum w Rogalinie"
+      ],
+      "keywords": [
+        "pałac",
+        "muzeum",
+        "dęby"
+      ],
+      "type": "castle",
+      "category": "attraction",
+      "class": "historic",
+      "lat": 52.2333,
+      "lon": 16.9342,
+      "address": {
+        "city": "Rogalin",
+        "state": "wielkopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Rogalin",
+      "voivodeship": "wielkopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:rysy",
+      "name": "Rysy",
+      "aliases": [
+        "Rysy Tatry"
+      ],
+      "keywords": [
+        "najwyższy szczyt polski",
+        "tatry",
+        "góry"
+      ],
+      "type": "peak",
+      "category": "peak",
+      "class": "natural",
+      "lat": 49.1794,
+      "lon": 20.0881,
+      "address": {
+        "city": "Tatry",
+        "state": "małopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Tatry",
+      "voivodeship": "małopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:kasprowy-wierch",
+      "name": "Kasprowy Wierch",
+      "aliases": [],
+      "keywords": [
+        "tatry",
+        "kolejka linowa",
+        "punkt widokowy"
+      ],
+      "type": "peak",
+      "category": "peak",
+      "class": "natural",
+      "lat": 49.2322,
+      "lon": 19.9814,
+      "address": {
+        "city": "Zakopane",
+        "state": "małopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Zakopane",
+      "voivodeship": "małopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:babia-gora",
+      "name": "Babia Góra",
+      "aliases": [
+        "Diablak"
+      ],
+      "keywords": [
+        "góry",
+        "park narodowy",
+        "szczyt"
+      ],
+      "type": "peak",
+      "category": "peak",
+      "class": "natural",
+      "lat": 49.5733,
+      "lon": 19.5292,
+      "address": {
+        "city": "Zawoja",
+        "state": "małopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Zawoja",
+      "voivodeship": "małopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:jezioro-sniardwy",
+      "name": "Jezioro Śniardwy",
+      "aliases": [
+        "Śniardwy"
+      ],
+      "keywords": [
+        "jezioro",
+        "mazury",
+        "żeglarstwo"
+      ],
+      "type": "lake",
+      "category": "lake",
+      "class": "natural",
+      "lat": 53.7333,
+      "lon": 21.75,
+      "address": {
+        "city": "Mikołajki",
+        "state": "warmińsko-mazurskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Mikołajki",
+      "voivodeship": "warmińsko-mazurskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:jezioro-mamry",
+      "name": "Jezioro Mamry",
+      "aliases": [
+        "Mamry"
+      ],
+      "keywords": [
+        "jezioro",
+        "mazury",
+        "żeglarstwo"
+      ],
+      "type": "lake",
+      "category": "lake",
+      "class": "natural",
+      "lat": 54.1167,
+      "lon": 21.6667,
+      "address": {
+        "city": "Węgorzewo",
+        "state": "warmińsko-mazurskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Węgorzewo",
+      "voivodeship": "warmińsko-mazurskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:bazylika-w-wambierzycach",
+      "name": "Bazylika w Wambierzycach",
+      "aliases": [
+        "Sanktuarium Wambierzyce"
+      ],
+      "keywords": [
+        "bazylika",
+        "sanktuarium",
+        "pielgrzymka"
+      ],
+      "type": "place_of_worship",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 50.4547,
+      "lon": 16.4425,
+      "address": {
+        "city": "Wambierzyce",
+        "state": "dolnośląskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Wambierzyce",
+      "voivodeship": "dolnośląskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:sanktuarium-na-gorze-swietej-anny",
+      "name": "Sanktuarium na Górze Świętej Anny",
+      "aliases": [
+        "Góra Świętej Anny"
+      ],
+      "keywords": [
+        "sanktuarium",
+        "pielgrzymka",
+        "bazylika"
+      ],
+      "type": "place_of_worship",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 50.4561,
+      "lon": 18.1682,
+      "address": {
+        "city": "Góra Świętej Anny",
+        "state": "opolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Góra Świętej Anny",
+      "voivodeship": "opolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:katedra-oliwska",
+      "name": "Katedra Oliwska",
+      "aliases": [
+        "Archikatedra w Gdańsku Oliwie"
+      ],
+      "keywords": [
+        "katedra",
+        "organy",
+        "gdańsk"
+      ],
+      "type": "place_of_worship",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 54.4025,
+      "lon": 18.5539,
+      "address": {
+        "city": "Gdańsk",
+        "state": "pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Gdańsk",
+      "voivodeship": "pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:opactwo-benedyktynow-w-tyncu",
+      "name": "Opactwo Benedyktynów w Tyńcu",
+      "aliases": [
+        "Klasztor w Tyńcu"
+      ],
+      "keywords": [
+        "klasztor",
+        "opactwo",
+        "benedyktyni"
+      ],
+      "type": "place_of_worship",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 50.0033,
+      "lon": 19.8228,
+      "address": {
+        "city": "Kraków",
+        "state": "małopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Kraków",
+      "voivodeship": "małopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:kopalnia-soli-bochnia",
+      "name": "Kopalnia Soli Bochnia",
+      "aliases": [
+        "Kopalnia Bochnia"
+      ],
+      "keywords": [
+        "unesco",
+        "kopalnia soli",
+        "górnictwo"
+      ],
+      "type": "museum",
+      "category": "museum",
+      "class": "tourism",
+      "lat": 49.9686,
+      "lon": 20.4322,
+      "address": {
+        "city": "Bochnia",
+        "state": "małopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Bochnia",
+      "voivodeship": "małopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:energylandia",
+      "name": "Energylandia",
+      "aliases": [
+        "Park Rozrywki Energylandia"
+      ],
+      "keywords": [
+        "park rozrywki",
+        "rollercoaster",
+        "atrakcje"
+      ],
+      "type": "attraction",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 49.9933,
+      "lon": 19.4256,
+      "address": {
+        "city": "Zator",
+        "state": "małopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Zator",
+      "voivodeship": "małopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:legendia",
+      "name": "Legendia",
+      "aliases": [
+        "Śląskie Wesołe Miasteczko"
+      ],
+      "keywords": [
+        "park rozrywki",
+        "atrakcje"
+      ],
+      "type": "attraction",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 50.2897,
+      "lon": 18.9394,
+      "address": {
+        "city": "Chorzów",
+        "state": "śląskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Chorzów",
+      "voivodeship": "śląskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:muzeum-emigracji-w-gdyni",
+      "name": "Muzeum Emigracji w Gdyni",
+      "aliases": [],
+      "keywords": [
+        "muzeum",
+        "emigracja",
+        "historia"
+      ],
+      "type": "museum",
+      "category": "museum",
+      "class": "tourism",
+      "lat": 54.5175,
+      "lon": 18.5433,
+      "address": {
+        "city": "Gdynia",
+        "state": "pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Gdynia",
+      "voivodeship": "pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:centrum-spotkania-kultur-w-lublinie",
+      "name": "Centrum Spotkania Kultur w Lublinie",
+      "aliases": [],
+      "keywords": [
+        "centrum kultury",
+        "wydarzenia"
+      ],
+      "type": "events_venue",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 51.2465,
+      "lon": 22.5684,
+      "address": {
+        "city": "Lublin",
+        "state": "lubelskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Lublin",
+      "voivodeship": "lubelskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:opera-i-filharmonia-podlaska-w-bialymstoku",
+      "name": "Opera i Filharmonia Podlaska w Białymstoku",
+      "aliases": [
+        "Opera Podlaska"
+      ],
+      "keywords": [
+        "opera",
+        "filharmonia",
+        "kultura"
+      ],
+      "type": "theatre",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 53.1289,
+      "lon": 23.1519,
+      "address": {
+        "city": "Białystok",
+        "state": "podlaskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Białystok",
+      "voivodeship": "podlaskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:katedra-bydgoska",
+      "name": "Katedra Bydgoska",
+      "aliases": [
+        "Katedra św. Marcina i Mikołaja w Bydgoszczy"
+      ],
+      "keywords": [
+        "katedra",
+        "kościół"
+      ],
+      "type": "place_of_worship",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 53.1208,
+      "lon": 18.0022,
+      "address": {
+        "city": "Bydgoszcz",
+        "state": "kujawsko-pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Bydgoszcz",
+      "voivodeship": "kujawsko-pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:krzywa-wieza-w-toruniu",
+      "name": "Krzywa Wieża w Toruniu",
+      "aliases": [
+        "Krzywa Wieża Toruń"
+      ],
+      "keywords": [
+        "wieża",
+        "zabytek",
+        "krzywa"
+      ],
+      "type": "attraction",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 53.0086,
+      "lon": 18.6006,
+      "address": {
+        "city": "Toruń",
+        "state": "kujawsko-pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Toruń",
+      "voivodeship": "kujawsko-pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:ratusz-staromiejski-w-toruniu",
+      "name": "Ratusz Staromiejski w Toruniu",
+      "aliases": [
+        "Ratusz Toruń"
+      ],
+      "keywords": [
+        "ratusz",
+        "muzeum",
+        "zabytek"
+      ],
+      "type": "museum",
+      "category": "museum",
+      "class": "tourism",
+      "lat": 53.0106,
+      "lon": 18.6047,
+      "address": {
+        "city": "Toruń",
+        "state": "kujawsko-pomorskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Toruń",
+      "voivodeship": "kujawsko-pomorskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:zamek-piastowski-w-legnicy",
+      "name": "Zamek Piastowski w Legnicy",
+      "aliases": [
+        "Legnica"
+      ],
+      "keywords": [
+        "zamek",
+        "piastowie"
+      ],
+      "type": "castle",
+      "category": "castle",
+      "class": "historic",
+      "lat": 51.2113,
+      "lon": 16.1628,
+      "address": {
+        "city": "Legnica",
+        "state": "dolnośląskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Legnica",
+      "voivodeship": "dolnośląskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:zamek-piastow-slaskich-w-brzegu",
+      "name": "Zamek Piastów Śląskich w Brzegu",
+      "aliases": [
+        "Zamek w Brzegu"
+      ],
+      "keywords": [
+        "zamek",
+        "muzeum",
+        "piastowie"
+      ],
+      "type": "castle",
+      "category": "castle",
+      "class": "historic",
+      "lat": 50.8631,
+      "lon": 17.4692,
+      "address": {
+        "city": "Brzeg",
+        "state": "opolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Brzeg",
+      "voivodeship": "opolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:zamek-kornicki",
+      "name": "Zamek Kórnicki",
+      "aliases": [
+        "Zamek w Kórniku"
+      ],
+      "keywords": [
+        "zamek",
+        "muzeum",
+        "biblioteka"
+      ],
+      "type": "castle",
+      "category": "castle",
+      "class": "historic",
+      "lat": 52.2441,
+      "lon": 17.0909,
+      "address": {
+        "city": "Kórnik",
+        "state": "wielkopolskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Kórnik",
+      "voivodeship": "wielkopolskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:most-grunwaldzki-we-wroclawiu",
+      "name": "Most Grunwaldzki we Wrocławiu",
+      "aliases": [
+        "Most Grunwaldzki"
+      ],
+      "keywords": [
+        "most",
+        "zabytek"
+      ],
+      "type": "attraction",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 51.1147,
+      "lon": 17.0483,
+      "address": {
+        "city": "Wrocław",
+        "state": "dolnośląskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Wrocław",
+      "voivodeship": "dolnośląskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:wieza-widokowa-w-elblagu",
+      "name": "Wieża Widokowa w Elblągu",
+      "aliases": [],
+      "keywords": [
+        "wieża widokowa",
+        "panorama"
+      ],
+      "type": "attraction",
+      "category": "attraction",
+      "class": "tourism",
+      "lat": 54.1561,
+      "lon": 19.4044,
+      "address": {
+        "city": "Elbląg",
+        "state": "warmińsko-mazurskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Elbląg",
+      "voivodeship": "warmińsko-mazurskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:ogrod-botaniczny-w-warszawie",
+      "name": "Ogród Botaniczny w Warszawie",
+      "aliases": [
+        "Ogród Botaniczny PAN Powsin",
+        "Ogród Botaniczny w Warszawa"
+      ],
+      "keywords": [
+        "ogród botaniczny",
+        "park"
+      ],
+      "type": "park",
+      "category": "park",
+      "class": "leisure",
+      "lat": 52.1519,
+      "lon": 21.0472,
+      "address": {
+        "city": "Warszawa",
+        "state": "mazowieckie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Warszawa",
+      "voivodeship": "mazowieckie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
+    },
+    {
+      "id": "omap:poi:ogrod-botaniczny-we-wroclawiu",
+      "name": "Ogród Botaniczny we Wrocławiu",
+      "aliases": [],
+      "keywords": [
+        "ogród botaniczny",
+        "park"
+      ],
+      "type": "park",
+      "category": "park",
+      "class": "leisure",
+      "lat": 51.115,
+      "lon": 17.045,
+      "address": {
+        "city": "Wrocław",
+        "state": "dolnośląskie",
+        "country": "Polska"
+      },
+      "extratags": {},
+      "city": "Wrocław",
+      "voivodeship": "dolnośląskie",
+      "priority": 1000,
+      "source": "OMapa Named POI seed"
     }
   ],
   "generatedAt": "2026-08-12",
-  "recordCount": 314
+  "recordCount": 344
 }

@@ -26,6 +26,68 @@
     return new RegExp(`(^|\\s)${escaped}($|\\s)`).test(text);
   }
 
+  // Dopasowanie rozmyte (literówki) - dokładny algorytm Levenshteina
+  // co w ranker.js (nie dzielimy kodu między plikami, żeby resolver.js
+  // pozostał samodzielny - to tylko ~20 linii). Wołane WYŁĄCZNIE jako
+  // fallback, gdy dokładne dopasowanie (containsPhrase) nic nie
+  // znajdzie - dokładne dopasowanie ma zawsze pierwszeństwo, więc to
+  // nie zmienia zachowania dla poprawnie wpisanych zapytań.
+  function levenshtein(a, b) {
+    if (!a) return b.length;
+    if (!b) return a.length;
+    // Wariant "optimal string alignment" - jak zwykly Levenshtein, ale
+    // traktuje przestawienie dwoch sasiednich liter (np. "gdnask"
+    // zamiast "gdansk") jako JEDNA edycje zamiast dwoch. Bardzo
+    // powszechny typ literowki, ktorego zwykly Levenshtein nie lapie
+    // przy tym samym progu podobienstwa.
+    const matrix = Array.from({ length: a.length + 1 }, () =>
+      new Array(b.length + 1).fill(0)
+    );
+    for (let i = 0; i <= a.length; i += 1) matrix[i][0] = i;
+    for (let j = 0; j <= b.length; j += 1) matrix[0][j] = j;
+
+    for (let i = 1; i <= a.length; i += 1) {
+      for (let j = 1; j <= b.length; j += 1) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + cost
+        );
+        if (
+          i > 1 &&
+          j > 1 &&
+          a[i - 1] === b[j - 2] &&
+          a[i - 2] === b[j - 1]
+        ) {
+          matrix[i][j] = Math.min(
+            matrix[i][j],
+            matrix[i - 2][j - 2] + cost
+          );
+        }
+      }
+    }
+
+    return matrix[a.length][b.length];
+  }
+
+  function similarity(a, b) {
+    if (!a || !b) return 0;
+    if (a === b) return 1;
+    return 1 - levenshtein(a, b) / Math.max(a.length, b.length);
+  }
+
+  // Krótsze niż 4 znaki celowo pomijamy - fuzzy-dopasowanie bardzo
+  // krótkich słów (np. "Al", "Św") daje mnóstwo fałszywych trafień.
+  const FUZZY_MIN_TOKEN_LENGTH = 4;
+  const FUZZY_THRESHOLD = 0.8;
+
+  function tokenize(text) {
+    return normalize(text)
+      .split(/\s+/)
+      .filter(token => token.length >= FUZZY_MIN_TOKEN_LENGTH);
+  }
+
   function findCity(text) {
     const normalizedText = normalize(text);
     const candidates = [];
@@ -36,13 +98,48 @@
           candidates.push({
             city,
             matchedAlias: alias.original,
+            matchedToken: alias.normalized,
             length: alias.normalized.length
           });
         }
       }
     }
 
-    return candidates.sort((a, b) => b.length - a.length)[0] || null;
+    if (candidates.length) {
+      return candidates.sort((a, b) => b.length - a.length)[0];
+    }
+
+    return findCityFuzzy(normalizedText);
+  }
+
+  function findCityFuzzy(normalizedText) {
+    const tokens = tokenize(normalizedText);
+    if (!tokens.length) return null;
+
+    let best = null;
+
+    for (const city of DATA.cities) {
+      for (const alias of aliasesFor(city)) {
+        for (const token of tokens) {
+          // Szybki wstępny filtr długości, żeby uniknąć kosztownego
+          // porównania Levenshteina dla oczywistych nie-kandydatów.
+          if (Math.abs(alias.normalized.length - token.length) > 3) continue;
+
+          const score = similarity(token, alias.normalized);
+          if (score >= FUZZY_THRESHOLD && (!best || score > best.score)) {
+            best = {
+              city,
+              matchedAlias: alias.original,
+              matchedToken: token,
+              length: token.length,
+              score
+            };
+          }
+        }
+      }
+    }
+
+    return best;
   }
 
   function findDistrict(text, cityHint = null) {
@@ -59,6 +156,7 @@
               city,
               district,
               matchedAlias: alias.original,
+              matchedToken: alias.normalized,
               length: alias.normalized.length
             });
           }
@@ -66,7 +164,52 @@
       }
     }
 
-    return candidates.sort((a, b) => b.length - a.length)[0] || null;
+    if (candidates.length) {
+      return candidates.sort((a, b) => b.length - a.length)[0];
+    }
+
+    return findDistrictFuzzy(normalizedText, cityHint);
+  }
+
+  function findDistrictFuzzy(normalizedText, cityHint) {
+    // Bez znanego miasta fuzzy-przeszukanie WSZYSTKICH dzielnic w
+    // Polsce (6217+) jest zarówno kosztowne (setki ms), jak i
+    // semantycznie słabe - sama nazwa dzielnicy bez miasta jest
+    // niejednoznaczna (np. "Centrum" istnieje w wielu miastach).
+    // Fuzzy dla dzielnic ma sens tylko jako doprecyzowanie już
+    // znalezionego miasta.
+    if (!cityHint) return null;
+
+    const tokens = tokenize(normalizedText);
+    if (!tokens.length) return null;
+
+    let best = null;
+
+    for (const city of DATA.cities) {
+      if (city.id !== cityHint.id) continue;
+
+      for (const district of city.districts || []) {
+        for (const alias of aliasesFor(district)) {
+          for (const token of tokens) {
+            if (Math.abs(alias.normalized.length - token.length) > 3) continue;
+
+            const score = similarity(token, alias.normalized);
+            if (score >= FUZZY_THRESHOLD && (!best || score > best.score)) {
+              best = {
+                city,
+                district,
+                matchedAlias: alias.original,
+                matchedToken: token,
+                length: token.length,
+                score
+              };
+            }
+          }
+        }
+      }
+    }
+
+    return best;
   }
 
   function removePhrase(text, phrase) {
@@ -97,14 +240,14 @@
     if (districtMatch) {
       unresolved = removePhrase(
         unresolved,
-        districtMatch.matchedAlias
+        districtMatch.matchedToken
       );
     }
 
     if (cityMatch) {
       unresolved = removePhrase(
         unresolved,
-        cityMatch.matchedAlias
+        cityMatch.matchedToken
       );
     }
 
