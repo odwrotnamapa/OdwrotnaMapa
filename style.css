@@ -6646,6 +6646,30 @@ textarea,
   }
 }
 
+/* Na desktopie laczymy grupe przyciskow streetview/lokalizacja/3D/
+   pomiar/PNG z przyciskiem menu w JEDNA, wizualnie spojna pigulke
+   (zamiast oddzielnej "wyspy" kolo wyszukiwarki, jak bylo wczesniej).
+   Na mobile (@media max-width: 600px wyzej) uklad zostaje bez zmian -
+   streetview-actions nadal jest osobnym, plywajacym paskiem w rogu
+   ekranu, niezaleznie od menu. */
+@media (min-width: 601px) {
+  .streetview-actions {
+    box-shadow: none !important;
+  }
+
+  .toolbar-actions {
+    display: flex !important;
+    align-items: stretch !important;
+    box-shadow: var(--shadow) !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+  }
+
+  #menu-button {
+    margin-left: -1px;
+  }
+}
+
 #menu-button {
   border: 1px solid var(--border) !important;
 }
