@@ -89,9 +89,19 @@
       "limit",
       String(options.limit || 8)
     );
+    // Publiczna instancja Photon wspiera TYLKO: default, de, en, fr.
+    // Poprzedni fallback "pl" powodowal, ze KAZDE zapytanie konczylo
+    // sie odpowiedzia 400 (Photon jawnie odrzuca nieobslugiwany kod
+    // jezyka), a manager.js cicho zamienial ten blad na "0 wynikow"
+    // bez zadnego widocznego ostrzezenia - Photon w praktyce nigdy
+    // nie dzialal w produkcji. "default" zwraca oryginalne nazwy z
+    // OSM, co dla miejsc w Polsce i tak oznacza polskie nazwy.
+    const SUPPORTED_PHOTON_LANGS = ["de", "en", "fr"];
     url.searchParams.set(
       "lang",
-      options.language || "pl"
+      SUPPORTED_PHOTON_LANGS.includes(options.language)
+        ? options.language
+        : "default"
     );
 
     const response = await fetch(url, {

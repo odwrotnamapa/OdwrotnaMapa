@@ -17,13 +17,13 @@
       "type": "aquarium",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.51936,
-      "lon": 18.542543,
+      "lat": 54.5183274,
+      "lon": 18.5573199,
       "address": {
         "city": "Gdynia",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Akwarium Gdyńskie"
+        "road": "Aleja Jana Pawła II"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -48,13 +48,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 51.76555,
-      "lon": 19.457159,
+      "lat": 51.7571679,
+      "lon": 19.4250895,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
         "country": "Polska",
-        "road": "Atlas Arena"
+        "road": "Aleja Księdza Biskupa Władysława Bandurskiego"
       },
       "extratags": {},
       "city": "Łódź",
@@ -110,13 +110,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.035043,
-      "lon": 19.941622,
+      "lat": 50.0279769,
+      "lon": 19.9507208,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Bonarka"
+        "road": "Generała Henryka Kamieńskiego"
       },
       "extratags": {},
       "city": "Kraków",
@@ -143,13 +143,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.668316,
-      "lon": 17.92311,
+      "lat": 50.6813935,
+      "lon": 17.8811446,
       "address": {
         "city": "Opole",
         "state": "opolskie",
         "country": "Polska",
-        "road": "Centrum Handlowe Karolinka"
+        "road": "\"Kory\" Olgi Sipowicz"
       },
       "extratags": {},
       "city": "Opole",
@@ -176,13 +176,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.51936,
-      "lon": 18.542543,
+      "lat": 54.5038541,
+      "lon": 18.5332536,
       "address": {
         "city": "Gdynia",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Centrum Riviera"
+        "road": "Droga Gdyńska"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -207,13 +207,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 51.76555,
-      "lon": 19.457159,
+      "lat": 51.7674784,
+      "lon": 19.4686027,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
         "country": "Polska",
-        "road": "EC1 Łódź"
+        "road": "Targowa"
       },
       "extratags": {},
       "city": "Łódź",
@@ -239,13 +239,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 52.14019,
-      "lon": 16.258714,
+      "lat": 52.3976795,
+      "lon": 16.8581003,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Stadion"
+        "road": "Rumuńska"
       },
       "extratags": {},
       "city": "Poznań",
@@ -302,13 +302,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 54.114773,
-      "lon": 18.756319,
+      "lat": 54.3613609,
+      "lon": 18.6494189,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Solidarności"
+        "road": "Plac Solidarności"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -335,13 +335,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.563889,
-      "lon": 19.494167,
+      "lat": 51.2322404,
+      "lon": 22.6133585,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
         "country": "Polska",
-        "road": "Felicity Lublin"
+        "road": "Aleja Wincentego Witosa"
       },
       "extratags": {},
       "city": "Lublin",
@@ -364,13 +364,13 @@
       "type": "theatre",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.437956,
-      "lon": 14.517897,
+      "lat": 53.4293931,
+      "lon": 14.5581298,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
         "country": "Polska",
-        "road": "Mieczysława Karłowicza"
+        "road": "Małopolska"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -400,13 +400,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.121468,
-      "lon": 18.000923,
+      "lat": 53.1224375,
+      "lon": 18.0063883,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
         "country": "Polska",
-        "road": "Jagiellońska",
+        "road": "Stary Port",
         "house_number": "39-47",
         "postcode": "85-097"
       },
@@ -436,13 +436,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.939774,
-      "lon": 15.50632,
+      "lat": 51.936573,
+      "lon": 15.5112255,
       "address": {
         "city": "Zielona Góra",
         "state": "lubuskie",
         "country": "Polska",
-        "road": "Focus Mall Zielona Góra"
+        "road": "Wrocławska"
       },
       "extratags": {},
       "city": "Zielona Góra",
@@ -470,13 +470,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.402886,
-      "lon": 18.631848,
+      "lat": 54.3488736,
+      "lon": 18.643381,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Gdańska"
+        "road": "Targ Sienny"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -503,13 +503,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.430527,
-      "lon": 14.544545,
+      "lat": 53.4338918,
+      "lon": 14.5556406,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
         "country": "Polska",
-        "road": "Galaxy Centrum"
+        "road": "Aleja Wyzwolenia"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -536,13 +536,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.1253,
-      "lon": 23.1687,
+      "lat": 53.1252694,
+      "lon": 23.1684692,
       "address": {
         "city": "Białystok",
         "state": "podlaskie",
         "country": "Polska",
-        "road": "Galeria Alfa"
+        "road": "Świętojańska"
       },
       "extratags": {},
       "city": "Białystok",
@@ -570,13 +570,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.383,
-      "lon": 18.5989,
+      "lat": 54.3826251,
+      "lon": 18.6006959,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Bałtycka"
+        "road": "Aleja Grunwaldzka"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -602,13 +602,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.87181,
-      "lon": 20.632208,
+      "lat": 50.8779941,
+      "lon": 20.6463045,
       "address": {
         "city": "Kielce",
         "state": "świętokrzyskie",
         "country": "Polska",
-        "road": "Galeria Echo"
+        "road": "Aleja Solidarności"
       },
       "extratags": {},
       "city": "Kielce",
@@ -634,13 +634,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.430527,
-      "lon": 14.544545,
+      "lat": 53.4243699,
+      "lon": 14.5530736,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
         "country": "Polska",
-        "road": "Galeria Kaskada"
+        "road": "Księdza kardynała Stefana Wyszyńskiego"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -667,13 +667,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.049109,
-      "lon": 19.943144,
+      "lat": 50.0676545,
+      "lon": 19.9461443,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Krakowska"
+        "road": "Pawia"
       },
       "extratags": {},
       "city": "Kraków",
@@ -700,13 +700,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.3557,
-      "lon": 18.6488,
+      "lat": 54.3564352,
+      "lon": 18.6489921,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Galeria Madison"
+        "road": "Gnilna"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -733,13 +733,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 54.4097,
-      "lon": 18.5917,
+      "lat": 54.4098101,
+      "lon": 18.5918135,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Galeria Przymorze"
+        "road": "Obrońców Wybrzeża"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -765,13 +765,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.037533,
-      "lon": 22.002779,
+      "lat": 50.0424211,
+      "lon": 21.9981132,
       "address": {
         "city": "Rzeszów",
         "state": "podkarpackie",
         "country": "Polska",
-        "road": "Galeria Rzeszów"
+        "road": "Aleja Józefa Piłsudskiego"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -798,13 +798,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.780367,
-      "lon": 20.483442,
+      "lat": 53.7566927,
+      "lon": 20.4867654,
       "address": {
         "city": "Olsztyn",
         "state": "warmińsko-mazurskie",
         "country": "Polska",
-        "road": "Warmińska"
+        "road": "Aleja Generała Władysława Sikorskiego"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -858,13 +858,13 @@
       "type": "stadium",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.070965,
-      "lon": 16.998965,
+      "lat": 51.1074369,
+      "lon": 17.0726157,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Halna"
+        "road": "Andrzeja Wajdy"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -887,8 +887,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.812478,
-      "lon": 19.096946,
+      "lat": 50.8123076,
+      "lon": 19.0986413,
       "address": {
         "city": "Częstochowa",
         "state": "śląskie",
@@ -919,13 +919,13 @@
       "type": "museum",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.017334,
-      "lon": 19.991217,
+      "lat": 49.9835208,
+      "lon": 20.0612614,
       "address": {
         "city": "Wieliczka",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Wielicka"
+        "road": "Plac Tadeusza Kościuszki"
       },
       "extratags": {},
       "city": "Wieliczka",
@@ -953,13 +953,13 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 50.036682,
-      "lon": 19.961052,
+      "lat": 50.0684226,
+      "lon": 19.9477635,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Aleja główna"
+        "road": "Świętego Rafała Kalinowskiego"
       },
       "extratags": {},
       "city": "Kraków",
@@ -1018,13 +1018,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.206206,
-      "lon": 17.036334,
+      "lat": 51.118106,
+      "lon": 16.9905743,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Magnolii"
+        "road": "Bolkowska"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1083,13 +1083,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.037533,
-      "lon": 22.002779,
+      "lat": 50.0273401,
+      "lon": 22.0133762,
       "address": {
         "city": "Rzeszów",
         "state": "podkarpackie",
         "country": "Polska",
-        "road": "Millenium Hall"
+        "road": "Aleja majora Wacława Kopisto"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -1113,13 +1113,13 @@
       "type": "events_venue",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.407333,
-      "lon": 16.93123,
+      "lat": 52.4032147,
+      "lon": 16.9070454,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Międzynarodowe Targi Poznańskie"
+        "road": "Głogowska"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1145,13 +1145,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 50.073182,
-      "lon": 19.969183,
+      "lat": 50.0782553,
+      "lon": 19.7862538,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Lotnicza"
+        "road": "Kapitana Mieczysława Medweckiego"
       },
       "extratags": {},
       "city": "Kraków",
@@ -1175,13 +1175,13 @@
       "type": "pier",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.445114,
-      "lon": 18.569073,
+      "lat": 54.4474093,
+      "lon": 18.5747318,
       "address": {
         "city": "Sopot",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Molo w Sopocie"
+        "road": "Skwer Kuracyjny"
       },
       "extratags": {},
       "city": "Sopot",
@@ -1234,8 +1234,8 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.038548,
-      "lon": 19.220903,
+      "lat": 50.0389061,
+      "lon": 19.1712984,
       "address": {
         "city": "Oświęcim",
         "state": "małopolskie",
@@ -1265,13 +1265,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.205716,
-      "lon": 21.074527,
+      "lat": 52.2493716,
+      "lon": 20.9931609,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Polska"
+        "road": "Mordechaja Anielewicza"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1296,13 +1296,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 54.3558,
-      "lon": 18.6606,
+      "lat": 54.3559415,
+      "lon": 18.6611212,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Kombatantów II Wojny Światowej"
+        "road": "Plac Władysława Bartoszewskiego"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -1327,13 +1327,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.037765,
-      "lon": 23.094094,
+      "lat": 52.2321024,
+      "lon": 20.9813775,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Powstania Warszawskiego"
+        "road": "Grzybowska"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1357,13 +1357,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.2635,
-      "lon": 19.0347,
+      "lat": 50.2640125,
+      "lon": 19.0339823,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Muzeum Śląskie"
+        "road": "Tadeusza Dobrowolskiego"
       },
       "extratags": {},
       "city": "Katowice",
@@ -1386,13 +1386,13 @@
       "type": "zoo",
       "category": "zoo",
       "class": "tourism",
-      "lat": 51.76555,
-      "lon": 19.457159,
+      "lat": 51.7610216,
+      "lon": 19.4125815,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
         "country": "Polska",
-        "road": "Orientarium ZOO Łódź"
+        "road": "Konstantynowska"
       },
       "extratags": {},
       "city": "Łódź",
@@ -1416,13 +1416,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 51.080741,
-      "lon": 16.997268,
+      "lat": 51.1102497,
+      "lon": 17.0446117,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Racławicka"
+        "road": "Jana Ewangelisty Purkyniego"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1447,13 +1447,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 53.131766,
-      "lon": 23.167856,
+      "lat": 53.1316025,
+      "lon": 23.1672554,
       "address": {
         "city": "Białystok",
         "state": "podlaskie",
         "country": "Polska",
-        "road": "Plac Branickich"
+        "road": "Plac Jana Pawła II"
       },
       "extratags": {},
       "city": "Białystok",
@@ -1477,13 +1477,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.23072,
-      "lon": 21.016317,
+      "lat": 52.2305443,
+      "lon": 21.0093974,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Pałac Kultury i Nauki"
+        "road": "Pasaż Kazimiery Iłłakowiczówny"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1541,13 +1541,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 52.215342,
-      "lon": 21.104085,
+      "lat": 52.2397726,
+      "lon": 21.0454432,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Narodowa"
+        "road": "Aleja Księcia Józefa Poniatowskiego"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -1574,13 +1574,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 54.311312,
-      "lon": 18.569607,
+      "lat": 54.3873835,
+      "lon": 18.6489923,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Aresa"
+        "road": "Marynarki Polskiej"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -1606,13 +1606,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 52.415614,
-      "lon": 16.910088,
+      "lat": 52.420564,
+      "lon": 16.8317925,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Jeżycka"
+        "road": "Bukowska"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1637,13 +1637,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.092256,
-      "lon": 16.844746,
+      "lat": 51.1037829,
+      "lon": 16.8885446,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Lotnicza"
+        "road": "Graniczna"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1669,13 +1669,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.407333,
-      "lon": 16.93123,
+      "lat": 52.3965164,
+      "lon": 16.9554273,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Posnania"
+        "road": "Pleszewska"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1701,13 +1701,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.415614,
-      "lon": 16.910088,
+      "lat": 52.4409817,
+      "lon": 16.9190535,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Jeżycka"
+        "road": "Kaspra Drużbickiego"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1731,8 +1731,8 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 50.061037,
-      "lon": 19.936822,
+      "lat": 50.0608397,
+      "lon": 19.9377783,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
@@ -1760,13 +1760,13 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 51.109403,
-      "lon": 17.031435,
+      "lat": 51.1012817,
+      "lon": 17.032135,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Rynek"
+        "road": "Marszałka Józefa Piłsudskiego"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -1793,13 +1793,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 50.952479,
-      "lon": 15.912787,
+      "lat": 50.2707231,
+      "lon": 19.0038669,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Silesia"
+        "road": "Chorzowska"
       },
       "extratags": {},
       "city": "Katowice",
@@ -1824,13 +1824,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 50.25847,
-      "lon": 19.023157,
+      "lat": 50.2661074,
+      "lon": 19.0253277,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Spodek"
+        "road": "Aleja Wojciecha Korfantego"
       },
       "extratags": {},
       "city": "Katowice",
@@ -1856,13 +1856,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 50.295721,
-      "lon": 18.932885,
+      "lat": 50.2882457,
+      "lon": 18.9734993,
       "address": {
         "city": "Chorzów",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Śląska"
+        "road": "Katowicka"
       },
       "extratags": {},
       "city": "Chorzów",
@@ -1884,13 +1884,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.010254,
-      "lon": 18.605139,
+      "lat": 53.0114111,
+      "lon": 18.6026664,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
         "country": "Polska",
-        "road": "Stare Miasto w Toruniu"
+        "road": "Franciszkańska"
       },
       "extratags": {},
       "city": "Toruń",
@@ -1916,13 +1916,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.407333,
-      "lon": 16.93123,
+      "lat": 52.4014337,
+      "lon": 16.9278632,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Stary Browar"
+        "road": "Półwiejska"
       },
       "extratags": {},
       "city": "Poznań",
@@ -1947,13 +1947,13 @@
       "type": "museum",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0615455,
+      "lon": 19.9374676,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Sukiennice"
+        "road": "Rynek Główny"
       },
       "extratags": {},
       "city": "Kraków",
@@ -1976,13 +1976,13 @@
       "type": "national_park",
       "category": "national_park",
       "class": "boundary",
-      "lat": 54.757165,
-      "lon": 17.542778,
+      "lat": 54.7589311,
+      "lon": 17.5347855,
       "address": {
         "city": "Łeba",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Słowińska"
+        "road": "Rąbka"
       },
       "extratags": {},
       "city": "Łeba",
@@ -2005,13 +2005,13 @@
       "type": "national_park",
       "category": "national_park",
       "class": "boundary",
-      "lat": 49.325359,
-      "lon": 20.102192,
+      "lat": 49.2778587,
+      "lon": 19.9571754,
       "address": {
         "city": "Zakopane",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Tatrzańska"
+        "road": "Droga pod Reglami"
       },
       "extratags": {},
       "city": "Zakopane",
@@ -2037,13 +2037,13 @@
       "type": "stadium",
       "category": "stadium",
       "class": "leisure",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0677202,
+      "lon": 19.991549,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "TAURON Arena Kraków"
+        "road": "Stanisława Lema"
       },
       "extratags": {},
       "city": "Kraków",
@@ -2069,13 +2069,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 53.010254,
-      "lon": 18.605139,
+      "lat": 53.0153002,
+      "lon": 18.561432,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
         "country": "Polska",
-        "road": "Toruń Plaza"
+        "road": "Władysława Broniewskiego"
       },
       "extratags": {},
       "city": "Toruń",
@@ -2103,13 +2103,13 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 52.177964,
-      "lon": 20.939286,
+      "lat": 52.2288322,
+      "lon": 21.0031725,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Centralna"
+        "road": "Aleje Jerozolimskie"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2136,13 +2136,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.158435,
-      "lon": 21.16799,
+      "lat": 52.2572116,
+      "lon": 20.9845826,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Arkadii"
+        "road": "Aleja Jana Pawła II"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2169,13 +2169,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.23072,
-      "lon": 21.016317,
+      "lat": 52.1799446,
+      "lon": 21.0044668,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Westfield Mokotów"
+        "road": "Wołoska"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2201,13 +2201,13 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 51.11029,
-      "lon": 17.03056,
+      "lat": 51.0964161,
+      "lon": 17.034822,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Wroclavia"
+        "road": "Sucha"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -2231,13 +2231,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 51.02,
-      "lon": 15.315,
+      "lat": 51.0300286,
+      "lon": 15.3035838,
       "address": {
         "city": "Leśna",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Leśna"
+        "road": "Niebieski"
       },
       "extratags": {},
       "city": "Leśna",
@@ -2261,13 +2261,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 53.777542,
-      "lon": 20.477505,
+      "lat": 53.7777261,
+      "lon": 20.4747107,
       "address": {
         "city": "Olsztyn",
         "state": "warmińsko-mazurskie",
         "country": "Polska",
-        "road": "Zamek Kapituły Warmińskiej"
+        "road": "Zamkowa"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -2292,13 +2292,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.072358,
-      "lon": 19.917905,
+      "lat": 50.0544051,
+      "lon": 19.9360223,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Królewska"
+        "road": "Droga do Zamku"
       },
       "extratags": {},
       "city": "Kraków",
@@ -2322,13 +2322,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 52.239196,
-      "lon": 21.01005,
+      "lat": 52.2479003,
+      "lon": 21.0152802,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Królewska"
+        "road": "Plac Zamkowy"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2353,13 +2353,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.843121,
-      "lon": 16.29555,
+      "lat": 50.8422156,
+      "lon": 16.2918513,
       "address": {
         "city": "Wałbrzych",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Zamek Książ"
+        "road": "Piastów Śląskich"
       },
       "extratags": {},
       "city": "Wałbrzych",
@@ -2383,13 +2383,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 51.355221,
-      "lon": 22.620831,
+      "lat": 51.2506795,
+      "lon": 22.5701147,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
         "country": "Polska",
-        "road": "Lubelska"
+        "road": "Plac Zamkowy"
       },
       "extratags": {},
       "city": "Lublin",
@@ -2414,8 +2414,8 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 54.0355,
-      "lon": 19.03206,
+      "lat": 54.0400178,
+      "lon": 19.0278182,
       "address": {
         "city": "Malbork",
         "state": "pomorskie",
@@ -2443,13 +2443,13 @@
       "type": "zoo",
       "category": "zoo",
       "class": "tourism",
-      "lat": 51.212646,
-      "lon": 17.226798,
+      "lat": 51.1042548,
+      "lon": 17.0748493,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Polska"
+        "road": "Zygmunta Wróblewskiego"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -2476,8 +2476,8 @@
       "type": "mall",
       "category": "shopping_mall",
       "class": "shop",
-      "lat": 52.230966,
-      "lon": 21.002751,
+      "lat": 52.2300714,
+      "lon": 21.0024449,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
@@ -2505,13 +2505,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 52.23072,
-      "lon": 21.016317,
+      "lat": 52.2126209,
+      "lon": 21.0339496,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Łazienki Królewskie"
+        "road": "Śródmieście"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -2567,13 +2567,13 @@
       "type": "station",
       "category": "railway_station",
       "class": "railway",
-      "lat": 53.7857,
-      "lon": 20.4973,
+      "lat": 53.7854525,
+      "lon": 20.4968442,
       "address": {
         "city": "Olsztyn",
         "state": "warminsko-mazurskie",
         "country": "Polska",
-        "road": "Główna"
+        "road": "Partyzantów"
       },
       "extratags": {},
       "city": "Olsztyn",
@@ -2599,13 +2599,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 54.350178,
-      "lon": 18.650743,
+      "lat": 54.3762064,
+      "lon": 18.4744551,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Port Lotniczy Gdańsk im. Lecha Wałęsy"
+        "road": "Juliusza Słowackiego"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -2632,13 +2632,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 50.25847,
-      "lon": 19.023157,
+      "lat": 50.4759985,
+      "lon": 19.0849163,
       "address": {
         "city": "Katowice",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Międzynarodowy Port Lotniczy Katowice w Pyrzowicach"
+        "road": "Siedliska"
       },
       "extratags": {},
       "city": "Katowice",
@@ -2665,13 +2665,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 50.119217,
-      "lon": 22.048443,
+      "lat": 50.100052,
+      "lon": 22.0552822,
       "address": {
         "city": "Rzeszów",
         "state": "podkarpackie",
         "country": "Polska",
-        "road": "Jasionka"
+        "road": "878"
       },
       "extratags": {},
       "city": "Rzeszów",
@@ -2698,13 +2698,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 53.393158,
-      "lon": 14.660718,
+      "lat": 53.5843896,
+      "lon": 14.905944,
       "address": {
         "city": "Szczecin",
         "state": "zachodniopomorskie",
         "country": "Polska",
-        "road": "Lotnicza"
+        "road": "Trasa Kaszubska"
       },
       "extratags": {},
       "city": "Szczecin",
@@ -2729,13 +2729,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 53.093508,
-      "lon": 17.998266,
+      "lat": 53.1289723,
+      "lon": 18.0108252,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
         "country": "Polska",
-        "road": "Ignacego Jana Paderewskiego"
+        "road": "Andrzeja Szwalbego"
       },
       "extratags": {},
       "city": "Bydgoszcz",
@@ -2760,13 +2760,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.71713,
-      "lon": 19.425012,
+      "lat": 51.7208516,
+      "lon": 19.3967025,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
         "country": "Polska",
-        "road": "Władysława Reymonta"
+        "road": "Stanisława Dubois"
       },
       "extratags": {},
       "city": "Łódź",
@@ -2793,13 +2793,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.232571,
-      "lon": 22.585778,
+      "lat": 51.2382459,
+      "lon": 22.7067517,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
         "country": "Polska",
-        "road": "Lotnicza"
+        "road": "Droga patrolowa"
       },
       "extratags": {},
       "city": "Lublin",
@@ -2826,13 +2826,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 52.241045,
-      "lon": 21.232391,
+      "lat": 52.4462125,
+      "lon": 20.6513339,
       "address": {
         "city": "Nowy Dwór Mazowiecki",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Lotnicza"
+        "road": "Generała Wiktora Thommée"
       },
       "extratags": {},
       "city": "Nowy Dwór Mazowiecki",
@@ -2859,13 +2859,13 @@
       "type": "airport",
       "category": "airport",
       "class": "aeroway",
-      "lat": 51.939774,
-      "lon": 15.50632,
+      "lat": 52.1387061,
+      "lon": 15.7972873,
       "address": {
         "city": "Zielona Góra",
         "state": "lubuskie",
         "country": "Polska",
-        "road": "Port Lotniczy Zielona Góra-Babimost"
+        "road": "dojazd pożarowy 22"
       },
       "extratags": {},
       "city": "Zielona Góra",
@@ -2922,13 +2922,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.717064,
-      "lon": 23.252596,
+      "lat": 50.7159249,
+      "lon": 23.251011,
       "address": {
         "city": "Zamość",
         "state": "lubelskie",
         "country": "Polska",
-        "road": "Stare Miasto w Zamościu"
+        "road": "Osiedle Stare Miasto"
       },
       "extratags": {},
       "city": "Zamość",
@@ -2951,13 +2951,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 49.866833,
-      "lon": 19.676758,
+      "lat": 49.873761,
+      "lon": 19.6734399,
       "address": {
         "city": "Kalwaria Zebrzydowska",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Kalwaria Zebrzydowska"
+        "road": "Kolejowa"
       },
       "extratags": {},
       "city": "Kalwaria Zebrzydowska",
@@ -2980,8 +2980,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.845588,
-      "lon": 16.491703,
+      "lat": 50.8464943,
+      "lon": 16.4916855,
       "address": {
         "city": "Świdnica",
         "state": "dolnośląskie",
@@ -3009,8 +3009,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.054487,
-      "lon": 16.189886,
+      "lat": 51.0541477,
+      "lon": 16.1896874,
       "address": {
         "city": "Jawor",
         "state": "dolnośląskie",
@@ -3038,8 +3038,8 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 51.537766,
-      "lon": 14.745413,
+      "lat": 51.5543966,
+      "lon": 14.7383367,
       "address": {
         "city": "Łęknica",
         "state": "lubuskie",
@@ -3066,13 +3066,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.441879,
-      "lon": 18.809992,
+      "lat": 50.444169,
+      "lon": 18.8555458,
       "address": {
         "city": "Tarnowskie Góry",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Srebrna"
+        "road": "Rynek"
       },
       "extratags": {},
       "city": "Tarnowskie Góry",
@@ -3125,13 +3125,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.252241,
-      "lon": 21.010135,
+      "lat": 52.2479757,
+      "lon": 21.0106724,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Stara"
+        "road": "Podwale"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3153,13 +3153,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.215342,
-      "lon": 21.104085,
+      "lat": 52.2316938,
+      "lon": 21.0247708,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Narodowa"
+        "road": "Aleje Jerozolimskie"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3181,13 +3181,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.23072,
-      "lon": 21.016317,
+      "lat": 52.2412875,
+      "lon": 21.0281756,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Centrum Nauki Kopernik"
+        "road": "Wybrzeże Kościuszkowskie"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3209,8 +3209,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.25351,
-      "lon": 21.220125,
+      "lat": 52.2477435,
+      "lon": 21.0138761,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
@@ -3234,13 +3234,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 52.214683,
-      "lon": 21.110422,
+      "lat": 52.2407099,
+      "lon": 21.0085004,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Ogrody"
+        "road": "Śródmieście"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3259,13 +3259,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.394658,
-      "lon": 22.64879,
+      "lat": 52.2409328,
+      "lon": 21.0113096,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Nieznanego Żołnierza"
+        "road": "Plac Piłsudskiego"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3286,13 +3286,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.258812,
-      "lon": 20.961933,
+      "lat": 52.2504443,
+      "lon": 20.9686826,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Powązkowska"
+        "road": "Wola"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3312,13 +3312,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.27204,
-      "lon": 21.083233,
+      "lat": 52.2639233,
+      "lon": 20.9996186,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Swojska"
+        "road": "Gwardii"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3339,13 +3339,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 52.215342,
-      "lon": 21.104085,
+      "lat": 52.2392415,
+      "lon": 21.0114907,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Narodowa"
+        "road": "Plac Stanisława Małachowskiego"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -3368,13 +3368,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0616547,
+      "lon": 19.9394485,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Bazylika Mariacka w Krakowie"
+        "road": "Plac Mariacki"
       },
       "extratags": {},
       "city": "Kraków",
@@ -3393,8 +3393,8 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.054915,
+      "lon": 19.8933537,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
@@ -3421,13 +3421,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0533917,
+      "lon": 19.9448114,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Kazimierz w Krakowie"
+        "road": "Podbrzezie"
       },
       "extratags": {},
       "city": "Kraków",
@@ -3449,13 +3449,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0604369,
+      "lon": 19.9236105,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Muzeum Narodowe w Krakowie"
+        "road": "Aleja 3 Maja"
       },
       "extratags": {},
       "city": "Kraków",
@@ -3476,13 +3476,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0474554,
+      "lon": 19.9617094,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Fabryka Schindlera"
+        "road": "Lipowa"
       },
       "extratags": {},
       "city": "Kraków",
@@ -3501,13 +3501,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.049109,
-      "lon": 19.943144,
+      "lat": 50.0654581,
+      "lon": 19.941451,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Krakowska"
+        "road": "Basztowa"
       },
       "extratags": {},
       "city": "Kraków",
@@ -3528,13 +3528,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0615629,
+      "lon": 19.9334091,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Collegium Maius"
+        "road": "Jagiellońska"
       },
       "extratags": {},
       "city": "Kraków",
@@ -3556,13 +3556,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.402886,
-      "lon": 18.631848,
+      "lat": 54.350566,
+      "lon": 18.657462,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Gdańska"
+        "road": "Szeroka"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -3583,13 +3583,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.402886,
-      "lon": 18.631848,
+      "lat": 54.3498079,
+      "lon": 18.6530094,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Gdańska"
+        "road": "Podkramarska"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -3610,13 +3610,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.27097,
-      "lon": 18.55651,
+      "lat": 54.3485464,
+      "lon": 18.653228,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Neptuna"
+        "road": "Długi Targ"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -3637,8 +3637,8 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 54.348242,
-      "lon": 18.654265,
+      "lat": 54.3483333,
+      "lon": 18.6538414,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
@@ -3663,13 +3663,13 @@
       "type": "monument",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.350178,
-      "lon": 18.650743,
+      "lat": 54.406343,
+      "lon": 18.6770201,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Westerplatte"
+        "road": "Przeróbka"
       },
       "extratags": {},
       "city": "Gdańsk",
@@ -3689,13 +3689,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.411206,
-      "lon": 16.948056,
+      "lat": 51.1094079,
+      "lon": 17.0370402,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Ostrów Tumski"
+        "road": "Biskupia"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -3717,13 +3717,13 @@
       "type": "aquarium",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.11029,
-      "lon": 17.03056,
+      "lat": 51.1043711,
+      "lon": 17.0752376,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Afrykarium"
+        "road": "Zygmunta Wróblewskiego"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -3745,8 +3745,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.411206,
-      "lon": 16.948056,
+      "lat": 52.4178785,
+      "lon": 16.9296007,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
@@ -3774,8 +3774,8 @@
       "type": "square",
       "category": "attraction",
       "class": "place",
-      "lat": 52.407769,
-      "lon": 16.933583,
+      "lat": 52.4075891,
+      "lon": 16.9339168,
       "address": {
         "city": "Poznań",
         "state": "wielkopolskie",
@@ -3801,13 +3801,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.820042,
-      "lon": 19.320796,
+      "lat": 51.7768912,
+      "lon": 19.4569829,
       "address": {
         "city": "Łódź",
         "state": "łódzkie",
         "country": "Polska",
-        "road": "Piotrkowska"
+        "road": "Pomorska"
       },
       "extratags": {},
       "city": "Łódź",
@@ -3829,13 +3829,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.6814,
-      "lon": 21.7497,
+      "lat": 50.6797259,
+      "lon": 21.7489853,
       "address": {
         "city": "Sandomierz",
         "state": "świętokrzyskie",
         "country": "Polska",
-        "road": "Sandomierz Stare Miasto"
+        "road": "Rynek"
       },
       "extratags": {},
       "city": "Sandomierz",
@@ -3857,8 +3857,8 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.31902,
-      "lon": 21.976016,
+      "lat": 51.3220058,
+      "lon": 21.947372,
       "address": {
         "city": "Kazimierz Dolny",
         "state": "lubelskie",
@@ -3910,8 +3910,8 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.185792,
-      "lon": 15.554865,
+      "lat": 54.1859282,
+      "lon": 15.5538482,
       "address": {
         "city": "Kołobrzeg",
         "state": "zachodniopomorskie",
@@ -3935,13 +3935,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.9097,
-      "lon": 14.2511,
+      "lat": 53.9079598,
+      "lon": 14.2519847,
       "address": {
         "city": "Świnoujście",
         "state": "zachodniopomorskie",
         "country": "Polska",
-        "road": "Latarnia Morska w Świnoujściu"
+        "road": "plac Rybaka"
       },
       "extratags": {},
       "city": "Świnoujście",
@@ -3963,13 +3963,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 52.62852,
-      "lon": 17.433252,
+      "lat": 52.5329905,
+      "lon": 17.5935181,
       "address": {
         "city": "Gniezno",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Gnieźnieńska"
+        "road": "Garbarska"
       },
       "extratags": {},
       "city": "Gniezno",
@@ -4019,13 +4019,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.442306,
-      "lon": 16.241293,
+      "lat": 50.4427948,
+      "lon": 16.2394603,
       "address": {
         "city": "Kudowa-Zdrój",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Kaplica Czaszek w Czermnej"
+        "road": "Aleja Jana Pawła II"
       },
       "extratags": {},
       "city": "Kudowa-Zdrój",
@@ -4046,13 +4046,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.4531,
-      "lon": 19.5523,
+      "lat": 50.4531668,
+      "lon": 19.5528896,
       "address": {
         "city": "Ogrodzieniec",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Zamek Ogrodzieniec"
+        "road": "Zamkowa"
       },
       "extratags": {},
       "city": "Ogrodzieniec",
@@ -4100,13 +4100,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.7978,
-      "lon": 20.4577,
+      "lat": 50.7980466,
+      "lon": 20.4595913,
       "address": {
         "city": "Chęciny",
         "state": "świętokrzyskie",
         "country": "Polska",
-        "road": "Zamek Chęciny"
+        "road": "Ścieżka mnicha"
       },
       "extratags": {},
       "city": "Chęciny",
@@ -4129,13 +4129,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 52.23072,
-      "lon": 21.016317,
+      "lat": 52.1650986,
+      "lon": 21.090469,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Pałac w Wilanowie"
+        "road": "Stanisława Kostki Potockiego"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -4159,13 +4159,13 @@
       "type": "castle",
       "category": "attraction",
       "class": "historic",
-      "lat": 50.0686,
-      "lon": 22.2343,
+      "lat": 50.0674241,
+      "lon": 22.2325014,
       "address": {
         "city": "Łańcut",
         "state": "podkarpackie",
         "country": "Polska",
-        "road": "Pałac w Łańcucie"
+        "road": "3 Maja"
       },
       "extratags": {},
       "city": "Łańcut",
@@ -4297,8 +4297,8 @@
       "type": "peak",
       "category": "peak",
       "class": "natural",
-      "lat": 49.232845,
-      "lon": 19.98281,
+      "lat": 49.237303,
+      "lon": 19.9732549,
       "address": {
         "city": "Zakopane",
         "state": "małopolskie",
@@ -4353,8 +4353,8 @@
       "type": "lake",
       "category": "lake",
       "class": "natural",
-      "lat": 53.800896,
-      "lon": 21.57183,
+      "lat": 53.7831434,
+      "lon": 21.5895247,
       "address": {
         "city": "Mikołajki",
         "state": "warmińsko-mazurskie",
@@ -4381,13 +4381,13 @@
       "type": "lake",
       "category": "lake",
       "class": "natural",
-      "lat": 54.211082,
-      "lon": 21.74211,
+      "lat": 54.2127804,
+      "lon": 21.6482122,
       "address": {
         "city": "Węgorzewo",
         "state": "warmińsko-mazurskie",
         "country": "Polska",
-        "road": "Jezioro Mamry"
+        "road": "650"
       },
       "extratags": {},
       "city": "Węgorzewo",
@@ -4465,8 +4465,8 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.4025,
-      "lon": 18.5539,
+      "lat": 54.3617918,
+      "lon": 18.639976,
       "address": {
         "city": "Gdańsk",
         "state": "pomorskie",
@@ -4492,13 +4492,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.062325,
-      "lon": 19.937975,
+      "lat": 50.0184505,
+      "lon": 19.8029016,
       "address": {
         "city": "Kraków",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Opactwo Benedyktynów w Tyńcu"
+        "road": "Benedyktyńska"
       },
       "extratags": {},
       "city": "Kraków",
@@ -4520,8 +4520,8 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 49.96908,
-      "lon": 20.430668,
+      "lat": 49.9701868,
+      "lon": 20.4314375,
       "address": {
         "city": "Bochnia",
         "state": "małopolskie",
@@ -4548,13 +4548,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 49.999971,
-      "lon": 19.40421,
+      "lat": 49.9993956,
+      "lon": 19.4098155,
       "address": {
         "city": "Zator",
         "state": "małopolskie",
         "country": "Polska",
-        "road": "Energylandia"
+        "road": "Aleja 3 Maja"
       },
       "extratags": {},
       "city": "Zator",
@@ -4575,13 +4575,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 50.297424,
-      "lon": 18.953587,
+      "lat": 50.2756997,
+      "lon": 18.9881265,
       "address": {
         "city": "Chorzów",
         "state": "śląskie",
         "country": "Polska",
-        "road": "Legendia"
+        "road": "Zielony Zaułek"
       },
       "extratags": {},
       "city": "Chorzów",
@@ -4601,13 +4601,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 54.51936,
-      "lon": 18.542543,
+      "lat": 54.5330528,
+      "lon": 18.5483911,
       "address": {
         "city": "Gdynia",
         "state": "pomorskie",
         "country": "Polska",
-        "road": "Muzeum Emigracji w Gdyni"
+        "road": "Francuska"
       },
       "extratags": {},
       "city": "Gdynia",
@@ -4626,13 +4626,13 @@
       "type": "events_venue",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.24758,
-      "lon": 22.564535,
+      "lat": 51.2486403,
+      "lon": 22.5564166,
       "address": {
         "city": "Lublin",
         "state": "lubelskie",
         "country": "Polska",
-        "road": "Centrum Spotkania Kultur w Lublinie"
+        "road": "Żołnierzy Niepodległej"
       },
       "extratags": {},
       "city": "Lublin",
@@ -4654,13 +4654,13 @@
       "type": "theatre",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.1297,
-      "lon": 23.1497,
+      "lat": 53.1316025,
+      "lon": 23.1672554,
       "address": {
         "city": "Białystok",
         "state": "podlaskie",
         "country": "Polska",
-        "road": "Podlaska"
+        "road": "Plac Jana Pawła II"
       },
       "extratags": {},
       "city": "Białystok",
@@ -4681,13 +4681,13 @@
       "type": "place_of_worship",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.148175,
-      "lon": 18.170427,
+      "lat": 53.1228679,
+      "lon": 17.9990991,
       "address": {
         "city": "Bydgoszcz",
         "state": "kujawsko-pomorskie",
         "country": "Polska",
-        "road": "Bydgoska"
+        "road": "Farna"
       },
       "extratags": {},
       "city": "Bydgoszcz",
@@ -4709,8 +4709,8 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 53.008696,
-      "lon": 18.601812,
+      "lat": 53.0084045,
+      "lon": 18.6020595,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
@@ -4737,13 +4737,13 @@
       "type": "museum",
       "category": "museum",
       "class": "tourism",
-      "lat": 53.871007,
-      "lon": 21.303803,
+      "lat": 53.0106828,
+      "lon": 18.6042196,
       "address": {
         "city": "Toruń",
         "state": "kujawsko-pomorskie",
         "country": "Polska",
-        "road": "Staromiejska"
+        "road": "Rynek Staromiejski"
       },
       "extratags": {},
       "city": "Toruń",
@@ -4764,13 +4764,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 51.2113,
-      "lon": 16.1628,
+      "lat": 51.2110717,
+      "lon": 16.1618131,
       "address": {
         "city": "Legnica",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "Piastowska"
+        "road": "Nowa"
       },
       "extratags": {},
       "city": "Legnica",
@@ -4792,13 +4792,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 50.723549,
-      "lon": 20.388176,
+      "lat": 50.863869,
+      "lon": 17.4670336,
       "address": {
         "city": "Brzeg",
         "state": "opolskie",
         "country": "Polska",
-        "road": "Brzegi"
+        "road": "Plac Zamkowy"
       },
       "extratags": {},
       "city": "Brzeg",
@@ -4820,13 +4820,13 @@
       "type": "castle",
       "category": "castle",
       "class": "historic",
-      "lat": 52.2441,
-      "lon": 17.0909,
+      "lat": 52.2438925,
+      "lon": 17.0908995,
       "address": {
         "city": "Kórnik",
         "state": "wielkopolskie",
         "country": "Polska",
-        "road": "Kórnicka"
+        "road": "Zamkowa"
       },
       "extratags": {},
       "city": "Kórnik",
@@ -4847,13 +4847,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 51.109675,
-      "lon": 17.053313,
+      "lat": 51.1175227,
+      "lon": 17.0190038,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",
         "country": "Polska",
-        "road": "most Grunwaldzki"
+        "road": "Most Romana Dmowskiego"
       },
       "extratags": {},
       "city": "Wrocław",
@@ -4872,13 +4872,13 @@
       "type": "attraction",
       "category": "attraction",
       "class": "tourism",
-      "lat": 54.071712,
-      "lon": 19.64347,
+      "lat": 54.1585175,
+      "lon": 19.3948095,
       "address": {
         "city": "Elbląg",
         "state": "warmińsko-mazurskie",
         "country": "Polska",
-        "road": "Widokowa"
+        "road": "Mostowa"
       },
       "extratags": {},
       "city": "Elbląg",
@@ -4900,13 +4900,13 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 52.230687,
-      "lon": 21.15634,
+      "lat": 52.2174815,
+      "lon": 21.0282906,
       "address": {
         "city": "Warszawa",
         "state": "mazowieckie",
         "country": "Polska",
-        "road": "Botaniczna"
+        "road": "Śródmieście"
       },
       "extratags": {},
       "city": "Warszawa",
@@ -4925,8 +4925,8 @@
       "type": "park",
       "category": "park",
       "class": "leisure",
-      "lat": 51.11029,
-      "lon": 17.03056,
+      "lat": 51.115976,
+      "lon": 17.0477229,
       "address": {
         "city": "Wrocław",
         "state": "dolnośląskie",

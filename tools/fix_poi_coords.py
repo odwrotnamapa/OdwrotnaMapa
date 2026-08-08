@@ -68,10 +68,16 @@ MAPBOX_TOKEN = ""
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 MAPBOX_URL_TMPL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{query}.json"
+# Ta sama publiczna instancja Photon, ktorej appka juz uzywa do
+# wyszukiwania na zywo (config.js: search.fuzzyEndpoint) - bez tokena,
+# oparta na OSM jak Nominatim, ale inny silnik (Elasticsearch), wiec
+# moze zlapac inne bledy niz Nominatim.
+PHOTON_URL = "https://photon.komoot.io/api/"
 USER_AGENT = "OdwrotnaMapa-CoordFixer/1.0 (kontakt: odwrotnamapa@protonmail.com)"
 
 NOMINATIM_DELAY = 1.1  # nominatim wymaga max 1 zapytanie/sekunde
 MAPBOX_DELAY = 0.15
+PHOTON_DELAY = 0.3  # "extensive usage will be throttled" - zapas ostroznosci
 
 # Powyzej tego dystansu (km) od znanego centrum miasta wynik jest
 # odrzucany jako nierealistyczny. 40km jest celowo hojne - pozwala na
@@ -187,6 +193,51 @@ def geocode_mapbox(query, token, near_lat=None, near_lon=None):
     return out
 
 
+def geocode_photon(query, near_lat=None, near_lon=None):
+    """Zwraca liste (lat, lon, display_name, road) kandydatow z Photon.
+    Ten sam mechanizm co Nominatim: wyniki oznaczone jako ulica
+    (osm_key == 'highway') sa CALKOWICIE odrzucane, zeby nie powtorzyc
+    bledu typu 'Katedra Oliwska -> ulica Oliwska w innej dzielnicy'."""
+    # UWAGA: publiczna instancja Photon NIE wspiera "pl" jako lang -
+    # tylko "default", "de", "en", "fr" (potwierdzone bledem 400).
+    # "default" zwraca nazwy w oryginalnym tagowaniu OSM, co dla
+    # miejsc w Polsce i tak w praktyce oznacza polskie nazwy.
+    params = {"q": query, "lang": "default", "limit": 5}
+    if near_lat is not None and near_lon is not None:
+        params["lat"] = near_lat
+        params["lon"] = near_lon
+    url = PHOTON_URL + "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        try:
+            body = e.read().decode("utf-8")
+        except Exception:
+            body = "(brak tresci odpowiedzi)"
+        print(f"    ! Photon HTTP {e.code} dla zapytania '{query}': {body}")
+        return []
+    except Exception as e:
+        print(f"    ! Photon blad: {e}")
+        return []
+    out = []
+    for feat in data.get("features", []):
+        props = feat.get("properties", {})
+        if props.get("osm_key") == "highway":
+            continue
+        coords = feat.get("geometry", {}).get("coordinates", [])
+        if len(coords) != 2:
+            continue
+        lon, lat = coords
+        name = props.get("name", "")
+        city = props.get("city") or props.get("town") or props.get("village") or ""
+        display = f"{name}, {city}".strip(", ")
+        road = props.get("street")
+        out.append((float(lat), float(lon), display, road))
+    return out
+
+
 def pick_best_candidate(candidates, near_lat, near_lon):
     """Sposrod kandydatow wybiera najblizszego znanemu centrum miasta."""
     if not candidates:
@@ -194,7 +245,7 @@ def pick_best_candidate(candidates, near_lat, near_lon):
     return min(candidates, key=lambda c: haversine_km(c[0], c[1], near_lat, near_lon))
 
 
-def process_record(record, city_coords, mapbox_token):
+def process_record(record, city_coords, mapbox_token, use_photon=True):
     name = record.get("name") or ""
     city = record.get("city") or ""
 
@@ -204,55 +255,91 @@ def process_record(record, city_coords, mapbox_token):
     near_lat, near_lon = city_coords[city]
     query = f"{name}, {city}, Polska"
 
+    sources_valid = []  # [(nazwa_zrodla, (lat, lon, display, road)), ...]
+
     nominatim_candidates = geocode_nominatim(query)
     time.sleep(NOMINATIM_DELAY)
     best_nom = pick_best_candidate(nominatim_candidates, near_lat, near_lon)
+    if best_nom and haversine_km(best_nom[0], best_nom[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
+        sources_valid.append(("nominatim", best_nom))
 
-    best_mb = None
     if mapbox_token:
         mb_candidates = geocode_mapbox(query, mapbox_token, near_lat, near_lon)
         time.sleep(MAPBOX_DELAY)
         best_mb = pick_best_candidate(mb_candidates, near_lat, near_lon)
+        if best_mb and haversine_km(best_mb[0], best_mb[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
+            sources_valid.append(("mapbox", best_mb))
 
-    sources_valid = []
-    if best_nom and haversine_km(best_nom[0], best_nom[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
-        sources_valid.append(("nominatim", best_nom))
-    if best_mb and haversine_km(best_mb[0], best_mb[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
-        sources_valid.append(("mapbox", best_mb))
+    if use_photon:
+        ph_candidates = geocode_photon(query, near_lat, near_lon)
+        time.sleep(PHOTON_DELAY)
+        best_ph = pick_best_candidate(ph_candidates, near_lat, near_lon)
+        if best_ph and haversine_km(best_ph[0], best_ph[1], near_lat, near_lon) <= MAX_DISTANCE_KM:
+            sources_valid.append(("photon", best_ph))
 
     if not sources_valid:
         return "UNCHANGED", None, None, "zaden geokoder nie zwrocil sensownego wyniku (w promieniu miasta)"
 
-    if len(sources_valid) == 2:
-        (_, a), (_, b) = sources_valid
-        d = haversine_km(a[0], a[1], b[0], b[1])
-        if d > CROSS_CHECK_TOLERANCE_KM:
-            return "UNCHANGED", None, None, (
-                f"Nominatim i Mapbox NIE zgadzaja sie ({d:.1f}km roznicy) - "
-                f"nominatim=({a[0]:.4f},{a[1]:.4f}) mapbox=({b[0]:.4f},{b[1]:.4f})"
-            )
-        # zgadzaja sie - bierzemy wspolrzedne i adres z Nominatim (nie
-        # wymaga tokenu, ma ustrukturyzowany address_details - Mapbox
-        # tu tylko potwierdza, ze wynik jest wiarygodny)
-        road = a[3]
-        return "ACCEPTED", (a[0], a[1]), road, f"potwierdzone przez oba zrodla (roznica {d:.2f}km)"
+    if len(sources_valid) == 1:
+        src, (lat, lon, label, road) = sources_valid[0]
+        return "ACCEPTED", (lat, lon), road, f"tylko {src} ({label[:60]})"
 
-    src, (lat, lon, label, road) = sources_valid[0]
-    return "ACCEPTED", (lat, lon), road, f"tylko {src} ({label[:60]})"
+    # Dwa lub wiecej zrodel - szukamy KTOREJKOLWIEK pary, ktora sie
+    # zgadza (nie wymagamy zgody WSZYSTKICH - np. przy 3 zrodlach
+    # wystarczy, ze dwa z nich potwierdzaja ten sam wynik). Wybieramy
+    # najlepiej zgadzajaca sie pare (najmniejsza roznica).
+    best_pair = None
+    for i in range(len(sources_valid)):
+        for j in range(i + 1, len(sources_valid)):
+            src_a, a = sources_valid[i]
+            src_b, b = sources_valid[j]
+            d = haversine_km(a[0], a[1], b[0], b[1])
+            if d <= CROSS_CHECK_TOLERANCE_KM:
+                if best_pair is None or d < best_pair[0]:
+                    best_pair = (d, src_a, a, src_b, b)
+
+    if best_pair is None:
+        summary = ", ".join(
+            f"{src}=({c[0]:.4f},{c[1]:.4f})" for src, c in sources_valid
+        )
+        return "UNCHANGED", None, None, f"zrodla NIE zgadzaja sie ze soba: {summary}"
+
+    d, src_a, a, src_b, b = best_pair
+    # Wolimy dane (wspolrzedne + adres) z Nominatim, jesli jest w
+    # zgadzajacej sie parze - ma najbardziej ustrukturyzowany adres.
+    # Jesli Nominatim nie bierze udzialu w tej parze, bierzemy tego z
+    # dwojga, kto faktycznie zwrocil ulice (a nie po prostu pierwszego
+    # z brzegu, ktory moze miec road=None mimo ze drugi je ma).
+    if src_a == "nominatim":
+        chosen = a
+    elif src_b == "nominatim":
+        chosen = b
+    elif a[3]:
+        chosen = a
+    elif b[3]:
+        chosen = b
+    else:
+        chosen = a
+    return "ACCEPTED", (chosen[0], chosen[1]), chosen[3], (
+        f"{src_a}+{src_b} zgodne (roznica {d:.2f}km)"
+    )
 
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mapbox-token", default=None, help="Token Mapbox do krzyzowej weryfikacji (opcjonalny, nadpisuje stala MAPBOX_TOKEN w pliku)")
+    parser.add_argument("--no-photon", action="store_true", help="Wylacz Photon (wlaczony domyslnie - bez tokena, ta sama instancja co w appce)")
     parser.add_argument("--only", default=None, help="Przetworz tylko wpis o tej dokladnej nazwie (do testow)")
     args = parser.parse_args()
 
     mapbox_token = args.mapbox_token or (MAPBOX_TOKEN.strip() or None)
-    if mapbox_token:
-        print("Token Mapbox wykryty - krzyzowa weryfikacja WLACZONA")
-    else:
-        print("Brak tokena Mapbox - dziala tylko na Nominatim")
+    use_photon = not args.no_photon
+
+    active_sources = ["Nominatim (zawsze)"]
+    active_sources.append("Mapbox (krzyzowa weryfikacja)" if mapbox_token else "Mapbox: WYLACZONY (brak tokena)")
+    active_sources.append("Photon" if use_photon else "Photon: WYLACZONY (--no-photon)")
+    print("Aktywne zrodla: " + ", ".join(active_sources))
 
     print("\nWczytuje baze miast (punkt odniesienia)...")
     city_coords = load_city_coords()
@@ -274,7 +361,7 @@ def main():
     for i, record in enumerate(records):
         name = record.get("name", "?")
         print(f"[{i+1}/{len(records)}] {name}...")
-        status, coords, road, reason = process_record(record, city_coords, mapbox_token)
+        status, coords, road, reason = process_record(record, city_coords, mapbox_token, use_photon)
 
         if status == "ACCEPTED":
             old = (record["lat"], record["lon"])
