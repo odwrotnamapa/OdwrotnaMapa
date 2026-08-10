@@ -5112,6 +5112,17 @@ function applyLanguage(language) {
 
     panel.classList.toggle("is-collapsed", shouldCollapse);
 
+    // Panel "rozwinięty do końca" (przeciągnięty/otwarty na pełną
+    // dostępną wysokość) - używane w CSS do ukrycia pływającego paska
+    // akcji w prawym górnym rogu, żeby nie zasłaniał treści panelu.
+    // Liczone tu centralnie, bo WSZYSTKIE zmiany wysokości (drag z
+    // bottom-sheet-service.js, otwarcie domyślne, zwinięcie) przechodzą
+    // przez tę funkcję.
+    panel.classList.toggle(
+      "is-fully-expanded",
+      safeHeight >= getMobilePanelMaximumHeight() - 1
+    );
+
     // Tryb zapisujemy TYLKO wtedy, gdy wywołujący jawnie go poda -
     // żadnego zgadywania na podstawie wysokości, żeby stan zapisywał
     // się natychmiast i niezawodnie, a nie dopiero "za drugim razem".
