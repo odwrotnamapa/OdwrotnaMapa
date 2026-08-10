@@ -1,6 +1,0 @@
-OMapa build: 20260719140000
-
-Po otwarciu strony konsola musi pokazać:
-OMapa build 20260719140000
-
-Jeżeli widoczny jest inny numer lub brak wpisu, przeglądarka uruchamia starszą kopię projektu.

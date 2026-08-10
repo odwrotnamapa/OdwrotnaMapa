@@ -1,8 +1,0 @@
-{
-  "appId": "com.odwrotnamapa.app",
-  "appName": "Odwrotna Mapa",
-  "webDir": "www",
-  "android": {
-    "allowMixedContent": false
-  }
-}

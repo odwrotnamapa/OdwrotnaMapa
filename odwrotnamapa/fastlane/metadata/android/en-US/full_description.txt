@@ -1,1 +1,0 @@
-Odwrotna Mapa flips the usual map convention, placing south at the top instead of north. Explore places, plan routes, measure distances, and save favorite spots, some available offline as well.
