@@ -7069,6 +7069,48 @@ function showUserLocationMarker(lngLat) {
       window.OMAP_RATINGS?.loadForPlace(window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat), ratingUi);
     }
 
+    // 4 przyciski akcji (trasa/w pobliżu/ulubione/udostępnij) - celowo
+    // zaraz po ocenach, a przed "O tym miejscu" (Wikipedia), zamiast
+    // nizej pod szczegolami adresu/telefonu jak wczesniej.
+    const actions = document.createElement("div");
+    actions.className = "place-card-actions";
+
+    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
+
+    actions.append(
+      createPlaceAction("↪️", t.placeSetRoute, () => {
+        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
+      }),
+      createPlaceAction("🧭", t.placeNearby, () => {
+        openDiscoverNearPlace(place, lngLat);
+      }),
+      createPlaceAction(
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
+        state.language === "pl"
+          ? "Dodaj do ulubionych"
+          : "Add to favorites",
+        button => {
+          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+            window.OMAP_ACCOUNT?.openAccountFromMenu();
+            return;
+          }
+          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
+            favoriteKey,
+            place,
+            lngLat
+          );
+          button.textContent = nowFavorite ? "★" : "☆";
+          button.classList.toggle("is-favorite", nowFavorite);
+        },
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
+      ),
+      createPlaceAction("🔗", t.placeShare, () => {
+        sharePlace(place, lngLat);
+      })
+    );
+
+    card.appendChild(actions);
+
     const isNamedSettlement =
       ["city", "town", "village"].includes(
         String(place?.type || "").toLowerCase()
@@ -7148,45 +7190,6 @@ function showUserLocationMarker(lngLat) {
       card.appendChild(departures.section);
       window.OMAP_DEPARTURES?.loadForPlace(place, lngLat, departures);
     }
-
-    const actions = document.createElement("div");
-    actions.className = "place-card-actions";
-
-    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
-
-    actions.append(
-      createPlaceAction("↪️", t.placeSetRoute, () => {
-        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
-      }),
-      createPlaceAction("🧭", t.placeNearby, () => {
-        openDiscoverNearPlace(place, lngLat);
-      }),
-      createPlaceAction(
-        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
-        state.language === "pl"
-          ? "Dodaj do ulubionych"
-          : "Add to favorites",
-        button => {
-          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
-            window.OMAP_ACCOUNT?.openAccountFromMenu();
-            return;
-          }
-          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
-            favoriteKey,
-            place,
-            lngLat
-          );
-          button.textContent = nowFavorite ? "★" : "☆";
-          button.classList.toggle("is-favorite", nowFavorite);
-        },
-        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
-      ),
-      createPlaceAction("🔗", t.placeShare, () => {
-        sharePlace(place, lngLat);
-      })
-    );
-
-    card.appendChild(actions);
 
     const commentsUi = window.OMAP_COMMENTS?.createSection(
       window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat),

@@ -6201,14 +6201,34 @@ textarea {
    Telefon: otwarty panel zastępuje wyszukiwarkę i przyciski
    ========================================================= */
 @media (max-width: 600px) {
-  body:has(.route-panel:not([hidden])) .toolbar,
-  body:has(.discover-panel:not([hidden])) .toolbar,
-  body:has(.menu-panel:not([hidden])) .toolbar,
-  body:has(.favorites-panel:not([hidden])) .toolbar,
-  body:has(.history-panel:not([hidden])) .toolbar,
-  body:has(.place-panel:not([hidden])) .toolbar,
-  body:has(.trip-panel:not([hidden])) .toolbar,
-  body:has(.streetview-panel:not([hidden])) .toolbar,
+  /* UWAGA: celowo NIE ".toolbar" (co ukrywaloby tez #streetview-actions,
+     bo jest jego dzieckiem w DOM) - tylko wyszukiwarke/marke i przycisk
+     menu. #streetview-actions ma wlasna regule ponizej, zeby zostac
+     widoczny i przeniesc sie w prawy gorny rog. */
+  body:has(.route-panel:not([hidden])) .toolbar-primary,
+  body:has(.discover-panel:not([hidden])) .toolbar-primary,
+  body:has(.menu-panel:not([hidden])) .toolbar-primary,
+  body:has(.favorites-panel:not([hidden])) .toolbar-primary,
+  body:has(.history-panel:not([hidden])) .toolbar-primary,
+  body:has(.place-panel:not([hidden])) .toolbar-primary,
+  body:has(.trip-panel:not([hidden])) .toolbar-primary,
+  body:has(.streetview-panel:not([hidden])) .toolbar-primary,
+  body:has(.route-panel:not([hidden])) .toolbar-actions,
+  body:has(.discover-panel:not([hidden])) .toolbar-actions,
+  body:has(.menu-panel:not([hidden])) .toolbar-actions,
+  body:has(.favorites-panel:not([hidden])) .toolbar-actions,
+  body:has(.history-panel:not([hidden])) .toolbar-actions,
+  body:has(.place-panel:not([hidden])) .toolbar-actions,
+  body:has(.trip-panel:not([hidden])) .toolbar-actions,
+  body:has(.streetview-panel:not([hidden])) .toolbar-actions,
+  body:has(.route-panel:not([hidden])) #measure-distance-badge,
+  body:has(.discover-panel:not([hidden])) #measure-distance-badge,
+  body:has(.menu-panel:not([hidden])) #measure-distance-badge,
+  body:has(.favorites-panel:not([hidden])) #measure-distance-badge,
+  body:has(.history-panel:not([hidden])) #measure-distance-badge,
+  body:has(.place-panel:not([hidden])) #measure-distance-badge,
+  body:has(.trip-panel:not([hidden])) #measure-distance-badge,
+  body:has(.streetview-panel:not([hidden])) #measure-distance-badge,
   body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
@@ -6218,6 +6238,28 @@ textarea {
   body:has(.trip-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.streetview-panel:not([hidden])) .mobile-bottom-nav {
     display: none !important;
+  }
+
+  /* Panel z przyciskami (streetview-actions) zostaje widoczny gdy
+     otwarty jest dowolny panel - przenosimy go wtedy jako plywajacy
+     element w prawy gorny rog ekranu (zamiast pod wyszukiwarka, ktora
+     wtedy jest ukryta). */
+  body:has(.route-panel:not([hidden])) #streetview-actions,
+  body:has(.discover-panel:not([hidden])) #streetview-actions,
+  body:has(.menu-panel:not([hidden])) #streetview-actions,
+  body:has(.favorites-panel:not([hidden])) #streetview-actions,
+  body:has(.history-panel:not([hidden])) #streetview-actions,
+  body:has(.place-panel:not([hidden])) #streetview-actions,
+  body:has(.trip-panel:not([hidden])) #streetview-actions,
+  body:has(.streetview-panel:not([hidden])) #streetview-actions {
+    position: fixed !important;
+    z-index: 30 !important;
+    top: 8px !important;
+    right: 8px !important;
+    left: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    pointer-events: auto !important;
   }
 
   body:has(.route-panel:not([hidden])) .route-panel,
