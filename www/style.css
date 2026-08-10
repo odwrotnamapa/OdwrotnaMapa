@@ -2308,12 +2308,6 @@ body.ui-dark .legend-symbol.osm-buildings {
   padding: 4px 0 4px 8px;
 }
 
-.place-inline-spinner {
-  display: inline-block;
-  font-size: 0.8em;
-  margin-left: 6px;
-  animation: omap-spin 0.7s linear infinite;
-}
 
 .place-comments-heading {
   display: flex;
