@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /search-v2-lab.html
+Disallow: /search-v2-tests.html
+Disallow: /search-v2-location-lab.html
+Disallow: /search-v2-location-db.html
+Disallow: /search-v2-location-importer.html
+Disallow: /search-v2-release-report.html
+Disallow: /search-v2/tests/
+Disallow: /.idea/
+
+Sitemap: https://odwrotnamapa.pl/sitemap.xml

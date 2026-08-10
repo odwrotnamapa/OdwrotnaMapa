@@ -1,0 +1,329 @@
+{
+  "lidl": {
+    "aliases": [
+      "lidl"
+    ],
+    "category": "supermarket"
+  },
+  "biedronka": {
+    "aliases": [
+      "biedronka"
+    ],
+    "category": "supermarket"
+  },
+  "zabka": {
+    "aliases": [
+      "żabka",
+      "zabka"
+    ],
+    "category": "convenience"
+  },
+  "dino": {
+    "aliases": [
+      "dino"
+    ],
+    "category": "supermarket"
+  },
+  "aldi": {
+    "aliases": [
+      "aldi"
+    ],
+    "category": "supermarket"
+  },
+  "kaufland": {
+    "aliases": [
+      "kaufland"
+    ],
+    "category": "supermarket"
+  },
+  "carrefour": {
+    "aliases": [
+      "carrefour"
+    ],
+    "category": "supermarket"
+  },
+  "auchan": {
+    "aliases": [
+      "auchan"
+    ],
+    "category": "supermarket"
+  },
+  "ikea": {
+    "aliases": [
+      "ikea"
+    ],
+    "category": "shopping_centre"
+  },
+  "castorama": {
+    "aliases": [
+      "castorama"
+    ],
+    "category": "shopping_centre"
+  },
+  "obi": {
+    "aliases": [
+      "obi"
+    ],
+    "category": "shopping_centre"
+  },
+  "leroy_merlin": {
+    "aliases": [
+      "leroy merlin"
+    ],
+    "category": "shopping_centre"
+  },
+  "mcdonalds": {
+    "aliases": [
+      "mcdonald's",
+      "mcdonalds",
+      "mc donalds"
+    ],
+    "category": "fast_food"
+  },
+  "kfc": {
+    "aliases": [
+      "kfc"
+    ],
+    "category": "fast_food"
+  },
+  "burger_king": {
+    "aliases": [
+      "burger king"
+    ],
+    "category": "fast_food"
+  },
+  "starbucks": {
+    "aliases": [
+      "starbucks"
+    ],
+    "category": "cafe"
+  },
+  "orlen": {
+    "aliases": [
+      "orlen",
+      "pkn orlen"
+    ],
+    "category": "fuel_station"
+  },
+  "bp": {
+    "aliases": [
+      "bp"
+    ],
+    "category": "fuel_station"
+  },
+  "shell": {
+    "aliases": [
+      "shell"
+    ],
+    "category": "fuel_station"
+  },
+  "circle_k": {
+    "aliases": [
+      "circle k"
+    ],
+    "category": "fuel_station"
+  },
+  "rossmann": {
+    "aliases": [
+      "rossmann"
+    ],
+    "category": "shopping_centre"
+  },
+  "hebe": {
+    "aliases": [
+      "hebe"
+    ],
+    "category": "shopping_centre"
+  },
+  "inpost": {
+    "aliases": [
+      "inpost",
+      "in post"
+    ],
+    "category": "parcel_locker"
+  },
+  "poczta_polska": {
+    "aliases": [
+      "poczta polska"
+    ],
+    "category": "post_office"
+  },
+  "empik": {
+    "aliases": [
+      "empik"
+    ],
+    "category": "shopping_centre"
+  },
+  "media_expert": {
+    "aliases": [
+      "media expert"
+    ],
+    "category": "shopping_centre"
+  },
+  "rtv_euro_agd": {
+    "aliases": [
+      "rtv euro agd",
+      "euro rtv agd"
+    ],
+    "category": "shopping_centre"
+  },
+  "netto": {
+    "aliases": [
+      "netto"
+    ],
+    "category": "supermarket"
+  },
+  "stokrotka": {
+    "aliases": [
+      "stokrotka"
+    ],
+    "category": "supermarket"
+  },
+  "polomarket": {
+    "aliases": [
+      "polomarket",
+      "polo market"
+    ],
+    "category": "supermarket"
+  },
+  "lewiatan": {
+    "aliases": [
+      "lewiatan"
+    ],
+    "category": "convenience"
+  },
+  "abc": {
+    "aliases": [
+      "sklep abc",
+      "abc"
+    ],
+    "category": "convenience"
+  },
+  "intermarche": {
+    "aliases": [
+      "intermarché",
+      "intermarche"
+    ],
+    "category": "supermarket"
+  },
+  "tesco": {
+    "aliases": [
+      "tesco"
+    ],
+    "category": "supermarket"
+  },
+  "pepco": {
+    "aliases": [
+      "pepco"
+    ],
+    "category": "shopping_centre"
+  },
+  "action": {
+    "aliases": [
+      "action"
+    ],
+    "category": "shopping_centre"
+  },
+  "decathlon": {
+    "aliases": [
+      "decathlon"
+    ],
+    "category": "shopping_centre"
+  },
+  "jysk": {
+    "aliases": [
+      "jysk"
+    ],
+    "category": "shopping_centre"
+  },
+  "agata": {
+    "aliases": [
+      "agata meble",
+      "agata"
+    ],
+    "category": "shopping_centre"
+  },
+  "makro": {
+    "aliases": [
+      "makro"
+    ],
+    "category": "supermarket"
+  },
+  "selgros": {
+    "aliases": [
+      "selgros"
+    ],
+    "category": "supermarket"
+  },
+  "mol": {
+    "aliases": [
+      "mol"
+    ],
+    "category": "fuel_station"
+  },
+  "moya": {
+    "aliases": [
+      "moya"
+    ],
+    "category": "fuel_station"
+  },
+  "avanti": {
+    "aliases": [
+      "avanti"
+    ],
+    "category": "fuel_station"
+  },
+  "lotos": {
+    "aliases": [
+      "lotos"
+    ],
+    "category": "fuel_station"
+  },
+  "subway": {
+    "aliases": [
+      "subway"
+    ],
+    "category": "fast_food"
+  },
+  "pizza_hut": {
+    "aliases": [
+      "pizza hut"
+    ],
+    "category": "restaurant"
+  },
+  "dominos": {
+    "aliases": [
+      "domino's",
+      "dominos"
+    ],
+    "category": "restaurant"
+  },
+  "costa_coffee": {
+    "aliases": [
+      "costa coffee",
+      "costa"
+    ],
+    "category": "cafe"
+  },
+  "cafe_nero": {
+    "aliases": [
+      "caffè nero",
+      "caffe nero"
+    ],
+    "category": "cafe"
+  },
+  "doz": {
+    "aliases": [
+      "doz",
+      "dbam o zdrowie"
+    ],
+    "category": "pharmacy"
+  },
+  "gemini": {
+    "aliases": [
+      "apteka gemini",
+      "gemini"
+    ],
+    "category": "pharmacy"
+  }
+}

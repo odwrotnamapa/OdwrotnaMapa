@@ -1,0 +1,161 @@
+{
+  "open_24h": {
+    "aliases": [
+      "24h",
+      "24/7",
+      "całodobowy",
+      "calodobowy",
+      "całodobowa",
+      "calodobowa",
+      "non stop",
+      "całą dobę",
+      "cala dobe",
+      "przez całą dobę",
+      "przez cala dobe",
+      "czynne całą dobę",
+      "czynne cala dobe"
+    ]
+  },
+  "open_now": {
+    "aliases": [
+      "otwarte teraz",
+      "czynne teraz",
+      "otwarty teraz",
+      "otwarta teraz",
+      "otwarte",
+      "czynne",
+      "otwarty",
+      "otwarta",
+      "czynny",
+      "czynna",
+      "teraz otwarte",
+      "teraz czynne"
+    ]
+  },
+  "children": {
+    "aliases": [
+      "dziecięcy",
+      "dzieciecy",
+      "dla dzieci",
+      "pediatryczny",
+      "dla dziecka",
+      "dzieci",
+      "pediatria",
+      "pediatryczna"
+    ]
+  },
+  "near_me": {
+    "aliases": [
+      "koło mnie",
+      "kolo mnie",
+      "w pobliżu",
+      "w poblizu",
+      "blisko mnie",
+      "najbliższy",
+      "najblizszy",
+      "w pobliżu mnie",
+      "w poblizu mnie",
+      "w mojej okolicy",
+      "w okolicy",
+      "obok mnie",
+      "niedaleko mnie",
+      "blisko",
+      "koło",
+      "kolo",
+      "najbliżej",
+      "najblizej",
+      "najbliższa",
+      "najblizsza",
+      "najbliższe",
+      "najblizsze"
+    ]
+  },
+  "main": {
+    "aliases": [
+      "główny",
+      "glowny",
+      "centralny",
+      "centralna",
+      "najważniejszy",
+      "najwazniejszy",
+      "główna",
+      "glowna",
+      "główne",
+      "glowne",
+      "central station",
+      "main station"
+    ]
+  },
+  "accessible": {
+    "aliases": [
+      "dla niepełnosprawnych",
+      "dla niepelnosprawnych",
+      "dostępny",
+      "dostepny",
+      "accessible"
+    ]
+  },
+  "drive_through": {
+    "aliases": [
+      "drive thru",
+      "drive-through",
+      "drive through"
+    ]
+  },
+  "electric": {
+    "aliases": [
+      "elektryczny",
+      "ev"
+    ]
+  },
+  "cheap": {
+    "aliases": [
+      "tani",
+      "tania",
+      "najtańszy",
+      "najtanszy"
+    ]
+  },
+  "large": {
+    "aliases": [
+      "duży",
+      "duzy",
+      "największy",
+      "najwiekszy"
+    ]
+  },
+  "wheelchair": {
+    "aliases": [
+      "bez barier",
+      "dla wózków",
+      "dla wozkow",
+      "na wózku",
+      "na wozku",
+      "wheelchair"
+    ]
+  },
+  "with_parking": {
+    "aliases": [
+      "z parkingiem",
+      "parking na miejscu",
+      "ma parking",
+      "with parking"
+    ]
+  },
+  "delivery": {
+    "aliases": [
+      "z dostawą",
+      "z dostawa",
+      "dowóz",
+      "dowoz",
+      "delivery"
+    ]
+  },
+  "takeaway": {
+    "aliases": [
+      "na wynos",
+      "takeaway",
+      "take away"
+    ]
+  }
+}

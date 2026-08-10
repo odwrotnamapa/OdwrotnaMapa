@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Odwrotna Mapa</string>
+    <string name="title_activity_main">Odwrotna Mapa</string>
+    <string name="package_name">com.odwrotnamapa.app</string>
+    <string name="custom_url_scheme">com.odwrotnamapa.app</string>
+</resources>

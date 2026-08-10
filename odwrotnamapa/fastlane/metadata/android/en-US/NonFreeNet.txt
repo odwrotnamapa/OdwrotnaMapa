@@ -1,0 +1,1 @@
+Street view uses Mapillary, a service owned by Meta, to display street-level photos. This feature is optional - the app works fully without it.

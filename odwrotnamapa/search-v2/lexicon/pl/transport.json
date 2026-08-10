@@ -1,0 +1,26 @@
+{
+  "rail": {
+    "aliases": [
+      "pkp",
+      "kolej",
+      "pociąg",
+      "pociag"
+    ],
+    "category": "railway_station"
+  },
+  "bus": {
+    "aliases": [
+      "pks",
+      "autobus",
+      "bus"
+    ],
+    "category": "bus_station"
+  },
+  "airport": {
+    "aliases": [
+      "lotnisko",
+      "airport"
+    ],
+    "category": "airport"
+  }
+}

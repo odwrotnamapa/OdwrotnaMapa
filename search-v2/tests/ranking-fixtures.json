@@ -1,0 +1,217 @@
+[
+  {
+    "query": "galeria bałtycka",
+    "expectedTop": "Galeria Bałtycka",
+    "results": [
+      {
+        "name": "Galeria Bałtycka",
+        "display_name": "Galeria Bałtycka, Gdańsk, Polska",
+        "lat": "54.382",
+        "lon": "18.601",
+        "class": "shop",
+        "type": "mall",
+        "address": {
+          "city": "Gdańsk"
+        },
+        "importance": 0.7
+      },
+      {
+        "name": "Bałtycka",
+        "display_name": "Ulica Bałtycka, Gdańsk",
+        "lat": "54.4",
+        "lon": "18.62",
+        "class": "highway",
+        "type": "residential",
+        "address": {
+          "city": "Gdańsk"
+        },
+        "importance": 0.3
+      }
+    ]
+  },
+  {
+    "query": "olsztyn pkp",
+    "expectedTop": "Olsztyn Główny",
+    "results": [
+      {
+        "name": "Olsztyn Główny",
+        "display_name": "Olsztyn Główny, Olsztyn",
+        "lat": "53.789",
+        "lon": "20.5",
+        "class": "railway",
+        "type": "station",
+        "address": {
+          "city": "Olsztyn"
+        },
+        "importance": 0.65
+      },
+      {
+        "name": "PKP Cargo",
+        "display_name": "PKP Cargo, Warszawa",
+        "lat": "52.2",
+        "lon": "21.0",
+        "class": "office",
+        "type": "company",
+        "address": {
+          "city": "Warszawa"
+        },
+        "importance": 0.5
+      }
+    ]
+  },
+  {
+    "query": "apteka gdańsk morena",
+    "expectedTop": "Apteka Gemini",
+    "results": [
+      {
+        "name": "Apteka Gemini",
+        "display_name": "Apteka Gemini, Piecki-Migowo, Gdańsk",
+        "lat": "54.37",
+        "lon": "18.57",
+        "class": "amenity",
+        "type": "pharmacy",
+        "address": {
+          "city": "Gdańsk",
+          "suburb": "Piecki-Migowo"
+        },
+        "importance": 0.45
+      },
+      {
+        "name": "Apteka",
+        "display_name": "Apteka, Szczecin",
+        "lat": "53.42",
+        "lon": "14.55",
+        "class": "amenity",
+        "type": "pharmacy",
+        "address": {
+          "city": "Szczecin"
+        },
+        "importance": 0.45
+      }
+    ]
+  },
+  {
+    "query": "manufaktura",
+    "expectedTop": "Manufaktura",
+    "results": [
+      {
+        "name": "Manufaktura",
+        "display_name": "Manufaktura, Łódź, Polska",
+        "lat": "51.779",
+        "lon": "19.448",
+        "class": "shop",
+        "type": "mall",
+        "address": {
+          "city": "Łódź"
+        },
+        "importance": 0.82
+      },
+      {
+        "name": "Manufaktura Reklamy",
+        "display_name": "Manufaktura Reklamy, Warszawa",
+        "lat": "52.22",
+        "lon": "21.01",
+        "class": "office",
+        "type": "company",
+        "address": {
+          "city": "Warszawa"
+        },
+        "importance": 0.25
+      }
+    ]
+  },
+  {
+    "query": "molo sopot",
+    "expectedTop": "Molo w Sopocie",
+    "results": [
+      {
+        "name": "Molo w Sopocie",
+        "display_name": "Molo w Sopocie, Sopot, Polska",
+        "lat": "54.447",
+        "lon": "18.576",
+        "class": "tourism",
+        "type": "attraction",
+        "address": {
+          "city": "Sopot"
+        },
+        "importance": 0.78
+      },
+      {
+        "name": "Molo",
+        "display_name": "Molo, Gdańsk Brzeźno",
+        "lat": "54.41",
+        "lon": "18.64",
+        "class": "man_made",
+        "type": "pier",
+        "address": {
+          "city": "Gdańsk"
+        },
+        "importance": 0.45
+      }
+    ]
+  },
+  {
+    "query": "orlen kraków",
+    "expectedTop": "ORLEN",
+    "results": [
+      {
+        "name": "ORLEN",
+        "display_name": "ORLEN, Kraków, Polska",
+        "lat": "50.06",
+        "lon": "19.94",
+        "class": "amenity",
+        "type": "fuel",
+        "brand": "ORLEN",
+        "address": {
+          "city": "Kraków"
+        },
+        "importance": 0.4
+      },
+      {
+        "name": "BP",
+        "display_name": "BP, Kraków, Polska",
+        "lat": "50.07",
+        "lon": "19.95",
+        "class": "amenity",
+        "type": "fuel",
+        "brand": "BP",
+        "address": {
+          "city": "Kraków"
+        },
+        "importance": 0.4
+      }
+    ]
+  },
+  {
+    "query": "lidl warszawa",
+    "expectedTop": "Lidl",
+    "results": [
+      {
+        "name": "Lidl",
+        "display_name": "Lidl, Warszawa, Polska",
+        "lat": "52.22",
+        "lon": "21.00",
+        "class": "shop",
+        "type": "supermarket",
+        "brand": "Lidl",
+        "address": {
+          "city": "Warszawa"
+        },
+        "importance": 0.35
+      },
+      {
+        "name": "Biedronka",
+        "display_name": "Biedronka, Warszawa, Polska",
+        "lat": "52.23",
+        "lon": "21.01",
+        "class": "shop",
+        "type": "supermarket",
+        "brand": "Biedronka",
+        "address": {
+          "city": "Warszawa"
+        },
+        "importance": 0.35
+      }
+    ]
+  }
+]

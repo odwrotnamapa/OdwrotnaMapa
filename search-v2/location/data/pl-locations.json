@@ -1,0 +1,377 @@
+{
+  "version": 1,
+  "country": {
+    "id": "pl",
+    "name": "Polska",
+    "aliases": [
+      "polska",
+      "poland"
+    ]
+  },
+  "cities": [
+    {
+      "id": "gdansk",
+      "name": "Gdańsk",
+      "aliases": [
+        "gdansk"
+      ],
+      "voivodeship": "pomorskie",
+      "districts": [
+        {
+          "id": "piecki-migowo",
+          "name": "Piecki-Migowo",
+          "aliases": [
+            "morena",
+            "piecki migowo"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "wrzeszcz-gorny",
+          "name": "Wrzeszcz Górny",
+          "aliases": [
+            "wrzeszcz gorny",
+            "górny wrzeszcz",
+            "gorny wrzeszcz"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "wrzeszcz-dolny",
+          "name": "Wrzeszcz Dolny",
+          "aliases": [
+            "wrzeszcz dolny",
+            "dolny wrzeszcz"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "oliwa",
+          "name": "Oliwa",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "przymorze-wielkie",
+          "name": "Przymorze Wielkie",
+          "aliases": [
+            "przymorze"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "zaspa-mlyniec",
+          "name": "Zaspa-Młyniec",
+          "aliases": [
+            "zaspa",
+            "zaspa mlyniec"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "srodmiescie-gdansk",
+          "name": "Śródmieście",
+          "aliases": [
+            "srodmiescie",
+            "centrum",
+            "stare miasto"
+          ],
+          "type": "district"
+        }
+      ]
+    },
+    {
+      "id": "warszawa",
+      "name": "Warszawa",
+      "aliases": [
+        "warsaw"
+      ],
+      "voivodeship": "mazowieckie",
+      "districts": [
+        {
+          "id": "mokotow",
+          "name": "Mokotów",
+          "aliases": [
+            "mokotow"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "wola",
+          "name": "Wola",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "ursynow",
+          "name": "Ursynów",
+          "aliases": [
+            "ursynow"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "praga-polnoc",
+          "name": "Praga-Północ",
+          "aliases": [
+            "praga północ",
+            "praga polnoc"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "praga-poludnie",
+          "name": "Praga-Południe",
+          "aliases": [
+            "praga południe",
+            "praga poludnie"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "srodmiescie-warszawa",
+          "name": "Śródmieście",
+          "aliases": [
+            "srodmiescie",
+            "centrum"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "zoliborz",
+          "name": "Żoliborz",
+          "aliases": [
+            "zoliborz"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "bemowo",
+          "name": "Bemowo",
+          "aliases": [],
+          "type": "district"
+        }
+      ]
+    },
+    {
+      "id": "krakow",
+      "name": "Kraków",
+      "aliases": [
+        "krakow",
+        "cracow"
+      ],
+      "voivodeship": "małopolskie",
+      "districts": [
+        {
+          "id": "stare-miasto-krakow",
+          "name": "Stare Miasto",
+          "aliases": [
+            "starówka",
+            "starowka",
+            "centrum"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "podgorze",
+          "name": "Podgórze",
+          "aliases": [
+            "podgorze"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "krowodrza",
+          "name": "Krowodrza",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "nowa-huta",
+          "name": "Nowa Huta",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "kazimierz",
+          "name": "Kazimierz",
+          "aliases": [],
+          "type": "neighbourhood"
+        },
+        {
+          "id": "bronowice",
+          "name": "Bronowice",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "debniki",
+          "name": "Dębniki",
+          "aliases": [
+            "debniki"
+          ],
+          "type": "district"
+        }
+      ]
+    },
+    {
+      "id": "wroclaw",
+      "name": "Wrocław",
+      "aliases": [
+        "wroclaw",
+        "breslau"
+      ],
+      "voivodeship": "dolnośląskie",
+      "districts": [
+        {
+          "id": "stare-miasto-wroclaw",
+          "name": "Stare Miasto",
+          "aliases": [
+            "centrum",
+            "starówka",
+            "starowka"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "krzyki",
+          "name": "Krzyki",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "psie-pole",
+          "name": "Psie Pole",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "fabryczna",
+          "name": "Fabryczna",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "srodmiescie-wroclaw",
+          "name": "Śródmieście",
+          "aliases": [
+            "srodmiescie"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "nadodrze",
+          "name": "Nadodrze",
+          "aliases": [],
+          "type": "neighbourhood"
+        }
+      ]
+    },
+    {
+      "id": "poznan",
+      "name": "Poznań",
+      "aliases": [
+        "poznan",
+        "posen"
+      ],
+      "voivodeship": "wielkopolskie",
+      "districts": [
+        {
+          "id": "stare-miasto-poznan",
+          "name": "Stare Miasto",
+          "aliases": [
+            "centrum",
+            "starówka",
+            "starowka"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "jezyce",
+          "name": "Jeżyce",
+          "aliases": [
+            "jezyce"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "grunwald",
+          "name": "Grunwald",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "wilda",
+          "name": "Wilda",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "nowe-miasto-poznan",
+          "name": "Nowe Miasto",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "rataje",
+          "name": "Rataje",
+          "aliases": [],
+          "type": "neighbourhood"
+        }
+      ]
+    },
+    {
+      "id": "lodz",
+      "name": "Łódź",
+      "aliases": [
+        "lodz"
+      ],
+      "voivodeship": "łódzkie",
+      "districts": [
+        {
+          "id": "srodmiescie-lodz",
+          "name": "Śródmieście",
+          "aliases": [
+            "srodmiescie",
+            "centrum"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "baluty",
+          "name": "Bałuty",
+          "aliases": [
+            "baluty"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "widzew",
+          "name": "Widzew",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "polesie",
+          "name": "Polesie",
+          "aliases": [],
+          "type": "district"
+        },
+        {
+          "id": "gorna",
+          "name": "Górna",
+          "aliases": [
+            "gorna"
+          ],
+          "type": "district"
+        },
+        {
+          "id": "retkinia",
+          "name": "Retkinia",
+          "aliases": [],
+          "type": "neighbourhood"
+        }
+      ]
+    }
+  ]
+}

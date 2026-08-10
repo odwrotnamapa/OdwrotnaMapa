@@ -1,0 +1,57 @@
+{
+  "version": 0.6,
+  "generator": "OMapa sample",
+  "elements": [
+    {
+      "type": "node",
+      "id": 1001,
+      "lat": 54.352,
+      "lon": 18.646,
+      "tags": {
+        "name": "Gdańsk",
+        "name:de": "Danzig",
+        "place": "city",
+        "is_in:state": "pomorskie"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 2001,
+      "center": {
+        "lat": 54.372,
+        "lon": 18.57
+      },
+      "tags": {
+        "name": "Piecki-Migowo",
+        "loc_name": "Morena",
+        "place": "suburb",
+        "is_in:city": "Gdańsk"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1002,
+      "lat": 52.2297,
+      "lon": 21.0122,
+      "tags": {
+        "name": "Warszawa",
+        "name:en": "Warsaw",
+        "place": "city",
+        "is_in:state": "mazowieckie"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 2002,
+      "center": {
+        "lat": 52.193,
+        "lon": 21.033
+      },
+      "tags": {
+        "name": "Mokotów",
+        "place": "suburb",
+        "is_in:city": "Warszawa"
+      }
+    }
+  ]
+}
