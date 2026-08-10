@@ -23,7 +23,7 @@
    "display" przez klase - element z atrybutem hidden byl wiec
    ciagle widoczny, mimo poprawnie przelaczanego w JS atrybutu. */
 [hidden] {
-  display: none !important;
+  display: none ;
 }
 
 /* Znaczniki na mapie (A/B, ulubione, eksploracja) muszą zostać pod
@@ -38,7 +38,7 @@
 }
 
 .maplibregl-marker {
-  z-index: 2 !important;
+  z-index: 2 ;
 }
 
 html, body, #app, #map {
@@ -68,7 +68,7 @@ select {
 /* iOS Safari automatycznie przybliza ekran przy fokusie na polu z
    rozmiarem czcionki mniejszym niz 16px - wiele rozrzuconych regul w
    tym pliku ustawia mniejsze rozmiary (np. 0.82rem), stad ta jedna,
-   nadrzedna regula z !important, gwarantujaca minimum 16px na
+   nadrzedna regula z , gwarantujaca minimum 16px na
    WSZYSTKICH polach wpisywania tekstu, niezaleznie od specificznosci
    innych regul. Nie dotyczy to checkboxow/radiow/plikow/kolorow -
    tam zoom przy fokusie i tak nie wystepuje. */
@@ -81,7 +81,7 @@ input[type="number"],
 input:not([type]),
 textarea,
 select {
-  font-size: 16px !important;
+  font-size: 16px ;
 }
 
 .toolbar {
@@ -122,9 +122,9 @@ select {
   align-items: center;
   flex: 0 0 auto;
   min-height: 46px;
-  padding: 0 18px 0 14px !important;
-  width: fit-content !important;
-  max-width: fit-content !important;
+  padding: 0 18px 0 14px ;
+  width: fit-content ;
+  max-width: fit-content ;
   color: var(--text);
   font-weight: 750;
   text-decoration: none;
@@ -168,7 +168,7 @@ input[type="search"]::-webkit-search-decoration {
   padding: 0;
   width: 52px;
   min-width: 52px;
-  flex: 0 0 52px !important;
+  flex: 0 0 52px ;
   display: grid;
   place-items: center;
 }
@@ -228,8 +228,8 @@ select:hover {
 .maplibregl-ctrl-group {
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 12px !important;
-  box-shadow: var(--shadow) !important;
+  border-radius: 12px ;
+  box-shadow: var(--shadow) ;
 }
 
 .sr-only {
@@ -869,10 +869,15 @@ body.ui-dark .legend-symbol.osm-buildings {
   grid-column: 1;
 }
 
-.route-form label span {
+.route-form label span:not(.route-mode-emoji) {
   color: var(--muted);
   font-size: 0.76rem;
   font-weight: 750;
+}
+
+.route-form label .route-mode-emoji {
+  font-size: 2.4rem;
+  line-height: 1;
 }
 
 .route-form input {
@@ -1060,11 +1065,11 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-modes label {
   position: relative;
-  display: flex !important;
+  display: flex ;
   flex: 1;
   justify-content: center;
   align-items: center;
-  min-height: 60px !important;
+  min-height: 60px ;
   padding: 0 5px;
   border: 1px solid var(--border);
   background: rgba(127, 127, 127, 0.06);
@@ -1106,7 +1111,7 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .route-mode-emoji{
-  font-size:2.4rem !important;
+  font-size:2.4rem ;
   line-height:1;
 }
 
@@ -1283,12 +1288,12 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 .route-letter-marker > span {
   transform: rotate(45deg);
-  display: grid !important;
-  place-items: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  color: var(--text) !important;
-  line-height: 1 !important;
+  display: grid ;
+  place-items: center ;
+  width: 100% ;
+  height: 100% ;
+  color: var(--text) ;
+  line-height: 1 ;
 }
 
 .route-letter-marker.route-a,
@@ -1305,13 +1310,13 @@ body.ui-dark .legend-symbol.osm-buildings {
   .route-panel {
     --route-sheet-height: 42vh;
     position: absolute;
-    top: auto !important;
+    top: auto ;
     right: 8px;
     bottom: 8px;
     left: 8px;
-    width: auto !important;
-    height: var(--route-sheet-height) !important;
-    max-height: calc(100vh - 16px) !important;
+    width: auto ;
+    height: var(--route-sheet-height) ;
+    max-height: calc(100vh - 16px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -1375,11 +1380,11 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 
   .route-modes label {
-    min-height: 52px !important;
+    min-height: 52px ;
   }
 
   .route-mode-emoji {
-    font-size: 2.25rem !important;
+    font-size: 2.25rem ;
   }
 
   .route-points {
@@ -1414,11 +1419,11 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 
   .route-mode-emoji {
-    font-size: 2.05rem !important;
+    font-size: 2.05rem ;
   }
 
   .route-modes label {
-    min-height: 47px !important;
+    min-height: 47px ;
   }
 
   .route-note {
@@ -1738,12 +1743,12 @@ body.ui-dark .legend-symbol.osm-buildings {
 
 /* Usuń separator przed przyciskiem czyszczenia */
 .search-clear::before{
-  content:none !important;
+  content:none ;
 }
 
 .search > .search-clear{
-  border-left:none !important;
-  box-shadow:none !important;
+  border-left:none ;
+  box-shadow:none ;
 }
 
 
@@ -1797,7 +1802,7 @@ body.ui-dark .legend-symbol.osm-buildings {
   background-repeat: no-repeat;
   color: var(--text);
   box-shadow: var(--shadow);
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 .maplibregl-popup-close-button {
@@ -2413,16 +2418,16 @@ body.ui-dark .legend-symbol.osm-buildings {
   z-index: 5;
   min-width: 38px;
   min-height: 38px;
-  display: grid !important;
+  display: grid ;
   place-items: center;
-  background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: var(--shadow) !important;
-  color: var(--text) !important;
+  background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+  border: 1px solid var(--border) ;
+  box-shadow: var(--shadow) ;
+  color: var(--text) ;
   font-size: 1.1rem;
 }
 
@@ -2442,13 +2447,13 @@ body.ui-dark .legend-symbol.osm-buildings {
 }
 
 .streetview-panel.is-fullscreen {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  max-width: none !important;
-  max-height: none !important;
-  border-radius: 0 !important;
+  position: fixed ;
+  inset: 0 ;
+  width: 100vw ;
+  height: 100vh ;
+  max-width: none ;
+  max-height: none ;
+  border-radius: 0 ;
   z-index: 999;
 }
 
@@ -2735,7 +2740,7 @@ select,
 .place-departure,
 .place-departure-line,
 .route-direction-button {
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 button,
@@ -2743,7 +2748,7 @@ select,
 input,
 a.place-card-action,
 a.place-card-row {
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 .search button,
@@ -2775,9 +2780,9 @@ a.place-card-row {
 .route-primary,
 .route-primary:hover,
 .route-primary:focus-visible {
-  background: var(--accent) !important;
-  color: var(--panel) !important;
-  border-color: var(--accent) !important;
+  background: var(--accent) ;
+  color: var(--panel) ;
+  border-color: var(--accent) ;
   font-size: 0.86rem;
   text-indent: 0;
 }
@@ -2789,7 +2794,7 @@ a.place-card-row {
   }
 
   .route-mode-emoji {
-    font-size: 1.8rem !important;
+    font-size: 1.8rem ;
   }
 }
 
@@ -2957,8 +2962,8 @@ a.place-card-row {
 
 .menu-panel {
   width: min(310px, calc(100vw - 24px));
-  right: 12px !important;
-  left: auto !important;
+  right: 12px ;
+  left: auto ;
 }
 
 .menu-actions {
@@ -3011,21 +3016,21 @@ a.place-card-row {
 
 /* Prawy blok: tylko wygląd mapy i menu */
 .toolbar-actions {
-  margin-left: auto !important;
-  justify-content: flex-end !important;
+  margin-left: auto ;
+  justify-content: flex-end ;
   flex: 0 0 auto;
-  width: auto !important;
-  min-width: 0 !important;
-  height: auto !important;
-  min-height: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
+  width: auto ;
+  min-width: 0 ;
+  height: auto ;
+  min-height: 0 ;
+  padding: 0 ;
+  border: none ;
+  box-shadow: none ;
+  background: transparent ;
 }
 
 .legacy-hidden-controls {
-  display: none !important;
+  display: none ;
 }
 
 .menu-action,
@@ -3342,13 +3347,13 @@ a.place-card-row {
   .discover-panel {
     --discover-sheet-height: 42vh;
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 8px !important;
-    left: 8px !important;
-    width: auto !important;
-    height: var(--discover-sheet-height) !important;
-    max-height: calc(100vh - 16px) !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 8px ;
+    left: 8px ;
+    width: auto ;
+    height: var(--discover-sheet-height) ;
+    max-height: calc(100vh - 16px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -3444,22 +3449,22 @@ a.place-card-row {
 #streetview-actions {
   height: 46px;
   min-height: 46px;
-  padding: 0 !important;
+  padding: 0 ;
 }
 
 /* ☰ ma identyczny rozmiar jak przyciski Trasa/Odkrywaj */
 #menu-button {
-  width: 46px !important;
-  min-width: 46px !important;
-  height: 46px !important;
-  min-height: 46px !important;
+  width: 46px ;
+  min-width: 46px ;
+  height: 46px ;
+  min-height: 46px ;
 }
 
 #menu-button,
 #streetview-toggle-button {
-  padding: 0 !important;
-  border-radius: 0 !important;
-  display: grid !important;
+  padding: 0 ;
+  border-radius: 0 ;
+  display: grid ;
   place-items: center;
 }
 
@@ -3476,7 +3481,7 @@ a.place-card-row {
 
 @media (max-width: 600px) {
   .toolbar {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1fr) ;
     gap: 8px;
     align-items: stretch;
   }
@@ -3488,28 +3493,28 @@ a.place-card-row {
   .toolbar .toolbar-actions,
   .toolbar .search #route-button,
   .toolbar .search #discover-button {
-    display: none !important;
+    display: none ;
   }
 
   .mobile-bottom-action {
-    display: grid !important;
-    grid-template-rows: auto auto !important;
-    grid-template-columns: 1fr !important;
-    place-items: center !important;
-    align-content: center !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    min-width: 0 !important;
-    min-height: 54px !important;
-    padding: 6px 8px !important;
+    display: grid ;
+    grid-template-rows: auto auto ;
+    grid-template-columns: 1fr ;
+    place-items: center ;
+    align-content: center ;
+    justify-content: center ;
+    gap: 3px ;
+    min-width: 0 ;
+    min-height: 54px ;
+    padding: 6px 8px ;
     border: 0;
     border-right: 1px solid var(--border);
     border-radius: 0;
     background: transparent;
-    color: var(--accent) !important;
+    color: var(--accent) ;
     font: inherit;
     cursor: pointer;
-    text-align: center !important;
+    text-align: center ;
   }
 
   .mobile-bottom-action:last-child {
@@ -3531,7 +3536,7 @@ a.place-card-row {
 
 @media (max-width: 430px) {
   .toolbar {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr ;
   }
 
   .toolbar .brand,
@@ -3554,7 +3559,7 @@ a.place-card-row {
   .maplibregl-ctrl-attrib,
   .maplibregl-ctrl-scale,
   .maplibregl-ctrl-group {
-    display: none !important;
+    display: none ;
   }
 }
 
@@ -3568,7 +3573,7 @@ a.place-card-row {
   .menu-panel {
     --menu-sheet-height: 42vh;
     position: absolute;
-    height: var(--menu-sheet-height) !important;
+    height: var(--menu-sheet-height) ;
     padding: 0 14px 14px;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -3650,16 +3655,16 @@ a.place-card-row {
 /* Na telefonach skala jest widoczna tylko przy zamkniętych panelach */
 @media (max-width: 600px) {
   .maplibregl-ctrl-bottom-left {
-    display: block !important;
+    display: block ;
   }
 
   .maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale {
-    display: block !important;
+    display: block ;
   }
 
   .maplibregl-ctrl-bottom-left
   > :not(.maplibregl-ctrl-scale) {
-    display: none !important;
+    display: none ;
   }
 
   body:has(.route-panel:not([hidden]))
@@ -3668,7 +3673,7 @@ a.place-card-row {
   .maplibregl-ctrl-bottom-left,
   body:has(.menu-panel:not([hidden]))
   .maplibregl-ctrl-bottom-left {
-    display: none !important;
+    display: none ;
   }
 }
 
@@ -3676,18 +3681,18 @@ a.place-card-row {
 /* Telefon: zmniejsz odstęp między skalą a dolnym paskiem */
 @media (max-width: 600px) {
   .maplibregl-ctrl-scale {
-    margin: 0 0 4px 8px !important;
+    margin: 0 0 4px 8px ;
   }
 }
 
 /* Przechwytujemy główny kontener skali */
 div.maplibregl-ctrl-scale {
-  background-color: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  background-color: rgba(255, 255, 255, 0.35) ;
+  backdrop-filter: blur(8px) ;
+  -webkit-backdrop-filter: blur(8px) ;
   
   /* Usuwamy domyślne tło pod tekstem */
-  background: rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.35) ;
 }
 
 
@@ -3700,29 +3705,29 @@ div.maplibregl-ctrl-scale {
   body,
   #app,
   #map {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
+    width: 100% ;
+    height: 100% ;
+    min-height: 100% ;
   }
 
   body {
-    padding: 0 !important;
+    padding: 0 ;
   }
 
   #app,
   #map {
-    position: fixed !important;
-    inset: 0 !important;
+    position: fixed ;
+    inset: 0 ;
   }
 
   .maplibregl-ctrl-bottom-left {
-    bottom: 126px !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    bottom: 126px ;
+    margin: 0 ;
+    padding: 0 ;
   }
 
   .maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale {
-    margin: 0 0 2px 6px !important;
+    margin: 0 0 2px 6px ;
   }
 }
 
@@ -3734,11 +3739,11 @@ div.maplibregl-ctrl-scale {
 
 @media (max-width: 600px) {
   .toolbar > .brand {
-    display: none !important;
+    display: none ;
   }
 
   .toolbar .search {
-    grid-column: 1 !important;
+    grid-column: 1 ;
     width: 100%;
   }
 
@@ -3853,12 +3858,12 @@ div.maplibregl-ctrl-scale {
 .place-card-actions > .place-card-action,
 .place-card-actions > .place-card-action:nth-child(3),
 .place-card-actions > .place-card-link {
-  grid-column: auto !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: 42px !important;
-  box-sizing: border-box !important;
+  grid-column: auto ;
+  width: 100% ;
+  min-width: 0 ;
+  max-width: none ;
+  height: 42px ;
+  box-sizing: border-box ;
 }
 
 
@@ -3869,7 +3874,7 @@ div.maplibregl-ctrl-scale {
 }
 
 .menu-favorites-toggle {
-  grid-template-columns: 32px minmax(0, 1fr) auto !important;
+  grid-template-columns: 32px minmax(0, 1fr) auto ;
 }
 
 .favorites-count {
@@ -4935,13 +4940,13 @@ button.account-activity-item-open:focus-visible {
   .favorites-panel {
     --favorites-sheet-height: 42vh;
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 74px ;
+    left: 8px ;
+    width: auto ;
     height: var(--favorites-sheet-height);
-    max-height: calc(100vh - 90px) !important;
+    max-height: calc(100vh - 90px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -4953,13 +4958,13 @@ button.account-activity-item-open:focus-visible {
   .history-panel {
     --history-sheet-height: 42vh;
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 74px ;
+    left: 8px ;
+    width: auto ;
     height: var(--history-sheet-height);
-    max-height: calc(100vh - 90px) !important;
+    max-height: calc(100vh - 90px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -5057,14 +5062,14 @@ button.account-activity-item-open:focus-visible {
   .route-panel,
   .discover-panel,
   .menu-panel {
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
-    max-height: calc(100vh - 90px) !important;
-    min-height: 48px !important;
-    border-radius: 20px !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 74px ;
+    left: 8px ;
+    width: auto ;
+    max-height: calc(100vh - 90px) ;
+    min-height: 48px ;
+    border-radius: 20px ;
   }
 }
 
@@ -5116,13 +5121,13 @@ button.account-activity-item-open:focus-visible {
 @media (max-width: 600px) {
   .place-panel {
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 74px ;
+    left: 8px ;
+    width: auto ;
     height: var(--sheet-height, 42vh);
-    max-height: calc(100vh - 90px) !important;
+    max-height: calc(100vh - 90px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -5134,13 +5139,13 @@ button.account-activity-item-open:focus-visible {
 
   .trip-panel {
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 74px ;
+    left: 8px ;
+    width: auto ;
     height: var(--sheet-height, 42vh);
-    max-height: calc(100vh - 90px) !important;
+    max-height: calc(100vh - 90px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -5151,13 +5156,13 @@ button.account-activity-item-open:focus-visible {
 
   .streetview-panel {
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 74px !important;
-    left: 8px !important;
-    width: auto !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 74px ;
+    left: 8px ;
+    width: auto ;
     height: var(--sheet-height, 42vh);
-    max-height: calc(100vh - 90px) !important;
+    max-height: calc(100vh - 90px) ;
     min-height: 48px;
     padding: 0 14px 14px;
     overflow-y: auto;
@@ -5453,10 +5458,10 @@ button.account-activity-item-open:focus-visible {
 }
 
 .toolbar-primary .brand {
-  border-radius: 14px 0 0 14px !important;
+  border-radius: 14px 0 0 14px ;
   box-shadow: var(--shadow);
-  background: var(--panel-muted) !important;
-  background-color: var(--panel-muted) !important;
+  background: var(--panel-muted) ;
+  background-color: var(--panel-muted) ;
   z-index: 1;
 }
 
@@ -5464,10 +5469,10 @@ button.account-activity-item-open:focus-visible {
   flex: 1 1 auto;
   min-width: 240px;
   border-left: 0;
-  border-radius: 0 14px 14px 0 !important;
+  border-radius: 0 14px 14px 0 ;
   box-shadow: var(--shadow);
-  background: var(--panel) !important;
-  background-color: var(--panel) !important;
+  background: var(--panel) ;
+  background-color: var(--panel) ;
 }
 
 /* =========================================================
@@ -5538,103 +5543,103 @@ button.account-activity-item-open:focus-visible {
    ========================================================= */
 @media (max-width: 600px) {
   .toolbar {
-    position: fixed !important;
-    z-index: 40 !important;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 68px !important;
-    left: 8px !important;
-    display: block !important;
-    width: auto !important;
-    max-width: none !important;
-    min-height: 48px !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    position: fixed ;
+    z-index: 40 ;
+    top: auto ;
+    right: 8px ;
+    bottom: 68px ;
+    left: 8px ;
+    display: block ;
+    width: auto ;
+    max-width: none ;
+    min-height: 48px ;
+    margin: 0 ;
+    padding: 0 ;
   }
 
   .toolbar-primary {
-    display: grid !important;
-    grid-template-columns: 46px minmax(0, 1fr) !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    gap: 0 !important;
+    display: grid ;
+    grid-template-columns: 46px minmax(0, 1fr) ;
+    width: 100% ;
+    max-width: none ;
+    min-width: 0 ;
+    gap: 0 ;
   }
 
   .toolbar-primary .brand {
-    grid-column: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 46px !important;
-    min-width: 46px !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    margin: 0 !important;
-    padding: 4px 6px !important;
-    border-radius: 14px 0 0 14px !important;
-    overflow: hidden !important;
+    grid-column: 1 ;
+    display: flex ;
+    align-items: center ;
+    justify-content: center ;
+    width: 46px ;
+    min-width: 46px ;
+    height: 48px ;
+    min-height: 48px ;
+    margin: 0 ;
+    padding: 4px 6px ;
+    border-radius: 14px 0 0 14px ;
+    overflow: hidden ;
   }
 
   .toolbar-primary .brand strong {
-    display: none !important;
+    display: none ;
   }
 
   .toolbar-primary .brand-logo {
-    display: block !important;
-    width: 29px !important;
-    height: 38px !important;
-    max-width: 29px !important;
-    object-fit: contain !important;
+    display: block ;
+    width: 29px ;
+    height: 38px ;
+    max-width: 29px ;
+    object-fit: contain ;
   }
 
   .toolbar-primary .search {
-    grid-column: 2 !important;
-    display: flex !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    margin: 0 !important;
-    border-left: 0 !important;
-    border-radius: 0 14px 14px 0 !important;
-    overflow: hidden !important;
+    grid-column: 2 ;
+    display: flex ;
+    width: 100% ;
+    min-width: 0 ;
+    height: 48px ;
+    min-height: 48px ;
+    margin: 0 ;
+    border-left: 0 ;
+    border-radius: 0 14px 14px 0 ;
+    overflow: hidden ;
   }
 
   .toolbar-primary .search input {
-    display: block !important;
-    flex: 1 1 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+    display: block ;
+    flex: 1 1 auto ;
+    width: auto ;
+    min-width: 0 ;
+    opacity: 1 ;
+    visibility: visible ;
   }
 
   .toolbar-primary .search button {
-    flex: 0 0 auto !important;
+    flex: 0 0 auto ;
   }
 
   .toolbar-actions,
   .toolbar .search #route-button,
   .toolbar .search #discover-button,
   .mobile-search-logo {
-    display: none !important;
+    display: none ;
   }
 
   .mobile-bottom-nav {
-    position: fixed !important;
-    z-index: 40 !important;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 8px !important;
-    left: 8px !important;
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    width: auto !important;
-    min-height: 54px !important;
-    margin: 0 !important;
-    border-radius: 14px !important;
-    overflow: hidden !important;
+    position: fixed ;
+    z-index: 40 ;
+    top: auto ;
+    right: 8px ;
+    bottom: 8px ;
+    left: 8px ;
+    display: grid ;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) ;
+    width: auto ;
+    min-height: 54px ;
+    margin: 0 ;
+    border-radius: 14px ;
+    overflow: hidden ;
     border: 1px solid var(--border);
     background: var(--panel);
     background-image: var(--panel-image, none);
@@ -5647,7 +5652,7 @@ button.account-activity-item-open:focus-visible {
 
 
   body {
-    padding-bottom: 130px !important;
+    padding-bottom: 130px ;
   }
 
   .route-panel,
@@ -5659,13 +5664,13 @@ button.account-activity-item-open:focus-visible {
   .trip-panel,
   .streetview-panel,
   .legend-panel {
-    bottom: 130px !important;
-    max-height: calc(100vh - 146px) !important;
+    bottom: 130px ;
+    max-height: calc(100vh - 146px) ;
   }
 
   .maplibregl-ctrl-bottom-left,
   .maplibregl-ctrl-bottom-right {
-    bottom: 126px !important;
+    bottom: 126px ;
   }
 }
 
@@ -5714,7 +5719,7 @@ button,
 input,
 select,
 textarea {
-  border-radius: var(--ui-radius) !important;
+  border-radius: var(--ui-radius) ;
 }
 
 .map-context-separator,
@@ -5724,7 +5729,7 @@ textarea {
 .discover-sheet-handle span,
 .menu-sheet-handle span,
 .favorites-sheet-handle span {
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 /* Wyjątki: markery lokalizacji pozostają okrągłe. */
@@ -5732,7 +5737,7 @@ textarea {
 .user-location-marker *,
 .context-point-marker,
 .context-point-marker-dot {
-  border-radius: 50% !important;
+  border-radius: 50% ;
 }
 
 
@@ -5766,35 +5771,35 @@ textarea {
   .search-suggestions,
   .search-history,
   .search-history-list {
-    position: fixed !important;
-    z-index: 55 !important;
-    right: 8px !important;
-    bottom: 126px !important;
-    left: 8px !important;
-    top: auto !important;
-    width: auto !important;
-    max-height: min(46vh, 360px) !important;
-    overflow-y: auto !important;
-    margin: 0 !important;
-    border-radius: var(--ui-radius) !important;
+    position: fixed ;
+    z-index: 55 ;
+    right: 8px ;
+    bottom: 126px ;
+    left: 8px ;
+    top: auto ;
+    width: auto ;
+    max-height: min(46vh, 360px) ;
+    overflow-y: auto ;
+    margin: 0 ;
+    border-radius: var(--ui-radius) ;
   }
 
   .search {
-    position: relative !important;
+    position: relative ;
   }
 
   .search > [role="listbox"],
   .search > ul:not(.search-inline-actions),
   .search > .history-list {
-    position: fixed !important;
-    z-index: 55 !important;
-    right: 8px !important;
-    bottom: 126px !important;
-    left: 8px !important;
-    top: auto !important;
-    width: auto !important;
-    max-height: min(46vh, 360px) !important;
-    overflow-y: auto !important;
+    position: fixed ;
+    z-index: 55 ;
+    right: 8px ;
+    bottom: 126px ;
+    left: 8px ;
+    top: auto ;
+    width: auto ;
+    max-height: min(46vh, 360px) ;
+    overflow-y: auto ;
   }
 }
 
@@ -5844,14 +5849,14 @@ button,
 input,
 select,
 textarea {
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 .selected-place-marker-dot {
   width: 14px;
   height: 14px;
   border: 3px solid #fff;
-  border-radius: 50% !important;
+  border-radius: 50% ;
   background: #e11d48;
   box-shadow:
     0 0 0 1px rgb(225 29 72 / 0.45),
@@ -5862,7 +5867,7 @@ textarea {
 .route-marker,
 .route-waypoint-marker,
 .route-point-marker {
-  margin: 0 !important;
+  margin: 0 ;
 }
 
 
@@ -5871,7 +5876,7 @@ textarea {
    Współrzędna znajduje się w geometrycznym środku znacznika.
    ========================================================= */
 .maplibregl-marker:has(.route-letter-marker) {
-  margin: 0 !important;
+  margin: 0 ;
 }
 
 
@@ -5888,32 +5893,32 @@ textarea {
 #mobile-discover-button,
 #mobile-menu-button,
 #discover-button {
-  background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-color: var(--panel) !important;
-  color: var(--text) !important;
+  background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+  background-color: var(--panel) ;
+  color: var(--text) ;
 }
 
 /* Główna akcja: Szukaj — ikona lupy na czerwonym tle */
 #search-button {
-  background: var(--accent) !important;
-  background-color: var(--accent) !important;
-  color: var(--panel) !important;
+  background: var(--accent) ;
+  background-color: var(--accent) ;
+  color: var(--panel) ;
 }
 
 /* Trasa jest trybem: białe/panelowe tło i czerwony tekst */
 #route-button,
 #mobile-route-button {
-  background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-color: var(--panel) !important;
-  color: var(--accent) !important;
+  background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+  background-color: var(--panel) ;
+  color: var(--accent) ;
 }
 
 /* Aktywny panel Trasa */
@@ -5921,17 +5926,17 @@ textarea {
 #route-button[aria-expanded="true"],
 #mobile-route-button.is-active,
 #mobile-route-button[aria-expanded="true"] {
-  background: var(--accent) !important;
-  background-color: var(--accent) !important;
-  color: var(--panel) !important;
+  background: var(--accent) ;
+  background-color: var(--accent) ;
+  color: var(--panel) ;
 }
 
 /* Przyciemnienie czerwonej akcji Szukaj */
 #search-button:hover,
 #search-button:focus-visible {
   background:
-    color-mix(in srgb, var(--accent) 84%, #000) !important;
-  color: var(--panel) !important;
+    color-mix(in srgb, var(--accent) 84%, #000) ;
+  color: var(--panel) ;
 }
 
 #route-button:hover,
@@ -5939,8 +5944,8 @@ textarea {
 #route-button:focus-visible,
 #mobile-route-button:focus-visible {
   background:
-    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
-  color: var(--accent) !important;
+    color-mix(in srgb, var(--panel) 88%, var(--text)) ;
+  color: var(--accent) ;
 }
 
 #route-button.is-active:hover,
@@ -5948,8 +5953,8 @@ textarea {
 #mobile-route-button.is-active:hover,
 #mobile-route-button[aria-expanded="true"]:hover {
   background:
-    color-mix(in srgb, var(--accent) 84%, #000) !important;
-  color: var(--panel) !important;
+    color-mix(in srgb, var(--accent) 84%, #000) ;
+  color: var(--panel) ;
 }
 
 /* Przyciemnienie białych akcji */
@@ -5960,30 +5965,30 @@ textarea {
 #mobile-menu-button:focus-visible,
 #discover-button:focus-visible {
   background:
-    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
+    color-mix(in srgb, var(--panel) 88%, var(--text)) ;
   background-color:
-    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
-  color: var(--text) !important;
+    color-mix(in srgb, var(--panel) 88%, var(--text)) ;
+  color: var(--text) ;
 }
 
 /* Stan wciśnięcia */
 #search-button:active {
   background:
-    color-mix(in srgb, var(--accent) 70%, #000) !important;
+    color-mix(in srgb, var(--accent) 70%, #000) ;
 }
 
 #route-button:active,
 #mobile-route-button:active {
   background:
-    color-mix(in srgb, var(--panel) 78%, var(--text)) !important;
-  color: var(--accent) !important;
+    color-mix(in srgb, var(--panel) 78%, var(--text)) ;
+  color: var(--accent) ;
 }
 
 #mobile-discover-button:active,
 #mobile-menu-button:active,
 #discover-button:active {
   background:
-    color-mix(in srgb, var(--panel) 76%, var(--text)) !important;
+    color-mix(in srgb, var(--panel) 76%, var(--text)) ;
 }
 
 /* Nie używamy globalnego filtra, bo zmieniał też ikony i tekst. */
@@ -5993,10 +5998,10 @@ textarea {
 #mobile-discover-button,
 #mobile-menu-button,
 #discover-button {
-  filter: none !important;
+  filter: none ;
   transition:
     background-color 140ms ease,
-    color 140ms ease !important;
+    color 140ms ease ;
 }
 
 /* =========================================================
@@ -6004,35 +6009,35 @@ textarea {
    ========================================================= */
 .route-letter-marker,
 .route-letter-marker.maplibregl-marker {
-  display: grid !important;
-  place-items: center !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  width: 26px !important;
-  height: 26px !important;
-  min-width: 26px !important;
-  min-height: 26px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 3px solid #fff !important;
-  border-radius: 50% !important;
-  color: var(--text) !important;
-  font-size: 0.78rem !important;
-  font-weight: 850 !important;
-  line-height: 1 !important;
-  pointer-events: auto !important;
-  z-index: 8 !important;
+  display: grid ;
+  place-items: center ;
+  visibility: visible ;
+  opacity: 1 ;
+  width: 26px ;
+  height: 26px ;
+  min-width: 26px ;
+  min-height: 26px ;
+  margin: 0 ;
+  padding: 0 ;
+  border: 3px solid #fff ;
+  border-radius: 50% ;
+  color: var(--text) ;
+  font-size: 0.78rem ;
+  font-weight: 850 ;
+  line-height: 1 ;
+  pointer-events: auto ;
+  z-index: 8 ;
   box-shadow:
     0 0 0 1px rgb(0 0 0 / 0.25),
-    0 2px 8px rgb(0 0 0 / 0.34) !important;
+    0 2px 8px rgb(0 0 0 / 0.34) ;
 }
 
 .route-letter-marker.route-a,
 .route-letter-marker.route-a.maplibregl-marker,
 .route-letter-marker.route-b,
 .route-letter-marker.route-b.maplibregl-marker {
-  background: var(--panel) !important;
-  background-color: var(--panel) !important;
+  background: var(--panel) ;
+  background-color: var(--panel) ;
 }
 
 
@@ -6052,17 +6057,17 @@ textarea {
 #discover-button,
 #route-button,
 #mobile-route-button {
-  background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-color: var(--panel) !important;
+  background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+  background-color: var(--panel) ;
   color: var(--text);
 }
 
 .toolbar-primary .search input::placeholder {
-  color: var(--muted) !important;
+  color: var(--muted) ;
 }
 
 
@@ -6071,35 +6076,35 @@ textarea {
    ========================================================= */
 @media (max-width: 600px) {
   .mobile-bottom-action > span:first-child {
-    display: block !important;
-    grid-row: 1 !important;
-    margin: 0 !important;
-    font-size: 1.2rem !important;
-    line-height: 1 !important;
-    text-align: center !important;
+    display: block ;
+    grid-row: 1 ;
+    margin: 0 ;
+    font-size: 1.2rem ;
+    line-height: 1 ;
+    text-align: center ;
   }
 
   .mobile-bottom-action > span:last-child {
-    display: block !important;
-    grid-row: 2 !important;
-    margin: 0 !important;
-    color: var(--accent) !important;
-    font-size: 0.72rem !important;
-    font-weight: 800 !important;
-    line-height: 1.1 !important;
-    text-align: center !important;
+    display: block ;
+    grid-row: 2 ;
+    margin: 0 ;
+    color: var(--accent) ;
+    font-size: 0.72rem ;
+    font-weight: 800 ;
+    line-height: 1.1 ;
+    text-align: center ;
   }
 
   #mobile-route-button,
   #mobile-discover-button,
   #mobile-menu-button {
-    color: var(--accent) !important;
+    color: var(--accent) ;
   }
 
   #mobile-route-button > span:last-child,
   #mobile-discover-button > span:last-child,
   #mobile-menu-button > span:last-child {
-    color: var(--accent) !important;
+    color: var(--accent) ;
   }
 
   /* Aktywny przycisk zachowuje czerwone tło i biały tekst. */
@@ -6109,9 +6114,9 @@ textarea {
   #mobile-discover-button[aria-expanded="true"],
   #mobile-menu-button.is-active,
   #mobile-menu-button[aria-expanded="true"] {
-    background: var(--accent) !important;
-    background-color: var(--accent) !important;
-    color: var(--panel) !important;
+    background: var(--accent) ;
+    background-color: var(--accent) ;
+    color: var(--panel) ;
   }
 
   #mobile-route-button.is-active > span:last-child,
@@ -6120,7 +6125,7 @@ textarea {
   #mobile-discover-button[aria-expanded="true"] > span:last-child,
   #mobile-menu-button.is-active > span:last-child,
   #mobile-menu-button[aria-expanded="true"] > span:last-child {
-    color: var(--panel) !important;
+    color: var(--panel) ;
   }
 }
 
@@ -6130,20 +6135,20 @@ textarea {
    ========================================================= */
 @media (max-width: 600px) {
   .status {
-    position: fixed !important;
-    z-index: 70 !important;
-    top: auto !important;
-    right: 50% !important;
-    bottom: 126px !important;
-    left: auto !important;
-    width: min(calc(100vw - 24px), 420px) !important;
-    max-width: min(calc(100vw - 24px), 420px) !important;
-    margin: 0 !important;
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-    transform: translateX(50%) !important;
-    box-sizing: border-box !important;
-    text-align: center !important;
+    position: fixed ;
+    z-index: 70 ;
+    top: auto ;
+    right: 50% ;
+    bottom: 126px ;
+    left: auto ;
+    width: min(calc(100vw - 24px), 420px) ;
+    max-width: min(calc(100vw - 24px), 420px) ;
+    margin: 0 ;
+    padding-left: 14px ;
+    padding-right: 14px ;
+    transform: translateX(50%) ;
+    box-sizing: border-box ;
+    text-align: center ;
   }
 }
 
@@ -6157,9 +6162,9 @@ textarea {
   #menu-button.is-active,
   #streetview-toggle-button.is-active,
   #menu-button[aria-expanded="true"] {
-    background: var(--accent) !important;
-    background-color: var(--accent) !important;
-    color: var(--panel) !important;
+    background: var(--accent) ;
+    background-color: var(--accent) ;
+    color: var(--panel) ;
   }
 
   #discover-button.is-active:hover,
@@ -6173,10 +6178,10 @@ textarea {
   #streetview-toggle-button.is-active:focus-visible,
   #menu-button[aria-expanded="true"]:focus-visible {
     background:
-      color-mix(in srgb, var(--accent) 84%, #000) !important;
+      color-mix(in srgb, var(--accent) 84%, #000) ;
     background-color:
-      color-mix(in srgb, var(--accent) 84%, #000) !important;
-    color: var(--panel) !important;
+      color-mix(in srgb, var(--accent) 84%, #000) ;
+    color: var(--panel) ;
   }
 }
 
@@ -6188,12 +6193,12 @@ textarea {
 .road-ref,
 [class*="road-shield"],
 [class*="road-ref"] {
-  min-width: 32px !important;
-  min-height: 23px !important;
-  padding: 3px 8px !important;
-  font-size: 0.86rem !important;
-  line-height: 1 !important;
-  box-sizing: border-box !important;
+  min-width: 32px ;
+  min-height: 23px ;
+  padding: 3px 8px ;
+  font-size: 0.86rem ;
+  line-height: 1 ;
+  box-sizing: border-box ;
 }
 
 
@@ -6253,7 +6258,7 @@ textarea {
   body:has(.about-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.backup-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.account-panel:not([hidden])) .mobile-bottom-nav {
-    display: none !important;
+    display: none ;
   }
 
   /* Panel z przyciskami (streetview-actions) zostaje widoczny gdy
@@ -6275,14 +6280,14 @@ textarea {
   body:has(.about-panel:not([hidden])) #streetview-actions,
   body:has(.backup-panel:not([hidden])) #streetview-actions,
   body:has(.account-panel:not([hidden])) #streetview-actions {
-    position: fixed !important;
-    z-index: 30 !important;
-    top: 8px !important;
-    right: 8px !important;
-    left: auto !important;
-    bottom: auto !important;
-    margin: 0 !important;
-    pointer-events: auto !important;
+    position: fixed ;
+    z-index: 30 ;
+    top: 8px ;
+    right: 8px ;
+    left: auto ;
+    bottom: auto ;
+    margin: 0 ;
+    pointer-events: auto ;
   }
 
   /* Panel rozwiniety do konca (na pelna dostepna wysokosc, klasa
@@ -6300,7 +6305,7 @@ textarea {
   body:has(.about-panel.is-fully-expanded:not([hidden])) #streetview-actions,
   body:has(.backup-panel.is-fully-expanded:not([hidden])) #streetview-actions,
   body:has(.account-panel.is-fully-expanded:not([hidden])) #streetview-actions {
-    display: none !important;
+    display: none ;
   }
 
   body:has(.route-panel:not([hidden])) .route-panel,
@@ -6315,8 +6320,8 @@ textarea {
   body:has(.about-panel:not([hidden])) .about-panel,
   body:has(.backup-panel:not([hidden])) .backup-panel,
   body:has(.account-panel:not([hidden])) .account-panel {
-    bottom: 8px !important;
-    max-height: calc(100vh - 16px) !important;
+    bottom: 8px ;
+    max-height: calc(100vh - 16px) ;
   }
 
   body:has(.route-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
@@ -6330,7 +6335,7 @@ textarea {
   body:has(.about-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
   body:has(.backup-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
   body:has(.account-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
-    display: none !important;
+    display: none ;
   }
 }
 
@@ -6383,13 +6388,13 @@ textarea {
 @media (max-width: 600px) {
   .menu-subpanel {
     position: absolute;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 8px !important;
-    left: 8px !important;
-    width: auto !important;
+    top: auto ;
+    right: 8px ;
+    bottom: 8px ;
+    left: 8px ;
+    width: auto ;
     height: min(42vh, calc(100vh - 16px));
-    max-height: min(42vh, calc(100vh - 16px)) !important;
+    max-height: min(42vh, calc(100vh - 16px)) ;
     padding: 0 14px 14px;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -6425,57 +6430,57 @@ textarea {
    ========================================================= */
 @media (max-width: 600px) {
   body:has(.place-panel:not([hidden])) .place-panel {
-    height: var(--sheet-height, 42dvh) !important;
-    max-height: calc(100dvh - 16px) !important;
-    min-height: 48px !important;
-    bottom: 8px !important;
-    overflow-y: auto !important;
+    height: var(--sheet-height, 42dvh) ;
+    max-height: calc(100dvh - 16px) ;
+    min-height: 48px ;
+    bottom: 8px ;
+    overflow-y: auto ;
   }
 
   body:has(.trip-panel:not([hidden])) .trip-panel {
-    height: var(--sheet-height, 42dvh) !important;
-    max-height: calc(100dvh - 16px) !important;
-    min-height: 48px !important;
-    bottom: 8px !important;
-    overflow-y: auto !important;
+    height: var(--sheet-height, 42dvh) ;
+    max-height: calc(100dvh - 16px) ;
+    min-height: 48px ;
+    bottom: 8px ;
+    overflow-y: auto ;
   }
 
   body:has(.streetview-panel:not([hidden])) .streetview-panel {
-    height: var(--sheet-height, 42dvh) !important;
-    max-height: calc(100dvh - 16px) !important;
-    min-height: 48px !important;
-    bottom: 8px !important;
-    overflow-y: auto !important;
+    height: var(--sheet-height, 42dvh) ;
+    max-height: calc(100dvh - 16px) ;
+    min-height: 48px ;
+    bottom: 8px ;
+    overflow-y: auto ;
   }
 
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed {
-    height: 48px !important;
-    max-height: 48px !important;
-    min-height: 48px !important;
-    overflow: hidden !important;
+    height: 48px ;
+    max-height: 48px ;
+    min-height: 48px ;
+    overflow: hidden ;
   }
 
   body:has(.trip-panel:not([hidden]))
   body:has(.streetview-panel:not([hidden]))
   .trip-panel.is-collapsed {
-    height: 48px !important;
-    max-height: 48px !important;
-    min-height: 48px !important;
-    overflow: hidden !important;
+    height: 48px ;
+    max-height: 48px ;
+    min-height: 48px ;
+    overflow: hidden ;
   }
 
   body:has(.place-panel:not([hidden]))
   .place-panel.is-collapsed
   > :not(.place-sheet-handle) {
-    display: none !important;
+    display: none ;
   }
 
   body:has(.trip-panel:not([hidden]))
   body:has(.streetview-panel:not([hidden]))
   .trip-panel.is-collapsed
   > :not(.trip-sheet-handle) {
-    display: none !important;
+    display: none ;
   }
 
   body:has(.place-panel:not([hidden]))
@@ -6531,9 +6536,9 @@ textarea {
   .trip-panel:not([hidden]),
   .streetview-panel:not([hidden]),
   .menu-subpanel:not([hidden]) {
-    bottom: var(--mobile-panel-bottom-gap) !important;
-    min-height: var(--mobile-panel-collapsed-height) !important;
-    max-height: calc(100dvh - 16px) !important;
+    bottom: var(--mobile-panel-bottom-gap) ;
+    min-height: var(--mobile-panel-collapsed-height) ;
+    max-height: calc(100dvh - 16px) ;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -6547,7 +6552,7 @@ textarea {
   .trip-panel:not([hidden]),
   .streetview-panel:not([hidden]),
   .menu-subpanel:not([hidden]) {
-    height: var(--sheet-height, var(--mobile-panel-default-height)) !important;
+    height: var(--sheet-height, var(--mobile-panel-default-height)) ;
   }
 
   .route-panel.is-collapsed,
@@ -6559,10 +6564,10 @@ textarea {
   .trip-panel.is-collapsed,
   .streetview-panel.is-collapsed,
   .menu-subpanel.is-collapsed {
-    height: var(--mobile-panel-collapsed-height) !important;
-    min-height: var(--mobile-panel-collapsed-height) !important;
-    max-height: var(--mobile-panel-collapsed-height) !important;
-    overflow: hidden !important;
+    height: var(--mobile-panel-collapsed-height) ;
+    min-height: var(--mobile-panel-collapsed-height) ;
+    max-height: var(--mobile-panel-collapsed-height) ;
+    overflow: hidden ;
   }
 
   .route-panel.is-dragging,
@@ -6574,7 +6579,7 @@ textarea {
   .trip-panel.is-dragging,
   .streetview-panel.is-dragging,
   .menu-subpanel.is-dragging {
-    transition: none !important;
+    transition: none ;
   }
 }
 
@@ -6585,14 +6590,14 @@ textarea {
 .app-sheet {
   --app-sheet-corner-radius: 4px;
   box-sizing: border-box;
-  background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--app-sheet-corner-radius) !important;
-  box-shadow: var(--shadow) !important;
+  background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+  border: 1px solid var(--border) ;
+  border-radius: var(--app-sheet-corner-radius) ;
+  box-shadow: var(--shadow) ;
 }
 
 .app-sheet,
@@ -6616,19 +6621,19 @@ textarea {
 
 .app-sheet__header {
   min-height: 52px;
-  display: grid !important;
+  display: grid ;
   grid-template-columns: 34px minmax(0, 1fr) 34px;
   align-items: center;
   gap: 8px;
-  margin: 0 !important;
-  padding: 8px 14px !important;
+  margin: 0 ;
+  padding: 8px 14px ;
   border-bottom: 1px solid var(--border);
-  background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  border-radius: 0 !important;
+  background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+  border-radius: 0 ;
   touch-action: none;
 }
 
@@ -6653,20 +6658,20 @@ textarea {
 }
 
 .app-sheet__handle {
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 @media (max-width: 600px) {
   .app-sheet:not([hidden]) {
-    border-radius: var(--app-sheet-corner-radius) !important;
+    border-radius: var(--app-sheet-corner-radius) ;
   }
 
   .app-sheet__handle {
-    border-radius: 0 !important;
+    border-radius: 0 ;
   }
 
   .app-sheet__handle::before {
-    border-radius: 2px !important;
+    border-radius: 2px ;
   }
 }
 
@@ -6682,29 +6687,29 @@ textarea,
 .modal,
 .card,
 .place-card {
-  border-radius: 4px !important;
+  border-radius: 4px ;
 }
 
 
 /* Uniwersalny reset: wszystkie elementy interfejsu mają ostre rogi (0 px).
    Jedyne, celowe wyjątki (okrągłe przyciski, plakietki) są zaznaczone
-   lokalnie przy swoich selektorach z użyciem !important, np. border-radius: 50% !important. */
+   lokalnie przy swoich selektorach z użyciem , np. border-radius: 50% . */
 *,
 *::before,
 *::after {
-  border-radius: 0 !important;
+  border-radius: 0 ;
 }
 
 .app-sheet__header,
 .legend-header,
 .place-panel-header {
-  padding-bottom: 16px !important;
-  margin-bottom: 12px !important;
+  padding-bottom: 16px ;
+  margin-bottom: 12px ;
 }
 
 :root {
-  --panel-radius: 0px !important;
-  --app-sheet-corner-radius: 0px !important;
+  --panel-radius: 0px ;
+  --app-sheet-corner-radius: 0px ;
 }
 
 @media (max-width: 600px) {
@@ -6736,9 +6741,9 @@ textarea,
   .app-sheet__handle,
   .legend-header,
   .place-panel-header {
-    clip-path: none !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
+    clip-path: none ;
+    mask-image: none ;
+    -webkit-mask-image: none ;
   }
 }
 
@@ -6754,90 +6759,90 @@ textarea,
 
 @media (max-width: 600px) {
   .panel-shell:not([hidden]) {
-    position: absolute !important;
-    top: auto !important;
-    right: 8px !important;
-    bottom: 8px !important;
-    left: 8px !important;
-    width: auto !important;
-    padding: 0 var(--panel-shell-padding-x) 14px !important;
-    overflow-y: auto !important;
+    position: absolute ;
+    top: auto ;
+    right: 8px ;
+    bottom: 8px ;
+    left: 8px ;
+    width: auto ;
+    padding: 0 var(--panel-shell-padding-x) 14px ;
+    overflow-y: auto ;
     overscroll-behavior: contain;
   }
 
   .panel-shell > .panel-shell__handle {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 40 !important;
-    display: grid !important;
-    place-items: center !important;
-    width: 100% !important;
-    height: var(--panel-shell-handle-height) !important;
-    min-height: var(--panel-shell-handle-height) !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-    cursor: grab !important;
-    touch-action: none !important;
+    position: sticky ;
+    top: 0 ;
+    z-index: 40 ;
+    display: grid ;
+    place-items: center ;
+    width: 100% ;
+    height: var(--panel-shell-handle-height) ;
+    min-height: var(--panel-shell-handle-height) ;
+    margin: 0 ;
+    padding: 0 ;
+    border: 0 ;
+    background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
+    cursor: grab ;
+    touch-action: none ;
   }
 
   .panel-shell > .panel-shell__handle:active {
-    cursor: grabbing !important;
+    cursor: grabbing ;
   }
 
   .panel-shell > .panel-shell__handle > span {
-    display: block !important;
-    width: 44px !important;
-    height: 5px !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    display: block ;
+    width: 44px ;
+    height: 5px ;
+    margin: 0 ;
+    padding: 0 ;
     background: color-mix(
       in srgb,
       var(--text) 35%,
       transparent
-    ) !important;
+    ) ;
   }
 
   .panel-shell > .panel-shell__header,
   .panel-shell.menu-subpanel > .panel-shell__header {
-    position: sticky !important;
-    top: var(--panel-shell-handle-height) !important;
-    z-index: 39 !important;
-    min-height: 52px !important;
+    position: sticky ;
+    top: var(--panel-shell-handle-height) ;
+    z-index: 39 ;
+    min-height: 52px ;
     margin: 0
       calc(var(--panel-shell-padding-x) * -1)
-      var(--panel-shell-header-gap) !important;
-    padding: 9px var(--panel-shell-padding-x) 10px !important;
-    border-bottom: 1px solid var(--border) !important;
-    background: var(--panel) !important;
-  background-image: var(--panel-image, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
+      var(--panel-shell-header-gap) ;
+    padding: 9px var(--panel-shell-padding-x) 10px ;
+    border-bottom: 1px solid var(--border) ;
+    background: var(--panel) ;
+  background-image: var(--panel-image, none) ;
+  background-size: cover ;
+  background-position: center ;
+  background-repeat: no-repeat ;
     backdrop-filter: blur(12px);
   }
 
   .panel-shell.is-collapsed >
   .panel-shell__handle {
-    height: 48px !important;
-    min-height: 48px !important;
+    height: 48px ;
+    min-height: 48px ;
   }
 
   .panel-shell.is-collapsed >
   .panel-shell__handle > span {
-    width: 52px !important;
+    width: 52px ;
   }
 }
 
 #streetview-toggle-button.is-active {
-  background: var(--accent) !important;
-  background-color: var(--accent) !important;
-  color: var(--panel) !important;
+  background: var(--accent) ;
+  background-color: var(--accent) ;
+  color: var(--panel) ;
 }
 
 /* =========================================================
@@ -6847,28 +6852,28 @@ textarea,
    wewnątrz <button class="icon-button">.
    ========================================================= */
 .streetview-actions {
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: center !important;
-  width: auto !important;
-  min-width: 56px !important;
-  height: 46px !important;
-  min-height: 46px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: var(--shadow) !important;
+  display: flex ;
+  align-items: stretch ;
+  justify-content: center ;
+  width: auto ;
+  min-width: 56px ;
+  height: 46px ;
+  min-height: 46px ;
+  padding: 0 ;
+  margin: 0 ;
+  background: transparent ;
+  border: 0 ;
+  box-shadow: var(--shadow) ;
   backdrop-filter: blur(10px);
-  flex: 0 0 auto !important;
+  flex: 0 0 auto ;
 }
 
 .streetview-actions .icon-button {
-  border: 1px solid var(--border) !important;
+  border: 1px solid var(--border) ;
   margin-left: -1px;
-  background: transparent !important;
-  box-shadow: none !important;
-  color: var(--text) !important;
+  background: transparent ;
+  box-shadow: none ;
+  color: var(--text) ;
   min-width: 46px;
   width: 46px;
   height: 100%;
@@ -6889,33 +6894,33 @@ textarea,
 .streetview-actions .icon-button:hover,
 .streetview-actions .icon-button:focus-visible {
   background:
-    color-mix(in srgb, var(--panel) 88%, var(--text)) !important;
-  color: var(--accent) !important;
+    color-mix(in srgb, var(--panel) 88%, var(--text)) ;
+  color: var(--accent) ;
 }
 
 .streetview-actions .icon-button.is-active {
-  background: var(--accent) !important;
-  color: var(--panel) !important;
+  background: var(--accent) ;
+  color: var(--panel) ;
 }
 
 .streetview-actions .icon-button.is-active:hover {
   background:
-    color-mix(in srgb, var(--accent) 84%, #000) !important;
-  color: var(--panel) !important;
+    color-mix(in srgb, var(--accent) 84%, #000) ;
+  color: var(--panel) ;
 }
 
 @media (max-width: 600px) {
   .streetview-actions {
-    flex-direction: column !important;
-    position: fixed !important;
-    top: auto !important;
-    bottom: 126px !important;
-    right: 8px !important;
-    left: auto !important;
-    width: 52px !important;
-    min-width: 52px !important;
-    height: auto !important;
-    z-index: 30 !important;
+    flex-direction: column ;
+    position: fixed ;
+    top: auto ;
+    bottom: 126px ;
+    right: 8px ;
+    left: auto ;
+    width: 52px ;
+    min-width: 52px ;
+    height: auto ;
+    z-index: 30 ;
   }
 
   .streetview-actions .icon-button {
@@ -6936,37 +6941,37 @@ textarea,
    reszta przycisków w tej sekcji (46px). */
 #streetview-toggle-button,
 #locate-toggle-button {
-  width: 46px !important;
-  min-width: 46px !important;
-  height: 100% !important;
-  min-height: 0 !important;
+  width: 46px ;
+  min-width: 46px ;
+  height: 100% ;
+  min-height: 0 ;
 }
 
 @media (max-width: 600px) {
   #streetview-toggle-button,
   #locate-toggle-button {
-    width: 100% !important;
-    min-width: 0 !important;
-    height: 46px !important;
+    width: 100% ;
+    min-width: 0 ;
+    height: 46px ;
   }
 }
 
 @media (max-width: 600px) {
   #streetview-actions {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 52px !important;
-    height: auto !important;
+    display: flex ;
+    flex-direction: column ;
+    width: 52px ;
+    height: auto ;
   }
 }
 
 .mobile-only-action {
-  display: none !important;
+  display: none ;
 }
 
 @media (max-width: 600px) {
   .mobile-only-action {
-    display: grid !important;
+    display: grid ;
   }
 }
 
@@ -6979,7 +6984,7 @@ textarea,
 
    WAZNE: #streetview-actions i .toolbar-actions musza zostac
    RODZENSTWEM w HTML (nie zagniezdzone jedno w drugim) - na mobile
-   ".toolbar .toolbar-actions" ma display:none!important (menu
+   ".toolbar .toolbar-actions" ma display:none (menu
    zastepuje wtedy dolny pasek nawigacji), co ukrywaloby CALA
    zawartosc #streetview-actions, gdyby bylo jego dzieckiem. Polaczenie
    wizualne osiagamy WYLACZNIE przez ujemny margines znoszacy odstep
@@ -6987,12 +6992,12 @@ textarea,
    zadnej zmiany struktury DOM. */
 @media (min-width: 601px) {
   #streetview-actions {
-    margin-left: auto !important;
+    margin-left: auto ;
   }
 
   .toolbar-actions {
-    margin-left: -10px !important;
-    box-shadow: var(--shadow) !important;
+    margin-left: -10px ;
+    box-shadow: var(--shadow) ;
   }
 
   #menu-button {
@@ -7001,7 +7006,7 @@ textarea,
 }
 
 #menu-button {
-  border: 1px solid var(--border) !important;
+  border: 1px solid var(--border) ;
 }
 
 .measure-distance-badge {
