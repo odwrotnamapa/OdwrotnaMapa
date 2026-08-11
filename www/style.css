@@ -2837,6 +2837,65 @@ a.place-card-row {
   line-height: 1.45;
 }
 
+.discover-search-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 42px;
+  margin-bottom: 12px;
+  padding: 0 4px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-alt, rgba(128, 128, 128, 0.08));
+}
+
+.discover-search {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.discover-search-clear {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.discover-search-clear:hover,
+.discover-search-clear:focus-visible {
+  background: var(--surface-alt, rgba(128, 128, 128, 0.12));
+  color: var(--text);
+}
+
+.discover-search-empty {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.discover-category-group[hidden] {
+  display: none;
+}
+
+.discover-categories button[hidden] {
+  display: none;
+}
+
 .discover-categories {
   display: flex;
   flex-direction: column;
@@ -6213,10 +6272,6 @@ textarea {
   body:has(.place-panel:not([hidden])) .toolbar-primary,
   body:has(.trip-panel:not([hidden])) .toolbar-primary,
   body:has(.streetview-panel:not([hidden])) .toolbar-primary,
-  body:has(.legend-panel:not([hidden])) .toolbar-primary,
-  body:has(.about-panel:not([hidden])) .toolbar-primary,
-  body:has(.backup-panel:not([hidden])) .toolbar-primary,
-  body:has(.account-panel:not([hidden])) .toolbar-primary,
   body:has(.route-panel:not([hidden])) .toolbar-actions,
   body:has(.discover-panel:not([hidden])) .toolbar-actions,
   body:has(.menu-panel:not([hidden])) .toolbar-actions,
@@ -6225,10 +6280,6 @@ textarea {
   body:has(.place-panel:not([hidden])) .toolbar-actions,
   body:has(.trip-panel:not([hidden])) .toolbar-actions,
   body:has(.streetview-panel:not([hidden])) .toolbar-actions,
-  body:has(.legend-panel:not([hidden])) .toolbar-actions,
-  body:has(.about-panel:not([hidden])) .toolbar-actions,
-  body:has(.backup-panel:not([hidden])) .toolbar-actions,
-  body:has(.account-panel:not([hidden])) .toolbar-actions,
   body:has(.route-panel:not([hidden])) #measure-distance-badge,
   body:has(.discover-panel:not([hidden])) #measure-distance-badge,
   body:has(.menu-panel:not([hidden])) #measure-distance-badge,
@@ -6237,10 +6288,6 @@ textarea {
   body:has(.place-panel:not([hidden])) #measure-distance-badge,
   body:has(.trip-panel:not([hidden])) #measure-distance-badge,
   body:has(.streetview-panel:not([hidden])) #measure-distance-badge,
-  body:has(.legend-panel:not([hidden])) #measure-distance-badge,
-  body:has(.about-panel:not([hidden])) #measure-distance-badge,
-  body:has(.backup-panel:not([hidden])) #measure-distance-badge,
-  body:has(.account-panel:not([hidden])) #measure-distance-badge,
   body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
@@ -6248,21 +6295,14 @@ textarea {
   body:has(.history-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.place-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.trip-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.streetview-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.legend-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.about-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.backup-panel:not([hidden])) .mobile-bottom-nav,
-  body:has(.account-panel:not([hidden])) .mobile-bottom-nav {
+  body:has(.streetview-panel:not([hidden])) .mobile-bottom-nav {
     display: none !important;
   }
 
   /* Panel z przyciskami (streetview-actions) zostaje widoczny gdy
      otwarty jest dowolny panel - przenosimy go wtedy jako plywajacy
      element w prawy gorny rog ekranu (zamiast pod wyszukiwarka, ktora
-     wtedy jest ukryta). Lista MUSI obejmowac KAZDY panel mobilny z
-     MOBILE_PANELS w app.js, inaczej pasek akcji znika (bo jest
-     dzieckiem .toolbar, ktora bywa ukrywana gdzie indziej), zamiast
-     przenosic sie w rog. */
+     wtedy jest ukryta). */
   body:has(.route-panel:not([hidden])) #streetview-actions,
   body:has(.discover-panel:not([hidden])) #streetview-actions,
   body:has(.menu-panel:not([hidden])) #streetview-actions,
@@ -6270,11 +6310,7 @@ textarea {
   body:has(.history-panel:not([hidden])) #streetview-actions,
   body:has(.place-panel:not([hidden])) #streetview-actions,
   body:has(.trip-panel:not([hidden])) #streetview-actions,
-  body:has(.streetview-panel:not([hidden])) #streetview-actions,
-  body:has(.legend-panel:not([hidden])) #streetview-actions,
-  body:has(.about-panel:not([hidden])) #streetview-actions,
-  body:has(.backup-panel:not([hidden])) #streetview-actions,
-  body:has(.account-panel:not([hidden])) #streetview-actions {
+  body:has(.streetview-panel:not([hidden])) #streetview-actions {
     position: fixed !important;
     z-index: 30 !important;
     top: 8px !important;
@@ -6285,24 +6321,6 @@ textarea {
     pointer-events: auto !important;
   }
 
-  /* Panel rozwiniety do konca (na pelna dostepna wysokosc, klasa
-     is-fully-expanded ustawiana w app.js w setMobilePanelHeight) -
-     w tym stanie plywajacy pasek akcji w prawym gornym rogu zaslanialby
-     tresc panelu, wiec go ukrywamy. */
-  body:has(.route-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.discover-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.menu-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.favorites-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.history-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.place-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.trip-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.legend-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.about-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.backup-panel.is-fully-expanded:not([hidden])) #streetview-actions,
-  body:has(.account-panel.is-fully-expanded:not([hidden])) #streetview-actions {
-    display: none !important;
-  }
-
   body:has(.route-panel:not([hidden])) .route-panel,
   body:has(.discover-panel:not([hidden])) .discover-panel,
   body:has(.menu-panel:not([hidden])) .menu-panel,
@@ -6310,11 +6328,7 @@ textarea {
   body:has(.history-panel:not([hidden])) .history-panel,
   body:has(.place-panel:not([hidden])) .place-panel,
   body:has(.trip-panel:not([hidden])) .trip-panel,
-  body:has(.streetview-panel:not([hidden])) .streetview-panel,
-  body:has(.legend-panel:not([hidden])) .legend-panel,
-  body:has(.about-panel:not([hidden])) .about-panel,
-  body:has(.backup-panel:not([hidden])) .backup-panel,
-  body:has(.account-panel:not([hidden])) .account-panel {
+  body:has(.streetview-panel:not([hidden])) .streetview-panel {
     bottom: 8px !important;
     max-height: calc(100vh - 16px) !important;
   }
@@ -6325,11 +6339,7 @@ textarea {
   body:has(.favorites-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
   body:has(.history-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
   body:has(.place-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
-  body:has(.trip-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
-  body:has(.legend-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
-  body:has(.about-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
-  body:has(.backup-panel:not([hidden])) .maplibregl-ctrl-bottom-left,
-  body:has(.account-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
+  body:has(.trip-panel:not([hidden])) .maplibregl-ctrl-bottom-left {
     display: none !important;
   }
 }
@@ -6411,12 +6421,23 @@ textarea {
     backdrop-filter: blur(12px);
   }
 
-  /* UWAGA: .toolbar-primary/.toolbar-actions/.mobile-bottom-nav oraz
-     przeniesienie #streetview-actions w rog dla tych paneli sa juz
-     obslugiwane w bloku wyzej (razem z reszta paneli mobilnych) - nie
-     dublujemy tego tutaj. Celowo NIE ukrywamy calego ".toolbar", bo
-     #streetview-actions jest jego dzieckiem w DOM i straciloby
-     widocznosc razem z nim. */
+  body:has(.legend-panel.menu-subpanel:not([hidden])) .toolbar,
+  body:has(.about-panel.menu-subpanel:not([hidden])) .toolbar,
+  body:has(.backup-panel.menu-subpanel:not([hidden])) .toolbar,
+  body:has(.legend-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav,
+  body:has(.about-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav,
+  body:has(.backup-panel.menu-subpanel:not([hidden])) .mobile-bottom-nav {
+    display: none !important;
+  }
+
+  body:has(.legend-panel.menu-subpanel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.about-panel.menu-subpanel:not([hidden]))
+  .maplibregl-ctrl-bottom-left,
+  body:has(.backup-panel.menu-subpanel:not([hidden]))
+  .maplibregl-ctrl-bottom-left {
+    display: none !important;
+  }
 }
 
 
@@ -6831,36 +6852,6 @@ textarea,
   .panel-shell.is-collapsed >
   .panel-shell__handle > span {
     width: 52px !important;
-  }
-}
-
-
-/* =========================================================
-   Panel mobilny musi PRZYKRYWAĆ dolny pasek przycisków akcji
-   (.mobile-bottom-nav) już w trakcie rozwijania/przeciągania,
-   nie dopiero po zakończeniu animacji. .mobile-bottom-nav ma
-   z-index:40, ale tylko .place-panel (Informacje) miał ustawiony
-   własny z-index:40 - reszta paneli nie miała żadnego z-index
-   (auto), więc podczas animacji/przeciągania pasek z przyciskami
-   mógł się na chwilę "przebić" nad panelem zamiast zostać pod
-   nim zasłonięty. Wyrównujemy to tutaj dla WSZYSTKICH paneli
-   mobilnych typu arkusz z dołu ekranu (patrz MOBILE_PANELS w
-   app.js), żeby zachowywały się tak samo jak Informacje. */
-@media (max-width: 600px) {
-  .route-panel,
-  .discover-panel,
-  .menu-panel,
-  .favorites-panel,
-  .history-panel,
-  .place-panel,
-  .trip-panel,
-  .streetview-panel,
-  .legend-panel,
-  .about-panel,
-  .backup-panel,
-  .account-panel,
-  .panel-shell:not([hidden]) {
-    z-index: 40 !important;
   }
 }
 

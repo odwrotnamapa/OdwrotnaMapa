@@ -310,6 +310,9 @@
       discoverFound: count => `Znaleziono ${count} miejsc.`,
       discoverEmpty: "Brak wyników w aktualnym widoku.",
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
+      discoverSearchPlaceholder: "Szukaj kategorii…",
+      discoverSearchClear: "Wyczyść wyszukiwanie",
+      discoverSearchEmpty: "Brak kategorii pasujących do wyszukiwania.",
       discoverCategoryGroups: {
         food: "Jedzenie i picie",
         stay: "Noclegi",
@@ -797,6 +800,9 @@
       discoverFound: count => `Found ${count} places.`,
       discoverEmpty: "No results in the current map view.",
       discoverZooming: "Zooming in to the search area…",
+      discoverSearchPlaceholder: "Search categories…",
+      discoverSearchClear: "Clear search",
+      discoverSearchEmpty: "No categories match your search.",
       discoverCategoryGroups: {
         food: "Food & drink",
         stay: "Lodging",
@@ -1710,6 +1716,9 @@
     routeBack: $("route-back"),
     discoverTitle: $("discover-title"),
     discoverNote: $("discover-note"),
+    discoverSearch: $("discover-search"),
+    discoverSearchClear: $("discover-search-clear"),
+    discoverSearchEmpty: $("discover-search-empty"),
     discoverCategories: $("discover-categories"),
     discoverStatus: $("discover-status"),
     discoverResultsList: $("discover-results-list"),
@@ -2691,6 +2700,9 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     el.discoverButton?.setAttribute("aria-label", t.discoverTitle);
     el.discoverClose?.setAttribute("aria-label", t.discoverClose);
     if (el.discoverNote) el.discoverNote.textContent = t.discoverNote;
+    if (el.discoverSearch) el.discoverSearch.placeholder = t.discoverSearchPlaceholder;
+    el.discoverSearchClear?.setAttribute("aria-label", t.discoverSearchClear);
+    if (el.discoverSearchEmpty) el.discoverSearchEmpty.textContent = t.discoverSearchEmpty;
     if (el.discoverClear) el.discoverClear.textContent = t.discoverClear;
     for (const button of el.discoverCategories?.querySelectorAll(
       "[data-discover-category]"
@@ -2700,6 +2712,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       const span = button.querySelector("span:last-child");
       if (span) span.textContent = label;
       button.setAttribute("aria-label", label);
+      button.dataset.discoverSearchLabel =
+        window.OMAP_DISCOVER?.normalizeSearchText(label) || "";
     }
     if (
       el.discoverCategories?.querySelector(
@@ -2719,6 +2733,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
         }
       });
     }
+    window.OMAP_DISCOVER?.filterCategories(el.discoverSearch?.value || "");
     el.routeClose?.setAttribute("aria-label", t.closeRoute);
     el.routeSheetHandle?.setAttribute("aria-label", t.resizeRoutePanel);
     if (el.routeFromLabel) el.routeFromLabel.textContent = t.routeFrom;

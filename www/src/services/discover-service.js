@@ -458,6 +458,47 @@
     }
   };
 
+  // Usuwa polskie znaki diakrytyczne i normalizuje wielkość liter,
+  // zeby wyszukiwanie kategorii dzialalo niezaleznie od "ą" vs "a" itp.
+  function normalizeSearchText(text) {
+    return String(text || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function filterDiscoverCategories(query) {
+    if (!ctx.el.discoverCategories) return;
+
+    const normalizedQuery = normalizeSearchText(query);
+    ctx.el.discoverSearchClear && (ctx.el.discoverSearchClear.hidden = !normalizedQuery);
+
+    let anyVisible = false;
+    const groups = ctx.el.discoverCategories.querySelectorAll(
+      ".discover-category-group"
+    );
+    for (const groupEl of groups) {
+      let groupHasVisible = false;
+      for (const button of groupEl.querySelectorAll(
+        "[data-discover-category]"
+      )) {
+        const label = button.dataset.discoverSearchLabel || "";
+        const matches = !normalizedQuery || label.includes(normalizedQuery);
+        button.hidden = !matches;
+        if (matches) {
+          groupHasVisible = true;
+          anyVisible = true;
+        }
+      }
+      groupEl.hidden = !groupHasVisible;
+    }
+
+    if (ctx.el.discoverSearchEmpty) {
+      ctx.el.discoverSearchEmpty.hidden = anyVisible || !normalizedQuery;
+    }
+  }
+
   function renderDiscoverCategoryButtons() {
     if (!ctx.el.discoverCategories) return;
 
@@ -493,6 +534,10 @@
         label.textContent =
           t.discoverCategories?.[categoryId] || categoryId;
 
+        button.dataset.discoverSearchLabel = normalizeSearchText(
+          label.textContent
+        );
+
         button.append(emoji, label);
         button.setAttribute("aria-label", label.textContent);
         button.addEventListener("click", () => {
@@ -508,6 +553,22 @@
 
     ctx.el.discoverCategories.innerHTML = "";
     ctx.el.discoverCategories.appendChild(fragment);
+
+    // Filtr wyszukiwania spiety raz (renderCategoryButtons wywolywane
+    // jest tylko przy starcie appki), zachowuje wpisana fraze przy
+    // ewentualnym ponownym renderze (np. zmiana jezyka).
+    if (ctx.el.discoverSearch && !ctx.el.discoverSearch.dataset.searchBound) {
+      ctx.el.discoverSearch.dataset.searchBound = "1";
+      ctx.el.discoverSearch.addEventListener("input", () => {
+        filterDiscoverCategories(ctx.el.discoverSearch.value);
+      });
+      ctx.el.discoverSearchClear?.addEventListener("click", () => {
+        ctx.el.discoverSearch.value = "";
+        ctx.el.discoverSearch.focus();
+        filterDiscoverCategories("");
+      });
+    }
+    filterDiscoverCategories(ctx.el.discoverSearch?.value || "");
   }
 
   async function runDiscoverCategory(categoryId, sourceButton) {
@@ -1202,6 +1263,8 @@
     CATEGORIES: DISCOVER_CATEGORIES,
     CATEGORY_GROUPS: DISCOVER_CATEGORY_GROUPS,
     renderCategoryButtons: renderDiscoverCategoryButtons,
+    normalizeSearchText,
+    filterCategories: filterDiscoverCategories,
     run: runDiscoverCategory,
     clear: clearDiscoverResults
   };

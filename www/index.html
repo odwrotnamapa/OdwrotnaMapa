@@ -1095,6 +1095,22 @@
         Wybierz kategorię, aby zobaczyć miejsca w aktualnym widoku mapy.
       </p>
 
+      <div class="discover-search-row">
+        <input id="discover-search"
+               class="discover-search"
+               type="search"
+               autocomplete="off"
+               placeholder="Szukaj kategorii…">
+        <button id="discover-search-clear"
+                class="discover-search-clear"
+                type="button"
+                hidden
+                aria-label="Wyczyść wyszukiwanie">×</button>
+      </div>
+      <p id="discover-search-empty" class="discover-search-empty" hidden>
+        Brak kategorii pasujących do wyszukiwania.
+      </p>
+
       <div id="discover-categories" class="discover-categories"></div>
 
       <div id="discover-status" class="discover-status" hidden></div>
