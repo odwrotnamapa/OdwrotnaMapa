@@ -6834,6 +6834,36 @@ textarea,
   }
 }
 
+
+/* =========================================================
+   Panel mobilny musi PRZYKRYWAĆ dolny pasek przycisków akcji
+   (.mobile-bottom-nav) już w trakcie rozwijania/przeciągania,
+   nie dopiero po zakończeniu animacji. .mobile-bottom-nav ma
+   z-index:40, ale tylko .place-panel (Informacje) miał ustawiony
+   własny z-index:40 - reszta paneli nie miała żadnego z-index
+   (auto), więc podczas animacji/przeciągania pasek z przyciskami
+   mógł się na chwilę "przebić" nad panelem zamiast zostać pod
+   nim zasłonięty. Wyrównujemy to tutaj dla WSZYSTKICH paneli
+   mobilnych typu arkusz z dołu ekranu (patrz MOBILE_PANELS w
+   app.js), żeby zachowywały się tak samo jak Informacje. */
+@media (max-width: 600px) {
+  .route-panel,
+  .discover-panel,
+  .menu-panel,
+  .favorites-panel,
+  .history-panel,
+  .place-panel,
+  .trip-panel,
+  .streetview-panel,
+  .legend-panel,
+  .about-panel,
+  .backup-panel,
+  .account-panel,
+  .panel-shell:not([hidden]) {
+    z-index: 40 !important;
+  }
+}
+
 #streetview-toggle-button.is-active {
   background: var(--accent) !important;
   background-color: var(--accent) !important;
