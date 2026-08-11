@@ -217,9 +217,9 @@
     const pool = await getSharedPool();
     const relays = getRelays();
 
-    // Zaokrąglamy do najbliższej połówki (1, 1.5, 2 ... 5), nie do
-    // pełnej liczby - żeby dało się ocenić np. na 2,5.
-    const value = Math.max(1, Math.min(5, Math.round(Number(ratingValue) * 2) / 2));
+    // Zaokrąglamy do najbliższej połówki (0.5, 1, 1.5 ... 5), nie do
+    // pełnej liczby - żeby dało się ocenić np. na 0,5 albo 2,5.
+    const value = Math.max(0.5, Math.min(5, Math.round(Number(ratingValue) * 2) / 2));
 
     const tags = [
       ["d", `${RATING_D_PREFIX}:${placeKey}`],
@@ -359,7 +359,7 @@
     let myRating = null;
     for (const event of latestByAuthor.values()) {
       const value = Number(event.content);
-      if (Number.isFinite(value) && value >= 1 && value <= 5) {
+      if (Number.isFinite(value) && value >= 0.5 && value <= 5) {
         values.push(value);
         byAuthor[event.pubkey] = value;
         if (myPubKeyHex && event.pubkey === myPubKeyHex) myRating = value;
@@ -414,7 +414,7 @@
     const results = [];
     for (const [placeKey, event] of latestByPlace.entries()) {
       const value = Number(event.content);
-      if (!Number.isFinite(value) || value < 1 || value > 5) continue;
+      if (!Number.isFinite(value) || value < 0.5 || value > 5) continue;
       const label = event.tags.find(tag => tag[0] === "label")?.[1] || "";
       const lat = Number(event.tags.find(tag => tag[0] === "lat")?.[1]);
       const lon = Number(event.tags.find(tag => tag[0] === "lon")?.[1]);
