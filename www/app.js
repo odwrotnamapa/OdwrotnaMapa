@@ -1342,11 +1342,22 @@
       ...(navigator.languages || [])
     ].filter(Boolean);
 
-    const isPolish = browserLanguages.some(lang =>
+    // Strona jest fundamentalnie polska (domena .pl, statyczne meta/
+    // JSON-LD/tytul sa po polsku) - domyslnym jezykiem MUSI byc polski,
+    // angielski tylko gdy przegladarka WYRAZNIE go preferuje (a nie
+    // zgadza sie z polskim). Odwrotny fallback (domyslnie EN, PL tylko
+    // po wykryciu) psul SEO: roboty (np. Bingbot) renderujace strone
+    // bez zadeklarowanego jezyka dostawaly angielska tresc, mimo ze
+    // caly reszta strony (meta/JSON-LD) byla po polsku.
+    const isExplicitlyPolish = browserLanguages.some(lang =>
       String(lang).toLowerCase().startsWith("pl")
     );
+    if (isExplicitlyPolish) return "pl";
 
-    return isPolish ? "pl" : "en";
+    const isExplicitlyEnglish = browserLanguages.some(lang =>
+      String(lang).toLowerCase().startsWith("en")
+    );
+    return isExplicitlyEnglish ? "en" : "pl";
   }
 
   // Wypełniane przez initializeAutocomplete(); pozwala podpiąć podpowiedzi
@@ -5111,17 +5122,6 @@ function applyLanguage(language) {
       safeHeight <= MOBILE_PANEL_STANDARD.collapsedHeight + 8;
 
     panel.classList.toggle("is-collapsed", shouldCollapse);
-
-    // Panel "rozwinięty do końca" (przeciągnięty/otwarty na pełną
-    // dostępną wysokość) - używane w CSS do ukrycia pływającego paska
-    // akcji w prawym górnym rogu, żeby nie zasłaniał treści panelu.
-    // Liczone tu centralnie, bo WSZYSTKIE zmiany wysokości (drag z
-    // bottom-sheet-service.js, otwarcie domyślne, zwinięcie) przechodzą
-    // przez tę funkcję.
-    panel.classList.toggle(
-      "is-fully-expanded",
-      safeHeight >= getMobilePanelMaximumHeight() - 1
-    );
 
     // Tryb zapisujemy TYLKO wtedy, gdy wywołujący jawnie go poda -
     // żadnego zgadywania na podstawie wysokości, żeby stan zapisywał
