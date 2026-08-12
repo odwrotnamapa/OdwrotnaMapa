@@ -3337,6 +3337,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       map.setPaintProperty(MEASURE_AREA_POINTS_LAYER_ID, "circle-stroke-color", accent);
     }
 
+    window.OMAP_ISOCHRONE?.applyAccentColor();
+
     // Kolor trasy koduje też tryb podróży (rower/pieszo mają swoje
     // własne, stałe kolory) - akcent dotyczy tylko trybu domyślnego
     // ("auto"), żeby nie zaburzać tego rozróżnienia.

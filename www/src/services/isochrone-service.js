@@ -221,6 +221,37 @@
     if (currentOrigin) recalculate();
   }
 
+  // Warstwy izochrony sa dodawane do stylu mapy dynamicznie (poza
+  // config.js), wiec applyTheme() w app.js przy kazdej zmianie motywu
+  // (dark/custom/domyslny) przechodzi po nich tak samo jak po
+  // wszystkich pozostalych warstwach stylu i nadpisuje im kolor wg
+  // palety motywu (traktujac je jak zwykly teren) - w efekcie
+  // przezroczysty fill zamienia sie w pelne, nieprzezroczyste tlo.
+  // Trzeba wiec po kazdej zmianie motywu recznie przywrocic wlasciwy
+  // kolor/przezroczystosc, dokladnie tak jak robi to juz
+  // updateAccentDependentMapLayers() w app.js dla warstw pomiaru.
+  function applyAccentColor() {
+    if (!ctx?.map) return;
+    const cfg = ctx.CONFIG.isochrone;
+    const accent = ctx.getAccentColor();
+
+    if (ctx.map.getLayer(cfg.fillLayerId)) {
+      ctx.map.setPaintProperty(cfg.fillLayerId, "fill-color", accent);
+      ctx.map.setPaintProperty(cfg.fillLayerId, "fill-opacity", 0.18);
+    }
+    if (ctx.map.getLayer(cfg.lineLayerId)) {
+      ctx.map.setPaintProperty(cfg.lineLayerId, "line-color", accent);
+      ctx.map.setPaintProperty(cfg.lineLayerId, "line-opacity", 0.85);
+      ctx.map.setPaintProperty(cfg.lineLayerId, "line-width", 2.5);
+    }
+    if (ctx.map.getLayer(ORIGIN_POINT_LAYER_ID)) {
+      ctx.map.setPaintProperty(ORIGIN_POINT_LAYER_ID, "circle-color", "#ffffff");
+      ctx.map.setPaintProperty(ORIGIN_POINT_LAYER_ID, "circle-stroke-color", accent);
+      ctx.map.setPaintProperty(ORIGIN_POINT_LAYER_ID, "circle-stroke-width", 2);
+      ctx.map.setPaintProperty(ORIGIN_POINT_LAYER_ID, "circle-radius", 5);
+    }
+  }
+
   // Jeden przycisk w pasku narzedzi wlacza/wylacza tryb - ten sam
   // wzorzec co OMAP_MEASURE.toggle (patrz measure-service.js).
   function toggle() {
@@ -252,6 +283,7 @@
     toggle,
     addPoint,
     setMode,
-    setMinutes
+    setMinutes,
+    applyAccentColor
   };
 })();
