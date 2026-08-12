@@ -1103,6 +1103,7 @@
   // prosil uzytkownik.
   async function performSafeSync(options) {
     const silent = options?.silent !== false;
+    const onlyIfNewer = options?.onlyIfNewer;
     const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
     if (!words) return null;
 
@@ -1119,7 +1120,7 @@
     const t = ctx.text[ctx.state.language];
 
     try {
-      const pullResult = await performPull(scopes, { silent });
+      const pullResult = await performPull(scopes, { silent, onlyIfNewer });
       refreshAccountUI();
       if (!silent && pullResult) showAccountMessage(t.accountReceived, "success");
       return { direction: "pull", result: pullResult };

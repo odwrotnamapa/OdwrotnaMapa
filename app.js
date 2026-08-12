@@ -310,16 +310,6 @@
       discoverFound: count => `Znaleziono ${count} miejsc.`,
       discoverEmpty: "Brak wyników w aktualnym widoku.",
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
-      discoverSearchPlaceholder: "Szukaj kategorii…",
-      discoverSearchClear: "Wyczyść wyszukiwanie",
-      discoverSearchEmpty: "Brak kategorii pasujących do wyszukiwania.",
-      placeIsochrone: "Czas dojazdu",
-      isochroneError: "Nie udało się policzyć obszaru dojazdu.",
-      isochroneModePedestrian: "Pieszo",
-      isochroneModeBicycle: "Rower",
-      isochroneModeAuto: "Samochód",
-      isochroneClear: "Wyczyść czas dojazdu",
-      isochroneMinutesAria: "Czas podróży",
       discoverCategoryGroups: {
         food: "Jedzenie i picie",
         stay: "Noclegi",
@@ -807,16 +797,6 @@
       discoverFound: count => `Found ${count} places.`,
       discoverEmpty: "No results in the current map view.",
       discoverZooming: "Zooming in to the search area…",
-      discoverSearchPlaceholder: "Search categories…",
-      discoverSearchClear: "Clear search",
-      discoverSearchEmpty: "No categories match your search.",
-      placeIsochrone: "Travel time",
-      isochroneError: "Couldn't calculate the travel-time area.",
-      isochroneModePedestrian: "Walking",
-      isochroneModeBicycle: "Cycling",
-      isochroneModeAuto: "Driving",
-      isochroneClear: "Clear travel time",
-      isochroneMinutesAria: "Travel time",
       discoverCategoryGroups: {
         food: "Food & drink",
         stay: "Lodging",
@@ -1274,6 +1254,16 @@
   // niego odwoływać przez fill-pattern / background-pattern.
   async function registerTextureImage(key, dataUrl) {
     if (!map || !dataUrl) return;
+    // Ta sama zasada co w applyTheme(): map.addImage() rzuca błędem,
+    // jeśli styl mapy nie jest jeszcze gotowy (np. ta funkcja
+    // wywołana z synchronizacji w tle, zanim zdarzenie "load"
+    // zdążyło odpalić initCustomTextures()). Dogrywamy się przy
+    // najbliższym "idle" zamiast tracić teksturę bez żadnej ponownej
+    // próby.
+    if (!map.isStyleLoaded()) {
+      map.once("idle", () => registerTextureImage(key, dataUrl));
+      return;
+    }
     const imageId = window.OMAP_TEXTURE_STORAGE?.textureImageId(key);
     try {
       const img = await loadHtmlImage(dataUrl);
@@ -1362,22 +1352,11 @@
       ...(navigator.languages || [])
     ].filter(Boolean);
 
-    // Strona jest fundamentalnie polska (domena .pl, statyczne meta/
-    // JSON-LD/tytul sa po polsku) - domyslnym jezykiem MUSI byc polski,
-    // angielski tylko gdy przegladarka WYRAZNIE go preferuje (a nie
-    // zgadza sie z polskim). Odwrotny fallback (domyslnie EN, PL tylko
-    // po wykryciu) psul SEO: roboty (np. Bingbot) renderujace strone
-    // bez zadeklarowanego jezyka dostawaly angielska tresc, mimo ze
-    // caly reszta strony (meta/JSON-LD) byla po polsku.
-    const isExplicitlyPolish = browserLanguages.some(lang =>
+    const isPolish = browserLanguages.some(lang =>
       String(lang).toLowerCase().startsWith("pl")
     );
-    if (isExplicitlyPolish) return "pl";
 
-    const isExplicitlyEnglish = browserLanguages.some(lang =>
-      String(lang).toLowerCase().startsWith("en")
-    );
-    return isExplicitlyEnglish ? "en" : "pl";
+    return isPolish ? "pl" : "en";
   }
 
   // Wypełniane przez initializeAutocomplete(); pozwala podpiąć podpowiedzi
@@ -1576,11 +1555,10 @@
     measureDistanceValue: $("measure-distance-value"),
     measureClearButton: $("measure-clear-button"),
     measureModeSwitchButton: $("measure-mode-switch-button"),
-    isochroneBadge: $("isochrone-badge"),
     isochroneToggleButton: $("isochrone-toggle-button"),
+    isochroneBadge: $("isochrone-badge"),
     isochroneMinutesSelect: $("isochrone-minutes-select"),
     isochroneStatus: $("isochrone-status"),
-    isochroneCloseButton: $("isochrone-close-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -1735,9 +1713,6 @@
     routeBack: $("route-back"),
     discoverTitle: $("discover-title"),
     discoverNote: $("discover-note"),
-    discoverSearch: $("discover-search"),
-    discoverSearchClear: $("discover-search-clear"),
-    discoverSearchEmpty: $("discover-search-empty"),
     discoverCategories: $("discover-categories"),
     discoverStatus: $("discover-status"),
     discoverResultsList: $("discover-results-list"),
@@ -1845,6 +1820,44 @@ map.on('rotate', updateLogoRotation);
     loadSharedPlaceFromUrl();
     window.OMAP_GEOURI?.initialize();
     hideDefibrillatorPois();
+
+    // Jednorazowe pobranie danych z chmury PO initCustomTextures() -
+    // przeniesione tutaj (2026-08-12) z miejsca dużo dalej w pliku,
+    // gdzie wołało się od razu przy starcie, równolegle z ładowaniem
+    // stylu mapy. To był realny wyścig: jeśli pobranie z przekaźnika
+    // (szybkie zapytanie sieciowe) zdążyło skończyć się PRZED
+    // zdarzeniem "load" mapy (wolniejsze - trzeba ściągnąć styl i
+    // sprite'y), to (1) registerTextureImage w pullColorMedia wołało
+    // map.addImage() zanim styl był gotowy - MapLibre to odrzuca z
+    // błędem, więc tekstura z chmury nigdy się nie rejestrowała, i
+    // (2) initCustomTextures() (który dopiero się szykował do
+    // odpalenia z tego samego zdarzenia "load") i tak PO SWOIM czasie
+    // nadpisywał state.customTextures całym obiektem z IndexedDB,
+    // gubiąc po drodze to, co pullColorMedia właśnie ustawił w
+    // pamięci - stąd wrażenie, że motyw z teksturami "sam się gubi"
+    // po przeładowaniu i trzeba go wgrywać od nowa z pliku. Wołając
+    // to DOPIERO tutaj, initCustomTextures() ma już zawsze gotowy
+    // stan (i mapa jest już załadowana), zanim pobranie z chmury
+    // zacznie cokolwiek robić z teksturami.
+    //
+    // onlyIfNewer:true - dodatkowe zabezpieczenie: jeśli wcześniejsza
+    // wysyłka jakiejś lokalnej zmiany (np. koloru) z jakiegoś powodu
+    // nie doszła do przekaźnika (chwilowy problem sieciowy,
+    // przekaźnik odrzucił zdarzenie - performPush nie sygnalizuje
+    // tego użytkownikowi przy cichej, automatycznej wysyłce), to samo
+    // to auto-pobranie przy KAŻDYM następnym starcie appki
+    // bezwarunkowo ściągałoby tę starszą wersję z chmury i
+    // nadpisywałoby nią świeży, poprawny stan lokalny - stąd wrażenie
+    // "kolory wracają do poprzednich" po przeładowaniu. Ręczny
+    // przycisk "Pobierz z chmury" w panelu Konto zostaje bezwarunkowy
+    // (bez onlyIfNewer) - to jedyne miejsce, gdzie user wyraźnie
+    // prosi o wymuszone pobranie z innego urządzenia.
+    if (window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+      window.OMAP_ACCOUNT?.performSafeSync({ silent: true, onlyIfNewer: true });
+      window.OMAP_ACCOUNT?.ensurePublicProfileMetadataFromSeedWords(
+        window.OMAP_SEED_WORDS.getStoredSeedWords()
+      );
+    }
   });
 
   map.on("moveend", saveView);
@@ -1943,15 +1956,6 @@ map.on('rotate', updateLogoRotation);
     openMobilePanelStandard,
     pointFromPlace,
     updateRouteClickHint
-  });
-  window.OMAP_ISOCHRONE?.configure({
-    state,
-    el,
-    map,
-    CONFIG,
-    text,
-    getAccentColor,
-    closeOtherMobilePanels
   });
   window.OMAP_LABEL_VISIBILITY?.configure({
     state,
@@ -2112,6 +2116,15 @@ map.on('rotate', updateLogoRotation);
     state,
     el,
     map,
+    text,
+    getAccentColor,
+    closeOtherMobilePanels
+  });
+  window.OMAP_ISOCHRONE?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
     text,
     getAccentColor,
     closeOtherMobilePanels
@@ -2371,17 +2384,15 @@ map.on('rotate', updateLogoRotation);
   });
   el.measureModeSwitchButton?.addEventListener("click", window.OMAP_MEASURE?.switchMode);
   el.isochroneToggleButton?.addEventListener("click", window.OMAP_ISOCHRONE?.toggle);
-  el.isochroneCloseButton?.addEventListener("click", () => {
-    window.OMAP_ISOCHRONE?.toggle();
+  el.isochroneBadge?.addEventListener("click", event => {
+    const modeButton = event.target.closest("[data-isochrone-mode]");
+    if (modeButton) {
+      window.OMAP_ISOCHRONE?.setMode(modeButton.dataset.isochroneMode);
+    }
   });
   el.isochroneMinutesSelect?.addEventListener("change", () => {
     window.OMAP_ISOCHRONE?.setMinutes(el.isochroneMinutesSelect.value);
   });
-  for (const button of el.isochroneBadge?.querySelectorAll("[data-isochrone-mode]") || []) {
-    button.addEventListener("click", () => {
-      window.OMAP_ISOCHRONE?.setMode(button.dataset.isochroneMode);
-    });
-  }
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2501,18 +2512,11 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   initializeDiscoverBottomSheet();
   initializeMenuBottomSheet();
   migrateOrphanedCustomPlaceNames();
-  // Jednorazowe pobranie danych z chmury zaraz po starcie appki
-  // (jesli uzytkownik jest zalogowany) - zeby nie trzeba bylo za
-  // kazdym razem recznie klikac przycisku odswiezania po otwarciu
-  // strony. Bezpieczniejsze niz stary, cykliczny timer w tle -
-  // dzieje sie raz, nie powtarza sie, wiec nie ma ryzyka wyscigu z
-  // wlasnie robiona zmiana lokalna.
-  if (window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
-    window.OMAP_ACCOUNT?.performSafeSync({ silent: true });
-    window.OMAP_ACCOUNT?.ensurePublicProfileMetadataFromSeedWords(
-      window.OMAP_SEED_WORDS.getStoredSeedWords()
-    );
-  }
+  // Jednorazowe pobranie danych z chmury (jesli uzytkownik jest
+  // zalogowany) zostalo przeniesione do map.on("load", ...) wyzej w
+  // pliku - patrz komentarz tam. Musi czekac na zaladowanie mapy,
+  // inaczej wchodzi w wyscig z initCustomTextures() i gubi tekstury
+  // pobranego motywu.
   initializeFavoritesBottomSheet();
   initializeHistoryBottomSheet();
   initializePlaceBottomSheet();
@@ -2586,10 +2590,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       );
     }
     window.OMAP_MEASURE?.updateModeSwitchUi();
-    if (el.isochroneToggleButton) {
-      el.isochroneToggleButton.title = t.placeIsochrone;
-      el.isochroneToggleButton.setAttribute("aria-label", t.placeIsochrone);
-    }
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -2744,20 +2744,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     el.discoverButton?.setAttribute("aria-label", t.discoverTitle);
     el.discoverClose?.setAttribute("aria-label", t.discoverClose);
     if (el.discoverNote) el.discoverNote.textContent = t.discoverNote;
-    if (el.discoverSearch) el.discoverSearch.placeholder = t.discoverSearchPlaceholder;
-    el.discoverSearchClear?.setAttribute("aria-label", t.discoverSearchClear);
-    if (el.discoverSearchEmpty) el.discoverSearchEmpty.textContent = t.discoverSearchEmpty;
     if (el.discoverClear) el.discoverClear.textContent = t.discoverClear;
-    if (el.isochroneCloseButton) el.isochroneCloseButton.setAttribute("aria-label", t.isochroneClear);
-    if (el.isochroneMinutesSelect) el.isochroneMinutesSelect.setAttribute("aria-label", t.isochroneMinutesAria);
-    for (const button of el.isochroneBadge?.querySelectorAll("[data-isochrone-mode]") || []) {
-      const label =
-        button.dataset.isochroneMode === "pedestrian" ? t.isochroneModePedestrian :
-        button.dataset.isochroneMode === "bicycle" ? t.isochroneModeBicycle :
-        t.isochroneModeAuto;
-      button.title = label;
-      button.setAttribute("aria-label", label);
-    }
     for (const button of el.discoverCategories?.querySelectorAll(
       "[data-discover-category]"
     ) || []) {
@@ -2766,8 +2753,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       const span = button.querySelector("span:last-child");
       if (span) span.textContent = label;
       button.setAttribute("aria-label", label);
-      button.dataset.discoverSearchLabel =
-        window.OMAP_DISCOVER?.normalizeSearchText(label) || "";
     }
     if (
       el.discoverCategories?.querySelector(
@@ -2787,7 +2772,6 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
         }
       });
     }
-    window.OMAP_DISCOVER?.filterCategories(el.discoverSearch?.value || "");
     el.routeClose?.setAttribute("aria-label", t.closeRoute);
     el.routeSheetHandle?.setAttribute("aria-label", t.resizeRoutePanel);
     if (el.routeFromLabel) el.routeFromLabel.textContent = t.routeFrom;
@@ -7154,48 +7138,6 @@ function showUserLocationMarker(lngLat) {
       window.OMAP_RATINGS?.loadForPlace(window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat), ratingUi);
     }
 
-    // 4 przyciski akcji (trasa/w pobliżu/ulubione/udostępnij) - celowo
-    // zaraz po ocenach, a przed "O tym miejscu" (Wikipedia), zamiast
-    // nizej pod szczegolami adresu/telefonu jak wczesniej.
-    const actions = document.createElement("div");
-    actions.className = "place-card-actions";
-
-    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
-
-    actions.append(
-      createPlaceAction("↪️", t.placeSetRoute, () => {
-        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
-      }),
-      createPlaceAction("🧭", t.placeNearby, () => {
-        openDiscoverNearPlace(place, lngLat);
-      }),
-      createPlaceAction(
-        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
-        state.language === "pl"
-          ? "Dodaj do ulubionych"
-          : "Add to favorites",
-        button => {
-          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
-            window.OMAP_ACCOUNT?.openAccountFromMenu();
-            return;
-          }
-          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
-            favoriteKey,
-            place,
-            lngLat
-          );
-          button.textContent = nowFavorite ? "★" : "☆";
-          button.classList.toggle("is-favorite", nowFavorite);
-        },
-        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
-      ),
-      createPlaceAction("🔗", t.placeShare, () => {
-        sharePlace(place, lngLat);
-      })
-    );
-
-    card.appendChild(actions);
-
     const isNamedSettlement =
       ["city", "town", "village"].includes(
         String(place?.type || "").toLowerCase()
@@ -7275,6 +7217,45 @@ function showUserLocationMarker(lngLat) {
       card.appendChild(departures.section);
       window.OMAP_DEPARTURES?.loadForPlace(place, lngLat, departures);
     }
+
+    const actions = document.createElement("div");
+    actions.className = "place-card-actions";
+
+    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
+
+    actions.append(
+      createPlaceAction("↪️", t.placeSetRoute, () => {
+        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
+      }),
+      createPlaceAction("🧭", t.placeNearby, () => {
+        openDiscoverNearPlace(place, lngLat);
+      }),
+      createPlaceAction(
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
+        state.language === "pl"
+          ? "Dodaj do ulubionych"
+          : "Add to favorites",
+        button => {
+          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+            window.OMAP_ACCOUNT?.openAccountFromMenu();
+            return;
+          }
+          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
+            favoriteKey,
+            place,
+            lngLat
+          );
+          button.textContent = nowFavorite ? "★" : "☆";
+          button.classList.toggle("is-favorite", nowFavorite);
+        },
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
+      ),
+      createPlaceAction("🔗", t.placeShare, () => {
+        sharePlace(place, lngLat);
+      })
+    );
+
+    card.appendChild(actions);
 
     const commentsUi = window.OMAP_COMMENTS?.createSection(
       window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat),
