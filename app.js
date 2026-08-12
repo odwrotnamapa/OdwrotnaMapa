@@ -2133,6 +2133,8 @@ map.on('rotate', updateLogoRotation);
     getAccentColor,
     closeOtherMobilePanels
   });
+  window.OMAP_WEATHER?.configure({ state, map });
+  window.OMAP_WEATHER?.init();
   window.OMAP_WIKIPEDIA?.configure({
     state,
     text,
