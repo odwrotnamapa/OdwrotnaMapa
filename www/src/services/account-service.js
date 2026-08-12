@@ -899,6 +899,13 @@
   async function performPull(scopes, options) {
     ctx.el.accountSyncRefreshButton?.classList.add("is-spinning");
     try {
+      // Zawsze najpierw wysyłamy to, co lokalnie czeka jeszcze na
+      // debounce (patrz flushPendingPush) - inaczej ta funkcja mogłaby
+      // ściągnąć starszą wersję danych z przekaźnika i nadpisać nią
+      // zmianę, którą użytkownik dopiero co zrobił (np. wybór motywu),
+      // zanim ta zmiana zdążyłaby się sama wysłać.
+      await flushPendingPush();
+
       const silent = options?.silent;
       const onlyIfNewer = options?.onlyIfNewer;
       const t = ctx.text[ctx.state.language];
@@ -1033,17 +1040,34 @@
     if (immediatePushTimer) clearTimeout(immediatePushTimer);
     immediatePushTimer = window.setTimeout(async () => {
       immediatePushTimer = null;
-      const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
-      if (!words) return;
-      const scopes = getCheckedSyncScopes();
-      if (!scopes.length) return;
-      try {
-        await performPush(scopes, { silent: true });
-        refreshAccountUI();
-      } catch (error) {
-        console.error("Automatyczna wysyłka zmiany nie powiodła się:", error);
-      }
+      await flushPendingPush();
     }, 1500);
+  }
+
+  // Wysyła NATYCHMIAST każdą lokalną zmianę, na którą wciąż czeka
+  // debounce z markLocalSyncChange (np. użytkownik zmienił motyw
+  // pół sekundy temu, a teraz klika "Pobierz z chmury"/przycisk
+  // odświeżania). Bez tego performPull mógłby ściągnąć jeszcze
+  // STARĄ wersję danych z przekaźnika (bo wysyłka tej zmiany nie
+  // zdążyła jeszcze dojść do skutku) i nadpisać nią świeżą, lokalną,
+  // jeszcze niewysłaną zmianę - to był realny sposób na "cofnięcie"
+  // motywu przez samą synchronizację. Wywoływane na początku
+  // performPull, więc chroni każdą ścieżkę pobierania (przycisk
+  // ręczny, performSafeSync, przyszłe wywołania).
+  async function flushPendingPush() {
+    if (!immediatePushTimer) return;
+    clearTimeout(immediatePushTimer);
+    immediatePushTimer = null;
+    const words = window.OMAP_SEED_WORDS?.getStoredSeedWords();
+    if (!words) return;
+    const scopes = getCheckedSyncScopes();
+    if (!scopes.length) return;
+    try {
+      await performPush(scopes, { silent: true });
+      refreshAccountUI();
+    } catch (error) {
+      console.error("Wysłanie oczekującej zmiany przed pobraniem nie powiodło się:", error);
+    }
   }
 
   let autoSyncTimer = null;
