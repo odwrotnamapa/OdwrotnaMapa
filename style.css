@@ -101,60 +101,6 @@ select {
   pointer-events: auto;
 }
 
-/* Widget pogody (weather-service.js) - stały element przy lewej
-   krawędzi, pod paskiem narzędzi. Pozycja jest w całości z CSS (bez
-   JS-owego przeliczania) - na desktopie trzyma się lewej krawędzi pod
-   paskiem, a poniżej progu mobilnego (patrz @media max-width:600px
-   niżej) pasek narzędzi/logo przenosi się na sam dół ekranu, więc na
-   górze nic mu już nie przeszkadza i widget ląduje dokładnie w rogu.
-   WAŻNE: reguła .weather-widget[hidden] musi być obecna - inaczej
-   "display:flex" niżej ma taką samą specyficzność jak domyślne
-   "[hidden]{display:none}" przeglądarki i wygrywa jako reguła autora,
-   więc widget mignąłby pusty zanim pogoda się załaduje. */
-.weather-widget {
-  position: fixed;
-  z-index: 6;
-  top: 62px;
-  left: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--panel);
-  background-image: var(--panel-image, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--text);
-  cursor: pointer;
-}
-
-@media (max-width: 600px) {
-  .weather-widget {
-    top: 12px;
-    left: 12px;
-  }
-}
-
-.weather-widget[hidden] {
-  display: none;
-}
-
-.weather-widget-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.weather-widget-temp {
-  white-space: nowrap;
-}
-
 .brand,
 .search,
 .toolbar-actions,
@@ -7352,4 +7298,54 @@ textarea,
 #isochrone-close-button:hover {
   background: var(--surface-alt, rgba(128, 128, 128, 0.12));
   color: var(--text);
+}
+
+.weather-widget {
+  position: fixed;
+  z-index: 4;
+  top: 70px;
+  /* Zawsze przy lewej krawędzi - bez JS-owego przeliczania (patrz
+     weather-service.js). */
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  background-image: var(--panel-image, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.weather-widget[hidden] {
+  display: none;
+}
+
+.weather-widget-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.weather-widget-temp {
+  line-height: 1;
+}
+
+/* Na waskich ekranach (patrz .mobile-bottom-nav / .toolbar przy
+   max-width: 600px) caly pasek narzedzi z logiem zjezdza na dol
+   ekranu - nie ma juz pod czym centrowac widgetu, wiec wraca on do
+   prostego lewego gornego rogu. */
+@media (max-width: 600px) {
+  .weather-widget {
+    top: 12px;
+    left: 12px;
+  }
 }

@@ -1823,6 +1823,7 @@ map.on('rotate', updateLogoRotation);
     window.OMAP_ROUTE?.loadSharedRouteFromUrl();
     loadSharedPlaceFromUrl();
     window.OMAP_GEOURI?.initialize();
+    window.OMAP_WEATHER?.init();
     hideDefibrillatorPois();
 
     // Jednorazowe pobranie danych z chmury PO initCustomTextures() -
@@ -1967,6 +1968,10 @@ map.on('rotate', updateLogoRotation);
     map,
     text,
     safeSet
+  });
+  window.OMAP_WEATHER?.configure({
+    state,
+    map
   });
   window.OMAP_SEARCH_HISTORY?.configure({
     CONFIG,
@@ -2133,8 +2138,6 @@ map.on('rotate', updateLogoRotation);
     getAccentColor,
     closeOtherMobilePanels
   });
-  window.OMAP_WEATHER?.configure({ state, map });
-  window.OMAP_WEATHER?.init();
   window.OMAP_WIKIPEDIA?.configure({
     state,
     text,
@@ -2158,6 +2161,11 @@ map.on('rotate', updateLogoRotation);
     scrollPanelToElement: window.OMAP_ROUTE?.scrollPanelToElement
   });
   window.OMAP_DISCOVER?.renderCategoryButtons();
+  // Uwaga: OMAP_WEATHER.configure() już wywołane wcześniej (patrz
+  // wyżej) i OMAP_WEATHER.init() już wywoływane w map.on("load", ...)
+  // - druga kopia configure()+init() tutaj była duplikatem (dodawała
+  // drugi listener "moveend" i odpalała podwójne zapytanie do
+  // Open-Meteo przy starcie), stąd usunięta.
 
   updateUI();
 
@@ -7147,6 +7155,45 @@ function showUserLocationMarker(lngLat) {
       window.OMAP_RATINGS?.loadForPlace(window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat), ratingUi);
     }
 
+    const actions = document.createElement("div");
+    actions.className = "place-card-actions";
+
+    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
+
+    actions.append(
+      createPlaceAction("↪️", t.placeSetRoute, () => {
+        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
+      }),
+      createPlaceAction("🧭", t.placeNearby, () => {
+        openDiscoverNearPlace(place, lngLat);
+      }),
+      createPlaceAction(
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
+        state.language === "pl"
+          ? "Dodaj do ulubionych"
+          : "Add to favorites",
+        button => {
+          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
+            window.OMAP_ACCOUNT?.openAccountFromMenu();
+            return;
+          }
+          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
+            favoriteKey,
+            place,
+            lngLat
+          );
+          button.textContent = nowFavorite ? "★" : "☆";
+          button.classList.toggle("is-favorite", nowFavorite);
+        },
+        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
+      ),
+      createPlaceAction("🔗", t.placeShare, () => {
+        sharePlace(place, lngLat);
+      })
+    );
+
+    card.appendChild(actions);
+
     const isNamedSettlement =
       ["city", "town", "village"].includes(
         String(place?.type || "").toLowerCase()
@@ -7226,45 +7273,6 @@ function showUserLocationMarker(lngLat) {
       card.appendChild(departures.section);
       window.OMAP_DEPARTURES?.loadForPlace(place, lngLat, departures);
     }
-
-    const actions = document.createElement("div");
-    actions.className = "place-card-actions";
-
-    const favoriteKey = window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat);
-
-    actions.append(
-      createPlaceAction("↪️", t.placeSetRoute, () => {
-        window.OMAP_ROUTE?.setPlaceAsRoutePoint("b", place, lngLat);
-      }),
-      createPlaceAction("🧭", t.placeNearby, () => {
-        openDiscoverNearPlace(place, lngLat);
-      }),
-      createPlaceAction(
-        window.OMAP_FAVORITES?.isFavorite(favoriteKey) ? "★" : "☆",
-        state.language === "pl"
-          ? "Dodaj do ulubionych"
-          : "Add to favorites",
-        button => {
-          if (!window.OMAP_SEED_WORDS?.getStoredSeedWords()) {
-            window.OMAP_ACCOUNT?.openAccountFromMenu();
-            return;
-          }
-          const nowFavorite = window.OMAP_FAVORITES?.toggleFavorite(
-            favoriteKey,
-            place,
-            lngLat
-          );
-          button.textContent = nowFavorite ? "★" : "☆";
-          button.classList.toggle("is-favorite", nowFavorite);
-        },
-        window.OMAP_FAVORITES?.isFavorite(favoriteKey)
-      ),
-      createPlaceAction("🔗", t.placeShare, () => {
-        sharePlace(place, lngLat);
-      })
-    );
-
-    card.appendChild(actions);
 
     const commentsUi = window.OMAP_COMMENTS?.createSection(
       window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat),

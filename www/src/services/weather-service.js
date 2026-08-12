@@ -12,6 +12,12 @@
   //
   // Element tworzony jest w calosci z JS (appendChild do body), zeby
   // wlaczenie tego widgetu nie wymagalo zadnych zmian w HTML.
+  //
+  // Pozycja jest w calosci z CSS (.weather-widget w style.css) -
+  // zawsze przy lewej krawedzi, bez wyliczania jej w JS. Wczesniej
+  // widget byl na desktopie centrowany pod #brand-button, co po
+  // zgloszeniu wygladalo jak "lewitowanie po srodku" zamiast trzymania
+  // sie krawedzi - stad usuniete.
 
   let ctx = null;
   let widgetEl = null;
