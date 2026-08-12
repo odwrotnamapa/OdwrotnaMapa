@@ -1559,6 +1559,7 @@
     isochroneBadge: $("isochrone-badge"),
     isochroneMinutesSelect: $("isochrone-minutes-select"),
     isochroneStatus: $("isochrone-status"),
+    isochroneCloseButton: $("isochrone-close-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -2393,6 +2394,7 @@ map.on('rotate', updateLogoRotation);
   el.isochroneMinutesSelect?.addEventListener("change", () => {
     window.OMAP_ISOCHRONE?.setMinutes(el.isochroneMinutesSelect.value);
   });
+  el.isochroneCloseButton?.addEventListener("click", window.OMAP_ISOCHRONE?.toggle);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
