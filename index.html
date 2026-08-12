@@ -134,6 +134,31 @@
         <button id="measure-clear-button" type="button" aria-label="Wyczyść pomiar">×</button>
       </div>
 
+      <div id="isochrone-badge" class="isochrone-badge" hidden>
+        <div class="isochrone-badge-modes" role="group" aria-label="Sposób podróży">
+          <button type="button" data-isochrone-mode="pedestrian"
+                  class="isochrone-mode-button is-active"
+                  title="Pieszo" aria-label="Pieszo" aria-pressed="true">🚶</button>
+          <button type="button" data-isochrone-mode="bicycle"
+                  class="isochrone-mode-button"
+                  title="Rower" aria-label="Rower" aria-pressed="false">🚲</button>
+          <button type="button" data-isochrone-mode="auto"
+                  class="isochrone-mode-button"
+                  title="Samochód" aria-label="Samochód" aria-pressed="false">🚗</button>
+        </div>
+        <select id="isochrone-minutes-select" class="isochrone-minutes-select" aria-label="Czas podróży">
+          <option value="5">5 min</option>
+          <option value="10">10 min</option>
+          <option value="15" selected>15 min</option>
+          <option value="20">20 min</option>
+          <option value="30">30 min</option>
+          <option value="45">45 min</option>
+          <option value="60">60 min</option>
+        </select>
+        <span id="isochrone-status" class="isochrone-status" hidden>…</span>
+        <button id="isochrone-close-button" type="button" aria-label="Wyczyść czas podróży">×</button>
+      </div>
+
         <div id="streetview-actions" class="streetview-actions">
           <button id="map-appearance-toggle-button" class="icon-button" type="button"
                   title="Wygląd mapy" aria-label="Wygląd mapy"
@@ -154,7 +179,12 @@
                   aria-pressed="false">
             <span aria-hidden="true">🧊</span>
           </button>
-          <button id="measure-toggle-button" class="icon-button" type="button"
+          <button id="isochrone-toggle-button" class="icon-button" type="button"
+                  title="Czas dojazdu" aria-label="Czas dojazdu"
+                  aria-pressed="false">
+            <span aria-hidden="true">⏱️</span>
+          </button>
+          <button id="measure-toggle-button" class="icon-button toggle-danger" type="button"
                   title="Zmierz odległość" aria-label="Zmierz odległość"
                   aria-pressed="false">
             <span aria-hidden="true">📏</span>
@@ -1309,6 +1339,7 @@
   <script src="src/services/custom-theme-editor-service.js"></script>
   <script src="src/services/account-service.js?v=20260813-batch3"></script>
   <script src="src/services/route-service.js?v=20260813-batch3"></script>
+  <script src="src/services/isochrone-service.js"></script>
   <script type="module" src="src/services/external-libs-loader.js"></script>
 
   <script src="app.js?v=20260813-author-rating"></script>

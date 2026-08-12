@@ -4,7 +4,7 @@
 // wyszukiwania/trasowania - to wymagałoby dużo większego
 // projektu (limity pamięci, dobór obszaru do zapisania itd.).
 
-const CACHE_VERSION = "gowno3";
+const CACHE_VERSION = "shell-v221-danger-toggle-class";
 
 // Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
 // z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do
@@ -100,6 +100,7 @@ const APP_SHELL_URLS = [
   "./src/services/custom-theme-editor-service.js",
   "./src/services/account-service.js",
   "./src/services/route-service.js",
+  "./src/services/isochrone-service.js",
   "./src/services/external-libs-loader.js",
   "./assets/build-info.js",
   "./assets/capacitor-bridge.js",

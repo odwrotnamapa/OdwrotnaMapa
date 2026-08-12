@@ -46,6 +46,17 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     clientId: "odwrotnamapa.pl"
   },
 
+  // Ten sam publiczny serwer Valhalla co "routing" powyzej, ale endpoint
+  // /isochrone zamiast /route - zwraca poligon obszaru osiagalnego w
+  // zadanym czasie (isochrona / "mapa czasu podrozy").
+  isochrone: {
+    endpoint: "https://valhalla1.openstreetmap.de/isochrone",
+    sourceId: "odwrotnamapa-isochrone",
+    fillLayerId: "odwrotnamapa-isochrone-fill",
+    lineLayerId: "odwrotnamapa-isochrone-line",
+    clientId: "odwrotnamapa.pl"
+  },
+
   search: {
     endpoint: "https://nominatim.openstreetmap.org/search",
     fuzzyEndpoint: "https://photon.komoot.io/api/",

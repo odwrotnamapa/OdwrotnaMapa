@@ -313,6 +313,13 @@
       discoverSearchPlaceholder: "Szukaj kategorii…",
       discoverSearchClear: "Wyczyść wyszukiwanie",
       discoverSearchEmpty: "Brak kategorii pasujących do wyszukiwania.",
+      placeIsochrone: "Czas dojazdu",
+      isochroneError: "Nie udało się policzyć obszaru dojazdu.",
+      isochroneModePedestrian: "Pieszo",
+      isochroneModeBicycle: "Rower",
+      isochroneModeAuto: "Samochód",
+      isochroneClear: "Wyczyść czas dojazdu",
+      isochroneMinutesAria: "Czas podróży",
       discoverCategoryGroups: {
         food: "Jedzenie i picie",
         stay: "Noclegi",
@@ -803,6 +810,13 @@
       discoverSearchPlaceholder: "Search categories…",
       discoverSearchClear: "Clear search",
       discoverSearchEmpty: "No categories match your search.",
+      placeIsochrone: "Travel time",
+      isochroneError: "Couldn't calculate the travel-time area.",
+      isochroneModePedestrian: "Walking",
+      isochroneModeBicycle: "Cycling",
+      isochroneModeAuto: "Driving",
+      isochroneClear: "Clear travel time",
+      isochroneMinutesAria: "Travel time",
       discoverCategoryGroups: {
         food: "Food & drink",
         stay: "Lodging",
@@ -1562,6 +1576,11 @@
     measureDistanceValue: $("measure-distance-value"),
     measureClearButton: $("measure-clear-button"),
     measureModeSwitchButton: $("measure-mode-switch-button"),
+    isochroneBadge: $("isochrone-badge"),
+    isochroneToggleButton: $("isochrone-toggle-button"),
+    isochroneMinutesSelect: $("isochrone-minutes-select"),
+    isochroneStatus: $("isochrone-status"),
+    isochroneCloseButton: $("isochrone-close-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -1924,6 +1943,15 @@ map.on('rotate', updateLogoRotation);
     openMobilePanelStandard,
     pointFromPlace,
     updateRouteClickHint
+  });
+  window.OMAP_ISOCHRONE?.configure({
+    state,
+    el,
+    map,
+    CONFIG,
+    text,
+    getAccentColor,
+    closeOtherMobilePanels
   });
   window.OMAP_LABEL_VISIBILITY?.configure({
     state,
@@ -2342,6 +2370,18 @@ map.on('rotate', updateLogoRotation);
     }
   });
   el.measureModeSwitchButton?.addEventListener("click", window.OMAP_MEASURE?.switchMode);
+  el.isochroneToggleButton?.addEventListener("click", window.OMAP_ISOCHRONE?.toggle);
+  el.isochroneCloseButton?.addEventListener("click", () => {
+    window.OMAP_ISOCHRONE?.toggle();
+  });
+  el.isochroneMinutesSelect?.addEventListener("change", () => {
+    window.OMAP_ISOCHRONE?.setMinutes(el.isochroneMinutesSelect.value);
+  });
+  for (const button of el.isochroneBadge?.querySelectorAll("[data-isochrone-mode]") || []) {
+    button.addEventListener("click", () => {
+      window.OMAP_ISOCHRONE?.setMode(button.dataset.isochroneMode);
+    });
+  }
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2546,6 +2586,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       );
     }
     window.OMAP_MEASURE?.updateModeSwitchUi();
+    if (el.isochroneToggleButton) {
+      el.isochroneToggleButton.title = t.placeIsochrone;
+      el.isochroneToggleButton.setAttribute("aria-label", t.placeIsochrone);
+    }
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -2704,6 +2748,16 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     el.discoverSearchClear?.setAttribute("aria-label", t.discoverSearchClear);
     if (el.discoverSearchEmpty) el.discoverSearchEmpty.textContent = t.discoverSearchEmpty;
     if (el.discoverClear) el.discoverClear.textContent = t.discoverClear;
+    if (el.isochroneCloseButton) el.isochroneCloseButton.setAttribute("aria-label", t.isochroneClear);
+    if (el.isochroneMinutesSelect) el.isochroneMinutesSelect.setAttribute("aria-label", t.isochroneMinutesAria);
+    for (const button of el.isochroneBadge?.querySelectorAll("[data-isochrone-mode]") || []) {
+      const label =
+        button.dataset.isochroneMode === "pedestrian" ? t.isochroneModePedestrian :
+        button.dataset.isochroneMode === "bicycle" ? t.isochroneModeBicycle :
+        t.isochroneModeAuto;
+      button.title = label;
+      button.setAttribute("aria-label", label);
+    }
     for (const button of el.discoverCategories?.querySelectorAll(
       "[data-discover-category]"
     ) || []) {
@@ -5948,6 +6002,11 @@ async function handleMapClick(event) {
       } else {
         window.OMAP_MEASURE?.addPoint(event.lngLat);
       }
+      return;
+    }
+
+    if (state.isochroneModeActive) {
+      window.OMAP_ISOCHRONE?.addPoint(event.lngLat);
       return;
     }
 

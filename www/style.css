@@ -6300,6 +6300,18 @@ textarea {
   body:has(.about-panel:not([hidden])) #measure-distance-badge,
   body:has(.backup-panel:not([hidden])) #measure-distance-badge,
   body:has(.account-panel:not([hidden])) #measure-distance-badge,
+  body:has(.route-panel:not([hidden])) #isochrone-badge,
+  body:has(.discover-panel:not([hidden])) #isochrone-badge,
+  body:has(.menu-panel:not([hidden])) #isochrone-badge,
+  body:has(.favorites-panel:not([hidden])) #isochrone-badge,
+  body:has(.history-panel:not([hidden])) #isochrone-badge,
+  body:has(.place-panel:not([hidden])) #isochrone-badge,
+  body:has(.trip-panel:not([hidden])) #isochrone-badge,
+  body:has(.streetview-panel:not([hidden])) #isochrone-badge,
+  body:has(.legend-panel:not([hidden])) #isochrone-badge,
+  body:has(.about-panel:not([hidden])) #isochrone-badge,
+  body:has(.backup-panel:not([hidden])) #isochrone-badge,
+  body:has(.account-panel:not([hidden])) #isochrone-badge,
   body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
@@ -6993,6 +7005,23 @@ textarea,
   color: var(--panel) !important;
 }
 
+/* Przycisk "czas dojazdu" (isochrona) swieci na czerwono zamiast
+   koloru akcentu motywu - DOKLADNIE ten sam wzorzec selektora co
+   regula wyzej (.streetview-actions .icon-button.<klasa>), tylko z
+   dodatkowa klasa "toggle-danger" jako rozroznieniem, zeby specificity
+   i kolejnosc w kaskadzie byly identyczne jak przy dzialajacych
+   przyciskach (poprzednia wersja na #id byla niepotrzebnym
+   odejsciem od sprawdzonego wzorca). */
+.streetview-actions .icon-button.toggle-danger.is-active {
+  background: #e53935 !important;
+  color: #fff !important;
+}
+
+.streetview-actions .icon-button.toggle-danger.is-active:hover {
+  background: color-mix(in srgb, #e53935 84%, #000) !important;
+  color: #fff !important;
+}
+
 @media (max-width: 600px) {
   .streetview-actions {
     flex-direction: column !important;
@@ -7159,4 +7188,109 @@ textarea,
     top: auto;
     bottom: 140px;
   }
+
+  .isochrone-badge {
+    top: auto;
+    bottom: 140px;
+    flex-wrap: wrap;
+    max-width: calc(100vw - 24px);
+  }
+}
+
+/* Plywajaca plakietka "czas dojazdu" (isochrona) - ten sam wzorzec
+   pozycjonowania i chowania co #measure-distance-badge (patrz regula
+   powyzej): gora-srodek na desktopie, chowana gdy otwarty jest
+   dowolny panel. */
+.isochrone-badge {
+  position: fixed;
+  z-index: 25;
+  left: 50%;
+  top: 70px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 6px 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  background-image: var(--panel-image, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.isochrone-badge[hidden] {
+  display: none;
+}
+
+.isochrone-badge-modes {
+  display: flex;
+  gap: 2px;
+}
+
+.isochrone-mode-button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.isochrone-mode-button:hover,
+.isochrone-mode-button:focus-visible {
+  background: var(--surface-alt, rgba(128, 128, 128, 0.12));
+}
+
+.isochrone-mode-button.is-active {
+  background: var(--accent);
+  color: var(--panel);
+}
+
+.isochrone-mode-button.is-active:hover,
+.isochrone-mode-button.is-active:focus-visible {
+  background: color-mix(in srgb, var(--accent) 84%, #000);
+  color: var(--panel);
+}
+
+.isochrone-minutes-select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.8rem;
+  padding: 4px 6px;
+}
+
+.isochrone-status {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.isochrone-status[hidden] {
+  display: none;
+}
+
+#isochrone-close-button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#isochrone-close-button:hover {
+  background: var(--surface-alt, rgba(128, 128, 128, 0.12));
+  color: var(--text);
 }
