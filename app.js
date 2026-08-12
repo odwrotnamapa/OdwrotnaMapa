@@ -2175,6 +2175,12 @@ map.on('rotate', updateLogoRotation);
     applyTheme(state.theme);
     window.OMAP_CUSTOM_THEME_EDITOR?.updateCustomPaletteVisibility();
     updateUI();
+    // Bez tego wybor motywu nigdy nie trafial do kolejki wysylki -
+    // kolejne automatyczne pobranie (performSafeSync) sciagalo z
+    // powrotem STARY motyw z chmury i nim nadpisywalo swiezy wybor
+    // (ten sam mechanizm co przy migracji nazw miejsc nizej w tym
+    // pliku - patrz komentarz przy markLocalSyncChange).
+    window.OMAP_ACCOUNT?.markLocalSyncChange();
   });
 
   window.OMAP_CUSTOM_THEME_EDITOR?.updateCustomPaletteVisibility();
