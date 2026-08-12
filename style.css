@@ -7183,20 +7183,6 @@ textarea,
   color: var(--text);
 }
 
-@media (max-width: 600px) {
-  .measure-distance-badge {
-    top: auto;
-    bottom: 140px;
-  }
-
-  .isochrone-badge {
-    top: auto;
-    bottom: 140px;
-    flex-wrap: wrap;
-    max-width: calc(100vw - 24px);
-  }
-}
-
 /* Plywajaca plakietka "czas dojazdu" (isochrona) - ten sam wzorzec
    pozycjonowania i chowania co #measure-distance-badge (patrz regula
    powyzej): gora-srodek na desktopie, chowana gdy otwarty jest
@@ -7224,6 +7210,25 @@ textarea,
 
 .isochrone-badge[hidden] {
   display: none;
+}
+
+/* Ta reguła MUSI być PO bazowych .measure-distance-badge /
+   .isochrone-badge (obie mają "top: 70px") - przy tej samej
+   specyficzności o wygranej decyduje kolejność w pliku, a bez tego
+   "top: auto" tutaj i tak przegrywałoby z "top: 70px" z reguły bazowej,
+   co razem z "bottom: 140px" rozciągałoby plakietkę na całą wysokość. */
+@media (max-width: 600px) {
+  .measure-distance-badge {
+    top: auto;
+    bottom: 140px;
+  }
+
+  .isochrone-badge {
+    top: auto;
+    bottom: 140px;
+    flex-wrap: wrap;
+    max-width: calc(100vw - 24px);
+  }
 }
 
 .isochrone-badge-modes {
