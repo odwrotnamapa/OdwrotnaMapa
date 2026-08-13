@@ -6288,30 +6288,18 @@ textarea {
   body:has(.about-panel:not([hidden])) .toolbar-actions,
   body:has(.backup-panel:not([hidden])) .toolbar-actions,
   body:has(.account-panel:not([hidden])) .toolbar-actions,
-  body:has(.route-panel:not([hidden])) #measure-distance-badge,
-  body:has(.discover-panel:not([hidden])) #measure-distance-badge,
-  body:has(.menu-panel:not([hidden])) #measure-distance-badge,
-  body:has(.favorites-panel:not([hidden])) #measure-distance-badge,
-  body:has(.history-panel:not([hidden])) #measure-distance-badge,
-  body:has(.place-panel:not([hidden])) #measure-distance-badge,
-  body:has(.trip-panel:not([hidden])) #measure-distance-badge,
-  body:has(.streetview-panel:not([hidden])) #measure-distance-badge,
-  body:has(.legend-panel:not([hidden])) #measure-distance-badge,
-  body:has(.about-panel:not([hidden])) #measure-distance-badge,
-  body:has(.backup-panel:not([hidden])) #measure-distance-badge,
-  body:has(.account-panel:not([hidden])) #measure-distance-badge,
-  body:has(.route-panel:not([hidden])) #isochrone-badge,
-  body:has(.discover-panel:not([hidden])) #isochrone-badge,
-  body:has(.menu-panel:not([hidden])) #isochrone-badge,
-  body:has(.favorites-panel:not([hidden])) #isochrone-badge,
-  body:has(.history-panel:not([hidden])) #isochrone-badge,
-  body:has(.place-panel:not([hidden])) #isochrone-badge,
-  body:has(.trip-panel:not([hidden])) #isochrone-badge,
-  body:has(.streetview-panel:not([hidden])) #isochrone-badge,
-  body:has(.legend-panel:not([hidden])) #isochrone-badge,
-  body:has(.about-panel:not([hidden])) #isochrone-badge,
-  body:has(.backup-panel:not([hidden])) #isochrone-badge,
-  body:has(.account-panel:not([hidden])) #isochrone-badge,
+  body:has(.route-panel:not([hidden])) #travel-tool-badge,
+  body:has(.discover-panel:not([hidden])) #travel-tool-badge,
+  body:has(.menu-panel:not([hidden])) #travel-tool-badge,
+  body:has(.favorites-panel:not([hidden])) #travel-tool-badge,
+  body:has(.history-panel:not([hidden])) #travel-tool-badge,
+  body:has(.place-panel:not([hidden])) #travel-tool-badge,
+  body:has(.trip-panel:not([hidden])) #travel-tool-badge,
+  body:has(.streetview-panel:not([hidden])) #travel-tool-badge,
+  body:has(.legend-panel:not([hidden])) #travel-tool-badge,
+  body:has(.about-panel:not([hidden])) #travel-tool-badge,
+  body:has(.backup-panel:not([hidden])) #travel-tool-badge,
+  body:has(.account-panel:not([hidden])) #travel-tool-badge,
   body:has(.route-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.discover-panel:not([hidden])) .mobile-bottom-nav,
   body:has(.menu-panel:not([hidden])) .mobile-bottom-nav,
@@ -7122,7 +7110,12 @@ textarea,
   border: 1px solid var(--border) !important;
 }
 
-.measure-distance-badge {
+/* Zunifikowana plakietka "pomiar / czas dojazdu" - dawniej dwie
+   osobne plakietki (.measure-distance-badge i .isochrone-badge) pod
+   dwoma osobnymi przyciskami w pasku narzędzi. Połączone w jedną,
+   sterowaną wewnętrznym przełącznikiem trybu (.travel-tool-mode-switch),
+   żeby zwolnić miejsce w #streetview-actions na wąskich ekranach. */
+.travel-tool-badge {
   position: fixed;
   z-index: 25;
   left: 50%;
@@ -7130,73 +7123,8 @@ textarea,
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 8px 8px 16px;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  background-image: var(--panel-image, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-.measure-distance-badge[hidden] {
-  display: none;
-}
-
-.measure-mode-switch {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border: 0;
-  border-left: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.measure-mode-switch:hover,
-.measure-mode-switch:focus-visible {
-  color: var(--accent);
-}
-
-#measure-clear-button {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-#measure-clear-button:hover {
-  background: rgba(127, 127, 127, 0.12);
-  color: var(--text);
-}
-
-/* Plywajaca plakietka "czas dojazdu" (isochrona) - ten sam wzorzec
-   pozycjonowania i chowania co #measure-distance-badge (patrz regula
-   powyzej): gora-srodek na desktopie, chowana gdy otwarty jest
-   dowolny panel. */
-.isochrone-badge {
-  position: fixed;
-  z-index: 25;
-  left: 50%;
-  top: 70px;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 6px 6px 8px;
+  gap: 8px;
+  padding: 6px 8px 6px 8px;
   border: 1px solid var(--border);
   background: var(--panel);
   background-image: var(--panel-image, none);
@@ -7206,24 +7134,16 @@ textarea,
   border-radius: 12px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
-.isochrone-badge[hidden] {
+.travel-tool-badge[hidden] {
   display: none;
 }
 
-/* Ta reguła MUSI być PO bazowych .measure-distance-badge /
-   .isochrone-badge (obie mają "top: 70px") - przy tej samej
-   specyficzności o wygranej decyduje kolejność w pliku, a bez tego
-   "top: auto" tutaj i tak przegrywałoby z "top: 70px" z reguły bazowej,
-   co razem z "bottom: 140px" rozciągałoby plakietkę na całą wysokość. */
 @media (max-width: 600px) {
-  .measure-distance-badge {
-    top: auto;
-    bottom: 140px;
-  }
-
-  .isochrone-badge {
+  .travel-tool-badge {
     top: auto;
     bottom: 140px;
     flex-wrap: wrap;
@@ -7231,12 +7151,31 @@ textarea,
   }
 }
 
-.isochrone-badge-modes {
+.travel-tool-mode-switch {
   display: flex;
   gap: 2px;
+  padding-right: 6px;
+  border-right: 1px solid var(--border);
 }
 
-.isochrone-mode-button {
+.travel-tool-distance-value {
+  white-space: nowrap;
+}
+
+.travel-tool-isochrone-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.travel-tool-isochrone-controls[hidden] {
+  display: none;
+}
+
+/* Przycisk trybu (odległość/powierzchnia/czas dojazdu w głównym
+   przełączniku ORAZ pieszo/rower/samochód w podrzędnym przełączniku
+   isochrony) - wspólny wygląd dla obu przełączników w plakietce. */
+.badge-mode-button {
   display: grid;
   place-items: center;
   width: 28px;
@@ -7248,20 +7187,25 @@ textarea,
   cursor: pointer;
 }
 
-.isochrone-mode-button:hover,
-.isochrone-mode-button:focus-visible {
+.badge-mode-button:hover,
+.badge-mode-button:focus-visible {
   background: var(--surface-alt, rgba(128, 128, 128, 0.12));
 }
 
-.isochrone-mode-button.is-active {
+.badge-mode-button.is-active {
   background: var(--accent);
   color: var(--panel);
 }
 
-.isochrone-mode-button.is-active:hover,
-.isochrone-mode-button.is-active:focus-visible {
+.badge-mode-button.is-active:hover,
+.badge-mode-button.is-active:focus-visible {
   background: color-mix(in srgb, var(--accent) 84%, #000);
   color: var(--panel);
+}
+
+.isochrone-badge-modes {
+  display: flex;
+  gap: 2px;
 }
 
 .isochrone-minutes-select {
@@ -7282,21 +7226,21 @@ textarea,
   display: none;
 }
 
-#isochrone-close-button {
+#travel-tool-clear-button {
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border: 0;
-  border-radius: 50%;
+  border-left: 1px solid var(--border);
   background: transparent;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
 }
 
-#isochrone-close-button:hover {
-  background: var(--surface-alt, rgba(128, 128, 128, 0.12));
+#travel-tool-clear-button:hover {
+  background: rgba(127, 127, 127, 0.12);
   color: var(--text);
 }
 

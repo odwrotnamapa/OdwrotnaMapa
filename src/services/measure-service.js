@@ -2,16 +2,24 @@
   "use strict";
 
   // Wyodrębnione z app.js (2026-08-06) - narzędzie pomiaru odległości
-  // i powierzchni (planimeter) na mapie: dwa niezależne tryby (linia
-  // punktów / wielokąt), własne warstwy MapLibre, formatowanie
-  // wyniku. Ten sam wzorzec configure() co pozostałe wyniesione
-  // moduły.
+  // i powierzchni (planimeter) na mapie. Rozszerzone (2026-08-13) o
+  // orkiestrację zunifikowanego narzędzia "pomiar / czas dojazdu":
+  // JEDEN przycisk w pasku (travel-tool-toggle-button) i JEDNA
+  // pływająca plakietka (#travel-tool-badge) z wewnętrznym
+  // przełącznikiem trzech trybów - odległość / powierzchnia / czas
+  // dojazdu (izochrona) - zamiast dawnych dwóch osobnych przycisków
+  // (measure-toggle-button + isochrone-toggle-button), które na
+  // wąskich ekranach (iPhone) zaczynały brakować miejsca. Logika
+  // samej izochrony została w isochrone-service.js (activate/clear/
+  // addPoint/setMode/setMinutes) - ten moduł tylko nią steruje przy
+  // przełączaniu trybu, tak samo jak własnymi trybami
+  // odległość/powierzchnia.
   //
-  // Dwie funkcje (toggleMeasureMode, switchMeasureMode) są w app.js
+  // Funkcje eksportowane niżej (toggle, setMode, clear) są w app.js
   // podpięte jako REFERENCJE do addEventListener, nie wołane wprost
-  // - eksportowane tu obiekty (toggle, switchMode) muszą więc być
-  // bezpośrednio przypisanymi referencjami do funkcji, gotowymi do
-  // użycia jako listener bez owijania w dodatkową funkcję.
+  // - muszą więc być bezpośrednio przypisanymi referencjami do
+  // funkcji, gotowymi do użycia jako listener bez owijania w
+  // dodatkową funkcję.
 
   let ctx = null;
 
@@ -193,12 +201,9 @@
       total += haversineDistanceMeters(points[i - 1], points[i]);
     }
 
-    if (ctx.el.measureDistanceValue) {
-      ctx.el.measureDistanceValue.textContent =
+    if (ctx.el.travelToolDistanceValue) {
+      ctx.el.travelToolDistanceValue.textContent =
         formatMeasureDistance(total);
-    }
-    if (ctx.el.measureDistanceBadge) {
-      ctx.el.measureDistanceBadge.hidden = points.length === 0;
     }
 
     const source = ctx.map.getSource(MEASURE_SOURCE_ID);
@@ -236,42 +241,122 @@
     updateMeasureDisplay();
   }
 
-  // Jeden przycisk w pasku narzędzi włącza/wyłącza tryb pomiaru.
-  // Wewnątrz plakietki jest mały przełącznik odległość/powierzchnia
-  // (measureModeSwitchButton) - to on decyduje, co aktualnie mierzą
-  // kliknięcia na mapie, żeby nie mnożyć ikon w pasku narzędzi.
-  function toggleMeasureMode() {
-    ctx.state.measureModeActive = !ctx.state.measureModeActive;
+  const TRAVEL_TOOL_MODE_ICONS = {
+    distance: "📏",
+    area: "📐",
+    isochrone: "⏱️"
+  };
 
-    if (ctx.state.measureModeActive) {
-      ctx.state.measureIsArea = false;
-      ensureMeasureLayers();
-      ctx.closeOtherMobilePanels([]);
-      updateMeasureModeSwitchUi();
+  // Czyści dane WSZYSTKICH trzech trybów naraz - używane zarówno przy
+  // całkowitym wyłączeniu narzędzia, jak i przy przełączaniu między
+  // trybami (nie da się sensownie mieszać np. otwartej linii pomiaru
+  // z izochroną - przy zmianie trybu zawsze zaczynamy od zera).
+  function clearAllTravelToolModes() {
+    clearMeasurement();
+    clearMeasureAreaMeasurement();
+    window.OMAP_ISOCHRONE?.clear();
+  }
+
+  function ensureModeLayers(mode) {
+    if (mode === "area") {
+      ensureMeasureAreaLayers();
+    } else if (mode === "isochrone") {
+      window.OMAP_ISOCHRONE?.activate();
     } else {
-      clearMeasurement();
-      clearMeasureAreaMeasurement();
+      ensureMeasureLayers();
+    }
+  }
+
+  // Jeden przycisk w pasku narzędzi włącza/wyłącza całe narzędzie.
+  // Wewnątrz plakietki jest przełącznik trybu (odległość / powierzchnia
+  // / czas dojazdu, patrz setTravelToolMode) - to on decyduje, co
+  // aktualnie robią kliknięcia na mapie, żeby nie mnożyć ikon w pasku
+  // narzędzi (dawniej osobne przyciski dla pomiaru i izochrony nie
+  // mieściły się razem na wąskich ekranach).
+  function toggleTravelTool() {
+    if (ctx.state.travelToolMode) {
+      clearAllTravelToolModes();
+      ctx.state.travelToolMode = null;
+      if (ctx.el.travelToolBadge) ctx.el.travelToolBadge.hidden = true;
+    } else {
+      ctx.state.travelToolMode = "distance";
+      ensureModeLayers("distance");
+      ctx.closeOtherMobilePanels([]);
+      if (ctx.el.travelToolBadge) ctx.el.travelToolBadge.hidden = false;
     }
 
-    ctx.el.measureToggleButton?.classList.toggle(
+    updateTravelToolUi();
+
+    ctx.el.travelToolToggleButton?.classList.toggle(
       "is-active",
-      ctx.state.measureModeActive
+      Boolean(ctx.state.travelToolMode)
     );
-    ctx.el.measureToggleButton?.setAttribute(
+    ctx.el.travelToolToggleButton?.setAttribute(
       "aria-pressed",
-      String(ctx.state.measureModeActive)
+      String(Boolean(ctx.state.travelToolMode))
     );
+  }
+
+  // Przełącznik trybu WEWNĄTRZ plakietki (data-travel-tool-mode na
+  // trzech przyciskach: odległość/powierzchnia/czas dojazdu) - to on
+  // realizuje "przełączanie w środku", żeby jeden przycisk w pasku
+  // wystarczał na wszystkie trzy narzędzia.
+  function setTravelToolMode(mode) {
+    if (!ctx.state.travelToolMode) return; // narzędzie musi być aktywne
+    if (mode === ctx.state.travelToolMode) return;
+
+    clearAllTravelToolModes();
+    ctx.state.travelToolMode = mode;
+    ensureModeLayers(mode);
+    updateTravelToolUi();
+  }
+
+  function clearActiveTravelToolMode() {
+    if (ctx.state.travelToolMode === "area") {
+      clearMeasureAreaMeasurement();
+    } else if (ctx.state.travelToolMode === "isochrone") {
+      window.OMAP_ISOCHRONE?.clear();
+    } else if (ctx.state.travelToolMode === "distance") {
+      clearMeasurement();
+    }
+  }
+
+  function updateTravelToolUi() {
+    const mode = ctx.state.travelToolMode;
+
+    if (ctx.el.travelToolToggleIcon) {
+      ctx.el.travelToolToggleIcon.textContent =
+        TRAVEL_TOOL_MODE_ICONS[mode] || TRAVEL_TOOL_MODE_ICONS.distance;
+    }
+
+    for (const button of ctx.el.travelToolBadge?.querySelectorAll(
+      "[data-travel-tool-mode]"
+    ) || []) {
+      const isActive = button.dataset.travelToolMode === mode;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    }
+
+    if (ctx.el.travelToolDistanceValue) {
+      ctx.el.travelToolDistanceValue.hidden = mode === "isochrone";
+    }
+    if (ctx.el.travelToolIsochroneControls) {
+      ctx.el.travelToolIsochroneControls.hidden = mode !== "isochrone";
+    }
+
+    if (mode === "area") {
+      updateMeasureAreaDisplay();
+    } else if (mode === "distance") {
+      updateMeasureDisplay();
+    }
   }
 
   function updateMeasureAreaDisplay() {
     const points = ctx.state.measureAreaPoints || [];
     const area = polygonAreaSquareMeters(points);
 
-    if (ctx.el.measureDistanceValue) {
-      ctx.el.measureDistanceValue.textContent = formatMeasureArea(area);
-    }
-    if (ctx.el.measureDistanceBadge) {
-      ctx.el.measureDistanceBadge.hidden = points.length === 0;
+    if (ctx.el.travelToolDistanceValue) {
+      ctx.el.travelToolDistanceValue.textContent = formatMeasureArea(area);
     }
 
     const source = ctx.map.getSource(MEASURE_AREA_SOURCE_ID);
@@ -321,51 +406,13 @@
     if (source) source.setData({ type: "FeatureCollection", features: [] });
   }
 
-  function updateMeasureModeSwitchUi() {
-    if (!ctx.el.measureModeSwitchButton) return;
-    const t = ctx.text[ctx.state.language];
-    if (ctx.state.measureIsArea) {
-      ctx.el.measureModeSwitchButton.textContent = "📏";
-      ctx.el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToDistance);
-      ctx.el.measureModeSwitchButton.title = t.measureSwitchToDistance;
-    } else {
-      ctx.el.measureModeSwitchButton.textContent = "📐";
-      ctx.el.measureModeSwitchButton.setAttribute("aria-label", t.measureSwitchToArea);
-      ctx.el.measureModeSwitchButton.title = t.measureSwitchToArea;
-    }
-  }
-
-  function switchMeasureMode() {
-    if (!ctx.state.measureModeActive) return;
-
-    // Nie da się sensownie mieszać otwartej linii (odległość) z
-    // zamkniętym wielokątem (powierzchnia) - przy przełączaniu
-    // czyścimy oba, żeby uniknąć niespójnego stanu.
-    clearMeasurement();
-    clearMeasureAreaMeasurement();
-
-    ctx.state.measureIsArea = !ctx.state.measureIsArea;
-    if (ctx.state.measureIsArea) {
-      ensureMeasureAreaLayers();
-      updateMeasureAreaDisplay();
-    } else {
-      ensureMeasureLayers();
-      updateMeasureDisplay();
-    }
-
-    if (ctx.el.measureDistanceBadge) ctx.el.measureDistanceBadge.hidden = true;
-    updateMeasureModeSwitchUi();
-  }
-
   window.OMAP_MEASURE = {
     configure,
-    toggle: toggleMeasureMode,
-    switchMode: switchMeasureMode,
-    clearDistance: clearMeasurement,
-    clearArea: clearMeasureAreaMeasurement,
+    toggle: toggleTravelTool,
+    setMode: setTravelToolMode,
+    clear: clearActiveTravelToolMode,
     addPoint: addMeasurePoint,
     addAreaPoint: addMeasureAreaPoint,
-    updateAreaDisplay: updateMeasureAreaDisplay,
-    updateModeSwitchUi: updateMeasureModeSwitchUi
+    updateUi: updateTravelToolUi
   };
 })();

@@ -127,36 +127,53 @@
       </form>
       </div>
 
-      <div id="measure-distance-badge" class="measure-distance-badge" hidden>
-        <span id="measure-distance-value">0 m</span>
-        <button id="measure-mode-switch-button" type="button" class="measure-mode-switch"
-                aria-label="Przełącz na pomiar powierzchni">📐</button>
-        <button id="measure-clear-button" type="button" aria-label="Wyczyść pomiar">×</button>
-      </div>
-
-      <div id="isochrone-badge" class="isochrone-badge" hidden>
-        <div class="isochrone-badge-modes" role="group" aria-label="Sposób podróży">
-          <button type="button" data-isochrone-mode="pedestrian"
-                  class="isochrone-mode-button is-active"
-                  title="Pieszo" aria-label="Pieszo" aria-pressed="true">🚶</button>
-          <button type="button" data-isochrone-mode="bicycle"
-                  class="isochrone-mode-button"
-                  title="Rower" aria-label="Rower" aria-pressed="false">🚲</button>
-          <button type="button" data-isochrone-mode="auto"
-                  class="isochrone-mode-button"
-                  title="Samochód" aria-label="Samochód" aria-pressed="false">🚗</button>
+      <!-- Zunifikowane narzędzie "pomiar / czas dojazdu" - dawniej dwa
+           osobne przyciski w pasku (measure-toggle-button +
+           isochrone-toggle-button) zjadały za dużo miejsca na wąskich
+           ekranach (iPhone). Teraz jeden przycisk w pasku
+           (travel-tool-toggle-button, patrz #streetview-actions niżej)
+           otwiera jedną plakietkę z wewnętrznym przełącznikiem trybu
+           (odległość / powierzchnia / czas dojazdu). -->
+      <div id="travel-tool-badge" class="travel-tool-badge" hidden>
+        <div class="travel-tool-mode-switch" role="group" aria-label="Rodzaj narzędzia">
+          <button type="button" data-travel-tool-mode="distance"
+                  class="badge-mode-button is-active"
+                  title="Zmierz odległość" aria-label="Zmierz odległość" aria-pressed="true">📏</button>
+          <button type="button" data-travel-tool-mode="area"
+                  class="badge-mode-button"
+                  title="Zmierz powierzchnię" aria-label="Zmierz powierzchnię" aria-pressed="false">📐</button>
+          <button type="button" data-travel-tool-mode="isochrone"
+                  class="badge-mode-button"
+                  title="Czas dojazdu" aria-label="Czas dojazdu" aria-pressed="false">⏱️</button>
         </div>
-        <select id="isochrone-minutes-select" class="isochrone-minutes-select" aria-label="Czas podróży">
-          <option value="5">5 min</option>
-          <option value="10">10 min</option>
-          <option value="15" selected>15 min</option>
-          <option value="20">20 min</option>
-          <option value="30">30 min</option>
-          <option value="45">45 min</option>
-          <option value="60">60 min</option>
-        </select>
-        <span id="isochrone-status" class="isochrone-status" hidden>…</span>
-        <button id="isochrone-close-button" type="button" aria-label="Wyczyść czas podróży">×</button>
+
+        <span id="travel-tool-distance-value" class="travel-tool-distance-value">0 m</span>
+
+        <div id="travel-tool-isochrone-controls" class="travel-tool-isochrone-controls" hidden>
+          <div class="isochrone-badge-modes" role="group" aria-label="Sposób podróży">
+            <button type="button" data-isochrone-mode="pedestrian"
+                    class="badge-mode-button is-active"
+                    title="Pieszo" aria-label="Pieszo" aria-pressed="true">🚶</button>
+            <button type="button" data-isochrone-mode="bicycle"
+                    class="badge-mode-button"
+                    title="Rower" aria-label="Rower" aria-pressed="false">🚲</button>
+            <button type="button" data-isochrone-mode="auto"
+                    class="badge-mode-button"
+                    title="Samochód" aria-label="Samochód" aria-pressed="false">🚗</button>
+          </div>
+          <select id="isochrone-minutes-select" class="isochrone-minutes-select" aria-label="Czas podróży">
+            <option value="5">5 min</option>
+            <option value="10">10 min</option>
+            <option value="15" selected>15 min</option>
+            <option value="20">20 min</option>
+            <option value="30">30 min</option>
+            <option value="45">45 min</option>
+            <option value="60">60 min</option>
+          </select>
+          <span id="isochrone-status" class="isochrone-status" hidden>…</span>
+        </div>
+
+        <button id="travel-tool-clear-button" type="button" aria-label="Wyczyść pomiar">×</button>
       </div>
 
         <div id="streetview-actions" class="streetview-actions">
@@ -179,15 +196,10 @@
                   aria-pressed="false">
             <span aria-hidden="true">🧊</span>
           </button>
-          <button id="isochrone-toggle-button" class="icon-button" type="button"
-                  title="Czas dojazdu" aria-label="Czas dojazdu"
+          <button id="travel-tool-toggle-button" class="icon-button" type="button"
+                  title="Pomiar / czas dojazdu" aria-label="Pomiar / czas dojazdu"
                   aria-pressed="false">
-            <span aria-hidden="true">⏱️</span>
-          </button>
-          <button id="measure-toggle-button" class="icon-button" type="button"
-                  title="Zmierz odległość" aria-label="Zmierz odległość"
-                  aria-pressed="false">
-            <span aria-hidden="true">📏</span>
+            <span id="travel-tool-toggle-icon" aria-hidden="true">📏</span>
           </button>
 
           <button id="export-png-button" class="icon-button" type="button"

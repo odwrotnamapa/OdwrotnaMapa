@@ -175,8 +175,8 @@
       measureDistance: "Zmierz odległość",
       measureArea: "Zmierz powierzchnię",
       measureAreaClear: "Wyczyść pomiar powierzchni",
-      measureSwitchToArea: "Przełącz na pomiar powierzchni",
-      measureSwitchToDistance: "Przełącz na pomiar odległości",
+      travelTool: "Pomiar / czas dojazdu",
+      isochroneError: "Nie udało się policzyć czasu dojazdu.",
       measureClear: "Wyczyść pomiar",
       zoomIn: "Przybliż",
       zoomOut: "Oddal",
@@ -662,8 +662,8 @@
       measureDistance: "Measure distance",
       measureArea: "Measure area",
       measureAreaClear: "Clear area measurement",
-      measureSwitchToArea: "Switch to area measurement",
-      measureSwitchToDistance: "Switch to distance measurement",
+      travelTool: "Measure / travel time",
+      isochroneError: "Couldn't calculate travel time.",
       measureClear: "Clear measurement",
       zoomIn: "Zoom in",
       zoomOut: "Zoom out",
@@ -1550,16 +1550,19 @@
     toggle3dButton: $("toggle-3d-button"),
     zoomInButton: $("zoom-in-button"),
     zoomOutButton: $("zoom-out-button"),
-    measureToggleButton: $("measure-toggle-button"),
-    measureDistanceBadge: $("measure-distance-badge"),
-    measureDistanceValue: $("measure-distance-value"),
-    measureClearButton: $("measure-clear-button"),
-    measureModeSwitchButton: $("measure-mode-switch-button"),
-    isochroneToggleButton: $("isochrone-toggle-button"),
-    isochroneBadge: $("isochrone-badge"),
+    // Zunifikowane narzędzie "pomiar / czas dojazdu" (2026-08-13) -
+    // jeden przycisk w pasku + jedna plakietka z przełącznikiem trybu
+    // wewnątrz (odległość/powierzchnia/czas dojazdu), zamiast dawnych
+    // dwóch osobnych przycisków (measure-toggle-button +
+    // isochrone-toggle-button), patrz measure-service.js.
+    travelToolToggleButton: $("travel-tool-toggle-button"),
+    travelToolToggleIcon: $("travel-tool-toggle-icon"),
+    travelToolBadge: $("travel-tool-badge"),
+    travelToolDistanceValue: $("travel-tool-distance-value"),
+    travelToolIsochroneControls: $("travel-tool-isochrone-controls"),
+    travelToolClearButton: $("travel-tool-clear-button"),
     isochroneMinutesSelect: $("isochrone-minutes-select"),
     isochroneStatus: $("isochrone-status"),
-    isochroneCloseButton: $("isochrone-close-button"),
     menuThemeSelect: $("menu-theme-select"),
     menuCustomPalette: $("menu-custom-palette"),
     customMapHeading: $("menu-custom-map-heading"),
@@ -2393,27 +2396,22 @@ map.on('rotate', updateLogoRotation);
   });
   el.zoomInButton?.addEventListener("click", () => map.zoomIn());
   el.zoomOutButton?.addEventListener("click", () => map.zoomOut());
-  el.measureToggleButton?.addEventListener("click", window.OMAP_MEASURE?.toggle);
-  el.measureClearButton?.addEventListener("click", () => {
-    if (state.measureIsArea) {
-      window.OMAP_MEASURE?.clearArea();
-      window.OMAP_MEASURE?.updateAreaDisplay();
-    } else {
-      window.OMAP_MEASURE?.clearDistance();
-    }
-  });
-  el.measureModeSwitchButton?.addEventListener("click", window.OMAP_MEASURE?.switchMode);
-  el.isochroneToggleButton?.addEventListener("click", window.OMAP_ISOCHRONE?.toggle);
-  el.isochroneBadge?.addEventListener("click", event => {
-    const modeButton = event.target.closest("[data-isochrone-mode]");
+  el.travelToolToggleButton?.addEventListener("click", window.OMAP_MEASURE?.toggle);
+  el.travelToolClearButton?.addEventListener("click", window.OMAP_MEASURE?.clear);
+  el.travelToolBadge?.addEventListener("click", event => {
+    const modeButton = event.target.closest("[data-travel-tool-mode]");
     if (modeButton) {
-      window.OMAP_ISOCHRONE?.setMode(modeButton.dataset.isochroneMode);
+      window.OMAP_MEASURE?.setMode(modeButton.dataset.travelToolMode);
+      return;
+    }
+    const isochroneModeButton = event.target.closest("[data-isochrone-mode]");
+    if (isochroneModeButton) {
+      window.OMAP_ISOCHRONE?.setMode(isochroneModeButton.dataset.isochroneMode);
     }
   });
   el.isochroneMinutesSelect?.addEventListener("change", () => {
     window.OMAP_ISOCHRONE?.setMinutes(el.isochroneMinutesSelect.value);
   });
-  el.isochroneCloseButton?.addEventListener("click", window.OMAP_ISOCHRONE?.toggle);
   el.menuThemeSelect?.addEventListener("change", () => {
     if (!el.themeSelect) return;
     el.themeSelect.value = el.menuThemeSelect.value;
@@ -2603,14 +2601,14 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       el.toggle3dButton.title = t.toggle3d;
       el.toggle3dButton.setAttribute("aria-label", t.toggle3d);
     }
-    if (el.measureToggleButton) {
-      el.measureToggleButton.title = t.measureDistance;
-      el.measureToggleButton.setAttribute(
+    if (el.travelToolToggleButton) {
+      el.travelToolToggleButton.title = t.travelTool;
+      el.travelToolToggleButton.setAttribute(
         "aria-label",
-        t.measureDistance
+        t.travelTool
       );
     }
-    window.OMAP_MEASURE?.updateModeSwitchUi();
+    window.OMAP_MEASURE?.updateUi();
     if (el.zoomInButton) {
       el.zoomInButton.title = t.zoomIn;
       el.zoomInButton.setAttribute("aria-label", t.zoomIn);
@@ -2619,8 +2617,8 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
       el.zoomOutButton.title = t.zoomOut;
       el.zoomOutButton.setAttribute("aria-label", t.zoomOut);
     }
-    if (el.measureClearButton) {
-      el.measureClearButton.setAttribute(
+    if (el.travelToolClearButton) {
+      el.travelToolClearButton.setAttribute(
         "aria-label",
         t.measureClear
       );
@@ -6003,16 +6001,17 @@ async function handleMapClick(event) {
       map.resize();
     }
 
-    if (state.measureModeActive) {
-      if (state.measureIsArea) {
-        window.OMAP_MEASURE?.addAreaPoint(event.lngLat);
-      } else {
-        window.OMAP_MEASURE?.addPoint(event.lngLat);
-      }
+    if (state.travelToolMode === "area") {
+      window.OMAP_MEASURE?.addAreaPoint(event.lngLat);
       return;
     }
 
-    if (state.isochroneModeActive) {
+    if (state.travelToolMode === "distance") {
+      window.OMAP_MEASURE?.addPoint(event.lngLat);
+      return;
+    }
+
+    if (state.travelToolMode === "isochrone") {
       window.OMAP_ISOCHRONE?.addPoint(event.lngLat);
       return;
     }

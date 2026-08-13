@@ -8,11 +8,13 @@
   // tylko endpointu /isochrone zamiast /route - zero nowych
   // zaleznosci zewnetrznych.
   //
-  // Ten sam wzorzec UX co narzedzie pomiaru (measure-service.js):
-  // jeden przycisk w pasku narzedzi wlacza/wylacza "tryb isochrony",
-  // a kolejne klikniecie na mapie ustawia punkt startowy i liczy
-  // obszar. Ponowne klikniecie przycisku w pasku wylacza tryb i
-  // czysci warstwe.
+  // Od 2026-08-13 to jeden z trzech trybow zunifikowanego narzedzia
+  // "pomiar / czas dojazdu" (patrz measure-service.js,
+  // toggleTravelTool/setTravelToolMode) - dawniej mial wlasny
+  // przycisk w pasku i wlasna plakietke, teraz measure-service.js
+  // orkiestruje WSPOLNA plakietke (#travel-tool-badge) i WSPOLNY
+  // przycisk w pasku, a ten modul odpowiada tylko za logike samej
+  // izochrony (activate/deactivate/clear zamiast dawnego toggle()).
 
   let ctx = null;
   let currentOrigin = null; // { lat, lon } ostatnio klikniety punkt
@@ -127,7 +129,7 @@
     if (ctx.el.isochroneMinutesSelect) {
       ctx.el.isochroneMinutesSelect.value = String(currentMinutes);
     }
-    for (const button of ctx.el.isochroneBadge?.querySelectorAll(
+    for (const button of ctx.el.travelToolIsochroneControls?.querySelectorAll(
       "[data-isochrone-mode]"
     ) || []) {
       button.classList.toggle(
@@ -194,14 +196,13 @@
   }
 
   // Wywolywane z app.js na klikniecie mapy, TYLKO gdy
-  // state.isochroneModeActive jest wlaczony (analogicznie do
-  // OMAP_MEASURE.addPoint).
+  // state.travelToolMode === "isochrone" (analogicznie do
+  // OMAP_MEASURE.addPoint dla trybu odleglosci/powierzchni).
   function addPoint(lngLat) {
     if (!lngLat) return;
     currentOrigin = { lat: lngLat.lat, lon: lngLat.lng ?? lngLat.lon };
     ensureLayers();
     setOriginMarker(currentOrigin);
-    if (ctx.el.isochroneBadge) ctx.el.isochroneBadge.hidden = false;
     updateBadgeUi();
     recalculate();
   }
@@ -252,35 +253,32 @@
     }
   }
 
-  // Jeden przycisk w pasku narzedzi wlacza/wylacza tryb - ten sam
-  // wzorzec co OMAP_MEASURE.toggle (patrz measure-service.js).
-  function toggle() {
-    ctx.state.isochroneModeActive = !ctx.state.isochroneModeActive;
+  // Wolane przez measure-service.js gdy uzytkownik przelacza
+  // zunifikowane narzedzie na tryb "isochrone" - odtwarza warstwy i
+  // odswieza podrzedny UI (przyciski pieszo/rower/samochod, select
+  // minut), zeby pokazac ostatnio wybrane wartosci.
+  function activate() {
+    ensureLayers();
+    updateBadgeUi();
+  }
 
-    if (ctx.state.isochroneModeActive) {
-      ensureLayers();
-      ctx.closeOtherMobilePanels([]);
-    } else {
-      currentOrigin = null;
-      requestToken++;
-      setLayersVisible(false);
-      setOriginMarker(null);
-      if (ctx.el.isochroneBadge) ctx.el.isochroneBadge.hidden = true;
-    }
-
-    ctx.el.isochroneToggleButton?.classList.toggle(
-      "is-active",
-      ctx.state.isochroneModeActive
-    );
-    ctx.el.isochroneToggleButton?.setAttribute(
-      "aria-pressed",
-      String(ctx.state.isochroneModeActive)
-    );
+  // Wolane przez measure-service.js przy wyjsciu z trybu "isochrone"
+  // (przelaczenie na inny tryb LUB calkowite wylaczenie narzedzia) -
+  // czysci punkt startowy i chowa warstwe obszaru, ale NIE rusza
+  // wspolnej plakietki (#travel-tool-badge) - tym zarzadza juz
+  // measure-service.js.
+  function clear() {
+    currentOrigin = null;
+    requestToken++;
+    setLayersVisible(false);
+    setOriginMarker(null);
+    if (ctx.el.isochroneStatus) ctx.el.isochroneStatus.hidden = true;
   }
 
   window.OMAP_ISOCHRONE = {
     configure,
-    toggle,
+    activate,
+    clear,
     addPoint,
     setMode,
     setMinutes,
