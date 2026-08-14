@@ -11,16 +11,57 @@
 // Wystawiamy potrzebne funkcje jako zwykły obiekt globalny, żeby
 // klasyczny (nie-modułowy) sync-transport-service.js mógł z nich
 // skorzystać.
-try {
+//
+// NAPRAWA (2026-08-14): pojedyncza nieudana próba (chwilowy problem z
+// CDN/siecią przy starcie strony) wcześniej blokowała oceny i
+// komentarze NA STAŁE, do ręcznego przeładowania strony - kod nigdy
+// więcej nie próbował załadować biblioteki. Do tego każde kolejne
+// otwarcie panelu miejsca i tak czekało pełne 8s (patrz
+// waitForNostrLib w sync-transport-service.js), zanim pokazało błąd.
+// Teraz: (1) próby są ponawiane w tle z rosnącym odstępem, więc
+// chwilowy problem sam się naprawia bez przeładowania strony, i
+// (2) wystawiamy window.OMAP_NOSTR_LIB_READY - obietnicę z PIERWSZEJ
+// próby, którą waitForNostrLib może wykorzystać, żeby nie czekać
+// bezczynnie, gdy już wiadomo, że się nie udało.
+let resolveNostrLibReady;
+let rejectNostrLibReady;
+window.OMAP_NOSTR_LIB_READY = new Promise((resolve, reject) => {
+  resolveNostrLibReady = resolve;
+  rejectNostrLibReady = reject;
+});
+
+async function loadNostrLibAttempt() {
   const [{ finalizeEvent, verifyEvent, getPublicKey }, { SimplePool }, { npubEncode }] = await Promise.all([
     import("https://esm.sh/nostr-tools@2/pure"),
     import("https://esm.sh/nostr-tools@2/pool"),
     import("https://esm.sh/nostr-tools@2/nip19")
   ]);
-  window.OMAP_NOSTR_LIB = { finalizeEvent, verifyEvent, getPublicKey, SimplePool, npubEncode };
-} catch (error) {
-  console.warn("Nie udało się załadować biblioteki nostr-tools (brak internetu?):", error);
+  return { finalizeEvent, verifyEvent, getPublicKey, SimplePool, npubEncode };
 }
+
+(async function loadNostrLibWithRetry(attempt) {
+  try {
+    const lib = await loadNostrLibAttempt();
+    window.OMAP_NOSTR_LIB = lib;
+    if (resolveNostrLibReady) {
+      resolveNostrLibReady(lib);
+      resolveNostrLibReady = null;
+      rejectNostrLibReady = null;
+    }
+  } catch (error) {
+    console.warn("Nie udało się załadować biblioteki nostr-tools (brak internetu?):", error);
+    if (rejectNostrLibReady) {
+      // Odrzucamy tylko RAZ, po pierwszej próbie - kod czekający na
+      // OMAP_NOSTR_LIB_READY (waitForNostrLib) dostaje szybką
+      // odpowiedź zamiast wisieć, ale my w tle próbujemy dalej.
+      rejectNostrLibReady(error);
+      resolveNostrLibReady = null;
+      rejectNostrLibReady = null;
+    }
+    const delayMs = Math.min(60000, 3000 * 2 ** attempt);
+    setTimeout(() => loadNostrLibWithRetry(attempt + 1), delayMs);
+  }
+})(0);
 
 try {
   // Prawdziwa kompresja czcionek (TTF/OTF -> WOFF2) przed

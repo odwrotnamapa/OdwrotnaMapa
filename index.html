@@ -48,6 +48,95 @@
   }
   </script>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Co to jest Odwrotna Mapa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Odwrotna Mapa to niezależna, prywatna aplikacja mapowa oparta na danych OpenStreetMap i silniku MapLibre GL. Poza domyślnym odwróceniem orientacji (południe u góry) oferuje pełną swobodę obrotu i nachylenia widoku w 3D, zaawansowane wyszukiwanie miejsc, planowanie tras, zdjęcia uliczne z Mapillary oraz eksport widoku mapy do pliku PNG."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Dlaczego mapa ma południe u góry, a nie północ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ułożenie północy na górze mapy to jedynie historyczna konwencja kartograficzna, a nie prawo natury. Odwrotna Mapa domyślnie odwraca tę orientację, aby pokazać, że sposób przedstawiania świata wpływa na to, jak postrzegamy geografię, odległości i relacje między miejscami. W każdej chwili można obrócić mapę w dowolny sposób lub wrócić do klasycznego układu."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy Odwrotna Mapa jest darmowa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tak, Odwrotna Mapa jest w pełni darmowa i dostępna bez opłat, w 100% Open Source oraz bez reklam."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy Odwrotna Mapa śledzi moją lokalizację lub zbiera dane?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nie. Aplikacja nie śledzi użytkowników i nie gromadzi historii wyszukiwań ani danych lokalizacyjnych. Szczegóły opisuje polityka prywatności dostępna na stronie."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Skąd pochodzą dane mapy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dane kartograficzne pochodzą ze społecznościowego projektu OpenStreetMap (licencja ODbL), a wyszukiwanie miejsc opiera się na silnikach Nominatim i Photon wzbogaconych o autorskie indeksowanie polskich lokalizacji."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy mogę wyznaczyć trasę pieszo, rowerem lub samochodem?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tak, Odwrotna Mapa umożliwia precyzyjne planowanie tras pieszych, rowerowych, samochodowych i komunikacją miejską, a także pomiar odległości w linii prostej oraz wzdłuż wyznaczonej ścieżki."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy Odwrotna Mapa pokazuje zdjęcia ulic (street view)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tak, dzięki integracji z Mapillary można przeglądać otwarte zdjęcia z poziomu ulicy bezpośrednio na mapie, bez korzystania z zamkniętych, komercyjnych ekosystemów."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy mogę zapisać lub pobrać widok mapy jako obraz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tak, aplikacja pozwala eksportować wybrany fragment mapy do pliku PNG w wysokiej jakości — przydatne do druku, prezentacji czy publikacji na blogu."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Na jakich urządzeniach działa Odwrotna Mapa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Odwrotna Mapa działa jako aplikacja webowa i Progressive Web App w przeglądarce (odwrotnamapa.pl), a także jako aplikacja na Androida (APK) oraz wersja desktopowa na Windows i Linux (Electron)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy Odwrotna Mapa jest projektem Open Source?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tak, kod źródłowy aplikacji jest dostępny publicznie na licencji MIT, a każdy może zgłaszać błędy, propozycje funkcji i własne poprawki."
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -82,6 +171,41 @@
   <main id="app">
     <h1 class="sr-only">Odwrotna Mapa — interaktywna mapa z południem u góry, oparta na OpenStreetMap</h1>
     <p class="sr-only">Większość współczesnych map przedstawia północ na górze, więc łatwo zapomnieć, że nie jest to prawo natury, lecz historyczna konwencja. Odwrotna Mapa zachęca do spojrzenia na świat z innej perspektywy — i to dosłownie — oraz przypomina, że sposób przedstawiania rzeczywistości znacząco wpływa na to, jak ją postrzegamy. Aplikacja oferuje wyszukiwarkę miejsc i adresów, wyznaczanie tras pieszo/rowerem/samochodem/komunikacją miejską, zapisywanie ulubionych miejsc, widok satelitarny oraz własne motywy kolorystyczne mapy.</p>
+
+    <section class="sr-only" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Najczęściej zadawane pytania o Odwrotną Mapę</h2>
+
+      <h3>Co to jest Odwrotna Mapa?</h3>
+      <p>Odwrotna Mapa to niezależna, prywatna aplikacja mapowa oparta na danych OpenStreetMap i silniku MapLibre GL. Poza domyślnym odwróceniem orientacji (południe u góry) oferuje pełną swobodę obrotu i nachylenia widoku w 3D, zaawansowane wyszukiwanie miejsc, planowanie tras, zdjęcia uliczne z Mapillary oraz eksport widoku mapy do pliku PNG.</p>
+
+      <h3>Dlaczego mapa ma południe u góry, a nie północ?</h3>
+      <p>Ułożenie północy na górze mapy to jedynie historyczna konwencja kartograficzna, a nie prawo natury. Odwrotna Mapa domyślnie odwraca tę orientację, aby pokazać, że sposób przedstawiania świata wpływa na to, jak postrzegamy geografię, odległości i relacje między miejscami. W każdej chwili można obrócić mapę w dowolny sposób lub wrócić do klasycznego układu.</p>
+
+      <h3>Czy Odwrotna Mapa jest darmowa?</h3>
+      <p>Tak, Odwrotna Mapa jest w pełni darmowa i dostępna bez opłat, w 100% Open Source oraz bez reklam.</p>
+
+      <h3>Czy Odwrotna Mapa śledzi moją lokalizację lub zbiera dane?</h3>
+      <p>Nie. Aplikacja nie śledzi użytkowników i nie gromadzi historii wyszukiwań ani danych lokalizacyjnych. Szczegóły opisuje polityka prywatności dostępna na stronie.</p>
+
+      <h3>Skąd pochodzą dane mapy?</h3>
+      <p>Dane kartograficzne pochodzą ze społecznościowego projektu OpenStreetMap (licencja ODbL), a wyszukiwanie miejsc opiera się na silnikach Nominatim i Photon wzbogaconych o autorskie indeksowanie polskich lokalizacji.</p>
+
+      <h3>Czy mogę wyznaczyć trasę pieszo, rowerem lub samochodem?</h3>
+      <p>Tak, Odwrotna Mapa umożliwia precyzyjne planowanie tras pieszych, rowerowych, samochodowych i komunikacją miejską, a także pomiar odległości w linii prostej oraz wzdłuż wyznaczonej ścieżki.</p>
+
+      <h3>Czy Odwrotna Mapa pokazuje zdjęcia ulic (street view)?</h3>
+      <p>Tak, dzięki integracji z Mapillary można przeglądać otwarte zdjęcia z poziomu ulicy bezpośrednio na mapie, bez korzystania z zamkniętych, komercyjnych ekosystemów.</p>
+
+      <h3>Czy mogę zapisać lub pobrać widok mapy jako obraz?</h3>
+      <p>Tak, aplikacja pozwala eksportować wybrany fragment mapy do pliku PNG w wysokiej jakości — przydatne do druku, prezentacji czy publikacji na blogu.</p>
+
+      <h3>Na jakich urządzeniach działa Odwrotna Mapa?</h3>
+      <p>Odwrotna Mapa działa jako aplikacja webowa i Progressive Web App w przeglądarce (odwrotnamapa.pl), a także jako aplikacja na Androida (APK) oraz wersja desktopowa na Windows i Linux (Electron).</p>
+
+      <h3>Czy Odwrotna Mapa jest projektem Open Source?</h3>
+      <p>Tak, kod źródłowy aplikacji jest dostępny publicznie na licencji MIT, a każdy może zgłaszać błędy, propozycje funkcji i własne poprawki.</p>
+    </section>
+
     <div id="map" aria-label="Interaktywna mapa"></div>
 
     <section id="fatal-error" class="fatal-error" hidden>

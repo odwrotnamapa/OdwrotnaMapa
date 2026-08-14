@@ -2105,6 +2105,20 @@ body.ui-dark .legend-symbol.osm-buildings {
   color: var(--muted);
 }
 
+/* NAPRAWA (2026-08-14): wizualna wskazówka, że komunikat błędu
+   wczytywania ocen/komentarzy da się kliknąć, żeby spróbować
+   ponownie (patrz ratings-service.js / comments-service.js). */
+.place-rating-summary.is-clickable-retry,
+.place-comments-status.is-clickable-retry {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+.place-rating-summary.is-clickable-retry:hover,
+.place-comments-status.is-clickable-retry:hover {
+  color: var(--accent);
+}
+
 .place-rating-delete {
   margin-left: auto;
   border: 0;

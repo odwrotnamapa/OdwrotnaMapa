@@ -102,7 +102,20 @@
       deletePlaceRating(placeKey, { stars, summary, spinner, deleteButton });
     });
 
-    return { section, stars, summary, spinner, deleteButton };
+    const ui = { section, stars, summary, spinner, deleteButton };
+
+    // NAPRAWA (2026-08-14): jeśli wczytywanie ocen się nie powiodło
+    // (np. chwilowy problem z siecią/CDN przy starcie strony), do tej
+    // pory jedynym sposobem ponowienia było zamknięcie i ponowne
+    // otwarcie panelu miejsca. Klik w komunikat błędu teraz od razu
+    // próbuje jeszcze raz.
+    summary.addEventListener("click", () => {
+      const currentText = ctx.text[ctx.state.language];
+      if (summary.textContent !== currentText.ratingError) return;
+      loadPlaceRatingsForPlace(placeKey, ui);
+    });
+
+    return ui;
   }
 
   function paintRatingStars(stars, value, isMine) {
@@ -148,6 +161,7 @@
     }
 
     if (ui.spinner) ui.spinner.hidden = false;
+    ui.summary.classList.remove("is-clickable-retry");
 
     try {
       const seedWords = ctx.getStoredSeedWords();
@@ -177,6 +191,8 @@
     } catch (error) {
       console.error("Nie udało się pobrać ocen miejsca:", error);
       ui.summary.textContent = t.ratingError;
+      ui.summary.title = t.ratingRetryHint || "";
+      ui.summary.classList.add("is-clickable-retry");
     } finally {
       if (ui.spinner) ui.spinner.hidden = true;
     }

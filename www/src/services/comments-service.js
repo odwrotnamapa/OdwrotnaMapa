@@ -109,6 +109,17 @@
       submitPlaceComment(placeKey, placeMeta, textarea.value, ui, null);
     });
 
+    // NAPRAWA (2026-08-14): jeśli wczytanie komentarzy się nie
+    // powiodło (np. chwilowy problem z siecią/CDN przy starcie
+    // strony), do tej pory jedynym sposobem ponowienia było zamknięcie
+    // i ponowne otwarcie panelu miejsca. Klik w komunikat błędu teraz
+    // od razu próbuje jeszcze raz.
+    status.addEventListener("click", () => {
+      const currentText = ctx.text[ctx.state.language];
+      if (status.textContent !== currentText.commentsError) return;
+      loadPlaceCommentsForPlace(placeKey, ui);
+    });
+
     return ui;
   }
 
@@ -363,6 +374,7 @@
 
     ui.status.hidden = false;
     ui.status.textContent = t.commentsLoading;
+    ui.status.classList.remove("is-clickable-retry");
     if (ui.spinner) ui.spinner.hidden = false;
 
     try {
@@ -385,6 +397,8 @@
       console.error("Nie udało się pobrać komentarzy miejsca:", error);
       ui.status.hidden = false;
       ui.status.textContent = t.commentsError;
+      ui.status.title = t.commentsRetryHint || "";
+      ui.status.classList.add("is-clickable-retry");
     } finally {
       if (ui.spinner) ui.spinner.hidden = true;
     }

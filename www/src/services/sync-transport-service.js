@@ -73,14 +73,44 @@
     return getRelays().slice(0, 4);
   }
 
+  // NAPRAWA (2026-08-14): wcześniej ta funkcja zawsze odpytywała
+  // window.OMAP_NOSTR_LIB co 100ms przez pełne 8s, nawet jeśli
+  // external-libs-loader.js już wiedział (natychmiast, przy starcie
+  // strony), że pierwsza próba załadowania biblioteki się nie udała.
+  // Efekt: każde otwarcie panelu miejsca po takiej (choćby chwilowej)
+  // usterce sieci wisiało 8 sekund, zanim pokazało błąd "nie udało
+  // się wczytać". Teraz korzystamy z window.OMAP_NOSTR_LIB_READY -
+  // jeśli pierwsza próba już się nie powiodła, dostajemy to od razu
+  // i kończymy szybciej; jeśli w tle (patrz external-libs-loader.js)
+  // uda się kolejna próba, window.OMAP_NOSTR_LIB pojawi się i
+  // KOLEJNE wywołanie tej funkcji (np. po kliknięciu "spróbuj
+  // ponownie") zwróci bibliotekę natychmiast, bez czekania.
   function waitForNostrLib(timeoutMs = 8000) {
     if (window.OMAP_NOSTR_LIB) return Promise.resolve(window.OMAP_NOSTR_LIB);
+
+    const readyPromise = window.OMAP_NOSTR_LIB_READY;
+
     return new Promise((resolve, reject) => {
       const start = Date.now();
+      let settled = false;
+      const finish = (fn, value) => {
+        if (settled) return;
+        settled = true;
+        fn(value);
+      };
+
+      if (readyPromise && typeof readyPromise.then === "function") {
+        readyPromise.then(
+          lib => finish(resolve, lib),
+          error => finish(reject, error)
+        );
+      }
+
       (function check() {
-        if (window.OMAP_NOSTR_LIB) return resolve(window.OMAP_NOSTR_LIB);
+        if (settled) return;
+        if (window.OMAP_NOSTR_LIB) return finish(resolve, window.OMAP_NOSTR_LIB);
         if (Date.now() - start > timeoutMs) {
-          return reject(new Error("nostr_lib_unavailable"));
+          return finish(reject, new Error("nostr_lib_unavailable"));
         }
         setTimeout(check, 100);
       })();
