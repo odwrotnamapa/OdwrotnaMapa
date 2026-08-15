@@ -18,23 +18,20 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     attribution: "Tiles © Esri"
   },
   mapillary: {
-    // Warstwa pokrycia (kropki na mapie pokazujące, gdzie są
-    // zdjęcia) NIE potrzebuje już tokenu tutaj - idzie przez proxy
-    // Workera (patrz `proxy.baseUrl` niżej i
-    // cloudflare-sync-worker/README-DEPLOY.md, krok 3a), który
-    // dokleja sekret po swojej stronie. `coverageTiles` poniżej
-    // wskazuje na ten proxy, nie bezpośrednio na Mapillary.
-    //
-    // accessToken poniżej to WYŁĄCZNIE token dla panelu zdjęć
-    // poziomu ulicy (odtwarzacz mapillary-js) - ta biblioteka łączy
-    // się z Mapillary bezpośrednio z przeglądarki i wymaga własnego,
-    // publicznie widocznego tokenu (to normalne dla mapillary-js, nie
-    // da się tego ukryć bez forkowania biblioteki). Zarejestruj dla
-    // NIEGO osobną, darmową aplikację na
-    // https://www.mapillary.com/dashboard/developers, żeby
-    // ewentualny wyciek tego tokenu nie dotyczył kafelków pokrycia.
-    // Zostaw puste (""), żeby wyłączyć panel zdjęć poziomu ulicy.
-    accessToken: "",
+    // Zarówno warstwa pokrycia (kropki na mapie pokazujące, gdzie są
+    // zdjęcia), jak i sam panel zdjęć poziomu ulicy (odtwarzacz
+    // mapillary-js) łączą się z Mapillary BEZPOŚREDNIO z
+    // przeglądarki, bez pośrednictwa proxy Workera - obie funkcje
+    // używają tego samego tokenu wpisanego niżej. To normalne dla
+    // mapillary-js (wymaga publicznie widocznego tokenu klienckiego,
+    // jak publiczny token Mapboksa) - nie da się tego ukryć bez
+    // forkowania biblioteki, więc kafelki pokrycia idą tą samą drogą
+    // zamiast przez proxy.
+    // Zarejestruj darmową aplikację na
+    // https://www.mapillary.com/dashboard/developers, żeby uzyskać
+    // token. Zostaw puste (""), żeby wyłączyć zarówno panel zdjęć
+    // poziomu ulicy, jak i warstwę pokrycia.
+    accessToken: "MLY|27879892151642669|4c37c1e745d47de033a7790defae6f2f",
     sourceId: "odwrotnamapa-mapillary",
     coverageLayerId: "odwrotnamapa-mapillary-coverage",
     minZoom: 14
@@ -89,13 +86,16 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     radiusKm: 50,
     limit: 30
   },
-  // Wspólny proxy dla kluczy API, których appka NIE powinna trzymać
-  // po stronie klienta (Mapillary - kafelki pokrycia, Ticketmaster -
-  // wydarzenia). To ten sam Worker Cloudflare co synchronizacja
-  // ustawień (cloudflare-sync-worker/) - wdrażasz go raz (patrz
+  // Proxy dla klucza API, którego appka NIE powinna trzymać po
+  // stronie klienta (Ticketmaster - sekcja "Wydarzenia"). Mapillary
+  // (kafelki pokrycia i panel zdjęć poziomu ulicy) NIE idzie już
+  // przez ten proxy - łączy się z Mapillary bezpośrednio z
+  // przeglądarki, patrz `mapillary.accessToken` wyżej. To ten sam
+  // Worker Cloudflare co synchronizacja ustawień
+  // (cloudflare-sync-worker/) - wdrażasz go raz (patrz
   // README-DEPLOY.md w tamtym folderze) i wklejasz tu jego adres.
-  // Puste ("") = te dwie funkcje appki są wyłączone, tak jak przy
-  // braku kluczy wcześniej.
+  // Puste ("") = sekcja "Wydarzenia" appki jest wyłączona, tak jak
+  // przy braku klucza wcześniej.
   proxy: {
     baseUrl: "https://odwrotnamapa-sync.odwrotnamapa.workers.dev"
   },

@@ -8,32 +8,30 @@
 // serwera nie ujawnia treści niczyich ustawień, tylko losowo
 // wyglądające zaszyfrowane bloby.
 //
-// Część 2 (/mapillary/tiles/... i /events): proxy do Mapillary
-// (warstwa pokrycia zdjęć poziomu ulicy) i Ticketmaster Discovery
-// API (sekcja "Wydarzenia"). W przeciwieństwie do /sync/, te dwa
-// zewnętrzne API WYMAGAJĄ prawdziwego, tajnego klucza - nie da się
-// tego "zaszyfrować po stronie klienta" tak jak ustawień, bo to
-// klucz do CUDZEGO serwisu, nie nasze dane. Jedyny sposób, żeby
-// klucz nie trafił do przeglądarki użytkownika (i np. nie wyciekł
-// z repo na GitHubie), to trzymać go tutaj, jako sekret Workera
-// (patrz README-DEPLOY.md - `wrangler secret put`), i żeby to ten
-// Worker doklejał go do żądania, zanim poleci ono do Mapillary /
-// Ticketmastera. Klient zna tylko adres tego Workera, nigdy klucz.
+// Część 2 (/events): proxy do Ticketmaster Discovery API (sekcja
+// "Wydarzenia"). W przeciwieństwie do /sync/, to zewnętrzne API
+// WYMAGA prawdziwego, tajnego klucza - nie da się tego "zaszyfrować
+// po stronie klienta" tak jak ustawień, bo to klucz do CUDZEGO
+// serwisu, nie nasze dane. Jedyny sposób, żeby klucz nie trafił do
+// przeglądarki użytkownika (i np. nie wyciekł z repo na GitHubie),
+// to trzymać go tutaj, jako sekret Workera (patrz README-DEPLOY.md -
+// `wrangler secret put`), i żeby to ten Worker doklejał go do
+// żądania, zanim poleci ono do Ticketmastera. Klient zna tylko adres
+// tego Workera, nigdy klucz.
 //
-// Wyjątek: sam widok zdjęcia poziomu ulicy (biblioteka mapillary-js,
-// `OMAP_STREETVIEW`) łączy się z Mapillary bezpośrednio z
-// przeglądarki i wymaga WŁASNEGO tokenu klienckiego przekazanego
-// wprost do jej Viewera - tego pojedynczego przypadku nie da się
-// przepuścić przez ten proxy bez forkowania biblioteki. Mapillary
-// samo projektuje takie tokeny jako publiczne/klienckie (jak
-// publiczny token Mapboksa), więc to nie jest błąd, tylko
-// ograniczenie tamtej biblioteki - użyj do tego osobnego,
-// dedykowanego tokenu (patrz komentarz w config.js), żeby ewentualny
-// wyciek nie dotyczył też pozostałych kluczy.
+// Mapillary (warstwa pokrycia zdjęć poziomu ulicy i sam odtwarzacz
+// mapillary-js, `OMAP_STREETVIEW`) NIE idzie już przez ten Worker -
+// łączy się z Mapillary bezpośrednio z przeglądarki, tokenem
+// klienckim z config.js `mapillary.accessToken`. Endpoint
+// /mapillary/tiles poniżej został tylko jako opcjonalna, nieużywana
+// przez appkę alternatywa (np. do samodzielnego wykorzystania) -
+// wymaga wtedy sekretu MAPILLARY_TOKEN, ale appka go domyślnie nie
+// woła.
 //
 // Wymaga: KV namespace podpięty pod binding "SYNC_KV" (patrz
-// wrangler.toml i README-DEPLOY.md w tym samym folderze) oraz dwóch
-// sekretów: MAPILLARY_TOKEN i TICKETMASTER_API_KEY.
+// wrangler.toml i README-DEPLOY.md w tym samym folderze) oraz
+// sekretu TICKETMASTER_API_KEY (MAPILLARY_TOKEN tylko jeśli używasz
+// opcjonalnego endpointu /mapillary/tiles opisanego wyżej).
 
 const ALLOWED_ORIGIN = "https://odwrotnamapa.pl";
 // Dodatkowe originy dozwolone dla CORS - poza produkcyjną domeną,

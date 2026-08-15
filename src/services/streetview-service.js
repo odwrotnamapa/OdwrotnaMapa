@@ -18,11 +18,15 @@
   }
 
   function mapillaryTilesUrl() {
-    // Kafelki pokrycia idą przez proxy Workera (token dokleja Worker
-    // po swojej stronie) - patrz config.js `proxy.baseUrl` i
-    // cloudflare-sync-worker/sync-worker.js.
-    const base = ctx.CONFIG.proxy?.baseUrl;
-    return base ? `${base}/mapillary/tiles/{z}/{x}/{y}` : null;
+    // Kafelki pokrycia łączą się z Mapillary bezpośrednio z
+    // przeglądarki (tak samo jak sam odtwarzacz streetview poniżej),
+    // bez pośrednictwa proxy Workera - używają tego samego,
+    // publicznego tokenu klienckiego z config.js
+    // `mapillary.accessToken`.
+    const token = ctx.CONFIG.mapillary?.accessToken;
+    return token
+      ? `https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}?access_token=${token}`
+      : null;
   }
 
   function ensureMapillaryCoverage() {
