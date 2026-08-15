@@ -1673,12 +1673,21 @@
       button.type = "button";
       button.className = "discover-event-card";
 
+      const thumb = document.createElement("span");
+      thumb.className = "discover-event-thumb";
       if (event.eventImageUrl) {
-        const thumb = document.createElement("span");
-        thumb.className = "discover-event-thumb";
         thumb.style.backgroundImage = `url("${event.eventImageUrl}")`;
-        button.appendChild(thumb);
+      } else {
+        // PredictHQ (w przeciwieństwie do Ticketmastera) to
+        // agregator/wywiad o wydarzeniach, nie sprzedawca biletów -
+        // nie dostarcza zdjęć promocyjnych. Zamiast zostawiać puste
+        // miejsce, pokazujemy prostą ikonę-placeholder, żeby karty
+        // z obu źródeł miały tę samą wysokość i wyglądały spójnie.
+        thumb.classList.add("discover-event-thumb--placeholder");
+        thumb.setAttribute("aria-hidden", "true");
+        thumb.textContent = "📅";
       }
+      button.appendChild(thumb);
 
       const body = document.createElement("span");
       body.className = "discover-event-body";

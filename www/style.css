@@ -2978,6 +2978,14 @@ a.place-card-row {
   background-repeat: no-repeat;
 }
 
+.discover-event-thumb--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  opacity: 0.45;
+}
+
 .discover-event-body {
   display: flex;
   flex-direction: column;
