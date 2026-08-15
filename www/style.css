@@ -2644,6 +2644,95 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 }
 
+.place-movies {
+  margin: 4px 10px 0;
+  padding: 12px 6px 6px;
+  border-top: 1px solid var(--border);
+}
+
+.place-movies-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 6px 8px;
+}
+
+.place-movies-header h4 {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.place-movies-status {
+  margin: 0;
+  padding: 7px 6px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.place-movies-list {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0 6px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+
+.place-movie-card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 84px;
+  scroll-snap-align: start;
+}
+
+.place-movie-poster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 124px;
+  border: 1px solid var(--border);
+  background-color: var(--surface-alt, rgba(128, 128, 128, 0.12));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.place-movie-poster--placeholder {
+  font-size: 1.6rem;
+  opacity: 0.45;
+}
+
+.place-movie-title {
+  font-size: 0.7rem;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.place-movies-source {
+  display: inline-block;
+  margin: 7px 6px 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .place-movies {
+    margin-inline: 8px;
+  }
+}
+
 
 .place-departures-list.is-expanded {
   max-height: 245px;

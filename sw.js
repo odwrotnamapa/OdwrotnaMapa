@@ -4,7 +4,7 @@
 // wyszukiwania/trasowania - to wymagałoby dużo większego
 // projektu (limity pamięci, dobór obszaru do zapisania itd.).
 
-const CACHE_VERSION = "czemu muszę to gówno robić ręcznie33344";
+const CACHE_VERSION = "czemu muszę to gówno robić ręcznie33345";
 
 // Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
 // z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do
@@ -81,6 +81,7 @@ const APP_SHELL_URLS = [
   "./src/services/ratings-service.js",
   "./src/services/comments-service.js",
   "./src/services/departures-service.js",
+  "./src/services/movies-service.js",
   "./src/services/wikipedia-service.js",
   "./src/services/measure-service.js",
   "./src/services/streetview-service.js",

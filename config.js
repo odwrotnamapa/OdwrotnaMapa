@@ -31,7 +31,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     // https://www.mapillary.com/dashboard/developers, żeby uzyskać
     // token. Zostaw puste (""), żeby wyłączyć zarówno panel zdjęć
     // poziomu ulicy, jak i warstwę pokrycia.
-    accessToken: "",
+    accessToken: "MLY|27879892151642669|4c37c1e745d47de033a7790defae6f2f",
     sourceId: "odwrotnamapa-mapillary",
     coverageLayerId: "odwrotnamapa-mapillary-coverage",
     minZoom: 14
@@ -102,6 +102,30 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     predicthqCategories:
       "concerts,festivals,performing-arts,community,expos,conferences,sports"
   },
+
+  // Sekcja "Teraz na ekranach" w karcie miejsca - pokazuje się TYLKO
+  // dla wyników sklasyfikowanych jako kino (amenity=cinema), patrz
+  // src/services/movies-service.js. Używa TMDB "now playing"
+  // (https://developer.themoviedb.org/reference/movie-now-playing-list) -
+  // darmowe, zarejestruj konto na https://www.themoviedb.org/signup i
+  // wygeneruj klucz "API Key (v3 auth)" w Ustawienia → API. W
+  // przeciwieństwie do Ticketmaster/PredictHQ ten klucz NIE musi iść
+  // przez proxy Workera - TMDB jawnie zezwala na użycie klucza v3
+  // bezpośrednio z przeglądarki w aplikacjach klienckich.
+  // WAŻNE: to lista OGÓLNOKRAJOWA (co idzie teraz w kinach w Polsce),
+  // NIE repertuar konkretnego, klikniętego kina - żadne darmowe API
+  // nie udostępnia godzin seansów per kino, więc appka tego nie
+  // udaje. Puste apiKey ("") = sekcja pokazuje komunikat z instrukcją
+  // zamiast filmów.
+  movies: {
+    apiKey: "79e1810c36a220c16f3b30d1eb3cb31a",
+    nowPlayingEndpoint: "https://api.themoviedb.org/3/movie/now_playing",
+    posterBaseUrl: "https://image.tmdb.org/t/p/w200",
+    region: "PL",
+    limit: 10,
+    cacheTtlMinutes: 360
+  },
+
   // Proxy dla kluczy API, których appka NIE powinna trzymać po
   // stronie klienta (Ticketmaster i PredictHQ - sekcja "Wydarzenia",
   // patrz `events` wyżej). Mapillary (kafelki pokrycia i panel zdjęć

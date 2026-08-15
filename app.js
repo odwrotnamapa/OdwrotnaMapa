@@ -593,6 +593,12 @@
       departuresLoading: "Pobieranie rozkładu…",
       departuresEmpty: "Brak dostępnego rozkładu dla tego przystanku.",
       departuresError: "Nie udało się pobrać rozkładu.",
+      moviesTitle: "Teraz na ekranach",
+      moviesLoading: "Pobieranie listy filmów…",
+      moviesEmpty: "Brak danych o aktualnym repertuarze.",
+      moviesError: "Nie udało się pobrać listy filmów.",
+      moviesMissingKey: "Sekcja filmów wymaga skonfigurowania klucza TMDB w config.js.",
+      moviesSource: "Źródło: TMDB · ogólny repertuar w Polsce, bez godzin seansów w tym kinie",
       tripTitle: "Kurs",
       tripLoading: "Wczytywanie przystanków…",
       tripEmpty: "Brak informacji o przystankach dla tego kursu.",
@@ -1089,6 +1095,12 @@
       departuresLoading: "Loading timetable…",
       departuresEmpty: "No timetable is available for this stop.",
       departuresError: "The timetable could not be loaded.",
+      moviesTitle: "Now showing",
+      moviesLoading: "Loading movie list…",
+      moviesEmpty: "No current listings available.",
+      moviesError: "Couldn't load the movie list.",
+      moviesMissingKey: "The movies section needs a TMDB key configured in config.js.",
+      moviesSource: "Source: TMDB · nationwide listings, not this cinema's showtimes",
       tripTitle: "Trip",
       tripLoading: "Loading stops…",
       tripEmpty: "No stop information available for this trip.",
@@ -2176,6 +2188,11 @@ map.on('rotate', updateLogoRotation);
     text,
     CONFIG,
     openTripDetails
+  });
+  window.OMAP_MOVIES?.configure({
+    state,
+    text,
+    CONFIG
   });
   window.OMAP_DISCOVER?.configure({
     state,
@@ -7305,6 +7322,12 @@ function showUserLocationMarker(lngLat) {
       const departures = window.OMAP_DEPARTURES?.createSection();
       card.appendChild(departures.section);
       window.OMAP_DEPARTURES?.loadForPlace(place, lngLat, departures);
+    }
+
+    if (window.OMAP_MOVIES?.isCinema(place)) {
+      const movies = window.OMAP_MOVIES?.createSection();
+      card.appendChild(movies.section);
+      window.OMAP_MOVIES?.loadForPlace(place, lngLat, movies);
     }
 
     const commentsUi = window.OMAP_COMMENTS?.createSection(
