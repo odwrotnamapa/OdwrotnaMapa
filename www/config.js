@@ -31,7 +31,7 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     // https://www.mapillary.com/dashboard/developers, żeby uzyskać
     // token. Zostaw puste (""), żeby wyłączyć zarówno panel zdjęć
     // poziomu ulicy, jak i warstwę pokrycia.
-    accessToken: "MLY|27879892151642669|4c37c1e745d47de033a7790defae6f2f",
+    accessToken: "",
     sourceId: "odwrotnamapa-mapillary",
     coverageLayerId: "odwrotnamapa-mapillary-coverage",
     minZoom: 14
@@ -74,26 +74,43 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     limit: 5
   },
   events: {
-    // Sekcja "Wydarzenia" w panelu Odkrywaj korzysta z Ticketmaster
-    // Discovery API (obsługuje Polskę - koncerty, sport, teatr itp.).
-    // Klucz NIE jest już wpisywany tutaj - appka woła
-    // `${proxy.baseUrl}/events`, a to Worker (patrz `proxy` niżej i
-    // cloudflare-sync-worker/README-DEPLOY.md, krok 3a) dokleja
-    // sekret TICKETMASTER_API_KEY po swojej stronie. Bez
+    // Sekcja "Wydarzenia" w panelu Odkrywaj korzysta z DWÓCH źródeł
+    // naraz (appka odpytuje oba równolegle i łączy wyniki, odrzucając
+    // ewentualne duplikaty - patrz fetchDiscoverEvents() w
+    // src/services/discover-service.js):
+    // - Ticketmaster Discovery API - duże, komercyjne koncerty/sport/
+    //   teatr ze sprzedażą biletów.
+    // - PredictHQ - agregator setek innych źródeł (lokalne kalendarze,
+    //   festiwale, konferencje, mniejsze wydarzenia), więc znacząco
+    //   poszerza pokrycie poza to, co ma sam Ticketmaster. Ma darmowy
+    //   plan - zarejestruj konto na https://control.predicthq.com/signup
+    //   i wygeneruj token w zakładce "Access Tokens".
+    // Żaden z kluczy NIE jest wpisywany tutaj - appka woła
+    // `${proxy.baseUrl}/events` i `${proxy.baseUrl}/predicthq`, a to
+    // Worker (patrz `proxy` niżej i
+    // cloudflare-sync-worker/README-DEPLOY.md) dokleja sekrety
+    // TICKETMASTER_API_KEY / PREDICTHQ_TOKEN po swojej stronie. Bez
     // skonfigurowanego proxy sekcja pokaże komunikat z instrukcją
-    // zamiast wyników - tak jak wcześniej bez klucza.
+    // zamiast wyników. Skonfigurowanie tylko jednego z dwóch sekretów
+    // na Workerze też działa - appka po prostu pokaże wyniki z tego
+    // jednego źródła zamiast zgłaszać błąd.
     countryCode: "PL",
     radiusKm: 50,
-    limit: 30
+    limit: 30,
+    // Kategorie PredictHQ do przeszukania - pełna lista dostępnych
+    // kategorii: https://docs.predicthq.com/resources/events#category
+    predicthqCategories:
+      "concerts,festivals,performing-arts,community,expos,conferences,sports"
   },
-  // Proxy dla klucza API, którego appka NIE powinna trzymać po
-  // stronie klienta (Ticketmaster - sekcja "Wydarzenia"). Mapillary
-  // (kafelki pokrycia i panel zdjęć poziomu ulicy) NIE idzie już
-  // przez ten proxy - łączy się z Mapillary bezpośrednio z
-  // przeglądarki, patrz `mapillary.accessToken` wyżej. To ten sam
-  // Worker Cloudflare co synchronizacja ustawień
-  // (cloudflare-sync-worker/) - wdrażasz go raz (patrz
-  // README-DEPLOY.md w tamtym folderze) i wklejasz tu jego adres.
+  // Proxy dla kluczy API, których appka NIE powinna trzymać po
+  // stronie klienta (Ticketmaster i PredictHQ - sekcja "Wydarzenia",
+  // patrz `events` wyżej). Mapillary (kafelki pokrycia i panel zdjęć
+  // poziomu ulicy) NIE idzie już przez ten proxy - łączy się z
+  // Mapillary bezpośrednio z przeglądarki, patrz
+  // `mapillary.accessToken` wyżej. To ten sam Worker Cloudflare co
+  // synchronizacja ustawień (cloudflare-sync-worker/) - wdrażasz go
+  // raz (patrz README-DEPLOY.md w tamtym folderze) i wklejasz tu
+  // jego adres.
   // Puste ("") = sekcja "Wydarzenia" appki jest wyłączona, tak jak
   // przy braku klucza wcześniej.
   proxy: {

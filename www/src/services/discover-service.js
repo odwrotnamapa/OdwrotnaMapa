@@ -742,15 +742,22 @@
   }
 
   // Sekcja "Wydarzenia" nie ma odpowiednika w OSM, więc zamiast
-  // Nominatim/Overpass pyta Ticketmaster Discovery API (przez proxy
+  // Nominatim/Overpass pyta zewnętrzne API wydarzeń (przez proxy
   // Workera - CONFIG.proxy.baseUrl, patrz config.js i
   // cloudflare-sync-worker/sync-worker.js - to Worker dokleja klucz,
   // appka go nie zna) o wydarzenia w promieniu wokół środka aktualnie
-  // widocznego obszaru mapy. Zwraca obiekty w kształcie zgodnym z resztą
-  // discover-service (lat/lon/tags.name), plus dodatkowe pola
-  // isEvent/eventUrl/eventDateLabel/venueName używane przez
+  // widocznego obszaru mapy. Dwa źródła (patrz fetchDiscoverEvents()
+  // niżej, która odpytuje oba naraz i łączy wyniki):
+  // - Ticketmaster Discovery API (ta funkcja) - duże, komercyjne
+  //   koncerty/sport/teatr ze sprzedażą biletów.
+  // - PredictHQ (fetchDiscoverEventsPredictHQ()) - agregator setek
+  //   źródeł, więc dokłada mniejsze/lokalne wydarzenia, festiwale,
+  //   konferencje itp., których Ticketmaster nie widzi.
+  // Obie zwracają obiekty w kształcie zgodnym z resztą discover-service
+  // (lat/lon/tags.name), plus dodatkowe pola
+  // isEvent/eventUrl/eventDateLabel/venueName/eventSource używane przez
   // renderDiscoverResults() do innego renderowania i otwierania.
-  async function fetchDiscoverEvents(signal) {
+  async function fetchDiscoverEventsTicketmaster(signal) {
     const eventsConfig = ctx.CONFIG.events || {};
     const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
     if (!proxyBaseUrl) {
@@ -828,7 +835,7 @@
         )[0];
 
       results.push({
-        id: event.id,
+        id: `tm-${event.id}`,
         type: "event",
         lat,
         lon,
@@ -836,6 +843,7 @@
         placeClass: "event",
         placeType: "event",
         isEvent: true,
+        eventSource: "ticketmaster",
         eventUrl: event.url || "",
         eventDateLabel: dateLabel,
         eventImageUrl: image?.url || "",
@@ -849,6 +857,161 @@
     }
 
     return results;
+  }
+
+  // PredictHQ Events API - drugie źródło sekcji "Wydarzenia" (patrz
+  // komentarz nad fetchDiscoverEventsTicketmaster() wyżej). Też idzie
+  // przez proxy Workera (endpoint /predicthq, sekret PREDICTHQ_TOKEN -
+  // patrz cloudflare-sync-worker/sync-worker.js), z tych samych
+  // powodów co Ticketmaster: appka nie powinna znać tokenu.
+  // Dokumentacja promienia/kategorii/dat:
+  // https://docs.predicthq.com/api/events/search-events
+  async function fetchDiscoverEventsPredictHQ(signal) {
+    const eventsConfig = ctx.CONFIG.events || {};
+    const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
+    if (!proxyBaseUrl) {
+      throw new Error("Events proxy not configured");
+    }
+    const bounds = ctx.map.getBounds();
+    const center = ctx.map.getCenter();
+
+    const radiusKm = Math.min(
+      500,
+      Math.max(
+        5,
+        Math.ceil(
+          haversineKm(
+            center.lat,
+            center.lng,
+            bounds.getNorth(),
+            bounds.getEast()
+          )
+        )
+      )
+    );
+
+    const url = new URL(`${proxyBaseUrl}/predicthq`);
+    url.searchParams.set("within", `${radiusKm}km@${center.lat},${center.lng}`);
+    url.searchParams.set(
+      "category",
+      eventsConfig.predicthqCategories ||
+        "concerts,festivals,performing-arts,community,expos,conferences,sports"
+    );
+    url.searchParams.set(
+      "country",
+      eventsConfig.countryCode || "PL"
+    );
+    url.searchParams.set("limit", String(eventsConfig.limit || 30));
+    url.searchParams.set("sort", "rank");
+    // Tylko nadchodzące wydarzenia (aktywne dziś lub później).
+    url.searchParams.set(
+      "active.gte",
+      new Date().toISOString().slice(0, 10)
+    );
+
+    const response = await fetch(url, { signal });
+
+    if (!response.ok) {
+      throw new Error(`PredictHQ HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const events = data.results || [];
+    const results = [];
+
+    for (const event of events) {
+      const [lon, lat] = Array.isArray(event.location) ? event.location : [];
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
+
+      const startDate = (event.start_local || event.start || "").slice(0, 10);
+      const startTime = (event.start_local || event.start || "").slice(11, 16);
+      const dateLabel = startTime ? `${startDate} ${startTime}` : startDate;
+
+      const venue = (event.entities || []).find(
+        entity => entity.type === "venue"
+      );
+
+      results.push({
+        id: `phq-${event.id}`,
+        type: "event",
+        lat,
+        lon,
+        category: "event",
+        placeClass: "event",
+        placeType: "event",
+        isEvent: true,
+        eventSource: "predicthq",
+        // PredictHQ to agregator/wywiad o wydarzeniach, nie sprzedawca
+        // biletów - nie ma własnego adresu URL wydarzenia ani zdjęcia.
+        eventUrl: "",
+        eventDateLabel: dateLabel,
+        eventImageUrl: "",
+        venueName: venue?.name || "",
+        tags: {
+          name: event.title || ""
+        },
+        address: {},
+        namedetails: {}
+      });
+    }
+
+    return results;
+  }
+
+  // Odległość w km między dwoma punktami - używana do prostego
+  // odrzucania duplikatów, gdy to samo wydarzenie pojawia się w obu
+  // źródłach (np. duży festiwal jest i na Ticketmasterze, i w
+  // PredictHQ).
+  function isLikelyDuplicateEvent(a, b) {
+    if (a.eventDateLabel.slice(0, 10) !== b.eventDateLabel.slice(0, 10)) {
+      return false;
+    }
+    const distanceKm = haversineKm(a.lat, a.lon, b.lat, b.lon);
+    if (distanceKm > 0.3) return false;
+
+    const normalize = value =>
+      value.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+    const nameA = normalize(a.tags.name || "");
+    const nameB = normalize(b.tags.name || "");
+    if (!nameA || !nameB) return false;
+    return nameA === nameB || nameA.includes(nameB) || nameB.includes(nameA);
+  }
+
+  // Odpytuje oba źródła wydarzeń naraz i łączy wyniki. Awaria
+  // jednego źródła (np. brak skonfigurowanego PREDICTHQ_TOKEN na
+  // Workerze) nie blokuje drugiego - sekcja po prostu pokaże mniej
+  // wyników zamiast błędu, dopóki działa choć jedno źródło.
+  async function fetchDiscoverEvents(signal) {
+    const [ticketmaster, predicthq] = await Promise.allSettled([
+      fetchDiscoverEventsTicketmaster(signal),
+      fetchDiscoverEventsPredictHQ(signal)
+    ]);
+
+    if (
+      ticketmaster.status === "rejected" &&
+      predicthq.status === "rejected"
+    ) {
+      throw ticketmaster.reason;
+    }
+
+    const combined = [
+      ...(ticketmaster.status === "fulfilled" ? ticketmaster.value : []),
+      ...(predicthq.status === "fulfilled" ? predicthq.value : [])
+    ];
+
+    const deduped = [];
+    for (const event of combined) {
+      const isDuplicate = deduped.some(existing =>
+        isLikelyDuplicateEvent(existing, event)
+      );
+      if (!isDuplicate) deduped.push(event);
+    }
+
+    deduped.sort((a, b) =>
+      a.eventDateLabel.localeCompare(b.eventDateLabel)
+    );
+
+    return deduped;
   }
 
   async function fetchDiscoverFromNominatim(category, signal) {

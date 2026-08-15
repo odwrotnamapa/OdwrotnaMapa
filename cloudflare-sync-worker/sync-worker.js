@@ -8,16 +8,19 @@
 // serwera nie ujawnia treści niczyich ustawień, tylko losowo
 // wyglądające zaszyfrowane bloby.
 //
-// Część 2 (/events): proxy do Ticketmaster Discovery API (sekcja
-// "Wydarzenia"). W przeciwieństwie do /sync/, to zewnętrzne API
-// WYMAGA prawdziwego, tajnego klucza - nie da się tego "zaszyfrować
-// po stronie klienta" tak jak ustawień, bo to klucz do CUDZEGO
-// serwisu, nie nasze dane. Jedyny sposób, żeby klucz nie trafił do
-// przeglądarki użytkownika (i np. nie wyciekł z repo na GitHubie),
-// to trzymać go tutaj, jako sekret Workera (patrz README-DEPLOY.md -
-// `wrangler secret put`), i żeby to ten Worker doklejał go do
-// żądania, zanim poleci ono do Ticketmastera. Klient zna tylko adres
-// tego Workera, nigdy klucz.
+// Część 2 (/events i /predicthq): proxy do dwóch API wydarzeń (sekcja
+// "Wydarzenia") - Ticketmaster Discovery API (/events, duże,
+// komercyjne koncerty/sport/teatr ze sprzedażą biletów) i PredictHQ
+// (/predicthq, agregator setek źródeł - dokłada mniejsze/lokalne
+// wydarzenia, festiwale, konferencje itp.). W przeciwieństwie do
+// /sync/, te zewnętrzne API WYMAGAJĄ prawdziwego, tajnego klucza -
+// nie da się tego "zaszyfrować po stronie klienta" tak jak ustawień,
+// bo to klucz do CUDZEGO serwisu, nie nasze dane. Jedyny sposób, żeby
+// klucz nie trafił do przeglądarki użytkownika (i np. nie wyciekł
+// z repo na GitHubie), to trzymać go tutaj, jako sekret Workera
+// (patrz README-DEPLOY.md - `wrangler secret put`), i żeby to ten
+// Worker doklejał go do żądania, zanim poleci ono do Ticketmastera /
+// PredictHQ. Klient zna tylko adres tego Workera, nigdy klucze.
 //
 // Mapillary (warstwa pokrycia zdjęć poziomu ulicy i sam odtwarzacz
 // mapillary-js, `OMAP_STREETVIEW`) NIE idzie już przez ten Worker -
@@ -30,7 +33,9 @@
 //
 // Wymaga: KV namespace podpięty pod binding "SYNC_KV" (patrz
 // wrangler.toml i README-DEPLOY.md w tym samym folderze) oraz
-// sekretu TICKETMASTER_API_KEY (MAPILLARY_TOKEN tylko jeśli używasz
+// sekretu TICKETMASTER_API_KEY. Opcjonalnie: PREDICTHQ_TOKEN (drugie
+// źródło wydarzeń - appka bez niego po prostu pokaże tylko wyniki
+// z Ticketmastera) i MAPILLARY_TOKEN (tylko jeśli używasz
 // opcjonalnego endpointu /mapillary/tiles opisanego wyżej).
 
 const ALLOWED_ORIGIN = "https://odwrotnamapa.pl";
@@ -45,7 +50,7 @@ const DEV_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"];
 const ALL_ALLOWED_ORIGINS = [ALLOWED_ORIGIN, ...DEV_ORIGINS];
 const MAX_BLOB_BYTES = 220000; // ~220 KB - z zapasem na ulubione miejsca, motywy kolorystyczne itp. (bez tekstur - te celowo nie są synchronizowane)
 const RATE_LIMIT_WRITES_PER_MINUTE = 20;
-const RATE_LIMIT_PROXY_PER_MINUTE = 60; // na adres IP, wspólne dla /mapillary i /events
+const RATE_LIMIT_PROXY_PER_MINUTE = 60; // na adres IP, wspólne dla /mapillary, /events i /predicthq
 
 function corsHeaders(origin) {
   const allowOrigin = ALL_ALLOWED_ORIGINS.includes(origin)
@@ -84,12 +89,12 @@ async function checkRateLimit(env, accountId) {
   return true;
 }
 
-// Prosty rate-limit per adres IP dla /mapillary i /events. Bez tego
-// każdy, kto trafi na adres tego Workera, mógłby jednym skryptem
-// wyczerpać darmowy limit zapytań do Mapillary/Ticketmastera opłacony
-// (czy raczej: przyznany za darmo) na Twoje konto - Worker chroni
-// klucz przed WYCIEKIEM, ale sam w sobie nie chroni przed
-// NADUŻYCIEM, więc dokładamy to osobno.
+// Prosty rate-limit per adres IP dla /mapillary, /events i
+// /predicthq. Bez tego każdy, kto trafi na adres tego Workera,
+// mógłby jednym skryptem wyczerpać darmowy limit zapytań do
+// Mapillary/Ticketmastera/PredictHQ opłacony (czy raczej: przyznany
+// za darmo) na Twoje konto - Worker chroni klucz przed WYCIEKIEM, ale
+// sam w sobie nie chroni przed NADUŻYCIEM, więc dokładamy to osobno.
 async function checkProxyRateLimit(env, request, bucketName) {
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const bucket = Math.floor(Date.now() / 60000);
@@ -179,6 +184,56 @@ async function handleEventsProxy(request, env, origin, url) {
   });
 }
 
+// GET /predicthq?... - proxy do PredictHQ Events API
+// (https://api.predicthq.com/v1/events/). Drugie źródło sekcji
+// "Wydarzenia" obok /events (Ticketmaster) - PredictHQ agreguje
+// wydarzenia z setek serwisów (lokalne kalendarze, festiwale,
+// konferencje, sport itp.), więc pokrywa dużo więcej niż sam
+// Ticketmaster. Klient wysyła te same parametry co bezpośrednio do
+// PredictHQ (within, category, country, active.gte, active.lte,
+// limit, sort), OPRÓCZ tokenu - PredictHQ używa nagłówka
+// Authorization: Bearer, więc token NIGDY nie trafia do URL-a ani do
+// przeglądarki, tylko dokleja go tutaj Worker z sekretu
+// PREDICTHQ_TOKEN.
+async function handlePredictHQProxy(request, env, origin, url) {
+  if (!env.PREDICTHQ_TOKEN) {
+    return jsonResponse({ error: "predicthq_not_configured" }, 501, origin);
+  }
+  const allowed = await checkProxyRateLimit(env, request, "predicthq");
+  if (!allowed) {
+    return jsonResponse({ error: "rate_limited" }, 429, origin);
+  }
+
+  const upstreamUrl = new URL("https://api.predicthq.com/v1/events/");
+  // Przepisujemy tylko znaną, oczekiwaną listę parametrów - tak samo
+  // jak w handleEventsProxy() dla Ticketmastera wyżej.
+  const passthroughParams = [
+    "within",
+    "category",
+    "country",
+    "active.gte",
+    "active.lte",
+    "limit",
+    "sort"
+  ];
+  for (const param of passthroughParams) {
+    const value = url.searchParams.get(param);
+    if (value !== null) upstreamUrl.searchParams.set(param, value);
+  }
+
+  const upstreamResponse = await fetch(upstreamUrl, {
+    headers: {
+      Authorization: `Bearer ${env.PREDICTHQ_TOKEN}`,
+      Accept: "application/json"
+    }
+  });
+  const body = await upstreamResponse.text();
+  return new Response(body, {
+    status: upstreamResponse.status,
+    headers: { "Content-Type": "application/json", ...corsHeaders(origin) }
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -198,6 +253,10 @@ export default {
 
     if (url.pathname === "/events" && request.method === "GET") {
       return handleEventsProxy(request, env, origin, url);
+    }
+
+    if (url.pathname === "/predicthq" && request.method === "GET") {
+      return handlePredictHQProxy(request, env, origin, url);
     }
 
     const match = url.pathname.match(/^\/sync\/([a-f0-9]{64})$/);

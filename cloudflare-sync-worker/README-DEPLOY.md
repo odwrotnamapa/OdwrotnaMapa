@@ -43,20 +43,24 @@ Worker robi teraz dwie niezależne rzeczy:
    ```
    Skopiuj `id` i wklej je w `wrangler.toml` w miejsce
    `WKLEJ_TU_ID_NAMESPACE`.
-3a. (Opcjonalnie, jeśli chcesz warstwy Mapillary/Ticketmastera bez
-    trzymania kluczy w `config.js`) Ustaw sekrety Workera - CLI
-    zapyta o wartość interaktywnie, więc klucz nigdy nie trafia do
-    pliku ani do historii poleceń:
+3a. (Opcjonalnie, jeśli chcesz sekcji "Wydarzenia" - Ticketmaster
+    i/lub PredictHQ, patrz `events` w `config.js`) Ustaw sekrety
+    Workera - CLI zapyta o wartość interaktywnie, więc klucz nigdy
+    nie trafia do pliku ani do historii poleceń:
     ```
-    wrangler secret put MAPILLARY_TOKEN
     wrangler secret put TICKETMASTER_API_KEY
+    wrangler secret put PREDICTHQ_TOKEN
     ```
-    Klucz Mapillary weź z https://www.mapillary.com/dashboard/developers
-    ("Client token" / "Access token" aplikacji), Ticketmaster z
-    https://developer.ticketmaster.com/ ("Consumer Key"). Uwaga:
-    to POWINNY być inne tokeny niż ten wpisany w `config.js` pod
-    `mapillary.accessToken` (patrz niżej) - ten drugi i tak zostaje
-    publiczny, bo wymaga tego biblioteka przeglądarkowa mapillary-js.
+    Ticketmaster: klucz ("Consumer Key") weź z
+    https://developer.ticketmaster.com/. PredictHQ: zarejestruj
+    darmowe konto na https://control.predicthq.com/signup i
+    wygeneruj token w zakładce "Access Tokens". Możesz ustawić tylko
+    jeden z dwóch sekretów - appka po prostu pokaże wyniki z tego
+    jednego źródła. Uwaga: Mapillary (warstwa pokrycia i widok zdjęć
+    poziomu ulicy) NIE idzie przez tego Workera - łączy się z
+    Mapillary bezpośrednio z przeglądarki tokenem klienckim wpisanym
+    wprost w `config.js` pod `mapillary.accessToken` (patrz komentarz
+    przy tym polu), więc nie ma dla niego osobnego sekretu Workera.
 4. Wdróż Workera:
    ```
    wrangler deploy
@@ -76,16 +80,16 @@ Worker robi teraz dwie niezależne rzeczy:
    }
    ```
    Ten sam adres obsługuje zarówno sync, jak i (jeśli ustawiłeś
-   sekrety w kroku 3a) proxy Mapillary/Ticketmastera - nic więcej nie
+   sekrety w kroku 3a) proxy Ticketmastera/PredictHQ - nic więcej nie
    trzeba dopisywać, `config.js` już wie, jak z niego korzystać.
-6. Usuń (albo zostaw puste) `mapillary.accessToken` i
-   `events.apiKey` w `config.js`, chyba że chcesz też widoku zdjęć
-   poziomu ulicy (Viewer) - patrz komentarz przy tym polu w
-   `config.js`, dlaczego ten jeden token zostaje publiczny mimo
-   proxy.
+6. Uzupełnij `mapillary.accessToken` w `config.js` (token kliencki z
+   https://www.mapillary.com/dashboard/developers), jeśli chcesz
+   warstwy pokrycia i widoku zdjęć poziomu ulicy - to pole zawsze
+   zostaje publiczne, proxy go nie dotyczy (patrz komentarz przy tym
+   polu w `config.js`).
 7. Wgraj zaktualizowany `config.js` na swój hosting - i gotowe,
-   przycisk "Konto" (sync) oraz warstwa Mapillary/sekcja Wydarzenia
-   w appce zaczną korzystać z Workera zamiast kluczy w kodzie.
+   przycisk "Konto" (sync) oraz sekcja Wydarzenia w appce zaczną
+   korzystać z Workera zamiast kluczy w kodzie.
 
 ## Co warto wiedzieć o bezpieczeństwie tego rozwiązania
 
