@@ -18,11 +18,23 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     attribution: "Tiles © Esri"
   },
   mapillary: {
-    // Zarejestruj darmowe konto dewelopera na
-    // https://www.mapillary.com/developer i wklej tu swój token.
-    accessToken: "MLY|27879892151642669|4c37c1e745d47de033a7790defae6f2f",
-    coverageTiles:
-      "https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}",
+    // Warstwa pokrycia (kropki na mapie pokazujące, gdzie są
+    // zdjęcia) NIE potrzebuje już tokenu tutaj - idzie przez proxy
+    // Workera (patrz `proxy.baseUrl` niżej i
+    // cloudflare-sync-worker/README-DEPLOY.md, krok 3a), który
+    // dokleja sekret po swojej stronie. `coverageTiles` poniżej
+    // wskazuje na ten proxy, nie bezpośrednio na Mapillary.
+    //
+    // accessToken poniżej to WYŁĄCZNIE token dla panelu zdjęć
+    // poziomu ulicy (odtwarzacz mapillary-js) - ta biblioteka łączy
+    // się z Mapillary bezpośrednio z przeglądarki i wymaga własnego,
+    // publicznie widocznego tokenu (to normalne dla mapillary-js, nie
+    // da się tego ukryć bez forkowania biblioteki). Zarejestruj dla
+    // NIEGO osobną, darmową aplikację na
+    // https://www.mapillary.com/dashboard/developers, żeby
+    // ewentualny wyciek tego tokenu nie dotyczył kafelków pokrycia.
+    // Zostaw puste (""), żeby wyłączyć panel zdjęć poziomu ulicy.
+    accessToken: "",
     sourceId: "odwrotnamapa-mapillary",
     coverageLayerId: "odwrotnamapa-mapillary-coverage",
     minZoom: 14
@@ -67,14 +79,25 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
   events: {
     // Sekcja "Wydarzenia" w panelu Odkrywaj korzysta z Ticketmaster
     // Discovery API (obsługuje Polskę - koncerty, sport, teatr itp.).
-    // Załóż darmowe konto na https://developer.ticketmaster.com/,
-    // utwórz aplikację i wklej tu jej "Consumer Key" jako apiKey.
-    // Bez klucza sekcja pokaże komunikat z instrukcją zamiast wyników.
-    endpoint: "https://app.ticketmaster.com/discovery/v2/events.json",
-    apiKey: "sBVbc9kE56Z7B2GS0xs2f9YIfF9yLjGB",
+    // Klucz NIE jest już wpisywany tutaj - appka woła
+    // `${proxy.baseUrl}/events`, a to Worker (patrz `proxy` niżej i
+    // cloudflare-sync-worker/README-DEPLOY.md, krok 3a) dokleja
+    // sekret TICKETMASTER_API_KEY po swojej stronie. Bez
+    // skonfigurowanego proxy sekcja pokaże komunikat z instrukcją
+    // zamiast wyników - tak jak wcześniej bez klucza.
     countryCode: "PL",
     radiusKm: 50,
     limit: 30
+  },
+  // Wspólny proxy dla kluczy API, których appka NIE powinna trzymać
+  // po stronie klienta (Mapillary - kafelki pokrycia, Ticketmaster -
+  // wydarzenia). To ten sam Worker Cloudflare co synchronizacja
+  // ustawień (cloudflare-sync-worker/) - wdrażasz go raz (patrz
+  // README-DEPLOY.md w tamtym folderze) i wklejasz tu jego adres.
+  // Puste ("") = te dwie funkcje appki są wyłączone, tak jak przy
+  // braku kluczy wcześniej.
+  proxy: {
+    baseUrl: "https://odwrotnamapa-sync.odwrotnamapa.workers.dev"
   },
   sync: {
     // Publiczne przekaźniki Nostr używane do synchronizacji ustawień -

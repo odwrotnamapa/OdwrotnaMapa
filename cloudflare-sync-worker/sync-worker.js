@@ -1,18 +1,44 @@
-// Odwrotna Mapa - Worker synchronizacji ustawień
-// ------------------------------------------------
-// Ten Worker NIGDY nie widzi ani seeda, ani odszyfrowanej treści
-// ustawień - przechowuje wyłącznie nieprzezroczysty (zaszyfrowany
-// po stronie przeglądarki) ciąg znaków pod kluczem będącym hashem
-// seeda (accountId). To dokładnie model "zero-knowledge sync"
-// (jak Bitwarden) - kompromitacja tego serwera nie ujawnia treści
-// niczyich ustawień, tylko losowo wyglądające zaszyfrowane bloby.
+// Odwrotna Mapa - Worker synchronizacji ustawień + proxy kluczy API
+// -------------------------------------------------------------------
+// Część 1 (/sync/...): Ten Worker NIGDY nie widzi ani seeda, ani
+// odszyfrowanej treści ustawień - przechowuje wyłącznie
+// nieprzezroczysty (zaszyfrowany po stronie przeglądarki) ciąg
+// znaków pod kluczem będącym hashem seeda (accountId). To dokładnie
+// model "zero-knowledge sync" (jak Bitwarden) - kompromitacja tego
+// serwera nie ujawnia treści niczyich ustawień, tylko losowo
+// wyglądające zaszyfrowane bloby.
+//
+// Część 2 (/mapillary/tiles/... i /events): proxy do Mapillary
+// (warstwa pokrycia zdjęć poziomu ulicy) i Ticketmaster Discovery
+// API (sekcja "Wydarzenia"). W przeciwieństwie do /sync/, te dwa
+// zewnętrzne API WYMAGAJĄ prawdziwego, tajnego klucza - nie da się
+// tego "zaszyfrować po stronie klienta" tak jak ustawień, bo to
+// klucz do CUDZEGO serwisu, nie nasze dane. Jedyny sposób, żeby
+// klucz nie trafił do przeglądarki użytkownika (i np. nie wyciekł
+// z repo na GitHubie), to trzymać go tutaj, jako sekret Workera
+// (patrz README-DEPLOY.md - `wrangler secret put`), i żeby to ten
+// Worker doklejał go do żądania, zanim poleci ono do Mapillary /
+// Ticketmastera. Klient zna tylko adres tego Workera, nigdy klucz.
+//
+// Wyjątek: sam widok zdjęcia poziomu ulicy (biblioteka mapillary-js,
+// `OMAP_STREETVIEW`) łączy się z Mapillary bezpośrednio z
+// przeglądarki i wymaga WŁASNEGO tokenu klienckiego przekazanego
+// wprost do jej Viewera - tego pojedynczego przypadku nie da się
+// przepuścić przez ten proxy bez forkowania biblioteki. Mapillary
+// samo projektuje takie tokeny jako publiczne/klienckie (jak
+// publiczny token Mapboksa), więc to nie jest błąd, tylko
+// ograniczenie tamtej biblioteki - użyj do tego osobnego,
+// dedykowanego tokenu (patrz komentarz w config.js), żeby ewentualny
+// wyciek nie dotyczył też pozostałych kluczy.
 //
 // Wymaga: KV namespace podpięty pod binding "SYNC_KV" (patrz
-// wrangler.toml i README-DEPLOY.md w tym samym folderze).
+// wrangler.toml i README-DEPLOY.md w tym samym folderze) oraz dwóch
+// sekretów: MAPILLARY_TOKEN i TICKETMASTER_API_KEY.
 
 const ALLOWED_ORIGIN = "https://odwrotnamapa.pl";
 const MAX_BLOB_BYTES = 220000; // ~220 KB - z zapasem na ulubione miejsca, motywy kolorystyczne itp. (bez tekstur - te celowo nie są synchronizowane)
 const RATE_LIMIT_WRITES_PER_MINUTE = 20;
+const RATE_LIMIT_PROXY_PER_MINUTE = 60; // na adres IP, wspólne dla /mapillary i /events
 
 function corsHeaders(origin) {
   const allowOrigin = origin === ALLOWED_ORIGIN ? origin : ALLOWED_ORIGIN;
@@ -49,6 +75,101 @@ async function checkRateLimit(env, accountId) {
   return true;
 }
 
+// Prosty rate-limit per adres IP dla /mapillary i /events. Bez tego
+// każdy, kto trafi na adres tego Workera, mógłby jednym skryptem
+// wyczerpać darmowy limit zapytań do Mapillary/Ticketmastera opłacony
+// (czy raczej: przyznany za darmo) na Twoje konto - Worker chroni
+// klucz przed WYCIEKIEM, ale sam w sobie nie chroni przed
+// NADUŻYCIEM, więc dokładamy to osobno.
+async function checkProxyRateLimit(env, request, bucketName) {
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const bucket = Math.floor(Date.now() / 60000);
+  const key = `rlp:${bucketName}:${ip}:${bucket}`;
+  const current = Number((await env.SYNC_KV.get(key)) || "0");
+  if (current >= RATE_LIMIT_PROXY_PER_MINUTE) {
+    return false;
+  }
+  await env.SYNC_KV.put(key, String(current + 1), { expirationTtl: 90 });
+  return true;
+}
+
+// GET /mapillary/tiles/{z}/{x}/{y} - odpowiednik warstwy pokrycia
+// Mapillary (tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}),
+// tylko że token dokleja Worker, nie przeglądarka.
+async function handleMapillaryTiles(request, env, origin, z, x, y) {
+  if (!/^\d+$/.test(z) || !/^\d+$/.test(x) || !/^\d+$/.test(y)) {
+    return jsonResponse({ error: "invalid_tile_coords" }, 400, origin);
+  }
+  if (!env.MAPILLARY_TOKEN) {
+    return jsonResponse({ error: "mapillary_not_configured" }, 501, origin);
+  }
+  const allowed = await checkProxyRateLimit(env, request, "mapillary");
+  if (!allowed) {
+    return jsonResponse({ error: "rate_limited" }, 429, origin);
+  }
+
+  const upstreamUrl = `https://tiles.mapillary.com/maps/vtp/mly1_public/2/${z}/${x}/${y}?access_token=${env.MAPILLARY_TOKEN}`;
+  const upstreamResponse = await fetch(upstreamUrl);
+  const headers = {
+    ...corsHeaders(origin),
+    "Content-Type":
+      upstreamResponse.headers.get("Content-Type") ||
+      "application/x-protobuf",
+    // Kafelki wektorowe pokrycia są praktycznie statyczne w skali
+    // godzin - cache po stronie Cloudflare/przeglądarki znacznie
+    // ogranicza liczbę zapytań, które faktycznie zużywają limit
+    // Mapillary.
+    "Cache-Control": "public, max-age=3600"
+  };
+  return new Response(upstreamResponse.body, {
+    status: upstreamResponse.status,
+    headers
+  });
+}
+
+// GET /events?... - proxy do Ticketmaster Discovery API. Klient
+// wysyła te same parametry co wcześniej bezpośrednio do
+// Ticketmastera (latlong, radius, countryCode, size, sort, locale,
+// startDateTime), OPRÓCZ apikey - ten dokleja Worker z sekretu.
+async function handleEventsProxy(request, env, origin, url) {
+  if (!env.TICKETMASTER_API_KEY) {
+    return jsonResponse({ error: "events_not_configured" }, 501, origin);
+  }
+  const allowed = await checkProxyRateLimit(env, request, "events");
+  if (!allowed) {
+    return jsonResponse({ error: "rate_limited" }, 429, origin);
+  }
+
+  const upstreamUrl = new URL(
+    "https://app.ticketmaster.com/discovery/v2/events.json"
+  );
+  // Przepisujemy tylko znaną, oczekiwaną listę parametrów - nie
+  // pozwalamy klientowi wstrzyknąć dowolnych parametrów Ticketmastera
+  // (np. apikey innego konta) przez ten proxy.
+  const passthroughParams = [
+    "latlong",
+    "radius",
+    "unit",
+    "countryCode",
+    "size",
+    "sort",
+    "locale",
+    "startDateTime"
+  ];
+  for (const param of passthroughParams) {
+    const value = url.searchParams.get(param);
+    if (value !== null) upstreamUrl.searchParams.set(param, value);
+  }
+  upstreamUrl.searchParams.set("apikey", env.TICKETMASTER_API_KEY);
+
+  const upstreamResponse = await fetch(upstreamUrl);
+  const body = await upstreamResponse.text();
+  return new Response(body, {
+    status: upstreamResponse.status,
+    headers: { "Content-Type": "application/json", ...corsHeaders(origin) }
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -56,6 +177,18 @@ export default {
 
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
+    }
+
+    const tilesMatch = url.pathname.match(
+      /^\/mapillary\/tiles\/(\d+)\/(\d+)\/(\d+)$/
+    );
+    if (tilesMatch && request.method === "GET") {
+      const [, z, x, y] = tilesMatch;
+      return handleMapillaryTiles(request, env, origin, z, x, y);
+    }
+
+    if (url.pathname === "/events" && request.method === "GET") {
+      return handleEventsProxy(request, env, origin, url);
     }
 
     const match = url.pathname.match(/^\/sync\/([a-f0-9]{64})$/);

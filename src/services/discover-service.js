@@ -742,15 +742,20 @@
   }
 
   // Sekcja "Wydarzenia" nie ma odpowiednika w OSM, więc zamiast
-  // Nominatim/Overpass pyta Ticketmaster Discovery API o wydarzenia
-  // w promieniu wokół środka aktualnie widocznego obszaru mapy.
-  // Wymaga darmowego klucza API (CONFIG.events.apiKey) - patrz
-  // config.js. Zwraca obiekty w kształcie zgodnym z resztą
+  // Nominatim/Overpass pyta Ticketmaster Discovery API (przez proxy
+  // Workera - CONFIG.proxy.baseUrl, patrz config.js i
+  // cloudflare-sync-worker/sync-worker.js - to Worker dokleja klucz,
+  // appka go nie zna) o wydarzenia w promieniu wokół środka aktualnie
+  // widocznego obszaru mapy. Zwraca obiekty w kształcie zgodnym z resztą
   // discover-service (lat/lon/tags.name), plus dodatkowe pola
   // isEvent/eventUrl/eventDateLabel/venueName używane przez
   // renderDiscoverResults() do innego renderowania i otwierania.
   async function fetchDiscoverEvents(signal) {
     const eventsConfig = ctx.CONFIG.events || {};
+    const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
+    if (!proxyBaseUrl) {
+      throw new Error("Events proxy not configured");
+    }
     const bounds = ctx.map.getBounds();
     const center = ctx.map.getCenter();
 
@@ -769,8 +774,7 @@
       )
     );
 
-    const url = new URL(eventsConfig.endpoint);
-    url.searchParams.set("apikey", eventsConfig.apiKey);
+    const url = new URL(`${proxyBaseUrl}/events`);
     url.searchParams.set("latlong", `${center.lat},${center.lng}`);
     url.searchParams.set("radius", String(radiusKm));
     url.searchParams.set("unit", "km");
@@ -1434,7 +1438,7 @@
       if (ctx.el.discoverEventsNext) ctx.el.discoverEventsNext.hidden = true;
     }
 
-    if (!ctx.CONFIG.events?.apiKey) {
+    if (!ctx.CONFIG.proxy?.baseUrl) {
       eventsSectionRequestController?.abort();
       hideEventsListAndArrows();
       ctx.el.discoverEventsStatus.hidden = false;

@@ -17,15 +17,22 @@
     ctx = newCtx;
   }
 
+  function mapillaryTilesUrl() {
+    // Kafelki pokrycia idą przez proxy Workera (token dokleja Worker
+    // po swojej stronie) - patrz config.js `proxy.baseUrl` i
+    // cloudflare-sync-worker/sync-worker.js.
+    const base = ctx.CONFIG.proxy?.baseUrl;
+    return base ? `${base}/mapillary/tiles/{z}/{x}/{y}` : null;
+  }
+
   function ensureMapillaryCoverage() {
-    if (!ctx.CONFIG.mapillary?.accessToken) return false;
+    const tilesUrl = mapillaryTilesUrl();
+    if (!tilesUrl) return false;
     if (ctx.map.getSource(ctx.CONFIG.mapillary.sourceId)) return true;
 
     ctx.map.addSource(ctx.CONFIG.mapillary.sourceId, {
       type: "vector",
-      tiles: [
-        `${ctx.CONFIG.mapillary.coverageTiles}?access_token=${ctx.CONFIG.mapillary.accessToken}`
-      ],
+      tiles: [tilesUrl],
       minzoom: 6,
       maxzoom: 14
     });
@@ -64,7 +71,7 @@
   function toggleMapillaryCoverage() {
     const t = ctx.text[ctx.state.language];
 
-    if (!ctx.CONFIG.mapillary?.accessToken) {
+    if (!mapillaryTilesUrl()) {
       show(t.streetviewUnavailable);
       return;
     }

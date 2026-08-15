@@ -6,5 +6,10 @@ compatibility_date = "2026-08-01"
 #   wrangler kv namespace create SYNC_KV
 # a następnie wklej zwrócony "id" poniżej.
 kv_namespaces = [
-  { binding = "SYNC_KV", id = "WKLEJ_TU_ID_NAMESPACE" }
+  { binding = "SYNC_KV", id = "90782ef0004d49bb8f9c5e7e67db9b5d" }
 ]
+
+# Sekrety dla proxy /mapillary/tiles i /events - NIE wpisuj ich tutaj
+# (ten plik trafia do repo). Ustaw je poleceniem (patrz README-DEPLOY.md):
+#   wrangler secret put MAPILLARY_TOKEN
+#   wrangler secret put TICKETMASTER_API_KEY

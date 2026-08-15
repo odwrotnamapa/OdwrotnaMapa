@@ -1,8 +1,21 @@
-# Wdrożenie Workera synchronizacji (za darmo, bez własnego serwera)
+# Wdrożenie Workera synchronizacji + proxy kluczy API (za darmo, bez własnego serwera)
 
 Ten folder to osobna, mała usługa backendowa - **nie jest częścią**
 statycznej strony w `www/`/katalogu głównym. Wdrażasz ją raz, osobno,
 na darmowym koncie Cloudflare.
+
+Worker robi teraz dwie niezależne rzeczy:
+
+1. `/sync/...` - zero-knowledge sync ustawień (opisane niżej).
+2. `/mapillary/tiles/{z}/{x}/{y}` i `/events` - proxy do Mapillary
+   (warstwa pokrycia zdjęć poziomu ulicy) i Ticketmaster Discovery
+   API (sekcja "Wydarzenia"). Dzięki temu klucze do tych dwóch usług
+   nie muszą już siedzieć w `config.js` (a więc i w publicznym repo)
+   - Worker trzyma je jako sekrety i dokleja do żądania po swojej
+     stronie. Krok 3a poniżej pokazuje, jak je ustawić; jeśli nie
+     korzystasz z Mapillary/Ticketmastera, możesz ten krok pominąć -
+     odpowiednie sekcje appki po prostu pokażą komunikat "brak
+     klucza", tak jak dotychczas.
 
 ## Dlaczego Cloudflare Workers?
 
@@ -30,6 +43,20 @@ na darmowym koncie Cloudflare.
    ```
    Skopiuj `id` i wklej je w `wrangler.toml` w miejsce
    `WKLEJ_TU_ID_NAMESPACE`.
+3a. (Opcjonalnie, jeśli chcesz warstwy Mapillary/Ticketmastera bez
+    trzymania kluczy w `config.js`) Ustaw sekrety Workera - CLI
+    zapyta o wartość interaktywnie, więc klucz nigdy nie trafia do
+    pliku ani do historii poleceń:
+    ```
+    wrangler secret put MAPILLARY_TOKEN
+    wrangler secret put TICKETMASTER_API_KEY
+    ```
+    Klucz Mapillary weź z https://www.mapillary.com/dashboard/developers
+    ("Client token" / "Access token" aplikacji), Ticketmaster z
+    https://developer.ticketmaster.com/ ("Consumer Key"). Uwaga:
+    to POWINNY być inne tokeny niż ten wpisany w `config.js` pod
+    `mapillary.accessToken` (patrz niżej) - ten drugi i tak zostaje
+    publiczny, bo wymaga tego biblioteka przeglądarkowa mapillary-js.
 4. Wdróż Workera:
    ```
    wrangler deploy
@@ -42,15 +69,23 @@ na darmowym koncie Cloudflare.
    `sync.odwrotnamapa.pl`, w panelu Cloudflare - Workers Routes -
    ale to opcjonalne, adres `workers.dev` działa od razu.)
 5. Wklej ten adres do `config.js` (i w `www/config.js`) w polu
-   `sync.apiBaseUrl`, np.:
+   `proxy.baseUrl`, np.:
    ```js
-   sync: {
-     apiBaseUrl: "https://odwrotnamapa-sync.twoja-nazwa.workers.dev",
-     wordCount: 16
+   proxy: {
+     baseUrl: "https://odwrotnamapa-sync.twoja-nazwa.workers.dev"
    }
    ```
-6. Wgraj zaktualizowany `config.js` na swój hosting - i gotowe,
-   przycisk "Konto" w appce zacznie faktycznie synchronizować.
+   Ten sam adres obsługuje zarówno sync, jak i (jeśli ustawiłeś
+   sekrety w kroku 3a) proxy Mapillary/Ticketmastera - nic więcej nie
+   trzeba dopisywać, `config.js` już wie, jak z niego korzystać.
+6. Usuń (albo zostaw puste) `mapillary.accessToken` i
+   `events.apiKey` w `config.js`, chyba że chcesz też widoku zdjęć
+   poziomu ulicy (Viewer) - patrz komentarz przy tym polu w
+   `config.js`, dlaczego ten jeden token zostaje publiczny mimo
+   proxy.
+7. Wgraj zaktualizowany `config.js` na swój hosting - i gotowe,
+   przycisk "Konto" (sync) oraz warstwa Mapillary/sekcja Wydarzenia
+   w appce zaczną korzystać z Workera zamiast kluczy w kodzie.
 
 ## Co warto wiedzieć o bezpieczeństwie tego rozwiązania
 
@@ -69,3 +104,16 @@ na darmowym koncie Cloudflare.
   świadomy kompromis dla prostoty. Jeśli kiedyś będzie to
   problemem, można dodać po stronie klienta sprawdzanie, czy
   pobrany `updatedAt` nie jest starszy niż ostatnio znany.
+- `/mapillary/tiles` i `/events` mają osobny rate-limit (60
+  zapytań/minutę na adres IP) i CORS ograniczony do
+  `odwrotnamapa.pl` - to ogranicza, ale NIE eliminuje ryzyka, że
+  ktoś skryptem odpyta Twojego Workera bezpośrednio (z pominięciem
+  przeglądarki, więc bez CORS) i zużyje część darmowego limitu
+  Mapillary/Ticketmastera. Sam klucz jednak nigdy nie wycieka - w
+  najgorszym razie ktoś zużyje limit zapytań, nie przejmie konta.
+- Token wklejony w `config.js` pod `mapillary.accessToken` (dla
+  panelu zdjęć poziomu ulicy) POZOSTAJE widoczny w przeglądarce -
+  to nie jest błąd tej konfiguracji, tylko właściwość biblioteki
+  mapillary-js, która sama łączy się z Mapillary z poziomu klienta.
+  Zarejestruj dla niego osobną aplikację w panelu Mapillary, żeby
+  jego ewentualny wyciek nie dotyczył pozostałych kluczy.
