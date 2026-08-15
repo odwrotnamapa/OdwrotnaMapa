@@ -36,12 +36,23 @@
 // sekretów: MAPILLARY_TOKEN i TICKETMASTER_API_KEY.
 
 const ALLOWED_ORIGIN = "https://odwrotnamapa.pl";
+// Dodatkowe originy dozwolone dla CORS - poza produkcyjną domeną,
+// żeby dało się testować lokalnie (np. `./run.sh`, który serwuje
+// stronę pod http://localhost:8000). To nie jest realne
+// zabezpieczenie przed nadużyciem (Origin można sfałszować spoza
+// przeglądarki, np. z curl) - patrz rate-limit per IP niżej, który
+// faktycznie ogranicza zużycie limitu Mapillary/Ticketmastera.
+// Jeśli testujesz na innym porcie/hoście, dopisz go tutaj.
+const DEV_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"];
+const ALL_ALLOWED_ORIGINS = [ALLOWED_ORIGIN, ...DEV_ORIGINS];
 const MAX_BLOB_BYTES = 220000; // ~220 KB - z zapasem na ulubione miejsca, motywy kolorystyczne itp. (bez tekstur - te celowo nie są synchronizowane)
 const RATE_LIMIT_WRITES_PER_MINUTE = 20;
 const RATE_LIMIT_PROXY_PER_MINUTE = 60; // na adres IP, wspólne dla /mapillary i /events
 
 function corsHeaders(origin) {
-  const allowOrigin = origin === ALLOWED_ORIGIN ? origin : ALLOWED_ORIGIN;
+  const allowOrigin = ALL_ALLOWED_ORIGINS.includes(origin)
+    ? origin
+    : ALLOWED_ORIGIN;
   return {
     "Access-Control-Allow-Origin": allowOrigin,
     "Access-Control-Allow-Methods": "GET, PUT, OPTIONS",
