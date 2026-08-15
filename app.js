@@ -310,6 +310,13 @@
       discoverFound: count => `Znaleziono ${count} miejsc.`,
       discoverEmpty: "Brak wyników w aktualnym widoku.",
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
+      discoverEventsMissingKey: "Sekcja wydarzeń wymaga darmowego klucza Ticketmaster Discovery API - dodaj go w config.js (events.apiKey).",
+      discoverEventsBuyTickets: "Zobacz bilety →",
+      discoverEventsTitle: "Wydarzenia w pobliżu",
+      discoverEventsLoading: "Szukam wydarzeń w okolicy…",
+      discoverEventsEmpty: "Brak nadchodzących wydarzeń w tej okolicy.",
+      discoverEventsZoomIn: "Przybliż mapę, aby zobaczyć wydarzenia w okolicy.",
+      discoverEventsError: "Nie udało się wczytać wydarzeń.",
       discoverCategoryGroups: {
         food: "Jedzenie i picie",
         stay: "Noclegi",
@@ -799,6 +806,13 @@
       discoverFound: count => `Found ${count} places.`,
       discoverEmpty: "No results in the current map view.",
       discoverZooming: "Zooming in to the search area…",
+      discoverEventsMissingKey: "The events section needs a free Ticketmaster Discovery API key - add one in config.js (events.apiKey).",
+      discoverEventsBuyTickets: "See tickets →",
+      discoverEventsTitle: "Nearby events",
+      discoverEventsLoading: "Looking for nearby events…",
+      discoverEventsEmpty: "No upcoming events in this area.",
+      discoverEventsZoomIn: "Zoom in to see nearby events.",
+      discoverEventsError: "Couldn't load events.",
       discoverCategoryGroups: {
         food: "Food & drink",
         stay: "Lodging",
@@ -1721,6 +1735,12 @@
     routeBack: $("route-back"),
     discoverTitle: $("discover-title"),
     discoverNote: $("discover-note"),
+    discoverEventsSection: $("discover-events-section"),
+    discoverEventsTitle: $("discover-events-title"),
+    discoverEventsStatus: $("discover-events-status"),
+    discoverEventsList: $("discover-events-list"),
+    discoverEventsPrev: $("discover-events-prev"),
+    discoverEventsNext: $("discover-events-next"),
     discoverCategories: $("discover-categories"),
     discoverSearch: $("discover-search"),
     discoverSearchClear: $("discover-search-clear"),
@@ -2767,6 +2787,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     el.discoverButton?.setAttribute("aria-label", t.discoverTitle);
     el.discoverClose?.setAttribute("aria-label", t.discoverClose);
     if (el.discoverNote) el.discoverNote.textContent = t.discoverNote;
+    if (el.discoverEventsTitle) el.discoverEventsTitle.textContent = t.discoverEventsTitle;
     if (el.discoverClear) el.discoverClear.textContent = t.discoverClear;
     for (const button of el.discoverCategories?.querySelectorAll(
       "[data-discover-category]"
@@ -5423,6 +5444,7 @@ function applyLanguage(language) {
     el.discoverPanel.hidden = !shouldOpen;
     if (shouldOpen) {
       openMobilePanelStandard(el.discoverPanel, "--sheet-height");
+      window.OMAP_DISCOVER?.refreshEvents();
     }
     
     el.discoverButton?.setAttribute("aria-expanded", String(shouldOpen));
@@ -5452,6 +5474,7 @@ el.discoverButton?.setAttribute(
     el.discoverButton?.classList.add("is-active");
     el.mobileDiscoverButton?.setAttribute("aria-expanded", "true");
     el.mobileDiscoverButton?.classList.add("is-active");
+    window.OMAP_DISCOVER?.refreshEvents();
   }
 
   function returnFromDiscoverToPlace() {
@@ -6406,6 +6429,7 @@ function showUserLocationMarker(lngLat) {
       "true"
     );
     el.mobileDiscoverButton?.classList.add("is-active");
+    window.OMAP_DISCOVER?.refreshEvents();
   }
 
 

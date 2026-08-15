@@ -64,6 +64,18 @@ window.SOUTHMAPS_CONFIG = Object.freeze({
     exploreLimit: 25,
     limit: 5
   },
+  events: {
+    // Sekcja "Wydarzenia" w panelu Odkrywaj korzysta z Ticketmaster
+    // Discovery API (obsługuje Polskę - koncerty, sport, teatr itp.).
+    // Załóż darmowe konto na https://developer.ticketmaster.com/,
+    // utwórz aplikację i wklej tu jej "Consumer Key" jako apiKey.
+    // Bez klucza sekcja pokaże komunikat z instrukcją zamiast wyników.
+    endpoint: "https://app.ticketmaster.com/discovery/v2/events.json",
+    apiKey: "sBVbc9kE56Z7B2GS0xs2f9YIfF9yLjGB",
+    countryCode: "PL",
+    radiusKm: 50,
+    limit: 30
+  },
   sync: {
     // Publiczne przekaźniki Nostr używane do synchronizacji ustawień -
     // w pełni zdecentralizowane, bez konieczności zakładania konta

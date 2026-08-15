@@ -2851,6 +2851,166 @@ a.place-card-row {
   line-height: 1.45;
 }
 
+.discover-events-section {
+  margin: 0 0 16px;
+}
+
+.discover-events-title {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.discover-events-status {
+  margin: 0;
+  padding: 9px 10px;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.discover-events-status[hidden],
+.discover-events-list[hidden] {
+  display: none;
+}
+
+.discover-events-list {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 2px 2px 6px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.discover-events-list::-webkit-scrollbar {
+  display: none;
+}
+
+.discover-events-list > li {
+  flex: 0 0 auto;
+}
+
+.discover-events-scroller {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.discover-events-scroller > .discover-events-list {
+  flex: 1;
+  min-width: 0;
+}
+
+.discover-events-arrow {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin: 0 2px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface, #fff);
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.discover-events-arrow:hover,
+.discover-events-arrow:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.discover-events-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.discover-events-arrow[hidden] {
+  display: none;
+}
+
+
+.discover-event-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 168px;
+  min-height: 78px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.discover-event-card:hover,
+.discover-event-card:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(
+    in srgb,
+    var(--accent) 12%,
+    transparent
+  );
+}
+
+.discover-event-thumb {
+  display: block;
+  width: 100%;
+  height: 84px;
+  background-color: var(--surface-alt, rgba(128, 128, 128, 0.12));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.discover-event-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px 9px;
+}
+
+.discover-event-date {
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.discover-event-name {
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.discover-event-venue {
+  color: var(--muted);
+  font-size: 0.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .discover-search-row {
   display: flex;
   align-items: center;

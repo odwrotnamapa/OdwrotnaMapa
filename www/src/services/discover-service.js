@@ -725,6 +725,128 @@
     }
   }
 
+  // Odległość w km między dwoma punktami (Haversine) - używana do
+  // wyliczenia promienia zapytania do Ticketmastera na podstawie
+  // aktualnie widocznego obszaru mapy (od środka do rogu widoku).
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const toRad = deg => (deg * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.asin(Math.sqrt(a));
+  }
+
+  // Sekcja "Wydarzenia" nie ma odpowiednika w OSM, więc zamiast
+  // Nominatim/Overpass pyta Ticketmaster Discovery API o wydarzenia
+  // w promieniu wokół środka aktualnie widocznego obszaru mapy.
+  // Wymaga darmowego klucza API (CONFIG.events.apiKey) - patrz
+  // config.js. Zwraca obiekty w kształcie zgodnym z resztą
+  // discover-service (lat/lon/tags.name), plus dodatkowe pola
+  // isEvent/eventUrl/eventDateLabel/venueName używane przez
+  // renderDiscoverResults() do innego renderowania i otwierania.
+  async function fetchDiscoverEvents(signal) {
+    const eventsConfig = ctx.CONFIG.events || {};
+    const bounds = ctx.map.getBounds();
+    const center = ctx.map.getCenter();
+
+    const radiusKm = Math.min(
+      500,
+      Math.max(
+        5,
+        Math.ceil(
+          haversineKm(
+            center.lat,
+            center.lng,
+            bounds.getNorth(),
+            bounds.getEast()
+          )
+        )
+      )
+    );
+
+    const url = new URL(eventsConfig.endpoint);
+    url.searchParams.set("apikey", eventsConfig.apiKey);
+    url.searchParams.set("latlong", `${center.lat},${center.lng}`);
+    url.searchParams.set("radius", String(radiusKm));
+    url.searchParams.set("unit", "km");
+    url.searchParams.set(
+      "countryCode",
+      eventsConfig.countryCode || "PL"
+    );
+    url.searchParams.set("size", String(eventsConfig.limit || 30));
+    url.searchParams.set("sort", "date,asc");
+    url.searchParams.set(
+      "locale",
+      ctx.state.language === "pl" ? "pl-pl" : "en-us"
+    );
+    // Tylko nadchodzące wydarzenia - Discovery API domyślnie
+    // potrafi zwracać też te, które już się odbyły.
+    url.searchParams.set(
+      "startDateTime",
+      new Date().toISOString().replace(/\.\d{3}Z$/, "Z")
+    );
+
+    const response = await fetch(url, { signal });
+
+    if (!response.ok) {
+      throw new Error(`Ticketmaster HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const events = data._embedded?.events || [];
+    const results = [];
+
+    for (const event of events) {
+      const venue = event._embedded?.venues?.[0];
+      const lat = Number(venue?.location?.latitude);
+      const lon = Number(venue?.location?.longitude);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) continue;
+
+      const startDate = event.dates?.start?.localDate || "";
+      const startTime = event.dates?.start?.localTime || "";
+      const dateLabel = startTime
+        ? `${startDate} ${startTime.slice(0, 5)}`
+        : startDate;
+
+      // Ticketmaster zwraca ten sam kadr w kilku rozdzielczościach -
+      // wybieramy najbliższą docelowej szerokości karty (16:9,
+      // ~izbliżone do 200-400px), żeby nie ściągać niepotrzebnie
+      // dużych plików do małej miniaturki.
+      const image = (event.images || [])
+        .filter(img => img?.url && img.width)
+        .sort(
+          (a, b) => Math.abs(a.width - 300) - Math.abs(b.width - 300)
+        )[0];
+
+      results.push({
+        id: event.id,
+        type: "event",
+        lat,
+        lon,
+        category: "event",
+        placeClass: "event",
+        placeType: "event",
+        isEvent: true,
+        eventUrl: event.url || "",
+        eventDateLabel: dateLabel,
+        eventImageUrl: image?.url || "",
+        venueName: venue?.name || "",
+        tags: {
+          name: event.name || ""
+        },
+        address: {},
+        namedetails: {}
+      });
+    }
+
+    return results;
+  }
+
   async function fetchDiscoverFromNominatim(category, signal) {
     const bounds = ctx.map.getBounds();
 
@@ -1258,6 +1380,261 @@
     }
   }
 
+  // ---------------------------------------------------------------
+  // Sekcja "Wydarzenia w pobliżu" - w odróżnieniu od reszty kategorii
+  // NIE wymaga kliknięcia. Jest częścią panelu Odkrywaj widoczną od
+  // razu po jego otwarciu i odświeża się automatycznie przy ruchu
+  // mapy (o ile panel jest otwarty). Dane z Ticketmaster Discovery
+  // API - patrz fetchDiscoverEvents() i CONFIG.events w config.js.
+  // ---------------------------------------------------------------
+
+  const EVENTS_SECTION_CACHE_TTL_MS = 90000;
+  const eventsSectionCache = new Map();
+  let eventsSectionRequestController = null;
+  let eventsMoveendBound = false;
+  let eventsMoveendTimer = null;
+
+  function buildEventsSectionCacheKey() {
+    const bounds = ctx.map.getBounds();
+    const round = value => Math.round(value * 1000) / 1000;
+    return [
+      round(bounds.getSouth()),
+      round(bounds.getWest()),
+      round(bounds.getNorth()),
+      round(bounds.getEast())
+    ].join("|");
+  }
+
+  function bindEventsSectionMoveendListener() {
+    if (eventsMoveendBound || !ctx.map) return;
+    eventsMoveendBound = true;
+
+    // Debounce - użytkownik przesuwający/zoomujący mapę generuje
+    // dużo "moveend" w krótkim czasie, a każde odświeżenie to
+    // zapytanie sieciowe.
+    ctx.map.on("moveend", () => {
+      if (!ctx.el.discoverPanel || ctx.el.discoverPanel.hidden) return;
+      clearTimeout(eventsMoveendTimer);
+      eventsMoveendTimer = setTimeout(refreshDiscoverEventsSection, 400);
+    });
+  }
+
+  async function refreshDiscoverEventsSection() {
+    if (!ctx.el.discoverEventsSection) return;
+    if (!ctx.el.discoverPanel || ctx.el.discoverPanel.hidden) return;
+
+    bindEventsSectionMoveendListener();
+
+    const t = ctx.text[ctx.state.language];
+
+    function hideEventsListAndArrows() {
+      ctx.el.discoverEventsList.hidden = true;
+      ctx.el.discoverEventsList.replaceChildren();
+      if (ctx.el.discoverEventsPrev) ctx.el.discoverEventsPrev.hidden = true;
+      if (ctx.el.discoverEventsNext) ctx.el.discoverEventsNext.hidden = true;
+    }
+
+    if (!ctx.CONFIG.events?.apiKey) {
+      eventsSectionRequestController?.abort();
+      hideEventsListAndArrows();
+      ctx.el.discoverEventsStatus.hidden = false;
+      ctx.el.discoverEventsStatus.textContent = t.discoverEventsMissingKey;
+      return;
+    }
+
+    if (ctx.map.getZoom() < 10) {
+      eventsSectionRequestController?.abort();
+      hideEventsListAndArrows();
+      ctx.el.discoverEventsStatus.hidden = false;
+      ctx.el.discoverEventsStatus.textContent = t.discoverEventsZoomIn;
+      return;
+    }
+
+    const cacheKey = buildEventsSectionCacheKey();
+    const cached = eventsSectionCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < EVENTS_SECTION_CACHE_TTL_MS) {
+      renderDiscoverEventsSection(cached.events);
+      return;
+    }
+
+    eventsSectionRequestController?.abort();
+    const requestController = new AbortController();
+    eventsSectionRequestController = requestController;
+
+    ctx.el.discoverEventsStatus.hidden = false;
+    ctx.el.discoverEventsStatus.textContent = t.discoverEventsLoading;
+    hideEventsListAndArrows();
+
+    try {
+      const events = await fetchDiscoverEvents(requestController.signal);
+      if (requestController !== eventsSectionRequestController) return;
+      eventsSectionCache.set(cacheKey, { events, timestamp: Date.now() });
+      renderDiscoverEventsSection(events);
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      console.error(error);
+      ctx.el.discoverEventsStatus.hidden = false;
+      ctx.el.discoverEventsStatus.textContent = t.discoverEventsError;
+      hideEventsListAndArrows();
+    } finally {
+      if (requestController === eventsSectionRequestController) {
+        eventsSectionRequestController = null;
+      }
+    }
+  }
+
+  function renderDiscoverEventsSection(events) {
+    const t = ctx.text[ctx.state.language];
+
+    if (!events.length) {
+      ctx.el.discoverEventsStatus.hidden = false;
+      ctx.el.discoverEventsStatus.textContent = t.discoverEventsEmpty;
+      ctx.el.discoverEventsList.hidden = true;
+      ctx.el.discoverEventsList.replaceChildren();
+      if (ctx.el.discoverEventsPrev) ctx.el.discoverEventsPrev.hidden = true;
+      if (ctx.el.discoverEventsNext) ctx.el.discoverEventsNext.hidden = true;
+      return;
+    }
+
+    ctx.el.discoverEventsStatus.hidden = true;
+
+    const fragment = document.createDocumentFragment();
+
+    for (const event of events) {
+      const item = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "discover-event-card";
+
+      if (event.eventImageUrl) {
+        const thumb = document.createElement("span");
+        thumb.className = "discover-event-thumb";
+        thumb.style.backgroundImage = `url("${event.eventImageUrl}")`;
+        button.appendChild(thumb);
+      }
+
+      const body = document.createElement("span");
+      body.className = "discover-event-body";
+
+      const date = document.createElement("span");
+      date.className = "discover-event-date";
+      date.textContent = event.eventDateLabel || "";
+
+      const name = document.createElement("strong");
+      name.className = "discover-event-name";
+      name.textContent = event.tags.name || "";
+
+      const venue = document.createElement("small");
+      venue.className = "discover-event-venue";
+      venue.textContent = event.venueName || "";
+
+      body.append(date, name, venue);
+      button.appendChild(body);
+      button.setAttribute(
+        "aria-label",
+        [event.tags.name, event.eventDateLabel, event.venueName]
+          .filter(Boolean)
+          .join(", ")
+      );
+
+      button.addEventListener("click", () => {
+        ctx.map.easeTo({ center: [event.lon, event.lat], duration: 500 });
+        if (event.eventUrl) {
+          window.open(event.eventUrl, "_blank", "noopener");
+        }
+      });
+
+      item.appendChild(button);
+      fragment.appendChild(item);
+    }
+
+    ctx.el.discoverEventsList.replaceChildren();
+    ctx.el.discoverEventsList.appendChild(fragment);
+    ctx.el.discoverEventsList.hidden = false;
+
+    bindEventsArrowControls();
+    updateEventsArrowState();
+  }
+
+  // ---------------------------------------------------------------
+  // Strzałki przewijania listy wydarzeń - natywne strzałki paska
+  // przewijania przesuwają o mały, stały krok (i przy scroll-snap
+  // czuć wyraźny opór), więc dajemy własne przyciski. Każde
+  // kliknięcie przewija dokładnie o jedną kartę: znajduje kartę
+  // najbliższą lewej/prawej krawędzi widocznego obszaru i przewija
+  // tak, by to ona znalazła się na początku.
+  // ---------------------------------------------------------------
+
+  let eventsArrowsBound = false;
+
+  function getEventsCardStep() {
+    const list = ctx.el.discoverEventsList;
+    const firstCard = list?.querySelector("li");
+    if (!firstCard) return 176;
+
+    const gap = parseFloat(getComputedStyle(list).columnGap || "8") || 8;
+    return firstCard.getBoundingClientRect().width + gap;
+  }
+
+  function scrollEventsByCards(direction) {
+    const list = ctx.el.discoverEventsList;
+    if (!list) return;
+
+    const step = getEventsCardStep();
+    // Karta "najbliższa" krawędzi w kierunku przewijania mogła być
+    // częściowo widoczna - zaokrąglenie do wielokrotności szerokości
+    // karty gwarantuje, że po kliknięciu zawsze staje równo na
+    // początku, zamiast zostawiać ją w połowie kadru.
+    const target =
+      direction > 0
+        ? (Math.floor(list.scrollLeft / step) + 1) * step
+        : (Math.ceil(list.scrollLeft / step) - 1) * step;
+
+    list.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+  }
+
+  function updateEventsArrowState() {
+    const list = ctx.el.discoverEventsList;
+    if (!list || !ctx.el.discoverEventsPrev || !ctx.el.discoverEventsNext) {
+      return;
+    }
+
+    const canScroll = list.scrollWidth > list.clientWidth + 1;
+    ctx.el.discoverEventsPrev.hidden = !canScroll;
+    ctx.el.discoverEventsNext.hidden = !canScroll;
+    if (!canScroll) return;
+
+    const atStart = list.scrollLeft <= 1;
+    const atEnd =
+      list.scrollLeft + list.clientWidth >= list.scrollWidth - 1;
+
+    ctx.el.discoverEventsPrev.disabled = atStart;
+    ctx.el.discoverEventsNext.disabled = atEnd;
+  }
+
+  function bindEventsArrowControls() {
+    if (eventsArrowsBound) return;
+    eventsArrowsBound = true;
+
+    ctx.el.discoverEventsPrev?.addEventListener("click", () => {
+      scrollEventsByCards(-1);
+    });
+    ctx.el.discoverEventsNext?.addEventListener("click", () => {
+      scrollEventsByCards(1);
+    });
+
+    let scrollUpdateFrame = null;
+    ctx.el.discoverEventsList?.addEventListener("scroll", () => {
+      if (scrollUpdateFrame) return;
+      scrollUpdateFrame = requestAnimationFrame(() => {
+        scrollUpdateFrame = null;
+        updateEventsArrowState();
+      });
+    });
+
+    window.addEventListener("resize", updateEventsArrowState);
+  }
+
   window.OMAP_DISCOVER = {
     configure,
     CATEGORIES: DISCOVER_CATEGORIES,
@@ -1266,6 +1643,7 @@
     normalizeSearchText,
     filterCategories: filterDiscoverCategories,
     run: runDiscoverCategory,
-    clear: clearDiscoverResults
+    clear: clearDiscoverResults,
+    refreshEvents: refreshDiscoverEventsSection
   };
 })();
