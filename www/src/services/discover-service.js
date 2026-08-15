@@ -1714,7 +1714,44 @@
       );
 
       button.addEventListener("click", () => {
-        ctx.map.easeTo({ center: [event.lon, event.lat], duration: 500 });
+        // Wcześniej samo przewijało mapę (easeTo) i - tylko dla
+        // Ticketmastera, bo tylko on ma eventUrl - otwierało bilety w
+        // nowej karcie. Dla PredictHQ (brak eventUrl) nie działo się
+        // nic poza przewinięciem: żaden znacznik, żaden panel miejsca -
+        // wyglądało jak nic się nie stało. Teraz oba źródła przechodzą
+        // przez ten sam OMAP_PLACE_SERVICE.open() co reszta wyników
+        // Discover, więc dostają panel miejsca + wyśrodkowanie/zoom tak
+        // jak każdy inny wynik (patrz adapter "discover" w app.js).
+        const rawPlace = {
+          place_id: event.id,
+          lon: Number(event.lon),
+          lat: Number(event.lat),
+          name: event.tags.name || event.venueName || "",
+          class: "event",
+          type: "event",
+          category: "event",
+          address: {},
+          extratags: {},
+          namedetails: {},
+          isEvent: true,
+          eventSource: event.eventSource,
+          eventUrl: event.eventUrl,
+          eventDateLabel: event.eventDateLabel,
+          eventImageUrl: event.eventImageUrl,
+          venueName: event.venueName,
+          website: event.eventUrl || "",
+          source: "discover",
+          provider: "discover"
+        };
+
+        window.OMAP_PLACE_SERVICE.open(rawPlace, {
+          source: "discover",
+          metadata: { origin: "discover-events" }
+        });
+
+        // Ticketmaster - dodatkowo otwórz bilety w nowej karcie, tak
+        // jak dotychczas (PredictHQ nie ma eventUrl, więc tu nic się
+        // nie dzieje dla tego źródła).
         if (event.eventUrl) {
           window.open(event.eventUrl, "_blank", "noopener");
         }
