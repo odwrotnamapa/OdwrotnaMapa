@@ -757,29 +757,37 @@
   // (lat/lon/tags.name), plus dodatkowe pola
   // isEvent/eventUrl/eventDateLabel/venueName/eventSource używane przez
   // renderDiscoverResults() do innego renderowania i otwierania.
-  async function fetchDiscoverEventsTicketmaster(signal) {
+  async function fetchDiscoverEventsTicketmaster(signal, override = {}) {
     const eventsConfig = ctx.CONFIG.events || {};
     const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
     if (!proxyBaseUrl) {
       throw new Error("Events proxy not configured");
     }
-    const bounds = ctx.map.getBounds();
-    const center = ctx.map.getCenter();
 
-    const radiusKm = Math.min(
-      500,
-      Math.max(
-        5,
-        Math.ceil(
-          haversineKm(
-            center.lat,
-            center.lng,
-            bounds.getNorth(),
-            bounds.getEast()
+    let center, radiusKm;
+    if (override.center) {
+      // Zapytanie o konkretne miejsce (np. teatr/galeria - patrz
+      // fetchNearbyEvents niżej), a nie o cały widoczny obszar mapy.
+      center = override.center;
+      radiusKm = override.radiusKm;
+    } else {
+      const bounds = ctx.map.getBounds();
+      center = ctx.map.getCenter();
+      radiusKm = Math.min(
+        500,
+        Math.max(
+          5,
+          Math.ceil(
+            haversineKm(
+              center.lat,
+              center.lng,
+              bounds.getNorth(),
+              bounds.getEast()
+            )
           )
         )
-      )
-    );
+      );
+    }
 
     const url = new URL(`${proxyBaseUrl}/events`);
     url.searchParams.set("latlong", `${center.lat},${center.lng}`);
@@ -866,29 +874,35 @@
   // powodów co Ticketmaster: appka nie powinna znać tokenu.
   // Dokumentacja promienia/kategorii/dat:
   // https://docs.predicthq.com/api/events/search-events
-  async function fetchDiscoverEventsPredictHQ(signal) {
+  async function fetchDiscoverEventsPredictHQ(signal, override = {}) {
     const eventsConfig = ctx.CONFIG.events || {};
     const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
     if (!proxyBaseUrl) {
       throw new Error("Events proxy not configured");
     }
-    const bounds = ctx.map.getBounds();
-    const center = ctx.map.getCenter();
 
-    const radiusKm = Math.min(
-      500,
-      Math.max(
-        5,
-        Math.ceil(
-          haversineKm(
-            center.lat,
-            center.lng,
-            bounds.getNorth(),
-            bounds.getEast()
+    let center, radiusKm;
+    if (override.center) {
+      center = override.center;
+      radiusKm = override.radiusKm;
+    } else {
+      const bounds = ctx.map.getBounds();
+      center = ctx.map.getCenter();
+      radiusKm = Math.min(
+        500,
+        Math.max(
+          5,
+          Math.ceil(
+            haversineKm(
+              center.lat,
+              center.lng,
+              bounds.getNorth(),
+              bounds.getEast()
+            )
           )
         )
-      )
-    );
+      );
+    }
 
     const url = new URL(`${proxyBaseUrl}/predicthq`);
     url.searchParams.set("within", `${radiusKm}km@${center.lat},${center.lng}`);
@@ -981,10 +995,14 @@
   // jednego źródła (np. brak skonfigurowanego PREDICTHQ_TOKEN na
   // Workerze) nie blokuje drugiego - sekcja po prostu pokaże mniej
   // wyników zamiast błędu, dopóki działa choć jedno źródło.
-  async function fetchDiscoverEvents(signal) {
+  // `override` (opcjonalne { center, radiusKm }) pozwala odpytać o
+  // konkretny punkt zamiast bieżącego widoku mapy - patrz
+  // fetchNearbyEvents() niżej, używane przez sekcję "Nadchodzące
+  // wydarzenia" w kartach teatrów/galerii.
+  async function fetchDiscoverEvents(signal, override = {}) {
     const [ticketmaster, predicthq] = await Promise.allSettled([
-      fetchDiscoverEventsTicketmaster(signal),
-      fetchDiscoverEventsPredictHQ(signal)
+      fetchDiscoverEventsTicketmaster(signal, override),
+      fetchDiscoverEventsPredictHQ(signal, override)
     ]);
 
     if (
@@ -1012,6 +1030,23 @@
     );
 
     return deduped;
+  }
+
+  // Wołane z venue-events-service.js dla kart teatrów/galerii sztuki -
+  // te same dwa źródła (Ticketmaster + PredictHQ) co sekcja
+  // "Wydarzenia", ale w BARDZO małym promieniu wokół KONKRETNEGO
+  // miejsca zamiast całego widoku mapy, więc wynik faktycznie dotyczy
+  // tego miejsca, a nie "czegoś w mieście". Dla galerii sztuki złapie
+  // to głównie odpłatne wernisaże/wydarzenia specjalne - stałe
+  // wystawy bez biletu nie są widoczne w żadnym z tych API, appka
+  // tego świadomie nie udaje.
+  const VENUE_EVENTS_RADIUS_KM = 2;
+
+  async function fetchNearbyEvents(center, signal) {
+    return fetchDiscoverEvents(signal, {
+      center,
+      radiusKm: VENUE_EVENTS_RADIUS_KM
+    });
   }
 
   async function fetchDiscoverFromNominatim(category, signal) {
@@ -1857,6 +1892,7 @@
     filterCategories: filterDiscoverCategories,
     run: runDiscoverCategory,
     clear: clearDiscoverResults,
-    refreshEvents: refreshDiscoverEventsSection
+    refreshEvents: refreshDiscoverEventsSection,
+    fetchNearbyEvents
   };
 })();

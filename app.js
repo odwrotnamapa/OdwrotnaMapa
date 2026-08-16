@@ -599,6 +599,11 @@
       moviesError: "Nie udało się pobrać listy filmów.",
       moviesMissingKey: "Sekcja filmów wymaga skonfigurowania klucza TMDB w config.js.",
       moviesSource: "Źródło: TMDB · ogólny repertuar w Polsce, bez godzin seansów w tym kinie",
+      venueEventsTitle: "Nadchodzące wydarzenia",
+      venueEventsLoading: "Sprawdzanie nadchodzących wydarzeń…",
+      venueEventsEmpty: "Brak nadchodzących wydarzeń w pobliżu tego miejsca.",
+      venueEventsError: "Nie udało się pobrać wydarzeń.",
+      venueEventsMissingKey: "Sekcja wydarzeń wymaga skonfigurowanego proxy (patrz sekcja \"Wydarzenia\" w Odkrywaj).",
       tripTitle: "Kurs",
       tripLoading: "Wczytywanie przystanków…",
       tripEmpty: "Brak informacji o przystankach dla tego kursu.",
@@ -1101,6 +1106,11 @@
       moviesError: "Couldn't load the movie list.",
       moviesMissingKey: "The movies section needs a TMDB key configured in config.js.",
       moviesSource: "Source: TMDB · nationwide listings, not this cinema's showtimes",
+      venueEventsTitle: "Upcoming events",
+      venueEventsLoading: "Checking upcoming events…",
+      venueEventsEmpty: "No upcoming events near this venue.",
+      venueEventsError: "Couldn't load events.",
+      venueEventsMissingKey: "The events section needs the proxy configured (see the \"Events\" section in Discover).",
       tripTitle: "Trip",
       tripLoading: "Loading stops…",
       tripEmpty: "No stop information available for this trip.",
@@ -2190,6 +2200,11 @@ map.on('rotate', updateLogoRotation);
     openTripDetails
   });
   window.OMAP_MOVIES?.configure({
+    state,
+    text,
+    CONFIG
+  });
+  window.OMAP_VENUE_EVENTS?.configure({
     state,
     text,
     CONFIG
@@ -7328,6 +7343,12 @@ function showUserLocationMarker(lngLat) {
       const movies = window.OMAP_MOVIES?.createSection();
       card.appendChild(movies.section);
       window.OMAP_MOVIES?.loadForPlace(place, lngLat, movies);
+    }
+
+    if (window.OMAP_VENUE_EVENTS?.isTheatreOrGallery(place)) {
+      const venueEvents = window.OMAP_VENUE_EVENTS?.createSection();
+      card.appendChild(venueEvents.section);
+      window.OMAP_VENUE_EVENTS?.loadForPlace(place, lngLat, venueEvents);
     }
 
     const commentsUi = window.OMAP_COMMENTS?.createSection(

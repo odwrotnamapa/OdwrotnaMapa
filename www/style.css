@@ -2733,6 +2733,43 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 }
 
+.place-venue-events {
+  margin: 4px 10px 0;
+  padding: 12px 6px 6px;
+  border-top: 1px solid var(--border);
+}
+
+.place-venue-events-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 6px 8px;
+}
+
+.place-venue-events-header h4 {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.place-venue-events-status {
+  margin: 0;
+  padding: 7px 6px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.place-venue-events-list {
+  padding-inline: 6px;
+}
+
+@media (max-width: 480px) {
+  .place-venue-events {
+    margin-inline: 8px;
+  }
+}
+
 
 .place-departures-list.is-expanded {
   max-height: 245px;
