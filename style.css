@@ -2733,43 +2733,6 @@ body.ui-dark .legend-symbol.osm-buildings {
   }
 }
 
-.place-venue-events {
-  margin: 4px 10px 0;
-  padding: 12px 6px 6px;
-  border-top: 1px solid var(--border);
-}
-
-.place-venue-events-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0 6px 8px;
-}
-
-.place-venue-events-header h4 {
-  margin: 0;
-  font-size: 0.84rem;
-}
-
-.place-venue-events-status {
-  margin: 0;
-  padding: 7px 6px;
-  color: var(--muted);
-  font-size: 0.74rem;
-  line-height: 1.4;
-}
-
-.place-venue-events-list {
-  padding-inline: 6px;
-}
-
-@media (max-width: 480px) {
-  .place-venue-events {
-    margin-inline: 8px;
-  }
-}
-
 
 .place-departures-list.is-expanded {
   max-height: 245px;
@@ -4544,6 +4507,87 @@ div.maplibregl-ctrl-scale {
   height: 15px;
   accent-color: var(--accent);
   cursor: pointer;
+}
+
+.menu-offline-download {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+.menu-offline-progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-offline-progress-track {
+  height: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  overflow: hidden;
+}
+
+.menu-offline-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.15s ease-out;
+}
+
+.menu-offline-region-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 12px 12px;
+  list-style: none;
+  margin: 0;
+}
+
+.menu-offline-region-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  font-size: 0.72rem;
+  color: var(--text);
+}
+
+.menu-offline-region-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.menu-offline-region-item-name {
+  font-weight: 750;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menu-offline-region-item-meta {
+  font-size: 0.66rem;
+  color: var(--muted);
+}
+
+.menu-offline-region-delete {
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.menu-offline-region-delete:hover,
+.menu-offline-region-delete:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .account-intro,

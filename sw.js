@@ -1,10 +1,13 @@
 // Service Worker Odwrotnej Mapy - cache'uje samą powłokę apki
-// (HTML/CSS/JS), żeby dało się ją otworzyć bez internetu.
-// Świadomie NIE cache'uje kafelków mapy ani odpowiedzi z API
-// wyszukiwania/trasowania - to wymagałoby dużo większego
-// projektu (limity pamięci, dobór obszaru do zapisania itd.).
+// (HTML/CSS/JS), żeby dało się ją otworzyć bez internetu. Kafelki
+// mapy TEŻ są cache'owane (patrz TILE_CACHE niżej) - oportunistycznie
+// (co user oglądał) i, w apce natywnej, świadomie pobrane regiony
+// (TILE_CACHE_DOWNLOADED, patrz src/services/offline-region-service.js).
+// Odpowiedzi z API wyszukiwania/trasowania NADAL nie są cache'owane -
+// to wymagałoby dużo większego projektu (własny silnik routingu/
+// wyszukiwania offline).
 
-const CACHE_VERSION = "czemu muszę to gówno robić ręcznie33346";
+const CACHE_VERSION = "czemu muszę to gówno robić ręcznie33349";
 
 // Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
 // z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do
@@ -17,6 +20,16 @@ const TILE_HOSTS = [
   "tiles.openfreemap.org",
   "server.arcgisonline.com"
 ];
+
+// Osobny bucket na kafelki świadomie pobrane przez usera do trybu
+// offline (src/services/offline-region-service.js, apka natywna
+// tylko). W przeciwieństwie do TILE_CACHE powyżej, ten NIGDY nie jest
+// trymowany przez trimCache() - trymowanie skasowałoby ręcznie
+// pobrany region tylko dlatego, że user pooglądał gdzie indziej.
+// Nazwa musi być identyczna z TILE_CACHE_DOWNLOADED w
+// offline-region-service.js - to jeden i ten sam Cache Storage,
+// współdzielony między stroną a tym Service Workerem.
+const TILE_CACHE_DOWNLOADED = "odwrotnamapa-tiles-downloaded-v1";
 
 async function trimCache(cacheName, maxEntries) {
   const cache = await caches.open(cacheName);
@@ -94,6 +107,7 @@ const APP_SHELL_URLS = [
   "./src/services/route-history-service.js",
   "./src/services/custom-place-names-service.js",
   "./src/services/texture-storage-service.js",
+  "./src/services/offline-region-service.js",
   "./src/services/seed-words-service.js",
   "./src/services/history-service.js",
   "./src/services/search-history-service.js",
@@ -149,7 +163,8 @@ self.addEventListener("activate", event => {
             key =>
               key !== CACHE_VERSION &&
               key !== "odwrotnamapa-favorites-media" &&
-              key !== TILE_CACHE
+              key !== TILE_CACHE &&
+              key !== TILE_CACHE_DOWNLOADED
           )
           .map(key => caches.delete(key))
       );
@@ -197,11 +212,20 @@ self.addEventListener("fetch", event => {
   const isTileRequest = TILE_HOSTS.includes(url.hostname);
 
   if (isTileRequest) {
-    // Stale-while-revalidate: od razu oddajemy to, co mamy w
-    // pamięci (jeśli offline - to jedyna szansa na kafelek), a w tle
-    // i tak próbujemy dociągnąć świeższą wersję na przyszłość.
     event.respondWith(
       (async () => {
+        // Świadomie pobrany region offline zawsze wygrywa i nigdy
+        // nie idzie do sieci - to jest cały sens "pobierz na offline":
+        // pewność, że zadziała bez internetu, bez czekania na
+        // nieudany fetch.
+        const downloadedCache = await caches.open(TILE_CACHE_DOWNLOADED);
+        const downloaded = await downloadedCache.match(request);
+        if (downloaded) return downloaded;
+
+        // W przeciwnym razie zwykłe stale-while-revalidate: od razu
+        // oddajemy to, co mamy w pamięci (jeśli offline - to jedyna
+        // szansa na kafelek), a w tle i tak próbujemy dociągnąć
+        // świeższą wersję na przyszłość.
         const cache = await caches.open(TILE_CACHE);
         const cached = await cache.match(request);
         const networkFetch = fetch(request)

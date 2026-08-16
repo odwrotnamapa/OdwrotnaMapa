@@ -218,6 +218,18 @@
       closeAbout: "Zamknij sekcję O projekcie",
       backupTitle: "Kopia zapasowa",
       closeBackup: "Zamknij kopię zapasową",
+      offlineTitle: "Mapa offline",
+      closeOffline: "Zamknij mapę offline",
+      offlineIntroHint: "Pobiera kafelki mapy dla obszaru, który teraz widzisz, żeby dało się go potem oglądać bez internetu.",
+      offlineDetailLabel: "Poziom szczegółowości",
+      offlineDownloadCurrent: "Pobierz widoczny obszar",
+      offlineRegionsHeading: "Pobrane obszary",
+      offlineRegionsEmptyHint: "Nie masz jeszcze żadnych pobranych obszarów.",
+      offlineEstimate: "~{count} kafelków (~{size})",
+      offlineProgress: "{done}/{total} ({failed} błędów)",
+      offlineDeleteRegion: "Usuń",
+      offlineDownloadError: "Nie udało się pobrać obszaru offline.",
+      offlineStorageUsage: "Zajęte miejsce na urządzeniu: {usage} z {quota}",
       aboutIntro: "Odwrotna Mapa to niezależna, prywatna aplikacja mapowa oparta na OpenStreetMap. Odwrócenie orientacji mapy to dopiero początek – platforma oferuje pełną swobodę widoku w 3D, zaawansowane wyszukiwanie, planowanie tras, integrację ze zdjęciami ulicznymi Mapillary oraz łatwy eksport widoków do plików PNG.",
       aboutIntroAlt: "Bez śledzenia, bez reklam i w 100% Open Source.",
       aboutData: "Dane mapowe",
@@ -493,6 +505,7 @@
       streetviewTitle: "Widok uliczny",
       streetviewUnavailable: "Widok uliczny nie jest jeszcze skonfigurowany.",
       menuBackup: "Kopia zapasowa",
+      menuOffline: "Mapa offline",
       accountMenuLabel: "Konto",
       accountTitle: "Konto",
       accountBackAria: "Wróć do menu",
@@ -599,11 +612,6 @@
       moviesError: "Nie udało się pobrać listy filmów.",
       moviesMissingKey: "Sekcja filmów wymaga skonfigurowania klucza TMDB w config.js.",
       moviesSource: "Źródło: TMDB · ogólny repertuar w Polsce, bez godzin seansów w tym kinie",
-      venueEventsTitle: "Nadchodzące wydarzenia",
-      venueEventsLoading: "Sprawdzanie nadchodzących wydarzeń…",
-      venueEventsEmpty: "Brak nadchodzących wydarzeń w pobliżu tego miejsca.",
-      venueEventsError: "Nie udało się pobrać wydarzeń.",
-      venueEventsMissingKey: "Sekcja wydarzeń wymaga skonfigurowanego proxy (patrz sekcja \"Wydarzenia\" w Odkrywaj).",
       tripTitle: "Kurs",
       tripLoading: "Wczytywanie przystanków…",
       tripEmpty: "Brak informacji o przystankach dla tego kursu.",
@@ -725,6 +733,18 @@
       closeAbout: "Close the About panel",
       backupTitle: "Backup",
       closeBackup: "Close backup",
+      offlineTitle: "Offline map",
+      closeOffline: "Close offline map",
+      offlineIntroHint: "Downloads map tiles for the area you're currently viewing, so you can browse it later without an internet connection.",
+      offlineDetailLabel: "Detail level",
+      offlineDownloadCurrent: "Download visible area",
+      offlineRegionsHeading: "Downloaded areas",
+      offlineRegionsEmptyHint: "You don't have any downloaded areas yet.",
+      offlineEstimate: "~{count} tiles (~{size})",
+      offlineProgress: "{done}/{total} ({failed} failed)",
+      offlineDeleteRegion: "Delete",
+      offlineDownloadError: "Couldn't download the offline area.",
+      offlineStorageUsage: "Storage used on this device: {usage} of {quota}",
       aboutIntro: "Odwrotna Mapa is an independent, privacy-focused map app built on OpenStreetMap. Flipping the map's orientation is just the start – the platform offers full freedom in 3D view, advanced search, route planning, integration with Mapillary street-level photos, and easy export of views to PNG files.",
       aboutIntroAlt: "No tracking, no ads, and 100% open source.",
       aboutData: "Map data",
@@ -1000,6 +1020,7 @@
       streetviewTitle: "Street view",
       streetviewUnavailable: "Street view is not configured yet.",
       menuBackup: "Backup",
+      menuOffline: "Offline map",
       accountMenuLabel: "Account",
       accountTitle: "Account",
       accountBackAria: "Back to menu",
@@ -1106,11 +1127,6 @@
       moviesError: "Couldn't load the movie list.",
       moviesMissingKey: "The movies section needs a TMDB key configured in config.js.",
       moviesSource: "Source: TMDB · nationwide listings, not this cinema's showtimes",
-      venueEventsTitle: "Upcoming events",
-      venueEventsLoading: "Checking upcoming events…",
-      venueEventsEmpty: "No upcoming events near this venue.",
-      venueEventsError: "Couldn't load events.",
-      venueEventsMissingKey: "The events section needs the proxy configured (see the \"Events\" section in Discover).",
       tripTitle: "Trip",
       tripLoading: "Loading stops…",
       tripEmpty: "No stop information available for this trip.",
@@ -1733,6 +1749,26 @@
     accountSheetHandle: $("account-sheet-handle"),
     backupClose: $("backup-close"),
     backupBack: $("backup-back"),
+    menuOfflineButton: $("menu-offline-button"),
+    menuOfflineLabel: $("menu-offline-label"),
+    offlinePanel: $("offline-panel"),
+    offlineSheetHandle: $("offline-sheet-handle"),
+    offlineTitle: $("offline-title"),
+    offlineBack: $("offline-back"),
+    offlineClose: $("offline-close"),
+    offlineIntroHint: $("offline-intro-hint"),
+    offlineDetailLabel: $("offline-detail-label"),
+    offlineDetailSelect: $("offline-detail-select"),
+    offlineEstimateHint: $("offline-estimate-hint"),
+    offlineDownloadCurrentButton: $("offline-download-current-button"),
+    offlineDownloadCurrentLabel: $("offline-download-current-label"),
+    offlineProgressRow: $("offline-progress-row"),
+    offlineProgressBar: $("offline-progress-bar"),
+    offlineProgressText: $("offline-progress-text"),
+    offlineRegionsHeading: $("offline-regions-heading"),
+    offlineRegionsEmptyHint: $("offline-regions-empty-hint"),
+    offlineRegionList: $("offline-region-list"),
+    offlineStorageHint: $("offline-storage-hint"),
     aboutTitle: $("about-title"),
     backupTitle: $("backup-title"),
     aboutIntro: $("about-intro"),
@@ -2204,11 +2240,6 @@ map.on('rotate', updateLogoRotation);
     text,
     CONFIG
   });
-  window.OMAP_VENUE_EVENTS?.configure({
-    state,
-    text,
-    CONFIG
-  });
   window.OMAP_DISCOVER?.configure({
     state,
     el,
@@ -2227,6 +2258,14 @@ map.on('rotate', updateLogoRotation);
   // Open-Meteo przy starcie), stąd usunięta.
 
   updateUI();
+
+  // Mapa offline ma sens tylko w apce natywnej (dysk zamiast
+  // efemerycznego cache przeglądarki) - patrz komentarz w
+  // offline-region-service.js. W wersji webowej przycisk zostaje
+  // ukryty, nie tylko zablokowany po kliknięciu.
+  if (el.menuOfflineButton) {
+    el.menuOfflineButton.hidden = !window.OMAP_OFFLINE_REGIONS?.isNativeAppContext();
+  }
 
   el.themeSelect?.addEventListener("change", e => {
     state.theme = e.target.value;
@@ -2495,6 +2534,24 @@ map.on('rotate', updateLogoRotation);
     returnFromBackupToMenu
   );
 
+  el.menuOfflineButton?.addEventListener(
+    "click",
+    openOfflineFromMenu
+  );
+  el.offlineClose?.addEventListener("click", closeOffline);
+  el.offlineBack?.addEventListener(
+    "click",
+    returnFromOfflineToMenu
+  );
+  el.offlineDetailSelect?.addEventListener(
+    "change",
+    updateOfflineEstimate
+  );
+  el.offlineDownloadCurrentButton?.addEventListener(
+    "click",
+    downloadCurrentViewOffline
+  );
+
   el.menuAccountButton?.addEventListener(
     "click",
     window.OMAP_ACCOUNT?.openAccountFromMenu
@@ -2603,6 +2660,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   initializeTradingSundayBottomSheet();
   initializeAboutBottomSheet();
   initializeBackupBottomSheet();
+  initializeOfflineBottomSheet();
   initializeAccountBottomSheet();
   window.OMAP_ACCOUNT?.initializeEventListeners();
   initializeAutocomplete();
@@ -2688,6 +2746,15 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.exportPngLabel) el.exportPngLabel.textContent = t.exportPng;
     if (el.menuAboutLabel) el.menuAboutLabel.textContent = t.menuAbout;
     if (el.menuBackupLabel) el.menuBackupLabel.textContent = t.menuBackup;
+    if (el.menuOfflineLabel) el.menuOfflineLabel.textContent = t.menuOffline;
+    if (el.offlineTitle) el.offlineTitle.textContent = t.offlineTitle;
+    if (el.offlineBack) el.offlineBack.setAttribute("aria-label", t.backToMenu);
+    if (el.offlineClose) el.offlineClose.setAttribute("aria-label", t.closeOffline);
+    if (el.offlineIntroHint) el.offlineIntroHint.textContent = t.offlineIntroHint;
+    if (el.offlineDetailLabel) el.offlineDetailLabel.textContent = t.offlineDetailLabel;
+    if (el.offlineDownloadCurrentLabel) el.offlineDownloadCurrentLabel.textContent = t.offlineDownloadCurrent;
+    if (el.offlineRegionsHeading) el.offlineRegionsHeading.textContent = t.offlineRegionsHeading;
+    if (el.offlineRegionsEmptyHint) el.offlineRegionsEmptyHint.textContent = t.offlineRegionsEmptyHint;
 
     if (el.menuAccountLabel) el.menuAccountLabel.textContent = t.accountMenuLabel;
     if (el.accountTitle) el.accountTitle.textContent = t.accountTitle;
@@ -5182,6 +5249,7 @@ function applyLanguage(language) {
     { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
     { id: "about", close: () => closeAbout(), panel: el.aboutPanel, cssVariable: "--sheet-height" },
     { id: "backup", close: () => closeBackup(), panel: el.backupPanel, cssVariable: "--sheet-height" },
+    { id: "offline", close: () => closeOffline(), panel: el.offlinePanel, cssVariable: "--sheet-height" },
     { id: "account", close: () => window.OMAP_ACCOUNT?.closeAccount(), panel: el.accountPanel, cssVariable: "--sheet-height" }
   ];
 
@@ -5451,6 +5519,15 @@ function applyLanguage(language) {
       panel: el.backupPanel,
       handle: el.backupSheetHandle,
       close: closeBackup,
+      cssVariable: "--sheet-height"
+    });
+  }
+
+  function initializeOfflineBottomSheet() {
+    window.OMAP_BOTTOM_SHEET?.initialize({
+      panel: el.offlinePanel,
+      handle: el.offlineSheetHandle,
+      close: closeOffline,
       cssVariable: "--sheet-height"
     });
   }
@@ -7345,12 +7422,6 @@ function showUserLocationMarker(lngLat) {
       window.OMAP_MOVIES?.loadForPlace(place, lngLat, movies);
     }
 
-    if (window.OMAP_VENUE_EVENTS?.isTheatreOrGallery(place)) {
-      const venueEvents = window.OMAP_VENUE_EVENTS?.createSection();
-      card.appendChild(venueEvents.section);
-      window.OMAP_VENUE_EVENTS?.loadForPlace(place, lngLat, venueEvents);
-    }
-
     const commentsUi = window.OMAP_COMMENTS?.createSection(
       window.OMAP_FAVORITES?.getFavoriteKey(place, lngLat),
       {
@@ -9131,6 +9202,274 @@ function updateRouteClickHint() {
     if (!el.backupPanel || el.backupPanel.hidden) return;
     el.backupPanel.hidden = true;
     el.menuBackupButton?.setAttribute("aria-expanded", "false");
+  }
+
+  // ---- Podgląd obszaru offline (prostokąt na mapie) ----------------
+  //
+  // Pokazuje dokładnie te same bounds, które pójdą do downloadRegion()
+  // - żeby user widział, co konkretnie zostanie pobrane, zamiast
+  // zgadywać po samym widoku mapy. Aktualizuje się na bieżąco przy
+  // przesuwaniu/zoomowaniu mapy, dopóki panel offline jest otwarty.
+
+  const OFFLINE_PREVIEW_SOURCE_ID = "odwrotnamapa-offline-preview";
+  const OFFLINE_PREVIEW_FILL_LAYER_ID = "odwrotnamapa-offline-preview-fill";
+  const OFFLINE_PREVIEW_LINE_LAYER_ID = "odwrotnamapa-offline-preview-line";
+
+  function ensureOfflinePreviewLayers() {
+    if (!map.getSource(OFFLINE_PREVIEW_SOURCE_ID)) {
+      map.addSource(OFFLINE_PREVIEW_SOURCE_ID, {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [] }
+      });
+    }
+    if (!map.getLayer(OFFLINE_PREVIEW_FILL_LAYER_ID)) {
+      map.addLayer({
+        id: OFFLINE_PREVIEW_FILL_LAYER_ID,
+        type: "fill",
+        source: OFFLINE_PREVIEW_SOURCE_ID,
+        paint: {
+          "fill-color": getAccentColor(),
+          "fill-opacity": 0.12
+        }
+      });
+    }
+    if (!map.getLayer(OFFLINE_PREVIEW_LINE_LAYER_ID)) {
+      map.addLayer({
+        id: OFFLINE_PREVIEW_LINE_LAYER_ID,
+        type: "line",
+        source: OFFLINE_PREVIEW_SOURCE_ID,
+        layout: { "line-join": "round" },
+        paint: {
+          "line-color": getAccentColor(),
+          "line-width": 2.5,
+          "line-dasharray": [2, 1.5]
+        }
+      });
+    }
+  }
+
+  function boundsToBboxPolygon(bounds) {
+    const west = bounds.getWest();
+    const south = bounds.getSouth();
+    const east = bounds.getEast();
+    const north = bounds.getNorth();
+    return {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [west, south],
+            [east, south],
+            [east, north],
+            [west, north],
+            [west, south]
+          ]
+        ]
+      }
+    };
+  }
+
+  function updateOfflinePreviewRectangle() {
+    if (!map) return;
+    ensureOfflinePreviewLayers();
+    const source = map.getSource(OFFLINE_PREVIEW_SOURCE_ID);
+    source?.setData({
+      type: "FeatureCollection",
+      features: [boundsToBboxPolygon(map.getBounds())]
+    });
+  }
+
+  function clearOfflinePreviewRectangle() {
+    const source = map.getSource(OFFLINE_PREVIEW_SOURCE_ID);
+    source?.setData({ type: "FeatureCollection", features: [] });
+  }
+
+  function openOfflineFromMenu() {
+    closeOtherMobilePanels("offline");
+
+    openMobilePanelStandard(
+      el.offlinePanel,
+      "--sheet-height"
+    );
+    el.menuOfflineButton?.setAttribute("aria-expanded", "true");
+    renderOfflineRegionList();
+    updateOfflineEstimate();
+    updateOfflinePreviewRectangle();
+    map?.on("move", handleOfflineMapMove);
+  }
+
+  function handleOfflineMapMove() {
+    updateOfflinePreviewRectangle();
+    updateOfflineEstimate();
+  }
+
+  function returnFromOfflineToMenu() {
+    closeOffline();
+    openMenuHome();
+  }
+
+  function closeOffline() {
+    if (!el.offlinePanel || el.offlinePanel.hidden) return;
+    el.offlinePanel.hidden = true;
+    el.menuOfflineButton?.setAttribute("aria-expanded", "false");
+    map?.off("move", handleOfflineMapMove);
+    clearOfflinePreviewRectangle();
+  }
+
+  // Format bajtów na czytelny string (KB/MB) - używane tylko do
+  // orientacyjnego szacunku rozmiaru pobierania, nie do niczego
+  // precyzyjnego.
+  function formatApproxBytes(bytes) {
+    if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  // Bardzo zgrubny szacunek - średni rozmiar kafelka wektorowego z
+  // openfreemap w praktyce mieści się gdzieś między kilkoma a
+  // kilkudziesięcioma KB w zależności od gęstości danego obszaru,
+  // 20 KB to tylko orientacyjny punkt odniesienia dla usera, nie
+  // obietnica.
+  const APPROX_BYTES_PER_TILE = 20 * 1024;
+
+  function updateOfflineEstimate() {
+    if (!el.offlineEstimateHint || !window.OMAP_OFFLINE_REGIONS) return;
+    if (!map) return;
+    const bounds = map.getBounds();
+    const bbox = [
+      bounds.getWest(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getNorth()
+    ];
+    const maxZoom = Number(el.offlineDetailSelect?.value || 16);
+    const count = window.OMAP_OFFLINE_REGIONS.estimateTileCount(
+      bbox,
+      0,
+      maxZoom
+    );
+    const t = text[state.language];
+    el.offlineEstimateHint.textContent = t.offlineEstimate
+      ? t.offlineEstimate
+          .replace("{count}", count)
+          .replace("{size}", formatApproxBytes(count * APPROX_BYTES_PER_TILE))
+      : `~${count} kafelków (~${formatApproxBytes(count * APPROX_BYTES_PER_TILE)})`;
+  }
+
+  async function downloadCurrentViewOffline() {
+    if (!window.OMAP_OFFLINE_REGIONS || !map) return;
+    const t = text[state.language];
+
+    const bounds = map.getBounds();
+    const bbox = [
+      bounds.getWest(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getNorth()
+    ];
+    const maxZoom = Number(el.offlineDetailSelect?.value || 16);
+    const name = `${bbox.map(v => v.toFixed(2)).join(", ")} (z${maxZoom})`;
+
+    el.offlineDownloadCurrentButton?.setAttribute("disabled", "true");
+    if (el.offlineProgressRow) el.offlineProgressRow.hidden = false;
+    if (el.offlineProgressBar) el.offlineProgressBar.style.width = "0%";
+    if (el.offlineProgressText) el.offlineProgressText.textContent = "";
+
+    try {
+      await window.OMAP_OFFLINE_REGIONS.downloadRegion({
+        name,
+        bbox,
+        minZoom: 0,
+        maxZoom,
+        styleUrl: CONFIG.map.styleUrl,
+        onProgress: (done, total, failed) => {
+          const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+          if (el.offlineProgressBar) {
+            el.offlineProgressBar.style.width = `${percent}%`;
+          }
+          if (el.offlineProgressText) {
+            el.offlineProgressText.textContent = (
+              t.offlineProgress || "{done}/{total} ({failed} błędów)"
+            )
+              .replace("{done}", done)
+              .replace("{total}", total)
+              .replace("{failed}", failed);
+          }
+        }
+      });
+      renderOfflineRegionList();
+    } catch (error) {
+      console.error("Nie udało się pobrać obszaru offline:", error);
+      show(t.offlineDownloadError || "Nie udało się pobrać obszaru offline.");
+    } finally {
+      el.offlineDownloadCurrentButton?.removeAttribute("disabled");
+      if (el.offlineProgressRow) el.offlineProgressRow.hidden = true;
+    }
+  }
+
+  async function renderOfflineRegionList() {
+    if (!el.offlineRegionList || !window.OMAP_OFFLINE_REGIONS) return;
+    const t = text[state.language];
+    const regions = await window.OMAP_OFFLINE_REGIONS.listRegions();
+
+    if (el.offlineRegionsEmptyHint) {
+      el.offlineRegionsEmptyHint.hidden = regions.length > 0;
+    }
+
+    el.offlineRegionList.replaceChildren();
+    for (const region of regions) {
+      const li = document.createElement("li");
+      li.className = "menu-offline-region-item";
+
+      const info = document.createElement("div");
+      info.className = "menu-offline-region-item-info";
+
+      const nameEl = document.createElement("span");
+      nameEl.className = "menu-offline-region-item-name";
+      nameEl.textContent = region.name;
+
+      const metaEl = document.createElement("span");
+      metaEl.className = "menu-offline-region-item-meta";
+      metaEl.textContent = `${region.tileCount} kafelków`;
+
+      info.append(nameEl, metaEl);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "menu-offline-region-delete";
+      deleteButton.textContent = t.offlineDeleteRegion || "Usuń";
+      deleteButton.addEventListener("click", async () => {
+        deleteButton.setAttribute("disabled", "true");
+        try {
+          await window.OMAP_OFFLINE_REGIONS.deleteRegion(region.id);
+          renderOfflineRegionList();
+        } catch (error) {
+          console.error("Nie udało się usunąć regionu offline:", error);
+          deleteButton.removeAttribute("disabled");
+        }
+      });
+
+      li.append(info, deleteButton);
+      el.offlineRegionList.append(li);
+    }
+
+    updateOfflineStorageHint();
+  }
+
+  async function updateOfflineStorageHint() {
+    if (!el.offlineStorageHint || !window.OMAP_OFFLINE_REGIONS) return;
+    const estimate = await window.OMAP_OFFLINE_REGIONS.estimateStorageUsage();
+    if (!estimate) {
+      el.offlineStorageHint.textContent = "";
+      return;
+    }
+    const t = text[state.language];
+    el.offlineStorageHint.textContent = (
+      t.offlineStorageUsage || "Zajęte miejsce na urządzeniu: {usage} z {quota}"
+    )
+      .replace("{usage}", formatApproxBytes(estimate.usage))
+      .replace("{quota}", formatApproxBytes(estimate.quota));
   }
 
   async function loadMyRatingsActivity() {

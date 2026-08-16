@@ -1117,6 +1117,60 @@
       </div>
     </aside>
 
+    <aside id="offline-panel" class="legend-panel offline-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="offline-title" hidden>
+      <button id="offline-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
+              aria-label="Zmień wysokość panelu mapy offline">
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="legend-header has-menu-back app-sheet__header panel-shell__header">
+        <button id="offline-back"
+                class="menu-back-button"
+                type="button"
+                aria-label="Wróć do menu">←</button>
+        <h2 id="offline-title">Mapa offline</h2>
+        <button id="offline-close" class="legend-close" type="button"
+                aria-label="Zamknij mapę offline">×</button>
+      </div>
+
+      <div class="menu-offline-download">
+        <p class="menu-custom-palette-hint" id="offline-intro-hint">
+          Pobiera kafelki mapy dla obszaru, który teraz widzisz, żeby dało się go potem oglądać bez internetu.
+        </p>
+
+        <label class="menu-setting">
+          <span id="offline-detail-label">Poziom szczegółowości</span>
+          <select id="offline-detail-select" aria-labelledby="offline-detail-label">
+            <option value="14">Podstawowy (ulice)</option>
+            <option value="16" selected>Standardowy (budynki)</option>
+            <option value="18">Wysoki (numery, wejścia)</option>
+          </select>
+        </label>
+
+        <p class="menu-custom-palette-hint" id="offline-estimate-hint"></p>
+
+        <button type="button" id="offline-download-current-button" class="menu-action">
+          <span aria-hidden="true">📥</span>
+          <span id="offline-download-current-label">Pobierz widoczny obszar</span>
+        </button>
+
+        <div id="offline-progress-row" class="menu-offline-progress-row" hidden>
+          <div class="menu-offline-progress-track">
+            <div id="offline-progress-bar" class="menu-offline-progress-bar"></div>
+          </div>
+          <p id="offline-progress-text" class="menu-custom-palette-hint"></p>
+        </div>
+      </div>
+
+      <p class="menu-custom-palette-heading" id="offline-regions-heading">Pobrane obszary</p>
+      <p class="menu-custom-palette-hint" id="offline-regions-empty-hint">
+        Nie masz jeszcze żadnych pobranych obszarów.
+      </p>
+      <ul id="offline-region-list" class="menu-offline-region-list"></ul>
+
+      <p class="menu-custom-palette-hint" id="offline-storage-hint"></p>
+    </aside>
+
     <aside id="account-panel" class="legend-panel account-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
            aria-labelledby="account-title" hidden>
       <button id="account-sheet-handle" class="route-sheet-handle app-sheet__handle panel-shell__handle" type="button"
@@ -1363,6 +1417,11 @@
           <span id="menu-backup-label">Kopia zapasowa</span>
         </button>
 
+        <button id="menu-offline-button" class="menu-action" type="button" hidden>
+          <span aria-hidden="true">📥</span>
+          <span id="menu-offline-label">Mapa offline</span>
+        </button>
+
         <button id="menu-about-button" class="menu-action" type="button">
           <span aria-hidden="true">ⓘ</span>
           <span id="menu-about-label">O projekcie</span>
@@ -1487,6 +1546,7 @@
   <script src="src/services/route-history-service.js"></script>
   <script src="src/services/custom-place-names-service.js?v=20260813-batch3"></script>
   <script src="src/services/texture-storage-service.js"></script>
+  <script src="src/services/offline-region-service.js"></script>
   <script src="src/services/seed-words-service.js"></script>
   <script src="src/services/history-service.js?v=20260813-batch3"></script>
   <script src="src/services/search-history-service.js"></script>
