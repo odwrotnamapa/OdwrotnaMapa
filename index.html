@@ -1139,6 +1139,7 @@
         </p>
 
         <label class="menu-setting">
+          <span aria-hidden="true">🔍</span>
           <span id="offline-detail-label">Poziom szczegółowości</span>
           <select id="offline-detail-select" aria-labelledby="offline-detail-label">
             <option value="14">Podstawowy (ulice)</option>
@@ -1147,12 +1148,26 @@
           </select>
         </label>
 
+        <label class="menu-setting">
+          <span aria-hidden="true">🏷️</span>
+          <span id="offline-name-label">Nazwa obszaru</span>
+          <input type="text" id="offline-name-input" maxlength="60"
+                 aria-labelledby="offline-name-label"
+                 placeholder="np. Centrum Gdańska">
+        </label>
+
         <p class="menu-custom-palette-hint" id="offline-estimate-hint"></p>
 
-        <button type="button" id="offline-download-current-button" class="menu-action">
-          <span aria-hidden="true">📥</span>
-          <span id="offline-download-current-label">Pobierz widoczny obszar</span>
-        </button>
+        <div class="menu-offline-download-actions">
+          <button type="button" id="offline-download-current-button" class="menu-action">
+            <span aria-hidden="true">📥</span>
+            <span id="offline-download-current-label">Pobierz widoczny obszar</span>
+          </button>
+          <button type="button" id="offline-cancel-download-button" class="menu-action menu-offline-cancel-button" hidden>
+            <span aria-hidden="true">✕</span>
+            <span id="offline-cancel-download-label">Anuluj</span>
+          </button>
+        </div>
 
         <div id="offline-progress-row" class="menu-offline-progress-row" hidden>
           <div class="menu-offline-progress-track">

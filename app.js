@@ -222,13 +222,19 @@
       closeOffline: "Zamknij mapę offline",
       offlineIntroHint: "Pobiera kafelki mapy dla obszaru, który teraz widzisz, żeby dało się go potem oglądać bez internetu.",
       offlineDetailLabel: "Poziom szczegółowości",
+      offlineNameLabel: "Nazwa obszaru",
+      offlineNamePlaceholder: "np. Centrum Gdańska",
       offlineDownloadCurrent: "Pobierz widoczny obszar",
+      offlineCancelDownload: "Anuluj",
+      offlineDownloadCancelled: "Pobieranie anulowane.",
+      offlineShowRegion: "Pokaż {name} na mapie",
       offlineRegionsHeading: "Pobrane obszary",
       offlineRegionsEmptyHint: "Nie masz jeszcze żadnych pobranych obszarów.",
       offlineEstimate: "~{count} kafelków (~{size})",
       offlineProgress: "{done}/{total} ({failed} błędów)",
       offlineDeleteRegion: "Usuń",
       offlineDownloadError: "Nie udało się pobrać obszaru offline.",
+      offlineLimitedPlaceInfo: "Ograniczone dane offline - tylko nazwa i kategoria.",
       offlineStorageUsage: "Zajęte miejsce na urządzeniu: {usage} z {quota}",
       aboutIntro: "Odwrotna Mapa to niezależna, prywatna aplikacja mapowa oparta na OpenStreetMap. Odwrócenie orientacji mapy to dopiero początek – platforma oferuje pełną swobodę widoku w 3D, zaawansowane wyszukiwanie, planowanie tras, integrację ze zdjęciami ulicznymi Mapillary oraz łatwy eksport widoków do plików PNG.",
       aboutIntroAlt: "Bez śledzenia, bez reklam i w 100% Open Source.",
@@ -737,13 +743,19 @@
       closeOffline: "Close offline map",
       offlineIntroHint: "Downloads map tiles for the area you're currently viewing, so you can browse it later without an internet connection.",
       offlineDetailLabel: "Detail level",
+      offlineNameLabel: "Area name",
+      offlineNamePlaceholder: "e.g. Downtown Gdańsk",
       offlineDownloadCurrent: "Download visible area",
+      offlineCancelDownload: "Cancel",
+      offlineDownloadCancelled: "Download cancelled.",
+      offlineShowRegion: "Show {name} on the map",
       offlineRegionsHeading: "Downloaded areas",
       offlineRegionsEmptyHint: "You don't have any downloaded areas yet.",
       offlineEstimate: "~{count} tiles (~{size})",
       offlineProgress: "{done}/{total} ({failed} failed)",
       offlineDeleteRegion: "Delete",
       offlineDownloadError: "Couldn't download the offline area.",
+      offlineLimitedPlaceInfo: "Limited offline data - name and category only.",
       offlineStorageUsage: "Storage used on this device: {usage} of {quota}",
       aboutIntro: "Odwrotna Mapa is an independent, privacy-focused map app built on OpenStreetMap. Flipping the map's orientation is just the start – the platform offers full freedom in 3D view, advanced search, route planning, integration with Mapillary street-level photos, and easy export of views to PNG files.",
       aboutIntroAlt: "No tracking, no ads, and 100% open source.",
@@ -1759,9 +1771,13 @@
     offlineIntroHint: $("offline-intro-hint"),
     offlineDetailLabel: $("offline-detail-label"),
     offlineDetailSelect: $("offline-detail-select"),
+    offlineNameLabel: $("offline-name-label"),
+    offlineNameInput: $("offline-name-input"),
     offlineEstimateHint: $("offline-estimate-hint"),
     offlineDownloadCurrentButton: $("offline-download-current-button"),
     offlineDownloadCurrentLabel: $("offline-download-current-label"),
+    offlineCancelDownloadButton: $("offline-cancel-download-button"),
+    offlineCancelDownloadLabel: $("offline-cancel-download-label"),
     offlineProgressRow: $("offline-progress-row"),
     offlineProgressBar: $("offline-progress-bar"),
     offlineProgressText: $("offline-progress-text"),
@@ -2551,6 +2567,13 @@ map.on('rotate', updateLogoRotation);
     "click",
     downloadCurrentViewOffline
   );
+  el.offlineCancelDownloadButton?.addEventListener(
+    "click",
+    cancelOfflineDownload
+  );
+  el.offlineNameInput?.addEventListener("input", () => {
+    offlineNameManuallyEdited = true;
+  });
 
   el.menuAccountButton?.addEventListener(
     "click",
@@ -2752,7 +2775,10 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     if (el.offlineClose) el.offlineClose.setAttribute("aria-label", t.closeOffline);
     if (el.offlineIntroHint) el.offlineIntroHint.textContent = t.offlineIntroHint;
     if (el.offlineDetailLabel) el.offlineDetailLabel.textContent = t.offlineDetailLabel;
+    if (el.offlineNameLabel) el.offlineNameLabel.textContent = t.offlineNameLabel;
+    if (el.offlineNameInput) el.offlineNameInput.placeholder = t.offlineNamePlaceholder;
     if (el.offlineDownloadCurrentLabel) el.offlineDownloadCurrentLabel.textContent = t.offlineDownloadCurrent;
+    if (el.offlineCancelDownloadLabel) el.offlineCancelDownloadLabel.textContent = t.offlineCancelDownload;
     if (el.offlineRegionsHeading) el.offlineRegionsHeading.textContent = t.offlineRegionsHeading;
     if (el.offlineRegionsEmptyHint) el.offlineRegionsEmptyHint.textContent = t.offlineRegionsEmptyHint;
 
@@ -6819,6 +6845,43 @@ function showUserLocationMarker(lngLat) {
       if (error.name === "AbortError") return;
       console.error(error);
 
+      // Sieć zawiodła (np. offline) - zanim pokażemy czysty błąd,
+      // spróbujmy odczytać nazwę/kategorię BEZPOŚREDNIO z już
+      // wyrenderowanej warstwy wektorowej (ten sam wzorzec co przy
+      // kliknięciu w nazwany POI, patrz minimalPlace w
+      // showPoiInfoAtScreenPoint) - działa offline, bo kafelek jest
+      // już na ekranie, zero dodatkowego zapytania do sieci.
+      const screenPoint = map.project(event.lngLat);
+      const poi = findNearestPoiFeature(screenPoint);
+
+      if (poi) {
+        const minimalPlace = {
+          place_id: `map-vector:${poi.lon.toFixed(6)},${poi.lat.toFixed(6)}`,
+          name: poi.name,
+          display_name: poi.name,
+          lat: poi.lat,
+          lon: poi.lon,
+          class: poi.featureClass || "place",
+          type: poi.featureClass || "place",
+          category: poi.featureClass || "place",
+          address: {},
+          extratags: {}
+        };
+
+        if (
+          el.placePanel &&
+          !el.placePanel.hidden &&
+          state.placePanelLngLat === event.lngLat
+        ) {
+          el.placePanelContent.replaceChildren(
+            createPlaceCard(minimalPlace, event.lngLat)
+          );
+          state.selectedPlace = minimalPlace;
+          show(t.offlineLimitedPlaceInfo || "Ograniczone dane offline - tylko nazwa i kategoria.");
+        }
+        return;
+      }
+
       const failed = document.createElement("div");
       failed.className = "place-card place-card-loading";
       failed.textContent = t.placeError;
@@ -9271,19 +9334,104 @@ function updateRouteClickHint() {
     };
   }
 
-  function updateOfflinePreviewRectangle() {
+  function updateOfflinePreviewRectangle(bbox) {
     if (!map) return;
     ensureOfflinePreviewLayers();
     const source = map.getSource(OFFLINE_PREVIEW_SOURCE_ID);
-    source?.setData({
-      type: "FeatureCollection",
-      features: [boundsToBboxPolygon(map.getBounds())]
-    });
+    const feature = bbox
+      ? {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [bbox[0], bbox[1]],
+                [bbox[2], bbox[1]],
+                [bbox[2], bbox[3]],
+                [bbox[0], bbox[3]],
+                [bbox[0], bbox[1]]
+              ]
+            ]
+          }
+        }
+      : boundsToBboxPolygon(map.getBounds());
+    source?.setData({ type: "FeatureCollection", features: [feature] });
   }
 
   function clearOfflinePreviewRectangle() {
     const source = map.getSource(OFFLINE_PREVIEW_SOURCE_ID);
     source?.setData({ type: "FeatureCollection", features: [] });
+  }
+
+  // Pokazuje na mapie i przybliża do obszaru zapisanego regionu -
+  // żeby było wiadomo "który jest który", kiedy jest ich kilka.
+  function flyToOfflineRegion(region) {
+    if (!map || !region?.bbox) return;
+    // fitBounds() domyślnie resetuje bearing do 0 (północ) i pitch do
+    // 0, jeśli się mu jawnie nie powie, żeby zachował obecne -
+    // w Odwrotnej Mapie (domyślnie odwróconej, bearing 180) to
+    // wygląda jak niechciany obrót mapy z powrotem na "normalną"
+    // orientację. Przekazujemy aktualne bearing/pitch, żeby samo
+    // przybliżenie do obszaru nie zmieniało orientacji.
+    map.fitBounds(
+      [
+        [region.bbox[0], region.bbox[1]],
+        [region.bbox[2], region.bbox[3]]
+      ],
+      {
+        padding: 40,
+        duration: 600,
+        bearing: map.getBearing(),
+        pitch: map.getPitch()
+      }
+    );
+    updateOfflinePreviewRectangle(region.bbox);
+  }
+
+  let offlineNameManuallyEdited = false;
+  let offlineNameSuggestTimer = null;
+  let offlineNameFetchController = null;
+
+  // Debounce + reużycie fetchPlaceByReverseAtZoom (ta sama funkcja co
+  // reverse geocoding gdzie indziej w appce) - proponuje nazwę
+  // regionu na podstawie środka aktualnie widocznego obszaru, żeby
+  // user nie musiał sam wymyślać nazwy. Zoom 10 w skali Nominatim to
+  // z grubsza poziom dzielnicy/miasta, nie pojedynczej ulicy.
+  function scheduleOfflineNameSuggestion() {
+    if (offlineNameManuallyEdited || !map) return;
+    window.clearTimeout(offlineNameSuggestTimer);
+    offlineNameSuggestTimer = window.setTimeout(async () => {
+      offlineNameFetchController?.abort();
+      offlineNameFetchController = new AbortController();
+      const center = map.getCenter();
+      try {
+        const place = await fetchPlaceByReverseAtZoom(
+          center.lat,
+          center.lng,
+          10,
+          offlineNameFetchController.signal
+        );
+        if (offlineNameManuallyEdited || !el.offlineNameInput) return;
+        const address = place?.address || {};
+        const area =
+          address.suburb ||
+          address.city_district ||
+          address.town ||
+          address.village ||
+          address.city;
+        const city = address.city || address.town || address.village;
+        const suggestion =
+          area && city && area !== city
+            ? `${area}, ${city}`
+            : area || city || place?.display_name?.split(",").slice(0, 2).join(",").trim();
+        if (suggestion) el.offlineNameInput.value = suggestion;
+      } catch (error) {
+        if (error?.name !== "AbortError") {
+          console.warn("Nie udało się zaproponować nazwy regionu:", error);
+        }
+      }
+    }, 700);
   }
 
   function openOfflineFromMenu() {
@@ -9294,10 +9442,14 @@ function updateRouteClickHint() {
       "--sheet-height"
     );
     el.menuOfflineButton?.setAttribute("aria-expanded", "true");
+    offlineNameManuallyEdited = false;
+    if (el.offlineNameInput) el.offlineNameInput.value = "";
     renderOfflineRegionList();
     updateOfflineEstimate();
     updateOfflinePreviewRectangle();
+    scheduleOfflineNameSuggestion();
     map?.on("move", handleOfflineMapMove);
+    map?.on("moveend", scheduleOfflineNameSuggestion);
   }
 
   function handleOfflineMapMove() {
@@ -9315,6 +9467,9 @@ function updateRouteClickHint() {
     el.offlinePanel.hidden = true;
     el.menuOfflineButton?.setAttribute("aria-expanded", "false");
     map?.off("move", handleOfflineMapMove);
+    map?.off("moveend", scheduleOfflineNameSuggestion);
+    window.clearTimeout(offlineNameSuggestTimer);
+    offlineNameFetchController?.abort();
     clearOfflinePreviewRectangle();
   }
 
@@ -9357,6 +9512,8 @@ function updateRouteClickHint() {
       : `~${count} kafelków (~${formatApproxBytes(count * APPROX_BYTES_PER_TILE)})`;
   }
 
+  let offlineDownloadAbortController = null;
+
   async function downloadCurrentViewOffline() {
     if (!window.OMAP_OFFLINE_REGIONS || !map) return;
     const t = text[state.language];
@@ -9369,20 +9526,26 @@ function updateRouteClickHint() {
       bounds.getNorth()
     ];
     const maxZoom = Number(el.offlineDetailSelect?.value || 16);
-    const name = `${bbox.map(v => v.toFixed(2)).join(", ")} (z${maxZoom})`;
+    const typedName = el.offlineNameInput?.value.trim();
+    const name =
+      typedName || `${bbox.map(v => v.toFixed(2)).join(", ")} (z${maxZoom})`;
 
     el.offlineDownloadCurrentButton?.setAttribute("disabled", "true");
+    if (el.offlineCancelDownloadButton) el.offlineCancelDownloadButton.hidden = false;
     if (el.offlineProgressRow) el.offlineProgressRow.hidden = false;
     if (el.offlineProgressBar) el.offlineProgressBar.style.width = "0%";
     if (el.offlineProgressText) el.offlineProgressText.textContent = "";
 
+    offlineDownloadAbortController = new AbortController();
+
     try {
-      await window.OMAP_OFFLINE_REGIONS.downloadRegion({
+      const result = await window.OMAP_OFFLINE_REGIONS.downloadRegion({
         name,
         bbox,
         minZoom: 0,
         maxZoom,
         styleUrl: CONFIG.map.styleUrl,
+        signal: offlineDownloadAbortController.signal,
         onProgress: (done, total, failed) => {
           const percent = total > 0 ? Math.round((done / total) * 100) : 0;
           if (el.offlineProgressBar) {
@@ -9398,14 +9561,26 @@ function updateRouteClickHint() {
           }
         }
       });
+      if (result?.cancelled) {
+        show(t.offlineDownloadCancelled || "Pobieranie anulowane.");
+      } else if (el.offlineNameInput) {
+        el.offlineNameInput.value = "";
+        offlineNameManuallyEdited = false;
+      }
       renderOfflineRegionList();
     } catch (error) {
       console.error("Nie udało się pobrać obszaru offline:", error);
       show(t.offlineDownloadError || "Nie udało się pobrać obszaru offline.");
     } finally {
+      offlineDownloadAbortController = null;
       el.offlineDownloadCurrentButton?.removeAttribute("disabled");
+      if (el.offlineCancelDownloadButton) el.offlineCancelDownloadButton.hidden = true;
       if (el.offlineProgressRow) el.offlineProgressRow.hidden = true;
     }
+  }
+
+  function cancelOfflineDownload() {
+    offlineDownloadAbortController?.abort();
   }
 
   async function renderOfflineRegionList() {
@@ -9422,8 +9597,16 @@ function updateRouteClickHint() {
       const li = document.createElement("li");
       li.className = "menu-offline-region-item";
 
-      const info = document.createElement("div");
+      const info = document.createElement("button");
+      info.type = "button";
       info.className = "menu-offline-region-item-info";
+      info.setAttribute(
+        "aria-label",
+        (t.offlineShowRegion || "Pokaż {name} na mapie").replace(
+          "{name}",
+          region.name
+        )
+      );
 
       const nameEl = document.createElement("span");
       nameEl.className = "menu-offline-region-item-name";
@@ -9431,15 +9614,25 @@ function updateRouteClickHint() {
 
       const metaEl = document.createElement("span");
       metaEl.className = "menu-offline-region-item-meta";
-      metaEl.textContent = `${region.tileCount} kafelków`;
+      // region.bytes może nie istnieć na regionach zapisanych przed
+      // dodaniem realnego pomiaru rozmiaru - wtedy spadamy na
+      // orientacyjny szacunek z liczby kafelków, żeby stare wpisy
+      // dalej pokazywały coś sensownego zamiast "undefined MB".
+      const sizeText =
+        typeof region.bytes === "number"
+          ? formatApproxBytes(region.bytes)
+          : `~${formatApproxBytes(region.tileCount * APPROX_BYTES_PER_TILE)}`;
+      metaEl.textContent = `${region.tileCount} kafelków · ${sizeText}`;
 
       info.append(nameEl, metaEl);
+      info.addEventListener("click", () => flyToOfflineRegion(region));
 
       const deleteButton = document.createElement("button");
       deleteButton.type = "button";
       deleteButton.className = "menu-offline-region-delete";
       deleteButton.textContent = t.offlineDeleteRegion || "Usuń";
-      deleteButton.addEventListener("click", async () => {
+      deleteButton.addEventListener("click", async event => {
+        event.stopPropagation();
         deleteButton.setAttribute("disabled", "true");
         try {
           await window.OMAP_OFFLINE_REGIONS.deleteRegion(region.id);

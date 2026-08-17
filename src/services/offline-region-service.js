@@ -215,25 +215,42 @@
 
   // ---- Pobieranie z limitem równoległości -------------------------
 
-  async function downloadWithConcurrency(urls, cache, concurrency, onEach) {
+  // Osobna, jawna klasa błędu na anulowanie - żeby wywołujący kod
+  // (downloadRegion) mógł łatwo rozróżnić "user kliknął anuluj" od
+  // prawdziwego błędu sieci, bez zgadywania po treści message.
+  class DownloadCancelledError extends Error {
+    constructor() {
+      super("Pobieranie anulowane przez użytkownika.");
+      this.name = "DownloadCancelledError";
+    }
+  }
+
+  async function downloadWithConcurrency(urls, cache, concurrency, onEach, signal) {
     let index = 0;
     let done = 0;
     let failed = 0;
+    let bytes = 0;
 
     async function worker() {
       while (index < urls.length) {
+        if (signal?.aborted) throw new DownloadCancelledError();
         const url = urls[index++];
         try {
           const existing = await cache.match(url);
-          if (!existing) {
-            const response = await fetch(url);
+          if (existing) {
+            bytes += await responseByteSize(existing);
+          } else {
+            const response = await fetch(url, { signal });
             if (response.ok) {
+              bytes += await responseByteSize(response);
               await cache.put(url, response.clone());
             } else {
               failed++;
             }
           }
-        } catch (_) {
+        } catch (error) {
+          if (error?.name === "AbortError") throw new DownloadCancelledError();
+          if (error instanceof DownloadCancelledError) throw error;
           failed++;
         }
         done++;
@@ -246,7 +263,23 @@
       () => worker()
     );
     await Promise.all(workers);
-    return { total: urls.length, failed };
+    return { total: urls.length, failed, bytes };
+  }
+
+  // content-length nie zawsze jest obecny (np. odpowiedzi
+  // kompresowane w locie mogą go pomijać) - wtedy mierzymy realny
+  // rozmiar przez sklonowanie odpowiedzi i odczyt blob.size. To
+  // kosztuje dodatkowe sklonowanie, ale tylko raz na kafelek, nie
+  // ma to większego znaczenia przy pobieraniu i tak trwającym sekundy.
+  async function responseByteSize(response) {
+    const header = response.headers?.get("content-length");
+    if (header) return Number(header) || 0;
+    try {
+      const blob = await response.clone().blob();
+      return blob.size;
+    } catch (_) {
+      return 0;
+    }
   }
 
   // ---- Manifest regionów (IndexedDB) ------------------------------
@@ -315,8 +348,13 @@
 
   // ---- Publiczne API: pobieranie / usuwanie regionu ---------------
 
-  // options: { id, name, bbox, minZoom, maxZoom, styleUrl, onProgress }
+  // options: { id, name, bbox, minZoom, maxZoom, styleUrl, onProgress, signal }
   // onProgress(done, total, failed) - wywoływane w trakcie.
+  // signal (opcjonalny AbortSignal) - pozwala anulować pobieranie w
+  // trakcie; przy anulowaniu NIE zapisujemy regionu do manifestu
+  // (kafelki, które zdążyły się pobrać, zostają w cache - to
+  // nieszkodliwy, uboczny "zapas" na przyszłość, po prostu nie jest
+  // opisany jako ukończony, nazwany region).
   async function downloadRegion(options) {
     const {
       id = `region-${Date.now()}`,
@@ -325,7 +363,8 @@
       minZoom,
       maxZoom,
       styleUrl,
-      onProgress
+      onProgress,
+      signal
     } = options;
 
     if (!isNativeAppContext()) {
@@ -363,12 +402,23 @@
 
     const allUrls = [...staticUrls, ...tileUrls];
 
-    const { total, failed } = await downloadWithConcurrency(
-      allUrls,
-      cache,
-      MAX_CONCURRENT_DOWNLOADS,
-      onProgress
-    );
+    let result;
+    try {
+      result = await downloadWithConcurrency(
+        allUrls,
+        cache,
+        MAX_CONCURRENT_DOWNLOADS,
+        onProgress,
+        signal
+      );
+    } catch (error) {
+      if (error instanceof DownloadCancelledError) {
+        return { id, cancelled: true };
+      }
+      throw error;
+    }
+
+    const { total, failed, bytes } = result;
 
     await saveRegionRecord({
       id,
@@ -378,10 +428,11 @@
       maxZoom,
       styleUrl,
       tileCount: tileUrls.length,
+      bytes,
       createdAt: Date.now()
     });
 
-    return { id, total, failed, tileCount: tileUrls.length };
+    return { id, total, failed, tileCount: tileUrls.length, bytes };
   }
 
   async function deleteRegion(id) {

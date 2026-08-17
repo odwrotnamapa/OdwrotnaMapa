@@ -3383,7 +3383,8 @@ a.place-card-row {
   accent-color: var(--accent);
 }
 
-.menu-setting select {
+.menu-setting select,
+.menu-setting input[type="text"] {
   min-width: 118px;
   border: 1px solid var(--border);
   border-radius: 0;
@@ -3394,6 +3395,7 @@ a.place-card-row {
   background-repeat: no-repeat;
   color: var(--text);
   padding: 6px 8px;
+  font: inherit;
 }
 
 .menu-custom-palette {
@@ -4516,6 +4518,44 @@ div.maplibregl-ctrl-scale {
   padding: 0 12px 12px;
 }
 
+.menu-offline-download-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.menu-offline-download-actions .menu-action {
+  flex: 1;
+}
+
+.menu-offline-cancel-button {
+  flex: 0 0 auto !important;
+  color: var(--danger, #c0392b);
+  border-color: var(--danger, #c0392b);
+}
+
+/* Domyślna kolumna "auto" w .menu-setting (patrz reguła współdzielona
+   z resztą menu) rozciąga się do pełnej szerokości treści selecta -
+   dla krótkich opcji (np. "Domyślna", "Satelitarna") to niezauważalne,
+   ale nasze opcje ("Standardowy (budynki)", "Wysoki (numery, wejścia)")
+   są znacznie dłuższe i przy wąskim ekranie/dużej czcionce systemowej
+   wypychały select poza wiersz, nachodząc na treść obok. Nadpisujemy
+   TYLKO w obrębie tego panelu (nie dotykamy współdzielonej reguły,
+   z której korzysta 10+ innych miejsc w menu) - trzecia kolumna
+   dostaje twardy limit, a treść w środku się przycina wielokropkiem
+   zamiast wypychać layout. */
+.menu-offline-download .menu-setting {
+  grid-template-columns: 32px minmax(0, 1fr) minmax(0, 52%);
+}
+
+.menu-offline-download .menu-setting select,
+.menu-offline-download .menu-setting input[type="text"] {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .menu-offline-progress-row {
   display: flex;
   flex-direction: column;
@@ -4561,6 +4601,18 @@ div.maplibregl-ctrl-scale {
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-offline-region-item-info:hover .menu-offline-region-item-name,
+.menu-offline-region-item-info:focus-visible .menu-offline-region-item-name {
+  color: var(--accent);
 }
 
 .menu-offline-region-item-name {
