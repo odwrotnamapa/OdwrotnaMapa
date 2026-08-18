@@ -326,6 +326,7 @@
       discoverClear: "Wyczyść wyniki",
       discoverSearching: "Wyszukiwanie w aktualnym widoku…",
       discoverFound: count => `Znaleziono ${count} miejsc.`,
+      discoverFoundOffline: count => `Znaleziono ${count} miejsc offline (ograniczone dane).`,
       discoverEmpty: "Brak wyników w aktualnym widoku.",
       discoverZooming: "Przybliżam mapę do obszaru wyszukiwania…",
       discoverEventsMissingKey: "Sekcja wydarzeń wymaga skonfigurowanego proxy (Ticketmaster Discovery API) - patrz cloudflare-sync-worker/README-DEPLOY.md i pole proxy.baseUrl w config.js.",
@@ -847,6 +848,7 @@
       discoverClear: "Clear results",
       discoverSearching: "Searching the current map view…",
       discoverFound: count => `Found ${count} places.`,
+      discoverFoundOffline: count => `Found ${count} offline places (limited data).`,
       discoverEmpty: "No results in the current map view.",
       discoverZooming: "Zooming in to the search area…",
       discoverEventsMissingKey: "The events section needs the proxy configured (Ticketmaster Discovery API) - see cloudflare-sync-worker/README-DEPLOY.md and the proxy.baseUrl field in config.js.",
@@ -9498,7 +9500,7 @@ function updateRouteClickHint() {
       bounds.getEast(),
       bounds.getNorth()
     ];
-    const maxZoom = Number(el.offlineDetailSelect?.value || 16);
+    const maxZoom = Number(el.offlineDetailSelect?.value || 14);
     const count = window.OMAP_OFFLINE_REGIONS.estimateTileCount(
       bbox,
       0,
@@ -9525,7 +9527,7 @@ function updateRouteClickHint() {
       bounds.getEast(),
       bounds.getNorth()
     ];
-    const maxZoom = Number(el.offlineDetailSelect?.value || 16);
+    const maxZoom = Number(el.offlineDetailSelect?.value || 14);
     const typedName = el.offlineNameInput?.value.trim();
     const name =
       typedName || `${bbox.map(v => v.toFixed(2)).join(", ")} (z${maxZoom})`;

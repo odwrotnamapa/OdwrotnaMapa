@@ -7,7 +7,7 @@
 // to wymagałoby dużo większego projektu (własny silnik routingu/
 // wyszukiwania offline).
 
-const CACHE_VERSION = "czemu muszę to gówno robić ręcznie33353";
+const CACHE_VERSION = "czemu muszę to gówno robić ręcznie33357";
 
 // Osobna, ograniczona pamięć podręczna na kafelki mapy (wektorowe
 // z openfreemap.org i satelitarne z ArcGIS). W przeciwieństwie do

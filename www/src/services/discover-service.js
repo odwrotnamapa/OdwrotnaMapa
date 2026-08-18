@@ -571,6 +571,178 @@
     filterDiscoverCategories(ctx.el.discoverSearch?.value || "");
   }
 
+  // Mapowanie kategorii Odkrywaj na wartości "subclass" ze schematu
+  // OpenMapTiles (ten sam schemat co kafelki wektorowe, które już
+  // pobieracie przez Mapę offline) - pozwala znaleźć wyniki lokalnie,
+  // z samej już wyrenderowanej warstwy mapy, bez sieci. To NIE jest
+  // 1:1 z Overpass/Nominatim: ogólny bazowy schemat mapy zawiera tylko
+  // podzbiór popularnych kategorii OSM, więc część (np. "pizza" po
+  // cuisine, czy bardzo niszowe jak "prysznice publiczne") nie ma
+  // tu żadnego odpowiednika i po prostu nie zwróci nic offline -
+  // to świadome, uczciwe ograniczenie, nie błąd.
+  const DISCOVER_LOCAL_SUBCLASS_MAP = {
+    restaurant: ["restaurant"],
+    cafe: ["cafe"],
+    bar: ["bar", "pub", "biergarten"],
+    fast_food: ["fast_food", "food_court"],
+    bakery: ["bakery"],
+    confectionery: ["confectionery", "chocolate"],
+    ice_cream: ["ice_cream"],
+    hotel: ["hotel", "motel", "guest_house", "hostel"],
+    campsite: ["camp_site", "caravan_site"],
+    shop: ["supermarket", "convenience", "grocery", "department_store"],
+    mall: ["mall", "department_store"],
+    clothes: ["clothes"],
+    shoe_shop: ["shoes"],
+    electronics: ["electronics", "computer", "mobile_phone", "hifi"],
+    furniture: ["furniture"],
+    pet_shop: ["pet"],
+    florist: ["florist"],
+    jewelry: ["jewelry"],
+    sporting_goods: ["sports"],
+    hardware_store: ["doityourself", "hardware"],
+    bicycle_shop: ["bicycle"],
+    bookstore: ["books"],
+    kiosk: ["kiosk", "newsagent"],
+    pharmacy: ["pharmacy"],
+    drugstore: ["chemist", "cosmetics"],
+    hospital: ["hospital"],
+    dentist: ["dentist"],
+    optician: ["optician"],
+    vet: ["veterinary"],
+    bank: ["bank"],
+    post_office: ["post_office"],
+    parcel_locker: ["parcel_locker"],
+    hairdresser: ["hairdresser"],
+    pawnbroker: ["pawnbroker"],
+    locksmith: ["locksmith"],
+    car_wash: ["car_wash"],
+    laundry: ["laundry", "dry_cleaning"],
+    toilets: ["toilets"],
+    bus_stop: ["bus_stop"],
+    railway_station: ["railway_station", "station"],
+    fuel: ["fuel"],
+    ev_charging: ["charging_station"],
+    taxi: ["taxi"],
+    airport: ["airport", "aerodrome"],
+    car_rental: ["car_rental"],
+    bicycle_rental: ["bicycle_rental"],
+    parking: ["parking"],
+    car_repair: ["car_repair"],
+    museum: ["museum"],
+    art_gallery: ["gallery", "art"],
+    viewpoint: ["viewpoint"],
+    monument: ["monument", "memorial"],
+    bowling: ["bowling_alley"],
+    aquarium: ["aquarium"],
+    cinema: ["cinema"],
+    theatre: ["theatre"],
+    library: ["library"],
+    nightclub: ["nightclub"],
+    zoo: ["zoo"],
+    park: ["park", "garden"],
+    amusement_park: ["theme_park"],
+    beach: ["beach"],
+    playground: ["playground"],
+    gym: ["fitness_centre"],
+    swimming_pool: ["swimming_pool", "water_park"],
+    school: ["school"],
+    kindergarten: ["kindergarten"],
+    university: ["university", "college"],
+    church: ["place_of_worship"],
+    police: ["police"],
+    fire_station: ["fire_station"],
+    town_hall: ["town_hall"],
+    courthouse: ["courthouse"],
+    homeless_shelter: ["shelter"],
+    drinking_water: ["drinking_water"]
+  };
+
+  // Szuka POI bezpośrednio w już wyrenderowanej/pobranej warstwie
+  // wektorowej mapy (queryRenderedFeatures na całym widocznym
+  // obszarze) - zero zapytań do sieci. Działa tylko tam, gdzie kafelki
+  // są już na ekranie (czyli w praktyce: w obszarach pobranych przez
+  // Mapę offline). Zwraca dane w tym samym kształcie co
+  // fetchDiscoverFromNominatim/Overpass, żeby wpasować się w ten sam
+  // render/cache bez zmian w renderDiscoverResults.
+  function waitForMapIdle() {
+    return new Promise(resolve => {
+      ctx.map.once("idle", resolve);
+    });
+  }
+
+  async function queryLocalPoiFeatures(categoryId) {
+    const subclasses = DISCOVER_LOCAL_SUBCLASS_MAP[categoryId];
+    if (!subclasses?.length) return [];
+
+    // Warstwa POI w schemacie OpenMapTiles jest przycinana wg pola
+    // "rank" na niższych zoomach - mniej ważne miejsca po prostu nie
+    // są jeszcze wyrenderowane, mimo że dane aż do z14 są już
+    // pobrane w tle. Zanim przeszukamy ekran, dociągamy widok do
+    // sufitu pobranych danych (z14), żeby zobaczyć WSZYSTKO co jest
+    // zapisane dla tego miejsca, nie tylko okrojony podgląd - tak
+    // samo jak istniejący auto-zoom przy zoomie < 10 wyżej, tylko
+    // dalej.
+    if (ctx.map.getZoom() < 14) {
+      ctx.map.easeTo({
+        center: ctx.map.getCenter(),
+        zoom: 14,
+        bearing: ctx.map.getBearing(),
+        pitch: ctx.map.getPitch(),
+        duration: 300
+      });
+      await new Promise(resolve => {
+        ctx.map.once("moveend", resolve);
+      });
+      await waitForMapIdle();
+    }
+
+    let features;
+    try {
+      features = ctx.map.queryRenderedFeatures();
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+
+    const collected = [];
+    const seen = new Set();
+
+    for (const feature of features) {
+      if (feature.geometry?.type !== "Point") continue;
+      const props = feature.properties || {};
+      if (!props.name) continue;
+      // Sprawdzamy zarówno "class" jak i "subclass" - reszta kodu w
+      // tej appce (findNearestPoiFeature w app.js) potwierdzone
+      // czyta tylko "class", więc "subclass" mogło się okazać
+      // nieobecne/inne niż zakładałem w ogólnej dokumentacji
+      // OpenMapTiles. Sprawdzenie obu pól jest bezpieczniejsze niż
+      // poleganie tylko na niezweryfikowanym "subclass".
+      const candidates = [props.subclass, props.class].filter(Boolean);
+      if (!candidates.some(value => subclasses.includes(value))) continue;
+
+      const [lon, lat] = feature.geometry.coordinates;
+      const key = `${lon.toFixed(6)},${lat.toFixed(6)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      collected.push({
+        id: `local-tile:${key}`,
+        type: "node",
+        lat,
+        lon,
+        category: props.class || categoryId,
+        placeClass: props.class || "",
+        placeType: props.subclass || "",
+        tags: { name: props.name },
+        address: {},
+        namedetails: {}
+      });
+    }
+
+    return collected;
+  }
+
   async function runDiscoverCategory(categoryId, sourceButton) {
     const category = DISCOVER_CATEGORIES[categoryId];
     if (!category) return;
@@ -716,6 +888,24 @@
     } catch (error) {
       if (error.name === "AbortError") return;
       console.error(error);
+
+      // Sieć zawiodła - zanim pokażemy błąd, spróbujmy lokalnego
+      // fallbacku z już wyrenderowanej warstwy wektorowej (patrz
+      // queryLocalPoiFeatures wyżej). Działa offline w obszarach
+      // pobranych przez Mapę offline, dla kategorii które mają
+      // odpowiednik w DISCOVER_LOCAL_SUBCLASS_MAP.
+      ctx.el.discoverStatus.textContent = t.discoverSearching;
+      const localPlaces = await queryLocalPoiFeatures(categoryId);
+      if (localPlaces.length) {
+        setCachedResults(cacheKey, localPlaces);
+        renderDiscoverResults(localPlaces, { ...category, id: categoryId });
+        ctx.el.discoverStatus.textContent = t.discoverFoundOffline
+          ? t.discoverFoundOffline(localPlaces.length)
+          : t.discoverFound(localPlaces.length);
+        if (ctx.el.discoverClear) ctx.el.discoverClear.hidden = false;
+        return;
+      }
+
       ctx.el.discoverStatus.textContent = t.exploreError;
       if (ctx.el.discoverClear) ctx.el.discoverClear.hidden = true;
     } finally {
@@ -757,37 +947,29 @@
   // (lat/lon/tags.name), plus dodatkowe pola
   // isEvent/eventUrl/eventDateLabel/venueName/eventSource używane przez
   // renderDiscoverResults() do innego renderowania i otwierania.
-  async function fetchDiscoverEventsTicketmaster(signal, override = {}) {
+  async function fetchDiscoverEventsTicketmaster(signal) {
     const eventsConfig = ctx.CONFIG.events || {};
     const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
     if (!proxyBaseUrl) {
       throw new Error("Events proxy not configured");
     }
+    const bounds = ctx.map.getBounds();
+    const center = ctx.map.getCenter();
 
-    let center, radiusKm;
-    if (override.center) {
-      // Zapytanie o konkretne miejsce (np. teatr/galeria - patrz
-      // fetchNearbyEvents niżej), a nie o cały widoczny obszar mapy.
-      center = override.center;
-      radiusKm = override.radiusKm;
-    } else {
-      const bounds = ctx.map.getBounds();
-      center = ctx.map.getCenter();
-      radiusKm = Math.min(
-        500,
-        Math.max(
-          5,
-          Math.ceil(
-            haversineKm(
-              center.lat,
-              center.lng,
-              bounds.getNorth(),
-              bounds.getEast()
-            )
+    const radiusKm = Math.min(
+      500,
+      Math.max(
+        5,
+        Math.ceil(
+          haversineKm(
+            center.lat,
+            center.lng,
+            bounds.getNorth(),
+            bounds.getEast()
           )
         )
-      );
-    }
+      )
+    );
 
     const url = new URL(`${proxyBaseUrl}/events`);
     url.searchParams.set("latlong", `${center.lat},${center.lng}`);
@@ -874,35 +1056,29 @@
   // powodów co Ticketmaster: appka nie powinna znać tokenu.
   // Dokumentacja promienia/kategorii/dat:
   // https://docs.predicthq.com/api/events/search-events
-  async function fetchDiscoverEventsPredictHQ(signal, override = {}) {
+  async function fetchDiscoverEventsPredictHQ(signal) {
     const eventsConfig = ctx.CONFIG.events || {};
     const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
     if (!proxyBaseUrl) {
       throw new Error("Events proxy not configured");
     }
+    const bounds = ctx.map.getBounds();
+    const center = ctx.map.getCenter();
 
-    let center, radiusKm;
-    if (override.center) {
-      center = override.center;
-      radiusKm = override.radiusKm;
-    } else {
-      const bounds = ctx.map.getBounds();
-      center = ctx.map.getCenter();
-      radiusKm = Math.min(
-        500,
-        Math.max(
-          5,
-          Math.ceil(
-            haversineKm(
-              center.lat,
-              center.lng,
-              bounds.getNorth(),
-              bounds.getEast()
-            )
+    const radiusKm = Math.min(
+      500,
+      Math.max(
+        5,
+        Math.ceil(
+          haversineKm(
+            center.lat,
+            center.lng,
+            bounds.getNorth(),
+            bounds.getEast()
           )
         )
-      );
-    }
+      )
+    );
 
     const url = new URL(`${proxyBaseUrl}/predicthq`);
     url.searchParams.set("within", `${radiusKm}km@${center.lat},${center.lng}`);
@@ -995,14 +1171,10 @@
   // jednego źródła (np. brak skonfigurowanego PREDICTHQ_TOKEN na
   // Workerze) nie blokuje drugiego - sekcja po prostu pokaże mniej
   // wyników zamiast błędu, dopóki działa choć jedno źródło.
-  // `override` (opcjonalne { center, radiusKm }) pozwala odpytać o
-  // konkretny punkt zamiast bieżącego widoku mapy - patrz
-  // fetchNearbyEvents() niżej, używane przez sekcję "Nadchodzące
-  // wydarzenia" w kartach teatrów/galerii.
-  async function fetchDiscoverEvents(signal, override = {}) {
+  async function fetchDiscoverEvents(signal) {
     const [ticketmaster, predicthq] = await Promise.allSettled([
-      fetchDiscoverEventsTicketmaster(signal, override),
-      fetchDiscoverEventsPredictHQ(signal, override)
+      fetchDiscoverEventsTicketmaster(signal),
+      fetchDiscoverEventsPredictHQ(signal)
     ]);
 
     if (
@@ -1030,23 +1202,6 @@
     );
 
     return deduped;
-  }
-
-  // Wołane z venue-events-service.js dla kart teatrów/galerii sztuki -
-  // te same dwa źródła (Ticketmaster + PredictHQ) co sekcja
-  // "Wydarzenia", ale w BARDZO małym promieniu wokół KONKRETNEGO
-  // miejsca zamiast całego widoku mapy, więc wynik faktycznie dotyczy
-  // tego miejsca, a nie "czegoś w mieście". Dla galerii sztuki złapie
-  // to głównie odpłatne wernisaże/wydarzenia specjalne - stałe
-  // wystawy bez biletu nie są widoczne w żadnym z tych API, appka
-  // tego świadomie nie udaje.
-  const VENUE_EVENTS_RADIUS_KM = 2;
-
-  async function fetchNearbyEvents(center, signal) {
-    return fetchDiscoverEvents(signal, {
-      center,
-      radiusKm: VENUE_EVENTS_RADIUS_KM
-    });
   }
 
   async function fetchDiscoverFromNominatim(category, signal) {
@@ -1892,7 +2047,6 @@
     filterCategories: filterDiscoverCategories,
     run: runDiscoverCategory,
     clear: clearDiscoverResults,
-    refreshEvents: refreshDiscoverEventsSection,
-    fetchNearbyEvents
+    refreshEvents: refreshDiscoverEventsSection
   };
 })();

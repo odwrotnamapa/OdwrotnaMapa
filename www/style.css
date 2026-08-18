@@ -4544,7 +4544,7 @@ div.maplibregl-ctrl-scale {
    dostaje twardy limit, a treść w środku się przycina wielokropkiem
    zamiast wypychać layout. */
 .menu-offline-download .menu-setting {
-  grid-template-columns: 32px minmax(0, 1fr) minmax(0, 52%);
+  grid-template-columns: 32px minmax(0, 1fr) minmax(0, 58%);
 }
 
 .menu-offline-download .menu-setting select,
