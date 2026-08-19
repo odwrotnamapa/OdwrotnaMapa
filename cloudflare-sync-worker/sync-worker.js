@@ -260,9 +260,13 @@ async function handlePredictHQProxy(request, env, origin, url) {
 // GET /webcams?lat=...&lon=...&radius=... - proxy do Windy Webcams
 // API v3 (https://api.windy.com/webcams/api/v3/webcams). Klient
 // wysyła tylko środek i promień (km) - kraj (Polska) i pola do
-// zwrócenia (obraz + lokalizacja) dokłada ten Worker, nie klient, tak
-// żeby appka zawsze dostawała tylko polskie kamery niezależnie od
-// tego, co ktoś by wysłał ręcznie do tego endpointu.
+// zwrócenia (obraz + lokalizacja + odtwarzacz) dokłada ten Worker,
+// nie klient, tak żeby appka zawsze dostawała tylko polskie kamery
+// niezależnie od tego, co ktoś by wysłał ręcznie do tego endpointu.
+// "player" w include jest wymagany, żeby odpowiedź zawierała gotowe
+// linki do embedowania (player.live/day/...) - bez tego klient miałby
+// tylko statyczny obrazek podglądu i link do windy.com, a nie
+// faktyczne okno z (odświeżanym/live) nagraniem kamery.
 async function handleWebcamsProxy(request, env, origin, url) {
   if (!env.WINDY_API_KEY) {
     return jsonResponse({ error: "webcams_not_configured" }, 501, origin);
@@ -285,7 +289,7 @@ async function handleWebcamsProxy(request, env, origin, url) {
   const upstreamUrl = new URL("https://api.windy.com/webcams/api/v3/webcams");
   upstreamUrl.searchParams.set("nearby", `${lat},${lon},${radius}`);
   upstreamUrl.searchParams.set("limit", "50");
-  upstreamUrl.searchParams.set("include", "images,location,urls");
+  upstreamUrl.searchParams.set("include", "images,location,player,urls");
   upstreamUrl.searchParams.set("lang", "pl");
   // Wymuszone po stronie serwera - appka pokazuje wyłącznie kamery
   // z Polski, niezależnie od tego, jaki punkt/promień wyśle klient.

@@ -2937,32 +2937,37 @@ a.place-card-row {
   cursor: pointer;
 }
 
-.webcam-popup {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 200px;
-  max-width: 260px;
-}
-
-.webcam-popup-title {
-  font-weight: 750;
-  font-size: 0.85rem;
-  color: var(--text);
-}
-
-.webcam-popup-image {
+/* Panel podglądu kamery (#webcam-panel) dziedziczy layout/pełny ekran
+   po klasach .streetview-panel/.streetview-viewport/.streetview-
+   container/.streetview-fullscreen-button/.streetview-attribution
+   (patrz index.html) - tu tylko to, co specyficzne dla zawartości
+   kontenera: sam <iframe>/<img> z podglądem kamery wypełniający
+   .webcam-container (== .streetview-container). */
+.webcam-container-iframe,
+.webcam-container-image {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  border: 1px solid var(--border);
+  border: 0;
 }
 
-.webcam-popup-link {
+.webcam-container-image {
+  object-fit: contain;
+  background: #111;
+}
+
+.webcam-container-note {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 5;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
   font-size: 0.7rem;
-  color: var(--accent);
-  text-decoration: underline;
-  align-self: flex-start;
+  line-height: 1.3;
+  pointer-events: none;
 }
 
 .explore-marker:hover,

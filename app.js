@@ -514,6 +514,8 @@
       menuStreetview: "Widok uliczny",
       streetviewTitle: "Widok uliczny",
       streetviewUnavailable: "Widok uliczny nie jest jeszcze skonfigurowany.",
+      webcamPanelTitle: "Kamera",
+      webcamStaticPreview: "Statyczny podgląd (bez transmisji live)",
       menuBackup: "Kopia zapasowa",
       menuOffline: "Mapa offline",
       accountMenuLabel: "Konto",
@@ -1039,6 +1041,8 @@
       menuStreetview: "Street view",
       streetviewTitle: "Street view",
       streetviewUnavailable: "Street view is not configured yet.",
+      webcamPanelTitle: "Webcam",
+      webcamStaticPreview: "Static preview (no live stream)",
       menuBackup: "Backup",
       menuOffline: "Offline map",
       accountMenuLabel: "Account",
@@ -1587,6 +1591,13 @@
     streetviewFullscreenButton: $("streetview-fullscreen-button"),
     streetviewContainer: $("streetview-container"),
     menuStreetviewButton: $("streetview-toggle-button"),
+    webcamPanel: $("webcam-panel"),
+    webcamPanelTitle: $("webcam-panel-title"),
+    webcamSheetHandle: $("webcam-sheet-handle"),
+    webcamPanelClose: $("webcam-panel-close"),
+    webcamFullscreenButton: $("webcam-fullscreen-button"),
+    webcamContainer: $("webcam-container"),
+    webcamPanelLink: $("webcam-panel-link"),
     mapAppearancePanel: $("map-appearance-panel"),
     mapAppearanceTitle: $("map-appearance-title"),
     mapAppearanceSheetHandle: $("map-appearance-sheet-handle"),
@@ -2230,6 +2241,15 @@ map.on('rotate', updateLogoRotation);
     isMobilePanelViewport,
     setMobilePanelHeight
   });
+  window.OMAP_WEBCAM_VIEWER?.configure({
+    state,
+    el,
+    text,
+    closeOtherMobilePanels,
+    getMobilePanelMaximumHeight,
+    isMobilePanelViewport,
+    setMobilePanelHeight
+  });
   window.OMAP_MEASURE?.configure({
     state,
     el,
@@ -2385,6 +2405,11 @@ map.on('rotate', updateLogoRotation);
   el.menuStreetviewButton?.addEventListener(
     "click",
     window.OMAP_STREETVIEW?.toggleCoverage
+  );
+  el.webcamPanelClose?.addEventListener("click", window.OMAP_WEBCAM_VIEWER?.close);
+  el.webcamFullscreenButton?.addEventListener(
+    "click",
+    window.OMAP_WEBCAM_VIEWER?.toggleFullscreen
   );
 
   el.menuButton?.addEventListener("click", toggleMenu);
@@ -2685,6 +2710,7 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
   initializePlaceBottomSheet();
   initializeTripBottomSheet();
   initializeStreetviewBottomSheet();
+  initializeWebcamBottomSheet();
   initializeLegendBottomSheet();
   initializeMapAppearanceBottomSheet();
   initializeLabelsBottomSheet();
@@ -5278,6 +5304,7 @@ function applyLanguage(language) {
     // tam kliknięcie w mapę służy do zmiany lokalizacji widoku, nie
     // do odrzucenia panelu.
     { id: "streetview", close: () => window.OMAP_STREETVIEW?.close(), collapsible: false },
+    { id: "webcam", close: () => window.OMAP_WEBCAM_VIEWER?.close(), panel: el.webcamPanel, cssVariable: "--sheet-height" },
     { id: "legend", close: () => closeLegend(), panel: el.legendPanel, cssVariable: "--sheet-height" },
     { id: "mapAppearance", close: () => closeMapAppearance(), panel: el.mapAppearancePanel, cssVariable: "--sheet-height" },
     { id: "tradingSunday", close: () => window.OMAP_TRADING_SUNDAY?.close(), panel: el.tradingSundayPanel, cssVariable: "--sheet-height" },
@@ -5499,6 +5526,15 @@ function applyLanguage(language) {
       panel: el.streetviewPanel,
       handle: el.streetviewSheetHandle,
       close: window.OMAP_STREETVIEW?.close,
+      cssVariable: "--sheet-height"
+    });
+  }
+
+  function initializeWebcamBottomSheet() {
+    window.OMAP_BOTTOM_SHEET?.initialize({
+      panel: el.webcamPanel,
+      handle: el.webcamSheetHandle,
+      close: window.OMAP_WEBCAM_VIEWER?.close,
       cssVariable: "--sheet-height"
     });
   }

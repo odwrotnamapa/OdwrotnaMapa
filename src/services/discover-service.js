@@ -754,6 +754,34 @@
     return collected;
   }
 
+  // Wyciąga link do osadzenia kamery jako <iframe> (żywy podgląd, nie
+  // tylko statyczny obrazek) z pola "player" odpowiedzi Windy Webcams
+  // API v3. Wg dokumentacji (api.windy.com/webcams/version-transfer)
+  // każdy wpis (live/day/month/year/lifetime) w v3 to bezpośrednio
+  // string z linkiem embed - ale że appka nie miała jeszcze okazji
+  // przetestować tego na żywej odpowiedzi, sprawdzane jest defensywnie
+  // też starsze/alternatywne kształty w stylu v2 ({ embed, available }),
+  // na wypadek gdyby playground zwracał coś innego niż dokumentacja.
+  // Preferowany jest "live" (prawdziwy strumień na żywo, gdy kamera go
+  // ma), z fallbackiem na kolejne dostępne timespany.
+  function parseWebcamEmbedUrl(webcam) {
+    const player = webcam.player;
+    if (!player || typeof player !== "object") return null;
+
+    for (const key of ["live", "day", "month", "year", "lifetime"]) {
+      const entry = player[key];
+      if (!entry) continue;
+      if (typeof entry === "string") return entry;
+      if (typeof entry === "object") {
+        const embed = entry.embed || entry.url || entry.link;
+        if (typeof embed === "string" && (entry.available ?? true)) {
+          return embed;
+        }
+      }
+    }
+    return null;
+  }
+
   // Kamery na żywo - zupełnie inne źródło danych (Windy przez nasz
   // Worker proxy, nie Nominatim/Overpass), więc ma własną, osobną
   // ścieżkę zamiast reużywania fetchDiscoverFromNominatim/Overpass.
@@ -813,21 +841,23 @@
       const lon = location.longitude ?? location.lng ?? location.lon;
       if (typeof lat !== "number" || typeof lon !== "number") continue;
 
-      const image = webcam.image?.current || {};
+      const image = webcam.image?.current || webcam.images?.current || {};
       places.push({
         type: "webcam",
-        id: webcam.id || `${lat.toFixed(5)},${lon.toFixed(5)}`,
+        id: webcam.id || webcam.webcamId || `${lat.toFixed(5)},${lon.toFixed(5)}`,
         lat,
         lon,
         tags: { name: webcam.title || t.discoverCategories?.webcams || "Kamera" },
         address: {},
         namedetails: {},
         webcamImageUrl: image.preview || image.icon || image.thumbnail || null,
+        webcamEmbedUrl: parseWebcamEmbedUrl(webcam),
         webcamLink:
           webcam.url?.current?.desktop ||
           webcam.url?.current?.mobile ||
-          (webcam.id
-            ? `https://www.windy.com/webcams/${webcam.id}`
+          webcam.urls?.detail ||
+          (webcam.id || webcam.webcamId
+            ? `https://www.windy.com/webcams/${webcam.id || webcam.webcamId}`
             : "https://www.windy.com/webcams")
       });
     }
@@ -1647,41 +1677,13 @@
     ) || "";
   }
 
-  let activeWebcamPopup = null;
-
   function openWebcamPopup(place) {
-    activeWebcamPopup?.remove();
-
-    const container = document.createElement("div");
-    container.className = "webcam-popup";
-
-    const title = document.createElement("div");
-    title.className = "webcam-popup-title";
-    title.textContent = place.tags.name;
-    container.appendChild(title);
-
-    if (place.webcamImageUrl) {
-      const img = document.createElement("img");
-      img.src = place.webcamImageUrl;
-      img.alt = place.tags.name;
-      img.className = "webcam-popup-image";
-      container.appendChild(img);
-    }
-
-    // Wymagane przez warunki korzystania z darmowego API Windy - link
-    // do windy.com/webcams musi być widoczny przy każdej kamerze.
-    const link = document.createElement("a");
-    link.href = place.webcamLink;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.className = "webcam-popup-link";
-    link.textContent = "windy.com/webcams";
-    container.appendChild(link);
-
-    activeWebcamPopup = new maplibregl.Popup({ closeButton: true, offset: 18 })
-      .setLngLat([place.lon, place.lat])
-      .setDOMContent(container)
-      .addTo(ctx.map);
+    window.OMAP_WEBCAM_VIEWER?.open({
+      title: place.tags.name,
+      embedUrl: place.webcamEmbedUrl,
+      imageUrl: place.webcamImageUrl,
+      link: place.webcamLink
+    });
   }
 
   function renderDiscoverResults(places, category) {
@@ -1852,8 +1854,7 @@
     ctx.state.exploreRequestController?.abort();
     ctx.state.exploreRequestController = null;
 
-    activeWebcamPopup?.remove();
-    activeWebcamPopup = null;
+    window.OMAP_WEBCAM_VIEWER?.close();
 
     for (const marker of ctx.state.exploreMarkers) {
       marker.remove();

@@ -20,7 +20,10 @@
   // skonfigurowanego WINDY_API_KEY, pierwszy krok to podejrzenie
   // prawdziwej odpowiedzi JSON w devtoolach (zakładka Network,
   // zapytanie do .../webcams) i porównanie z tym, co czyta
-  // parseWebcamsResponse/parseWebcamLocation poniżej.
+  // parseWebcamsResponse/parseWebcamLocation poniżej. Dotyczy to też
+  // pola "player" (parseWebcamEmbedUrl) - to z niego bierze się link
+  // do faktycznego okna z nagraniem/live pokazywanego w popupie,
+  // zamiast samego statycznego obrazka podglądu.
 
   let ctx = null;
   let markers = [];
@@ -64,14 +67,41 @@
   }
 
   function parseWebcamImageUrl(webcam) {
-    const image = webcam.image?.current || {};
+    const image = webcam.image?.current || webcam.images?.current || {};
     return image.preview || image.icon || image.thumbnail || null;
+  }
+
+  // Link do osadzenia kamery jako <iframe> (żywy podgląd zamiast
+  // samego statycznego obrazka), z pola "player" odpowiedzi Windy
+  // Webcams API v3. Wg dokumentacji każdy wpis (live/day/month/
+  // year/lifetime) to bezpośrednio string z linkiem embed - sprawdzane
+  // defensywnie też starsze/alternatywne kształty w stylu v2
+  // ({ embed, available }), na wypadek gdyby API zwracało coś innego
+  // niż dokumentacja (patrz uwaga na górze pliku). Preferowany jest
+  // "live", z fallbackiem na kolejne dostępne timespany.
+  function parseWebcamEmbedUrl(webcam) {
+    const player = webcam.player;
+    if (!player || typeof player !== "object") return null;
+
+    for (const key of ["live", "day", "month", "year", "lifetime"]) {
+      const entry = player[key];
+      if (!entry) continue;
+      if (typeof entry === "string") return entry;
+      if (typeof entry === "object") {
+        const embed = entry.embed || entry.url || entry.link;
+        if (typeof embed === "string" && (entry.available ?? true)) {
+          return embed;
+        }
+      }
+    }
+    return null;
   }
 
   function parseWebcamLink(webcam) {
     return (
       webcam.url?.current?.desktop ||
       webcam.url?.current?.mobile ||
+      webcam.urls?.detail ||
       (webcam.id ? `https://www.windy.com/webcams/${webcam.id}` : "https://www.windy.com/webcams")
     );
   }
@@ -120,9 +150,7 @@
       element.className = "webcam-marker";
       element.textContent = "📷";
       element.title = webcam.title || "Kamera";
-      element.addEventListener("click", () =>
-        openWebcamPopup(webcam, position)
-      );
+      element.addEventListener("click", () => openWebcamPopup(webcam));
 
       const marker = new maplibregl.Marker({ element, anchor: "center" })
         .setLngLat([position.lon, position.lat])
@@ -132,41 +160,14 @@
     }
   }
 
-  function openWebcamPopup(webcam, position) {
+  function openWebcamPopup(webcam) {
     closePopup();
-
-    const container = document.createElement("div");
-    container.className = "webcam-popup";
-
-    const title = document.createElement("div");
-    title.className = "webcam-popup-title";
-    title.textContent = webcam.title || "Kamera";
-    container.appendChild(title);
-
-    const imageUrl = parseWebcamImageUrl(webcam);
-    if (imageUrl) {
-      const img = document.createElement("img");
-      img.src = imageUrl;
-      img.alt = webcam.title || "Kamera";
-      img.className = "webcam-popup-image";
-      container.appendChild(img);
-    }
-
-    // Wymagane przez warunki korzystania z darmowego API Windy -
-    // link do windy.com/webcams musi być widoczny przy każdej
-    // pokazanej kamerze.
-    const link = document.createElement("a");
-    link.href = parseWebcamLink(webcam);
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.className = "webcam-popup-link";
-    link.textContent = "windy.com/webcams";
-    container.appendChild(link);
-
-    activePopup = new maplibregl.Popup({ closeButton: true, offset: 18 })
-      .setLngLat([position.lon, position.lat])
-      .setDOMContent(container)
-      .addTo(ctx.map);
+    window.OMAP_WEBCAM_VIEWER?.open({
+      title: webcam.title || "Kamera",
+      embedUrl: parseWebcamEmbedUrl(webcam),
+      imageUrl: parseWebcamImageUrl(webcam),
+      link: parseWebcamLink(webcam)
+    });
   }
 
   // Włącza/wyłącza warstwę, zwraca nowy stan (true = włączona) - do

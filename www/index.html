@@ -790,6 +790,41 @@
         </a>
       </p>
     </aside>
+    <aside id="webcam-panel"
+           class="legend-panel streetview-panel webcam-panel app-sheet app-sheet--sharp panel-shell"
+           aria-labelledby="webcam-panel-title"
+           hidden>
+      <button id="webcam-sheet-handle"
+              class="route-sheet-handle streetview-sheet-handle app-sheet__handle panel-shell__handle"
+              type="button"
+              aria-label="Zmień wysokość podglądu kamery">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="legend-header app-sheet__header panel-shell__header">
+        <span aria-hidden="true"></span>
+        <h2 id="webcam-panel-title">Kamera</h2>
+        <button id="webcam-panel-close"
+                class="legend-close"
+                type="button"
+                aria-label="Zamknij podgląd kamery">×</button>
+      </div>
+
+      <div class="streetview-viewport webcam-viewport">
+        <div id="webcam-container" class="streetview-container webcam-container"></div>
+        <button id="webcam-fullscreen-button"
+                class="icon-button streetview-fullscreen-button"
+                type="button"
+                aria-label="Pełny ekran"
+                aria-pressed="false">⛶</button>
+      </div>
+
+      <p class="streetview-attribution">
+        <a id="webcam-panel-link" href="https://www.windy.com/webcams" target="_blank" rel="noopener noreferrer">
+          windy.com/webcams
+        </a>
+      </p>
+    </aside>
     <aside id="map-appearance-panel"
            class="legend-panel menu-subpanel app-sheet app-sheet--sharp panel-shell"
            aria-labelledby="map-appearance-title"
@@ -1552,6 +1587,7 @@
   <script src="src/services/wikipedia-service.js?v=20260813-overwrite-fix"></script>
   <script src="src/services/measure-service.js"></script>
   <script src="src/services/streetview-service.js"></script>
+  <script src="src/services/webcam-viewer-service.js"></script>
   <script src="src/services/mapview-service.js"></script>
   <script src="src/services/trading-sunday-service.js"></script>
   <script src="src/services/geouri-service.js"></script>
