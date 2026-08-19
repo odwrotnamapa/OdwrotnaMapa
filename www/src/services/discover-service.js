@@ -758,27 +758,44 @@
   // tylko statyczny obrazek) z pola "player" odpowiedzi Windy Webcams
   // API v3. Wg dokumentacji (api.windy.com/webcams/version-transfer)
   // każdy wpis (live/day/month/year/lifetime) w v3 to bezpośrednio
-  // string z linkiem embed - ale że appka nie miała jeszcze okazji
-  // przetestować tego na żywej odpowiedzi, sprawdzane jest defensywnie
-  // też starsze/alternatywne kształty w stylu v2 ({ embed, available }),
-  // na wypadek gdyby playground zwracał coś innego niż dokumentacja.
-  // Preferowany jest "live" (prawdziwy strumień na żywo, gdy kamera go
-  // ma), z fallbackiem na kolejne dostępne timespany.
+  // string z linkiem embed - sprawdzane defensywnie też starsze/
+  // alternatywne kształty w stylu v2 ({ embed, available }), na
+  // wypadek gdyby odpowiedź różniła się od dokumentacji. Preferowany
+  // jest "live" (prawdziwy strumień na żywo, gdy kamera go ma), z
+  // fallbackiem na kolejne dostępne timespany.
   function parseWebcamEmbedUrl(webcam) {
     const player = webcam.player;
-    if (!player || typeof player !== "object") return null;
-
-    for (const key of ["live", "day", "month", "year", "lifetime"]) {
-      const entry = player[key];
-      if (!entry) continue;
-      if (typeof entry === "string") return entry;
-      if (typeof entry === "object") {
-        const embed = entry.embed || entry.url || entry.link;
-        if (typeof embed === "string" && (entry.available ?? true)) {
-          return embed;
+    if (player && typeof player === "object") {
+      for (const key of ["live", "day", "month", "year", "lifetime"]) {
+        const entry = player[key];
+        if (!entry) continue;
+        if (typeof entry === "string") return entry;
+        if (typeof entry === "object") {
+          const embed = entry.embed || entry.url || entry.link;
+          if (typeof embed === "string" && (entry.available ?? true)) {
+            return embed;
+          }
         }
       }
     }
+
+    // Fallback, gdy pole "player" jest puste/nieobecne w odpowiedzi
+    // (np. dana kamera nie ma go w ogóle wliczonego do payloadu mimo
+    // ?include=player, albo ma tylko część timespanów, których nasza
+    // pętla wyżej nie złapała) - Windy i tak hostuje uniwersalny,
+    // publiczny odtwarzacz timelapse pod stałym, przewidywalnym
+    // adresem "webcams.windy.com/webcams/public/embed/player/{id}/
+    // {timespan}" dla każdej kamery, która ma jakiekolwiek nagrane
+    // klatki (czyli w praktyce niemal każdej - to ten sam link, który
+    // generuje ich własne narzędzie embed.windy.com/config/webcam).
+    // Budujemy go więc ręcznie z samego ID kamery jako ostatnią deskę
+    // ratunku PRZED poddaniem się na statyczny obrazek - to naprawia
+    // przypadki, w których kamera realnie ma nagrania, ale odpowiedź
+    // /webcams nie zwróciła (z jakiegoś powodu) użytecznego pola
+    // "player" dla tej konkretnej kamery.
+    const id = webcam.webcamId ?? webcam.id;
+    if (id) return `https://webcams.windy.com/webcams/public/embed/player/${id}/day`;
+
     return null;
   }
 

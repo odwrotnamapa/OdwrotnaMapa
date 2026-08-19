@@ -81,19 +81,25 @@
   // "live", z fallbackiem na kolejne dostępne timespany.
   function parseWebcamEmbedUrl(webcam) {
     const player = webcam.player;
-    if (!player || typeof player !== "object") return null;
-
-    for (const key of ["live", "day", "month", "year", "lifetime"]) {
-      const entry = player[key];
-      if (!entry) continue;
-      if (typeof entry === "string") return entry;
-      if (typeof entry === "object") {
-        const embed = entry.embed || entry.url || entry.link;
-        if (typeof embed === "string" && (entry.available ?? true)) {
-          return embed;
+    if (player && typeof player === "object") {
+      for (const key of ["live", "day", "month", "year", "lifetime"]) {
+        const entry = player[key];
+        if (!entry) continue;
+        if (typeof entry === "string") return entry;
+        if (typeof entry === "object") {
+          const embed = entry.embed || entry.url || entry.link;
+          if (typeof embed === "string" && (entry.available ?? true)) {
+            return embed;
+          }
         }
       }
     }
+
+    // Fallback, gdy pole "player" jest puste/nieobecne - patrz
+    // komentarz przy identycznej funkcji w discover-service.js.
+    const id = webcam.webcamId ?? webcam.id;
+    if (id) return `https://webcams.windy.com/webcams/public/embed/player/${id}/day`;
+
     return null;
   }
 
