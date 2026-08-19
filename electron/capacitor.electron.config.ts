@@ -46,7 +46,7 @@ export default defineConfig({
       // sync-transport-service.js) - bez tego CSP cicho blokował
       // WebSockety do synchronizacji w Electronie (przeglądarka nie
       // ma tego ograniczenia, więc problem był widoczny tylko tutaj).
-      "connect-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://tiles.openfreemap.org https://server.arcgisonline.com https://nominatim.openstreetmap.org https://photon.komoot.io https://valhalla1.openstreetmap.de https://api.transitous.org https://*.wikipedia.org https://www.wikidata.org https://*.mapillary.com https://*.fbcdn.net https://ipwho.is https://overpass-api.de https://overpass.kumi.systems https://overpass.private.coffee wss://relay.damus.io wss://nos.lol wss://relay.nostr.band wss://relay.primal.net wss://nostr.mom wss://offchain.pub wss://relay.snort.social wss://nostr.oxtr.dev",
+      "connect-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://tiles.openfreemap.org https://server.arcgisonline.com https://nominatim.openstreetmap.org https://photon.komoot.io https://valhalla1.openstreetmap.de https://api.transitous.org https://*.wikipedia.org https://www.wikidata.org https://*.mapillary.com https://*.fbcdn.net https://ipwho.is https://overpass-api.de https://overpass.kumi.systems https://overpass.private.coffee https://odwrotnamapa-sync.odwrotnamapa.workers.dev wss://relay.damus.io wss://nos.lol wss://relay.nostr.band wss://relay.primal.net wss://nostr.mom wss://offchain.pub wss://relay.snort.social wss://nostr.oxtr.dev",
       "worker-src 'self' blob:",
       "child-src blob:",
     ].join('; '),

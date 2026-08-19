@@ -61,6 +61,14 @@ Worker robi teraz dwie niezależne rzeczy:
     Mapillary bezpośrednio z przeglądarki tokenem klienckim wpisanym
     wprost w `config.js` pod `mapillary.accessToken` (patrz komentarz
     przy tym polu), więc nie ma dla niego osobnego sekretu Workera.
+3b. (Opcjonalnie, warstwa kamer na żywo) Ustaw sekret Windy:
+    ```
+    wrangler secret put WINDY_API_KEY
+    ```
+    Zarejestruj darmowe konto na https://api.windy.com/webcams i
+    wygeneruj klucz w zakładce kluczy API. Bez tego sekretu przycisk
+    kamer w appce po prostu nic nie pokaże (endpoint /webcams zwróci
+    501) - reszta appki działa normalnie.
 4. Wdróż Workera:
    ```
    wrangler deploy

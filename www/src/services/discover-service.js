@@ -188,6 +188,10 @@
         "drinking_water",
         "social_services"
       ]
+    },
+    {
+      id: "live",
+      categories: ["webcams"]
     }
   ];
 
@@ -455,7 +459,14 @@
         "punkt pomocy",
         "social services"
       ]
-    }
+    },
+    // Kamery na żywo (widokowe/turystyczne, wyłącznie Polska) - Windy
+    // Webcams API przez Cloudflare Worker proxy, patrz
+    // runWebcamsDiscoverCategory niżej. isWebcam=true przełącza
+    // openPlace() w renderDiscoverResults na własny popup ze zdjęciem
+    // zamiast standardowej karty miejsca (generyczna karta i tak nie
+    // ma jak pokazać zdjęcia live).
+    webcams: { emoji: "📷", isWebcam: true }
   };
 
   // Usuwa polskie znaki diakrytyczne i normalizuje wielkość liter,
@@ -743,6 +754,94 @@
     return collected;
   }
 
+  // Kamery na żywo - zupełnie inne źródło danych (Windy przez nasz
+  // Worker proxy, nie Nominatim/Overpass), więc ma własną, osobną
+  // ścieżkę zamiast reużywania fetchDiscoverFromNominatim/Overpass.
+  // Wynik i tak wpada w ten sam renderDiscoverResults() co reszta
+  // kategorii - te same markery, ta sama lista wyników w panelu.
+  async function runWebcamsDiscoverCategory(category, categoryId) {
+    const t = ctx.text[ctx.state.language];
+
+    clearDiscoverResults(false);
+    ctx.el.discoverStatus.hidden = false;
+    ctx.el.discoverStatus.textContent = t.discoverSearching;
+
+    const proxyBaseUrl = ctx.CONFIG.proxy?.baseUrl;
+    if (!proxyBaseUrl) {
+      ctx.el.discoverStatus.textContent = t.webcamsNotConfigured || t.discoverEmpty;
+      return;
+    }
+
+    ctx.state.exploreRequestController?.abort();
+    const requestController = new AbortController();
+    ctx.state.exploreRequestController = requestController;
+
+    const center = ctx.map.getCenter();
+    const zoom = ctx.map.getZoom();
+    const radius = Math.max(
+      5,
+      Math.min(300, Math.round(400 / Math.pow(1.5, zoom - 6)))
+    );
+
+    const url = new URL(`${proxyBaseUrl}/webcams`);
+    url.searchParams.set("lat", center.lat.toFixed(4));
+    url.searchParams.set("lon", center.lng.toFixed(4));
+    url.searchParams.set("radius", String(radius));
+
+    let data;
+    try {
+      const response = await fetch(url, { signal: requestController.signal });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      data = await response.json();
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      console.error("Kamery: błąd pobierania.", error);
+      ctx.el.discoverStatus.textContent = t.exploreError;
+      return;
+    }
+
+    if (requestController !== ctx.state.exploreRequestController) return;
+
+    const rawWebcams = Array.isArray(data)
+      ? data
+      : data?.webcams || data?.data || data?.result?.webcams || [];
+
+    const places = [];
+    for (const webcam of rawWebcams) {
+      const location = webcam.location || {};
+      const lat = location.latitude ?? location.lat;
+      const lon = location.longitude ?? location.lng ?? location.lon;
+      if (typeof lat !== "number" || typeof lon !== "number") continue;
+
+      const image = webcam.image?.current || {};
+      places.push({
+        type: "webcam",
+        id: webcam.id || `${lat.toFixed(5)},${lon.toFixed(5)}`,
+        lat,
+        lon,
+        tags: { name: webcam.title || t.discoverCategories?.webcams || "Kamera" },
+        address: {},
+        namedetails: {},
+        webcamImageUrl: image.preview || image.icon || image.thumbnail || null,
+        webcamLink:
+          webcam.url?.current?.desktop ||
+          webcam.url?.current?.mobile ||
+          (webcam.id
+            ? `https://www.windy.com/webcams/${webcam.id}`
+            : "https://www.windy.com/webcams")
+      });
+    }
+
+    if (!places.length) {
+      ctx.el.discoverStatus.textContent = t.discoverEmpty;
+      return;
+    }
+
+    renderDiscoverResults(places, { ...category, id: categoryId });
+    ctx.el.discoverStatus.textContent = t.discoverFound(places.length);
+    if (ctx.el.discoverClear) ctx.el.discoverClear.hidden = false;
+  }
+
   async function runDiscoverCategory(categoryId, sourceButton) {
     const category = DISCOVER_CATEGORIES[categoryId];
     if (!category) return;
@@ -756,6 +855,10 @@
         "is-active",
         button === sourceButton
       );
+    }
+
+    if (category.isWebcam) {
+      return runWebcamsDiscoverCategory(category, categoryId);
     }
 
     // Zbyt duże oddalenie daje zbyt ogólne wyniki.
@@ -1544,6 +1647,43 @@
     ) || "";
   }
 
+  let activeWebcamPopup = null;
+
+  function openWebcamPopup(place) {
+    activeWebcamPopup?.remove();
+
+    const container = document.createElement("div");
+    container.className = "webcam-popup";
+
+    const title = document.createElement("div");
+    title.className = "webcam-popup-title";
+    title.textContent = place.tags.name;
+    container.appendChild(title);
+
+    if (place.webcamImageUrl) {
+      const img = document.createElement("img");
+      img.src = place.webcamImageUrl;
+      img.alt = place.tags.name;
+      img.className = "webcam-popup-image";
+      container.appendChild(img);
+    }
+
+    // Wymagane przez warunki korzystania z darmowego API Windy - link
+    // do windy.com/webcams musi być widoczny przy każdej kamerze.
+    const link = document.createElement("a");
+    link.href = place.webcamLink;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = "webcam-popup-link";
+    link.textContent = "windy.com/webcams";
+    container.appendChild(link);
+
+    activeWebcamPopup = new maplibregl.Popup({ closeButton: true, offset: 18 })
+      .setLngLat([place.lon, place.lat])
+      .setDOMContent(container)
+      .addTo(ctx.map);
+  }
+
   function renderDiscoverResults(places, category) {
     const t = ctx.text[ctx.state.language];
     window.OMAP_PHOTO_SERVICE?.preload(places);
@@ -1575,6 +1715,11 @@
         .addTo(ctx.map);
 
       const openPlace = () => {
+        if (category.isWebcam) {
+          openWebcamPopup(place);
+          return;
+        }
+
         const classification =
           getDiscoverPlaceClassification(
             place,
@@ -1706,6 +1851,9 @@
   function clearDiscoverResults(resetInterface = true) {
     ctx.state.exploreRequestController?.abort();
     ctx.state.exploreRequestController = null;
+
+    activeWebcamPopup?.remove();
+    activeWebcamPopup = null;
 
     for (const marker of ctx.state.exploreMarkers) {
       marker.remove();

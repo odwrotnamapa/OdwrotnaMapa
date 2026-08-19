@@ -2921,6 +2921,50 @@ a.place-card-row {
   cursor: pointer;
 }
 
+.webcam-marker {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.32);
+  cursor: pointer;
+}
+
+.webcam-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  max-width: 260px;
+}
+
+.webcam-popup-title {
+  font-weight: 750;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.webcam-popup-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+}
+
+.webcam-popup-link {
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-decoration: underline;
+  align-self: flex-start;
+}
+
 .explore-marker:hover,
 .explore-marker:focus-visible {
   transform: scale(1.08);

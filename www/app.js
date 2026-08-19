@@ -346,7 +346,8 @@
         culture: "Kultura i rozrywka",
         recreation: "Rekreacja",
         public: "Instytucje",
-        support: "Pomoc"
+        support: "Pomoc",
+        live: "Na żywo"
       },
       discoverCategories: {
         pizza: "Pizza",
@@ -435,8 +436,10 @@
         soup_kitchen: "Jadłodajnie",
         public_shower: "Prysznice publiczne",
         drinking_water: "Źródełka wody pitnej",
-        social_services: "Ośrodki pomocy społecznej"
+        social_services: "Ośrodki pomocy społecznej",
+        webcams: "Kamery"
       },
+      webcamsNotConfigured: "Warstwa kamer nie jest jeszcze skonfigurowana.",
       clearSearchHistory: "Wyczyść historię",
       menuTitle: "Menu",
       favoritesTitle: "Ulubione",
@@ -868,7 +871,8 @@
         culture: "Culture & entertainment",
         recreation: "Recreation",
         public: "Public",
-        support: "Support"
+        support: "Support",
+        live: "Live"
       },
       discoverCategories: {
         pizza: "Pizza",
@@ -957,8 +961,10 @@
         soup_kitchen: "Soup kitchens",
         public_shower: "Public showers",
         drinking_water: "Drinking water",
-        social_services: "Social services"
+        social_services: "Social services",
+        webcams: "Webcams"
       },
+      webcamsNotConfigured: "The webcams layer isn't configured yet.",
       clearSearchHistory: "Clear history",
       menuTitle: "Menu",
       favoritesTitle: "Favorites",
