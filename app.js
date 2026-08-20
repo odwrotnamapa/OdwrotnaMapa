@@ -3550,13 +3550,33 @@ el.routeImportGpxInput?.addEventListener("change", (e) => {
     }
   }
 
+  // Input[type="color"] w edytorze palety zwraca zawsze pełny,
+  // kryjący hex (bez kanału alfy) - stad w motywie "custom" panele
+  // wychodzily calkowicie nieprzezroczyste, w odroznieniu od
+  // domyslnego motywu, ktory ma alfe wpisana wprost w swoje rgba().
+  // Dokladamy ja tutaj recznie, przy zapisie do zmiennej CSS.
+  const CUSTOM_PANEL_ALPHA = 0.62;
+
+  function hexToRgba(hex, alpha) {
+    const clean = hex.replace("#", "");
+    const full = clean.length === 3
+      ? clean.split("").map(c => c + c).join("")
+      : clean;
+    const int = parseInt(full, 16);
+    const r = (int >> 16) & 255;
+    const g = (int >> 8) & 255;
+    const b = int & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
   function applyCustomUiColors(palette) {
     const root = document.documentElement.style;
+    const panelColor = hexToRgba(palette.uiPanel, CUSTOM_PANEL_ALPHA);
     root.setProperty("--accent", palette.uiAccent);
-    root.setProperty("--panel", palette.uiPanel);
+    root.setProperty("--panel", panelColor);
     root.setProperty(
       "--panel-muted",
-      `color-mix(in srgb, ${palette.uiPanel} 94%, black 6%)`
+      `color-mix(in srgb, ${panelColor} 94%, black 6%)`
     );
     root.setProperty("--text", palette.uiText);
     root.setProperty(

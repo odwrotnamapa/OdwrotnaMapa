@@ -7746,3 +7746,100 @@ textarea,
     left: 12px;
   }
 }
+
+/* =====================================================================
+   FRUTIGER AERO / PÓŹNE LATA 2000 — nakładka motywu
+   Dokleić na SAM KONIEC style.css (kolejność ma znaczenie — część
+   reguł bazowego pliku ma !important i tylko późniejsza reguła o tej
+   samej sile wygra w kaskadzie).
+
+   Zasada działania: bazowy style.css już wszędzie odwołuje się do
+   --panel / --border / --shadow / --panel-image, WŁĄCZNIE z miejscami
+   które łączą kilka przycisków w jedną, spójną "pigułkę" (np. pasek
+   streetview/lokalizacja/3D + menu). Dlatego wystarczy podmienić same
+   zmienne — dodawanie własnych border/box-shadow na poszczególne
+   elementy psuje to łączenie (stąd np. wcześniejszy problem z
+   proporcjami przycisku menu — dostawał własny cień/obwódkę,
+   niezależny od reszty pigułki).
+   ===================================================================== */
+
+:root {
+  /* --font i --accent CELOWO nietknięte — zostaje Plus Jakarta Sans
+     i oryginalny czerwony akcent, tylko odrobinę przezroczystszy panel. */
+  --panel: rgba(255, 255, 255, 0.62);
+  --panel-muted: rgba(240, 240, 240, 0.6);
+  --border: rgba(24, 33, 43, 0.22);
+  --shadow: 0 10px 24px rgba(4, 66, 97, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  /* bez --panel-image — bez efektownego "banera" połysku na górze
+     paneli, tylko sama przezroczystość, jak w domyślnym motywie */
+}
+
+body.ui-dark {
+  --panel: rgba(27, 31, 38, 0.6);
+  --panel-muted: rgba(20, 23, 29, 0.58);
+  --border: rgba(255, 255, 255, 0.16);
+  --shadow: 0 10px 26px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Niebo w tle strony zamiast płaskiego koloru */
+body {
+  background:
+    radial-gradient(60% 45% at 15% 8%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 60%),
+    radial-gradient(50% 40% at 85% 90%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(160deg, #d7f1fb 0%, #a9dcef 35%, #6fc3e0 70%, #2fa0c9 100%);
+  background-attachment: fixed;
+}
+
+body.ui-dark {
+  background: linear-gradient(160deg, #041c2e 0%, #072e49 45%, #0a4468 100%);
+  background-attachment: fixed;
+}
+
+/* Szklany połysk TYLKO na wewnętrznej powierzchni przycisków (gradient,
+   nie border/shadow) — nie ingeruje w to, jak bazowy plik łączy
+   przyciski w pigułki, więc proporcje/spójność są zachowane. */
+.icon-button,
+.search button,
+#menu-button,
+.badge-mode-button,
+.streetview-actions .icon-button {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 55%);
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.icon-button:active {
+  transform: translateY(1px);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* Szklany scrollbar (Webkit/Blink) — kwadratowy, w kolorze akcentu */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 80%, white), var(--accent));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Delikatny "embossed" efekt na tekście w jasnym motywie, jak w Aero */
+.brand strong,
+.status,
+.weather-widget-temp {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+body.ui-dark .brand strong,
+body.ui-dark .status,
+body.ui-dark .weather-widget-temp {
+  text-shadow: none;
+}
