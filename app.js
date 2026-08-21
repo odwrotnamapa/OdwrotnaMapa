@@ -1919,11 +1919,6 @@ map.on('rotate', updateLogoRotation);
     return;
   }
 
-  map.addControl(new maplibregl.NavigationControl({
-    showCompass: false,
-    showZoom: true
-  }), "bottom-right");
-
   map.dragRotate.enable();
   map.touchZoomRotate.enableRotation();
   map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-left");
